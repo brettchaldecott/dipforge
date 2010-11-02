@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Glynn Chaldecott
+    Description:
+        This is the configuration for the TimerDaemon
+-->
+
+<coadunation version="1" name="TimerDaemon">
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.timer.TimerManagementMBean</interface>
+            <class>com.rift.coad.daemon.timer.TimerManagement</class>
+            <objectName>com.rift.coad.daemon:type=Timer</objectName>
+            <bindName>timer/Management</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <transaction>true</transaction>
+            
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.daemon.timer.Timer</interface>
+            <class>com.rift.coad.daemon.timer.TimerImpl</class>
+            <bindName>timer/Daemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+    <webservices>
+        <webservice>
+            <path>/timer/Management</path>
+            <class>com.rift.coad.daemon.timer.webservice.TimerManagementImpl</class>
+            <wsdl>com/rift/coad/daemon/timer/webservice/TimerManagement.wsdl</wsdl>
+            <role>daemon</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+</coadunation>

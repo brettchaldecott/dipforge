@@ -1,0 +1,73 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/audit#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptInfo">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Base"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Base"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeSet">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Base"/>
+    </Class>
+    
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptScope">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptFileName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptFileType">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptFileLastModified">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptFileVersion">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptInfo"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfoChange">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfoCreated">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfoId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfoScriptInfo">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptMessageId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeStatus">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptRevisionInfo">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeInfo"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ChangeSetId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeSet"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ChangeSetDescription">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeSet"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ChangeSetCreatedDate">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeSet"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ChangeSetName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeSet"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/script#ScriptChangeRef">
+    </rdf:Property>
+
+
+</rdf:RDF>

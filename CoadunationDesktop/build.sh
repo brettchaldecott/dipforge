@@ -1,0 +1,15 @@
+JAVA_OPTS="-Dfile.reference.gwm.jar=/data01/documents/libraries/gwm/gwm.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dfile.reference.gwt-widgets-0.2.0.jar=/data01/documents/libraries/gwt-widgets/gwt-widgets-0.2.0.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dfile.reference.gwt-user.jar=/data01/documents/libraries/gwt-linux-1.5.0/gwt-user.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dfile.reference.gwt-dev-linux.jar=/data01/documents/libraries/gwt-linux-1.5.0/gwt-dev-linux.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dfile.reference.gwt-servlet.jar=/data01/documents/libraries/gwt-linux-1.5.2/gwt-servlet.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dproject.DesktopServerClient=../DesktopServerClient"
+JAVA_OPTS="${JAVA_OPTS} -Dproject.EventServerClient=../EventServerClient"
+JAVA_OPTS="${JAVA_OPTS} -Dfile.reference.log4j-1.2.13.jar=/data01/documents/libraries/coadunation/logging-log4j-1.2.13/dist/lib/log4j-1.2.13.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dlibs.junit_4.classpath=/data01/documents/libraries/coadunation/junit4.1/junit-4.1.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dfile.reference.CoadunationUtil.jar=../CoadunationUtil/dist/CoadunationUtil.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dfile.reference.CoadunationLib.jar=../CoadunationLib/dist/CoadunationLib.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dj2ee.platform.classpath=/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/tomcat-dbcp.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/jasper-el.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/catalina-ant.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/tomcat-i18n-fr.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/tomcat-i18n-ja.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/tomcat-coyote.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/tomcat-i18n-es.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/servlet-api.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/catalina-ha.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/annotations-api.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/jasper.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/lib/catalina-tribes.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/jsp-api.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/catalina.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/el-api.jar:/data01/documents/libraries/tomcat/apache-tomcat-6.0.13/lib/tomcat-juli.jar"
+JAVA_OPTS="${JAVA_OPTS} -Dj2ee.server.instance=tomcat60:home=/data01/documents/libraries/tomcat/apache-tomcat-6.0.13"
+
+/usr/local/apache-ant-1.6.5/bin/ant ${JAVA_OPTS} -f build.xml

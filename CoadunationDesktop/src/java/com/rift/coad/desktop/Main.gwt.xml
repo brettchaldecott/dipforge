@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+        
+        <!-- Gwm dependency -->
+        <inherits name='org.gwm.GwtWindowManager'/> 
+        
+	<entry-point class="com.rift.coad.desktop.client.MainEntryPoint"/>
+	<!-- Do not define servlets here, use web.xml -->
+        <stylesheet src='/Main.css'/>
+        
+         <replace-with class="org.gwm.client.impl.CoadSelectBoxManagerImplIE6">
+                <when-type-is class="org.gwm.client.impl.CoadSelectBoxManagerImpl" />
+                <when-property-is name="user.agent" value="ie6" />
+        </replace-with>
+        <replace-with class="org.gwm.client.impl.CoadTopBarFF">
+                <when-type-is class="org.gwm.client.impl.CoadTopBar" />
+                <when-property-is name="user.agent" value="gecko1_8" />
+        </replace-with>
+</module>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Glynn Chaldecott
+    Description:
+        The Coadunation deployment configuration file.
+-->
+
+<coadunation version="1" name="Jython">
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.jython.JythonManagementMBean</interface>
+            <class>com.rift.coad.daemon.jython.JythonManagement</class>
+            <objectName>com.rift.coad.daemon:type=Jython</objectName>
+            <bindName>jython/Management</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.jython.JythonMappingManagerMBean</interface>
+            <class>com.rift.coad.daemon.jython.JythonMappingManager</class>
+            <objectName>com.rift.coad.daemon:type=JythonMappingManagement</objectName>
+            <bindName>jython/MappingManagement</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.daemon.jython.JythonDaemon</interface>
+            <class>com.rift.coad.daemon.jython.JythonDaemonImpl</class>
+            <bindName>jython/Daemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.timer.TimerEventHandler</interface>
+            <class>com.rift.coad.daemon.jython.JythonTimerImpl</class>
+            <bindName>jython/Timer</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.jython.JythonMappingManagerDaemon</interface>
+            <class>com.rift.coad.daemon.jython.JythonMappingManagerDaemonImpl</class>
+            <bindName>jython/MappingManagerDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.datamapper.DataMapper</interface>
+            <class>com.rift.coad.daemon.jython.JythonDataMapper</class>
+            <bindName>jython/DataMapperManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>false</transaction>
+        </bean>
+    </beans>
+    <webservices>
+        <webservice>
+            <path>/jython/Management</path>
+            <class>com.rift.coad.daemon.jython.webservice.JythonManagementImpl</class>
+            <wsdl>com/rift/coad/daemon/jython/webservice/JythonManagement.wsdl</wsdl>
+            <role>daemon</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+</coadunation>

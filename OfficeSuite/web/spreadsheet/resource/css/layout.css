@@ -1,0 +1,276 @@
+body{
+  font-size: 11px;
+  font-family: Arial, "Bitstream Vera Sans", Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+p{
+  margin: 6px 0;
+}
+
+#demoHead,
+#demoFoot{
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  background: #134275;
+  padding: 3px 8px;
+  height: 20px;
+  color: white;
+  font-weight: bold;
+  overflow: hidden;
+  z-index: 1000000000;
+}
+
+#demoHead{
+  top: 0px;
+}
+
+#demoHead span{
+  font-weight: normal;
+}
+
+#demoFoot{
+  bottom: 0px;
+}
+
+#demoFoot a{
+  color: white;
+}
+
+#demoFrame{
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  right: 0;
+  width: 280px;
+  background: #fff;
+  border-left: 10px solid #134275;
+  z-index: 1000000000;
+}
+
+#demoFiles{
+  font-size: 11px;
+  font-family: Tahoma, Verdana, sans-serif;
+
+  position: absolute;
+  top: 24px;
+  right: 50px;
+  width: 215px;
+  z-index: 1000000002;
+}
+
+#demoJump{
+  position: absolute;
+  top: 24px;
+  right: 4px;
+  width: 45px;
+  text-align: right;
+  z-index: 1000000002;
+}
+
+#demoDescription{
+  position: absolute;
+  top: 44px;
+  height : 120px;
+  width: 266px;
+  right: 4px;
+  z-index: 1000000002;
+  overflow: auto;
+  border-bottom: 10px solid #134275;
+  padding: 0px 6px 0px 4px;
+}
+
+#demoDescription p{
+  margin: 4px 0;
+}
+
+#demoDescription h1{
+  font-size: 12px;
+  margin: 8px 0 4px;
+}
+
+#demoDebug{
+  position: absolute;
+  top: 500px;
+  bottom: 14px;
+  width: 100%;
+  font-size: 10px;
+  font-family: "Bitstream Vera Sans Mono", "Courier New", "Courier", monospace;
+  z-index: 1000000102;
+}
+
+#demoDebug .log-body{
+  overflow: auto;
+  position: absolute;
+  top: 30px;
+  bottom: 0px;
+  width: 266px;
+  padding: 4px;
+}
+
+#demoDebug .log-debug{
+  color: gray;
+  padding-left: 6px;
+}
+
+#demoDebug .log-info{
+  background: #DFEBFD;
+  padding-left: 6px;
+}
+
+#demoDebug .log-warn{
+  background: #F5FAAD;
+  padding-left: 6px;
+}
+
+#demoDebug .log-error{
+  background: #D2623E;
+  color: black;
+  padding-left: 6px;
+}
+
+#demoDebug .log-group{
+  margin-top: 4px;
+  margin-bottom: 1px;
+  text-decoration: underline;
+}
+
+#demoDebug .log-head{
+  padding: 8px 2px 4px;
+}
+
+#demoJump button,
+#demoDebug .log-head button{
+  border: 1px solid #335EA8;
+  margin: 0 2px;
+  font-size: 11px;
+  background: #EBE9ED;
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+#demoDebug .log-head button{
+  visibility: visible;
+}
+
+#demoJump button{
+  width: 16px;
+  -moz-appearance: none !important;
+}
+
+
+
+.sheet {
+	border-top:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+	cursor: default;
+}
+.sheet .sheetRow1stCell {
+	border-right:1px solid #AAAAAA;
+	border-bottom:1px solid #AAAAAA;
+	background-color:#EDEDED;
+    font-size: 12px;
+	font-family: Tahoma, Helvetica, sans, Arial, sans-serif, Verdana;
+	text-align: center;
+	width:20px;
+	height:20px;
+}
+.sheet td {
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+}
+.sheet th {
+	border-right:1px solid #AAAAAA;
+	border-bottom:1px solid #AAAAAA;
+	background-color:#EDEDED;
+	padding-left:3px;
+    font-size: 12px;
+	font-family: Tahoma, Helvetica, sans, Arial, sans-serif, Verdana;
+	text-align: center;			
+	overflow:hidden;
+	width:65px;
+	height:16px;
+}
+.sheet td.sheetCell {
+	margin:0px;
+	padding:0px;
+	width:65px;
+	height:16px;
+}
+.sheet td.sheetCell div {
+	width:65px;
+	height:17px;
+	overflow:hidden;
+    font-size: 11px;
+	font-family: Tahoma, Helvetica, sans, Arial, sans-serif, Verdana;
+	padding:0px;
+	margin:0px;
+}
+.sheet td.sheetCell div.focused {
+	/*width:61px;
+	height:14px;*/
+    border: 2px solid black;
+} 
+.selected {
+	background-color: #C6D0F4;
+}
+.sheet th div {
+	overflow:hidden;
+	height:16px;
+	padding:0px;
+}
+.sheet .horizontalResizer {
+	float: right;
+	display: inline;
+	width: 2px;
+	height: 20px;
+	cursor:col-resize;
+	padding:0px;
+	/*background-color:red;*/
+}
+.sheet th div.horizontalResizer:hover {
+	cursor:col-resize;
+}
+
+.header {
+	width: 100%;
+}
+
+/*----------------------------- styles for the 1st cell in a row - the number cell --------------------------*/
+.sheet th div.headerText {
+	float:left;
+	text-align:center;
+	width:80%;
+	display:inline;
+}
+
+/*------------------------- First cell in a row --------------------------------*/
+.sheet .sheetRow1stCell div.verticalResizer {
+	height: 2px;
+	/*background-color:red;*/
+	cursor:row-resize;
+	overflow:hidden;
+	width:20px;
+}
+.sheet .sheetRow1stCell div.verticalResizer:hover {
+	cursor:row-resize;
+	/*background-color: #4660F4;*/
+}
+.sheet .sheetRow1stCell div.rowHeaderText {
+	/*border:1px solid green;*/
+	overflow:hidden;
+	vertical-align:middle;
+	
+}
+.sheetRow1stCellDiv {
+	/*border:1px solid blue;*/
+}
+.sheetCellContent {
+	/*border:1px solid red;
+	background-color:#EECCCC;*/
+}
+
+
+

@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.rift.coad.daemon.email.webservice" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.rift.coad.daemon.email.webservice" xmlns:intf="com.rift.coad.daemon.email.webservice" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="com.rift.coad.daemon.email.webservice" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="EmailException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="cause" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="FetchMailPOPAccount">
+    <sequence>
+     <element name="emailAddress" nillable="true" type="xsd:string"/>
+     <element name="account" nillable="true" type="xsd:string"/>
+     <element name="server" nillable="true" type="xsd:string"/>
+     <element name="dropBox" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getNameRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="addPOPAccountWithDropBoxRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+      <wsdl:part name="account" type="xsd:string"/>
+
+      <wsdl:part name="server" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="dropbox" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="EmailException">
+
+      <wsdl:part name="fault" type="impl:EmailException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listPOPAccountsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="addPOPAccountWithDropBoxResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="addPOPAccountRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+      <wsdl:part name="account" type="xsd:string"/>
+
+      <wsdl:part name="server" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePOPAccountPasswordResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePOPAccountDropBoxRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+      <wsdl:part name="dropbox" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNameResponse">
+
+      <wsdl:part name="getNameReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPOPAccountResponse">
+
+      <wsdl:part name="getPOPAccountReturn" type="impl:FetchMailPOPAccount"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusResponse">
+
+      <wsdl:part name="getStatusReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="deletePOPAccountRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePOPAccountPasswordRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePOPAccountDropBoxResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getDescriptionRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="listPOPAccountsResponse">
+
+      <wsdl:part name="listPOPAccountsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPOPAccountRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deletePOPAccountResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionResponse">
+
+      <wsdl:part name="getVersionReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addPOPAccountResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getDescriptionResponse">
+
+      <wsdl:part name="getDescriptionReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="FetchMailServer">
+
+      <wsdl:operation name="listPOPAccounts">
+
+         <wsdl:input message="impl:listPOPAccountsRequest" name="listPOPAccountsRequest"/>
+
+         <wsdl:output message="impl:listPOPAccountsResponse" name="listPOPAccountsResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addPOPAccount" parameterOrder="address account server password">
+
+         <wsdl:input message="impl:addPOPAccountRequest" name="addPOPAccountRequest"/>
+
+         <wsdl:output message="impl:addPOPAccountResponse" name="addPOPAccountResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addPOPAccountWithDropBox" parameterOrder="address account server password dropbox">
+
+         <wsdl:input message="impl:addPOPAccountWithDropBoxRequest" name="addPOPAccountWithDropBoxRequest"/>
+
+         <wsdl:output message="impl:addPOPAccountWithDropBoxResponse" name="addPOPAccountWithDropBoxResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePOPAccountPassword" parameterOrder="address password">
+
+         <wsdl:input message="impl:updatePOPAccountPasswordRequest" name="updatePOPAccountPasswordRequest"/>
+
+         <wsdl:output message="impl:updatePOPAccountPasswordResponse" name="updatePOPAccountPasswordResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePOPAccountDropBox" parameterOrder="address dropbox">
+
+         <wsdl:input message="impl:updatePOPAccountDropBoxRequest" name="updatePOPAccountDropBoxRequest"/>
+
+         <wsdl:output message="impl:updatePOPAccountDropBoxResponse" name="updatePOPAccountDropBoxResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPOPAccount" parameterOrder="address">
+
+         <wsdl:input message="impl:getPOPAccountRequest" name="getPOPAccountRequest"/>
+
+         <wsdl:output message="impl:getPOPAccountResponse" name="getPOPAccountResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deletePOPAccount" parameterOrder="address">
+
+         <wsdl:input message="impl:deletePOPAccountRequest" name="deletePOPAccountRequest"/>
+
+         <wsdl:output message="impl:deletePOPAccountResponse" name="deletePOPAccountResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getName">
+
+         <wsdl:input message="impl:getNameRequest" name="getNameRequest"/>
+
+         <wsdl:output message="impl:getNameResponse" name="getNameResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersion">
+
+         <wsdl:input message="impl:getVersionRequest" name="getVersionRequest"/>
+
+         <wsdl:output message="impl:getVersionResponse" name="getVersionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDescription">
+
+         <wsdl:input message="impl:getDescriptionRequest" name="getDescriptionRequest"/>
+
+         <wsdl:output message="impl:getDescriptionResponse" name="getDescriptionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdl:input message="impl:getStatusRequest" name="getStatusRequest"/>
+
+         <wsdl:output message="impl:getStatusResponse" name="getStatusResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="FetchMailSoapBinding" type="impl:FetchMailServer">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="listPOPAccounts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listPOPAccountsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listPOPAccountsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addPOPAccount">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addPOPAccountRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addPOPAccountResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addPOPAccountWithDropBox">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addPOPAccountWithDropBoxRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addPOPAccountWithDropBoxResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePOPAccountPassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updatePOPAccountPasswordRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updatePOPAccountPasswordResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePOPAccountDropBox">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updatePOPAccountDropBoxRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updatePOPAccountDropBoxResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPOPAccount">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPOPAccountRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPOPAccountResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deletePOPAccount">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deletePOPAccountRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deletePOPAccountResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getName">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNameRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNameResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersion">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getVersionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getVersionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDescription">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDescriptionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDescriptionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStatusRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStatusResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="FetchMailServerService">
+
+      <wsdl:port binding="impl:FetchMailSoapBinding" name="FetchMail">
+
+         <wsdlsoap:address location="http://localhost:8080/email/FetchMail"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,43 @@
+
+    /**
+     * TO DO
+     * The interim invocation handler
+     */
+    public %returnType% %methodName%(%fullParameters%)
+        throws %exceptions% {
+        checkIfReleased();
+        if (log.isDebugEnabled()) {
+            log.debug("Calling method %methodName%");
+        }
+        touch();
+        ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(classLoader);
+        boolean validated = false;
+        boolean success = true;
+        try {
+            Validator.validate(this.getClass(),role);
+            validated = true;
+            permissions.pushRole(role);
+            return target.%methodName%(%parameters%);
+        } %catchs% catch (SecurityException ex) {
+            log.error("Access was denied : " + ex.getMessage(),ex);
+            auditTrail.logEvent("%methodName%",ex);
+            success = false;
+            throw new org.omg.CORBA.NO_PERMISSION(
+                "Access to %methodName% using role "
+                + role + " was denied");
+        } finally {
+            if (success) {
+                auditTrail.logEvent("%methodName%");
+            }
+            if (validated == true) {
+                try {
+                    permissions.popRole(role);
+                } catch (Exception ex) {
+                    log.error("Failed to pop the roles back : " + ex.getMessage()
+                                ,ex);
+                }
+            }
+            Thread.currentThread().setContextClassLoader(oldLoader);
+        }
+    }

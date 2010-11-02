@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="WebService" targetNamespace="urn:WebService/wsdl" xmlns:tns="urn:WebService/wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types/>
+  <message name="WebServiceSEI_helloWorld">
+    <part name="String_1" type="xsd:string"/></message>
+  <message name="WebServiceSEI_helloWorldResponse">
+    <part name="result" type="xsd:string"/></message>
+  <portType name="WebServicePortType">
+    <operation name="helloWorld" parameterOrder="String_1">
+      <input message="tns:WebServiceSEI_helloWorld"/>
+      <output message="tns:WebServiceSEI_helloWorldResponse"/></operation></portType>
+  <binding name="WebServiceSEIBinding" type="tns:WebServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <operation name="helloWorld">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal" namespace="urn:WebService/wsdl"/></input>
+      <output>
+        <soap:body use="literal" namespace="urn:WebService/wsdl"/></output></operation></binding>
+  <service name="WebService">
+    <port name="WebServiceSEIPort" binding="tns:WebServiceSEIBinding">
+      <soap:address location="http://localhost:8085/WebServiceTest"/></port></service></definitions>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 2010, 11:54 AM
+    Author     : brett chaldecott
+    Description:
+        The deployment information for the request broker daemon.
+-->
+
+<coadunation version="1" name="0170-ChangeManager">
+    <description>Change Manager</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.request.RequestBrokerManagerMBean</interface>
+            <class>com.rift.coad.request.RequestBrokerManager</class>
+            <objectName>com.rift.coad.request:type=RequestBrokerManagerMBean</objectName>
+            <bindName>request/RequestBrokerManager</bindName>
+            <role>request_broker</role>
+            <username>request_broker</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.request.RequestBrokerDaemon</interface>
+            <class>com.rift.coad.request.RequestBrokerDaemonImpl</class>
+            <bindName>request/RequestBrokerDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        
+        <bean>
+            <interface>com.rift.coad.change.request.RequestCallbackHandler</interface>
+            <class>com.rift.coad.request.RequestCallbackHandlerImpl</class>
+            <bindName>request/handler/RequestCallbackHandler</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+    <webservices>
+        <webservice>
+            <path>/request/RequestBrokerManager</path>
+            <class>com.rift.coad.request.webservice.RequestBrokerManagerImpl</class>
+            <wsdl>com/rift/coad/request/webservice/RequestBrokerManager.wsdl</wsdl>
+            <role>daemon</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+</coadunation>
+

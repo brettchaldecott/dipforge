@@ -1,0 +1,265 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/base#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Base">
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Data">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Base"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Phone">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#CellPhone">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Phone"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Fax">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Phone"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#PhoneType">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Name">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Surname">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Name"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Username">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Name"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IdNumber">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPAddress">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPv4">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#IPAddress"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPv6">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#IPAddress"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Email">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Country">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#AddressCode">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ZipCode">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#AddressCode"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#PostalCode">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#AddressCode"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#URL">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#SerialNumber">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#GenericSerialNumber">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#SerialNumber"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ISBN">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#SerialNumber"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ISSN">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#SerialNumber"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Title">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ResourceBase">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Password">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ClearTextPassword">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Password"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#MD5Password">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Password"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#SHAPassword">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Password"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Domain">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Description">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ValidatedString">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Str"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#GenericString">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Str"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFNumber">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFLong">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFNumber"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFInteger">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFNumber"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFFloat">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFNumber"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFDouble">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFNumber"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFDate">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFDateTime">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFArray">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeSet">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#VariableNameHolder">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+
+
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/CompositeId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/IdForDataType">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/DataTypeName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#PhoneTypeRef">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Phone"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#PhoneValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Phone"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#PhoneTypeId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#PhoneType"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#NameValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Name"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IdValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#IdNumber"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#IPAddress"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#EmailAddress">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Email"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#CountryCode">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Country"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#CountryCode">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Country"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#AddressCodeValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#AddressCode"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#URLValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#URL"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#SerialNumberValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#SerialNumber"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#TitleValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Title"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ResourceId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#ResourceBase"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ResourceAttributes">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#ResourceBase"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#PasswordValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Password"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#PasswordId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#ClearTextPassword"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#MD5PasswordId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#MD5Password"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#SHAPasswordId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#SHAPassword"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#DomainValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Domain"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#DescriptionId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Description"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#DescriptionValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Description"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ValidatedValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#ValidatedString"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#ValidatedRegex">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#ValidatedString"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#GenericStringValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#GenericString"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFLongValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFLong"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFIntegerValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFInteger"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFFloatValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFFloat"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFDoubleValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFDouble"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFDateTimeValue">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFDateTime"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFArrayId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFArray"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFArrayDataType">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFArray"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFArrayEntries">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFArray"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeSet"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeDescription">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeSet"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeDate">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeSet"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeList">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#RDFChangeSet"/>
+    </rdf:Property>
+
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#AssociatedValue">
+    </rdf:Property>
+</rdf:RDF>

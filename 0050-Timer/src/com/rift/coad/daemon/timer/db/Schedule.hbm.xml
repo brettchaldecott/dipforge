@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.rift.coad.daemon.timer.db.Schedule" 
+    table="Schedule"
+    proxy="com.rift.coad.daemon.timer.db.Schedule"
+>
+
+    <id
+        name="id"
+        type="java.lang.Integer"
+        column="ID"
+    >
+		    <meta attribute="field-description" inherit="false">
+		       auto_increment
+		    </meta>
+    
+        <generator class="native" />
+    </id>
+
+    <property
+        name="jndi"
+        type="java.lang.String"
+        column="JNDI"
+        not-null="true"
+        length="50"
+    />
+    <property
+        name="month"
+        type="java.lang.Integer"
+        column="MONTH"
+        not-null="true"
+        length="10"
+    />
+    <property
+        name="day"
+        type="java.lang.Integer"
+        column="DAY"
+        not-null="true"
+        length="10"
+    />
+    <property
+        name="hour"
+        type="java.lang.Integer"
+        column="HOUR"
+        not-null="true"
+        length="10"
+    />
+    <property
+        name="minute"
+        type="java.lang.Integer"
+        column="MINUTE"
+        not-null="true"
+        length="10"
+    />
+    <property
+        name="event"
+        type="binary"
+        column="EVENT"
+        not-null="true"
+        length="65535"
+    />
+    <property
+        name="recure"
+        type="byte"
+        column="RECURE"
+        not-null="true"
+        length="1"
+    />
+
+    <!-- Associations -->
+  
+
+</class>
+</hibernate-mapping>

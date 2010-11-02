@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation-test.xml
+    Created on : June 19, 2006, 12:37 PM
+    Author     : Brett Chaldecott
+    Description:
+        This document is an example coadunation xml document that will be used
+        to test the CoadunationParser.
+-->
+
+<coadunation version="1" name="CoadunationTest">
+    <description>The test coadunationfile</description>
+    <webservices>
+        <webservice>
+            <path>/WebService</path>
+            <class>com.test.webservice</class>
+            <wsdl>com/webservicetest/webservice/WebService.wsdl</wsdl>
+            <role>test</role>
+        </webservice>
+        <webservice>
+            <path>/WebService2</path>
+            <class>com.test.webservice2</class>
+            <wsdl>com/webservicetest/webservice/WebService2.wsdl</wsdl>
+            <role>test</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+    <jmxbeans>
+        <bean>
+            <interface>com.test2.jmxbeaninter</interface>
+            <class>com.test2.jmxbean</class>
+            <objectName>com.test2:type=jmxbean</objectName>
+            <bindName>jmxbean</bindName>
+            <role>test</role>
+            <username>testuser</username>
+            <thread>
+                <class>com.test2.thread</class>
+                <username>test</username>
+                <number>1</number>
+            </thread>
+            <classes>com.test2.returnbean</classes>
+            <classes>com.test2.returnbean2</classes>
+            <cache_by_key>true</cache_by_key>
+            <cache_timeout>10</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.test3.testinter</interface>
+            <class>com.test3.testbean</class>
+            <bindName>testbean</bindName>
+            <role>test</role>
+            <username>testuser</username>
+            <thread>
+                <class>com.test3.thread</class>
+                <username>test</username>
+                <number>1</number>
+            </thread>
+            <classes>com.test3.returnbean</classes>
+            <classes>com.test3.returnbean2</classes>
+            <cache_by_key>true</cache_by_key>
+            <cache_timeout>10</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+    <beans>
+        <bean>
+            <interface>com.test4.testinter</interface>
+            <class>com.test4.testbean</class>
+            <bindName>testbean2</bindName>
+            <role>test</role>
+            <username>testuser</username>
+            <cache_by_key>true</cache_by_key>
+            <cache_timeout>10</cache_timeout>
+        </bean>
+    </beans>
+</coadunation>

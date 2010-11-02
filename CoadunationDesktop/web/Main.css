@@ -1,0 +1,444 @@
+/* 
+    Document   : Main
+    Created on : 11 Jul 2008, 2:25:36 PM
+    Author     : brett
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root {
+    z-index: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    font-size: 8px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  z-index: 0;
+}
+
+
+.DesktopFeed-ScrollPanel {
+    height: 360px;
+    width:600px;
+    background-color: white;
+    border: solid 1px;
+  border-color: #cccccc;
+}
+
+.Event-Panel {
+    width: 200px;
+    background: #efebe7;
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+}
+
+.TopPanel {
+    background-color: black;
+    color: white;
+    border: 0px;
+    height: 25px;
+    border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #cccccc;
+  z-index: 1;
+}
+
+.TopGadgetPanel {
+    color: white;
+        background-color: black;
+        cursor: default;
+        height: 26px;
+        font-family: Arial, sans-serif;
+        
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #666666;
+  z-index: 1000000;
+}
+
+.BottomPanel {
+    /*background-color: #efecec;*/
+    /*background-color: black;*/
+    background-color:#cccccc;
+    color: black;
+    border: 0px;
+    height: 25px;
+    border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: white;
+}
+
+.BottomPanel-Border {
+    background-color: white;
+    height: 0px;
+    border: 0px;
+    border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: gray;
+}
+
+.WidgetPanel {
+    background-color: #cccccc;
+    color: black;
+    border: 0px;
+    width: 100px;
+    border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: white;
+}
+
+.WidgetPanelBorder {
+    background-color: white;
+    width: 0px;
+    border: 0px;
+    border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: grey;
+}
+
+
+.gwt-MenuBar {
+        cursor: default;
+        background: white;
+        z-index: 1000000;
+  }
+
+.gwt-MenuBar-horizontal {
+        color: white;
+        background-color: black;
+        cursor: default;
+        
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #666666;
+  z-index: 1000000;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItem {
+        background-color: black;
+        color: white;
+        padding: 0px 5px;
+        cursor: default;
+        height: 25px;
+        z-index: 1000000;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItem-selected {
+        cursor: default;
+        background: #b11c1c;
+        z-index: 1000000;
+}
+
+.gwt-MenuBar-horizontal table {
+  border-collapse: collapse;
+}
+
+gwt-MenuBar-vertical {
+  margin-top: 0px;
+  margin-left: 0px;
+  background: white;
+  z-index: 1000000;
+}
+
+.gwt-MenuBar-vertical table {
+  border-collapse: collapse;
+  z-index: 1000000;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItem {
+  padding: 4px 14px 4px 1px;
+  width: 150;
+  font-family: Arial, sans-serif;
+  font-size: 10pt;
+  z-index: 1000000;
+}
+
+
+.gwt-MenuBar-vertical .gwt-MenuItem-selected {
+  background: #cdcdcd;
+  z-index: 1000000;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator {
+  padding: 2px 0px;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
+  height: 1px;
+  padding: 0px;
+  border: 0px;
+  border-top: 1px solid #777777;
+  background: #ddddee;
+  overflow: hidden;
+}
+
+.gwt-MenuBar-vertical .subMenuIcon {
+  padding-right: 4px;
+}
+
+.gwt-MenuBar-vertical .subMenuIcon-selected {
+  background: #cdcdcd;
+}
+
+.gwt-MenuBarPopup {
+  margin: 0px 0px 0px 3px;
+}
+
+.gwt-MenuBarPopup .menuPopupTopCenter {
+  background: url(images/hborder.png) 0px -12px repeat-x;
+}
+
+.gwt-MenuBarPopup .menuPopupMiddleLeft {
+  background: url(images/vborder.png) -12px 0px repeat-y;
+}
+
+.gwt-MenuBarPopup .menuPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  zoom: 1;
+}
+
+html>body .gwt-MenuBarPopup .menuPopupBottomCenter {
+  background: url(images/hborder.png) 0px -13px repeat-x;
+}
+
+html>body .gwt-MenuBarPopup .menuPopupMiddleRight {
+  background: url(images/vborder.png) -13px 0px repeat-y;
+}
+
+html>body .gwt-MenuBarPopup .menuPopupTopLeft {
+  background: url(images/corner.png) no-repeat 0px -36px;
+}
+
+html>body .gwt-MenuBarPopup .menuPopupTopRight {
+  background: url(images/corner.png) no-repeat -5px -36px;
+}
+
+html>body .gwt-MenuBarPopup .menuPopupBottomLeft {
+  background: url(images/corner.png) no-repeat 0px -41px;
+}
+
+html>body .gwt-MenuBarPopup .menuPopupBottomRight {
+  background: url(images/corner.png) no-repeat -5px -41px;
+}
+
+* html .gwt-MenuBarPopup .menuPopupBottomCenter {
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/ie6/hborder_gray_shadow.png',sizingMethod='scale');
+ }
+
+* html .gwt-MenuBarPopup .menuPopupMiddleRight {
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/ie6/vborder_gray_shadow.png',sizingMethod='scale');
+}
+
+* html .gwt-MenuBarPopup .menuPopupTopLeftInner {
+  width: 5px;
+  height: 41px;
+  margin-top: -36px;
+  overflow: hidden;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corner.png',sizingMethod='crop');
+}
+
+* html .gwt-MenuBarPopup .menuPopupTopRightInner {
+  width: 13px;
+  height: 41px;
+  margin-left: -5px;
+  margin-top: -36px;
+  overflow: hidden;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corner.png',sizingMethod='crop');
+ }
+
+* html .gwt-MenuBarPopup .menuPopupBottomLeftInner {
+  width: 5px;
+  height: 49px;
+  margin-top: -41px;
+  overflow: hidden;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corner.png',sizingMethod='crop');
+}
+
+* html .gwt-MenuBarPopup .menuPopupBottomRightInner {
+  width: 13px;
+  height: 49px;
+  margin-left: -5px;
+  margin-top: -41px;
+  overflow: hidden;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/corner.png',sizingMethod='crop');
+}
+
+
+/*
+ * The icon panel
+ */
+.IconPanel {
+    background-color: white;
+    height: 0px;
+    border: 0px;
+    border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: gray;
+}
+
+.Icon-Maximized {
+    padding: 4px 4px 4px 4px;
+  font-family: Arial, sans-serif;
+  font-size: 10pt;
+  color: black;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: gray;
+}
+
+.Icon-Minimized {
+    padding: 4px 4px 4px 4px;
+  font-family: Arial, sans-serif;
+  font-size: 10pt;
+  color: gray;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: gray;
+}
+
+.Icon-MouseOut {
+    background-color:#cccccc;
+    height: 25px;
+    cursor: default;
+    border-right-style: solid;
+  border-right-width: 1px;
+  /*border-right-color: grey;*/
+  border-right-color: white;
+}
+
+.Icon-MouseOver {
+    background-color: #efebe7;
+    height: 25px;
+    cursor: default;
+    border-right-style: solid;
+  border-right-width: 1px;
+  /*border-right-color: grey;*/
+  border-right-color: white;
+}
+
+/*
+ * The tab section
+ */
+
+.gwt-TabPanel {
+}
+
+.gwt-TabPanelBottom {
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 1px 0px 0px;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.gwt-TabBarItem {
+    font-family: Arial, sans-serif;
+  color: black;
+        border-collapse: collapse;
+  margin-top: 4px;
+  height: 18px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 6px;
+  background: #cccccc;
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 1px 1px 0px 1px;
+}
+
+.gwt-TabBarItem-selected {
+    font-family: Arial, sans-serif;
+    color: black;
+    border-collapse: collapse;
+  margin-top: 3px;
+  height: 19px;
+        padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 6px;
+  background: #efebe7;
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 1px 1px 0px 1px;
+}
+
+
+.Event-MouseOut {
+    background-color:White;
+    cursor: default;
+    border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #bcbcbc;
+    font-size: 12px;
+}
+
+
+.Event-MouseOver {
+    background-color: #efebe7;
+    cursor: default;
+    border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #bcbcbc;
+    font-size: 12px;
+}
+
+.Event-Panel-Heading {
+    background-color:#efebe7;
+    cursor: default;
+    height: 20;
+    width: 200;
+}
+
+.Application-Event-MouseOut {
+    background-color:#efebe7;
+    cursor: default;
+    height: 20;
+    font-size: 12px;
+/*    border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #bcbcbc;*/
+}
+
+
+.Application-Event-MouseOver {
+    background-color: #cdcdcd;
+    cursor: default;
+    height: 20;
+    font-size: 12px;
+/*    border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #bcbcbc;*/
+}

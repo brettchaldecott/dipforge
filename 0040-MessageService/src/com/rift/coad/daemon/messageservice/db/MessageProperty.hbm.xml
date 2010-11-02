@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.rift.coad.daemon.messageservice.db.MessageProperty" 
+    table="MessageProperty"
+    proxy="com.rift.coad.daemon.messageservice.db.MessageProperty"
+>
+
+    <id
+        name="id"
+        type="java.lang.Integer"
+        column="id"
+    >
+		    <meta attribute="field-description" inherit="false">
+		       auto_increment
+		    </meta>
+    
+        <generator class="native" />
+    </id>
+
+    <property
+        name="name"
+        type="java.lang.String"
+        column="name"
+        not-null="true"
+        length="50"
+    />
+    <property
+        name="boolValue"
+        type="java.lang.Integer"
+        column="boolValue"
+        length="11"
+    />
+    <property
+        name="byteValue"
+        type="java.lang.Integer"
+        column="byteValue"
+        length="11"
+    />
+    <property
+        name="doubleValue"
+        type="java.lang.Double"
+        column="doubleValue"
+        length="22"
+    />
+    <property
+        name="floatValue"
+        type="java.lang.Float"
+        column="floatValue"
+        length="12"
+    />
+    <property
+        name="intValue"
+        type="java.lang.Integer"
+        column="intValue"
+        length="11"
+    />
+    <property
+        name="longValue"
+        type="java.lang.Long"
+        column="longValue"
+        length="20"
+    />
+    <property
+        name="stringValue"
+        type="java.lang.String"
+        column="stringValue"
+        length="1024"
+    />
+    <property
+        name="objectValue"
+        type="binary"
+        column="objectValue"
+        length="65535"
+    />
+
+    <!-- Associations -->
+  
+    <!-- bi-directional many-to-one association to Message -->
+    <many-to-one
+        name="message"
+        class="com.rift.coad.daemon.messageservice.db.Message"
+        not-null="true"
+    >
+        <column name="messageId" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

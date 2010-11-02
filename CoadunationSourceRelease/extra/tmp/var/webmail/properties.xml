@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>Properties defining the mail host(s) to connect to</comment>
+  <entry key="smtpServer">Replace with smtp server address</entry>
+  <entry key="smtpPort">25</entry>
+  <entry key="incomingServer">localhost</entry>
+  <entry key="port">143</entry>
+  <entry key="domain">Replace with local mail domain name</entry>
+  <entry key="protocol">imap</entry>
+</properties>

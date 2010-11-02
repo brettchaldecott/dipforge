@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 2010, 11:54 AM
+    Author     : brett chaldecott
+    Description:
+        The deployment information for the request broker daemon.
+-->
+
+<coadunation version="1" name="0200-Catalog">
+    <description>Catalog</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.catalog.CatalogManagerMBean</interface>
+            <class>com.rift.coad.catalog.CatalogManager</class>
+            <objectName>com.rift.coad.catalog:type=CatalogManagerMBean</objectName>
+            <bindName>catalog/CatalogManager</bindName>
+            <role>catalog</role>
+            <username>catalog</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.catalog.CatalogManagerDaemon</interface>
+            <class>com.rift.coad.catalog.CatalogManagerDaemonImpl</class>
+            <bindName>catalog/CatalogManagerDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>
+

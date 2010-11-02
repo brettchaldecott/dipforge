@@ -1,0 +1,1318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.rift.coad.daemon.email.webservice" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.rift.coad.daemon.email.webservice" xmlns:intf="com.rift.coad.daemon.email.webservice" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="com.rift.coad.daemon.email.webservice" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="EmailException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="cause" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="addDomainRequest1">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateForwardResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="removeRelayResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDomainDropBoxResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="listDomainsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="addRelayRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listRelaysRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="setMailBoxQuotaRequest">
+       <!-- this is not implemented at the moment -->
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+      <wsdl:part name="quota" type="xsd:long"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeAliasResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getDescriptionResponse">
+
+      <wsdl:part name="getDescriptionReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeRelayRequest">
+
+      <wsdl:part name="address" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateForwardRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="alias" type="xsd:string"/>
+
+      <wsdl:part name="targets" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createAliasRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+      <wsdl:part name="alias" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addDomainResponse1">
+
+   </wsdl:message>
+
+   <wsdl:message name="setMailBoxQuotaResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="addDomainRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="dropbox" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeForwardResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="removeAliasRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+      <wsdl:part name="alias" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDomainDropBoxRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createForwardRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="alias" type="xsd:string"/>
+
+      <wsdl:part name="targets" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDomainDropBoxResponse">
+
+      <wsdl:part name="getDomainDropBoxReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getMailBoxQuotaResponse">
+
+      <wsdl:part name="getMailBoxQuotaReturn" type="xsd:long"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDomainResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="setDomainDropBoxResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getNameResponse">
+
+      <wsdl:part name="getNameReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createMailBoxResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDomainRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getForwardRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="alias" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listForwardsRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listAliasesResponse">
+
+      <wsdl:part name="listAliasesReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDomainDropBoxRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createMailBoxRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+      
+      <!-- Quota is currently not implemented set the value to Zero -->
+      <wsdl:part name="quota" type="xsd:long"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listDomainsResponse">
+
+      <wsdl:part name="listDomainsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="EmailException">
+
+      <wsdl:part name="fault" type="impl:EmailException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeMailBoxResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getMailBoxQuotaRequest">
+        
+       <!-- this is not implemented at the moment -->
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addRelayResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="setDomainDropBoxRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="dropbox" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createForwardResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="removeForwardRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="alias" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDescriptionRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="listMailBoxesResponse">
+
+      <wsdl:part name="listMailBoxesReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listAliasesRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNameRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="listRelaysResponse">
+
+      <wsdl:part name="listRelaysReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listMailBoxesRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setMailBoxPasswordResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="createAliasResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusResponse">
+
+      <wsdl:part name="getStatusReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getForwardResponse">
+
+      <wsdl:part name="getForwardReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="addDomainResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionResponse">
+
+      <wsdl:part name="getVersionReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeMailBoxRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setMailBoxPasswordRequest">
+
+      <wsdl:part name="domain" type="xsd:string"/>
+
+      <wsdl:part name="username" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listForwardsResponse">
+
+      <wsdl:part name="listForwardsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="EMailServer">
+
+      <wsdl:operation name="listDomains">
+
+         <wsdl:input message="impl:listDomainsRequest" name="listDomainsRequest"/>
+
+         <wsdl:output message="impl:listDomainsResponse" name="listDomainsResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addDomain" parameterOrder="domain dropbox">
+
+         <wsdl:input message="impl:addDomainRequest" name="addDomainRequest"/>
+
+         <wsdl:output message="impl:addDomainResponse" name="addDomainResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addDomain" parameterOrder="domain">
+
+         <wsdl:input message="impl:addDomainRequest1" name="addDomainRequest1"/>
+
+         <wsdl:output message="impl:addDomainResponse1" name="addDomainResponse1"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDomain" parameterOrder="domain">
+
+         <wsdl:input message="impl:removeDomainRequest" name="removeDomainRequest"/>
+
+         <wsdl:output message="impl:removeDomainResponse" name="removeDomainResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDomainDropBox" parameterOrder="domain">
+
+         <wsdl:input message="impl:getDomainDropBoxRequest" name="getDomainDropBoxRequest"/>
+
+         <wsdl:output message="impl:getDomainDropBoxResponse" name="getDomainDropBoxResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDomainDropBox" parameterOrder="domain dropbox">
+
+         <wsdl:input message="impl:setDomainDropBoxRequest" name="setDomainDropBoxRequest"/>
+
+         <wsdl:output message="impl:setDomainDropBoxResponse" name="setDomainDropBoxResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDomainDropBox" parameterOrder="domain">
+
+         <wsdl:input message="impl:removeDomainDropBoxRequest" name="removeDomainDropBoxRequest"/>
+
+         <wsdl:output message="impl:removeDomainDropBoxResponse" name="removeDomainDropBoxResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createMailBox" parameterOrder="domain username password quota">
+          <!-- note the quota value is ignored at present use Zero -->
+
+         <wsdl:input message="impl:createMailBoxRequest" name="createMailBoxRequest"/>
+
+         <wsdl:output message="impl:createMailBoxResponse" name="createMailBoxResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setMailBoxPassword" parameterOrder="domain username password">
+
+         <wsdl:input message="impl:setMailBoxPasswordRequest" name="setMailBoxPasswordRequest"/>
+
+         <wsdl:output message="impl:setMailBoxPasswordResponse" name="setMailBoxPasswordResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getMailBoxQuota" parameterOrder="domain username">
+         <!-- this method is not implemented at present -->
+         <wsdl:input message="impl:getMailBoxQuotaRequest" name="getMailBoxQuotaRequest"/>
+
+         <wsdl:output message="impl:getMailBoxQuotaResponse" name="getMailBoxQuotaResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setMailBoxQuota" parameterOrder="domain username quota">
+
+         <wsdl:input message="impl:setMailBoxQuotaRequest" name="setMailBoxQuotaRequest"/>
+
+         <wsdl:output message="impl:setMailBoxQuotaResponse" name="setMailBoxQuotaResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeMailBox" parameterOrder="domain username">
+
+         <wsdl:input message="impl:removeMailBoxRequest" name="removeMailBoxRequest"/>
+
+         <wsdl:output message="impl:removeMailBoxResponse" name="removeMailBoxResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listMailBoxes" parameterOrder="domain">
+
+         <wsdl:input message="impl:listMailBoxesRequest" name="listMailBoxesRequest"/>
+
+         <wsdl:output message="impl:listMailBoxesResponse" name="listMailBoxesResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createForward" parameterOrder="domain alias targets">
+
+         <wsdl:input message="impl:createForwardRequest" name="createForwardRequest"/>
+
+         <wsdl:output message="impl:createForwardResponse" name="createForwardResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateForward" parameterOrder="domain alias targets">
+
+         <wsdl:input message="impl:updateForwardRequest" name="updateForwardRequest"/>
+
+         <wsdl:output message="impl:updateForwardResponse" name="updateForwardResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getForward" parameterOrder="domain alias">
+
+         <wsdl:input message="impl:getForwardRequest" name="getForwardRequest"/>
+
+         <wsdl:output message="impl:getForwardResponse" name="getForwardResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeForward" parameterOrder="domain alias">
+
+         <wsdl:input message="impl:removeForwardRequest" name="removeForwardRequest"/>
+
+         <wsdl:output message="impl:removeForwardResponse" name="removeForwardResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listForwards" parameterOrder="domain">
+
+         <wsdl:input message="impl:listForwardsRequest" name="listForwardsRequest"/>
+
+         <wsdl:output message="impl:listForwardsResponse" name="listForwardsResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createAlias" parameterOrder="domain username alias">
+
+         <wsdl:input message="impl:createAliasRequest" name="createAliasRequest"/>
+
+         <wsdl:output message="impl:createAliasResponse" name="createAliasResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeAlias" parameterOrder="domain username alias">
+
+         <wsdl:input message="impl:removeAliasRequest" name="removeAliasRequest"/>
+
+         <wsdl:output message="impl:removeAliasResponse" name="removeAliasResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listAliases" parameterOrder="domain username">
+
+         <wsdl:input message="impl:listAliasesRequest" name="listAliasesRequest"/>
+
+         <wsdl:output message="impl:listAliasesResponse" name="listAliasesResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addRelay" parameterOrder="address">
+
+         <wsdl:input message="impl:addRelayRequest" name="addRelayRequest"/>
+
+         <wsdl:output message="impl:addRelayResponse" name="addRelayResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeRelay" parameterOrder="address">
+
+         <wsdl:input message="impl:removeRelayRequest" name="removeRelayRequest"/>
+
+         <wsdl:output message="impl:removeRelayResponse" name="removeRelayResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listRelays">
+
+         <wsdl:input message="impl:listRelaysRequest" name="listRelaysRequest"/>
+
+         <wsdl:output message="impl:listRelaysResponse" name="listRelaysResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getName">
+
+         <wsdl:input message="impl:getNameRequest" name="getNameRequest"/>
+
+         <wsdl:output message="impl:getNameResponse" name="getNameResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersion">
+
+         <wsdl:input message="impl:getVersionRequest" name="getVersionRequest"/>
+
+         <wsdl:output message="impl:getVersionResponse" name="getVersionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDescription">
+
+         <wsdl:input message="impl:getDescriptionRequest" name="getDescriptionRequest"/>
+
+         <wsdl:output message="impl:getDescriptionResponse" name="getDescriptionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdl:input message="impl:getStatusRequest" name="getStatusRequest"/>
+
+         <wsdl:output message="impl:getStatusResponse" name="getStatusResponse"/>
+
+         <wsdl:fault message="impl:EmailException" name="EmailException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ManagementSoapBinding" type="impl:EMailServer">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="listDomains">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listDomainsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listDomainsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addDomain">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addDomainRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addDomainResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addDomain">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addDomainRequest1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addDomainResponse1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDomain">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeDomainRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeDomainResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDomainDropBox">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDomainDropBoxRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDomainDropBoxResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDomainDropBox">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setDomainDropBoxRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setDomainDropBoxResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDomainDropBox">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeDomainDropBoxRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeDomainDropBoxResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createMailBox">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createMailBoxRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createMailBoxResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setMailBoxPassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setMailBoxPasswordRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setMailBoxPasswordResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getMailBoxQuota">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getMailBoxQuotaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getMailBoxQuotaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setMailBoxQuota">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setMailBoxQuotaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setMailBoxQuotaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeMailBox">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeMailBoxRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeMailBoxResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listMailBoxes">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listMailBoxesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listMailBoxesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createForward">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createForwardRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createForwardResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateForward">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateForwardRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateForwardResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getForward">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getForwardRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getForwardResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeForward">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeForwardRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeForwardResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listForwards">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listForwardsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listForwardsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createAlias">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createAliasRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createAliasResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeAlias">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeAliasRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeAliasResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listAliases">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listAliasesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listAliasesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addRelay">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addRelayRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addRelayResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeRelay">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeRelayRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeRelayResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="listRelays">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listRelaysRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listRelaysResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getName">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNameRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNameResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersion">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getVersionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getVersionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDescription">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDescriptionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDescriptionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStatusRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStatusResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EmailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EmailException" namespace="com.rift.coad.daemon.email.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="EMailServerService">
+
+      <wsdl:port binding="impl:ManagementSoapBinding" name="Management">
+
+         <wsdlsoap:address location="http://localhost:8080/email/Management"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

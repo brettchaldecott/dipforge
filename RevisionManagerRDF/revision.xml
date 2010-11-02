@@ -1,0 +1,52 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/audit#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionInfo">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Base"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#Tag">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Base"/>
+    </Class>
+    
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#Author">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#Branch">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#ChangeDate">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#File">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#Type">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#Version">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#TagAuthor">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#Tag"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#TagCreated">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#Tag"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#TagDescription">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#Tag"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#TagName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#Tag"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#Repository">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#Tag"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/revision#RevisionRef">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/revision#Tag"/>
+    </rdf:Property>
+    
+</rdf:RDF>

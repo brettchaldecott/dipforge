@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : January 2009
+    Author     : Brett Chaldecott
+    Description:
+        This document defines the configuration for the Coaduantion CRM server.
+-->
+
+<coadunation version="1" name="0047-CodunationCRMServer">
+    <description>Coadunation CRM Server</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.crm.CRMManagementMBean</interface>
+            <class>com.rift.coad.crm.CRMManagement</class>
+            <objectName>com.rift.coad.crm:type=Management</objectName>
+            <bindName>crm/Management</bindName>
+            <role>crm</role>
+            <username>crm</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+</coadunation>

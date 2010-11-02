@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : menu.xml
+    Created on : 01 August 2008, 1:43 PM
+    Author     : brett chaldecott
+    Description:
+        The menu structure.
+-->
+<menus>
+    <menu identifier= "&lt;img src='images/Title.png' border=0/&gt;">
+        <launcher identifier="Admin Console" name="Admin Console" title="" mouseOver="Admin Console"
+                    url="/CoadunationAdmin/" width="600" height="500" role="admin"/>
+        <div/>
+        <launcher identifier="Admin Console" name="Admin Console" title="" mouseOver="Admin Console"
+                    url="/CoadunationAdmin/" width="600" height="500" role="desktop"/>
+        <menu identifier="sub menu">
+            <launcher identifier="Admin Console" name="Admin Console" title="" mouseOver="Admin Console"
+                    url="/CoadunationAdmin/" width="600" height="500" role="admin"/>
+        </menu>
+    </menu>
+    <menu identifier= "&lt;img src='images/Title2.png' border=0/&gt;">
+        <launcher identifier="Admin Console" name="Admin Console" title="" mouseOver="Admin Console"
+                    url="/CoadunationAdmin/" width="600" height="500" role="admin"/>
+        <div/>
+        <launcher identifier="Admin Console" name="Admin Console" title="" mouseOver="Admin Console"
+                    url="/CoadunationAdmin/" width="600" height="500" role="desktop"/>
+    </menu>
+    
+</menus>

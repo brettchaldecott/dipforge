@@ -1,0 +1,5 @@
+        catch (java.rmi.RemoteException ex) {
+            auditTrail.logEvent("%methodName%",ex);
+            success = false;
+            throw ex;
+        }

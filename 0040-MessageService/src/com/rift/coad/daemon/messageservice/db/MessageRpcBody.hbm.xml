@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.rift.coad.daemon.messageservice.db.MessageRpcBody" 
+    table="MessageRpcBody"
+    proxy="com.rift.coad.daemon.messageservice.db.MessageRpcBody"
+>
+
+    <id
+        name="messageId"
+        type="java.lang.String"
+        column="messageId"
+    >
+    
+        <generator class="assigned" />
+    </id>
+
+    <property
+        name="xml"
+        type="java.lang.String"
+        column="xml"
+        not-null="true"
+        length="1024"
+    />
+    <property
+        name="generatedException"
+        type="java.lang.Integer"
+        column="generatedException"
+        length="11"
+    />
+    <property
+        name="resultValue"
+        type="binary"
+        column="resultValue"
+        length="65535"
+    />
+    <property
+        name="exceptionValue"
+        type="binary"
+        column="exceptionValue"
+        length="65535"
+    />
+
+    <!-- Associations -->
+  
+    <!-- bi-directional one-to-one association to Message -->
+    <one-to-one
+        name="message"
+        class="com.rift.coad.daemon.messageservice.db.Message"
+        outer-join="auto"
+        constrained="true"
+    />
+
+</class>
+</hibernate-mapping>

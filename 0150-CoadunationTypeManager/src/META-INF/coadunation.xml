@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : May 2009
+    Author     : Brett Chaldecott
+    Description:
+        This document defines the configuration for the Coaduantion Type Manager
+-->
+
+<coadunation version="1" name="0150-CoadunationTypeManager">
+    <description>Coadunation Type Manager</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.type.TypeManagerMBean</interface>
+            <class>com.rift.coad.type.TypeManager</class>
+            <objectName>com.rift.coad.type:type=Management</objectName>
+            <bindName>type/Management</bindName>
+            <role>type_manager</role>
+            <username>type_manager</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.type.TypeManagerDaemon</interface>
+            <class>com.rift.coad.type.TypeManagerDaemonImpl</class>
+            <bindName>type/ManagementDaemon</bindName>
+            <role>type_manager</role>
+            <username>type_manager</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

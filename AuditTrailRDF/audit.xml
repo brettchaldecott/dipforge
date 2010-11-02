@@ -1,0 +1,45 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/audit#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Base"/>
+    </Class>
+    
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntryId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#CorrelationId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#ExternalId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#Hostname">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#Request">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#Source">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#Status">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#Time">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#User">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#Associated">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/audit#Associated">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry"/>
+    </rdf:Property>
+</rdf:RDF>

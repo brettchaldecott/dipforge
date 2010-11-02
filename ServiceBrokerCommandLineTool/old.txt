@@ -1,0 +1,273 @@
+/*
+ * Main.java
+ *
+ * Created on 04 January 2007, 08:07
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package com.rift.coad.commandline.servicebrokercommandlinetool;
+
+import com.rift.coad.daemon.servicebroker.ServiceBroker;
+import com.rift.coad.daemon.servicebroker.ServiceBrokerException;
+import java.lang.Exception;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+import java.io.*;
+
+/**
+ *
+ * @author Admin
+ */
+public class Main {
+    public BufferedReader br = new BufferedReader(
+            new InputStreamReader(System.in));
+    public String[] args = null;
+    
+    /** Creates a new instance of Main */
+    public Main() {
+        
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws ServiceBrokerException {
+        Main mainProgram = new Main();
+        mainProgram.setArgs(args);
+//        mainProgram.menu();
+        mainProgram.commandLine();
+    }
+    
+//    public void help() {
+//        System.out.println("This is the help.");
+//        menu();
+//    }
+    
+//    public void deleteService() {
+//        try {
+//            System.out.println("Please enter the JNDI of the service you wish" +
+//                    " to delete:");
+//            String JNDI = br.readLine();
+//            System.out.println("Please enter the name of the service you wish" +
+//                    " to delete:");
+//            String service = br.readLine();
+//            List list = new ArrayList();
+//            list.add(service);
+//            try {
+//                ServiceBroker sb = createConnection();
+//                sb.removeServiceProviders(JNDI,list);
+//            } catch (Exception ex) {
+//                System.out.println("Unable to connect: " + ex);
+//            }
+//            menu();
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+    
+//    public void multiJndi() {
+//        try {
+//            List list = new ArrayList();
+//            boolean flag = true;
+//            while (flag) {
+//                System.out.println("Please enter the name of the service you " +
+//                        "wish to retrieve or 0 to finish and retrieve the " +
+//                        "JNDI:");
+//                String service = br.readLine();
+//                if (service.equals("0")) {
+//                    flag = false;
+//                } else {
+//                    list.add(service);
+//                }
+//            }
+//            try {
+//                ServiceBroker sb = createConnection();
+//                List jndi = sb.getServiceProviders(list);
+//                for (int i = 0; i < jndi.size(); i ++) {
+//                    System.out.println((String) jndi.get(i));
+//                }
+//            } catch (Exception ex) {
+//                System.out.println("Unable to connect: " + ex);
+//            }
+//            menu();
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+    
+//    public void singleJndi() {
+//        try {
+//            List list = new ArrayList();
+//            boolean flag = true;
+//            while (flag) {
+//                System.out.println("Please enter the name of the service you " +
+//                        "wish to retrieve or 0 to finish and retrieve the " +
+//                        "JNDI:");
+//                String service = br.readLine();
+//                if (service.equals("0")) {
+//                    flag = false;
+//                } else {
+//                    list.add(service);
+//                }
+//            }
+//            try {
+//                ServiceBroker sb = createConnection();
+//                String jndi = sb.getServiceProvider(list);
+//                    System.out.println(jndi);
+//            } catch (Exception ex) {
+//                System.out.println("Unable to connect: " + ex);
+//            }
+//            menu();
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+    
+//    public void register() {
+//        try {
+//            System.out.println("Please enter the JNDI of the service you wish" +
+//                    " to register:");
+//            String JNDI = br.readLine();
+//            System.out.println("Please enter the name of the service you wish" +
+//                    " to register:");
+//            String service = br.readLine();
+//            List list = new ArrayList();
+//            list.add(service);
+//            try {
+//                ServiceBroker sb = createConnection();
+//                sb.registerService(JNDI,list);
+//            } catch (Exception ex) {
+//                System.out.println("Unable to connect: " + ex);
+//            }
+//            menu();
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+    
+    public void setArgs(String[] args) {
+        this.args = args;
+    }
+    
+    public void commandLine() {
+        try {
+            ServiceBroker sb = createConnection();
+            int choice = -1;
+            List service = new ArrayList();
+            String jndi = "";
+            for (int i = 0; i < args.length; i ++) {
+                if (args[i].equals("-r")) {
+                    choice = 0;
+                } else if (args[i].equals("-o")) {
+                    choice = 1;
+                } else if (args[i].equals("-m")) {
+                    choice = 2;
+                } else if (args[i].equals("-d")) {
+                    choice = 3;
+                } else if (args[i].equals("-s")) {
+                    i ++;
+                    service.add(args[i]);
+                } else if (args[i].equals("-j")) {
+                    i ++;
+                    jndi = args[i];
+                } else if (args[i].equals("-h")) {
+                    choice = 4;
+                }
+            }
+            switch (choice) {
+                case 0: sb.registerService(jndi,service);
+                        System.out.println("The service has been registered.");
+                        break;
+                case 1: String temp = sb.getServiceProvider(service);
+                        System.out.println("temp");
+                        break;
+                case 2: List temp2 = sb.getServiceProviders(service);
+                        for (int i = 0; i < temp2.size(); i ++) {
+                            System.out.println((String) temp2.get(i));
+                        }
+                        break;
+                case 3: sb.removeServiceProviders(jndi,service);
+                        System.out.println("The service has been deleted.");
+                        break;
+                case 4: System.out.println("Help");
+                        System.out.println("Register is -r");
+                        System.out.println("To retrieve a single JNDI use -o");
+                        System.out.println("To retrieve multiple use -m");
+                        System.out.println("To delete a service use -d");
+                        System.out.println("Use -s followed by the name of " +
+                                "the service. This can be used multiple times" +
+                                " in a single statement.");
+                        System.out.println("Use -j followed by the JNDI for " +
+                                "the service. This can only be called once in" +
+                                " a statment.");
+                        break;
+                default: System.out.println("There was a problem with the " +
+                        "statement"); break;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+//    public void menu() {
+//        System.out.println("Please choose which function you wish to use by " +
+//                "entering the corresponding number:");
+//        System.out.println("1: Register a service");
+//        System.out.println("2: Retrieve a single service JNDI");
+//        System.out.println("3: Retrieve multiple service JNDI's");
+//        System.out.println("4: Delete a service");
+//        System.out.println("5: Help");
+//        System.out.println("6: Exit");
+//        try {
+//            int choice = Integer.parseInt(br.readLine());
+//            switch (choice) {
+//                case 1: register();break;
+//                case 2: singleJndi();break;
+//                case 3: multiJndi();break;
+//                case 4: deleteService();break;
+//                case 5: help();break;
+//                case 6: break;
+//                default: System.out.println("Please select an option from the" +
+//                        " list.");menu();break;
+//            }
+//        } catch (NumberFormatException ex) {
+//            System.out.println("You have not entered a number.");
+//            menu();
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+    
+    public com.rift.coad.daemon.servicebroker.ServiceBroker createConnection() 
+            throws Exception {
+        try {
+            Hashtable env = new Hashtable();
+            env.put(Context.INITIAL_CONTEXT_FACTORY,
+                    "com.rift.coad.client.naming." +
+                    "CoadunationInitialContextFactory");
+            env.put(Context.PROVIDER_URL,args[0]);
+            env.put("com.rift.coad.username","test");
+            env.put("com.rift.coad.password","112233");
+            Context ctx = new InitialContext(env);
+            
+            Object obj = ctx.lookup(args[1]);
+            com.rift.coad.daemon.servicebroker.ServiceBroker beanInterface =
+                    (com.rift.coad.daemon.servicebroker.ServiceBroker)
+                    PortableRemoteObject.narrow(obj,
+                    com.rift.coad.daemon.servicebroker.ServiceBroker.class);
+            
+            return beanInterface;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace(System.out);
+            throw new Exception(ex);
+        }
+    }
+    
+}

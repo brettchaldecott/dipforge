@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created for DBFeedEvent
+-->
+    
+    <class 
+        name="com.rift.coad.daemon.rss.db.RSSDBFeed" 
+        table="RSSDBFeed"
+        proxy="com.rift.coad.daemon.rss.db.RSSDBFeed"
+    >
+        
+        <id
+            name="id"
+            type="java.lang.Integer"
+            column="id"
+        >
+            <meta attribute="field-description" inherit="false">
+                auto_increment
+            </meta>
+            
+            <generator class="native" />
+        </id>
+        
+        <property
+            name="name"
+            type="java.lang.String"
+            column="name"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="application"
+            type="java.lang.String"
+            column="application"
+            not-null="true"
+            length="256"
+        />
+        
+        
+        <property
+            name="url"
+            type="java.lang.String"
+            column="url"
+            not-null="true"
+            length="256"
+        />
+        
+        <!-- Associations -->
+    
+        <!-- bi-directional one-to-many association to Emailbox -->
+
+        <set
+            name="feedEntries"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            
+        >
+            <key>
+                <column name="rssDBFeedId" />
+            </key>
+            
+            <one-to-many 
+                class="com.rift.coad.daemon.rss.db.RSSDBFeedEntry"
+            />
+        </set>
+        
+        
+    </class>
+</hibernate-mapping>

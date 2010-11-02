@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : Feburary 2009
+    Author     : Brett Chaldecott
+    Description:
+        This document contains the configuration of the ontology repository
+-->
+
+<coadunation version="1" name="0200-OntologyRepository">
+    <description>The configuration of the Ontology Repository for Coadunation</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.ontology.RepositoryManagerMBean</interface>
+            <class>com.rift.coad.ontology.RepositoryManager</class>
+            <objectName>com.rift.coad:type=OntologyRepository</objectName>
+            <bindName>ontology/RepositoryManager</bindName>
+            <role>ontology</role>
+            <username>ontology</username>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.ontology.RepositoryManagerDaemon</interface>
+            <class>com.rift.coad.ontology.RepositoryManagerImpl</class>
+            <bindName>ontology/RepositoryManagerDaemon</bindName>
+            <role>ontology</role>
+            <username>ontology</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>false</transaction>
+        </bean>
+    </beans>
+    <webservices>
+        <webservice>
+            <path>/ontology/Manager</path>
+            <class>com.rift.coad.ontology.webservice.RepositoryManagerImpl</class>
+            <wsdl>com/rift/coad/ontology/webservice/RepositoryManager.wsdl</wsdl>
+            <role>dns</role>
+            <transaction>false</transaction>
+        </webservice>
+    </webservices>
+</coadunation>

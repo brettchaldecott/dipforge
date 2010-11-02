@@ -1,0 +1,93 @@
+
+    /**
+     * TO DO
+     * The interim invocation handler
+     */
+    public %returnType% %methodName%(%fullParameters%)
+        throws %exceptions% {
+        checkIfReleased();
+        if (log.isDebugEnabled()) {
+            log.debug("Calling method %methodName%");
+        }
+        touch();
+        ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(classLoader);
+        boolean validated = false;
+        boolean success = true;
+        try {
+            Validator.validate(this.getClass(),role);
+            validated = true;
+            permissions.pushRole(role);
+            
+            // synchronize this method based on the key that is passed in.
+            Object syncObj = null;
+            try {
+                syncObj = getKeySyncCache().getKeySync(p1);
+            } catch (Exception ex) {
+                log.error("Failed to retrieve appropriate key sync object [" +
+                        ex.getMessage() + "] will default to global mutex.",ex);
+                syncObj = this;
+            }
+            synchronized(syncObj) {
+                BeanCache beanCache = null;
+                try {
+                    beanCache = getBeanCache();
+                    BeanCacheEntry cacheEntry =
+                            beanCache.getEntry(p1);
+                    if (cacheEntry != null) {
+                        if (cacheEntry.getCacheEntry() == null){
+                            Object tieResult = getTieForObject(
+                                    cacheEntry.getWrappedObject());
+                            cacheEntry.setCacheEntry((CacheEntry)tieResult);
+                        }
+                        return (%returnType%)cacheEntry.getCacheEntry();
+                    }
+                } catch (Exception ex) {
+                    log.error("Failed to check the cache : " +
+                            ex.getMessage(),ex);
+                    throw new RemoteException(
+                            "Failed to check the cache : " +
+                            ex.getMessage(),ex);
+                }
+
+                Object result = target.%methodName%(%parameters%);
+                if (result == null)
+                {
+                    return (%returnType%)result;
+                }
+                Object tieResult = getTieForObject(result);
+                try {
+                    beanCache = getBeanCache();
+                    beanCache.addCacheEntry(beanInfo.getCacheTimeout(),
+                            p1, result,(CacheEntry)tieResult);
+                } catch (Exception ex) {
+                    log.error("Failed to cache the result or rmi bind it : " 
+                            + ex.getMessage(),ex);
+                    throw new RemoteException(
+                            "Failed to cache the result or rmi bind it : " 
+                            + ex.getMessage(),ex);
+                }
+                return (%returnType%)tieResult;
+            }
+        } %catchs% catch (SecurityException ex) {
+            log.error("Access was denied : " + ex.getMessage(),ex);
+            auditTrail.logEvent("%methodName%",ex);
+            success = false;
+            throw new org.omg.CORBA.NO_PERMISSION(
+                "Access to %methodName% using role "
+                + role + " was denied");
+        } finally {
+            if (success) {
+                auditTrail.logEvent("%methodName%");
+            }
+            if (validated == true) {
+                try {
+                    permissions.popRole(role);
+                } catch (Exception ex) {
+                    log.error("Failed to pop the roles back : " + ex.getMessage()
+                                ,ex);
+                }
+            }
+            Thread.currentThread().setContextClassLoader(oldLoader);
+        }
+    }

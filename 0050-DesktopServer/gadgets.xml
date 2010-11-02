@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : gadgets.xml
+    Created on : 06 August 2008, 3:33 PM
+    Author     : brett chaldecott
+    Description:
+        Describe the list of gadgets assigned to a user
+-->
+
+<gadgets>
+    
+    <gadget identifier="UserGadget" 
+        name="UserGadget" url=""
+        width="0" height="0"/>
+    
+    <gadget identifier="time"
+        name="time" url="/time/app"
+        width="10" height="20">
+        <app url="/time/clock"
+            height="25"
+            width="100"
+            popup="true"
+            popupURL="/time/popup"
+            popupHeight="200"
+            popupWidth="201"/>
+    </gadget>
+
+</gadgets>

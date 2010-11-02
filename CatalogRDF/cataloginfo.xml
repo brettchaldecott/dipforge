@@ -1,0 +1,51 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/base#">
+
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntry">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOffering">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntryId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntryExternalId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntryName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntryDescription">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntryType">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntryDependancies">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOfferingId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOffering"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOfferingExternalId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOffering"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOfferingName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOffering"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOfferingDescription">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOffering"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOfferingEntries">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOffering"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOfferingOfferings">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/cataloginfo#CatalogOffering"/>
+    </rdf:Property>
+</rdf:RDF>
+

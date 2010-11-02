@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+    
+    <class 
+        name="com.rift.coad.daemon.email.server.db.SpoolMessage" 
+        table="SpoolMessage"
+        proxy="com.rift.coad.daemon.email.server.db.SpoolMessage"
+    >
+        
+        <id
+            name="id"
+            type="java.lang.String"
+            column="id"
+            length="254"
+        >
+            
+            <generator class="assigned" />
+        </id>
+        
+        <property
+            name="type"
+            type="java.lang.Integer"
+            column="messageType"
+            not-null="true"
+            length="11"
+        />
+        
+        <property
+            name="rcpt"
+            type="java.lang.String"
+            column="rcpt"
+            not-null="true"
+            length="512"
+        />
+        
+        <property
+            name="dataPath"
+            type="java.lang.String"
+            column="dataPath"
+            not-null="true"
+            length="512"
+        />
+        
+        <property
+            name="retryDate"
+            type="java.sql.Timestamp"
+            column="retryDate"
+            length="19"
+        />
+        
+        <property
+            name="retries"
+            type="java.lang.Integer"
+            column="retries"
+            not-null="true"
+            length="11"
+        />
+        
+        <property
+            name="routeName"
+            type="java.lang.String"
+            column="routeName"
+            not-null="true"
+            length="512"
+        />
+        
+        <!-- Associations -->
+    
+        <!-- bi-directional one-to-many association to MessageFrom -->
+
+        <set
+            name="from"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            
+        >
+            <key>
+                <column name="messageId" />
+            </key>
+            
+            <one-to-many 
+                class="com.rift.coad.daemon.email.server.db.SpoolAddress"
+            />
+        </set>
+        
+        <!-- bi-directional one-to-many association to MessageHeader -->
+
+        <set
+            name="headers"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            
+        >
+            <key>
+                <column name="messageId" />
+            </key>
+            
+            <one-to-many 
+                class="com.rift.coad.daemon.email.server.db.SpoolHeader"
+            />
+        </set>
+        
+        
+    </class>
+</hibernate-mapping>

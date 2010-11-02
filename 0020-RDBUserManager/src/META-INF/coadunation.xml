@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : July 2008
+    Author     : Brett Chaldecott
+    Description:
+        This document contains the configuration for the RDB User Manager
+-->
+
+<coadunation version="1" name="0020-RDBUserManager">
+    <description>RDBUserManager</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.rdbusermanager.RDBUserManagementMBean</interface>
+            <class>com.rift.coad.daemon.rdbusermanager.RDBUserManagement</class>
+            <objectName>com.rift.coad.daemon:type=RDBUserManagement</objectName>
+            <bindName>user/RDBUserManagement</bindName>
+            <role>admin</role>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <!--
+    <webservices>
+        <webservice>
+            <path>/email/Management</path>
+            <class>com.rift.coad.daemon.email.webservice.EMailServerImpl</class>
+            <wsdl>com/rift/coad/daemon/email/webservice/EMailServer.wsdl</wsdl>
+            <role>email</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+    -->
+</coadunation>

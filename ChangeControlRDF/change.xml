@@ -1,0 +1,321 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/change#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionInfo">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionDefinition">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestEvent">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionStack">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEvent">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEntry">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Return">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Block">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#EmbeddedBlock">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#GroovyEmbeddedBlock">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#EmbeddedBlock"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Assign">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Try">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Catch">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Operator">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#LogicalExpression">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Expression">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Data"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#IF">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Else">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ElseIf">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#If"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Switch">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Case">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForEach">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForLoop">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#WhileLoop">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCall">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </Class>
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Description">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Name">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionInfo"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#DefinitionActionInfo">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#DefinitionDataTypeId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionDefinitionParent">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDescription">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinitionId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionDependancyData">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ActionTaskDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#BlockChild">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Parameters">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Block"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ChildChildren">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ConcurrentBlock"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ConcurrentParameters">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ConcurrentBlock"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Target">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Assign"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#Source">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Assign"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#CatchBlocks">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Try"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExceptionName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Catch"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#CatchParameterName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Catch"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#OperatorDescription">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Operator"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#OperatorName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Operator"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#LogicalExpressionList">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#LogicalExpression"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#LogicalExpressionId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#LogicalExpression"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExpressionList">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Expression"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExpressionId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Expression"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ElseBlock">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#IF"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#IfLogicalExpression">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#IF"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ElseBlock">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#IF"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#IfLogicalExpression">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#IF"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ElseIfElseBlock">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ElseIF"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ElseIfLogicalExpression">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ElseIF"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#CaseBlock">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ComparisonData"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#CaseStatements">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Case"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#SwitchData">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#Case"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForEachLoop">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ForEach"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForEachVarName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ForEach"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForEachInstanceName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ForEach"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForLoopEnd">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ForLoop"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForLoopIncrement">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ForLoop"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ForLoopIndex">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ForLoop"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#WhileLoopExpression">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#WhileLoop"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#GroovyEmbeddedBlockURL">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#GroovyEmbeddedBlock"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCallJNDIUrl">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCall"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCallDataMapperMethod">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCall"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCallParameters">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCall"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCallResult">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#ExternalCall"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestEventId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestEventMessage">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestEventOccurence">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestEventStatus">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinitionAction">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinitionChildren">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestData">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestComplete">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestStart">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestStatus">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestDependancies">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#RequestEvents">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#RequestDefinition"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionStackAction">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#ActionStack"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionStackId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#ActionStack"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionStackStack">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#ActionStack"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionStackEvents">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#ActionStack"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ActionStackMasterRequestId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#ActionStack"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEventComplete">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEventId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEventStart">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEventStatus">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEventTask">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEventUsername">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEventMessage">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEvent"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEntryId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEntryChild">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEntryBlock">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEntryCurrentTask">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEntryParent">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#StackEntryVariables">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#StackEntry"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/change#ReturnParameter">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/change#change#Return"/>
+    </rdf:Property>
+
+</rdf:RDF>

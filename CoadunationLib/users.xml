@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : users.xml
+    Created on : June 27, 2006, 5:24 PM
+    Author     : Brett Chaldecott
+    Description:
+        The test user user file.
+-->
+
+<users>
+    <user name="test" password="112233">
+        <principal>test</principal>
+        <principal>test1</principal>
+        <principal>test2</principal>
+        <principal>test3</principal>
+    </user>
+    <user name="test1" password="112233">
+        <principal>test1</principal>
+        <principal>test2</principal>
+    </user>
+    <user name="test2" password="11223344">
+        <principal>test1</principal>
+        <principal>test5</principal>
+    </user>
+</users>
+

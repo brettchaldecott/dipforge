@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created for Coadunation Email Server
+    -->
+    
+    <class 
+        name="com.rift.coad.daemon.event.db.DBFeedEventMeta" 
+        table="DBFeedEventMeta"
+        proxy="com.rift.coad.daemon.event.db.DBFeedEventMeta"
+    >
+        
+        <id
+            name="id"
+            type="java.lang.Integer"
+            column="id"
+        >
+            <meta attribute="field-description" inherit="false">
+                auto_increment
+            </meta>
+            
+            <generator class="native" />
+        </id>
+        
+        <property
+            name="metaType"
+            type="java.lang.String"
+            column="metaType"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="metaValue"
+            type="java.lang.String"
+            column="metaValue"
+            not-null="true"
+            length="512"
+        />
+        
+        <!-- Associations -->
+  
+        <!-- bi-directional many-to-one association to the Email Domain -->
+        <many-to-one
+            name="feedEvent"
+            class="com.rift.coad.daemon.event.db.DBFeedEvent"
+            not-null="true"
+        >
+            <column name="eventId" />
+        </many-to-one>
+
+    </class>
+</hibernate-mapping>

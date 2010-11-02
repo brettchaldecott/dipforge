@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.rift.coad.daemon.timer.webservice" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.rift.coad.daemon.timer.webservice" xmlns:intf="com.rift.coad.daemon.timer.webservice" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="com.rift.coad.daemon.timer.webservice" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="TimerEvent">
+    <sequence>
+     <element name="id" type="xsd:int"/>
+     <element name="jndi" nillable="true" type="xsd:string"/>
+     <element name="event" nillable="true" type="xsd:string"/>
+     <element name="month" type="xsd:int"/>
+     <element name="day" type="xsd:int"/>
+     <element name="hour" type="xsd:int"/>
+     <element name="minute" type="xsd:int"/>
+     <element name="recure" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfTimerEvent">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:TimerEvent[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="TimerException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="cause" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="registerRequest">
+       
+      <wsdl:part name="JNDI" type="xsd:string"/>
+
+      <wsdl:part name="month" type="xsd:int"/>
+
+      <wsdl:part name="day" type="xsd:int"/>
+
+      <wsdl:part name="hour" type="xsd:int"/>
+
+      <wsdl:part name="minute" type="xsd:int"/>
+
+      <wsdl:part name="event" type="xsd:string"/>
+
+      <wsdl:part name="recure" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listEventsResponse">
+
+      <wsdl:part name="listEventsReturn" type="impl:ArrayOfTimerEvent"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteEventResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteEventRequest">
+
+      <wsdl:part name="eventId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listEventsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="TimerException">
+
+      <wsdl:part name="fault" type="impl:TimerException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="registerResponse">
+
+   </wsdl:message>
+
+   <wsdl:portType name="TimerManagement">
+
+      <wsdl:operation name="listEvents">
+
+         <wsdl:input message="impl:listEventsRequest" name="listEventsRequest"/>
+
+         <wsdl:output message="impl:listEventsResponse" name="listEventsResponse"/>
+
+         <wsdl:fault message="impl:TimerException" name="TimerException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteEvent" parameterOrder="eventId">
+
+         <wsdl:input message="impl:deleteEventRequest" name="deleteEventRequest"/>
+
+         <wsdl:output message="impl:deleteEventResponse" name="deleteEventResponse"/>
+
+         <wsdl:fault message="impl:TimerException" name="TimerException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="register" parameterOrder="JNDI month day hour minute event recure">
+
+         <wsdl:input message="impl:registerRequest" name="registerRequest"/>
+
+         <wsdl:output message="impl:registerResponse" name="registerResponse"/>
+
+         <wsdl:fault message="impl:TimerException" name="TimerException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ManagementSoapBinding" type="impl:TimerManagement">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="listEvents">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listEventsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listEventsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="TimerException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TimerException" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteEvent">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteEventRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteEventResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="TimerException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TimerException" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="register">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="registerRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="registerResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="TimerException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TimerException" namespace="com.rift.coad.daemon.timer.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="TimerManagementService">
+
+      <wsdl:port binding="impl:ManagementSoapBinding" name="Management">
+
+         <wsdlsoap:address location="http://localhost:8080/timer/Management"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : desktops.xml
+    Created on : 08 August 2008, 2:05 PM
+    Author     : brett chaldecott
+    Description:
+        The list of desktops assigned to a user.
+-->
+
+<desktops>
+    <desktop name="Desk 1" theme="test 1" background="bg1"/>
+    <desktop name="Desk 2" theme="test 2" background="bg2" repeat="true"/>
+    <desktop name="Desk 3" theme="test 3" background="bg3"/>
+    <desktop name="Desk 4" theme="test 4" background="bg4"/>
+    <desktop name="Desk 5" theme="test 5" background="bg5" repeat="true"/>
+    <desktop name="Desk 6" theme="test 6" background="bg6"/>
+</desktops>

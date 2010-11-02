@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation-test.xml
+    Created on : June 19, 2006, 12:37 PM
+    Author     : Brett Chaldecott
+    Description:
+        This document is an example coadunation xml document that will be used
+        to test the CoadunationParser.
+-->
+
+<coadunation version="1" name="CoadunationTest">
+    <description>The test coadunationfile</description>
+    <webservices>
+        <webservice>
+            <path>/WebServiceTest</path>
+            <class>com.webservicetest.webservice.WebService</class>
+            <wsdl>com/webservicetest/webservice/WebService.wsdl</wsdl>
+            <role>test</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+    <jmxbeans>
+        <bean>
+            <interface>com.test2.JMXBean1MBean</interface>
+            <class>com.test2.JMXBean1</class>
+            <objectName>com.test2:type=JMXBean1</objectName>
+            <bindName>testjmxbean</bindName>
+            <role>test</role>
+            <username>test</username>
+            <thread>
+                <class>com.test2.JMXBeanThread</class>
+                <username>test</username>
+                <number>1</number>
+            </thread>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.test.BeanInterface</interface>
+            <class>com.test.BeanImpl</class>
+            <classes>com.test.FactoryObjectImpl</classes>
+            <bindName>testbean</bindName>
+            <role>test</role>
+            <username>test</username>
+            <classes>com.test.FactoryObjectImpl</classes>
+            <thread>
+                <class>com.test.BeanThread</class>
+                <username>test</username>
+                <number>1</number>
+            </thread>
+            <cache_by_key>true</cache_by_key>
+            <cache_timeout>500</cache_timeout>
+        </bean>
+        <bean>
+            <interface>com.test3.BeanInterface</interface>
+            <class>com.test3.BeanImpl</class>
+            <classes>com.test3.FactoryObjectImpl</classes>
+            <bindName>testbean3</bindName>
+            <role>test</role>
+            <username>test</username>
+            <thread>
+                <class>com.test3.BeanThread</class>
+                <username>test</username>
+                <number>1</number>
+            </thread>
+            <cache_by_key>true</cache_by_key>
+            <cache_timeout>500</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

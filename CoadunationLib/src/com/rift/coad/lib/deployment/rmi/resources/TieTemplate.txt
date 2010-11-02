@@ -1,0 +1,427 @@
+/**
+ * This is a Coadunation generated class do not edit.
+ */
+
+// package
+%package%
+
+// java imports
+import java.rmi.AccessException;
+import java.util.Date;
+import java.rmi.NoSuchObjectException;
+import java.lang.reflect.Constructor;
+import java.rmi.RemoteException;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Util;
+import org.omg.CORBA.ORB;
+import org.omg.PortableServer.Servant;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.transaction.Status;
+import javax.transaction.UserTransaction;
+
+// logging import
+import org.apache.log4j.Logger;
+
+// coadunation imports
+import com.rift.coad.lib.Resource;
+import com.rift.coad.lib.ResourceIndex;
+import com.rift.coad.lib.ResourceReleasedException;
+import com.rift.coad.lib.bean.BeanCache;
+import com.rift.coad.lib.bean.BeanCacheManager;
+import com.rift.coad.lib.bean.TransactionBeanCache;
+import com.rift.coad.lib.bean.TransactionBeanCacheManager;
+import com.rift.coad.lib.bean.BeanCacheEntry;
+import com.rift.coad.lib.common.RandomGuid;
+import com.rift.coad.lib.cache.CacheEntry;
+import com.rift.coad.lib.cache.CacheRegistry;
+import com.rift.coad.lib.cache.KeySyncCache;
+import com.rift.coad.lib.cache.KeySyncCacheManager;
+import com.rift.coad.lib.deployment.BeanInfo;
+import com.rift.coad.lib.deployment.rmi.RMICache;
+import com.rift.coad.lib.deployment.rmi.RMIException;
+import com.rift.coad.lib.deployment.rmi.TransactionRMICache;
+import com.rift.coad.lib.naming.NamingDirector;
+import com.rift.coad.lib.naming.OrbManager;
+import com.rift.coad.lib.security.AuthorizationException;
+import com.rift.coad.lib.security.Validator;
+import com.rift.coad.lib.security.ThreadsPermissionContainer;
+import com.rift.coad.lib.security.SecurityException;
+import com.rift.coad.lib.audit.AuditTrail;
+
+
+// class defintion
+public class %tieClassName% implements CacheEntry %implements%
+{
+    // the class log variable
+    protected Logger log =
+        Logger.getLogger(%tieClassName%.class.getName());
+    
+    // member variables
+    private ClassLoader classLoader = null;
+    private %target% target = null;
+    private String role = null;
+    private ThreadsPermissionContainer permissions = null;
+    private BeanInfo beanInfo = null;
+    private Date lastTouch = null;
+    private String id = null;
+    private boolean released = false;
+    private ThreadLocal ownTransaction = new ThreadLocal();
+
+    // cache objects
+    private BeanCache beanCacheRef = null;
+    private TransactionBeanCache transactionBeanCacheRef = null;
+    private RMICache rmiCacheRef = null;
+    private TransactionRMICache transactionRMICacheRef = null;
+    private KeySyncCache keySyncCache = null;
+    private Context context = null;
+    private UserTransaction ut = null;
+    private AuditTrail auditTrail = null;
+    
+    /**
+     * The constructor of the tie class.
+     */
+    public %tieClassName%(ClassLoader classLoader,%target% target,
+            String role, ThreadsPermissionContainer permissions, 
+            BeanInfo beanInfo) throws RMIException {
+        try {
+            this.classLoader = classLoader;
+            this.target = target;
+            //this.target = target;
+            this.role = role;
+            this.permissions = permissions;
+            this.beanInfo = beanInfo;
+            id = RandomGuid.getInstance().getGuid();
+            context = new InitialContext();
+            ut = (UserTransaction)context.lookup("java:comp/UserTransaction");
+            touch();
+            auditTrail = AuditTrail.getAudit(target.getClass());
+        } catch (Exception ex) {
+            log.error("Failed to instanciate the Tie because : "
+                + ex.getMessage(), ex);
+            throw new RMIException("Failed to instanciate the Tie because : "
+                + ex.getMessage(), ex);
+        }
+    }
+    
+    %methods%
+    
+    
+    /**
+     * This method stores the last touch time.
+     */
+    public synchronized void touch() {
+        lastTouch = new Date();
+    }
+    
+    
+    /**
+     * This method will return true the date is older than the given expiry date.
+     *
+     * @return TRUE if expired FALSE if not.
+     * @param expiryDate The expiry date to perform the check with. 
+     */
+    public synchronized boolean isExpired(Date expiryDate) {
+        if (lastTouch.getTime() < expiryDate.getTime()) {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
+     * This method returns the hash code for this object.
+     *
+     * @return The int containing the hash code of this object.
+     */
+    public int hashCode() {
+        return id.hashCode();
+    }
+    
+    
+    /**
+     * This method is called by the cache when releasing this object.
+     */
+    public synchronized void cacheRelease() {
+        released = true;
+        if (target instanceof Resource) {
+            ((Resource)target).releaseResource();
+        }
+    }
+    
+    
+    /**
+     * This method checks the status of the released flag.
+     *
+     * @return TRUE if released, FALSE if not.
+     */
+    private synchronized boolean isReleased() {
+        return released;
+    }
+    
+    /**
+     * This method checks the status of the released flag.
+     *
+     * exception RemoteException
+     */
+    private synchronized void checkIfReleased()  throws RemoteException  {
+        if (released) {
+            throw new NoSuchObjectException(
+                    "Object has been released reconnect");
+        }
+    }
+    
+
+    /**
+     * This method returns the cached reference to the bean cache object.
+     *
+     * @return The reference to the bean cache.
+     * @exception RemoteException
+     */
+    private synchronized BeanCache getBeanCache() throws 
+            RemoteException {
+        try {
+            if (beanCacheRef == null) {
+                BeanCacheManager manager = (BeanCacheManager)
+                        CacheRegistry.getInstance().
+                        getCache(BeanCacheManager.class);
+                beanCacheRef = manager.getBeanCache(target);
+            }
+            return beanCacheRef;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the bean cache object ref : " +
+                    ex.getMessage(),ex);
+            throw new RemoteException(
+                    "Failed to retrieve the bean cache object ref : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns the cached reference to the transaction bean cache 
+     * object.
+     *
+     * @return The reference to the bean cache.
+     * @exception RemoteException
+     */
+    private synchronized TransactionBeanCache getTransactionBeanCache() throws 
+            RemoteException {
+        try {
+            if (transactionBeanCacheRef == null) {
+                TransactionBeanCacheManager manager = 
+                        (TransactionBeanCacheManager)
+                        CacheRegistry.getInstance().
+                        getCache(TransactionBeanCacheManager.class);
+                transactionBeanCacheRef = manager.getBeanCache(target);
+            }
+            return transactionBeanCacheRef;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the transaction bean cache object " +
+                    "ref : " + ex.getMessage(),ex);
+            throw new RemoteException(
+                    "Failed to retrieve the transaction bean cache object " +
+                    "ref : " + ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns the cached reference to the rmi cache object.
+     *
+     * @return The reference to the bean cache.
+     * @exception Throwable
+     */
+    private synchronized RMICache getRMICache() throws 
+            RemoteException {
+        try {
+            if (rmiCacheRef == null) {
+                rmiCacheRef =
+                        (RMICache)CacheRegistry.getInstance().
+                        getCache(RMICache.class);
+            }
+            return rmiCacheRef;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the rmi cache object ref : " +
+                    ex.getMessage(),ex);
+            throw new RemoteException(
+                    "Failed to retrieve the rmi cache object ref : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns the cached reference to the transaction rmi cache 
+     * object.
+     *
+     * @return The reference to the bean cache.
+     * @exception Throwable
+     */
+    private synchronized TransactionRMICache getTransactionRMICache() throws 
+            RemoteException {
+        try {
+            if (transactionRMICacheRef == null) {
+                transactionRMICacheRef =
+                        (TransactionRMICache)CacheRegistry.getInstance().
+                        getCache(TransactionRMICache.class);
+            }
+            return transactionRMICacheRef;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the transaction rmi cache object " + 
+                    "ref : " + ex.getMessage(),ex);
+            throw new RemoteException(
+                    "Failed to retrieve the transaction rmi cache object " + 
+                    "ref : " + ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns a reference to the key sync cache object.
+     *
+     * @return The reference to the key sync cache object.
+     * @exception Throwable
+     */
+    private synchronized KeySyncCache getKeySyncCache() throws 
+            RemoteException {
+        try {
+            if (keySyncCache == null) {
+                KeySyncCacheManager keySyncCacheManager =
+                        (KeySyncCacheManager)CacheRegistry.getInstance().
+                        getCache(KeySyncCacheManager.class);
+                keySyncCache = keySyncCacheManager.getKeySyncCache(this);
+            }
+            return keySyncCache;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the key sync cache object ref : " +
+                    ex.getMessage(),ex);
+            throw new RemoteException(
+                    "Failed to retrieve the key sync cache object ref : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns the RMI tie class for the object being returned.
+     */
+    private Object getTieForObject(Object result) throws NoSuchObjectException {
+        try {
+            Class classRef = classLoader.loadClass(result.getClass().
+                    getName() + "_CoadTie");
+            Class[] parameterTypes = new Class[] {ClassLoader.class,
+                    result.getClass(), String.class, permissions.getClass(),
+                    BeanInfo.class};
+            Constructor constructor  = classRef.getConstructor(parameterTypes);
+            Object tieRef = constructor.newInstance(classLoader,result,role,
+                    permissions,beanInfo);
+            // This is a hack around the JACORB handling the
+            // Dynamic stub code differently to SUN's orb. This forces the 
+            // entry to be bound here and sets the CODE base for its IOR 
+            // appropriatly.
+            PortableRemoteObject.exportObject((java.rmi.Remote)tieRef);
+            org.omg.CORBA.Object corbaObject = NamingDirector.getInstance().
+                    getPOA().servant_to_reference(
+                    (Servant)Util.getTie((java.rmi.Remote)tieRef));
+            NamingDirector.getInstance().getORB().object_to_string(corbaObject);
+            return tieRef;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the TIE class for [" + 
+                    result.getClass().getName() +   "] because : " + 
+                    ex.getMessage(),ex);
+            throw new NoSuchObjectException(
+                    "Failed to retrieve the TIE class for [" + 
+                    result.getClass().getName() +   "] because : " + 
+                    ex.getMessage());
+        }
+    }
+    
+    
+    /**
+     * Map a java exception to a corba exception
+     *
+     * @param ex exception to process
+     */
+    public static void rethrowCorbaException(Exception ex) {
+        // handle the exceptions that have specific CORBA counter parts
+        if (ex instanceof java.rmi.MarshalException) {
+            throw new org.omg.CORBA.MARSHAL(ex.toString());
+        } else if (ex instanceof java.rmi.NoSuchObjectException) {
+            throw new org.omg.CORBA.OBJECT_NOT_EXIST(ex.toString());
+        } else if (ex instanceof java.rmi.AccessException) {
+            throw new org.omg.CORBA.NO_PERMISSION(ex.toString());
+        } else if (ex instanceof javax.transaction.TransactionRequiredException) {
+            throw new org.omg.CORBA.TRANSACTION_REQUIRED(ex.toString());
+        } else if (ex instanceof javax.transaction.TransactionRolledbackException) {
+            throw new org.omg.CORBA.TRANSACTION_ROLLEDBACK(ex.toString());
+        } else if (ex instanceof javax.transaction.InvalidTransactionException) {
+            throw new org.omg.CORBA.INVALID_TRANSACTION(ex.toString());
+        } else if (ex instanceof java.rmi.RemoteException) {
+            throw new org.omg.CORBA.UNKNOWN(ex.toString());
+        }
+    }
+    
+    
+    /**
+     * This method starts a transaction if one is required, and returns true if
+     * one was started.
+     *
+     * @return TRUE if a transaction was started.
+     */
+    private void startTransaction() {
+        ownTransaction.set(new Boolean(false));
+        try {
+            if (ut.getStatus() == Status.STATUS_NO_TRANSACTION) {
+                ut.begin();
+                ownTransaction.set(new Boolean(true));
+                return;
+            }
+        } catch (Exception ex) {
+            log.error("Failed to start the transacton : " +
+                    ex.getMessage(),ex);
+            throw new org.omg.CORBA.UNKNOWN(
+                    "Failed to start the transacton : " +
+                    ex.getMessage());
+        }
+        
+    }
+    
+    
+    /**
+     * This method is called to stop a transaction. It will commit if the flag
+     * is set to TRUE, otherwise it will roll back.
+     *
+     * @param commit TRUE to commit, FALSE not to.
+     */
+    private void stopTransaction(boolean commit) {
+        Boolean ownTransaction = (Boolean)this.ownTransaction.get();
+        if (!ownTransaction.booleanValue()) {
+            return;
+        }
+        try {
+            if (commit) {
+                ut.commit();
+                return;
+            }
+        } catch (Exception ex) {
+            log.error("Failed to commit : " + ex.getMessage(),ex);
+            try {
+                ut.rollback();
+            } catch (Exception ex2) {
+                log.error("Failed to rollback a failed commit : " + 
+                        ex2.getMessage(),ex2);
+            }
+            throw new org.omg.CORBA.UNKNOWN("Failed to commit : " + 
+                    ex.getMessage());
+        }
+        try {
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+        } catch (Exception ex) {
+            log.error("Failed to rollback a failed commit : " + 
+                        ex.getMessage(),ex);
+        }
+    }
+}

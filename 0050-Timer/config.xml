@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testconfig
+    Created on : August 05, 2006, 11:51 AM
+    Author     : Brett Chaldecott
+    Description:
+        The configuration data
+-->
+
+<configuration>
+    <object>
+        <entry key="Client_Stub" type="String">
+            C:\Program Files\Coadunation/client
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.RoleManager">
+        <entry key="principals" type="string">
+            admin,special,guest,daemon
+        </entry>
+        <entry key="roles" type="string">
+            admin,special,guest,daemon,test,accessor,sudo
+        </entry>
+        <entry key="admin" type="string">
+            admin
+        </entry>
+        <entry key="guest" type="string">
+            admin,special,guest
+        </entry>
+        <entry key="special" type="string">
+            admin,special
+        </entry>
+        <entry key="daemon" type="string">
+            admin,daemon,guest
+        </entry>
+        <entry key="test" type="string">
+            guest,daemon
+        </entry>
+        <entry key="accessor" type="string">
+            daemon
+        </entry>
+        <entry key="sudo" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.xml.XMLUserParser">
+        <entry key="password_file" type="string">
+            C:\Program Files\Coadunation/etc/users.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManager">
+        <entry key="connectors" type="string">
+            com.rift.coad.lib.security.user.xml.XMLUserStore
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.CoadunationThreadGroup">
+        <entry key="Thread_Terminate_Timeout" type="long">
+            5000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager">
+        <entry key="username" type="string">
+            daemon
+        </entry>
+        <entry key="directory" type="string">
+            C:\Program Files\Coadunation/deploy
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager$DeploymentThread">
+        <entry key="delay" type="long">
+            1000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentLoader">
+        <entry key="temp_dir" type="string">
+            C:\Program Files\Coadunation/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.db.DBSourceManager">
+        <entry key="db_sources" type="string">
+            org.hsqldb.jdbcDriver
+        </entry>
+    </object>
+    <object name="org.hsqldb.jdbcDriver">
+        <entry key="db_source" type="string">
+            hsqldb
+        </entry>
+        <entry key="url" type="string">
+            jdbc:hsqldb:hsql://localhost/coadunation
+        </entry>
+        <entry key="username" type="string">
+            sa
+        </entry>
+        <entry key="password" type="string">
+            
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.login.LoginManager">
+        <entry key="session_timeout" type="long">
+            3600000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.ThreadsPermissionContainerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserSessionManagerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManagerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.sudo.Sudo">
+        <entry key="role" type="string">
+            sudo
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpRequestManager">
+        <entry key="daemon_username" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.RequestListenerThread">
+        <entry key="http_port" type="long">
+            8085
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpDaemon">
+        <entry key="daemon_username" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.cache.CacheRegistry">
+        <entry key="cache_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.credentials.Login">
+        <entry key="credential_authenticator" type="string">
+            com.rift.coad.lib.interceptor.authenticator.UserPasswordAuthenticator
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.iiop.InterceptorIntializer">
+        <entry key="client_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SessionClientInterceptor
+        </entry>
+        <entry key="server_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SecurityServerInterceptor
+        </entry>
+    </object>
+    <object name="com.rift.coad.Runner">
+        <entry key="runner_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.NamingDirector">
+        <entry key="orb_manager" type="string">
+            com.rift.coad.lib.naming.jacorb.JacORBManager
+        </entry>
+        <entry key="naming_context_manager" type="string">
+            com.rift.coad.lib.naming.cos.CosNamingContextManager
+        </entry>
+        <entry key="instance_identifier" type="string">
+            glynn
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.ThreadGroupManager">
+        <entry key="role" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.jacorb.JacORBManager">
+        <entry key="host" type="string">
+            glynn
+        </entry>
+        <entry key="port" type="string">
+            2000
+        </entry>
+        <entry key="name_server_store" type="string">
+            C:\Program Files\Coadunation/var/nameservice
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.cos.CosContext">
+        <entry key="primary" type="boolean">
+            true
+        </entry>
+        <entry key="instance_cos_url" type="string">
+            corbaloc:iiop:glynn:2000/StandardNS/NameServer-POA/_root
+        </entry>
+        <entry key="master_cos_url" type="string">
+            corbaloc:iiop:glynn:2000/StandardNS/NameServer-POA/_root
+        </entry>
+        <entry key="cos_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.bean.BeanManager">
+        <entry key="bean_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.jmxbean.JMXBeanManager">
+        <entry key="jmxbean_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.hsqldb.HsqlDBEngineImpl">
+        <entry key="db_path" type="string">
+           C:\Program Files\Coadunation/var/hsqldb/coadunation 
+        </entry>
+        <entry key="db_hostname" type="string">
+           localhost
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.timer.TimerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            true
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+    </object>
+</configuration>
+

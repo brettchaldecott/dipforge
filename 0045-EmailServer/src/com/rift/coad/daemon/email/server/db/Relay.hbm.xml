@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created for Coadunation Email Server
+-->
+
+<class 
+    name="com.rift.coad.daemon.email.server.db.Relay" 
+    table="EmailRelay"
+    proxy="com.rift.coad.daemon.email.server.db.Relay"
+>
+    
+    <id
+        name="address"
+        type="java.lang.String"
+        column="address"
+        length="256"
+    >
+        
+        <generator class="assigned" />
+    </id>
+</class>
+</hibernate-mapping>

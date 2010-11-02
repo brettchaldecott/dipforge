@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : desktopapp.xml
+    Created on : 06 November 2008, 12:17 PM
+    Author     : brett
+    Description:
+        Purpose of the document follows.
+-->
+
+<Desktops>
+    <Desktop name="test1">
+        <application name="app1"/>
+        <application name="app2"/>
+        <application name="app3"/>
+        <application name="app4"/>
+    </Desktop>
+    <Desktop name="test2">
+        <application name="app1"/>
+        <application name="app2"/>
+        <application name="app3"/>
+        <application name="app4"/>
+    </Desktop>
+    <Desktop name="test3">
+        <application name="app1"/>
+        <application name="app2"/>
+        <application name="app3"/>
+        <application name="app4"/>
+    </Desktop>
+    <Desktop name="test4">
+        <application name="app1"/>
+        <application name="app2"/>
+        <application name="app3"/>
+        <application name="app4"/>
+    </Desktop>
+</Desktops>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 15 Dec 2006
+    Author     : Brett Chaldecott
+    Description:
+        This document contains the configuration for the HsqlDBEngine
+-->
+
+<coadunation version="1" name="0010-HsqlDBEngineDaemon">
+    <description>The HsqlDBEngine Daemon</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.hsqldb.HsqlDBEngineMBean</interface>
+            <class>com.rift.coad.daemon.hsqldb.HsqlDBEngine</class>
+            <objectName>com.rift.coad.daemon:type=hsqldb</objectName>
+            <bindName>hsqldb</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+        </bean>
+    </jmxbeans>
+</coadunation>

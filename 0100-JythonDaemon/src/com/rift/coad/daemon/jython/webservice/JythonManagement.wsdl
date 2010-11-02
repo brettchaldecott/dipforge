@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.rift.coad.daemon.jython.webservice" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.rift.coad.daemon.jython.webservice" xmlns:intf="com.rift.coad.daemon.jython.webservice" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="com.rift.coad.daemon.jython.webservice" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="JythonDaemonException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="cause" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getScriptRequest">
+
+      <wsdl:part name="name" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getScriptResponse">
+
+      <wsdl:part name="getScriptReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="registerScriptResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="listScriptsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="runScriptRequest1">
+
+      <wsdl:part name="name" type="xsd:string"/>
+
+      <wsdl:part name="argument" type="xsd:string"/>
+
+      <wsdl:part name="argumentValue" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="JythonDaemonException">
+
+      <wsdl:part name="fault" type="impl:JythonDaemonException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeScriptRequest">
+
+      <wsdl:part name="name" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listScriptsResponse">
+
+      <wsdl:part name="listScriptsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeScriptResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="runScriptResponse1">
+
+      <wsdl:part name="runScriptReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="runScriptRequest">
+
+      <wsdl:part name="name" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="runScriptResponse">
+
+      <wsdl:part name="runScriptReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="registerScriptRequest">
+
+      <wsdl:part name="scriptValue" type="xsd:string"/>
+
+      <wsdl:part name="name" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="JythonManagement">
+
+      <wsdl:operation name="listScripts">
+
+         <wsdl:input message="impl:listScriptsRequest" name="listScriptsRequest"/>
+
+         <wsdl:output message="impl:listScriptsResponse" name="listScriptsResponse"/>
+
+         <wsdl:fault message="impl:JythonDaemonException" name="JythonDaemonException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="runScript" parameterOrder="name">
+
+         <wsdl:input message="impl:runScriptRequest" name="runScriptRequest"/>
+
+         <wsdl:output message="impl:runScriptResponse" name="runScriptResponse"/>
+
+         <wsdl:fault message="impl:JythonDaemonException" name="JythonDaemonException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="runScript" parameterOrder="name argument argumentValue">
+
+         <wsdl:input message="impl:runScriptRequest1" name="runScriptRequest1"/>
+
+         <wsdl:output message="impl:runScriptResponse1" name="runScriptResponse1"/>
+
+         <wsdl:fault message="impl:JythonDaemonException" name="JythonDaemonException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="registerScript" parameterOrder="scriptValue name">
+
+         <wsdl:input message="impl:registerScriptRequest" name="registerScriptRequest"/>
+
+         <wsdl:output message="impl:registerScriptResponse" name="registerScriptResponse"/>
+
+         <wsdl:fault message="impl:JythonDaemonException" name="JythonDaemonException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeScript" parameterOrder="name">
+
+         <wsdl:input message="impl:removeScriptRequest" name="removeScriptRequest"/>
+
+         <wsdl:output message="impl:removeScriptResponse" name="removeScriptResponse"/>
+
+         <wsdl:fault message="impl:JythonDaemonException" name="JythonDaemonException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getScript" parameterOrder="name">
+
+         <wsdl:input message="impl:getScriptRequest" name="getScriptRequest"/>
+
+         <wsdl:output message="impl:getScriptResponse" name="getScriptResponse"/>
+
+         <wsdl:fault message="impl:JythonDaemonException" name="JythonDaemonException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ManagementSoapBinding" type="impl:JythonManagement">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="listScripts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listScriptsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listScriptsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="JythonDaemonException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="JythonDaemonException" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="runScript">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="runScriptRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="runScriptResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="JythonDaemonException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="JythonDaemonException" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="runScript">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="runScriptRequest1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="runScriptResponse1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="JythonDaemonException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="JythonDaemonException" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="registerScript">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="registerScriptRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="registerScriptResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="JythonDaemonException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="JythonDaemonException" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeScript">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeScriptRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeScriptResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="JythonDaemonException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="JythonDaemonException" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getScript">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getScriptRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getScriptResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="JythonDaemonException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="JythonDaemonException" namespace="com.rift.coad.daemon.jython.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="JythonManagementService">
+
+      <wsdl:port binding="impl:ManagementSoapBinding" name="Management">
+
+         <wsdlsoap:address location="http://localhost:8080/jython/Management"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

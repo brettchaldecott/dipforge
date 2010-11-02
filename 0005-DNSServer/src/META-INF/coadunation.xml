@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : January 2008
+    Author     : Brett Chaldecott
+    Description:
+        This document contains the configuration for the Coadunation DNS Server
+-->
+
+<coadunation version="1" name="0005-DNSServer">
+    <description>The dns server for Coadunation</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.dns.DNSServerMBean</interface>
+            <class>com.rift.coad.daemon.dns.DNSServer</class>
+            <objectName>com.rift.coad.daemon:type=DNSServer</objectName>
+            <bindName>dns/MBeanManager</bindName>
+            <role>dns</role>
+            <username>dns</username>
+            <transaction>false</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.daemon.dns.DNSManagement</interface>
+            <class>com.rift.coad.daemon.dns.DNSManagementImpl</class>
+            <bindName>dns/Management</bindName>
+            <role>dns</role>
+            <username>dns</username>
+            <classes>com.rift.coad.daemon.dns.ZoneManagementImpl</classes>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>false</transaction>
+        </bean>
+    </beans>
+    <webservices>
+        <webservice>
+            <path>/dns/Management</path>
+            <class>com.rift.coad.daemon.dns.webservice.DNSServerServiceImpl</class>
+            <wsdl>com/rift/coad/daemon/dns/webservice/DNSServerService.wsdl</wsdl>
+            <role>dns</role>
+            <transaction>false</transaction>
+        </webservice>
+    </webservices>
+</coadunation>

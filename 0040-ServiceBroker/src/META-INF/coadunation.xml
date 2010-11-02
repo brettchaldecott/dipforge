@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Author
+    Description:
+        This is the base Coadunation document that needs to be configured 
+        properlty.
+-->
+
+<coadunation version="1" name="ServiceBroker">
+    <beans>
+        <bean>
+            <interface>com.rift.coad.daemon.servicebroker.ServiceBroker</interface>
+            <class>com.rift.coad.daemon.servicebroker.ServiceBrokerImpl</class>
+            <bindName>ServiceBroker</bindName>
+            <role>daemon</role>
+            <transaction>true</transaction>
+            <username>daemon</username>
+        </bean>
+    </beans>
+</coadunation>

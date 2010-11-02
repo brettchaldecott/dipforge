@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.rift.coad.daemon.messageservice.db.MessagePrincipal" 
+    table="MessagePrincipal"
+    proxy="com.rift.coad.daemon.messageservice.db.MessagePrincipal"
+>
+
+    <id
+        name="id"
+        type="java.lang.Integer"
+        column="id"
+    >
+		    <meta attribute="field-description" inherit="false">
+		       auto_increment
+		    </meta>
+    
+        <generator class="native" />
+    </id>
+
+    <property
+        name="principalValue"
+        type="java.lang.String"
+        column="principalValue"
+        not-null="true"
+        length="50"
+    />
+
+    <!-- Associations -->
+  
+    <!-- bi-directional many-to-one association to Message -->
+    <many-to-one
+        name="message"
+        class="com.rift.coad.daemon.messageservice.db.Message"
+        not-null="true"
+    >
+        <column name="messageId" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

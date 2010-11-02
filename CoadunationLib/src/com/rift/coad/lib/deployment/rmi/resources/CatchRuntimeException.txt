@@ -1,0 +1,8 @@
+        catch (java.lang.RuntimeException ex) {
+            log.debug("Rethrowing an exception from the server : " 
+                + ex.getMessage(),ex);
+            auditTrail.logEvent("%methodName%",ex);
+            success = false;
+            rethrowCorbaException(ex);
+            throw ex;
+        }

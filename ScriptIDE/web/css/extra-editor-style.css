@@ -1,0 +1,29 @@
+/*
+ This is extra css for the editor.
+ */
+
+
+* {
+        margin:0;
+        padding:0
+}
+
+body,html {
+        height:100%;
+        overflow:hidden;
+}
+
+form#textareaHolder {
+        height:100%;
+        width:100%;
+}
+
+
+textarea {
+        min-height:100%;
+        width:100%
+}
+
+* html textarea{
+        height:100%
+}

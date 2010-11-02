@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.rift.coad.daemon.event.webservice" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.rift.coad.daemon.event.webservice" xmlns:intf="com.rift.coad.daemon.event.webservice" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="com.rift.coad.daemon.event.webservice" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="FeedEvent">
+    <sequence>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="externalId" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="application" nillable="true" type="xsd:string"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="url" nillable="true" type="xsd:string"/>
+     <element name="role" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="EventException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="cause" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="registerEventResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="registerEventRequest">
+
+      <wsdl:part name="event" type="impl:FeedEvent"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="EventException">
+
+      <wsdl:part name="fault" type="impl:EventException"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="FeedManager">
+
+      <wsdl:operation name="registerEvent" parameterOrder="event">
+
+         <wsdl:input message="impl:registerEventRequest" name="registerEventRequest"/>
+
+         <wsdl:output message="impl:registerEventResponse" name="registerEventResponse"/>
+
+         <wsdl:fault message="impl:EventException" name="EventException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ManagementSoapBinding" type="impl:FeedManager">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="registerEvent">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="registerEventRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.event.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="registerEventResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.event.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EventException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EventException" namespace="com.rift.coad.daemon.event.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="FeedManagerService">
+
+      <wsdl:port binding="impl:ManagementSoapBinding" name="Management">
+
+         <wsdlsoap:address location="http://localhost:8080/event/Management"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,69 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/inventory#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Hardware">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Network">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Stock">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Software">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Inventory">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Rack">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Host">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#HardwareId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Hardware"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#HardwareName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Hardware"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#NetworkId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Network"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#NetworkName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Network"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#StockId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Stock"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#StockName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Stock"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#SoftwareId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Software"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#SoftwareName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Software"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#InventoryId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Inventory"/>
+    </rdf:Property>`
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#InventoryName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Inventory"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#RackId">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Inventory"/>
+    </rdf:Property>`
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#RackName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Inventory"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/inventory#Hostname">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/inventory#Host"/>
+    </rdf:Property>
+</rdf:RDF>

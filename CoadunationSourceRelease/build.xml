@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CoadunationInstall" basedir="." default="main">
+    <property name="deploy.dir" value="deploy/lib"/>
+    <property name="lib.dir" value="CoadunationSource/lib"/>
+    <property name="iz.dir" value=""/>
+    <target name="main">
+        <mkdir dir="CoadunationSource"/>
+        <mkdir dir="CoadunationSource/CoadunationBase"/>
+        <mkdir dir="CoadunationSource/CoadunationClient"/>
+        <mkdir dir="CoadunationSource/CoadunationLib"/>
+        <mkdir dir="CoadunationSource/HsqlDBEngineClient"/>
+        <mkdir dir="CoadunationSource/0010-HsqlDBEngineDaemon"/>
+        <mkdir dir="CoadunationSource/TimerClient"/>
+        <mkdir dir="CoadunationSource/0050-Timer"/>
+        <mkdir dir="CoadunationSource/0040-ServiceBroker"/>
+        <mkdir dir="CoadunationSource/0100-JythonDaemon"/>
+        <mkdir dir="CoadunationSource/0101-DeploymentDaemon"/>
+        <mkdir dir="CoadunationSource/DeploymentDaemonClient"/>
+        <mkdir dir="CoadunationSource/DeploymentDaemonCommandLineTool"/>
+        <mkdir dir="CoadunationSource/JythonDaemonClient"/>
+        <mkdir dir="CoadunationSource/JythonDaemonCommandLineTool"/>
+        <mkdir dir="CoadunationSource/ServiceBrokerClient"/>
+        <mkdir dir="CoadunationSource/ServiceBrokerCommandLineTool"/>
+        <mkdir dir="CoadunationSource/TimerCommandLineTool"/>
+        <mkdir dir="CoadunationSource/CoadunationHibernate"/>
+        <mkdir dir="CoadunationSource/Jython-unix"/>
+        <mkdir dir="CoadunationSource/Jython-windows"/>
+        <mkdir dir="CoadunationSource/build"/>
+        <mkdir dir="CoadunationSource/CoadunationCommon"/>
+        <mkdir dir="CoadunationSource/1004-SampleMessageServices"/>
+        <mkdir dir="CoadunationSource/MessageServiceCommandLineTool"/>
+        <mkdir dir="CoadunationSource/CoadunationAnnotations"/>
+        <mkdir dir="CoadunationSource/CoadunationAdmin"/>
+        <mkdir dir="CoadunationSource/DNSServerClient"/>
+        <mkdir dir="CoadunationSource/EmailServerClient"/>
+        <mkdir dir="CoadunationSource/0005-DNSServer"/>
+        <mkdir dir="CoadunationSource/0045-EmailServer"/>
+        <mkdir dir="CoadunationSource/CoadunationRDBAuth"/>
+        <mkdir dir="CoadunationSource/RDBUserManagerClient"/>
+        <mkdir dir="CoadunationSource/0020-RDBUserManager"/>
+        <mkdir dir="CoadunationSource/FileManager"/>
+        <mkdir dir="CoadunationSource/DesktopServerClient"/>
+        <mkdir dir="CoadunationSource/0050-DesktopServer"/>
+        <mkdir dir="CoadunationSource/CoadunationDesktop"/>
+        <mkdir dir="CoadunationSource/EventServerClient"/>
+        <mkdir dir="CoadunationSource/RSSReaderClient"/>
+        <mkdir dir="CoadunationSource/0050-EventServer"/>
+        <mkdir dir="CoadunationSource/0102-RSSReader"/>
+        <mkdir dir="CoadunationSource/tmp"/>
+        <mkdir dir="CoadunationSource/ant"/>
+        <mkdir dir="CoadunationSource/ant/bin"/>
+        <mkdir dir="CoadunationSource/ant/lib"/>
+        <mkdir dir="${lib.dir}"/>
+        <copy file="${file.reference.ant.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.avalon-framework-4.1.5.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.axis-ant.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.axis.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.backport-util-concurrent.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.commons-cli-1.0.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.commons-collections-3.2.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.commons-dbcp-1.2.1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.commons-discovery-0.2.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.commons-logging-1.0.4.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.commons-pool-1.3.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.connector-1_5.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.cosnaming.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.howl.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.irmi.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jacorb.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jacorb.jar}" todir="${clientlib.dir}"/>
+        <copy file="${file.reference.httpcore-4.0-beta1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.httpcore-nio-4.0-beta1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jaxrpc.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jotm.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jotm_iiop_stubs.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jta-spec1_0_1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jts1_0.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.log4j-1.2.13.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.logkit-1.2.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.logkit-1.2.jar}" todir="${clientlib.dir}"/>
+        <copy file="${file.reference.mysql-connector-java-3.1.12-bin.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.objectweb-datasource.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.ow_carol-all.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.ow_carol.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.ow_carol_iiop_delegate.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.providerutil.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.saaj.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.wsdl4j-1.5.1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.xapool.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.xstream-1.1.3.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.hsqldb.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.antlr-2.7.6rc1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.c3p0-0.9.0.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.cglib-2.1.3.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.dom4j-1.6.1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.javassist-3.4.GA.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.slf4j-api-1.5.5.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.slf4j-simple-1.5.5.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.commons-collections-3.1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jta-1.1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.ehcache-1.1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.hibernate3.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jython.jar}" todir="${lib.dir}"/>
+
+        <copy file="${file.reference.servlet-api.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.tomcat-coyote.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.annotations-api.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.catalina.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.catalina-ant.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.catalina-ha.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.catalina-tribes.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.el-api.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jasper-el.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jasper-jdt.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jasper.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jsp-api.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.tomcat-dbcp.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.tomcat-i18n-es.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.tomcat-i18n-fr.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.tomcat-i18n-ja.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.tomcat-juli-adapters.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.tomcat-juli.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.dnsjava-2.0.6.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.javamaildir-0.6.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.activation.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.mail.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.pop3.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.webmail.war}" todir="${lib.dir}"/>
+        <copy file="${file.reference.rome-1.0RC1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.rome-1.0RC1.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jaxen-jdom.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.xalan.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.xml-apis.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jaxen-core.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.saxpath.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.xerces.jar}" todir="${lib.dir}"/>
+        <copy file="${file.reference.jdom.jar}" todir="${lib.dir}"/>
+
+        <copy todir="CoadunationSource/CoadunationBase">
+            <fileset dir="../CoadunationBase"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationClient">
+            <fileset dir="../CoadunationClient"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationCommon">
+            <fileset dir="../CoadunationCommon"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationSecurity">
+            <fileset dir="../CoadunationSecurity"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationLib">
+            <fileset dir="../CoadunationLib"/>
+        </copy>
+        <copy todir="CoadunationSource/HsqlDBEngineClient">
+            <fileset dir="../HsqlDBEngineClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0010-HsqlDBEngineDaemon">
+            <fileset dir="../0010-HsqlDBEngineDaemon"/>
+        </copy>
+        <copy todir="CoadunationSource/TimerClient">
+            <fileset dir="../TimerClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0050-Timer">
+            <fileset dir="../0050-Timer"/>
+        </copy>
+        <copy todir="CoadunationSource/0040-ServiceBroker">
+            <fileset dir="../0040-ServiceBroker"/>
+        </copy>
+        <copy todir="CoadunationSource/0100-JythonDaemon">
+            <fileset dir="../0100-JythonDaemon"/>
+        </copy>
+        <copy todir="CoadunationSource/0101-DeploymentDaemon">
+            <fileset dir="../0101-DeploymentDaemon"/>
+        </copy>
+        <copy todir="CoadunationSource/DeploymentDaemonClient">
+            <fileset dir="../DeploymentDaemonClient"/>
+        </copy>
+        <copy todir="CoadunationSource/DeploymentDaemonCommandLineTool">
+            <fileset dir="../DeploymentDaemonCommandLineTool"/>
+        </copy>
+        <copy todir="CoadunationSource/JythonDaemonClient">
+            <fileset dir="../JythonDaemonClient"/>
+        </copy>
+        <copy todir="CoadunationSource/JythonDaemonCommandLineTool">
+            <fileset dir="../JythonDaemonCommandLineTool"/>
+        </copy>
+        <copy todir="CoadunationSource/ServiceBrokerClient">
+            <fileset dir="../ServiceBrokerClient"/>
+        </copy>
+        <copy todir="CoadunationSource/ServiceBrokerCommandLineTool">
+            <fileset dir="../ServiceBrokerCommandLineTool"/>
+        </copy>
+        <copy todir="CoadunationSource/TimerCommandLineTool">
+            <fileset dir="../TimerCommandLineTool"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationUtil">
+            <fileset dir="../CoadunationUtil"/>
+        </copy>
+        <copy todir="CoadunationSource/MessageServiceClient">
+            <fileset dir="../MessageServiceClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0040-MessageService">
+            <fileset dir="../0040-MessageService"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationHibernate">
+            <fileset dir="../CoadunationHibernate"/>
+        </copy>
+        <copy todir="CoadunationSource/TomcatClient">
+            <fileset dir="../TomcatClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0060-Tomcat">
+            <fileset dir="../0060-Tomcat"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationAdmin">
+            <fileset dir="../CoadunationAdmin"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationAnnotations">
+            <fileset dir="../CoadunationAnnotations"/>
+        </copy>
+        <copy todir="CoadunationSource/DNSServerClient">
+            <fileset dir="../DNSServerClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0005-DNSServer">
+            <fileset dir="../0005-DNSServer"/>
+        </copy>
+        <copy todir="CoadunationSource/EmailServerClient">
+            <fileset dir="../EmailServerClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0045-EmailServer">
+            <fileset dir="../0045-EmailServer"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationRDBAuth">
+            <fileset dir="../CoadunationRDBAuth"/>
+        </copy>
+        <copy todir="CoadunationSource/RDBUserManagerClient">
+            <fileset dir="../RDBUserManagerClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0020-RDBUserManager">
+            <fileset dir="../0020-RDBUserManager"/>
+        </copy>
+        <copy todir="CoadunationSource/FileManager">
+            <fileset dir="../FileManager"/>
+        </copy>
+        <copy todir="CoadunationSource/DesktopServerClient">
+            <fileset dir="../DesktopServerClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0050-DesktopServer">
+            <fileset dir="../0050-DesktopServer"/>
+        </copy>
+        <copy todir="CoadunationSource/CoadunationDesktop">
+            <fileset dir="../CoadunationDesktop"/>
+        </copy>
+        <copy todir="CoadunationSource/EventServerClient">
+            <fileset dir="../EventServerClient"/>
+        </copy>
+        <copy todir="CoadunationSource/RSSReaderClient">
+            <fileset dir="../RSSReaderClient"/>
+        </copy>
+        <copy todir="CoadunationSource/0050-EventServer">
+            <fileset dir="../0050-EventServer"/>
+        </copy>
+        <copy todir="CoadunationSource/0102-RSSReader">
+            <fileset dir="../0102-RSSReader"/>
+        </copy>
+        <copy todir="CoadunationSource/Jython-unix">
+            <fileset dir="/data01/documents/libraries/coadunation/jython/jython2.2.1-unix/Lib"/>
+        </copy>
+        <copy todir="CoadunationSource/Jython-windows">
+            <fileset dir="/data01/documents/libraries/coadunation/jython/jython2.2.1-window/Lib"/>
+        </copy>
+        <copy todir="CoadunationSource/build">
+            <fileset dir="extra/build"/>
+        </copy>
+        <copy todir="CoadunationSource/tmp">
+            <fileset dir="extra/tmp"/>
+        </copy>
+        <copy todir="CoadunationSource/ant/bin">
+            <fileset dir="/usr/local/apache-ant-1.6.5/bin"/>
+        </copy>
+        <copy todir="CoadunationSource/ant/lib">
+            <fileset dir="/usr/local/apache-ant-1.6.5/lib"/>
+        </copy>
+        <copy todir="CoadunationSource/1004-SampleMessageServices">
+            <fileset dir="${project.reference.1004-SampleMessageServices}"/>
+        </copy>
+        <copy todir="CoadunationSource/MessageServiceCommandLineTool">
+            <fileset dir="../MessageServiceCommandLineTool"/>
+        </copy>
+        <copy todir="CoadunationSource/ExampleWebApplication">
+            <fileset dir="../ExampleWebApplication"/>
+        </copy>
+        <zip destfile="${release.dir}/CoadunationOsSource_${buildVersion}.zip">
+            <zipfileset dir="CoadunationSource" prefix="CoadunationOsSource_${buildVersion}"/>
+        </zip>
+    </target>
+</project>

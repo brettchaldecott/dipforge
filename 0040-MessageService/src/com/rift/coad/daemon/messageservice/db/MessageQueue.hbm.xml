@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.rift.coad.daemon.messageservice.db.MessageQueue" 
+    table="MessageQueue"
+    proxy="com.rift.coad.daemon.messageservice.db.MessageQueue"
+>
+
+    <id
+        name="id"
+        type="java.lang.Integer"
+        column="id"
+    >
+		    <meta attribute="field-description" inherit="false">
+		       auto_increment
+		    </meta>
+    
+        <generator class="native" />
+    </id>
+
+    <property
+        name="messageQueueName"
+        type="java.lang.String"
+        column="messageQueueName"
+        not-null="true"
+        unique="true"
+        length="50"
+    />
+    <property
+        name="named"
+        type="java.lang.Integer"
+        column="named"
+        length="11"
+    />
+
+    <!-- Associations -->
+  
+    <!-- bi-directional one-to-many association to Message -->
+
+    <set
+        name="messages"
+        lazy="true"
+        inverse="true"
+		cascade="none"
+
+    >
+        <key>
+            <column name="messageQueueId" />
+        </key>
+        
+        <one-to-many 
+            class="com.rift.coad.daemon.messageservice.db.Message"
+        />
+    </set>
+    <!-- bi-directional one-to-many association to MessageQueueService -->
+
+    <set
+        name="messageQueueServices"
+        lazy="true"
+        inverse="true"
+		cascade="none"
+
+    >
+        <key>
+            <column name="messageQueueId" />
+        </key>
+        
+        <one-to-many 
+            class="com.rift.coad.daemon.messageservice.db.MessageQueueService"
+        />
+    </set>
+
+</class>
+</hibernate-mapping>

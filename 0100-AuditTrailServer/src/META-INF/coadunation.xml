@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : May 2009
+    Author     : Brett Chaldecott
+    Description:
+        This document defines the configuration for the audit trail server.
+-->
+
+<coadunation version="1" name="0100-AuditTrailServer">
+    <description>Audit Trail Server</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.audit.AuditTrailManagerMBean</interface>
+            <class>com.rift.coad.audit.AuditTrailManager</class>
+            <objectName>com.rift.coad.audit:type=AuditTrailManagerMBean</objectName>
+            <bindName>audit/AuditTrailManager</bindName>
+            <role>audit_trail</role>
+            <username>audit_trail</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.audit.AuditTrailLogger</interface>
+            <class>com.rift.coad.audit.AuditTrailLoggerImpl</class>
+            <bindName>audit/AuditTrailLogger</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.audit.AuditTrailServer</interface>
+            <class>com.rift.coad.audit.AuditTrailServerImpl</class>
+            <bindName>audit/AuditTrailServer</bindName>
+            <role>audit_trail</role>
+            <username>audit_trail</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+    <webservices>
+        <webservice>
+            <path>/audit/AuditTrailLogger</path>
+            <class>com.rift.coad.audit.webservice.AuditTrailLoggerImpl</class>
+            <wsdl>com/rift/coad/audit/webservice/AuditTrailLogger.wsdl</wsdl>
+            <role>daemon</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+</coadunation>

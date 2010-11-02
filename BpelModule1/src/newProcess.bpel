@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+    name="newProcess"
+    targetNamespace="http://enterprise.netbeans.org/bpel/BpelModule1/newProcess"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/BpelModule1/newProcess">
+
+   <sequence>
+      <flow name="Flow1">
+         <invoke name="Invoke1"/>
+      </flow>
+   </sequence>
+</process>

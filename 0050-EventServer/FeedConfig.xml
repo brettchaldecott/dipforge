@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : FeedConfig.xml
+    Created on : 29 October 2008, 6:20 AM
+    Author     : brett
+    Description:
+        Purpose of the document follows.
+-->
+<FeedConfig>
+    <Desktop name="test1">
+        <identifier name="feed1"/>
+        <identifier name="feed2"/>
+        <identifier name="feed3"/>        
+    </Desktop>
+    <Desktop name="test2">
+        <identifier name="feed1"/>
+        <identifier name="feed2"/>
+        <identifier name="feed3"/>        
+    </Desktop>
+    <Desktop name="test3">
+        <identifier name="feed1"/>
+        <identifier name="feed2"/>
+        <identifier name="feed3"/>        
+    </Desktop>
+    <Desktop name="test4">
+        <identifier name="feed1"/>
+        <identifier name="feed2"/>
+        <identifier name="feed3"/>        
+    </Desktop>
+    <Desktop name="test5">
+        <identifier name="feed1"/>
+        <identifier name="feed2"/>
+        <identifier name="feed3"/>        
+    </Desktop>
+    <Desktop name="test6">
+        <identifier name="feed1"/>
+        <identifier name="feed2"/>
+        <identifier name="feed3"/>        
+    </Desktop>
+    
+    <Feed name="feed1">
+        <filter meta-data="*" name="*"/>
+    </Feed>
+    
+    <Feed name="feed2">
+        <filter meta-data="x-application" name="camera"/>
+    </Feed>
+    
+    <Feed name="feed3">
+        <filter meta-data="user" name="$username"/>
+    </Feed>
+    
+</FeedConfig>

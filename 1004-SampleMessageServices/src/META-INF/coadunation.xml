@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Brett Chaldecott
+    Description:
+        This is the configuration for the Message Service Test Daemon
+-->
+
+<coadunation version="1" name="MessageServiceTest">
+    <beans>
+        <bean>
+            <interface>test.client.RPCClientTest</interface>
+            <class>test.client.RPCClientTestImpl</class>
+            <bindName>RPCClientTest</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+        </bean>
+        <bean>
+            <interface>test.server.RPCServerTest</interface>
+            <class>test.server.RPCServerTestImpl</class>
+            <bindName>RPCServerTest</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.messageservice.MessageHandler</interface>
+            <class>test.server.TextServerTextImpl</class>
+            <bindName>TextServerTest</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+        </bean>
+        <bean>
+            <interface>test.client.named.NamedClient</interface>
+            <class>test.client.named.NamedClientImpl</class>
+            <bindName>NamedClient</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+        </bean>
+        <bean>
+            <interface>test.server.named.NamedServer</interface>
+            <class>test.server.named.NamedServerImpl</class>
+            <bindName>NamedServer</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+        </bean>
+    </beans>
+</coadunation>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : September 2009
+    Author     : Brett Chaldecott
+    Description:
+        This document defines the configuration for the Data Mapper
+-->
+
+<coadunation version="1" name="0160-DataMapperBroker">
+    <description>Data Mapper Broker</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.datamapperbroker.DataMapperBrokerMBean</interface>
+            <class>com.rift.coad.datamapperbroker.DataMapperBroker</class>
+            <objectName>com.rift.coad.datamapper:type=Broker</objectName>
+            <bindName>datamapper/Broker</bindName>
+            <role>data_mapper_broker</role>
+            <username>data_mapper_broker</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.datamapperbroker.DataMapperBrokerDaemon</interface>
+            <class>com.rift.coad.datamapperbroker.DataMapperBrokerDaemonImpl</class>
+            <bindName>datamapper/BrokerDaemon</bindName>
+            <role>data_mapper_broker</role>
+            <username>data_mapper_broker</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

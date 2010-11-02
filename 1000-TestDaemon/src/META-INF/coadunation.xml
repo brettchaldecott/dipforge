@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : Sep 2009
+    Author     : Brett Chaldecott
+    Description:
+        The test daemon.
+-->
+
+<coadunation version="1" name="1000-TestDaemon">
+    <description>The test daemon</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.datamapperbroker.TestManagerMBean</interface>
+            <class>com.rift.coad.datamapperbroker.TestManager</class>
+            <objectName>com.rift.coad.test:type=TestManagerMBean</objectName>
+            <bindName>test/TestManager</bindName>
+            <role>test</role>
+            <username>test</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.TestManagerMBean</interface>
+            <class>com.rift.coad.change.TestManager</class>
+            <objectName>com.rift.coad.test:type=ChangeTestManagerMBean</objectName>
+            <bindName>test/TestChange</bindName>
+            <role>test</role>
+            <username>test</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>false</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.datamapper.DataMapper</interface>
+            <class>com.rift.coad.change.TestDataMapper1</class>
+            <bindName>test/DataMapperClient1</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.datamapper.DataMapper</interface>
+            <class>com.rift.coad.change.TestDataMapper2</class>
+            <bindName>test/DataMapperClient2</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

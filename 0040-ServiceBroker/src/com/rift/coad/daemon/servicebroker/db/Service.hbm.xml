@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.rift.coad.daemon.servicebroker.db.Service" 
+    table="Service"
+    proxy="com.rift.coad.daemon.servicebroker.db.Service"
+>
+
+    <composite-id name="comp_id" class="com.rift.coad.daemon.servicebroker.db.ServicePK">
+        <key-property 
+            name="jndi" 
+            column="JNDI" 
+            type="java.lang.String"
+            length="100"
+        />
+        <key-property 
+            name="service" 
+            column="SERVICE" 
+            type="java.lang.String"
+            length="50"
+        />
+    </composite-id>    
+
+    <property
+        name="counter"
+        type="java.lang.Integer"
+        column="COUNTER"
+        not-null="true"
+        length="10"
+    />
+
+    <!-- Associations -->
+    <!-- derived association(s) for compound key -->
+    <!-- end of derived association(s) -->
+  
+
+</class>
+</hibernate-mapping>

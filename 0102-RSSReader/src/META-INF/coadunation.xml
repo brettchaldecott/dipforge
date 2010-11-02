@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : July 2008
+    Author     : Brett Chaldecott
+    Description:
+        This document contains the configuration for the RSS reader
+-->
+
+<coadunation version="1" name="0102-RSSReader">
+    <description>The RSS reader</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.rss.RSSClientManagementMBean</interface>
+            <class>com.rift.coad.daemon.rss.RSSClientManagement</class>
+            <objectName>com.rift.coad.daemon:type=RSSClient</objectName>
+            <bindName>rss/Management</bindName>
+            <role>desktop</role>
+            <transaction>true</transaction>
+            <username>desktop</username>
+        </bean>
+    </jmxbeans>
+    <webservices>
+        <webservice>
+            <path>/rss/Management</path>
+            <class>com.rift.coad.daemon.rss.webservice.RSSClientManagementImpl</class>
+            <wsdl>com/rift/coad/daemon/rss/webservice/RSSClientManagement.wsdl</wsdl>
+            <role>desktop</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+</coadunation>

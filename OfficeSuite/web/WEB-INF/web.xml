@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <servlet>
+        <servlet-name>CKFileEditor</servlet-name>
+        <servlet-class>com.rift.coad.office.editor.CKFileEditor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DocumentManager</servlet-name>
+        <servlet-class>com.rift.coad.office.server.documents.DocumentManagerImpl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SpreadSheetFileEditor</servlet-name>
+        <servlet-class>com.rift.coad.office.editor.SpreadSheetFileEditor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CKFileEditor</servlet-name>
+        <url-pattern>/CKFileEditor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DocumentManager</servlet-name>
+        <url-pattern>/documents/documentmanager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SpreadSheetFileEditor</servlet-name>
+        <url-pattern>/spreadsheet/SpreadSheetFileEditor</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>welcomeGWT.html</welcome-file>
+    </welcome-file-list>
+    <security-constraint>
+        <display-name>office_suite</display-name>
+        <web-resource-collection>
+            <web-resource-name>office_suite</web-resource-name>
+            <description>administration console</description>
+            <url-pattern>/</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>office_suite</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Change Manager Console</realm-name>
+    </login-config>
+    <security-role>
+        <description>office_suite</description>
+        <role-name>office_suite</role-name>
+    </security-role>
+</web-app>

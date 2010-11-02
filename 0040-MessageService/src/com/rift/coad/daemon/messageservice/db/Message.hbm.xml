@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.2
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="com.rift.coad.daemon.messageservice.db.Message" 
+    table="Message"
+    proxy="com.rift.coad.daemon.messageservice.db.Message"
+>
+
+    <id
+        name="id"
+        type="java.lang.String"
+        column="id"
+    >
+    
+        <generator class="assigned" />
+    </id>
+
+    <property
+        name="messageCreator"
+        type="java.lang.String"
+        column="messageCreator"
+        not-null="true"
+        length="50"
+    />
+    <property
+        name="sessionId"
+        type="java.lang.String"
+        column="sessionId"
+        not-null="true"
+        length="50"
+    />
+    <property
+        name="messageType"
+        type="int"
+        column="messageType"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="messageRoutingType"
+        type="int"
+        column="messageRoutingType"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="priority"
+        type="int"
+        column="priority"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="target"
+        type="java.lang.String"
+        column="target"
+        length="254"
+    />
+    <property
+        name="reply"
+        type="int"
+        column="reply"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="fromUrl"
+        type="java.lang.String"
+        column="fromURL"
+        not-null="true"
+        length="254"
+    />
+    <property
+        name="replyUrl"
+        type="java.lang.String"
+        column="replyURL"
+        length="254"
+    />
+    <property
+        name="targetNamedQueue"
+        type="java.lang.String"
+        column="targetNamedQueue"
+        length="50"
+    />
+    <property
+        name="replyNamedQueue"
+        type="java.lang.String"
+        column="replyNamedQueue"
+        length="50"
+    />
+    <property
+        name="correlationId"
+        type="java.lang.String"
+        column="correlationId"
+        length="254"
+    />
+    <property
+        name="acknowledged"
+        type="int"
+        column="acknowledged"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="messageState"
+        type="int"
+        column="messageState"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="created"
+        type="java.sql.Timestamp"
+        column="created"
+        length="19"
+    />
+    <property
+        name="retries"
+        type="int"
+        column="retries"
+        not-null="true"
+        length="11"
+    />
+    <property
+        name="processed"
+        type="java.sql.Timestamp"
+        column="processed"
+        length="19"
+    />
+    <property
+        name="nextProcess"
+        type="java.sql.Timestamp"
+        column="nextProcess"
+        length="19"
+    />
+
+    <!-- Associations -->
+  
+    <!-- bi-directional one-to-many association to MessageError -->
+
+    <set
+        name="messageErrors"
+        lazy="true"
+        inverse="true"
+		cascade="none"
+
+    >
+        <key>
+            <column name="messageId" />
+        </key>
+        
+        <one-to-many 
+            class="com.rift.coad.daemon.messageservice.db.MessageError"
+        />
+    </set>
+    <!-- bi-directional one-to-many association to MessageService -->
+
+    <set
+        name="messageServices"
+        lazy="true"
+        inverse="true"
+		cascade="none"
+
+    >
+        <key>
+            <column name="messageId" />
+        </key>
+        
+        <one-to-many 
+            class="com.rift.coad.daemon.messageservice.db.MessageService"
+        />
+    </set>
+    <!-- bi-directional one-to-one association to MessageRpcBody -->
+    <one-to-one
+        name="messageRpcBody"
+        class="com.rift.coad.daemon.messageservice.db.MessageRpcBody"
+        outer-join="auto"
+    />
+    <!-- bi-directional one-to-one association to MessageTxtBody -->
+    <one-to-one
+        name="messageTxtBody"
+        class="com.rift.coad.daemon.messageservice.db.MessageTxtBody"
+        outer-join="auto"
+    />
+    <!-- bi-directional one-to-many association to MessagePrincipal -->
+
+    <set
+        name="messagePrincipals"
+        lazy="true"
+        inverse="true"
+		cascade="none"
+
+    >
+        <key>
+            <column name="messageId" />
+        </key>
+        
+        <one-to-many 
+            class="com.rift.coad.daemon.messageservice.db.MessagePrincipal"
+        />
+    </set>
+    <!-- bi-directional one-to-many association to MessageProperty -->
+
+    <set
+        name="messageProperties"
+        lazy="true"
+        inverse="true"
+		cascade="none"
+
+    >
+        <key>
+            <column name="messageId" />
+        </key>
+        
+        <one-to-many 
+            class="com.rift.coad.daemon.messageservice.db.MessageProperty"
+        />
+    </set>
+    <!-- bi-directional many-to-one association to MessageQueue -->
+    <many-to-one
+        name="messageQueue"
+        class="com.rift.coad.daemon.messageservice.db.MessageQueue"
+        not-null="true"
+    >
+        <column name="messageQueueId" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

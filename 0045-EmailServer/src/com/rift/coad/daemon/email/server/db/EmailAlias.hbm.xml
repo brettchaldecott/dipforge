@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created for the coadunation email server
+    -->
+    
+    <class 
+        name="com.rift.coad.daemon.email.server.db.EmailAlias" 
+        table="EmailAlias"
+        proxy="com.rift.coad.daemon.email.server.db.EmailAlias"
+    >
+        
+        <id
+            name="id"
+            type="java.lang.Integer"
+            column="id"
+        >
+            <meta attribute="field-description" inherit="false">
+                auto_increment
+            </meta>
+            
+            <generator class="native" />
+        </id>
+        
+        <property
+            name="address"
+            type="java.lang.String"
+            column="address"
+            not-null="true"
+            length="512"
+        />
+        
+        <!-- Associations -->
+  
+        <!-- bi-directional many-to-one association to the Emailbox -->
+        <many-to-one
+            name="emailbox"
+            class="com.rift.coad.daemon.email.server.db.Emailbox"
+            not-null="true"
+        >
+            <column name="emailboxId" />
+        </many-to-one>
+
+    </class>
+</hibernate-mapping>

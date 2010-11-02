@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created for Coadunation Email Server
+    -->
+    
+    <class 
+        name="com.rift.coad.daemon.email.server.db.FetchMailPOPAccount" 
+        table="FetchMailPOPAccount"
+        proxy="com.rift.coad.daemon.email.server.db.FetchMailPOPAccount"
+    >
+        
+        <id
+            name="emailAddress"
+            type="java.lang.String"
+            column="emailAddress"
+        >
+            
+            <generator class="assigned" />
+        </id>
+        
+        <property
+            name="account"
+            type="java.lang.String"
+            column="account"
+            not-null="true"
+            length="512"
+        />
+        
+        <property
+            name="server"
+            type="java.lang.String"
+            column="server"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="password"
+            type="java.lang.String"
+            column="password"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="dropBox"
+            type="java.lang.String"
+            column="dropBox"
+            not-null="false"
+            length="512"
+        />
+    </class>
+</hibernate-mapping>

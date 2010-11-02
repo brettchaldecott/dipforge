@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.rift.coad.audit.webservice" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.rift.coad.audit.webservice" xmlns:intf="com.rift.coad.audit.webservice" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="com.rift.coad.audit.webservice" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="AuditTrailException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="cause" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="logResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="AuditTrailException">
+
+      <wsdl:part name="fault" type="impl:AuditTrailException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="logRequest">
+
+      <wsdl:part name="hostname" type="xsd:string"/>
+
+      <wsdl:part name="source" type="xsd:string"/>
+
+      <wsdl:part name="user" type="xsd:string"/>
+
+      <wsdl:part name="status" type="xsd:string"/>
+
+      <wsdl:part name="correlationId" type="xsd:string"/>
+
+      <wsdl:part name="externalId" type="xsd:string"/>
+
+      <wsdl:part name="request" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="AuditTrailLogger">
+
+      <wsdl:operation name="log" parameterOrder="hostname source user status correlationId externalId request">
+
+         <wsdl:input message="impl:logRequest" name="logRequest"/>
+
+         <wsdl:output message="impl:logResponse" name="logResponse"/>
+
+         <wsdl:fault message="impl:AuditTrailException" name="AuditTrailException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="AuditTrailLoggerSoapBinding" type="impl:AuditTrailLogger">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="log">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="logRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.audit.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="logResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.audit.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="AuditTrailException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuditTrailException" namespace="com.rift.coad.audit.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="AuditTrailLoggerService">
+
+      <wsdl:port binding="impl:AuditTrailLoggerSoapBinding" name="AuditTrailLogger">
+
+         <wsdlsoap:address location="http://localhost:8080/audit/AuditTrailLogger"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

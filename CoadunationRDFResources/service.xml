@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/service#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#IPService">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#SoftwareService">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#IPID">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/service#IPService"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#IPHostname">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/service#IPService"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#IPName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/service#IPService"/>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#SoftwareID">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/service#SoftwareService"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#SoftwareHostname">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/service#IPService"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/service#SoftwareName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/service#SoftwareService"/>
+    </rdf:Property>
+</rdf:RDF>

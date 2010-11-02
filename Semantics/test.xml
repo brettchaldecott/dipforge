@@ -1,0 +1,167 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://www.coadunation.net/schema/rdf/1.0/base#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:j.1="http://thewebsemantic.com/"
+    xmlns:j.2="http://www.coadunation.net/schema/rdf/1.0/organisation#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+  <rdfs:Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPv4">
+    <j.1:javaclass>com.rift.coad.rdf.objmapping.base.ip.IPv4</j.1:javaclass>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPv6">
+    <j.1:javaclass>com.rift.coad.rdf.objmapping.base.ip.IPv6</j.1:javaclass>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/organisation#Organisation">
+    <j.1:javaclass>com.rift.coad.rdf.objmapping.organisation.Organisation</j.1:javaclass>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#CellPhone">
+    <j.1:javaclass>com.rift.coad.rdf.objmapping.base.phone.CellPhone</j.1:javaclass>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Surname">
+    <j.1:javaclass>com.rift.coad.rdf.objmapping.base.name.Surname</j.1:javaclass>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Phone">
+    <j.1:javaclass>com.rift.coad.rdf.objmapping.base.Phone</j.1:javaclass>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Name">
+    <j.1:javaclass>com.rift.coad.rdf.objmapping.base.Name</j.1:javaclass>
+  </rdfs:Class>
+  <owl:AnnotationProperty rdf:about="http://thewebsemantic.com/javaclass"/>
+  <j.2:Organisation rdf:about="http://www.coadunation.net/schema/rdf/1.0/organisation#Organisation/com.rift.coad.rdf.objmapping.organisation.Organisation/2">
+    <j.2:attributes>
+      <rdf:Seq>
+        <rdf:li>
+          <j.0:Phone rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Phone/021 300 5000">
+            <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.Phone</j.0:BasicTypeId>
+            <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Phone</j.0:DataTypeName>
+            <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.Phone</j.0:DataTypeId>
+            <j.0:PhoneValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >021 300 5000</j.0:PhoneValue>
+          </j.0:Phone>
+        </rdf:li>
+        <rdf:li>
+          <j.0:CellPhone rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#CellPhone/083 300 5000">
+            <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.phone.CellPhone</j.0:BasicTypeId>
+            <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >CellPhone</j.0:DataTypeName>
+            <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.phone.CellPhone</j.0:DataTypeId>
+            <j.0:PhoneValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >083 300 5000</j.0:PhoneValue>
+          </j.0:CellPhone>
+        </rdf:li>
+        <rdf:li>
+          <j.0:IPv6 rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPv6/192.168.1.2.1.2">
+            <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.ip.IPv6</j.0:BasicTypeId>
+            <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >IPv6</j.0:DataTypeName>
+            <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.ip.IPv6</j.0:DataTypeId>
+            <j.0:IPValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >192.168.1.2.1.2</j.0:IPValue>
+          </j.0:IPv6>
+        </rdf:li>
+        <rdf:li>
+          <j.0:Surname rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Surname/surname1">
+            <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.name.Surname</j.0:DataTypeId>
+            <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.name.Surname</j.0:BasicTypeId>
+            <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Surname</j.0:DataTypeName>
+            <j.0:NameValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >surname1</j.0:NameValue>
+          </j.0:Surname>
+        </rdf:li>
+      </rdf:Seq>
+    </j.2:attributes>
+    <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.rift.coad.rdf.objmapping.organisation.Organisation</j.0:BasicTypeId>
+    <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Organisation</j.0:DataTypeName>
+    <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.rift.coad.rdf.objmapping.organisation.Organisation</j.0:DataTypeId>
+    <j.2:Id rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >2</j.2:Id>
+    <j.2:Name>
+      <j.0:Name rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Name/test2">
+        <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.rift.coad.rdf.objmapping.base.Name</j.0:BasicTypeId>
+        <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Name</j.0:DataTypeName>
+        <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.rift.coad.rdf.objmapping.base.Name</j.0:DataTypeId>
+        <j.0:NameValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >test2</j.0:NameValue>
+      </j.0:Name>
+    </j.2:Name>
+  </j.2:Organisation>
+  <j.2:Organisation rdf:about="http://www.coadunation.net/schema/rdf/1.0/organisation#Organisation/com.rift.coad.rdf.objmapping.organisation.Organisation/1">
+    <j.2:attributes>
+      <rdf:Seq>
+        <rdf:li>
+          <j.0:Phone rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Phone/011 300 5000">
+            <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.Phone</j.0:BasicTypeId>
+            <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Phone</j.0:DataTypeName>
+            <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.Phone</j.0:DataTypeId>
+            <j.0:PhoneValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >011 300 5000</j.0:PhoneValue>
+          </j.0:Phone>
+        </rdf:li>
+        <rdf:li>
+          <j.0:CellPhone rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#CellPhone/082 300 5000">
+            <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.phone.CellPhone</j.0:BasicTypeId>
+            <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >CellPhone</j.0:DataTypeName>
+            <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.phone.CellPhone</j.0:DataTypeId>
+            <j.0:PhoneValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >082 300 5000</j.0:PhoneValue>
+          </j.0:CellPhone>
+        </rdf:li>
+        <rdf:li>
+          <j.0:IPv4 rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#IPv4/192.168.1.1">
+            <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.ip.IPv4</j.0:BasicTypeId>
+            <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >IPv4</j.0:DataTypeName>
+            <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >com.rift.coad.rdf.objmapping.base.ip.IPv4</j.0:DataTypeId>
+            <j.0:IPValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >192.168.1.1</j.0:IPValue>
+          </j.0:IPv4>
+        </rdf:li>
+        <rdf:li rdf:resource="http://www.coadunation.net/schema/rdf/1.0/base#Surname/surname1"/>
+      </rdf:Seq>
+    </j.2:attributes>
+    <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.rift.coad.rdf.objmapping.organisation.Organisation</j.0:BasicTypeId>
+    <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Organisation</j.0:DataTypeName>
+    <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.rift.coad.rdf.objmapping.organisation.Organisation</j.0:DataTypeId>
+    <j.2:Id rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >1</j.2:Id>
+    <j.2:Name>
+      <j.0:Name rdf:about="http://www.coadunation.net/schema/rdf/1.0/base#Name/test1">
+        <j.0:BasicTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.rift.coad.rdf.objmapping.base.Name</j.0:BasicTypeId>
+        <j.0:DataTypeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Name</j.0:DataTypeName>
+        <j.0:DataTypeId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.rift.coad.rdf.objmapping.base.Name</j.0:DataTypeId>
+        <j.0:NameValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >test1</j.0:NameValue>
+      </j.0:Name>
+    </j.2:Name>
+  </j.2:Organisation>
+</rdf:RDF>

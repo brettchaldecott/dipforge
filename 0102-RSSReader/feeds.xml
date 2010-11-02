@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : rss.xml
+    Created on : 17 November 2008, 9:27 AM
+    Author     : brett
+    Description:
+        an example rss xml config
+-->
+
+<Feeds>
+    <Feed name="test1" application="application1" url="http://url1"/>
+    <Feed name="test2" application="application2" url="http://url2"/>
+    <Feed name="test3" application="application3" url="http://url3"/>
+    <Feed name="test4" application="application4" url="http://url4"/>
+</Feeds>

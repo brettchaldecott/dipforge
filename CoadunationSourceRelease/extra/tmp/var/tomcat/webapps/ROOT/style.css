@@ -1,0 +1,250 @@
+.menu {
+	background-image: url("images/menu_background.jpg");
+	background-repeat: repeat-x;
+}
+.menu_red {
+	background-image: url("images/menu_background_red.jpg");
+	background-repeat: repeat-x;
+}
+.border_hor {
+	background-image: url("images/border_hor.jpg");
+	background-repeat: repeat-x;
+	height: 1px;
+}
+.border_ver {
+	background-image: url("images/border_ver.jpg");
+	background-repeat: repeat-y;
+	width: 1px;
+}
+select {
+    color: #555555;
+    background-color: #DFJAK5;
+}
+.news_heading {
+    color: #000000;
+    font-size: 11px;
+    font-family: Arial;
+    font-weight: bolder;
+    text-decoration: none;
+}
+.text {
+    color: #000000;
+    font-size: 11px;
+    font-family: Arial;
+    font-weight: none;
+    text-decoration: none;
+}
+.code {
+    color: #000000;
+    font-size: 11px;
+    font-family: Bitstream Vera Sans;
+    font-weight: none;
+    text-decoration: none;
+}
+.text2 {
+    color: #949494;
+    font-size: 11px;
+    font-family: Arial;
+    font-weight: none;
+    text-decoration: none;
+}
+.error_text {
+    color: #FF0000;
+    font-size: 9px;
+    font-family: Arial;
+    font-weight: none;
+    text-decoration: none;
+}
+.sub_menu_heading {
+    color: #B41C1C;
+    font-size: 11px;
+    font-family: Arial;
+    font-weight: bolder;
+    text-decoration: none;
+}
+.labelText {
+    color: #777777;
+    font-size: 10px;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none;
+}
+.optional {
+    color: #D3D3D3;
+    font-size: 7px;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none;
+}
+.headingText {
+    color: #000000;
+    font-size: 11px;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none;
+    font-weight: bolder;
+}
+.fields {
+    border-color: #F2F2F2;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    font-size: 10px;
+    color: #ACACAC;
+    background-color: #FFFFFF;
+}
+.menuLink:link {
+    color: #FFFFFF;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.menuLink:active {
+    color: #FFFFFF;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.menuLink:visited { 
+    color: #FFFFFF;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.menuLink:hover {
+    color: #777777;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.menuLink2:link {
+    color: #B41C1C;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.menuLink2:active {
+    color: #B41C1C;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.menuLink2:visited {
+    color: #B41C1C;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.menuLink2:hover {
+    color: #777777;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link:link {
+    color: #999999;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link:active {
+    color: #999999;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link:visited {
+    color: #6B6B6B;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link:hover {
+    color: #DDDDDD;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Linkt2:link {
+    color: #999999;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Linkt2:active {
+    color: #999999;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Linkt2:visited {
+    color: #6B6B6B;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Linkt2:hover {
+    color: #DDDDDD;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link3:link {
+    color: #000000;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link3:active {
+    color: #000000;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link3:visited {
+    color: #6B6B6B;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: none
+}
+.Link3:hover {
+    color: #DDDDDD;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: none;
+    font-family: Arial, Helvetica, Geneva, Swiss, SunSans-Regular;
+    text-decoration: underline
+}

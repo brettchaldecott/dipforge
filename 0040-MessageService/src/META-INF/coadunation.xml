@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Brett Chaldecott
+    Description:
+        This is the configuration for the Message Service Daemon
+-->
+
+<coadunation version="1" name="MessageService">
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.messageservice.MessageServiceManagerMBean</interface>
+            <class>com.rift.coad.daemon.messageservice.MessageServiceManager</class>
+            <objectName>com.rift.coad.daemon:type=MessageServiceManager</objectName>
+            <bindName>message/MessageService</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.daemon.messageservice.MessageProducer</interface>
+            <class>com.rift.coad.daemon.messageservice.MessageProducerImpl</class>
+            <bindName>message/MessageProducer</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <classes>com.rift.coad.daemon.messageservice.ProducerImpl</classes>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.messageservice.QueueManager</interface>
+            <class>com.rift.coad.daemon.messageservice.named.NamedQueueManagerImpl</class>
+            <bindName>message/QueueManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <classes>com.rift.coad.daemon.messageservice.named.NamedQueueImpl</classes>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.messageservice.MessageStore</interface>
+            <class>com.rift.coad.daemon.messageservice.MessageStoreImpl</class>
+            <bindName>message/MessageStore</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : May 2009
+    Author     : Brett Chaldecott
+    Description:
+        This document defines the configuration for the audit trail server.
+-->
+
+<coadunation version="1" name="0170-ChangeManager">
+    <description>Change Manager</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.change.ChangeManagerMBean</interface>
+            <class>com.rift.coad.change.ChangeManager</class>
+            <objectName>com.rift.coad.change:type=ChangeManagerMBean</objectName>
+            <bindName>change/ChangeManager</bindName>
+            <role>change</role>
+            <username>change</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.RequestManagerMBean</interface>
+            <class>com.rift.coad.change.request.RequestManager</class>
+            <objectName>com.rift.coad.change.request:type=RequestManagerMBean</objectName>
+            <bindName>change/request/RequestManager</bindName>
+            <role>change</role>
+            <username>change</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.action.ActionManagerMBean</interface>
+            <class>com.rift.coad.change.request.action.ActionManager</class>
+            <objectName>com.rift.coad.change.request.action:type=ActionManagerMBean</objectName>
+            <bindName>change/request/action/ActionManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.change.ChangeManagerDaemon</interface>
+            <class>com.rift.coad.change.ChangeManagerDaemonImpl</class>
+            <bindName>change/ChangeManagerDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.RequestFactoryDaemon</interface>
+            <class>com.rift.coad.change.request.RequestFactoryDaemonImpl</class>
+            <bindName>change/request/RequestFactoryDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <classes>com.rift.coad.change.request.RequestFactoryObjectImpl</classes>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.CreateRequestHandler</interface>
+            <class>com.rift.coad.change.request.CreateRequestHandlerImpl</class>
+            <bindName>change/request/CreateRequestHandler</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.RequestHandler</interface>
+            <class>com.rift.coad.change.request.RequestHandlerImpl</class>
+            <bindName>change/request/RequestHandler</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.action.ActionFactoryManager</interface>
+            <class>com.rift.coad.change.request.action.ActionFactoryManagerImpl</class>
+            <bindName>change/request/action/ActionFactoryManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <classes>com.rift.coad.change.request.action.ActionInstanceImpl</classes>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.action.ActionHandler</interface>
+            <class>com.rift.coad.change.request.action.ActionHandlerImpl</class>
+            <bindName>change/request/action/ActionHandler</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

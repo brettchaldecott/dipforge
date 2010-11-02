@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:base="http://www.coadunation.net/schema/rdf/1.0/person#">
+    
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/person#Person">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/resource#ResourceBase"/>
+    </Class>
+    <Class rdf:about="http://www.coadunation.net/schema/rdf/1.0/person#User">
+        <subClassOf rdf:resource="http://www.coadunation.net/schema/rdf/1.0/person#Person"/>
+    </Class>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/person#Id">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/person#Person"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/person#FirstNames">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/person#Person"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/person#LastName">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/person#Person"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/person#Username">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/person#User"/>
+    </rdf:Property>
+    <rdf:Property rdf:about="http://www.coadunation.net/schema/rdf/1.0/person#Password">
+        <domain rdf:resource="http://www.coadunation.net/schema/rdf/1.0/person#User"/>
+    </rdf:Property>
+</rdf:RDF>

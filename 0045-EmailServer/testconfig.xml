@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testconfig.xml
+    Created on : June 21, 2006, 11:51 AM
+    Author     : Brett Chaldecott
+    Description:
+        The configuration test data
+-->
+
+<configuration>
+    <object>
+        <entry key="gen1" type="string">
+            value 1
+        </entry>
+        <entry key="gen2" type="string">
+            value 2
+        </entry>
+        <entry key="gen3" type="long">
+            3
+        </entry>
+        <entry key="Client_Stub" type="String">
+            ./tmp
+        </entry>
+        <entry key="RMI" type="String">
+            JRMP
+        </entry>
+        <entry key="primary" type="boolean">
+            true
+        </entry>
+        <entry key="primary_jndi_url" type="string">
+            java:network/env/test
+        </entry>
+        <entry key="instance_identifier" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.configuration.xml.XMLConfigurationFactoryTest">
+        <entry key="key1" type="string">
+            value 4
+        </entry>
+        <entry key="key2" type="string">
+            value 5
+        </entry>
+        <entry key="key3" type="long">
+            6
+        </entry>
+        <entry key="key4" type="boolean">
+            true
+        </entry>
+        <entry key="key5" type="boolean">
+            false
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.RoleManager">
+        <entry key="role_handlers" type="string">
+            com.rift.coad.lib.security.role.ConfigurationRoleHandler
+        </entry>
+        <entry key="principals" type="string">
+            test,admin,guest,special,test1
+        </entry>
+        <entry key="roles" type="string">
+            test,middle,master,friend
+        </entry>
+        <entry key="test" type="string">
+            test,test1
+        </entry>
+        <entry key="middle" type="string">
+            test,admin
+        </entry>
+        <entry key="master" type="string">
+            admin,special
+        </entry>
+        <entry key="friend" type="string">
+            guest
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.xml.XMLUserParser">
+        <entry key="password_file" type="string">
+            ./users.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManager">
+        <entry key="connectors" type="string">
+            com.rift.coad.lib.security.user.xml.XMLUserStore
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.CoadunationThreadGroup">
+        <entry key="Thread_Terminate_Timeout" type="long">
+            5000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager">
+        <entry key="username" type="string">
+            test
+        </entry>
+        <entry key="directory" type="string">
+            ./../TestCoadunationLib/dist/
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager$DeploymentThread">
+        <entry key="delay" type="long">
+            1000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.test.TestMonitor">
+        <entry key="Timeout" type="long">
+            600000
+        </entry>
+        <entry key="Monitor" type="string">
+            com.test.BeanImpl,com.test2.JMXBean1,com.test.BeanThread,com.test2.JMXBeanThread
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentLoader">
+        <entry key="temp_dir" type="string">
+            ./tmp/
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.login.LoginManager">
+        <entry key="session_timeout" type="long">
+            3600000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.ThreadsPermissionContainerAccessor">
+        <entry key="role" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserSessionManagerAccessor">
+        <entry key="role" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManagerAccessor">
+        <entry key="role" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.SessionManager$TimeoutThread">
+        <entry key="session_timeout_delay" type="long">
+            500
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.sudo.Sudo">
+        <entry key="role" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpRequestManager">
+        <entry key="daemon_username" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.RequestListenerThread">
+        <entry key="http_port" type="long">
+            8085
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpDaemon">
+        <entry key="daemon_username" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.db.DBSourceManager">
+        <entry key="db_sources" type="string">
+            com.mysql.jdbc.Driver
+        </entry>
+    </object>
+    <object name="com.mysql.jdbc.Driver">
+        <entry key="db_source" type="string">
+            test
+        </entry>
+        <entry key="url" type="string">
+            jdbc:mysql://localhost:3306/test
+        </entry>
+        <entry key="username" type="string">
+            test
+        </entry>
+        <entry key="password" type="string">
+            112233
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.cache.CacheRegistry">
+        <entry key="cache_user" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.rmi.RMICache">
+        <entry key="rmi_cache_expiry" type="long">
+            500
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.rmi.TransactionRMICache">
+        <entry key="rmi_cache_expiry" type="long">
+            500
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.bean.BeanCache">
+        <entry key="bean_cache_expiry" type="long">
+            500
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.bean.TransactionBeanCache">
+        <entry key="bean_cache_expiry" type="long">
+            500
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.cache.KeySyncCache">
+        <entry key="key_sync_cache_expiry" type="long">
+            500
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.credentials.Login">
+        <entry key="credential_authenticator" type="string">
+            com.rift.coad.lib.interceptor.authenticator.UserPasswordAuthenticator
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.iiop.InterceptorIntializer">
+        <entry key="client_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SessionClientInterceptor
+        </entry>
+        <entry key="server_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SecurityServerInterceptor,
+            com.rift.coad.lib.interceptor.iiop.ClassLoaderInterceptor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.NamingDirector">
+        <entry key="orb_manager" type="string">
+            com.rift.coad.lib.naming.jacorb.JacORBManager
+        </entry>
+        <entry key="naming_context_manager" type="string">
+            com.rift.coad.lib.naming.cos.CosNamingContextManager
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.ThreadGroupManager">
+        <entry key="role" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.jacorb.JacORBManager">
+        <entry key="host" type="string">
+            localhost
+        </entry>
+        <entry key="port" type="string">
+            2000
+        </entry>
+        <entry key="name_server_store" type="string">
+            ./ns
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.cos.CosContext">
+        <entry key="instance_cos_url" type="string">
+            corbaloc:iiop:localhost:2000/StandardNS/NameServer-POA/_root
+        </entry>
+        <entry key="master_cos_url" type="string">
+            corbaloc:iiop:localhost:2000/StandardNS/NameServer-POA/_root
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.bean.BeanManager">
+        <entry key="bean_user" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.jmxbean.JMXBeanManager">
+        <entry key="jmxbean_user" type="string">
+            test
+        </entry>
+    </object>
+    <object name="com.rift.coad.util.change.ChangeLog">
+        <entry key="changelog_username" type="string">
+            test
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            ./tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.audit.AuditTrailManager">
+        <entry key="Formatter" type="string">
+            com.rift.coad.lib.audit.basic.BasicFormatter
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.smtp.SMTPMessageQueue">
+        <entry key="email_retry_time" type="long">
+            100
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.fetchmail.FetchMailQueue">
+        <entry key="fetchmail_retry_time" type="long">
+            100
+        </entry>
+    </object>
+</configuration>
+

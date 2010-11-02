@@ -1,0 +1,66 @@
+
+    /**
+     * The wrapper method that handles the add
+     */
+    public %returnType% %methodName%(%fullParameters%)
+        throws %exceptions% {
+        checkIfReleased();
+                boolean ownTransaction = false;
+        if (log.isDebugEnabled()) {
+            log.debug("Calling method %methodName%");
+        }
+        touch();
+        ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(classLoader);
+        boolean validated = false;
+        // start the transaction
+        startTransaction();
+        boolean commit = false;
+        boolean success = true;
+        try {
+            Validator.validate(this.getClass(),role);
+            validated = true;
+            permissions.pushRole(role);
+            Object result = target.%methodName%(%parameters%);
+            if (result == null)
+            {
+                commit = true;
+                return (%returnType%)result;
+            }
+            Object tieResult = getTieForObject(result);
+            try {
+                TransactionRMICache cache = getTransactionRMICache();
+                cache.addCacheEntry(beanInfo.getCacheTimeout(),
+                        (CacheEntry)tieResult);
+            } catch (Exception ex) {
+                log.error("Failed to cache the result or rmi bind it : " 
+                        + ex.getMessage(),ex);
+                throw new RemoteException(
+                        "Failed to cache the result or rmi bind it : " 
+                        + ex.getMessage(),ex);
+            }
+            commit = true;
+            return (%returnType%)tieResult;
+        } %catchs% catch (SecurityException ex) {
+            log.error("Access was denied : " + ex.getMessage(),ex);
+            auditTrail.logEvent("%methodName%",ex);
+            success = false;
+            throw new org.omg.CORBA.NO_PERMISSION(
+                "Access to %methodName% using role "
+                + role + " was denied");
+        } finally {
+            if (success) {
+                auditTrail.logEvent("%methodName%");
+            }
+            if (validated == true) {
+                try {
+                    permissions.popRole(role);
+                } catch (Exception ex) {
+                    log.error("Failed to pop the roles back : " + ex.getMessage()
+                                ,ex);
+                }
+            }
+            stopTransaction(commit);
+            Thread.currentThread().setContextClassLoader(oldLoader);
+        }
+    }

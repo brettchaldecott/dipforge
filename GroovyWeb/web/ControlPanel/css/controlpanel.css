@@ -1,0 +1,182 @@
+/*
+    Date: Mon Feb 08 14:18:18 SAST 2010
+    File: controlpanel.css
+    Author: admin
+*/
+
+
+* {
+        margin:0;
+        padding:0;
+}
+
+body,html {
+        margin: 0;
+        padding: 0;
+        height:100%;
+        overflow:hidden;
+        background: #efebe7;
+}
+
+form#textareaHolder {
+        height:100%;
+        width:100%;
+}
+
+form#fieldset {
+        font-family: Arial, sans-serif;
+        font-size: 7pt;
+        padding: 0px;
+}
+
+
+textarea {
+        min-height:100%;
+        width:100%
+}
+
+* html textarea{
+        height:100%
+}
+
+* html legend {
+        font-family: Arial, sans-serif;
+        font-size: 7pt;
+}
+
+.header {
+        font-family: Arial, sans-serif;
+        font-size: 8pt;
+        padding: 0px;
+}
+
+.title {
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+        padding: 0px;
+}
+
+
+.table-row {
+        background: #cccccc;
+        border-color: #bcbcbc;
+        border-style: solid;
+        border-width: 1px 0px 1px 0px;
+        height: 80px;
+}
+
+.alternate-table-row {
+        background: #efebe7;
+        border-color: white;
+        border-style: solid;
+        border-width: 1px 0px 1px 0px;
+        height: 80px;
+}
+
+.control-item {
+        font-family: Arial, sans-serif;
+        font-size: 6pt;
+}
+
+.master-td {
+        padding: 0px;
+        border-color: black;
+        border-style: solid;
+        border-width: 0px 0px 1px 0px;
+}
+
+
+/*
+The top bar information
+*/
+.top-bar {
+        background: grey;
+        height: 32px;
+        border-color: black;
+        border-style: solid;
+        border-width: 0px 0px 1px 0px;
+}
+
+.top-bar-contents {
+        vertical-align:middle;
+}
+
+
+.inactive-image-top-bar {
+        opacity: 0.8;
+        filter: alpha(opacity=40);
+	align: middle;
+}
+
+.active-image-top-bar {
+        padding: 0px;
+        align: middle;
+}
+/*
+Data tables
+*/
+.data-table {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
+        width: 600px;
+}
+
+.data-table-header-row {
+        background: grey;
+        font-family: Arial, sans-serif;
+        font-size: 8pt;
+}
+
+.data-table-row {
+        background: #cccccc;
+}
+
+.alternative-data-table-row {
+        background: #efebe7;
+}
+
+
+.data-table-cell-border {
+        border-color: black;
+        border-style: solid;
+        border-width: 0px 0px 0px 1px;
+        font-family: Arial, sans-serif;
+        font-size: 6pt;
+        padding: 0px 3px 0px 3px;
+}
+
+
+/*
+ General table
+*/
+
+.general-table {
+        font-family: Arial, sans-serif;
+        font-size: 7pt;
+}
+
+/*
+ The link information.
+*/
+
+a:link {
+        text-decoration:none;
+        padding: 0px;
+}
+
+a:visited {
+        text-decoration:none;
+        padding: 0px;
+}
+
+a:hover {
+        text-decoration:none;
+        padding: 0px;
+}
+
+a:active {
+        text-decoration:none;
+        padding: 0px;
+}
+

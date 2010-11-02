@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<inherits name="com.smartgwt.SmartGwt"/>
+    <inherits name="com.rift.coad.gwt.lib.CoadunationLib"/>
+    <inherits name="com.google.gwt.user.User"/>
+	<entry-point class="com.rift.coad.office.client.MainEntryPoint"/>
+	<!-- Do not define servlets here, use web.xml -->
+</module>

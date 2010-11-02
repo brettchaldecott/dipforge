@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : route.xml
+    Created on : February 21, 2008, 7:20 AM
+    Author     : brett chaldecott
+    Description:
+        The email routing within the email server example
+-->
+
+<EmailRoute>
+    <RouteEntry name="testlocal" jndi="/test/local">
+        <if>
+            <messagetype value="1"/>
+            <RouteEntry name="testspam" jndi="/test/spam">
+                <if>
+                    <header key="spam" value="spam"/>
+                    <RouteEntry name="spamdelivery" jndi="/test/spamdelivery"/>
+                </if>
+                <RouteEntry name="deliverlocal" jndi="/test/deliverlocal"/>
+            </RouteEntry>
+        </if>
+        <if>
+            <header key="test" value="bob"/>
+            <messagetype value="2"/>
+            <RouteEntry name="deliverremote" jndi="/test/deliverremote"/>
+        </if>
+    </RouteEntry>
+</EmailRoute>

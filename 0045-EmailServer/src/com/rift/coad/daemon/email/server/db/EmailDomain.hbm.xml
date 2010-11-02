@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created for Coadunation Email Server
+-->
+    
+    <class 
+        name="com.rift.coad.daemon.email.server.db.EmailDomain" 
+        table="EmailDomain"
+        proxy="com.rift.coad.daemon.email.server.db.EmailDomain"
+    >
+        
+        <id
+            name="id"
+            type="java.lang.Integer"
+            column="id"
+        >
+            <meta attribute="field-description" inherit="false">
+                auto_increment
+            </meta>
+            
+            <generator class="native" />
+        </id>
+        
+        <property
+            name="domain"
+            type="java.lang.String"
+            column="domain"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="dropBox"
+            type="java.lang.String"
+            column="dropBox"
+            not-null="false"
+            length="512"
+        />
+        
+        
+        <!-- Associations -->
+    
+        <!-- bi-directional one-to-many association to Emailbox -->
+
+        <set
+            name="emailboxes"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            
+        >
+            <key>
+                <column name="domainId" />
+            </key>
+            
+            <one-to-many 
+                class="com.rift.coad.daemon.email.server.db.Emailbox"
+            />
+        </set>
+        
+        <!-- bi-directional one-to-many association to EmailForward -->
+
+        <set
+            name="emailForwards"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            
+        >
+            <key>
+                <column name="domainId" />
+            </key>
+            
+            <one-to-many 
+                class="com.rift.coad.daemon.email.server.db.EmailForward"
+            />
+        </set>
+        
+    </class>
+</hibernate-mapping>

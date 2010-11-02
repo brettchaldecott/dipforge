@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/Main.gwt.xml</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/MainEntryPoint.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/entry/EntriesException.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/entry/EntriesFactory.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/entry/EntriesRPCInterface.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/entry/EntriesRPCInterfaceAsync.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/entry/EntriesRPCInterfaceConnector.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/entry/EntriesStore.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/client/tree/ResourceDataHandler.java</file>
+        <file>file:/home/brett/NetBeansProjects/coadunation/CatalogConsole/src/java/com/rift/coad/catalog/server/entry/EntriesRPCInterfaceImpl.java</file>
+    </open-files>
+</project-private>

@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.rift.coad.daemon.dns.webservice" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.rift.coad.daemon.dns.webservice" xmlns:intf="com.rift.coad.daemon.dns.webservice" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="com.rift.coad.daemon.dns.webservice" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="DNSException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="cause" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getStatusResponse">
+
+      <wsdl:part name="getStatusReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getZoneRequest">
+
+      <wsdl:part name="zoneName" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeZoneResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="createSecondaryZoneRequest">
+
+      <wsdl:part name="zoneName" type="xsd:string"/>
+
+      <wsdl:part name="remoteSource" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeZoneRequest">
+
+      <wsdl:part name="zoneName" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDescriptionResponse">
+
+      <wsdl:part name="getDescriptionReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createSecondaryZoneResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getDescriptionRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="listZonesResponse">
+
+      <wsdl:part name="listZonesReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createZoneRequest">
+
+      <wsdl:part name="zoneName" type="xsd:string"/>
+
+      <wsdl:part name="zoneContents" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionResponse">
+
+      <wsdl:part name="getVersionReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createZoneResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="DNSException">
+
+      <wsdl:part name="fault" type="impl:DNSException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateZoneRequest">
+
+      <wsdl:part name="zoneName" type="xsd:string"/>
+
+      <wsdl:part name="zoneContents" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getZoneResponse">
+
+      <wsdl:part name="getZoneReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="getNameResponse">
+
+      <wsdl:part name="getNameReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateZoneResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getVersionRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="listZonesRequest">
+       
+      <!-- Zone types
+      1: Primary Zone
+      2: Secondary Zone
+      3: All Zones -->
+      <wsdl:part name="zoneType" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNameRequest">
+
+   </wsdl:message>
+
+   <wsdl:portType name="DNSServerService">
+
+      <wsdl:operation name="listZones" parameterOrder="zoneType">
+
+         <wsdl:input message="impl:listZonesRequest" name="listZonesRequest"/>
+
+         <wsdl:output message="impl:listZonesResponse" name="listZonesResponse"/>
+
+         <wsdl:fault message="impl:DNSException" name="DNSException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createZone" parameterOrder="zoneName zoneContents">
+
+         <wsdl:input message="impl:createZoneRequest" name="createZoneRequest"/>
+
+         <wsdl:output message="impl:createZoneResponse" name="createZoneResponse"/>
+
+         <wsdl:fault message="impl:DNSException" name="DNSException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createSecondaryZone" parameterOrder="zoneName remoteSource">
+
+         <wsdl:input message="impl:createSecondaryZoneRequest" name="createSecondaryZoneRequest"/>
+
+         <wsdl:output message="impl:createSecondaryZoneResponse" name="createSecondaryZoneResponse"/>
+
+         <wsdl:fault message="impl:DNSException" name="DNSException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateZone" parameterOrder="zoneName zoneContents">
+
+         <wsdl:input message="impl:updateZoneRequest" name="updateZoneRequest"/>
+
+         <wsdl:output message="impl:updateZoneResponse" name="updateZoneResponse"/>
+
+         <wsdl:fault message="impl:DNSException" name="DNSException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeZone" parameterOrder="zoneName">
+
+         <wsdl:input message="impl:removeZoneRequest" name="removeZoneRequest"/>
+
+         <wsdl:output message="impl:removeZoneResponse" name="removeZoneResponse"/>
+
+         <wsdl:fault message="impl:DNSException" name="DNSException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getName">
+
+         <wsdl:input message="impl:getNameRequest" name="getNameRequest"/>
+
+         <wsdl:output message="impl:getNameResponse" name="getNameResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersion">
+
+         <wsdl:input message="impl:getVersionRequest" name="getVersionRequest"/>
+
+         <wsdl:output message="impl:getVersionResponse" name="getVersionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDescription">
+
+         <wsdl:input message="impl:getDescriptionRequest" name="getDescriptionRequest"/>
+
+         <wsdl:output message="impl:getDescriptionResponse" name="getDescriptionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdl:input message="impl:getStatusRequest" name="getStatusRequest"/>
+
+         <wsdl:output message="impl:getStatusResponse" name="getStatusResponse"/>
+
+         <wsdl:fault message="impl:DNSException" name="DNSException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getZone" parameterOrder="zoneName">
+
+         <wsdl:input message="impl:getZoneRequest" name="getZoneRequest"/>
+
+         <wsdl:output message="impl:getZoneResponse" name="getZoneResponse"/>
+
+         <wsdl:fault message="impl:DNSException" name="DNSException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ManagementSoapBinding" type="impl:DNSServerService">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="listZones">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listZonesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listZonesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="DNSException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="DNSException" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createZone">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createZoneRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createZoneResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="DNSException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="DNSException" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createSecondaryZone">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createSecondaryZoneRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createSecondaryZoneResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="DNSException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="DNSException" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateZone">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateZoneRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateZoneResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="DNSException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="DNSException" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeZone">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeZoneRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeZoneResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="DNSException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="DNSException" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getName">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNameRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNameResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVersion">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getVersionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getVersionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDescription">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDescriptionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDescriptionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStatusRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStatusResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="DNSException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="DNSException" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getZone">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getZoneRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getZoneResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="DNSException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="DNSException" namespace="com.rift.coad.daemon.dns.webservice" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="DNSServerServiceService">
+
+      <wsdl:port binding="impl:ManagementSoapBinding" name="Management">
+
+         <wsdlsoap:address location="http://localhost:8080/dns/Management"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

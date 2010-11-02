@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testconfig
+    Created on : August 05, 2006, 11:51 AM
+    Author     : Brett Chaldecott
+    Description:
+        The configuration data
+-->
+
+<configuration>
+    <object name="com.rift.coad.daemon.hsqldb.HsqlDBEngineImpl">
+        <entry key="db_path" type="string">
+            ./tmp
+        </entry>
+        <entry key="db_hostname" type="string">
+            localhost
+        </entry>
+    </object>
+</configuration>
+

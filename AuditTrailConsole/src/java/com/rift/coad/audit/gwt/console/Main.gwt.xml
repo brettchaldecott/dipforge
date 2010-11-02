@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.smartgwt.SmartGwt"/>
+    <inherits name="com.rift.coad.rdf.objmapping.Mapping"/>
+    <inherits name="com.rift.coad.rdf.objmapping.LogEntry"/>
+    <inherits name="com.rift.coad.rdf.objmapping.util.Util"/>
+    <inherits name="com.rift.coad.gwt.lib.CoadunationLib"/>
+    <inherits name="com.rift.coad.audit.gwt.console.AuditTrail"/>
+    <entry-point class="com.rift.coad.audit.gwt.console.client.MainEntryPoint"/>
+	<!-- Do not define servlets here, use web.xml -->
+</module>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : Oct 2009
+    Author     : Brett Chaldecott
+    Description:
+        This method
+-->
+
+<coadunation version="1" name="0140-GroovyDaemon">
+    <description>Groovy Daemon</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.groovy.GroovyManagerMBean</interface>
+            <class>com.rift.coad.groovy.GroovyManager</class>
+            <objectName>com.rift.coad.groovy:type=Management</objectName>
+            <bindName>groovy/Management</bindName>
+            <role>groovy_manager</role>
+            <username>groovy_manager</username>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.groovy.GroovyMappingManagerMBean</interface>
+            <class>com.rift.coad.groovy.GroovyMappingManager</class>
+            <objectName>com.rift.coad.groovy:type=MappingManagement</objectName>
+            <bindName>groovy/MappingManagement</bindName>
+            <role>groovy_manager</role>
+            <username>groovy_manager</username>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.groovy.GroovyDaemon</interface>
+            <class>com.rift.coad.groovy.GroovyDaemonImpl</class>
+            <bindName>groovy/Daemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>false</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.groovy.GroovyMappingManagerDaemon</interface>
+            <class>com.rift.coad.groovy.GroovyMappingManagerDaemonImpl</class>
+            <bindName>groovy/MappingManagerDaemon</bindName>
+            <role>groovy_manager</role>
+            <username>groovy_manager</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.datamapper.DataMapper</interface>
+            <class>com.rift.coad.groovy.GroovyDataMapper</class>
+            <bindName>groovy/DataMapperManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>false</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.timer.TimerEventHandler</interface>
+            <class>com.rift.coad.groovy.GroovyTimerImpl</class>
+            <bindName>groovy/Timer</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+        </bean>
+    </beans>
+</coadunation>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : mime.xml
+    Created on : 03 November 2008, 3:43 PM
+    Author     : brett
+    Description:
+        Purpose of the document follows.
+-->
+
+<MimeTypes>
+    <Mime name="test" url="/test" icon="/icon" width="600" height="400"/>
+    <Mime name="test2" url="/test2" icon="/icon2" width="600" height="400"/>
+    <Mime name="test3" url="/test3" icon="/icon3" width="600" height="400"/>
+</MimeTypes>

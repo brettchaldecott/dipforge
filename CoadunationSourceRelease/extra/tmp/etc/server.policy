@@ -1,0 +1,6 @@
+
+
+// coadunation install
+grant {
+    permission java.security.AllPermission;
+};

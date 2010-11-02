@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created for Coadunation RSS Reader
+    -->
+    
+    <class 
+        name="com.rift.coad.daemon.rss.db.RSSDBFeedEntry" 
+        table="RSSDBFeedEntry"
+        proxy="com.rift.coad.daemon.rss.db.RSSDBFeedEntry"
+    >
+        
+        <id
+            name="id"
+            type="java.lang.Integer"
+            column="id"
+        >
+            <meta attribute="field-description" inherit="false">
+                auto_increment
+            </meta>
+            
+            <generator class="native" />
+        </id>
+        
+        <property
+            name="subject"
+            type="java.lang.String"
+            column="subject"
+            not-null="true"
+            length="256"
+        />
+        
+        <!-- Associations -->
+  
+        <!-- bi-directional many-to-one association to the Email Domain -->
+        <many-to-one
+            name="dbFeed"
+            class="com.rift.coad.daemon.rss.db.RSSDBFeed"
+            not-null="true"
+        >
+            <column name="rssDBFeedId" />
+        </many-to-one>
+
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : users.xml
+    Created on : June 27, 2006, 5:24 PM
+    Author     : Brett Chaldecott
+    Description:
+        The test user user file.
+-->
+
+<users>
+    <user name="admin" password="112233">
+        <principal>admin</principal>
+        <principal>special</principal>
+        <principal>guest</principal>
+        <principal>daemon</principal>
+        <principal>desktop</principal>
+    </user>
+    <user name="daemon" password="112233">
+        <principal>daemon</principal>
+    </user>
+    <user name="daemon" password="112233">
+        <principal>daemon</principal>
+    </user>
+    <user name="dns" password="112233">
+        <principal>dns</principal>
+        <principal>daemon</principal>
+    </user>
+    <user name="email" password="112233">
+        <principal>email</principal>
+        <principal>daemon</principal>
+    </user>
+    <user name="test" password="112233">
+        <principal>guest</principal>
+        <principal>daemon</principal>
+    </user>
+</users>

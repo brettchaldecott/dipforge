@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : February 2008
+    Author     : Brett Chaldecott
+    Description:
+        This document contains the configuration for the Coadunation Email 
+        Server
+-->
+
+<coadunation version="1" name="0045-EmailServer">
+    <description>The Email Server</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.daemon.email.EMailServerMBean</interface>
+            <class>com.rift.coad.daemon.email.EMailServer</class>
+            <objectName>com.rift.coad.daemon:type=EMailServer</objectName>
+            <bindName>email/MBeanManager</bindName>
+            <role>email</role>
+            <username>email</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.email.FetchMailServerMBean</interface>
+            <class>com.rift.coad.daemon.email.FetchMailServer</class>
+            <objectName>com.rift.coad.daemon:type=FetchMailServer</objectName>
+            <bindName>email/FetchMail</bindName>
+            <role>email</role>
+            <username>email</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.daemon.email.smtp.Server</interface>
+            <class>com.rift.coad.daemon.email.server.smtp.ServerImpl</class>
+            <bindName>email/SMTPServer</bindName>
+            <role>email</role>
+            <username>email</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.email.smtp.Handler</interface>
+            <class>com.rift.coad.daemon.email.server.smtp.handlers.TestForLocalDelivery</class>
+            <bindName>email/TestLocal</bindName>
+            <role>email</role>
+            <username>email</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.email.smtp.Handler</interface>
+            <class>com.rift.coad.daemon.email.server.smtp.handlers.TestForLocalDelivery</class>
+            <bindName>email/TestLocal</bindName>
+            <role>email</role>
+            <username>email</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.email.smtp.Handler</interface>
+            <class>com.rift.coad.daemon.email.server.smtp.handlers.DeliverLocal</class>
+            <bindName>email/DeliverLocal</bindName>
+            <role>email</role>
+            <username>email</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.email.smtp.Handler</interface>
+            <class>com.rift.coad.daemon.email.server.smtp.handlers.DeliverRemote</class>
+            <bindName>email/DeliverRemote</bindName>
+            <role>email</role>
+            <username>email</username>
+            <cache_timeout>60000</cache_timeout>
+        </bean>
+    </beans>
+    <webservices>
+        <webservice>
+            <path>/email/Management</path>
+            <class>com.rift.coad.daemon.email.webservice.EMailServerImpl</class>
+            <wsdl>com/rift/coad/daemon/email/webservice/EMailServer.wsdl</wsdl>
+            <role>email</role>
+            <transaction>true</transaction>
+        </webservice>
+        <webservice>
+            <path>/email/FetchMail</path>
+            <class>com.rift.coad.daemon.email.webservice.FetchMailServerImpl</class>
+            <wsdl>com/rift/coad/daemon/email/webservice/FetchMail.wsdl</wsdl>
+            <role>email</role>
+            <transaction>true</transaction>
+        </webservice>
+    </webservices>
+</coadunation>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Author
+    Description:
+        This is the base Coadunation document that needs to be configured 
+        properlty.
+-->
+
+<coadunation version="1" name="CoadunationTest">
+    <!--
+    Example Content
+    <description>The test coadunationfile</description>
+    <webservices>
+        <webservice>
+            <path>/WebServiceTest</path>
+            <class>com.webservicetest.webservice.WebService</class>
+            <targetName>urn:WebService/wsdl</targetName>
+            <role>test</role>
+        </webservice>
+    </webservices>
+    <jmxbeans>
+        <bean>
+            <interface>com.test2.JMXBean1MBean</interface>
+            <class>com.test2.JMXBean1</class>
+            <objectName>com.test2:type=JMXBean1</objectName>
+            <bindName>testjmxbean</bindName>
+            <role>test</role>
+            <username>test</username>
+            <thread>
+                <class>com.test2.JMXBeanThread</class>
+                <username>test</username>
+                <number>1</number>
+            </thread>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.test.BeanInterface</interface>
+            <class>com.test.BeanImpl</class>
+            <bindName>testbean</bindName>
+            <role>test</role>
+            <username>test</username>
+            <thread>
+                <class>com.test.BeanThread</class>
+                <username>test</username>
+                <number>1</number>
+            </thread>
+        </bean>
+    </beans>
+    -->
+    <beans>
+        <bean>
+            <interface>com.test.BasicBeanInterface</interface>
+            <class>com.test.BasicBeanImpl</class>
+            <bindName>threadtest</bindName>
+            <role>test</role>
+            <username>test</username>
+        </bean>
+    </beans>
+</coadunation>

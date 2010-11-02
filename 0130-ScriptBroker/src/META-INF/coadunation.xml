@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : Oct 2009
+    Author     : Brett Chaldecott
+    Description:
+        This method
+-->
+
+<coadunation version="1" name="0130-ScriptBroker">
+    <description>Coadunation Type Manager</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.coad.script.broker.ScriptManagerMBean</interface>
+            <class>com.rift.coad.script.broker.ScriptManager</class>
+            <objectName>com.rift.coad.script:type=Management</objectName>
+            <bindName>script/Management</bindName>
+            <role>script_manager</role>
+            <username>script_manager</username>
+            <!-- this is done to deal with tradition MX interfaces such as
+            jconsole that will not create a transaction -->
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.script.broker.ScriptManagerDaemon</interface>
+            <class>com.rift.coad.script.broker.ScriptManagerDaemonImpl</class>
+            <bindName>script/ManagementDaemon</bindName>
+            <role>script_manager</role>
+            <username>script_manager</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.script.broker.ScriptDistributionDaemon</interface>
+            <class>com.rift.coad.script.broker.ScriptDistributionDaemonImpl</class>
+            <bindName>script/DistributionDaemon</bindName>
+            <role>script_manager</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.script.broker.ScriptRevisionManagerDaemon</interface>
+            <class>com.rift.coad.script.broker.ScriptRevisionManagerDaemonImpl</class>
+            <bindName>script/RevisionManagementDaemon</bindName>
+            <role>script_manager</role>
+            <username>script_manager</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.script.broker.helper.ScriptCommitHelper</interface>
+            <class>com.rift.coad.script.broker.helper.ScriptCommitHelperImpl</class>
+            <bindName>script/helper/CommitHelper</bindName>
+            <role>script_manager</role>
+            <username>script_manager</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

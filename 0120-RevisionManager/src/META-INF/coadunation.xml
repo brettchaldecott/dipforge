@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : November 2009
+    Author     : Brett Chaldecott
+    Description:
+        This document defines the configuration for the audit trail server.
+-->
+
+<coadunation version="1" name="0120-RevisionManager">
+    <description>Audit Trail Server</description>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.revision.RevisionManagerDaemon</interface>
+            <class>com.rift.coad.revision.RevisionManagerDaemonImpl</class>
+            <bindName>revision/RevisionManagerDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

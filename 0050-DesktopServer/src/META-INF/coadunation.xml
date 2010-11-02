@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : July 2008
+    Author     : Brett Chaldecott
+    Description:
+        This document contains the configuration for the Coadunation Desktop Server
+-->
+
+<coadunation version="1" name="0050-DesktopServer">
+    <description>The desktop server for Coadunation</description>
+    <beans>
+        <bean>
+            <interface>com.rift.coad.daemon.desktop.MasterBar</interface>
+            <class>com.rift.coad.daemon.desktop.master.MasterBarImpl</class>
+            <bindName>desktop/MasterBar</bindName>
+            <role>desktop</role>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.desktop.DesktopManager</interface>
+            <class>com.rift.coad.daemon.desktop.DesktopManagerImpl</class>
+            <bindName>desktop/DesktopManager</bindName>
+            <role>desktop</role>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.desktop.MimeManager</interface>
+            <class>com.rift.coad.daemon.desktop.MimeManagerImpl</class>
+            <bindName>desktop/MimeManager</bindName>
+            <role>desktop</role>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

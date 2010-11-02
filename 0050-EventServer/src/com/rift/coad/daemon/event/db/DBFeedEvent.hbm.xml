@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+    <!-- 
+    Created for DBFeedEvent
+-->
+    
+    <class 
+        name="com.rift.coad.daemon.event.db.DBFeedEvent" 
+        table="DBFeedEvent"
+        proxy="com.rift.coad.daemon.event.db.DBFeedEvent"
+    >
+        
+        <id
+            name="id"
+            type="java.lang.Integer"
+            column="id"
+        >
+            <meta attribute="field-description" inherit="false">
+                auto_increment
+            </meta>
+            
+            <generator class="native" />
+        </id>
+        
+        <property
+            name="name"
+            type="java.lang.String"
+            column="name"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="externalId"
+            type="java.lang.String"
+            column="externalId"
+            not-null="true"
+            length="256"
+        />
+        
+        
+        <property
+            name="username"
+            type="java.lang.String"
+            column="username"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="description"
+            type="java.lang.String"
+            column="description"
+            not-null="true"
+            length="1024"
+        />
+
+        <property
+            name="url"
+            type="java.lang.String"
+            column="url"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="application"
+            type="java.lang.String"
+            column="application"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="role"
+            type="java.lang.String"
+            column="role"
+            not-null="true"
+            length="256"
+        />
+        
+        <property
+            name="eventDate"
+            type="java.sql.Timestamp"
+            column="eventDate"
+            not-null="true"
+        />
+        
+        <!-- Associations -->
+    
+        <!-- bi-directional one-to-many association to Emailbox -->
+
+        <set
+            name="eventMeta"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            
+        >
+            <key>
+                <column name="eventId" />
+            </key>
+            
+            <one-to-many 
+                class="com.rift.coad.daemon.event.db.DBFeedEventMeta"
+            />
+        </set>
+        
+        
+    </class>
+</hibernate-mapping>
