@@ -1,0 +1,20 @@
+apply plugin: 'maven'
+ant.importBuild 'build.xml'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compilePath
+}
+
+dependencies {
+    compilePath group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+}
+
+ant.properties['javac.classpath'] = configurations.compilePath.asPath
+
+task build(dependsOn: jar) << {
+    println 'Hello, from Gradle'
+}

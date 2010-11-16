@@ -1,0 +1,23 @@
+apply plugin: 'maven'
+ant.importBuild 'build.xml'
+
+repositories {
+    mavenCentral name: 'single-jar-repo', urls: ["http://repo1.maven.org/maven2/", "http://repository.jboss.org/maven2/"]
+    mavenCentral name: 'multi-jar-repos', urls: ["http://repo1.maven.org/maven2/", "http://repository.jboss.org/maven2/"]
+}
+
+configurations {
+    compilePath
+}
+
+dependencies {
+    compilePath group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compilePath group: 'jacorb', name: 'jacorb', version: '2.3.0jboss.patch6-brew', ext: 'jar'
+    compilePath group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.1-beta2', ext: 'jar'
+}
+
+ant.properties['javac.classpath'] = configurations.compilePath.asPath
+
+task build(dependsOn: jar) << {
+    println 'Hello, from Gradle'
+}

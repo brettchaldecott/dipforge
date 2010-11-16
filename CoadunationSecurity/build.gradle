@@ -1,0 +1,16 @@
+
+ant.importBuild 'build.xml'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+}
+
+dependencies {
+}
+
+task build(dependsOn: jar) << {
+    println 'Hello, from Gradle'
+}
