@@ -1,16 +1,48 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
 
-ant.importBuild 'build.xml'
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="CoadunationBase"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
 
 repositories {
     mavenCentral()
 }
 
 configurations {
+    compile
 }
 
 dependencies {
 }
 
-task build(dependsOn: jar) << {
-    println 'Hello, from Gradle'
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../repository")
+        pom.version = version
+        pom.artifactId = "CoadunationBase"
+        pom.groupId = "CoadunationBase"
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives]
 }

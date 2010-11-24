@@ -1,23 +1,59 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
 apply plugin: 'maven'
-ant.importBuild 'build.xml'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="CoadunationLib"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
 
 repositories {
-    mavenCentral name: 'single-jar-repo', urls: ["http://repo1.maven.org/maven2/", "http://repository.jboss.org/maven2/"]
-    mavenCentral name: 'multi-jar-repos', urls: ["http://repo1.maven.org/maven2/", "http://repository.jboss.org/maven2/"]
+    mavenCentral()
+    mavenRepo urls: 'http://repo1.maven.org/maven2/'
+    mavenRepo urls: 'http://repository.jboss.org/maven2/'
+    mavenRepo urls: "file://localhost/$projectDir/../repository"
 }
 
 configurations {
-    compilePath
+    compile
 }
 
 dependencies {
-    compilePath group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
-    compilePath group: 'jacorb', name: 'jacorb', version: '2.3.0jboss.patch6-brew', ext: 'jar'
-    compilePath group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.1-beta2', ext: 'jar'
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile group: 'jacorb', name: 'jacorb', version: '2.3.0jboss.patch6-brew', ext: 'jar'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.1-beta2', ext: 'jar'
+    compile group: 'CoadunationBase', name: 'CoadunationBase', version: '1.0.1', ext: 'jar'
+    compile group: 'CoadunationAnnotations', name: 'CoadunationAnnotations', version: '1.0.1', ext: 'jar'
+    compile group: 'CoadunationClient', name: 'CoadunationClient', version: '1.0.1', ext: 'jar'
+    compile group: 'CoadunationSecurity', name: 'CoadunationSecurity', version: '1.0.1', ext: 'jar'
+    compile group: 'CoadunationCommon', name: 'CoadunationCommon', version: '1.0.1', ext: 'jar'
 }
 
-ant.properties['javac.classpath'] = configurations.compilePath.asPath
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
 
-task build(dependsOn: jar) << {
-    println 'Hello, from Gradle'
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../repository")
+        pom.version = version
+        pom.artifactId = "CoadunationLib"
+        pom.groupId = "CoadunationLib"
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives]
 }

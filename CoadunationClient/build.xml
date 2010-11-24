@@ -66,9 +66,4 @@
     nbproject/build-impl.xml file. 
 
     -->
-    <target name="install" depends="jar">
-        <copy todir="C:\coadunation\lib">
-            <fileset dir="${dist.dir}"/>
-        </copy>
-    </target>
 </project>

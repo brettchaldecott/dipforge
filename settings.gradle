@@ -1,1 +1,1 @@
-include 'CoadunationBase', 'CoadunationAnnotations', 'CoadunationClient', 'CoadunationSecurity', 'CoadunationLib'
+include 'CoadunationBase', 'CoadunationAnnotations', 'CoadunationClient', 'CoadunationSecurity', 'CoadunationCommon', 'CoadunationLib'

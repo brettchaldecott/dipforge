@@ -1,20 +1,49 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
 apply plugin: 'maven'
-ant.importBuild 'build.xml'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="CoadunationClient"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
 
 repositories {
     mavenCentral()
 }
 
 configurations {
-    compilePath
+    compile
 }
 
 dependencies {
-    compilePath group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
 }
 
-ant.properties['javac.classpath'] = configurations.compilePath.asPath
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
 
-task build(dependsOn: jar) << {
-    println 'Hello, from Gradle'
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../repository")
+        pom.version = version
+        pom.artifactId = "CoadunationClient"
+        pom.groupId = "CoadunationClient"
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives]
 }
