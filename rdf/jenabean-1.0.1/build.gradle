@@ -1,0 +1,69 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="jenabean"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: 'http://repo1.maven.org/maven2/'
+    mavenRepo urls: 'http://repository.jboss.org/maven2/'
+    mavenRepo urls: "file://localhost/$projectDir/../../repository"
+}
+
+configurations {
+    compile
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile group: 'jacorb', name: 'jacorb', version: '2.3.0jboss.patch6-brew', ext: 'jar'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.1-beta2', ext: 'jar'
+    compile group: 'javax.transaction', name: 'jta', version: '1.1', ext: 'jar'
+    compile group: 'axis', name: 'axis', version: '1.4', ext: 'jar'
+    compile group: 'axis', name: 'axis-jaxrpc', version: '1.4', ext: 'jar'
+    compile group: 'ant', name: 'ant', version: '1.6.5', ext: 'jar'
+    compile group: 'jotm', name: 'jotm', version: '2.0.10', ext: 'jar'
+    compile group: 'jotm', name: 'jotm_iiop_stubs', version: '2.0.10', ext: 'jar'
+    compile group: 'org.objectweb.carol', name: 'carol', version: '2.2.10', ext: 'jar'
+    compile group: 'org.objectweb.carol', name: 'carol-iiop-delegate', version: '2.2.10', ext: 'jar'
+    compile group: 'apache-avalon', name: 'avalon-framework', version: '4.1.5', ext: 'jar'
+    compile group: 'wsdl4j', name: 'wsdl4j', version: '1.5.1', ext: 'jar'
+    compile project(':libs:CoadunationBase')
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':libs:CoadunationClient')
+    compile project(':libs:CoadunationSecurity')
+    compile project(':libs:CoadunationCommon')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives]
+}
