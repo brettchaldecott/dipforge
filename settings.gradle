@@ -1,1 +1,1 @@
-include 'CoadunationBase', 'CoadunationAnnotations', 'CoadunationClient', 'CoadunationSecurity', 'CoadunationCommon', 'CoadunationLib'
+include 'libs:CoadunationBase', 'libs:CoadunationAnnotations', 'libs:CoadunationClient', 'libs:CoadunationSecurity', 'libs:CoadunationCommon', 'libs:CoadunationLib', 'libs:CoadunationHibernate', 'auth:CoadunationRDBAuth'
