@@ -1,0 +1,147 @@
+apply plugin: 'maven'
+
+libsDirName="."
+version="1.0.1"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+dependsOn(':libs:CoadunationBase')
+dependsOn(':libs:CoadunationAnnotations')
+dependsOn(':libs:CoadunationClient')
+dependsOn(':libs:CoadunationSecurity')
+dependsOn(':libs:CoadunationCommon')
+dependsOn(':libs:CoadunationLib')
+dependsOn(':libs:CoadunationHibernate')
+dependsOn(':auth:CoadunationRDBAuth')
+dependsOn(':client:DeploymentDaemonClient')
+dependsOn(':client:DesktopServerClient')
+dependsOn(':client:DNSServerClient')
+dependsOn(':client:MessageServiceClient')
+dependsOn(':libs:CoadunationUtil')
+dependsOn(':client:EmailServerClient')
+dependsOn(':client:EventServerClient')
+dependsOn(':client:HsqlDBEngineClient')
+dependsOn(':client:RDBUserManagerClient')
+dependsOn(':client:RSSReaderClient')
+dependsOn(':client:ServiceBrokerClient')
+dependsOn(':client:TimerClient')
+dependsOn(':client:TomcatClient')
+dependsOn(':cli:DeploymentDaemonCommandLineTool')
+dependsOn(':cli:MessageServiceCommandLineTool')
+dependsOn(':cli:ServiceBrokerCommandLineTool')
+dependsOn(':cli:TimerCommandLineTool')
+dependsOn(':utils:CoadunationUtil')
+dependsOn(':daemon:0005-DNSServer')
+dependsOn(':daemon:0010-HsqlDBEngineDaemon')
+dependsOn(':daemon:0020-RDBUserManager')
+dependsOn(':daemon:0040-MessageService')
+dependsOn(':daemon:0040-ServiceBroker')
+dependsOn(':daemon:0045-EmailServer')
+dependsOn(':daemon:0050-DesktopServer')
+dependsOn(':daemon:0050-EventServer')
+dependsOn(':daemon:0050-Timer')
+dependsOn(':daemon:0060-Tomcat')
+dependsOn(':daemon:0101-DeploymentDaemon')
+dependsOn(':daemon:0102-RSSReader')
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+    mavenRepo urls: "http://tomcat.apache.org/dev/dist/m2-repository"
+}
+
+configurations {
+    releaseSbin
+    releaseLibs
+    releaseClients
+    releaseBin
+    releaseDaemon
+    compile
+}
+
+task compile {
+}
+
+task copyToSbin(type: Copy) {
+    into "dipforge/sbin/"
+    from configurations.releaseSbin
+}
+
+task copyToLib(type: Copy) {
+    into "dipforge/lib/"
+    from configurations.releaseLibs
+}
+
+task copyToClient(type: Copy) {
+    into "dipforge/clientlib/"
+    from configurations.releaseClients
+}
+
+task copyToBin(type: Copy) {
+    into "dipforge/bin/"
+    from configurations.releaseBin
+}
+
+task copyToDaemon(type: Copy) {
+    into "dipforge/deploy/"
+    from configurations.releaseDaemon
+    include "**/*" + version + ".jar"
+}
+
+dependencies {
+    // compile
+    
+    // release boot strap file
+    releaseSbin project(':libs:CoadunationBase') {transitive = true}
+    
+    // release libraries
+    releaseLibs project(':libs:CoadunationClient') {transitive = true}
+    releaseClients project(':libs:CoadunationClient') {transitive = true}
+    releaseLibs project(':libs:CoadunationSecurity') {transitive = true}
+    releaseLibs project(':libs:CoadunationHibernate') {transitive = true}
+    releaseLibs project(':libs:CoadunationUtil') {transitive = true}
+    releaseLibs project(':auth:CoadunationRDBAuth') {transitive = true}
+
+    // release clients
+    releaseClients project(':client:DeploymentDaemonClient') {transitive = true}
+    releaseClients project(':client:DesktopServerClient') {transitive = true}
+    releaseClients project(':client:DNSServerClient') {transitive = true}
+    releaseClients project(':client:MessageServiceClient') {transitive = true}
+    releaseClients project(':client:EmailServerClient') {transitive = true}
+    releaseClients project(':client:EventServerClient') {transitive = true}
+    releaseClients project(':client:HsqlDBEngineClient') {transitive = true}
+    releaseClients project(':client:RDBUserManagerClient') {transitive = true}
+    releaseClients project(':client:RSSReaderClient') {transitive = true}
+    releaseClients project(':client:ServiceBrokerClient') {transitive = true}
+    releaseClients project(':client:TimerClient') {transitive = true}
+    releaseClients project(':client:TomcatClient') {transitive = true}
+
+    // release binaries
+    releaseBin project(':cli:DeploymentDaemonCommandLineTool') {transitive = true}
+    releaseBin project(':cli:MessageServiceCommandLineTool') {transitive = true}
+    releaseBin project(':cli:ServiceBrokerCommandLineTool') {transitive = true}
+    releaseBin project(':cli:TimerCommandLineTool') {transitive = true}
+
+    // release daemons
+    releaseDaemon project(':daemon:0005-DNSServer') {transitive = false}
+    releaseDaemon project(':daemon:0010-HsqlDBEngineDaemon') {transitive = false}
+    releaseDaemon project(':daemon:0020-RDBUserManager') {transitive = false}
+    releaseDaemon project(':daemon:0040-ServiceBroker') {transitive = false}
+    releaseDaemon project(':daemon:0045-EmailServer') {transitive = false}
+    releaseDaemon project(':daemon:0050-DesktopServer') {transitive = false}
+    releaseDaemon project(':daemon:0050-EventServer') {transitive = false}
+    releaseDaemon project(':daemon:0050-Timer') {transitive = false}
+    releaseDaemon project(':daemon:0060-Tomcat') {transitive = false}
+    releaseDaemon project(':daemon:0101-DeploymentDaemon') {transitive = false}
+    releaseDaemon project(':daemon:0102-RSSReader') {transitive = false}
+}
+
+
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToBin,copyToDaemon]) {
+}
+
+release.dependsOn build
