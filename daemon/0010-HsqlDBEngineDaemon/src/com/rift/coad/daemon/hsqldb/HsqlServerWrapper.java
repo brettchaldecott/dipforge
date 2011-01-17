@@ -31,7 +31,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import org.hsqldb.Server;
-import org.hsqldb.ServerConstants;
+import org.hsqldb.server.ServerConstants;
 import org.hsqldb.DatabaseManager;
 import org.hsqldb.persist.HsqlProperties;
 
@@ -98,11 +98,6 @@ public class HsqlServerWrapper {
      */
     public void addDB(String name) throws HsqlDBEngineException {
         try {
-            if (count >= 10) {
-                count = 0;
-                servers.get(servers.size() - 1).setProperties(properties);
-                this.setupServer();
-            }
             File path = new File(base, name);
             properties.setProperty(ServerConstants.SC_KEY_DATABASE + "." + count,
                     path.toURI().toURL().toString());
@@ -119,10 +114,14 @@ public class HsqlServerWrapper {
      * start the server.
      */
     public void start() {
-        servers.get(servers.size() - 1).setProperties(properties);
-        properties = null;
-        for (int index = 0; index < servers.size(); index++) {
-            servers.get(index).start();
+        try {
+            servers.get(servers.size() - 1).setProperties(properties);
+            properties = null;
+            for (int index = 0; index < servers.size(); index++) {
+                servers.get(index).start();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -144,8 +143,8 @@ public class HsqlServerWrapper {
      * @throws com.rift.coad.daemon.hsqldb.HsqlDBEngineException
      */
     public String getDatabaseName(int index, boolean asconfigured) throws HsqlDBEngineException {
-        int serverIndex = index / 10;
-        int dbIndex = index % 10;
+        int serverIndex = index;
+        int dbIndex = index;
         return servers.get(serverIndex).getDatabaseName(dbIndex, trace);
     }
 
@@ -158,8 +157,8 @@ public class HsqlServerWrapper {
      * @throws com.rift.coad.daemon.hsqldb.HsqlDBEngineException
      */
     public String getDatabasePath(int index, boolean asconfigured) throws HsqlDBEngineException {
-        int serverIndex = index / 10;
-        int dbIndex = index % 10;
+        int serverIndex = index;
+        int dbIndex = index;
         return servers.get(serverIndex).getDatabasePath(dbIndex, trace);
     }
 
@@ -170,8 +169,8 @@ public class HsqlServerWrapper {
      * @return The string containing the database type.
      */
     public String getDatabaseType(int index) {
-        int serverIndex = index / 10;
-        int dbIndex = index % 10;
+        int serverIndex = index;
+        int dbIndex = index;
         return servers.get(serverIndex).getDatabaseType(dbIndex);
     }
 
