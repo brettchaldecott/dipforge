@@ -1,0 +1,83 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="MessageServiceCommandLineTool"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository"
+}
+
+configurations {
+    compile
+    releaseJars
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile project(':client:MessageServiceClient')
+    compile project(':libs:CoadunationCommon')
+    compile project(':libs:CoadunationAnnotations')
+    releaseJars group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    releaseJars group: 'avalon', name: 'avalon-logkit', version: '1.2', ext: 'jar'
+    releaseJars group: 'avalon-framework', name: 'avalon-framework', version: '4.1.5', ext: 'jar'
+    releaseJars group: 'jacorb', name: 'jacorb', version: '2.3.0jboss.patch6-brew', ext: 'jar'
+    releaseJars project(':client:MessageServiceClient')
+    releaseJars project(':libs:CoadunationCommon')
+    releaseJars project(':libs:CoadunationAnnotations')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+jar.doFirst {
+    from configurations.releaseJars.collect {
+        if (it.isDirectory()) {
+            return it
+        } else if (it.isFile() ) {
+            return zipTree(it) }
+        }
+}
+
+jar {
+    manifest {
+        attributes   "Main-Class" : "com.rift.coad.commandline.messageservicecommandlinetool.Main"
+        attributes   "Implementation-Version" : version
+    }
+}
+
+task copyJars << {
+    ant.mkdir(dir: '../../bin')
+    ant.copy(todir: '../../bin/', file: "build/" + archivesBaseName + "-" + version + ".jar") 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives, copyJars]
+}
+release.dependsOn build

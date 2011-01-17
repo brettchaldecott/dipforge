@@ -51,3 +51,5 @@ uploadArchives {
 build.dependsOn {
     [jar, uploadArchives]
 }
+
+release.dependsOn build

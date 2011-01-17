@@ -36,14 +36,21 @@ sourceSets {
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "file://localhost/$projectDir/../repository")
+        repository(url: "file://localhost/$projectDir/../../repository")
         pom.version = version
-        pom.artifactId = "CoadunationCommon"
-        pom.groupId = "CoadunationCommon"
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
     }
 
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
 }
 
 build.dependsOn {
     [jar, uploadArchives]
 }
+release.dependsOn build

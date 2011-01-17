@@ -1,0 +1,86 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="0050-DesktopServer"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+}
+
+configurations {
+    compile
+    releaseJars
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile project(':client:DesktopServerClient')
+    compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':utils:CoadunationUtil')
+    releaseJars project(':client:DesktopServerClient')
+    releaseJars project(':utils:CoadunationUtil')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+
+task createDir << {
+    ant.mkdir(dir: 'build/classes/main')
+}
+
+task copyToJars(type: Copy) {
+    into "build/classes/main"
+    from configurations.releaseJars
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
+processResources.dependsOn {
+    [createDir,copyToJars]
+}
+
+task copyJars << {
+    ant.mkdir(dir: '../../sbin')
+    ant.copy(todir: '../../sbin/', file: "build/" + archivesBaseName + "-" + version + ".jar") 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives, copyJars]
+}
+release.dependsOn build

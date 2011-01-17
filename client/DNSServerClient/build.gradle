@@ -44,6 +44,14 @@ uploadArchives {
 
 }
 
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
 build.dependsOn {
     [jar, uploadArchives]
 }
+release.dependsOn build

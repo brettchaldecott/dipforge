@@ -1,0 +1,102 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="0045-EmailServer"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+}
+
+configurations {
+    compile
+    releaseJars
+}
+
+dependencies {
+    compile group: 'dnsjava', name: 'dnsjava', version: '2.0.7', ext: 'jar'
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile group: 'axis', name: 'axis', version: '1.4', ext: 'jar'
+    compile group: 'axis', name: 'axis-jaxrpc', version: '1.4', ext: 'jar'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
+    compile group: 'javax.transaction', name: 'jta', version: '1.1', ext: 'jar'
+    compile group: 'javax.mail', name: 'mail', version: '1.4.1', ext: 'jar'
+    compile group: 'javax.activation', name: 'activation', version: '1.1.1', ext: 'jar'
+    compile group: 'net.ukrpost', name: 'javamaildir', version: '0.6', ext: 'jar'
+    compile project(':client:EmailServerClient')
+    compile project(':client:MessageServiceClient')
+    compile project(':libs:CoadunationSecurity')
+    compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':libs:CoadunationHibernate')
+    compile project(':utils:CoadunationUtil')
+    releaseJars project(':client:MessageServiceClient')
+    releaseJars project(':client:EmailServerClient')
+    releaseJars project(':utils:CoadunationUtil')
+    releaseJars group: 'dnsjava', name: 'dnsjava', version: '2.0.7', ext: 'jar'
+    releaseJars group: 'javax.mail', name: 'mail', version: '1.4.1', ext: 'jar'
+    releaseJars group: 'javax.activation', name: 'activation', version: '1.1.1', ext: 'jar'
+    releaseJars group: 'net.ukrpost', name: 'javamaildir', version: '0.6', ext: 'jar'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+
+task createDir << {
+    ant.mkdir(dir: 'build/classes/main')
+}
+
+task copyToJars(type: Copy) {
+    into "build/classes/main"
+    from configurations.releaseJars
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
+processResources.dependsOn {
+    [createDir,copyToJars]
+}
+
+task copyJars << {
+    ant.mkdir(dir: '../../sbin')
+    ant.copy(todir: '../../sbin/', file: "build/" + archivesBaseName + "-" + version + ".jar") 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives, copyJars]
+}
+release.dependsOn build

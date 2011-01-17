@@ -6,7 +6,7 @@ apply plugin: 'java'
 version = "1.0.1"
 distsDirName="dist"
 libsDirName="."
-archivesBaseName="CoadunationAnnotations"
+archivesBaseName="AuditTrailRDF"
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
@@ -20,6 +20,12 @@ configurations {
 }
 
 dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
+    compile group: 'javax.transaction', name: 'jta', version: '1.1', ext: 'jar'
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':libs:CoadunationCommon')
+    compile project(':libs:CoadunationLib')
 }
 
 sourceSets {
@@ -41,12 +47,6 @@ uploadArchives {
         pom.groupId = archivesBaseName
     }
 
-}
-
-jar {
-    manifest {
-        attributes   "Implementation-Version" : version
-    }
 }
 
 build.dependsOn {

@@ -1,0 +1,95 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="0102-RSSReader"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.topazproject.org/maven2/"
+}
+
+configurations {
+    compile
+    releaseJars
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
+    compile group: 'javax.transaction', name: 'jta', version: '1.1', ext: 'jar'
+    compile group: 'rome', name: 'rome', version: '1.0RC1', ext: 'jar'
+    compile group: 'org.jdom', name: 'jdom', version: '1.1', ext: 'jar'
+    compile project(':client:RSSReaderClient')
+    compile project(':client:EventServerClient')
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationHibernate')
+    compile project(':client:MessageServiceClient')
+    releaseJars project(':client:RSSReaderClient')
+    releaseJars project(':client:EventServerClient')
+    releaseJars project(':client:MessageServiceClient')
+    releaseJars group: 'rome', name: 'rome', version: '1.0RC1', ext: 'jar'
+    releaseJars group: 'org.jdom', name: 'jdom', version: '1.1', ext: 'jar'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+
+task createDir << {
+    ant.mkdir(dir: 'build/classes/main')
+}
+
+task copyToJars(type: Copy) {
+    into "build/classes/main"
+    from configurations.releaseJars
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
+processResources.dependsOn {
+    [createDir,copyToJars]
+}
+
+task copyJars << {
+    ant.mkdir(dir: '../../sbin')
+    ant.copy(todir: '../../sbin/', file: "build/" + archivesBaseName + "-" + version + ".jar") 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives, copyJars]
+}
+release.dependsOn build

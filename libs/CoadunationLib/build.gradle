@@ -15,7 +15,7 @@ repositories {
     mavenCentral()
     mavenRepo urls: 'http://repo1.maven.org/maven2/'
     mavenRepo urls: 'http://repository.jboss.org/maven2/'
-    mavenRepo urls: "file://localhost/$projectDir/../repository"
+    mavenRepo urls: "file://localhost/$projectDir/../../repository"
 }
 
 configurations {
@@ -36,11 +36,11 @@ dependencies {
     compile group: 'org.objectweb.carol', name: 'carol-iiop-delegate', version: '2.2.10', ext: 'jar'
     compile group: 'apache-avalon', name: 'avalon-framework', version: '4.1.5', ext: 'jar'
     compile group: 'wsdl4j', name: 'wsdl4j', version: '1.5.1', ext: 'jar'
-    compile group: 'CoadunationBase', name: 'CoadunationBase', version: '1.0.1', ext: 'jar'
-    compile group: 'CoadunationAnnotations', name: 'CoadunationAnnotations', version: '1.0.1', ext: 'jar'
-    compile group: 'CoadunationClient', name: 'CoadunationClient', version: '1.0.1', ext: 'jar'
-    compile group: 'CoadunationSecurity', name: 'CoadunationSecurity', version: '1.0.1', ext: 'jar'
-    compile group: 'CoadunationCommon', name: 'CoadunationCommon', version: '1.0.1', ext: 'jar'
+    compile project(':libs:CoadunationBase')
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':libs:CoadunationClient')
+    compile project(':libs:CoadunationSecurity')
+    compile project(':libs:CoadunationCommon')
 }
 
 sourceSets {
@@ -56,14 +56,21 @@ sourceSets {
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "file://localhost/$projectDir/../repository")
+        repository(url: "file://localhost/$projectDir/../../repository")
         pom.version = version
-        pom.artifactId = "CoadunationLib"
-        pom.groupId = "CoadunationLib"
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
     }
 
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
 }
 
 build.dependsOn {
     [jar, uploadArchives]
 }
+release.dependsOn build

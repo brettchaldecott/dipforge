@@ -6,7 +6,7 @@ apply plugin: 'java'
 version = "1.0.1"
 distsDirName="dist"
 libsDirName="."
-archivesBaseName="CoadunationAnnotations"
+archivesBaseName="EmailServerClient"
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
@@ -20,6 +20,9 @@ configurations {
 }
 
 dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':client:MessageServiceClient')
 }
 
 sourceSets {
