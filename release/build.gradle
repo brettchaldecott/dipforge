@@ -44,6 +44,7 @@ dependsOn(':daemon:0050-Timer')
 dependsOn(':daemon:0060-Tomcat')
 dependsOn(':daemon:0101-DeploymentDaemon')
 dependsOn(':daemon:0102-RSSReader')
+dependsOn(':web:CoadunationAdmin')
 
 repositories {
     mavenCentral()
@@ -60,6 +61,7 @@ configurations {
     releaseClients
     releaseBin
     releaseDaemon
+    releaseWeb
     compile
 }
 
@@ -90,6 +92,12 @@ task copyToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseDaemon
     include "**/*" + version + ".jar"
+}
+
+task copyWarToDaemon(type: Copy) {
+    into "dipforge/deploy/"
+    from configurations.releaseWeb
+    include "**/*" + version + ".war"
 }
 
 dependencies {
@@ -138,10 +146,13 @@ dependencies {
     releaseDaemon project(':daemon:0060-Tomcat') {transitive = false}
     releaseDaemon project(':daemon:0101-DeploymentDaemon') {transitive = false}
     releaseDaemon project(':daemon:0102-RSSReader') {transitive = false}
+    
+    // release web
+    releaseWeb project(':web:CoadunationAdmin') {transitive = false}
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToBin,copyToDaemon]) {
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToBin,copyToDaemon,copyWarToDaemon]) {
 }
 
 release.dependsOn build
