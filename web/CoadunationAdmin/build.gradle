@@ -1,0 +1,84 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'war'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="DipforgeAdmin"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+}
+
+configurations {
+    compile
+    gwt
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar', transitive: true
+    compile project(':libs:CoadunationLib') {transitive = true}
+    compile project(':libs:CoadunationAnnotations') {transitive = true}
+    compile project(':utils:CoadunationUtil')
+    compile group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
+    compile group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
+    gwt group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
+    gwt group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
+    runtime project(':utils:CoadunationUtil')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src/java'
+        }
+        resources {
+            srcDir './src/java'
+            srcDir './src/conf'
+        }
+    }
+}
+
+gwtBuildDir = 'build/js'
+gwtGenDir = 'build/gen'
+
+task gwtCompile << {
+  created = (new File(gwtBuildDir)).mkdirs()
+  created = (new File(gwtGenDir)).mkdirs()
+  print configurations.gwt.asPath
+  ant.java(classname:'com.google.gwt.dev.Compiler',
+              failOnError: 'false',
+              fork: 'true') {
+    jvmarg(value: '-Xmx184M')
+    arg(line: '-war ' + gwtBuildDir)
+    arg(line: '-gen ' + gwtGenDir)
+    arg(line: '-logLevel INFO')
+    arg(line: '-style PRETTY')
+//    arg(line: '-treeLogger')
+    arg(value: 'com.rift.coad.web.admin.Main')
+    classpath {
+      pathElement(location: './src/java')
+      pathElement(path: configurations.gwt.asPath)
+    }
+  }
+}
+
+war.dependsOn gwtCompile
+
+war {
+    classPath = getClasspath().filter({file -> file.name.contains("CoadunationUtil")}) 
+    setClasspath(classPath)
+    from 'web'
+    from 'build/js'
+}
+
+release.dependsOn build
