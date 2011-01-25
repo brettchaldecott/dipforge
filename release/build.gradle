@@ -62,6 +62,7 @@ configurations {
     releaseBin
     releaseDaemon
     releaseWeb
+    releaseTools
     compile
 }
 
@@ -83,11 +84,6 @@ task copyToClient(type: Copy) {
     from configurations.releaseClients
 }
 
-task copyToBin(type: Copy) {
-    into "dipforge/bin/"
-    from configurations.releaseBin
-}
-
 task copyToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseDaemon
@@ -99,6 +95,24 @@ task copyWarToDaemon(type: Copy) {
     from configurations.releaseWeb
     include "**/*" + version + ".war"
 }
+
+task copyToTools(type: Copy) {
+    into "dipforge/deploy/"
+    from configurations.releaseTools
+    include "**/*CommandLine*" + version + ".jar"
+}
+
+task clean {
+    ant {
+        delete {
+            fileset(dir: "dipforge"){
+                include(name: "**/*.war")
+                include(name: "**/*.jar")
+            }
+        }
+    }
+}
+
 
 dependencies {
     // compile
@@ -127,12 +141,12 @@ dependencies {
     releaseClients project(':client:ServiceBrokerClient') {transitive = true}
     releaseClients project(':client:TimerClient') {transitive = true}
     releaseClients project(':client:TomcatClient') {transitive = true}
-
-    // release binaries
-    releaseBin project(':cli:DeploymentDaemonCommandLineTool') {transitive = true}
-    releaseBin project(':cli:MessageServiceCommandLineTool') {transitive = true}
-    releaseBin project(':cli:ServiceBrokerCommandLineTool') {transitive = true}
-    releaseBin project(':cli:TimerCommandLineTool') {transitive = true}
+    
+    // copy to tools
+    releaseTools project(':cli:DeploymentDaemonCommandLineTool') {transitive = true}
+    releaseTools project(':cli:MessageServiceCommandLineTool') {transitive = true}
+    releaseTools project(':cli:ServiceBrokerCommandLineTool') {transitive = true}
+    releaseTools project(':cli:TimerCommandLineTool') {transitive = true}
 
     // release daemons
     releaseDaemon project(':daemon:0005-DNSServer') {transitive = false}
@@ -152,7 +166,7 @@ dependencies {
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToBin,copyToDaemon,copyWarToDaemon]) {
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools]) {
 }
 
 release.dependsOn build
