@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : desktopapp.xml
+    Created on : 06 November 2008, 12:17 PM
+    Author     : brett
+    Description:
+        Purpose of the document follows.
+-->
+
+<Desktops>
+    <Desktop name="Desk 1">
+        <application name="File Manager"/>
+        <application name="Web Mail"/>
+        <application name="Jam Wiki"/>
+        <application name="Hudson"/>
+        <application name="Office Suite"/>
+    </Desktop>
+    <Desktop name="Desk 2">
+        <application name="File Manager"/>
+        <application name="Web Mail"/>
+        <application name="Jam Wiki"/>
+        <application name="Hudson"/>
+        <application name="Office Suite"/>
+    </Desktop>
+    <Desktop name="Desk 3">
+        <application name="File Manager"/>
+        <application name="Web Mail"/>
+        <application name="Jam Wiki"/>
+        <application name="Hudson"/>
+        <application name="Office Suite"/>
+    </Desktop>
+    <Desktop name="Desk 4">
+        <application name="File Manager"/>
+        <application name="Web Mail"/>
+        <application name="Jam Wiki"/>
+        <application name="Hudson"/>
+        <application name="Office Suite"/>
+    </Desktop>
+    <Desktop name="Desk 5">
+        <application name="File Manager"/>
+        <application name="Web Mail"/>
+        <application name="Jam Wiki"/>
+        <application name="Hudson"/>
+        <application name="Office Suite"/>
+    </Desktop>
+    <Desktop name="Desk 6">
+        <application name="File Manager"/>
+        <application name="Web Mail"/>
+        <application name="Jam Wiki"/>
+        <application name="Hudson"/>
+        <application name="Office Suite"/>
+    </Desktop>
+</Desktops>
