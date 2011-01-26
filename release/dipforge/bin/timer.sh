@@ -2,6 +2,7 @@
 
 # setup the java path
 JAVA_PATH=/usr/lib/jvm/java-6-openjdk/bin/java
+DIPFORGE_HOME=/home/brettc/Documents/external/github/dipforge.git/release/dipforge/
 
 if [ -f $JAVA_PATH ]
 then
@@ -9,8 +10,8 @@ then
 else
    export JAVA=`which java`;
 fi
-export EXTRA="/home/brettc/Documents/external/CoadunationOS/lib/jacorb.jar:/home/brettc/Documents/external/CoadunationOS/lib/log4j-1.2.13.jar:/home/brettc/Documents/external/CoadunationOS/lib/logkit-1.2.jar:/home/brettc/Documents/external/CoadunationOS/lib/CoadunationClient.jar:/home/brettc/Documents/external/CoadunationOS/clientlib/TimerClient.jar:/home/brettc/Documents/external/CoadunationOS/tools/TimerCommandLineTool.jar:/home/brettc/Documents/external/CoadunationOS/clientlib/avalon-framework-4.1.5.jar:"
-JAVA_OPTS=-Djava.security.policy=="/home/brettc/Documents/external/CoadunationOS/etc/server.policy"
+export EXTRA="${DIPFORGE_HOME}/lib/jacorb.jar:${DIPFORGE_HOME}/lib/log4j-1.2.13.jar:${DIPFORGE_HOME}/lib/logkit-1.2.jar:${DIPFORGE_HOME}/lib/CoadunationClient.jar:${DIPFORGE_HOME}/clientlib/TimerClient.jar:${DIPFORGE_HOME}/tools/TimerCommandLineTool.jar:${DIPFORGE_HOME}/clientlib/avalon-framework-4.1.5.jar:"
+JAVA_OPTS=-Djava.security.policy=="${DIPFORGE_HOME}/etc/server.policy"
 JAVA_OPTS="${JAVA_OPTS} -Djava.security.manager"
 export JAVA_OPTS=${JAVA_OPTS}
 

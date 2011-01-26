@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testconfig
+    Created on : August 05, 2006, 11:51 AM
+    Author     : Brett Chaldecott
+    Description:
+        The configuration data
+-->
+
+<configuration>
+    <object>
+        <entry key="Client_Stub" type="String">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/client
+        </entry>
+        <entry key="primary" type="boolean">
+            true
+        </entry>
+        <entry key="instance_identifier" type="string">
+            coadunation
+        </entry>
+        <entry key="primary_jndi_url" type="string">
+            java:network/env/coadunation
+        </entry>
+        <!-- new -->
+        <entry key="host" type="string">
+            brettc-laptop
+        </entry>
+        <entry key="http_port" type="long">
+            8085
+        </entry>
+        <entry key="installation_base" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge
+        </entry>
+        <!-- script base -->
+        <entry key="script_base" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/script
+        </entry>
+        <!-- script base -->
+    </object>
+    <object name="com.rift.coad.lib.security.RoleManager">
+        <entry key="role_handlers" type="string">
+            com.rift.coad.lib.security.role.ConfigurationRoleHandler,
+            com.rift.coad.auth.RDBRoleHandler
+        </entry>
+        <entry key="principals" type="string">
+            admin,special,guest,daemon,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite
+        </entry>
+        <entry key="roles" type="string">
+            admin,special,guest,daemon,test,accessor,sudo,manager,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite
+        </entry>
+        <entry key="admin" type="string">
+            admin
+        </entry>
+        <entry key="guest" type="string">
+            admin,special,guest
+        </entry>
+        <entry key="special" type="string">
+            admin,special
+        </entry>
+        <entry key="daemon" type="string">
+            admin,daemon,guest
+        </entry>
+        <entry key="test" type="string">
+            guest,daemon
+        </entry>
+        <entry key="accessor" type="string">
+            daemon
+        </entry>
+        <entry key="sudo" type="string">
+            daemon
+        </entry>
+        <entry key="manager" type="string">
+            admin
+        </entry>
+        <entry key="dns" type="string">
+            dns,admin
+        </entry>
+        <entry key="email" type="string">
+            email,admin
+        </entry>
+        <entry key="desktop" type="string">
+            desktop
+        </entry>
+        <entry key="type_manager" type="string">
+            type_manager
+        </entry>
+        <entry key="audit_trail" type="string">
+            audit_trail,daemon
+        </entry>
+        <entry key="change" type="string">
+            change
+        </entry>
+        <entry key="data_mapper_broker" type="string">
+            data_mapper_broker,daemon
+        </entry>
+        <entry key="script_manager" type="string">
+            script_manager,daemon
+        </entry>
+        <entry key="groovy_manager" type="string">
+            script_manager,groovy_manager,daemon
+        </entry>
+        <entry key="request_broker" type="string">
+            request_broker
+        </entry>
+        <entry key="office_suite" type="string">
+            office_suite
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.xml.XMLUserParser">
+        <entry key="password_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/etc/users.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManager">
+        <entry key="connectors" type="string">
+            com.rift.coad.lib.security.user.xml.XMLUserStore,
+            com.rift.coad.auth.RDBUserStore
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.CoadunationThreadGroup">
+        <entry key="Thread_Terminate_Timeout" type="long">
+            5000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager">
+        <entry key="username" type="string">
+            daemon
+        </entry>
+        <entry key="directory" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/deploy
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager$DeploymentThread">
+        <entry key="delay" type="long">
+            1000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentLoader">
+        <entry key="temp_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.db.DBSourceManager">
+        <entry key="db_sources" type="string">
+            org.hsqldb.jdbcDriver
+        </entry>
+    </object>
+    <object name="org.hsqldb.jdbcDriver">
+        <entry key="db_source" type="string">
+            jndi=hsqldb,
+            url=jdbc:hsqldb:hsql://localhost/coadunation,
+            username=sa,
+            password=,
+            min=25,
+            max=25
+        </entry>
+        <entry key="db_source2" type="string">
+            jndi=audit,
+            url=jdbc:hsqldb:hsql://localhost/audit,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+        <entry key="db_source3" type="string">
+            jndi=change,
+            url=jdbc:hsqldb:hsql://localhost/change,
+            username=sa,
+            password=,
+            min=25,
+            max=25
+        </entry>
+        <entry key="db_source4" type="string">
+            jndi=data_mapper_broker,
+            url=jdbc:hsqldb:hsql://localhost/data_mapper_broker,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+        <entry key="db_source5" type="string">
+            jndi=script,
+            url=jdbc:hsqldb:hsql://localhost/script,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+        <entry key="db_source6" type="string">
+            jndi=revision,
+            url=jdbc:hsqldb:hsql://localhost/revision,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+        <entry key="db_source7" type="string">
+            jndi=groovy,
+            url=jdbc:hsqldb:hsql://localhost/groovy,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+        <entry key="db_source8" type="string">
+            jndi=jython,
+            url=jdbc:hsqldb:hsql://localhost/jython,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+        <entry key="db_source9" type="string">
+            jndi=requestbroker,
+            url=jdbc:hsqldb:hsql://localhost/requestbroker,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+        <entry key="db_source10" type="string">
+            jndi=controlpanel,
+            url=jdbc:hsqldb:hsql://localhost/controlpanel,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.login.LoginManager">
+        <entry key="session_timeout" type="long">
+            3600000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.ThreadsPermissionContainerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserSessionManagerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManagerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.sudo.Sudo">
+        <entry key="role" type="string">
+            sudo
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpRequestManager">
+        <entry key="daemon_username" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpDaemon">
+        <entry key="daemon_username" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.cache.CacheRegistry">
+        <entry key="cache_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.credentials.Login">
+        <entry key="credential_authenticator" type="string">
+            com.rift.coad.lib.interceptor.authenticator.UserPasswordAuthenticator
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.iiop.InterceptorIntializer">
+        <entry key="client_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SessionClientInterceptor,
+            com.rift.coad.lib.interceptor.iiop.TransactionClientInterceptor
+        </entry>
+        <entry key="server_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SecurityServerInterceptor,
+            com.rift.coad.lib.interceptor.iiop.ClassLoaderInterceptor,
+            com.rift.coad.lib.interceptor.iiop.TransactionServerInterceptor
+        </entry>
+    </object>
+    <object name="com.rift.coad.Runner">
+        <entry key="runner_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.NamingDirector">
+        <entry key="orb_manager" type="string">
+            com.rift.coad.lib.naming.jacorb.JacORBManager
+        </entry>
+        <entry key="naming_context_manager" type="string">
+            com.rift.coad.lib.naming.cos.CosNamingContextManager
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.ThreadGroupManager">
+        <entry key="role" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.jacorb.JacORBManager">
+        <entry key="host" type="string">
+            brettc-laptop
+        </entry>
+        <entry key="port" type="string">
+            2000
+        </entry>
+        <entry key="name_server_store" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/nameservice
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.cos.CosContext">
+        <entry key="instance_cos_url" type="string">
+            corbaloc:iiop:brettc-laptop:2000/StandardNS/NameServer-POA/_root
+        </entry>
+        <entry key="master_cos_url" type="string">
+            corbaloc:iiop:brettc-laptop:2000/StandardNS/NameServer-POA/_root
+        </entry>
+        <entry key="cos_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.bean.BeanManager">
+        <entry key="bean_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.jmxbean.JMXBeanManager">
+        <entry key="jmxbean_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.hsqldb.HsqlDBEngine">
+        <entry key="db_path" type="string">
+           /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/hsqldb/coadunation 
+        </entry>
+        <entry key="db_hostname" type="string">
+           localhost
+        </entry>
+        <entry key="db_base" type="string">
+           /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/hsqldb
+        </entry>
+        <entry key="db_list" type="string">
+           audit,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,controlpanel
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.timer.TimerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="timer_user" type="string">
+            daemon
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/timer/db/hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.servicebroker.ServiceBrokerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="timer_user" type="string">
+            daemon
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/servicebroker/db/hibernate.xml
+        </entry>
+        <entry key="sleep_time" type="long">
+            60000
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.jython.JythonDaemonImpl">
+        <entry key="python_home" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/jython
+        </entry>
+        <entry key="script_location" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/script
+        </entry>
+        <entry key="coadunation_temp" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.deployment.DeploymentDaemonImpl">
+        <entry key="coadunation_deploy" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/deploy
+        </entry>
+        <entry key="coadunation_temp" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.messageservice.MessageServiceManager">
+        <entry key="thread_pool_user" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/messageservice
+        </entry>
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/messageservice/db/hibernate.xml
+        </entry>
+        <entry key="thread_pool_size" type="long">
+            20
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.audit.AuditTrailManager">
+        <entry key="Formatter" type="string">
+            com.rift.coad.lib.audit.basic.BasicFormatter
+        </entry>
+    </object>
+
+    <!-- tomcat configuration information -->
+    <object name="com.rift.coad.daemon.tomcat.TomcatDeployer">
+        <entry key="directory" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/deploy
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.tomcat.TomcatWrapper">
+        <entry key="TomcatBasePath" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/tomcat
+        </entry>
+    </object>
+    <!-- end of tomcat configuration -->
+    <!-- dns configuration information -->
+    <object name="com.rift.coad.daemon.dns.DNSServer">
+        <entry key="dns_base" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/named
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.dns.server.Server">
+        <entry key="dns_pool_user" type="string">
+            dns
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.dns.server.ServerLookup">
+        <entry key="recursive_lookup" type="boolean">
+            true
+        </entry>
+        <entry key="nameserver_list" type="string">
+            172.16.32.18
+        </entry>
+    </object>
+    <!-- end of dns configuration -->
+    <!-- email server configuration -->
+    <object name="com.rift.coad.daemon.email.server.Server">
+        <entry key="reverse_message" type="string">
+            Failed to deliver the message caused by : %s
+        </entry>
+        <entry key="email_pool_user" type="string">
+           email
+        </entry>
+        <entry key="email_server_base" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/email
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.ServerConfig">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/email/server/db/hibernate.xml
+        </entry>
+        <entry key="email_server_base" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/email
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.smtp.SmtpRequest">
+        <entry key="validate_domain_argument" type="boolean">
+            false
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.smtp.ServerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/email/server/db/spool_hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.fetchmail.FetchMailManager">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/email/server/db/fetchmail_hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.smtp.handlers.DeliverRemote">
+        <entry key="smtp_gateways" type="string">
+            smtp.hugetelecom.co.za
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.fetchmail.Server">
+        <entry key="fetchmail_pool_user" type="string">
+            email
+        </entry>
+    </object>
+    <!-- end of email server configuration -->
+    <!-- the RDB Auth configuration -->
+    <object name="com.rift.coad.auth.RDBUserStore">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/auth/db/hibernate.xml
+        </entry>
+    </object>
+    <!-- end of RDB Auth configuration -->
+    <!-- desktop configuration information -->
+    <object name="com.rift.coad.daemon.desktop.master.MasterBarImpl">
+        <entry key="menu_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/menu.xml
+        </entry>
+        <entry key="gadgets_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/gadgets.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.desktop.DesktopManagerImpl">
+        <entry key="desktop_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/desktops.xml
+        </entry>
+        <entry key="desktop_app_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/desktopapps.xml
+        </entry>
+    </object>
+    <!-- end of desktop configuration -->
+    <!-- Mime information -->
+    <object name="com.rift.coad.daemon.desktop.MimeManagerImpl">
+        <entry key="mime_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/mime/mime.xml
+        </entry>
+    </object>
+    <!-- end of Mime Information -->
+    <!-- Event Server configuraton -->
+    <object name="com.rift.coad.daemon.event.FeedManagerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/event/db/hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.event.FeedServerImpl">
+        <entry key="event_config" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/event/feed.xml
+        </entry>
+    </object>
+    <!-- end of event configuration -->
+    <!--  RSS configuration -->
+    <object name="com.rift.coad.daemon.rss.RSSClientManagement">
+        <entry key="feed_config" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/rss/feeds.xml
+        </entry>
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/rss/db/hibernate.xml
+        </entry>
+    </object>
+    <!-- end of RSS configuration -->
+    <!-- Coadunation RDF Types -->
+    <object name="com.rift.coad.type.TypeManagerDaemonImpl">
+        <entry key="type_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/types/types.xml
+        </entry>
+    </object>
+    <!-- end of Coadunation RDF Types -->
+    <!-- Coadunation RDF Source Types -->
+    <object name="com.rift.coad.rdf.web.RDFTypeServer">
+        <entry key="type_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/types/types.xml
+        </entry>
+    </object>
+    <!-- Audit trail configuration -->
+    <object name="com.rift.coad.audit.AuditTrailLoggerImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/audit.ttl
+        </entry>
+    </object>
+    <!-- Audit trail configuration -->
+    <!-- Change Manager configuration -->
+    <object name="com.rift.coad.change.ChangeManagerDaemonImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/change.ttl
+        </entry>
+    </object>
+    <object name="com.rift.coad.change.request.RequestFactoryDaemonImpl">
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/requestmanager
+        </entry>
+    </object>
+    <!-- Change Manager configuration -->
+    <!-- Data Mapper configuration -->
+    <object name="com.rift.coad.datamapperbroker.DataMapperBrokerDaemonImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/data_mapper_broker.ttl
+        </entry>
+    </object>
+    <!-- Data Mapper configuration -->
+    <!-- Script Manager Configuration -->
+    <object name="com.rift.coad.script.broker.ScriptManagerDaemonImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/script_manager.ttl
+        </entry>
+        <entry key="template_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/scripttemplate
+        </entry>
+        <entry key="script_repository" type="string">
+            script
+        </entry>
+        <entry key="script_branch" type="string">
+            trunk
+        </entry>
+    </object>
+    <!-- Script Manager configuration -->
+    <!-- Script Distribution Handler -->
+    <object name="com.rift.coad.script.broker.ScriptDistributionDaemonImpl">
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/scriptdistribution
+        </entry>
+    </object>
+    <!-- Revision Manager -->
+    <object name="com.rift.coad.revision.RevisionManagerDaemonImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/revision_manager.ttl
+        </entry>
+        <entry key="repository_base_path" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/revision
+        </entry>
+    </object>
+    <!-- Revision Manager configuration -->
+    <!-- Groovy Mapping Manager Configuration -->
+    <object name="com.rift.coad.groovy.GroovyDaemonImpl">
+        <entry key="groovy_lib_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/groovylib/
+        </entry>
+    </object>
+    <object name="com.rift.coad.groovy.GroovyMappingManagerDaemonImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/groovy_manager.ttl
+        </entry>
+    </object>
+    <!-- Groovy Mapping Manager configuration -->
+    <!-- Jython Mapping Manager Configuration -->
+    <object name="com.rift.coad.daemon.jython.JythonMappingManagerDaemonImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/jython_manager.ttl
+        </entry>
+    </object>
+    <!-- Jython Mapping Manager configuration -->
+    <!-- Request Broker Configuration -->
+    <object name="com.rift.coad.request.RequestBrokerDaemonImpl">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/request_broker.ttl
+        </entry>
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/requestbroker
+        </entry>
+    </object>
+    <!-- Request Broker configuration -->
+    <!-- PHP Manager Configuration -->
+    <object name="com.rift.coad.script.server.files.php.PHPFileManagerImpl">
+        <entry key="php_base" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/tomcat/webapps/quercus-4.0.3
+        </entry>
+        <entry key="php_template_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/phptemplate
+        </entry>
+    </object>
+    <object name="com.rift.coad.script.server.files.php.ViewSourceManagerImpl">
+        <entry key="php_web_path" type="string">
+            /quercus-4.0.3
+        </entry>
+    </object>
+    <!-- PHP Manager configuration -->
+    <!-- Groovy Manager Configuration -->
+    <object name="com.rift.coad.script.server.files.groovy.GroovyFileManagerImpl">
+        <entry key="groovy_base" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/tomcat/webapps/GroovyWeb
+        </entry>
+        <entry key="groovy_template_dir" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/groovytemplate
+        </entry>
+    </object>
+    <object name="com.rift.coad.script.server.files.groovy.GroovyViewSourceManagerImpl">
+        <entry key="groovy_web_path" type="string">
+            /GroovyWeb
+        </entry>
+    </object>
+    <!-- Groovy Manager configuration -->
+    <!-- Groovy Web Configuration -->
+    <object name="com.rift.coad.web.rdf.RDFConfigure">
+        <entry key="rdf_config_url" type="string">
+            http://localhost:8080/RDFTypeSource/Query?
+        </entry>
+        <entry key="sdb_config_file" type="string">
+            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/control_panel.ttl
+        </entry>
+    </object>
+    <!-- End of Groovy Web configuration -->
+    <!-- Document Management Configuration -->
+    <object name="com.rift.coad.office.server.documents.DocumentManagerImpl">
+        <entry key="document_base" type="string">
+            /documents/share
+        </entry>
+    </object>
+    <!-- End of Document Management Configuration -->
+</configuration>
+

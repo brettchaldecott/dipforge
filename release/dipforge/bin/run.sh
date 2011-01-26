@@ -13,25 +13,28 @@ fi
 # setup tools path
 TOOLS=/usr/lib/jvm/java-6-openjdk/lib/tools.jar
 
+DIPFORGE_HOME=/home/brettc/Documents/external/github/dipforge.git/release/dipforge/
+export DIPFORGE_HOME
+
 if [ -f $TOOLS ]
 then
-   export COAD_LIB_DIRS=/home/brettc/Documents/external/CoadunationOS/lib:$TOOLS
+   export COAD_LIB_DIRS=${DIPFORGE_HOME}/lib:$TOOLS
 else
-   export COAD_LIB_DIRS=/home/brettc/Documents/external/CoadunationOS/lib
+   export COAD_LIB_DIRS=${DIPFORGE_HOME}/lib
 fi
 
 # Extra vars
 export EXTRA=""
 JAVA_OPTS="-Dcoad.config=com.rift.coad.lib.configuration.xml.XMLConfigurationFactory"
-JAVA_OPTS="${JAVA_OPTS} -Dxml.config.path=/home/brettc/Documents/external/CoadunationOS/etc/config.xml"
-JAVA_OPTS="${JAVA_OPTS} -DLog.File=/home/brettc/Documents/external/CoadunationOS/etc/log4j.properties"
-JAVA_OPTS="${JAVA_OPTS} -Djava.security.policy==/home/brettc/Documents/external/CoadunationOS/etc/server.policy"
+JAVA_OPTS="${JAVA_OPTS} -Dxml.config.path=${DIPFORGE_HOME}/etc/config.xml"
+JAVA_OPTS="${JAVA_OPTS} -DLog.File=${DIPFORGE_HOME}/etc/log4j.properties"
+JAVA_OPTS="${JAVA_OPTS} -Djava.security.policy==${DIPFORGE_HOME}/etc/server.policy"
 JAVA_OPTS="${JAVA_OPTS} -Djava.security.manager"
-JAVA_OPTS="${JAVA_OPTS} -Dsptmail.data.directory=/home/brettc/Documents/external/CoadunationOS/var/spt"
-JAVA_OPTS="${JAVA_OPTS} -Duser.home=/home/brettc/Documents/external/CoadunationOS/var/home"
-JAVA_OPTS="${JAVA_OPTS} -Dbase.dir=/home/brettc/Documents/external/CoadunationOS"
+JAVA_OPTS="${JAVA_OPTS} -Dsptmail.data.directory=${DIPFORGE_HOME}/var/spt"
+JAVA_OPTS="${JAVA_OPTS} -Duser.home=${DIPFORGE_HOME}/var/home"
+JAVA_OPTS="${JAVA_OPTS} -Dbase.dir=${DIPFORGE_HOME}"
 export JAVA_OPTS="${JAVA_OPTS} -Djava.rmi.server.RMIClassLoaderSpi=com.rift.coad.RemoteClassLoaderSpi"
-export CURRENT_DIR=/home/brettc/Documents/external/CoadunationOS
+export CURRENT_DIR=${DIPFORGE_HOME}
 
 # set the ulimit
 if [ `uname` == 'Linux' ]; then
@@ -54,5 +57,5 @@ fi
 
 
 # run
-echo ${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar /home/brettc/Documents/external/CoadunationOS/sbin/CoadunationBase.jar
-${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar /home/brettc/Documents/external/CoadunationOS/sbin/CoadunationBase.jar 2> /dev/null
+echo ${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar ${DIPFORGE_HOME}/sbin/CoadunationBase.jar
+${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar ${DIPFORGE_HOME}/sbin/CoadunationBase.jar 2> /dev/null
