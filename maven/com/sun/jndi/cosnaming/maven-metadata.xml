@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.sun.jndi</groupId>
+  <artifactId>cosnaming</artifactId>
+  <version>1.2.1-Local</version>
+  <versioning>
+    <versions>
+      <version>1.2.1-Local</version>
+    </versions>
+    <lastUpdated>20110128015017</lastUpdated>
+  </versioning>
+</metadata>
