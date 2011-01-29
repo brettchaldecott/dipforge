@@ -90,7 +90,8 @@ task copyToClient(type: Copy) {
 task copyToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseDaemon
-    include "**/*" + version + ".jar"
+    include "**/0*" + version + ".jar"
+    include "**/1*" + version + ".jar"
 }
 
 task copyWarToDaemon(type: Copy) {
@@ -163,6 +164,7 @@ dependencies {
     releaseLibs group: 'axis', name: 'axis-jaxrpc', version: '1.4', ext: 'jar'
     releaseLibs group: 'javassist', name: 'javassist', version: '3.4.GA', ext: 'jar'
     releaseLibs group: 'org.ow2.carol.irmi', name: 'irmi', version: '1.1.2', ext: 'jar'
+    releaseLibs group: 'antlr', name: 'antlr', version: '2.7.7', ext: 'jar'
 
     // release clients
     releaseClients project(':client:DeploymentDaemonClient')
@@ -189,6 +191,7 @@ dependencies {
     releaseDaemon project(':daemon:0010-HsqlDBEngineDaemon') {transitive = false}
     releaseDaemon project(':daemon:0020-RDBUserManager') {transitive = false}
     releaseDaemon project(':daemon:0040-ServiceBroker') {transitive = false}
+    releaseDaemon project(':daemon:0040-MessageService') {transitive = false}
     releaseDaemon project(':daemon:0045-EmailServer') {transitive = false}
     releaseDaemon project(':daemon:0050-DesktopServer') {transitive = false}
     releaseDaemon project(':daemon:0050-EventServer') {transitive = false}

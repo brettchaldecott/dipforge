@@ -45,6 +45,7 @@ uploadArchives {
 
 jar {
     manifest {
+        attributes   "Main-Class" : "com.rift.coad.Main"
         attributes   "Implementation-Version" : version
     }
 }

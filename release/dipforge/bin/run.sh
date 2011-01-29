@@ -12,9 +12,10 @@ fi
 
 # setup tools path
 TOOLS=/usr/lib/jvm/java-6-openjdk/lib/tools.jar
-
 DIPFORGE_HOME=/home/brettc/Documents/external/github/dipforge.git/release/dipforge/
 export DIPFORGE_HOME
+VERSION=1.0.1
+export VERSION
 
 if [ -f $TOOLS ]
 then
@@ -57,5 +58,5 @@ fi
 
 
 # run
-echo ${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar ${DIPFORGE_HOME}/sbin/CoadunationBase.jar
-${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar ${DIPFORGE_HOME}/sbin/CoadunationBase.jar 2> /dev/null
+echo ${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar ${DIPFORGE_HOME}/sbin/CoadunationBase-${VERSION}.jar
+${JAVA} ${JAVA_OPTS} -Xmx768M -XX:PermSize=128M -XX:MaxPermSize=256M -jar ${DIPFORGE_HOME}/sbin/CoadunationBase-${VERSION}.jar

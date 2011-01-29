@@ -33,7 +33,7 @@ dependencies {
     compile group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
     gwt group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
     gwt group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
-    runtime project(':utils:CoadunationUtil')
+    compile group: 'com.google.gwt', name: 'gwt-servlet', version: '2.1.1'
 }
 
 sourceSets {
@@ -48,19 +48,19 @@ sourceSets {
     }
 }
 
-gwtBuildDir = 'build/js'
-gwtGenDir = 'build/gen'
+gwtBuildDir = "$projectDir/build/js"
+gwtOutDir = "$projectDir/build/out"
+gwtGenDir = "$projectDir/build/gen"
 
 task gwtCompile << {
   created = (new File(gwtBuildDir)).mkdirs()
   created = (new File(gwtGenDir)).mkdirs()
-  print configurations.gwt.asPath
+  created = (new File(gwtOutDir)).mkdirs()
   ant.java(classname:'com.google.gwt.dev.Compiler',
-              failOnError: 'false',
+              failOnError: 'true',
               fork: 'true') {
     jvmarg(value: '-Xmx184M')
-    arg(line: '-war ' + gwtBuildDir)
-    arg(line: '-gen ' + gwtGenDir)
+    arg(line: '-war ' + gwtOutDir)
     arg(line: '-logLevel INFO')
     arg(line: '-style PRETTY')
 //    arg(line: '-treeLogger')
@@ -73,12 +73,14 @@ task gwtCompile << {
 }
 
 war.dependsOn gwtCompile
+jar.enabled = true
 
 war {
-    classPath = getClasspath().filter({file -> file.name.contains("CoadunationUtil")}) 
+    classPath = getClasspath().filter({file -> file.name.contains("CoadunationAnnotations") || file.name.contains("DipforgeAdmin") || file.name.contains("classes") || file.name.contains("gwt-servlet")}) 
     setClasspath(classPath)
+    classpath 'build/classes/main/'
     from 'web'
-    from 'build/js'
+    from gwtOutDir + "/com.rift.coad.web.admin.Main"
 }
 
 release.dependsOn build
