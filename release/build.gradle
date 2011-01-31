@@ -45,6 +45,7 @@ dependsOn(':daemon:0060-Tomcat')
 dependsOn(':daemon:0101-DeploymentDaemon')
 dependsOn(':daemon:0102-RSSReader')
 dependsOn(':web:CoadunationAdmin')
+dependsOn(':web:CoadunationDesktop')
 
 repositories {
     mavenCentral()
@@ -202,6 +203,7 @@ dependencies {
     
     // release web
     releaseWeb project(':web:CoadunationAdmin') {transitive = false}
+    releaseWeb project(':web:CoadunationDesktop') {transitive = false}
 }
 
 
