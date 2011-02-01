@@ -76,7 +76,7 @@ war.dependsOn gwtCompile
 jar.enabled = true
 
 war {
-    classPath = getClasspath().filter({file -> file.name.contains("CoadunationAnnotations") || file.name.contains("DipforgeAdmin") || file.name.contains("classes") || file.name.contains("gwt-servlet")}) 
+    classPath = getClasspath().filter({file -> file.name.contains("DipforgeAdmin") || file.name.contains("classes") || file.name.contains("gwt-servlet")}) 
     setClasspath(classPath)
     classpath 'build/classes/main/'
     from 'web'

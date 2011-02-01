@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServlet;
 import de.jwi.servletutil.RealPath;
 
 /**
- * @author Jürgen Weber 
+ * @author Jrgen Weber 
  * Source file created on 20.04.2004
  *  
  */

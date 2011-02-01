@@ -36,7 +36,7 @@ import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPReply;
 
 /**
- * @author Jürgen Weber
+ * @author Jrgen Weber
  * Source file created on 27.05.2004
  */
 public class FTPUploader

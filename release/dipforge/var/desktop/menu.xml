@@ -15,7 +15,7 @@
                     url="/FileManager/dlf/Licence.txt" width="600" height="400" role="desktop"/>
 	<div/>
         <launcher identifier="&lt;img src='/FileManager/dlf/var/desktop/icons/utilities-terminal.png' style='vertical-align:middle' border=0 width=16 height=16 /&gt; Admin Console" name="Admin Console" title="" mouseOver="Admin Console"
-                    url="/CoadunationAdmin/" width="600" height="400" role="admin"/>
+                    url="/DipforgeAdmin/" width="600" height="400" role="admin"/>
         <launcher identifier="&lt;img src='/FileManager/dlf/var/desktop/icons/control-panel.png' style='vertical-align:middle' border=0 width=16 height=16 /&gt; Control Panel" name="Control Panel" title="" mouseOver="Control Panel"
                     url="/GroovyWeb/ControlPanel" width="700" height="500" role="admin"/>
 	<menu identifier="&lt;img src='/FileManager/dlf/var/desktop/icons/system-installer.png' style='vertical-align:middle' border=0 width=16 height=16 /&gt; Deployment" role="desktop">

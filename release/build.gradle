@@ -46,6 +46,7 @@ dependsOn(':daemon:0101-DeploymentDaemon')
 dependsOn(':daemon:0102-RSSReader')
 dependsOn(':web:CoadunationAdmin')
 dependsOn(':web:CoadunationDesktop')
+dependsOn(':web:FileManager')
 
 repositories {
     mavenCentral()
@@ -113,6 +114,21 @@ task clean {
             fileset(dir: "dipforge"){
                 include(name: "**/*.war")
                 include(name: "**/*.jar")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/tomcat/webapps"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/tomcat/conf/Coadunation"){
+                include(name: "**/*.xml")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/tomcat/work"){
+                exclude(name: "**/*.keepme")
             }
         }
     }
@@ -204,6 +220,7 @@ dependencies {
     // release web
     releaseWeb project(':web:CoadunationAdmin') {transitive = false}
     releaseWeb project(':web:CoadunationDesktop') {transitive = false}
+    releaseWeb project(':web:FileManager') {transitive = false}
 }
 
 
