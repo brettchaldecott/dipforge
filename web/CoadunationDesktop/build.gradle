@@ -1,0 +1,95 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'war'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="CoadunationDesktop"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+    mavenRepo urls: "file://localhost/$projectDir/../../maven"
+}
+
+configurations {
+    compile
+    gwt
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar', transitive: true
+    compile group: 'gwm', name: 'gwm', version: '1.0', ext: 'jar', transitive: true
+    compile project(':libs:CoadunationLib') {transitive = true}
+    compile project(':libs:CoadunationAnnotations') {transitive = true}
+    compile project(':utils:CoadunationUtil')
+    compile project(':client:DesktopServerClient')
+    compile project(':client:EventServerClient')
+    compile group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
+    compile group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
+    gwt group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
+    gwt group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
+    gwt group: 'gwm', name: 'gwm', version: '1.0', ext: 'jar', transitive: true
+    compile group: 'com.google.gwt', name: 'gwt-servlet', version: '2.1.1'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src/java'
+        }
+        resources {
+            srcDir './src/java'
+            srcDir './src/conf'
+        }
+    }
+}
+
+gwtBuildDir = "$projectDir/build/js"
+gwtOutDir = "$projectDir/build/out"
+gwtGenDir = "$projectDir/build/gen"
+
+task gwtCompile << {
+  created = (new File(gwtBuildDir)).mkdirs()
+  created = (new File(gwtGenDir)).mkdirs()
+  created = (new File(gwtOutDir)).mkdirs()
+  ant.java(classname:'com.google.gwt.dev.Compiler',
+              failOnError: 'true',
+              fork: 'true') {
+    jvmarg(value: '-Xmx184M')
+    arg(line: '-war ' + gwtOutDir)
+    arg(line: '-logLevel INFO')
+    arg(line: '-style PRETTY')
+//    arg(line: '-treeLogger')
+    arg(value: 'com.rift.coad.desktop.Main')
+    classpath {
+      pathElement(location: './src/java')
+      pathElement(path: configurations.gwt.asPath)
+    }
+  }
+}
+
+war.dependsOn gwtCompile
+
+war {
+    classPath = getClasspath().filter({file -> file.name.contains("classes") ||
+        file.name.contains("gwt-servlet") ||
+        file.name.contains("gwm") ||
+        file.name.contains("CoadunationUtil") ||
+        file.name.contains("DesktopServerClient") ||
+        file.name.contains("EventServerClient")}) 
+    setClasspath(classPath)
+    classpath 'build/classes/main/'
+    from 'web'
+    from gwtOutDir
+}
+
+release.dependsOn build
