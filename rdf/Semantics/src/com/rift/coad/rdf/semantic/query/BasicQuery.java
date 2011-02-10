@@ -31,9 +31,9 @@ import java.io.ByteArrayInputStream;
 // jena bean imports
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import thewebsemantic.Bean2RDF;
-import thewebsemantic.RDF2Bean;
-import thewebsemantic.Sparql;
+//import thewebsemantic.Bean2RDF;
+//import thewebsemantic.RDF2Bean;
+//import thewebsemantic.Sparql;
 
 // sqljep imports
 import org.medfoster.sqljep.Parser;

@@ -22,8 +22,8 @@
 package com.rift.coad.rdf.semantic.annotation.test;
 
 // the semantic imports
-import thewebsemantic.Namespace;
-import thewebsemantic.RdfType;
+//import thewebsemantic.Namespace;
+//import thewebsemantic.RdfType;
 import thewebsemantic.ObjTypeId;
 import thewebsemantic.ManagementObject;
 import thewebsemantic.MemberVariableName;
@@ -33,8 +33,8 @@ import thewebsemantic.MemberVariableName;
  *
  * @author brett chaldecott
  */
-@Namespace("http://www.coadunation.net/schema/rdf/1.0/test#")
-@RdfType("TestClass")
+//@Namespace("http://www.coadunation.net/schema/rdf/1.0/test#")
+//@RdfType("TestClass")
 public class TestClass {
     
     /**

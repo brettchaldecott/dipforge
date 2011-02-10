@@ -45,12 +45,13 @@ public class RDFTypeHelper {
      * @throws com.rift.coad.rdf.semantic.annotation.AnnotationException
      */
     public String getRdfType() throws AnnotationException {
-        thewebsemantic.RdfType rdfType = null;
+        /*thewebsemantic.RdfType rdfType = null;
             if (null ==
                     (rdfType = (thewebsemantic.RdfType)AnnotationHelper.getAnnotation(type, thewebsemantic.RdfType.class))) {
                 throw new AnnotationException(
                         "The RDF type information has not been set for the class [" + type.getName() + "]");
             }
-            return rdfType.value();
+            return rdfType.value();*/
+        return null;
     }
 }

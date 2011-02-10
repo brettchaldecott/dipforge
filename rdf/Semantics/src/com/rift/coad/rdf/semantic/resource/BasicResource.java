@@ -33,8 +33,8 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
-import thewebsemantic.Bean2RDF;
-import thewebsemantic.RDF2Bean;
+//import thewebsemantic.Bean2RDF;
+//import thewebsemantic.RDF2Bean;
 
 // semantic imports
 import com.rift.coad.rdf.semantic.ResourceException;
@@ -54,8 +54,8 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
 
     // private member variables
     private Model store;
-    private Bean2RDF storeBeanWritter;
-    private RDF2Bean storeBeanReader;
+    //private Bean2RDF storeBeanWritter;
+    //private RDF2Bean storeBeanReader;
     private Resource jenaResource;
 
 
@@ -67,13 +67,13 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
      * @param storeBeanReader The reader responsible for storing the information.
      * @param jenaResource The resource responsible for storing the information.
      */
-    public BasicResource(Model store, Bean2RDF storeBeanWritter,
-            RDF2Bean storeBeanReader, Resource jenaResource) {
-        this.store = store;
-        this.storeBeanWritter = storeBeanWritter;
-        this.storeBeanReader = storeBeanReader;
-        this.jenaResource = jenaResource;
-    }
+    //public BasicResource(Model store, Bean2RDF storeBeanWritter,
+    //        RDF2Bean storeBeanReader, Resource jenaResource) {
+    //    this.store = store;
+    //    this.storeBeanWritter = storeBeanWritter;
+    //    this.storeBeanReader = storeBeanReader;
+    //    this.jenaResource = jenaResource;
+    //}
 
 
 
@@ -84,13 +84,13 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
     public void update(Object reference) throws ResourceException {
-        try {
-            storeBeanWritter.save(reference);
-        } catch (Exception ex) {
-            log.error("Failed to update the resource : " + ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to update the resource : " + ex.getMessage(),ex);
-        }
+        //try {
+        //    storeBeanWritter.save(reference);
+        //} catch (Exception ex) {
+        //    log.error("Failed to update the resource : " + ex.getMessage(),ex);
+        //    throw new ResourceException
+        //            ("Failed to update the resource : " + ex.getMessage(),ex);
+        //}
     }
 
 
@@ -103,13 +103,14 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
     public <T> T get(Class<T> t) throws ResourceException {
-        try {
-            return t.cast(storeBeanReader.load(this.jenaResource.getURI()));
-        } catch (Exception ex) {
-            log.error("Failed to get the resource : " + ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to get the resource : " + ex.getMessage(),ex);
-        }
+        //try {
+        //    return t.cast(storeBeanReader.load(this.jenaResource.getURI()));
+        //} catch (Exception ex) {
+        //    log.error("Failed to get the resource : " + ex.getMessage(),ex);
+        //    throw new ResourceException
+        //            ("Failed to get the resource : " + ex.getMessage(),ex);
+        //}
+        return null;
     }
 
 
@@ -122,19 +123,20 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
      */
     public com.rift.coad.rdf.semantic.Resource
             addProperty(String url, Object obj) throws ResourceException {
-        try {
-            Resource jenaResource = this.storeBeanWritter.save(obj);
-            return new BasicResource(
-                    store,storeBeanWritter,storeBeanReader,
-                    this.jenaResource.addProperty(this.store.createProperty(url),
-                    jenaResource));
-        } catch (Exception ex) {
-            log.error("Failed to add the property to the resource : " +
-                    ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to add the property to the resource : " +
-                    ex.getMessage(),ex);
-        }
+        //try {
+        //    Resource jenaResource = this.storeBeanWritter.save(obj);
+        //    return new BasicResource(
+        //            store,storeBeanWritter,storeBeanReader,
+        //            this.jenaResource.addProperty(this.store.createProperty(url),
+        //            jenaResource));
+        //} catch (Exception ex) {
+        //    log.error("Failed to add the property to the resource : " +
+        //            ex.getMessage(),ex);
+        //    throw new ResourceException
+        //            ("Failed to add the property to the resource : " +
+        //            ex.getMessage(),ex);
+        //}
+        return null;
     }
 
 
@@ -157,10 +159,11 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
                         resource.getClass().getName());
             }
             BasicResource br = (BasicResource)resource;
-            return new BasicResource(
-                    store,storeBeanWritter,storeBeanReader,
-                    this.jenaResource.addProperty(this.store.createProperty(url),
-                    br.jenaResource));
+            //return new BasicResource(
+            //        store,storeBeanWritter,storeBeanReader,
+            //        this.jenaResource.addProperty(this.store.createProperty(url),
+            //        br.jenaResource));
+            return null;
         } catch (ResourceException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -255,8 +258,8 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
                     this.jenaResource.listProperties(this.store.getProperty(url));
             while (iterator.hasNext()) {
                 Statement statement = iterator.nextStatement();
-                result.add(new BasicResource(store,storeBeanWritter,storeBeanReader,
-                    statement.getResource()));
+                //result.add(new BasicResource(store,storeBeanWritter,storeBeanReader,
+                //    statement.getResource()));
             }
             return result;
         } catch (Exception ex) {

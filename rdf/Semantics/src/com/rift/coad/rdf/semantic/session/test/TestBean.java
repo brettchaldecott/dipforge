@@ -23,14 +23,14 @@
 package com.rift.coad.rdf.semantic.session.test;
 
 // semantic imports
-import thewebsemantic.Namespace;
-import thewebsemantic.RdfType;
+//import thewebsemantic.Namespace;
+//import thewebsemantic.RdfType;
 import thewebsemantic.Identifier;
 import thewebsemantic.ManagementObject;
 import thewebsemantic.MemberVariableName;
 import thewebsemantic.ObjTypeId;
-import thewebsemantic.Uri;
-import thewebsemantic.RdfProperty;
+//import thewebsemantic.Uri;
+//import thewebsemantic.RdfProperty;
 
 
 /**
@@ -38,8 +38,8 @@ import thewebsemantic.RdfProperty;
  *
  * @author brett chaldecott
  */
-@Namespace("http://www.coadunation.net/schema/rdf/1.0/test#")
-@RdfType("TestBean")
+//@Namespace("http://www.coadunation.net/schema/rdf/1.0/test#")
+//@RdfType("TestBean")
 public class TestBean {
     private String id;
     private String name;
@@ -65,34 +65,34 @@ public class TestBean {
         this.objectType = objectType;
     }
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Id")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Id")
     @Identifier()
     public String getId() {
         return id;
     }
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Id")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Id")
     public void setId(String id) {
         this.id = id;
     }
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Name")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Name")
     public String getName() {
         return name;
     }
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Name")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#Name")
     public void setName(String name) {
         this.name = name;
     }
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ManagementObject")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ManagementObject")
     @ManagementObject()
     public String getManagementObject() {
         return this.managementObject;
     }
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ManagementObject")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ManagementObject")
     public void setManagementObject(String managementObject) {
         this.managementObject = managementObject;
     }
@@ -102,13 +102,13 @@ public class TestBean {
      *
      * @return The string containing the name of the member variable.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#MemberVariableName")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#MemberVariableName")
     @MemberVariableName()
     public String getMemberVariableName() {
         return memberVariableName;
     }
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#MemberVariableName")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#MemberVariableName")
     public void setMemberVariableName(String memberVariableName) {
         this.memberVariableName = memberVariableName;
     }
@@ -119,14 +119,14 @@ public class TestBean {
      *
      * @return The string containing the object type id.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ObjectType")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ObjectType")
     @ObjTypeId()
     public String getObjectType() {
         return this.objectType;
     }
 
 
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ObjectType")
+    //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ObjectType")
     public void setObjectType(String objectType) {
         this.objectType = objectType;
     }
@@ -140,7 +140,7 @@ public class TestBean {
      *
      * @return This method returns the composite id.
      */
-    @Uri()
+    //@Uri()
     public final String getUri() {
         if (this.getManagementObject() != null) {
             return "http://www.coadunation.net/schema/rdf/1.0/test#TestBean/" + this.getManagementObject() + "/" + this.getObjectType() + "/"  + this.getMemberVariableName() + "/"+ this.getId();

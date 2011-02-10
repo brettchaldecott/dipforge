@@ -45,13 +45,14 @@ public class NamespaceHelper {
      * @return The string namespace.
      */
     public String getNamespace() throws AnnotationException {
-        thewebsemantic.Namespace namespace = null;
+        /*thewebsemantic.Namespace namespace = null;
         if ( null ==
                 (namespace = (thewebsemantic.Namespace)AnnotationHelper.getAnnotation(type, thewebsemantic.Namespace.class))) {
             throw new AnnotationException(
                     "The namespace information was not set for the class [" + type.getName() + "]");
         }
-        return namespace.value();
+        return namespace.value();*/
+        return null;
     }
 
 

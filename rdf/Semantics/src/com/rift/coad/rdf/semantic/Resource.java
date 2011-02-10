@@ -19,6 +19,7 @@
  * Resource.java
  */
 
+// package path
 package com.rift.coad.rdf.semantic;
 
 // java imports

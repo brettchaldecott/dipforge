@@ -32,7 +32,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 // jena bean imports
-import thewebsemantic.RDF2Bean;
+//import thewebsemantic.RDF2Bean;
 
 // coadunation imports
 import com.rift.coad.rdf.semantic.QueryException;
@@ -40,7 +40,7 @@ import com.rift.coad.rdf.semantic.SPARQLResultEntry;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.resource.BasicResource;
 import com.rift.coad.rdf.semantic.util.jena.DataHelper;
-import thewebsemantic.Bean2RDF;
+//import thewebsemantic.Bean2RDF;
 
 /**
  * This object handles the result entry.
@@ -55,7 +55,7 @@ public class BasicSPARQLResultEntry implements SPARQLResultEntry {
     private Session session;
     private Model config;
     private Model store;
-    private RDF2Bean storeReader;
+    //private RDF2Bean storeReader;
     private String name;
     private QuerySolution solution;
     private Literal literalValue;
@@ -74,7 +74,7 @@ public class BasicSPARQLResultEntry implements SPARQLResultEntry {
         this.session = session;
         this.config = config;
         this.store = store;
-        storeReader = new RDF2Bean(store);
+        //storeReader = new RDF2Bean(store);
         this.name = name;
         this.solution = solution;
         if (this.solution.get(name).isLiteral()) {
@@ -115,13 +115,15 @@ public class BasicSPARQLResultEntry implements SPARQLResultEntry {
                 if (c.equals(String.class)) {
                     return c.cast(uri);
                 } else if (!basic) {
-                    return c.cast(storeReader.load(uri));
+                    //return c.cast(storeReader.load(uri));
+                    return null;
                 }
             } else {
                 if (c.equals(String.class)) {
                     return c.cast(uri);
                 } else if (!basic) {
-                    return c.cast(storeReader.load(this.resourceValue.getURI()));
+                    //return c.cast(storeReader.load(this.resourceValue.getURI()));
+                    return null;
                 }
             }
             throw new QueryException("Unrecognised type : " + c.getName());
@@ -143,11 +145,12 @@ public class BasicSPARQLResultEntry implements SPARQLResultEntry {
      */
     public com.rift.coad.rdf.semantic.Resource getResource() throws QueryException {
         if (this.uri != null) {
-            return new BasicResource(store,new Bean2RDF(store),storeReader,store.getResource(uri));
+            //return new BasicResource(store,new Bean2RDF(store),storeReader,store.getResource(uri));
         } else if (this.resourceValue == null) {
             throw new QueryException("There is not resource value to back this object up");
         }
-        return new BasicResource(store,new Bean2RDF(store),storeReader,resourceValue);
+        //return new BasicResource(store,new Bean2RDF(store),storeReader,resourceValue);
+        return null;
     }
 
     

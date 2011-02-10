@@ -37,9 +37,9 @@ import org.apache.log4j.Logger;
 // jena bean imports
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import thewebsemantic.Bean2RDF;
-import thewebsemantic.RDF2Bean;
-import thewebsemantic.Sparql;
+//import thewebsemantic.Bean2RDF;
+//import thewebsemantic.RDF2Bean;
+//import thewebsemantic.Sparql;
 import static com.hp.hpl.jena.graph.Node.ANY;
 import static com.hp.hpl.jena.graph.Node.createURI;
 
@@ -71,10 +71,10 @@ public class BasicSession implements Session {
 
     // private member variables
     private Model config;
-    private RDF2Bean configBeanReader;
+    //private RDF2Bean configBeanReader;
     private Model store;
-    private Bean2RDF storeBeanWritter;
-    private RDF2Bean storeBeanReader;
+    //private Bean2RDF storeBeanWritter;
+    //private RDF2Bean storeBeanReader;
     private com.rift.coad.rdf.semantic.Transaction transaction;
 
 
@@ -88,10 +88,10 @@ public class BasicSession implements Session {
         this.config = config;
         this.store = store;
         if (config != null) {
-            configBeanReader = new RDF2Bean(config);
+            //configBeanReader = new RDF2Bean(config);
         }
-        storeBeanReader = new RDF2Bean(store);
-        storeBeanWritter = new Bean2RDF(store);
+        //storeBeanReader = new RDF2Bean(store);
+        //storeBeanWritter = new Bean2RDF(store);
         transaction = new BasicTransaction(store);
     }
 
@@ -108,10 +108,10 @@ public class BasicSession implements Session {
         this.config = config;
         this.store = store;
         if (config != null) {
-            configBeanReader = new RDF2Bean(config);
+            //configBeanReader = new RDF2Bean(config);
         }
-        storeBeanReader = new RDF2Bean(store);
-        storeBeanWritter = new Bean2RDF(store);
+        //storeBeanReader = new RDF2Bean(store);
+        //storeBeanWritter = new Bean2RDF(store);
         this.transaction = transaction;
     }
 
@@ -170,8 +170,9 @@ public class BasicSession implements Session {
      */
     public com.rift.coad.rdf.semantic.Resource persist(Object obj) throws SessionException {
         try {
-            return new BasicResource(store,storeBeanWritter,storeBeanReader,
-                    this.storeBeanWritter.save(obj));
+            //return new BasicResource(store,storeBeanWritter,storeBeanReader,
+            //        this.storeBeanWritter.save(obj));
+            return null;
         } catch (Exception ex) {
             log.error("Failed to persist the store information :" + ex.getMessage(),ex);
             throw new SessionException
@@ -224,7 +225,7 @@ public class BasicSession implements Session {
      */
     public void remove(Object obj) throws SessionException {
         try {
-            storeBeanWritter.delete(obj);
+            //storeBeanWritter.delete(obj);
         } catch (Exception ex) {
             log.error("Failed to remove the object from the store : " + ex.getMessage(),ex);
             throw new SessionException
@@ -262,7 +263,7 @@ public class BasicSession implements Session {
      * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
      */
     public <T> T getType(Class<T> c, String objectType) throws SessionException, UnknownEntryException {
-        try {
+        /*try {
             Object obj = this.configBeanReader.load(String.format("%s%s/%s/",
                     new NamespaceHelper(c).getNamespace(),
                     new RDFTypeHelper(c).getRdfType(),
@@ -288,7 +289,7 @@ public class BasicSession implements Session {
                         ("Could not create a new instance of the object because : "
                         + ex.getMessage(),ex);
             }
-        }
+        }*/
         throw new UnknownEntryException("The object of type [" + c.getName() + "]["
                 + objectType+ "] could not be found");
     }
@@ -307,7 +308,7 @@ public class BasicSession implements Session {
      */
     public <T> T get(Class<T> c, Object objectType, Serializable identifier)
             throws SessionException, UnknownEntryException {
-        try {
+        /*try {
             return c.cast(this.storeBeanReader.load(URIHelper.getURI(c, objectType, identifier)));
         } catch (thewebsemantic.NotFoundException ex) {
             log.error("The bean was not found in the store : " + ex.getMessage(),ex);
@@ -317,7 +318,8 @@ public class BasicSession implements Session {
             log.error("Failed to load the bean from the store : " + ex.getMessage(),ex);
             throw new SessionException
                     ("Failed to load the bean from the store : " + ex.getMessage(),ex);
-        }
+        }*/
+        return null;
     }
 
 
@@ -331,7 +333,7 @@ public class BasicSession implements Session {
      * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
      */
     public <T> T get(Class<T> c, String objectType, Serializable identifier) throws SessionException, UnknownEntryException {
-        try {
+        /*try {
             return c.cast(this.storeBeanReader.load(URIHelper.getURI(c, objectType, identifier)));
         } catch (thewebsemantic.NotFoundException ex) {
             log.error("The bean was not found in the store : " + ex.getMessage(),ex);
@@ -341,7 +343,8 @@ public class BasicSession implements Session {
             log.error("Failed to load the bean from the store : " + ex.getMessage(),ex);
             throw new SessionException
                     ("Failed to load the bean from the store : " + ex.getMessage(),ex);
-        }
+        }*/
+        return null;
     }
 
 
@@ -358,7 +361,7 @@ public class BasicSession implements Session {
      */
     public com.rift.coad.rdf.semantic.Resource getResource(Class c, Object objectType,
             Serializable identifier) throws SessionException, UnknownEntryException {
-        try {
+        /*try {
             String uri = URIHelper.getURI(c, objectType, identifier);
             if (!exists(uri)) {
                 throw new UnknownEntryException(String.format(
@@ -372,7 +375,8 @@ public class BasicSession implements Session {
             log.error("Failed to get the resource from the store : " + ex.getMessage(),ex);
             throw new SessionException
                     ("Failed to get the resource from the store : " + ex.getMessage(),ex);
-        }
+        }*/
+        return null;
     }
 
 
@@ -389,7 +393,7 @@ public class BasicSession implements Session {
     public com.rift.coad.rdf.semantic.Resource
             getResource(Class c, String objectType, Serializable identifier)
             throws SessionException, UnknownEntryException {
-        try {
+        /*try {
             String uri = URIHelper.getURI(c, objectType, identifier);
             if (!exists(uri)) {
                 throw new UnknownEntryException(String.format(
@@ -402,7 +406,8 @@ public class BasicSession implements Session {
             log.error("Failed to get the resource from the store : " + ex.getMessage(),ex);
             throw new SessionException
                     ("Failed to get the resource from the store : " + ex.getMessage(),ex);
-        }
+        }*/
+        return null;
     }
     
 
