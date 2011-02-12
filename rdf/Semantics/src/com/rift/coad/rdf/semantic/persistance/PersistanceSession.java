@@ -37,8 +37,10 @@ public interface PersistanceSession {
      *
      * @return The reference to the transaction.
      * @throws PersistanceException
+     * @throws PersistanceUnknownException
      */
-    public PersistanceTransaction beginTransaction() throws PersistanceException;
+    public PersistanceTransaction beginTransaction() throws 
+            PersistanceException, PersistanceUnknownException;
 
 
     /**
@@ -47,8 +49,10 @@ public interface PersistanceSession {
      * @param uri The uri for the resource.
      * @return The reference to the resource.
      * @throws PersisanceException
+     * @throws PersistanceUnknownException
      */
-    public PersistanceResource getResource(URI uri) throws PersistanceException;
+    public PersistanceResource getResource(URI uri) throws 
+            PersistanceException, PersistanceUnknownException;
 
     /**
      * This method returns the resource identified by the persistance identifer.

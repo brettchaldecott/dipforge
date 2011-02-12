@@ -23,6 +23,7 @@
 package com.rift.coad.rdf.semantic.persistance.jena;
 
 import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;
@@ -66,19 +67,19 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
          */
         public <T> T get(Class<T> t) throws PersistanceQueryException {
             if (DataHelper.isBasic(t)) {
-                if (node.isLiteral()) {
+                if (!node.isLiteral()) {
                     throw new PersistanceQueryException(
                             "Request for basic literal but Entry does not refer to one.");
                 }
                 return t.cast(DataHelper.convertLiteral(node, t));
             } else if (t.equals(PersistanceResource.class)) {
-                if (node.isResource()) {
+                if (!node.isResource()) {
                     throw new PersistanceQueryException(
                             "Request for Resource but Entry does not refer to one.");
                 }
-                return (T) new JenaPersistanceResource(node.as(Resource.class));
+                return (T) new JenaPersistanceResource(jenaModel, node.as(Resource.class));
             } else if (t.equals(URI.class)) {
-                if (node.isURIResource()) {
+                if (!node.isURIResource()) {
                     throw new PersistanceQueryException(
                             "Request for URI but Entry does not refer to one.");
                 }
@@ -99,6 +100,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
 
 
     // private member variable
+    private Model jenaModel;
     private QuerySolution solution;
     private int size;
     private List<JenaPersistanceRowEntry> entries = 
@@ -113,7 +115,8 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      *
      * @param solution The solution.
      */
-    protected JenaPersistanceResultRow(QuerySolution solution) {
+    protected JenaPersistanceResultRow(Model jenaModel, QuerySolution solution) {
+        this.jenaModel = jenaModel;
         this.solution = solution;
         Iterator<String> iter = solution.varNames();
         while(iter.hasNext()) {

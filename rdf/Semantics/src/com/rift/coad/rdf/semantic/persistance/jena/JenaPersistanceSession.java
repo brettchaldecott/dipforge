@@ -18,7 +18,6 @@
  *
  * PersistanceSession.java
  */
-
 // package scope
 package com.rift.coad.rdf.semantic.persistance.jena;
 
@@ -31,6 +30,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceTransaction;
+import com.rift.coad.rdf.semantic.persistance.PersistanceUnknownException;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import org.apache.log4j.Logger;
@@ -45,7 +45,6 @@ public class JenaPersistanceSession implements PersistanceSession {
 
     // private static variables
     private static Logger log = Logger.getLogger(JenaPersistanceSession.class);
-
     // private member variables
     private Model jenaModel;
     private JenaPersistanceTransaction transaction;
@@ -60,8 +59,6 @@ public class JenaPersistanceSession implements PersistanceSession {
         transaction = new JenaPersistanceTransaction(jenaModel);
     }
 
-
-
     /**
      * This method returns a reference to the newly created transaction.
      *
@@ -72,7 +69,6 @@ public class JenaPersistanceSession implements PersistanceSession {
         return transaction;
     }
 
-
     /**
      * This method returns the resource information.
      *
@@ -80,19 +76,27 @@ public class JenaPersistanceSession implements PersistanceSession {
      * @return The reference to the resource.
      * @throws PersisanceException
      */
-    public PersistanceResource getResource(URI uri) throws PersistanceException {
+    public PersistanceResource getResource(URI uri) throws PersistanceException,
+            PersistanceUnknownException {
         try {
-            return new JenaPersistanceResource(
+            if (!jenaModel.containsResource(
+                    jenaModel.getResource(uri.toString()))) {
+                log.error("The resource [" + uri.toString() + "] does not exist.");
+                throw new PersistanceUnknownException(
+                        "The resource [" + uri.toString() + "] does not exist.");
+            }
+            return new JenaPersistanceResource(jenaModel,
                     jenaModel.getResource(uri.toString()));
+        } catch (PersistanceUnknownException ex) {
+            throw ex;
         } catch (Exception ex) {
-            log.error("Failed to retrieve the resource because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to retrieve the resource because : "
+                    + ex.getMessage(), ex);
             throw new PersistanceException(
-                    "Failed to retrieve the resource because : " +
-                    ex.getMessage(),ex);
+                    "Failed to retrieve the resource because : "
+                    + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method returns the resource identified by the persistance identifer.
@@ -102,19 +106,26 @@ public class JenaPersistanceSession implements PersistanceSession {
      * @throws PersistanceException
      */
     public PersistanceResource getResource(PersistanceIdentifier identifier)
-            throws PersistanceException {
+            throws PersistanceException, PersistanceUnknownException {
         try {
-            return new JenaPersistanceResource(
+            if (!jenaModel.containsResource(
+                    jenaModel.getResource(identifier.toURI().toString()))) {
+                log.error("The resource [" + identifier.toString() + "] does not exist.");
+                throw new PersistanceUnknownException(
+                        "The resource [" + identifier.toString() + "] does not exist.");
+            }
+            return new JenaPersistanceResource(jenaModel,
                     jenaModel.getResource(identifier.toURI().toString()));
+        } catch (PersistanceUnknownException ex) {
+            throw ex;
         } catch (Exception ex) {
-            log.error("Failed to retrieve the resource because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to retrieve the resource because : "
+                    + ex.getMessage(), ex);
             throw new PersistanceException(
-                    "Failed to retrieve the resource because : " +
-                    ex.getMessage(),ex);
+                    "Failed to retrieve the resource because : "
+                    + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method creates a new resource.
@@ -126,17 +137,16 @@ public class JenaPersistanceSession implements PersistanceSession {
     public PersistanceResource createResource(URI uri)
             throws PersistanceException {
         try {
-            return new JenaPersistanceResource(
+            return new JenaPersistanceResource(jenaModel,
                     jenaModel.createResource(uri.toString()));
         } catch (Exception ex) {
-            log.error("Failed to create the resource because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to create the resource because : "
+                    + ex.getMessage(), ex);
             throw new PersistanceException(
-                    "Failed to create the resource because : " +
-                    ex.getMessage(),ex);
+                    "Failed to create the resource because : "
+                    + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method creates a new resource.
@@ -148,17 +158,16 @@ public class JenaPersistanceSession implements PersistanceSession {
     public PersistanceResource createResource(PersistanceIdentifier identifier)
             throws PersistanceException {
         try {
-            return new JenaPersistanceResource(
+            return new JenaPersistanceResource(jenaModel,
                     jenaModel.createResource(identifier.toURI().toString()));
         } catch (Exception ex) {
-            log.error("Failed to create the resource because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to create the resource because : "
+                    + ex.getMessage(), ex);
             throw new PersistanceException(
-                    "Failed to create the resource because : " +
-                    ex.getMessage(),ex);
+                    "Failed to create the resource because : "
+                    + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method remoes a new resource.
@@ -171,16 +180,15 @@ public class JenaPersistanceSession implements PersistanceSession {
         try {
             Resource resource = jenaModel.createResource(uri.toString());
             jenaModel.removeAll(resource, null, null).
-                    removeAll(resource, null, resource);
+                    removeAll(resource, null, null);
         } catch (Exception ex) {
-            log.error("Failed to remove the resource because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to remove the resource because : "
+                    + ex.getMessage(), ex);
             throw new PersistanceException(
-                    "Failed to remove the resource because : " +
-                    ex.getMessage(),ex);
+                    "Failed to remove the resource because : "
+                    + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method removes a resource.
@@ -196,15 +204,13 @@ public class JenaPersistanceSession implements PersistanceSession {
             jenaModel.removeAll(resource, null, null).
                     removeAll(resource, null, resource);
         } catch (Exception ex) {
-            log.error("Failed to remove the resource because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to remove the resource because : "
+                    + ex.getMessage(), ex);
             throw new PersistanceException(
-                    "Failed to remove the resource because : " +
-                    ex.getMessage(),ex);
+                    "Failed to remove the resource because : "
+                    + ex.getMessage(), ex);
         }
     }
-
-
 
     /**
      * This method returns the query interface object.
@@ -218,7 +224,6 @@ public class JenaPersistanceSession implements PersistanceSession {
         return new JenaPersistanceQuery(jenaModel, queryStr);
     }
 
-    
     /**
      * This method dumps the model to an xml format.
      * 
@@ -231,11 +236,11 @@ public class JenaPersistanceSession implements PersistanceSession {
             jenaModel.write(out);
             return out.toString();
         } catch (Exception ex) {
-            log.error("Failed to dump the store to xml because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to dump the store to xml because : "
+                    + ex.getMessage(), ex);
             throw new PersistanceException(
-                    "Failed to dump the store to xml because : " +
-                    ex.getMessage(),ex);
+                    "Failed to dump the store to xml because : "
+                    + ex.getMessage(), ex);
         }
     }
 }

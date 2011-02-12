@@ -18,7 +18,6 @@
  *
  * JenaStoreTypes.java
  */
-
 package com.rift.coad.rdf.semantic.persistance.jena.xml;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -26,6 +25,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
+import java.io.ByteArrayInputStream;
 import java.util.Properties;
 
 /**
@@ -48,24 +48,20 @@ public class JenaXMLModelFactory implements JenaStore {
     private JenaXMLModelFactory(Properties properties)
             throws PersistanceException {
         try {
+            dataStore = ModelFactory.createDefaultModel();
             String xmlContents =
                     properties.getProperty(PersistanceConstants.XML_RDF_CONTENTS);
-            if (xmlContents == null) {
-                throw new PersistanceException("The jena xml model must be "
-                        + "initialized with xml contents provided by a "
-                        + "configuration parameter identiefied by [" +
-                        PersistanceConstants.XML_RDF_CONTENTS + "]");
+            if (xmlContents != null) {
+                ByteArrayInputStream in = new
+                        ByteArrayInputStream(xmlContents.getBytes());
+                dataStore.read(in, null);
+                in.close();
             }
-            dataStore = ModelFactory.createDefaultModel();
-            dataStore.read(xmlContents);
-        } catch (PersistanceException ex) {
-            throw ex;
         } catch (Throwable ex) {
             throw new PersistanceException("Failed to instanciate the new jena "
-                    + "xml store because : " + ex.getMessage(),ex);
+                    + "xml store because : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method creates a new instance of the xml model factory.
@@ -79,7 +75,6 @@ public class JenaXMLModelFactory implements JenaStore {
         return new JenaXMLModelFactory(properties);
     }
 
-
     /**
      * This method returns the model
      * 
@@ -89,7 +84,6 @@ public class JenaXMLModelFactory implements JenaStore {
     public Model getModule() throws PersistanceException {
         return dataStore;
     }
-
 
     /**
      * This method is called to close down the data store.
@@ -103,5 +97,4 @@ public class JenaXMLModelFactory implements JenaStore {
             // ignore
         }
     }
-
 }

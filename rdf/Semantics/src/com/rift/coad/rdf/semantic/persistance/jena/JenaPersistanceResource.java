@@ -18,12 +18,13 @@
  *
  * PersistanceResource.java
  */
-
 // package path
 package com.rift.coad.rdf.semantic.persistance.jena;
 
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
@@ -45,8 +46,8 @@ public class JenaPersistanceResource implements PersistanceResource {
 
     // class static variables
     private static Logger log = Logger.getLogger(JenaPersistanceResource.class);
-
     // private member variables
+    private Model jenaModel;
     private Resource resource;
 
     /**
@@ -54,11 +55,10 @@ public class JenaPersistanceResource implements PersistanceResource {
      * 
      * @param resource The resource that is being wrapped by this object.
      */
-    public JenaPersistanceResource(Resource resource) {
+    public JenaPersistanceResource(Model jenaModel, Resource resource) {
+        this.jenaModel = jenaModel;
         this.resource = resource;
     }
-
-    
 
     /**
      * The unique uri for this resource.
@@ -70,9 +70,8 @@ public class JenaPersistanceResource implements PersistanceResource {
         try {
             return new URI(resource.getURI());
         } catch (URISyntaxException ex) {
-            log.error("Failed to retrieve the uri : " + ex.getMessage(),ex);
-            throw new PersistanceException
-                    ("Failed to retrieve the uri : " + ex.getMessage(),ex);
+            log.error("Failed to retrieve the uri : " + ex.getMessage(), ex);
+            throw new PersistanceException("Failed to retrieve the uri : " + ex.getMessage(), ex);
         }
     }
 
@@ -82,8 +81,8 @@ public class JenaPersistanceResource implements PersistanceResource {
      * @return URI name space for this resource.
      */
     public PersistanceIdentifier getPersistanceIdentifier() {
-         return PersistanceIdentifier.getInstance(resource.getNameSpace(),
-                 resource.getLocalName());
+        return PersistanceIdentifier.getInstance(resource.getNameSpace(),
+                resource.getLocalName());
     }
 
     /**
@@ -95,10 +94,9 @@ public class JenaPersistanceResource implements PersistanceResource {
      */
     public boolean hasProperty(PersistanceIdentifier identifier)
             throws PersistanceException {
-         return resource.hasProperty(resource.getModel().
-                 getProperty(identifier.toString()));
+        return resource.hasProperty(resource.getModel().
+                getProperty(identifier.toString()));
     }
-
 
     /**
      * This method creates a new property.
@@ -110,10 +108,9 @@ public class JenaPersistanceResource implements PersistanceResource {
      */
     public PersistanceProperty createProperty(PersistanceIdentifier identifier)
             throws PersistanceException {
-        return new JenaPersistanceProperty(resource,
+        return new JenaPersistanceProperty(jenaModel, resource,
                 resource.getModel().createProperty(identifier.toURI().toString()));
     }
-
 
     /**
      * This method lists the perstance properties attached to this resource.
@@ -122,9 +119,15 @@ public class JenaPersistanceResource implements PersistanceResource {
      * @throws PersistanceException
      */
     public List<PersistanceProperty> listProperties() throws PersistanceException {
-         return null;
+        StmtIterator iter = resource.listProperties();
+        List<PersistanceProperty> result = new ArrayList<PersistanceProperty>();
+        while (iter.hasNext()) {
+            Statement statement = iter.nextStatement();
+            result.add(new JenaPersistanceProperty(jenaModel, statement.getPredicate(),
+                    statement));
+        }
+        return result;
     }
-
 
     /**
      * This method returns a list of properties associated with the identifier.
@@ -139,12 +142,11 @@ public class JenaPersistanceResource implements PersistanceResource {
                 identifier.toURI().toString());
         StmtIterator iter = resource.listProperties(property);
         List<PersistanceProperty> result = new ArrayList<PersistanceProperty>();
-        while(iter.hasNext()) {
-            result.add(new JenaPersistanceProperty(property,iter.next()));
+        while (iter.hasNext()) {
+            result.add(new JenaPersistanceProperty(jenaModel, property, iter.next()));
         }
         return result;
     }
-
 
     /**
      * The reference to the property information.
@@ -158,10 +160,9 @@ public class JenaPersistanceResource implements PersistanceResource {
             throws PersistanceException {
         Property property = resource.getModel().getProperty(
                 identifier.toURI().toString());
-        return new JenaPersistanceProperty(property,
+        return new JenaPersistanceProperty(jenaModel, property,
                 resource.getProperty(property));
     }
-
 
     /**
      * This method removes the property identified by the identifier.
@@ -175,7 +176,6 @@ public class JenaPersistanceResource implements PersistanceResource {
                 identifier.toURI().toString());
         resource.removeAll(property).removeAll(property);
     }
-
 
     /**
      * This method retrieves a resources.

@@ -11,7 +11,7 @@
 <configuration>
     <object>
         <entry key="Client_Stub" type="String">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/client
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/client
         </entry>
         <entry key="primary" type="boolean">
             true
@@ -30,11 +30,11 @@
             8085
         </entry>
         <entry key="installation_base" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge
         </entry>
         <!-- script base -->
         <entry key="script_base" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/script
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/script
         </entry>
         <!-- script base -->
     </object>
@@ -109,7 +109,7 @@
     </object>
     <object name="com.rift.coad.lib.security.user.xml.XMLUserParser">
         <entry key="password_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/etc/users.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/etc/users.xml
         </entry>
     </object>
     <object name="com.rift.coad.lib.security.user.UserStoreManager">
@@ -128,7 +128,7 @@
             daemon
         </entry>
         <entry key="directory" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/deploy
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/deploy
         </entry>
     </object>
     <object name="com.rift.coad.lib.deployment.DeploymentManager$DeploymentThread">
@@ -138,7 +138,7 @@
     </object>
     <object name="com.rift.coad.lib.deployment.DeploymentLoader">
         <entry key="temp_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/tmp
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/tmp
         </entry>
     </object>
     <object name="com.rift.coad.lib.db.DBSourceManager">
@@ -310,7 +310,7 @@
             2000
         </entry>
         <entry key="name_server_store" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/nameservice
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/nameservice
         </entry>
     </object>
     <object name="com.rift.coad.lib.naming.cos.CosContext">
@@ -336,13 +336,13 @@
     </object>
     <object name="com.rift.coad.daemon.hsqldb.HsqlDBEngine">
         <entry key="db_path" type="string">
-           /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/hsqldb/coadunation 
+           /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/hsqldb/coadunation 
         </entry>
         <entry key="db_hostname" type="string">
            localhost
         </entry>
         <entry key="db_base" type="string">
-           /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/hsqldb
+           /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
            audit,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,controlpanel
@@ -393,21 +393,21 @@
     </object>
     <object name="com.rift.coad.daemon.jython.JythonDaemonImpl">
         <entry key="python_home" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/jython
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/jython
         </entry>
         <entry key="script_location" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/script
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/script
         </entry>
         <entry key="coadunation_temp" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/tmp
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/tmp
         </entry>
     </object>
     <object name="com.rift.coad.daemon.deployment.DeploymentDaemonImpl">
         <entry key="coadunation_deploy" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/deploy
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/deploy
         </entry>
         <entry key="coadunation_temp" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/tmp
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/tmp
         </entry>
     </object>
     <object name="com.rift.coad.daemon.messageservice.MessageServiceManager">
@@ -418,7 +418,7 @@
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/messageservice
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/messageservice
         </entry>
         <entry key="db_dialect" type="string">
             org.hibernate.dialect.HSQLDialect
@@ -448,19 +448,19 @@
     <!-- tomcat configuration information -->
     <object name="com.rift.coad.daemon.tomcat.TomcatDeployer">
         <entry key="directory" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/deploy
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/deploy
         </entry>
     </object>
     <object name="com.rift.coad.daemon.tomcat.TomcatWrapper">
         <entry key="TomcatBasePath" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/tomcat
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/tomcat
         </entry>
     </object>
     <!-- end of tomcat configuration -->
     <!-- dns configuration information -->
     <object name="com.rift.coad.daemon.dns.DNSServer">
         <entry key="dns_base" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/named
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/named
         </entry>
     </object>
     <object name="com.rift.coad.daemon.dns.server.Server">
@@ -486,7 +486,7 @@
            email
         </entry>
         <entry key="email_server_base" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/email
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/email
         </entry>
     </object>
     <object name="com.rift.coad.daemon.email.server.ServerConfig">
@@ -506,7 +506,7 @@
             com/rift/coad/daemon/email/server/db/hibernate.xml
         </entry>
         <entry key="email_server_base" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/email
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/email
         </entry>
     </object>
     <object name="com.rift.coad.daemon.email.server.smtp.SmtpRequest">
@@ -581,25 +581,25 @@
     <!-- desktop configuration information -->
     <object name="com.rift.coad.daemon.desktop.master.MasterBarImpl">
         <entry key="menu_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/menu.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/desktop/menu.xml
         </entry>
         <entry key="gadgets_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/gadgets.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/desktop/gadgets.xml
         </entry>
     </object>
     <object name="com.rift.coad.daemon.desktop.DesktopManagerImpl">
         <entry key="desktop_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/desktops.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/desktop/desktops.xml
         </entry>
         <entry key="desktop_app_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/desktop/desktopapps.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/desktop/desktopapps.xml
         </entry>
     </object>
     <!-- end of desktop configuration -->
     <!-- Mime information -->
     <object name="com.rift.coad.daemon.desktop.MimeManagerImpl">
         <entry key="mime_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/mime/mime.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/mime/mime.xml
         </entry>
     </object>
     <!-- end of Mime Information -->
@@ -623,14 +623,14 @@
     </object>
     <object name="com.rift.coad.daemon.event.FeedServerImpl">
         <entry key="event_config" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/event/feed.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/event/feed.xml
         </entry>
     </object>
     <!-- end of event configuration -->
     <!--  RSS configuration -->
     <object name="com.rift.coad.daemon.rss.RSSClientManagement">
         <entry key="feed_config" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/rss/feeds.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/rss/feeds.xml
         </entry>
         <entry key="db_dialect" type="string">
             org.hibernate.dialect.HSQLDialect
@@ -652,14 +652,14 @@
     <!-- Coadunation RDF Types -->
     <object name="com.rift.coad.type.TypeManagerDaemonImpl">
         <entry key="type_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/types/types.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/types/types.xml
         </entry>
     </object>
     <!-- end of Coadunation RDF Types -->
     <!-- Coadunation RDF Source Types -->
     <object name="com.rift.coad.rdf.web.RDFTypeServer">
         <entry key="type_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/types/types.xml
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/types/types.xml
         </entry>
     </object>
     <!-- Audit trail configuration -->
@@ -668,7 +668,7 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/audit.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/audit.ttl
         </entry>
     </object>
     <!-- Audit trail configuration -->
@@ -678,7 +678,7 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/change.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/change.ttl
         </entry>
     </object>
     <object name="com.rift.coad.change.request.RequestFactoryDaemonImpl">
@@ -686,7 +686,7 @@
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/requestmanager
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/requestmanager
         </entry>
     </object>
     <!-- Change Manager configuration -->
@@ -696,7 +696,7 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/data_mapper_broker.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/data_mapper_broker.ttl
         </entry>
     </object>
     <!-- Data Mapper configuration -->
@@ -706,10 +706,10 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/script_manager.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/script_manager.ttl
         </entry>
         <entry key="template_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/scripttemplate
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/scripttemplate
         </entry>
         <entry key="script_repository" type="string">
             script
@@ -725,7 +725,7 @@
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/scriptdistribution
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/scriptdistribution
         </entry>
     </object>
     <!-- Revision Manager -->
@@ -734,17 +734,17 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/revision_manager.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/revision_manager.ttl
         </entry>
         <entry key="repository_base_path" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/revision
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/revision
         </entry>
     </object>
     <!-- Revision Manager configuration -->
     <!-- Groovy Mapping Manager Configuration -->
     <object name="com.rift.coad.groovy.GroovyDaemonImpl">
         <entry key="groovy_lib_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/groovylib/
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/groovylib/
         </entry>
     </object>
     <object name="com.rift.coad.groovy.GroovyMappingManagerDaemonImpl">
@@ -752,7 +752,7 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/groovy_manager.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/groovy_manager.ttl
         </entry>
     </object>
     <!-- Groovy Mapping Manager configuration -->
@@ -762,7 +762,7 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/jython_manager.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/jython_manager.ttl
         </entry>
     </object>
     <!-- Jython Mapping Manager configuration -->
@@ -772,23 +772,23 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/request_broker.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/request_broker.ttl
         </entry>
         <entry key="changelog_username" type="string">
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/requestbroker
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/requestbroker
         </entry>
     </object>
     <!-- Request Broker configuration -->
     <!-- PHP Manager Configuration -->
     <object name="com.rift.coad.script.server.files.php.PHPFileManagerImpl">
         <entry key="php_base" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/tomcat/webapps/quercus-4.0.3
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/tomcat/webapps/quercus-4.0.3
         </entry>
         <entry key="php_template_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/phptemplate
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/phptemplate
         </entry>
     </object>
     <object name="com.rift.coad.script.server.files.php.ViewSourceManagerImpl">
@@ -800,10 +800,10 @@
     <!-- Groovy Manager Configuration -->
     <object name="com.rift.coad.script.server.files.groovy.GroovyFileManagerImpl">
         <entry key="groovy_base" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/tomcat/webapps/GroovyWeb
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/tomcat/webapps/GroovyWeb
         </entry>
         <entry key="groovy_template_dir" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/groovytemplate
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/groovytemplate
         </entry>
     </object>
     <object name="com.rift.coad.script.server.files.groovy.GroovyViewSourceManagerImpl">
@@ -818,7 +818,7 @@
             http://localhost:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            /home/brettc/Documents/external/github/dipforge.git/release/dipforge/var/semantics/control_panel.ttl
+            /home/brettc/Documents/external/github/dipforge.git2/release/dipforge/var/semantics/control_panel.ttl
         </entry>
     </object>
     <!-- End of Groovy Web configuration -->

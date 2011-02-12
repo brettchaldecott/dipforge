@@ -21,6 +21,7 @@
 
 package com.rift.coad.rdf.semantic.persistance.jena;
 
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
@@ -43,6 +44,7 @@ public class JenaPersistanceProperty implements PersistanceProperty {
     private static Logger log = Logger.getLogger(JenaPersistanceProperty.class);
 
     // private member variables
+    private Model jenaModel;
     private Resource resource;
     private Property property;
     private Statement statement;
@@ -54,7 +56,9 @@ public class JenaPersistanceProperty implements PersistanceProperty {
      * @param resource The string containing the resource reference.
      * @param property The property reference.
      */
-    protected JenaPersistanceProperty(Resource resource, Property property) {
+    protected JenaPersistanceProperty(Model jenaModel, Resource resource,
+            Property property) {
+        this.jenaModel = jenaModel;
         this.resource = resource;
         this.property = property;
     }
@@ -69,8 +73,9 @@ public class JenaPersistanceProperty implements PersistanceProperty {
      * @param resource The string containing he resource information.
      * @param name The name information.
      */
-    protected JenaPersistanceProperty(Property property,
+    protected JenaPersistanceProperty(Model jenaModel, Property property,
             Statement statement) {
+        this.jenaModel = jenaModel;
         this.property = property;
         this.statement = statement;
     }
@@ -387,7 +392,7 @@ public class JenaPersistanceProperty implements PersistanceProperty {
                 throw new PersistanceException("The property [" +
                         property.getURI() + "]has not been set.");
             } else {
-                return new JenaPersistanceResource(
+                return new JenaPersistanceResource(jenaModel,
                         statement.getResource());
             }
         } catch (PersistanceException ex) {
@@ -399,6 +404,17 @@ public class JenaPersistanceProperty implements PersistanceProperty {
                     "Failed to get the value : " + ex.getMessage(),ex);
         }
     }
+
+    @Override
+    public String toString() {
+        if (resource != null) {
+            return "JenaPersistanceProperty{" + "resource=" + resource.getURI() + '}';
+        } else if (property != null) {
+            return "JenaPersistanceProperty{" + "property=" + property.getURI() + '}';
+        }
+        return "JenaPersistanceProperty{" + "unknown" + '}';
+    }
+
 
 
 }

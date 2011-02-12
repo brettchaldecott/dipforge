@@ -121,7 +121,8 @@ public class JenaPersistanceManager implements PersistanceManager {
 
     
     /**
-     * 
+     * This method is responsible for closing the jena persistance manager.
+     *
      * @throws PersistanceException
      */
     public void close() throws PersistanceException {

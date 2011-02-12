@@ -82,7 +82,7 @@ public class JenaSPARQLList extends ArrayList<PersistanceResultRow> {
                     getEngine(store).execute(queryString);
             while (resultSet.hasNext()) {
                 QuerySolution solution = resultSet.nextSolution();
-                JenaPersistanceResultRow row = new JenaPersistanceResultRow(solution);
+                JenaPersistanceResultRow row = new JenaPersistanceResultRow(store,solution);
                 this.add(row);
             }
         } catch (Exception ex) {

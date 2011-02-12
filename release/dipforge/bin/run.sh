@@ -12,7 +12,7 @@ fi
 
 # setup tools path
 TOOLS=/usr/lib/jvm/java-6-openjdk/lib/tools.jar
-DIPFORGE_HOME=/home/brettc/Documents/external/github/dipforge.git/release/dipforge/
+DIPFORGE_HOME=/home/brettc/Documents/external/github/dipforge.git2/release/dipforge/
 export DIPFORGE_HOME
 VERSION=1.0.1
 export VERSION
