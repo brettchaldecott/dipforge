@@ -35,9 +35,6 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 //import thewebsemantic.RDF2Bean;
 //import thewebsemantic.Sparql;
 
-// sqljep imports
-import org.medfoster.sqljep.Parser;
-
 // coadunation imports
 import com.rift.coad.rdf.semantic.Query;
 import com.rift.coad.rdf.semantic.QueryException;

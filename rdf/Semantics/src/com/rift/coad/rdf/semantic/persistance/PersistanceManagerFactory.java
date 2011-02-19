@@ -58,6 +58,8 @@ public class PersistanceManagerFactory {
             PersistanceManager managerInstance =
                     (PersistanceManager)constructor.newInstance(properties);
             return managerInstance;
+        } catch (PersistanceException ex) {
+            throw ex;
         } catch (Throwable ex) {
             throw new PersistanceException(
                     "Failed to instanciate persistance manager exception : " +

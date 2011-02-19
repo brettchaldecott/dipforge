@@ -38,7 +38,6 @@ import com.rift.coad.rdf.semantic.QueryException;
 import com.rift.coad.rdf.semantic.SPARQLQuery;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
-import com.rift.coad.rdf.semantic.query.sparql.SPARQLList;
 import com.rift.coad.rdf.semantic.query.sparql.SPARQLTokenParser;
 import com.rift.coad.rdf.semantic.util.DateHelper;
 
@@ -361,7 +360,8 @@ public class BasicSPARQLQuery implements SPARQLQuery {
      */
     public List<SPARQLResultRow> execute() throws QueryException {
         try {
-            return new SPARQLList(session, config, store, this.parser.generateQuery());
+            //return new SPARQLList(session, config, store, this.parser.generateQuery());
+            return null;
         } catch (Exception ex) {
             log.error("Failed to execute the query : " + ex.getMessage(),ex);
             throw new QueryException

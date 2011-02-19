@@ -37,10 +37,22 @@ public interface SessionManager {
      */
     public String getVersion();
 
-    
+
+    /**
+     * The string containing the name of this session manager.
+     *
+     * @return The string containing the name of this session.
+     */
     public String getName();
-    
+
+
+    /**
+     * The description of this manager.
+     *
+     * @return The description of this manager.
+     */
     public String getDescription();
+
     
     /**
      * This method returns the description of the 

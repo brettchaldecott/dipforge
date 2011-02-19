@@ -46,7 +46,6 @@ import com.hp.hpl.jena.query.QuerySolution;
 
 // coadunation imports
 import com.hp.hpl.jena.sdb.store.DatasetStore;
-import com.rift.coad.rdf.semantic.SPARQLResultEntry;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;

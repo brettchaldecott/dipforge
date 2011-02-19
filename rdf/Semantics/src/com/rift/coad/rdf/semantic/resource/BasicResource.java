@@ -38,7 +38,6 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 // semantic imports
 import com.rift.coad.rdf.semantic.ResourceException;
-import com.rift.coad.rdf.semantic.annotation.URIHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -187,7 +186,8 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
         try {
             StmtIterator iterator =
                     this.jenaResource.listProperties(this.store.getProperty(url));
-            String uri = URIHelper.getURI(objectType, identifier);
+            //String uri = URIHelper.getURI(objectType, identifier);
+            String uri = null;
             while (iterator.hasNext()) {
                 Statement statement = iterator.nextStatement();
                 if (statement.getResource().getURI().equals(uri)) {
@@ -267,6 +267,18 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
             throw new ResourceException
                     ("Failed to list the properties : " + ex.getMessage(),ex);
         }
+    }
+
+    public <T> T getProperty(String url, Class<T> c) throws ResourceException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void removeProperty(String url) throws ResourceException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List listProperties() throws ResourceException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

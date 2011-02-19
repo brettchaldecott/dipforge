@@ -25,6 +25,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
+import com.rift.coad.rdf.semantic.SemanticException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
 import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
@@ -89,12 +90,12 @@ public class JenaPersistanceProperty implements PersistanceProperty {
      *
      * @return The uri for this object.
      */
-    public URI getURI() throws PersistanceException {
+    public URI getURI() throws SemanticException {
         try {
             return new URI(property.getURI());
         } catch (URISyntaxException ex) {
             log.error("Failed to retrieve the uri : " + ex.getMessage(),ex);
-            throw new PersistanceException
+            throw new SemanticException
                     ("Failed to retrieve the uri : " + ex.getMessage(),ex);
         }
     }
@@ -405,6 +406,12 @@ public class JenaPersistanceProperty implements PersistanceProperty {
         }
     }
 
+
+    /**
+     * This method returns the string value for the property.
+     *
+     * @return The string value for the property.
+     */
     @Override
     public String toString() {
         if (resource != null) {

@@ -22,6 +22,8 @@
 // package scope
 package com.rift.coad.rdf.semantic.persistance;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 
 /**
@@ -39,9 +41,27 @@ public interface PersistanceSession {
      * @throws PersistanceException
      * @throws PersistanceUnknownException
      */
-    public PersistanceTransaction beginTransaction() throws 
+    public PersistanceTransaction getTransaction() throws
             PersistanceException, PersistanceUnknownException;
 
+
+    /**
+     * This method is called to persist the stream changes to this semantic session.
+     *
+     * @param in The input stream containing the changes to persist to this session.
+     * @throws PersistanceException
+     */
+    public void persist(InputStream in) throws PersistanceException;
+
+
+    /**
+     * This method is called to persist the RDF information to the session.
+     *
+     * @param rdf The string containing the rdf information to persist.
+     * @throws PersistanceException
+     */
+    public void persist(String rdf) throws PersistanceException;
+    
 
     /**
      * This method returns the resource information.
@@ -107,6 +127,24 @@ public interface PersistanceSession {
 
 
     /**
+     * This method removes the RDF identifed by the rdf string.
+     *
+     * @param rdf The string containing the RDF to remove.
+     * @throws PersistanceException
+     */
+    public void removeRDF(String rdf) throws PersistanceException;
+
+
+    /**
+     * The method removes the RDF information identified by the stream.
+     *
+     * @param out The stream containing the RDF information to remove.
+     * @throws PersistanceException
+     */
+    public void removeRDF(InputStream in) throws PersistanceException;
+
+    
+    /**
      * This method returns the query interface object.
      *
      * @param queryStr The query string.
@@ -124,4 +162,13 @@ public interface PersistanceSession {
      * @throws PersistanceException
      */
     public String dumpXML() throws PersistanceException;
+
+
+    /**
+     * This method dumps the model to an xml format.
+     *
+     * @return The string containing an XML dump.
+     * @throws PersistanceQueryException
+     */
+    public void dumpXML(OutputStream out) throws PersistanceException;
 }

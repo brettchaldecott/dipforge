@@ -28,8 +28,17 @@ package com.rift.coad.rdf.semantic.jdo;
  * @author brettc chaldecott
  */
 public class JDOConstants {
+
+    public final static String JDO_MANAGER_CLASS = "jdo_manager_class";
+
     /**
-     * The jena JDO factory implementation.
+     * The default jdo implementation
      */
-    public final static String JENA_FACTORY = "jena";
+    public final static String DEFAULT_JDO = "basic";
+
+
+    /**
+     * The default jdo class
+     */
+    public final static String DEFAULT_JDO_CLASS = "com.rift.coad.rdf.semantic.jdo.basic.BasicJDOManager";
 }

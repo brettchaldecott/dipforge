@@ -54,8 +54,8 @@ public class JenaPersistanceSessionTest extends TestCase {
 
         JenaPersistanceSession instance = 
                 (JenaPersistanceSession)persistanceManager.getSession();
-        PersistanceTransaction expResult = instance.beginTransaction();
-        PersistanceTransaction result = instance.beginTransaction();
+        PersistanceTransaction expResult = instance.getTransaction();
+        PersistanceTransaction result = instance.getTransaction();
         assertEquals(expResult, result);
     }
 

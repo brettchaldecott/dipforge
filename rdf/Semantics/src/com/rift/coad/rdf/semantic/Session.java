@@ -44,6 +44,7 @@ public interface Session {
      */
     public Transaction getTransaction() throws SessionException;
 
+
     /**
      * This method is called to persist the stream changes to this semantic session.
      *
@@ -67,26 +68,25 @@ public interface Session {
      * @param obj
      * @throws com.rift.coad.rdf.semantic.SessionException
      */
-    public Resource persist(Object obj) throws SessionException;
+    public <T> T persist(T object) throws SessionException;
 
 
     /**
      * This method dumps the session information in the format specified to the output string.
      *
-     * @param format The format to dump the RDF model in.
      * @return The string containing the dump RDF model.
      * @throws com.rift.coad.rdf.semantic.SessionException
      */
-    public String dump(String format) throws SessionException;
+    public String dumpXML() throws SessionException;
+
 
     /**
      * This method dumps the RDF module to the output string.
      *
      * @param out The output stream to dump the model to.
-     * @param format The format of the output string to dump.
      * @throws com.rift.coad.rdf.semantic.SessionException
      */
-    public void dump(OutputStream out, String format) throws SessionException;
+    public void dumpXML(OutputStream out) throws SessionException;
 
 
     /**
@@ -94,7 +94,7 @@ public interface Session {
      * @param obj The object to remove the the store.
      * @throws com.rift.coad.rdf.semantic.SessionException
      */
-    public void remove(Object obj) throws SessionException;
+    public <T> T remove(T target) throws SessionException;
 
 
     /**
@@ -107,18 +107,6 @@ public interface Session {
 
 
     /**
-     * This method returns an instance of the specified object type.
-     *
-     * @param c The class type to perfrom the operation on.
-     * @param objectType The type to retrieve from the database.
-     * @return An instance of the requested type.
-     * @throws com.rift.coad.rdf.semantic.SessionException
-     * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
-     */
-    public <T> T getType(Class<T> c, String objectType) throws SessionException, UnknownEntryException;
-
-
-    /**
      * This method returns the object identified by the information passed in.
      * @param <T> The type.
      * @param c The class to perform the cast to.
@@ -128,56 +116,7 @@ public interface Session {
      * @throws com.rift.coad.rdf.semantic.SessionException
      * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
      */
-    public <T> T get(Class<T> c, Object objectType,  Serializable identifier) throws SessionException, UnknownEntryException;
-
-
-    /**
-     * This method returns the specified object type identified by the identifier.
-     *
-     * @param c The class type that is getting loaded.
-     * @param objectType The unquie object identifier to retrieve the identifier from the store for.
-     * @param identifier The identifier to uniquely retrieve the object for.
-     * @return The object to retrieve.
-     * @throws com.rift.coad.rdf.semantic.SessionException
-     * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
-     */
-    public <T> T get(Class<T> c, String objectType,  Serializable identifier) throws SessionException, UnknownEntryException;
-
-
-    /**
-     * This method returns a reference to the identified resource.
-     * @param c The class type the resource is getting retrieved for.
-     * @param objectType The object type information for the resource.
-     * @param identifier The unique identifier for the object.
-     * @return The resource to retrieve.
-     * @throws com.rift.coad.rdf.semantic.SessionException
-     * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
-     */
-    public Resource getResource(Class c, Object objectType,  Serializable identifier) throws SessionException, UnknownEntryException;
-
-
-    /**
-     * This method retrieves the resource identfied by the object type.
-     * @param c
-     * @param objectType
-     * @param identifier
-     * @return
-     * @throws com.rift.coad.rdf.semantic.SessionException
-     * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
-     */
-    public Resource getResource(Class c, String objectType,  Serializable identifier) throws SessionException, UnknownEntryException;
-
-
-    /**
-     * This method is responsible for initing the object query.
-     *
-     * @param c The class type to initialize.
-     * @param objectName The name of the object to init.
-     * @return The initialized object.
-     * @throws com.rift.coad.rdf.semantic.SessionException
-     * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
-     */
-    public <T> T createInstance(Class<T> c, String objectType) throws SessionException, UnknownEntryException;
+    public <T> T get(Class <T> c, Serializable identifier) throws SessionException, UnknownEntryException;
 
 
     /**

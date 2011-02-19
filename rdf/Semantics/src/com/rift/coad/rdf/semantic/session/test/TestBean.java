@@ -25,10 +25,10 @@ package com.rift.coad.rdf.semantic.session.test;
 // semantic imports
 //import thewebsemantic.Namespace;
 //import thewebsemantic.RdfType;
-import thewebsemantic.Identifier;
-import thewebsemantic.ManagementObject;
-import thewebsemantic.MemberVariableName;
-import thewebsemantic.ObjTypeId;
+import com.rift.coad.rdf.semantic.annotation.Identifier;
+//import com.rift.coad.rdf.semantic.annotation.helpers.ManagementObject;
+//import com.rift.coad.rdf.semantic.annotation.MemberVariableName;
+//import com.rift.coad.rdf.semantic.annotation.ObjTypeId;
 //import thewebsemantic.Uri;
 //import thewebsemantic.RdfProperty;
 
@@ -87,7 +87,7 @@ public class TestBean {
     }
 
     //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ManagementObject")
-    @ManagementObject()
+    //@ManagementObject()
     public String getManagementObject() {
         return this.managementObject;
     }
@@ -103,7 +103,7 @@ public class TestBean {
      * @return The string containing the name of the member variable.
      */
     //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#MemberVariableName")
-    @MemberVariableName()
+    //@MemberVariableName()
     public String getMemberVariableName() {
         return memberVariableName;
     }
@@ -120,7 +120,7 @@ public class TestBean {
      * @return The string containing the object type id.
      */
     //@RdfProperty("http://www.coadunation.net/schema/rdf/1.0/test#ObjectType")
-    @ObjTypeId()
+    //@ObjTypeId()
     public String getObjectType() {
         return this.objectType;
     }

@@ -21,22 +21,14 @@
 
 package com.rift.coad.rdf.semantic.persistance;
 
-import java.net.URI;
+import com.rift.coad.rdf.semantic.common.Property;
 
 /**
  * This object represents a property.
  *
  * @author brett chaldecott
  */
-public interface PersistanceProperty {
-
-    /**
-     * The unique uri for this resource.
-     *
-     * @return The uri for this object.
-     * @throws PersistanceException
-     */
-    public URI getURI() throws PersistanceException;
+public interface PersistanceProperty extends Property {
 
     /**
      * The name space for the resource.

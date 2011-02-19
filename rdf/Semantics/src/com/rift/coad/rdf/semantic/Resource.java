@@ -55,23 +55,25 @@ public interface Resource {
      * The method adds properties to the resource.
      *
      * @param url The url for the property.
+     * @param value The value to add.
+     * @return The resource.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public <T> T addProperty(String url, T value) throws ResourceException;
+
+    
+    /**
+     * The method adds properties to the resource.
+     *
+     * @param url The url for the property.
      * @param obj The object to add to the property.
      * @return The resource.
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
-    public Resource addProperty(String url, Object obj) throws ResourceException;
-
-    /**
-     * This method adds the resource to the property.
-     *
-     * @param url The url for the resource.
-     * @param resource The resource to add as a property.
-     * @return The Resource value.
-     * @throws com.rift.coad.rdf.semantic.ResourceException
-     */
-    public Resource addProperty(String url, Resource resource) throws ResourceException;
+    public <T> T getProperty(String url, Class<T> c) throws ResourceException;
 
 
+    
     /**
      * This method removes the property.
      *
@@ -80,7 +82,7 @@ public interface Resource {
      * @param identifier The identifier.
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
-    public void removeProperty(String url, Object objectType, Serializable identifier) throws ResourceException;
+    public void removeProperty(String url) throws ResourceException;
 
 
     /**
@@ -95,9 +97,17 @@ public interface Resource {
 
     /**
      * This method lists properties.
+     * @return The list of resources.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public List listProperties() throws ResourceException;
+
+
+    /**
+     * This method lists properties.
      * @param url The url of the property to retrieve.
      * @return The list of resources.
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
-    public List<Resource> listProperties(String url) throws ResourceException;
+    public List listProperties(String url) throws ResourceException;
 }

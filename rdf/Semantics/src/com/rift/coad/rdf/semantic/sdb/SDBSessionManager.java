@@ -175,7 +175,8 @@ public class SDBSessionManager implements SessionManager {
                 }
             }
 
-            return new BasicSession(config,this.dataStore,transaction);
+            //return new BasicSession(config,this.dataStore,transaction);
+            return null;
         } catch (Exception ex) {
             log.error("Failed to retrieve a session reference : " + ex.getMessage(),ex);
             throw new SessionException

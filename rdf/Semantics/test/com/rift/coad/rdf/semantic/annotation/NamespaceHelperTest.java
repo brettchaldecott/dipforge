@@ -21,6 +21,7 @@
 
 package com.rift.coad.rdf.semantic.annotation;
 
+import com.rift.coad.rdf.semantic.annotation.helpers.NamespaceHelper;
 import com.rift.coad.rdf.semantic.annotation.test.TestClass;
 import junit.framework.TestCase;
 
@@ -50,7 +51,7 @@ public class NamespaceHelperTest extends TestCase {
     public void testGetNamespace() throws Exception {
         System.out.println("getNamespace");
         NamespaceHelper instance = new NamespaceHelper(TestClass.class);
-        String expResult = "http://www.coadunation.net/schema/rdf/1.0/test#";
+        String expResult = "http://www.coadunation.net/schema/rdf/1.0/test";
         String result = instance.getNamespace();
         assertEquals(expResult, result);
     }

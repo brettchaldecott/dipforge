@@ -31,7 +31,10 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceTransaction;
 import com.rift.coad.rdf.semantic.persistance.PersistanceUnknownException;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import org.apache.log4j.Logger;
 
@@ -60,14 +63,50 @@ public class JenaPersistanceSession implements PersistanceSession {
     }
 
     /**
-     * This method returns a reference to the newly created transaction.
+     * This method returns a reference to the transaction.
      *
      * @return The reference to the transaction.
      * @throws PersistanceException
      */
-    public PersistanceTransaction beginTransaction() throws PersistanceException {
+    public PersistanceTransaction getTransaction() throws PersistanceException {
         return transaction;
     }
+
+    /**
+     * This method is called to persist the stream changes to this semantic session.
+     *
+     * @param in The input stream containing the changes to persist to this session.
+     * @throws PersistanceException
+     */
+    public void persist(InputStream in) throws PersistanceException {
+        try {
+            jenaModel.read(in,null);
+        } catch (Exception ex) {
+            log.error("Failed to persist the stream : " + ex.getMessage(),ex);
+            throw new PersistanceException
+                    ("Failed to persist the stream : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method is called to persist the RDF information to the session.
+     *
+     * @param rdf The string containing the rdf information to persist.
+     * @throws PersistanceException
+     */
+    public void persist(String rdf) throws PersistanceException {
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(rdf.getBytes());
+            jenaModel.read(in, null);
+            in.close();
+        } catch (Exception ex) {
+            log.error("Failed to persist the stream : " + ex.getMessage(),ex);
+            throw new PersistanceException
+                    ("Failed to persist the stream : " + ex.getMessage(),ex);
+        }
+    }
+
 
     /**
      * This method returns the resource information.
@@ -212,6 +251,46 @@ public class JenaPersistanceSession implements PersistanceSession {
         }
     }
 
+
+    /**
+     * This method removes the RDF identifed by the rdf string.
+     *
+     * @param rdf The string containing the RDF to remove.
+     * @throws PersistanceException
+     */
+    public void removeRDF(String rdf) throws PersistanceException {
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(rdf.getBytes());
+            jenaModel.remove(jenaModel.read(in, null));
+            in.close();
+        } catch (Exception ex) {
+            log.error("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
+            throw new PersistanceException
+                    ("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * The method removes the RDF information identified by the stream.
+     *
+     * @param out The stream containing the RDF information to remove.
+     * @throws PersistanceException
+     */
+    public void removeRDF(InputStream in) throws PersistanceException {
+        try {
+            jenaModel.remove(jenaModel.read(in, null));
+        } catch (Exception ex) {
+            log.error("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
+            throw new PersistanceException
+                    ("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
+        }
+    }
+
+
+
+
+
     /**
      * This method returns the query interface object.
      *
@@ -235,6 +314,25 @@ public class JenaPersistanceSession implements PersistanceSession {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             jenaModel.write(out);
             return out.toString();
+        } catch (Exception ex) {
+            log.error("Failed to dump the store to xml because : "
+                    + ex.getMessage(), ex);
+            throw new PersistanceException(
+                    "Failed to dump the store to xml because : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+
+    /**
+     * This method dumps the model to an xml format.
+     *
+     * @return The string containing an XML dump.
+     * @throws PersistanceQueryException
+     */
+    public void dumpXML(OutputStream out) throws PersistanceException {
+        try {
+            jenaModel.write(out);
         } catch (Exception ex) {
             log.error("Failed to dump the store to xml because : "
                     + ex.getMessage(), ex);

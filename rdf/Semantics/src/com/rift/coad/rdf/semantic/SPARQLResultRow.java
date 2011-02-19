@@ -55,7 +55,7 @@ public interface SPARQLResultRow {
      * @return The first result object attached to the given name.
      * @throws com.rift.coad.rdf.semantic.QueryException
      */
-    public SPARQLResultEntry get(String name) throws QueryException;
+    public <T> T get(Class<T> type, String name) throws QueryException;
 
     /**
      * This method returns the entry identified by the index value.
@@ -63,6 +63,6 @@ public interface SPARQLResultRow {
      * @return
      * @throws com.rift.coad.rdf.semantic.QueryException
      */
-    public SPARQLResultEntry get(int index) throws QueryException;
+    public <T> T get(Class<T> type,int index) throws QueryException;
 
 }
