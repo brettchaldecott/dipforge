@@ -1,6 +1,6 @@
 /*
  * CoaduntionSemantics: The semantic library for coadunation os
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2011  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,32 +16,41 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Constants.java
+ * BasicJDOPersistanceHandler.java
  */
 
-package com.rift.coad.rdf.semantic;
+package com.rift.coad.rdf.semantic.jdo.basic;
 
 /**
- * This class defines all the constants
+ * This exception is thrown when there is a problem with the basic JDO objects.
  *
  * @author brett chaldecott
  */
-public class Constants {
-    /**
-     * The default url of the type id used by the semantic library
-     */
-    //public final static String TYPE_URL = "http://www.coadunation.net/schema/rdf/1.0/semantic#TypeId";
+public class BasicJDOException extends Exception {
 
     /**
-     * This constant defines the format mask that will be used to generate an
-     * parse dates placed in the RDF store.
+     * Creates a new instance of <code>BasicJDOException</code> without detail message.
      */
-    public final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss:SS Z";
+    public BasicJDOException() {
+    }
 
 
     /**
-     * This is the format of the id uri.
+     * Constructs an instance of <code>BasicJDOException</code> with the specified detail message.
+     * @param msg the detail message.
      */
-    public final static String RESOURCE_URI_FORMAT = "%s#%s/%s";
-    
+    public BasicJDOException(String msg) {
+        super(msg);
+    }
+
+
+    /**
+     * Constructs an instance of <code>BasicJDOException</code> with the specified detail message.
+     * 
+     * @param msg the detail message.
+     * @param cause The cause of the error.
+     */
+    public BasicJDOException(String msg, Throwable cause) {
+        super(msg,cause);
+    }
 }

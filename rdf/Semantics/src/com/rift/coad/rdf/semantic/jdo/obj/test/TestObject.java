@@ -5,6 +5,7 @@
 
 package com.rift.coad.rdf.semantic.jdo.obj.test;
 
+import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
@@ -23,6 +24,7 @@ public class TestObject {
      * The getter test
      * @return The string
      */
+    @Identifier()
     @PropertyLocalName("GetTest")
     public String getTest() {
         return "get";

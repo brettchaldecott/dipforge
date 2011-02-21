@@ -23,6 +23,7 @@
 // package path
 package com.rift.coad.rdf.semantic.jdo.obj;
 
+import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.helpers.AnnotationHelper;
@@ -41,6 +42,7 @@ public class ClassInfo {
     private Class classRef;
     private String namespace;
     private String localName;
+    private MethodInfo idMethod = null;
     private List<MethodInfo> getters = new ArrayList<MethodInfo>();
     private List<MethodInfo> setters = new ArrayList<MethodInfo>();
     private List<MethodInfo> operators = new ArrayList<MethodInfo>();
@@ -73,6 +75,9 @@ public class ClassInfo {
                     continue;
                 }
                 MethodInfo methodInfo = new MethodInfo(method,this.namespace);
+                if (methodInfo.getMethodRef().getAnnotation(Identifier.class) != null) {
+                    idMethod = methodInfo;
+                }
                 methods.add(methodInfo);
                 if (methodInfo.isGetter()) {
                     getters.add(methodInfo);
@@ -81,6 +86,10 @@ public class ClassInfo {
                 } else {
                     operators.add(methodInfo);
                 }
+            }
+            if (idMethod == null) {
+                throw new ObjException("No id field for this class : " +
+                        classRef.getName());
             }
         } catch (ObjException ex) {
             throw ex;
@@ -171,6 +180,14 @@ public class ClassInfo {
      */
     public List<MethodInfo> getSetters() {
         return setters;
+    }
+
+    /**
+     * The reference to the id field.
+     * @return
+     */
+    public MethodInfo getIdMethod() {
+        return idMethod;
     }
 
 

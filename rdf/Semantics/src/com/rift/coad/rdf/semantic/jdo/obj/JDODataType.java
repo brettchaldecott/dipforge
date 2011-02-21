@@ -40,7 +40,7 @@ public class JDODataType implements DataType {
      *
      * @param uri The uri type information.
      */
-    protected JDODataType(URI uri) {
+    public JDODataType(URI uri) {
         String[] tokens = uri.toString().split("#");
         this.namespace = tokens[0];
         this.localName = tokens[1];
@@ -53,7 +53,7 @@ public class JDODataType implements DataType {
      * @param namespace The name space information.
      * @param localname The local name.
      */
-    protected JDODataType(String namespace, String localName) {
+    public JDODataType(String namespace, String localName) {
         this.namespace = namespace;
         this.localName = localName;
     }

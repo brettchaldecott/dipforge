@@ -45,7 +45,7 @@ public class LocalNameHelper {
      * @return The 
      * @throws com.rift.coad.rdf.semantic.annotation.AnnotationException
      */
-    public String getRdfType() throws AnnotationException {
+    public String getLocalName() throws AnnotationException {
         LocalName localName = null;
         if (null
                 == (localName = (LocalName) AnnotationHelper.getAnnotation(type, LocalName.class))) {

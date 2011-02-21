@@ -52,7 +52,7 @@ public class LocalNameHelperTest extends TestCase {
         System.out.println("getRdfType");
         LocalNameHelper instance = new LocalNameHelper(TestClass.class);
         String expResult = "TestClass";
-        String result = instance.getRdfType();
+        String result = instance.getLocalName();
         assertEquals(expResult, result);
     }
 
