@@ -128,6 +128,24 @@ public interface PersistanceProperty extends Property {
 
 
     /**
+     * This method sets the literal value for a string.
+     *
+     * @param stringValue The string literal value.
+     * @throws PersistanceException
+     */
+    public void setValue(String stringValue) throws PersistanceException;
+
+
+    /**
+     * This method returns the float value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public String getValueAsString() throws PersistanceException;
+
+
+    /**
      * This method sets the literal object value.
      *
      * @param objectValue The object value.

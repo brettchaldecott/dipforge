@@ -353,6 +353,54 @@ public class JenaPersistanceProperty implements PersistanceProperty {
 
 
     /**
+     * This method sets the value.
+     *
+     * @param stringValue The string value.
+     * @throws PersistanceException
+     */
+    public void setValue(String stringValue) throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                statement = resource.addProperty(property, stringValue).
+                        getProperty(property);
+            } else {
+                statement.changeObject(stringValue);
+            }
+        } catch (Exception ex) {
+            log.error("Failed to set the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException("Failed to set the value : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method returns the value.
+     *
+     * @return The return value.
+     * @throws PersistanceException
+     */
+    public String getValueAsString() throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                throw new PersistanceException("The property [" +
+                        property.getURI() + "]has not been set.");
+            } else {
+                return statement.getString();
+            }
+        } catch (PersistanceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to get the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException(
+                    "Failed to get the value : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
      * This method sets the literal object value.
      *
      * @param objectValue The object value.
@@ -421,7 +469,6 @@ public class JenaPersistanceProperty implements PersistanceProperty {
         }
         return "JenaPersistanceProperty{" + "unknown" + '}';
     }
-
 
 
 }

@@ -27,6 +27,7 @@ import com.rift.coad.rdf.semantic.SPARQLQuery;
 import com.rift.coad.rdf.semantic.SessionException;
 import com.rift.coad.rdf.semantic.jdo.JDOSession;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.session.UnknownEntryException;
 import java.io.InputStream;
@@ -106,7 +107,16 @@ public class BasicJDOSession implements JDOSession {
      * @throws SessionException
      */
     public <T> T persist(T source) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            BasicJDOPersistanceHandler handler = new BasicJDOPersistanceHandler(
+                    source,persistanceSession, ontologySession);
+            PersistanceResource resource = handler.persist();
+            return null;
+        } catch (Exception ex) {
+            log.error("Failed to persist the object : " + ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed to persist the object : " + ex.getMessage(),ex);
+        }
     }
 
 
