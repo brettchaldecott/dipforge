@@ -62,7 +62,6 @@ public class BasicJDOPersistanceHandler {
     public PersistanceResource persist() throws BasicJDOException {
         PersistanceManager persistance = null;
         try {
-            persistance = DefaultPersistanceManagerFactory.init();
             PersistanceResource resource = persist(dataSource);
             return resource;
         } catch (BasicJDOException ex) {
@@ -89,8 +88,11 @@ public class BasicJDOPersistanceHandler {
     private PersistanceResource persist(Object dataSource)
             throws BasicJDOException {
         try {
+            if (dataSource == null) {
+                return null;
+            }
             if (dataSource instanceof Resource) {
-                return persistResource((Resource)dataSource);
+                return getPersistanceResource((Resource)dataSource);
             }
             ClassInfo classInfo = ClassInfo.interrogateClass(dataSource.getClass());
             URI resourceUri = new URI(String.format(Constants.RESOURCE_URI_FORMAT,
@@ -134,11 +136,13 @@ public class BasicJDOPersistanceHandler {
             throws BasicJDOException {
         try {
             resource.removeProperty(identifier);
+            Object value = methodInfo.getMethodRef().invoke(dataSource);
+            if (value == null) {
+                return;
+            }
             PersistanceProperty property =
                     resource.createProperty(identifier);
-            property.setValue(
-                    methodInfo.getMethodRef().invoke(dataSource).
-                    toString());
+            property.setValue(value.toString());
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to persist the basic type : "
                     + ex.getMessage(), ex);
@@ -161,8 +165,23 @@ public class BasicJDOPersistanceHandler {
             Collection collection =
                     (Collection) methodInfo.getMethodRef().invoke(dataSource);
             for (Object obj : collection) {
-                resource.createProperty(identifier).setValue(persist(obj));
+                if (obj == null) {
+                    // ignore a null value
+                    continue;
+                }
+                // if this object is a basic type it cannot be stored like this.
+                if (ClassTypeInfo.isBasicType(obj.getClass())) {
+                    resource.createProperty(identifier).setValue(obj.toString());
+
+                } else {
+                    PersistanceResource childResource = persist(obj);
+                    if (childResource != null) {
+                        resource.createProperty(identifier).setValue(childResource);
+                    }
+                }
             }
+        } catch (BasicJDOException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to persist the collection : "
                     + ex.getMessage(), ex);
@@ -182,10 +201,15 @@ public class BasicJDOPersistanceHandler {
             PersistanceResource resource, PersistanceIdentifier identifier)
             throws BasicJDOException {
         try {
+            resource.removeProperty(identifier);
+            Object value = methodInfo.getMethodRef().invoke(dataSource);
+            if (value == null) {
+                return;
+            }
             PersistanceProperty property =
                     resource.createProperty(identifier);
             property.setValue(
-                    persist(methodInfo.getMethodRef().invoke(dataSource)));
+                    persist(value));
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -202,7 +226,7 @@ public class BasicJDOPersistanceHandler {
      * @return The persistence resource to connect with.
      * @throws BasicJDOException
      */
-    public PersistanceResource persistResource(Resource dataSource)
+    private PersistanceResource getPersistanceResource(Resource dataSource)
             throws BasicJDOException {
         try {
             return session.getResource(dataSource.getURI());
