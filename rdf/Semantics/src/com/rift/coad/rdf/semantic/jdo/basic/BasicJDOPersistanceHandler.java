@@ -22,6 +22,7 @@
 package com.rift.coad.rdf.semantic.jdo.basic;
 
 import com.rift.coad.rdf.semantic.Constants;
+import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.jdo.obj.ClassInfo;
 import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
@@ -62,9 +63,7 @@ public class BasicJDOPersistanceHandler {
         PersistanceManager persistance = null;
         try {
             persistance = DefaultPersistanceManagerFactory.init();
-            PersistanceSession transientSession = persistance.getSession();
-            PersistanceResource resource = persist(dataSource, transientSession);
-            session.persist(transientSession.dumpXML());
+            PersistanceResource resource = persist(dataSource);
             return resource;
         } catch (BasicJDOException ex) {
             throw ex;
@@ -87,14 +86,17 @@ public class BasicJDOPersistanceHandler {
      * @return The uri for the object being persisted.
      * @throws BasicJDOException
      */
-    public PersistanceResource persist(Object dataSource, PersistanceSession transientSession)
+    private PersistanceResource persist(Object dataSource)
             throws BasicJDOException {
         try {
+            if (dataSource instanceof Resource) {
+                return persistResource((Resource)dataSource);
+            }
             ClassInfo classInfo = ClassInfo.interrogateClass(dataSource.getClass());
             URI resourceUri = new URI(String.format(Constants.RESOURCE_URI_FORMAT,
                     classInfo.getNamespace(), classInfo.getLocalName(),
                     classInfo.getIdMethod().getMethodRef().invoke(dataSource).toString()));
-            PersistanceResource resource = transientSession.createResource(
+            PersistanceResource resource = session.createResource(
                     resourceUri);
             for (MethodInfo methodInfo : classInfo.getGetters()) {
                 PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
@@ -106,9 +108,9 @@ public class BasicJDOPersistanceHandler {
                 } else if (returnType.isArray()) {
                     throw new BasicJDOException("The array type is not supported");
                 } else if (ClassTypeInfo.isCollection(returnType)) {
-                    persistCollection(transientSession, methodInfo, resource, identifier);
+                    persistCollection(methodInfo, resource, identifier);
                 } else {
-                    this.persistObject(transientSession, methodInfo, resource, identifier);
+                    this.persistObject(methodInfo, resource, identifier);
                 }
             }
             return resource;
@@ -146,22 +148,20 @@ public class BasicJDOPersistanceHandler {
     /**
      * This method persists the collection information
      *
-     * @param transientSession The transient session information.
      * @param methodInfo The method information.
      * @param resource The resource information.
      * @param identifier The identifier.
      * @throws BasicJDOException
      */
-    private void persistCollection(PersistanceSession transientSession,
-            MethodInfo methodInfo, PersistanceResource resource,
-            PersistanceIdentifier identifier) throws BasicJDOException {
+    private void persistCollection(MethodInfo methodInfo, 
+            PersistanceResource resource,PersistanceIdentifier identifier)
+            throws BasicJDOException {
         try {
             resource.removeProperty(identifier);
             Collection collection =
                     (Collection) methodInfo.getMethodRef().invoke(dataSource);
             for (Object obj : collection) {
-                resource.createProperty(identifier).setValue(persist(obj,
-                        transientSession));
+                resource.createProperty(identifier).setValue(persist(obj));
             }
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to persist the collection : "
@@ -169,20 +169,46 @@ public class BasicJDOPersistanceHandler {
         }
     }
 
-    private void persistObject(PersistanceSession transientSession,
-            MethodInfo methodInfo, PersistanceResource resource,
-            PersistanceIdentifier identifier) throws BasicJDOException {
+
+    /**
+     * Persist the object
+     *
+     * @param methodInfo The method reference.
+     * @param resource The resource.
+     * @param identifier The identifier.
+     * @throws BasicJDOException
+     */
+    private void persistObject(MethodInfo methodInfo,
+            PersistanceResource resource, PersistanceIdentifier identifier)
+            throws BasicJDOException {
         try {
             PersistanceProperty property =
                     resource.createProperty(identifier);
             property.setValue(
-                    persist(methodInfo.getMethodRef().invoke(dataSource),
-                    transientSession));
+                    persist(methodInfo.getMethodRef().invoke(dataSource)));
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to persist the object : "
                     + ex.getMessage(), ex);
+        }
+    }
+
+
+    /**
+     * This method returns the persistence resource from the session store
+     *
+     * @param dataSource The resource to retrieve.
+     * @return The persistence resource to connect with.
+     * @throws BasicJDOException
+     */
+    public PersistanceResource persistResource(Resource dataSource)
+            throws BasicJDOException {
+        try {
+            return session.getResource(dataSource.getURI());
+        } catch (Exception ex) {
+            throw new BasicJDOException("Failed to persist the resource : " +
+                    ex.getMessage(),ex);
         }
     }
 }

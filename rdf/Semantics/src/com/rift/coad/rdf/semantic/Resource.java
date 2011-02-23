@@ -24,6 +24,7 @@ package com.rift.coad.rdf.semantic;
 
 // java imports
 import java.io.Serializable;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -32,6 +33,15 @@ import java.util.List;
  * @author brett chaldecott
  */
 public interface Resource {
+
+    /**
+     * This method returns the URI of this object.
+     *
+     * @return The uri of this object.
+     * @throws ResourceException
+     */
+    public URI getURI() throws ResourceException;
+
     /**
      * This object is responsible for updating
      * 

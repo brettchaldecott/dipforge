@@ -23,6 +23,7 @@
 package com.rift.coad.rdf.semantic.resource;
 
 // java imports
+import java.net.URI;
 import java.util.List;
 
 // log4j imports
@@ -278,6 +279,10 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
     }
 
     public List listProperties() throws ResourceException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public URI getURI() throws ResourceException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
