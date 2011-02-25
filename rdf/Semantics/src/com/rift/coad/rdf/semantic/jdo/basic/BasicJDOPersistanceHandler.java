@@ -22,9 +22,12 @@
 package com.rift.coad.rdf.semantic.jdo.basic;
 
 import com.rift.coad.rdf.semantic.Constants;
+import com.rift.coad.rdf.semantic.RDFConstants;
 import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.jdo.obj.ClassInfo;
 import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
+import com.rift.coad.rdf.semantic.ontology.OntologyClass;
+import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.DefaultPersistanceManagerFactory;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
@@ -32,9 +35,12 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceSession;
 import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
 import java.net.URI;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -95,24 +101,33 @@ public class BasicJDOPersistanceHandler {
                 return getPersistanceResource((Resource)dataSource);
             }
             ClassInfo classInfo = ClassInfo.interrogateClass(dataSource.getClass());
+            OntologyClass ontologyClass = ontologySession.getClass(
+                    PersistanceIdentifier.getInstance(classInfo.getNamespace(),
+                    classInfo.getLocalName()).toURI());
+            System.out.println(classInfo.getNamespace() + "#" +
+                    classInfo.getLocalName() + "/" +
+                    classInfo.getIdMethod().getMethodRef().getName());
             URI resourceUri = new URI(String.format(Constants.RESOURCE_URI_FORMAT,
                     classInfo.getNamespace(), classInfo.getLocalName(),
                     classInfo.getIdMethod().getMethodRef().invoke(dataSource).toString()));
+            PersistanceResource typeResource = session.createResource(PersistanceIdentifier.getInstance(
+                    classInfo.getNamespace(), classInfo.getLocalName()));
             PersistanceResource resource = session.createResource(
-                    resourceUri);
+                    resourceUri,typeResource);
             for (MethodInfo methodInfo : classInfo.getGetters()) {
                 PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                         methodInfo.getNamespace(), methodInfo.getLocalName());
                 Class returnType =
                         methodInfo.getMethodRef().getReturnType();
                 if (ClassTypeInfo.isBasicType(returnType)) {
-                    persistBasicType(methodInfo, resource, identifier);
+                    persistBasicType(dataSource,methodInfo, resource, identifier,
+                            ontologyClass);
                 } else if (returnType.isArray()) {
                     throw new BasicJDOException("The array type is not supported");
                 } else if (ClassTypeInfo.isCollection(returnType)) {
-                    persistCollection(methodInfo, resource, identifier);
+                    persistCollection(dataSource,methodInfo, resource, identifier);
                 } else {
-                    this.persistObject(methodInfo, resource, identifier);
+                    this.persistObject(dataSource,methodInfo, resource, identifier);
                 }
             }
             return resource;
@@ -131,8 +146,9 @@ public class BasicJDOPersistanceHandler {
      * @param resource The resource reference
      * @throws BasicJDOException
      */
-    private void persistBasicType(MethodInfo methodInfo,
-            PersistanceResource resource, PersistanceIdentifier identifier)
+    private void persistBasicType(Object dataSource, MethodInfo methodInfo,
+            PersistanceResource resource, PersistanceIdentifier identifier,
+            OntologyClass ontologyClass)
             throws BasicJDOException {
         try {
             resource.removeProperty(identifier);
@@ -140,9 +156,45 @@ public class BasicJDOPersistanceHandler {
             if (value == null) {
                 return;
             }
+            if (!ontologyClass.hasProperty(identifier.toURI())) {
+                throw new BasicJDOException("The ontology class does not have the property : " +
+                        identifier.toURI().toString());
+            }
+            OntologyProperty ontologyProperty = ontologyClass.getProperty(identifier.toURI());
+            
             PersistanceProperty property =
                     resource.createProperty(identifier);
-            property.setValue(value.toString());
+            if (value instanceof String) {
+                property.setValue(value.toString());
+            } else if (value instanceof Date) {
+                Date dateValue = (Date)value;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateValue);
+                property.setValue(calendar);
+            } else if (value instanceof Calendar) {
+                property.setValue((Calendar)value);
+            } else if (value instanceof Integer) {
+                property.setValue((long)(Integer)value);
+            } else if (value.getClass().equals(int.class)) {
+                property.setValue(long.class.cast(value));
+            } else if (value instanceof Long) {
+                property.setValue(Long.class.cast(value));
+            } else if (value.getClass().equals(long.class)) {
+                property.setValue(long.class.cast(value));
+            } else if (value instanceof Double) {
+                property.setValue(Double.class.cast(value));
+            } else if (value.getClass().equals(double.class)) {
+                property.setValue(double.class.cast(value));
+            } else if (value instanceof Float) {
+                property.setValue(Float.class.cast(value));
+            } else if (value.getClass().equals(float.class)) {
+                property.setValue(float.class.cast(value));
+            } else {
+                throw new BasicJDOException("Unsupported type [" +
+                        value.getClass().getName() + "]");
+            }
+        } catch (BasicJDOException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to persist the basic type : "
                     + ex.getMessage(), ex);
@@ -157,7 +209,7 @@ public class BasicJDOPersistanceHandler {
      * @param identifier The identifier.
      * @throws BasicJDOException
      */
-    private void persistCollection(MethodInfo methodInfo, 
+    private void persistCollection(Object dataSource, MethodInfo methodInfo,
             PersistanceResource resource,PersistanceIdentifier identifier)
             throws BasicJDOException {
         try {
@@ -197,7 +249,7 @@ public class BasicJDOPersistanceHandler {
      * @param identifier The identifier.
      * @throws BasicJDOException
      */
-    private void persistObject(MethodInfo methodInfo,
+    private void persistObject(Object dataSource, MethodInfo methodInfo,
             PersistanceResource resource, PersistanceIdentifier identifier)
             throws BasicJDOException {
         try {
@@ -235,4 +287,6 @@ public class BasicJDOPersistanceHandler {
                     ex.getMessage(),ex);
         }
     }
+
+
 }

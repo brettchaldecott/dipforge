@@ -125,6 +125,52 @@ public class JenaOntologyClass implements OntologyClass {
 
 
     /**
+     * This method return true if the property exists.
+     *
+     * @param uri The uri of the object.
+     * @return TRUE if found, FALSE if not
+     * @throws OntologyException
+     */
+    public boolean hasProperty(URI uri) throws OntologyException {
+        try {
+            return jenaOntologyClass.hasDeclaredProperty(jenaOntologyClass.getModel().
+                    getProperty(uri.toString()), true);
+        } catch (Exception ex) {
+            log.error("Failed to check if the property is bound to this class : " + ex.getMessage(),ex);
+            throw new OntologyException
+                    ("Failed to check if the property is bound to this class : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * Return the ontology property reference.
+     *
+     * @param uri The uri of the proeprty
+     * @return The reference to the ontology property.
+     * @throws OntologyException
+     */
+    public OntologyProperty getProperty(URI uri) throws OntologyException {
+        try {
+            ExtendedIterator<OntProperty> iterator = jenaOntologyClass.listDeclaredProperties();
+            while (iterator.hasNext()) {
+                OntProperty ontProperty = iterator.next();
+                if (ontProperty.getURI().equals(uri.toString())) {
+                    return new JenaOntologyProperty(ontProperty);
+                }
+            }
+            throw new OntologyException("The property [" + uri.toString() +
+                    "] is not bound to [" + jenaOntologyClass.getURI() + "]");
+        } catch (OntologyException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to check if the property is bound to this class : " + ex.getMessage(),ex);
+            throw new OntologyException
+                    ("Failed to check if the property is bound to this class : " + ex.getMessage(),ex);
+        }
+    }
+
+    /**
      * This method returns a list of properties.
      *
      * @return The list of ontology properties associated with this object.

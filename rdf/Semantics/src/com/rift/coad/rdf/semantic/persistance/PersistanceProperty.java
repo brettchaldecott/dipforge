@@ -22,6 +22,7 @@
 package com.rift.coad.rdf.semantic.persistance;
 
 import com.rift.coad.rdf.semantic.common.Property;
+import java.util.Calendar;
 
 /**
  * This object represents a property.
@@ -126,6 +127,24 @@ public interface PersistanceProperty extends Property {
      */
     public float getValueAsFloat() throws PersistanceException;
 
+
+    /**
+     * This method sets the calendar value.
+     *
+     * @param calendarValue The calendar value.
+     * @throws PersistanceException
+     */
+    public void setValue(Calendar calendarValue) throws PersistanceException;
+
+
+    /**
+     * This method method returns the value of the calendar.
+     *
+     * @return The reference to the calendar value.
+     * @throws PersistanceException
+     */
+    public Calendar getValueAsCalendar() throws PersistanceException;
+    
 
     /**
      * This method sets the literal value for a string.

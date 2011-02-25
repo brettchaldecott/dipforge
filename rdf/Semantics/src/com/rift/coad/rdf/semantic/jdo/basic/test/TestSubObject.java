@@ -22,11 +22,61 @@
 // package path
 package com.rift.coad.rdf.semantic.jdo.basic.test;
 
+import com.rift.coad.rdf.semantic.annotation.Identifier;
+import com.rift.coad.rdf.semantic.annotation.LocalName;
+import com.rift.coad.rdf.semantic.annotation.Namespace;
+import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+
 /**
  * The test sub object.
  *
  * @author brett chaldecott
  */
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/test")
+@LocalName("TestSubObject")
 public class TestSubObject {
+
+    public String name;
+    public int number;
+    public double dub;
+
+    public TestSubObject(String name, int number, double dub) {
+        this.name = name;
+        this.number = number;
+        this.dub = dub;
+    }
+
+    @PropertyLocalName("Count")
+    public double getDub() {
+        return dub;
+    }
+
+    @PropertyLocalName("Count")
+    public void setDub(double dub) {
+        this.dub = dub;
+    }
+
+    @PropertyLocalName("Name")
+    public String getName() {
+        return name;
+    }
+
+    @PropertyLocalName("Name")
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Identifier()
+    @PropertyLocalName("Number")
+    public int getNumber() {
+        return number;
+    }
+
+    @PropertyLocalName("Number")
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    
 
 }

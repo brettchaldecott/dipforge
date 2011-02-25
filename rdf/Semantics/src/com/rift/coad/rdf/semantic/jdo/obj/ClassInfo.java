@@ -76,6 +76,9 @@ public class ClassInfo {
                 }
                 MethodInfo methodInfo = new MethodInfo(method,this.namespace);
                 if (methodInfo.getMethodRef().getAnnotation(Identifier.class) != null) {
+                    if (methodInfo.isSetter()) {
+                        throw new ObjException("Cannot use a setter for the identifier field");
+                    }
                     idMethod = methodInfo;
                 }
                 methods.add(methodInfo);

@@ -64,6 +64,28 @@ public interface PersistanceSession {
     
 
     /**
+     * This method returns true if the resource pointed to by the uri exists.
+     *
+     * @param uri The resource uri
+     * @return TRUE if there is a resource identified by the URI, FALSE if not.
+     * @throws PersistanceException
+     */
+    public boolean hasResource(URI uri) throws
+            PersistanceException;
+
+
+    /**
+     * This method returns true if there is a resource identified by the URI and FALSE if there is not.
+     *
+     * @param identifier The resource identifier.
+     * @return TRUE if found, FALSE if not.
+     * @throws PersistanceException
+     */
+    public boolean hasResource(PersistanceIdentifier identifier) throws
+            PersistanceException;
+
+
+    /**
      * This method returns the resource information.
      *
      * @param uri The uri for the resource.
@@ -105,6 +127,32 @@ public interface PersistanceSession {
      */
     public PersistanceResource createResource(PersistanceIdentifier identifier)
             throws PersistanceException;
+
+
+    /**
+     * This method creates a resource linked to the given type.
+     *
+     * @param uri The uri of the resource to link to.
+     * @param resourceType The resource type.
+     * @return The reference to the persistance resource.
+     * @throws PersistanceException
+     */
+    public PersistanceResource createResource(URI uri, PersistanceResource resourceType)
+            throws PersistanceException;
+
+
+    /**
+     * This method creates a new resource identified by the identifier and ties it to a given resource type.
+     *
+     * @param identifier The identifier of the resource.
+     * @param resourceType The resource type.
+     * @return The reference to the newly created persistence resource.
+     * @throws PersistanceException
+     */
+    public PersistanceResource createResource(PersistanceIdentifier identifier, PersistanceResource resourceType)
+            throws PersistanceException;
+
+
 
     /**
      * This method remoes a new resource.

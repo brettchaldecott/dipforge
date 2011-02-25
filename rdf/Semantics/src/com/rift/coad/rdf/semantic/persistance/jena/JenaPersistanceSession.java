@@ -80,14 +80,12 @@ public class JenaPersistanceSession implements PersistanceSession {
      */
     public void persist(InputStream in) throws PersistanceException {
         try {
-            jenaModel.read(in,null);
+            jenaModel.read(in, null);
         } catch (Exception ex) {
-            log.error("Failed to persist the stream : " + ex.getMessage(),ex);
-            throw new PersistanceException
-                    ("Failed to persist the stream : " + ex.getMessage(),ex);
+            log.error("Failed to persist the stream : " + ex.getMessage(), ex);
+            throw new PersistanceException("Failed to persist the stream : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method is called to persist the RDF information to the session.
@@ -101,12 +99,54 @@ public class JenaPersistanceSession implements PersistanceSession {
             jenaModel.read(in, null);
             in.close();
         } catch (Exception ex) {
-            log.error("Failed to persist the stream : " + ex.getMessage(),ex);
-            throw new PersistanceException
-                    ("Failed to persist the stream : " + ex.getMessage(),ex);
+            log.error("Failed to persist the stream : " + ex.getMessage(), ex);
+            throw new PersistanceException("Failed to persist the stream : " + ex.getMessage(), ex);
         }
     }
 
+    /**
+     * This method returns true if the resource pointed to by the uri exists.
+     *
+     * @param uri The resource uri
+     * @return TRUE if there is a resource identified by the URI, FALSE if not.
+     * @throws PersistanceException
+     */
+    public boolean hasResource(URI uri) throws
+            PersistanceException {
+        try {
+            return jenaModel.containsResource(
+                    jenaModel.getResource(uri.toString()));
+        } catch (Exception ex) {
+            log.error("Failed to determine if the resource exists : "
+                    + ex.getMessage(), ex);
+            throw new PersistanceException(
+                    "Failed to determine if the resource exists : "
+                    + ex.getMessage(), ex);
+        }
+    }
+    
+
+    /**
+     * This method returns true if there is a resource identified by the URI and FALSE if there is not.
+     *
+     * @param identifier The resource identifier.
+     * @return TRUE if found, FALSE if not.
+     * @throws PersistanceException
+     */
+    public boolean hasResource(PersistanceIdentifier identifier) throws
+            PersistanceException {
+        try {
+            return jenaModel.containsResource(
+                    jenaModel.getResource(identifier.toURI().toString()));
+        } catch (Exception ex) {
+            log.error("Failed to determine if the resource exists : "
+                    + ex.getMessage(), ex);
+            throw new PersistanceException(
+                    "Failed to determine if the resource exists : "
+                    + ex.getMessage(), ex);
+        }
+    }
+    
 
     /**
      * This method returns the resource information.
@@ -208,6 +248,55 @@ public class JenaPersistanceSession implements PersistanceSession {
         }
     }
 
+
+    /**
+     * This method creates a resource linked to the given type.
+     *
+     * @param uri The uri of the resource to link to.
+     * @param resourceType The resource type.
+     * @return The reference to the persistance resource.
+     * @throws PersistanceException
+     */
+    public PersistanceResource createResource(URI uri, PersistanceResource resourceType)
+            throws PersistanceException {
+        try {
+            JenaPersistanceResource jenaResource = (JenaPersistanceResource)resourceType;
+            return new JenaPersistanceResource(jenaModel,
+                    jenaModel.createResource(uri.toString(),jenaResource.getResource()));
+        } catch (Exception ex) {
+            log.error("Failed to create the resource because : "
+                    + ex.getMessage(), ex);
+            throw new PersistanceException(
+                    "Failed to create the resource because : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+
+    /**
+     * This method creates a new resource identified by the identifier and ties it to a given resource type.
+     *
+     * @param identifier The identifier of the resource.
+     * @param resourceType The resource type.
+     * @return The reference to the newly created persistence resource.
+     * @throws PersistanceException
+     */
+    public PersistanceResource createResource(PersistanceIdentifier identifier, PersistanceResource resourceType)
+            throws PersistanceException {
+        try {
+            JenaPersistanceResource jenaResource = (JenaPersistanceResource)resourceType;
+            return new JenaPersistanceResource(jenaModel,
+                    jenaModel.createResource(identifier.toURI().toString(),jenaResource.getResource()));
+        } catch (Exception ex) {
+            log.error("Failed to create the resource because : "
+                    + ex.getMessage(), ex);
+            throw new PersistanceException(
+                    "Failed to create the resource because : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+
     /**
      * This method remoes a new resource.
      *
@@ -251,7 +340,6 @@ public class JenaPersistanceSession implements PersistanceSession {
         }
     }
 
-
     /**
      * This method removes the RDF identifed by the rdf string.
      *
@@ -264,12 +352,10 @@ public class JenaPersistanceSession implements PersistanceSession {
             jenaModel.remove(jenaModel.read(in, null));
             in.close();
         } catch (Exception ex) {
-            log.error("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
-            throw new PersistanceException
-                    ("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
+            log.error("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
+            throw new PersistanceException("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * The method removes the RDF information identified by the stream.
@@ -281,15 +367,10 @@ public class JenaPersistanceSession implements PersistanceSession {
         try {
             jenaModel.remove(jenaModel.read(in, null));
         } catch (Exception ex) {
-            log.error("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
-            throw new PersistanceException
-                    ("Failed to remove the rdf from the store : " + ex.getMessage(),ex);
+            log.error("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
+            throw new PersistanceException("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
         }
     }
-
-
-
-
 
     /**
      * This method returns the query interface object.
@@ -322,7 +403,6 @@ public class JenaPersistanceSession implements PersistanceSession {
                     + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method dumps the model to an xml format.

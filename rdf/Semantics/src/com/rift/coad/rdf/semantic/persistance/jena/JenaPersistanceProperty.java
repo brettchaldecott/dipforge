@@ -32,6 +32,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 import org.apache.log4j.Logger;
 
 /**
@@ -267,6 +268,7 @@ public class JenaPersistanceProperty implements PersistanceProperty {
             if (statement == null && resource != null) {
                 statement = resource.addLiteral(property, doubleValue).
                         getProperty(property);
+
             } else {
                 statement.changeLiteralObject(doubleValue);
             }
@@ -353,6 +355,56 @@ public class JenaPersistanceProperty implements PersistanceProperty {
 
 
     /**
+     * This method sets the calendar value.
+     *
+     * @param calendarValue The calendar value.
+     * @throws PersistanceException
+     */
+    public void setValue(Calendar calendarValue) throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                statement = resource.addLiteral(property,
+                        jenaModel.createTypedLiteral(calendarValue))
+                        .getProperty(property);
+            } else {
+                statement.changeObject(
+                        jenaModel.createTypedLiteral(calendarValue));
+            }
+        } catch (Exception ex) {
+            log.error("Failed to set the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException("Failed to set the value : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method method returns the value of the calendar.
+     *
+     * @return The reference to the calendar value.
+     * @throws PersistanceException
+     */
+    public Calendar getValueAsCalendar() throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                throw new PersistanceException("The property [" +
+                        property.getURI() + "]has not been set.");
+            } else {
+                return (Calendar)statement.getLiteral().getValue();
+            }
+        } catch (PersistanceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to get the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException(
+                    "Failed to get the value : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
      * This method sets the value.
      *
      * @param stringValue The string value.
@@ -361,8 +413,9 @@ public class JenaPersistanceProperty implements PersistanceProperty {
     public void setValue(String stringValue) throws PersistanceException {
         try {
             if (statement == null && resource != null) {
-                statement = resource.addProperty(property, stringValue).
-                        getProperty(property);
+                statement = resource.addLiteral(property, 
+                        jenaModel.createTypedLiteral(stringValue))
+                        .getProperty(property);
             } else {
                 statement.changeObject(stringValue);
             }
@@ -412,7 +465,7 @@ public class JenaPersistanceProperty implements PersistanceProperty {
             JenaPersistanceResource jenaPersistanceResource =
                     (JenaPersistanceResource)objectValue;
             if (statement == null && resource != null) {
-                statement = resource.addLiteral(property, 
+                statement = resource.addProperty(property,
                         jenaPersistanceResource.getResource()).
                         getProperty(property);
             } else {

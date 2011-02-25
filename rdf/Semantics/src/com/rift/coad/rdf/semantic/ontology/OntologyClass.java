@@ -42,6 +42,26 @@ public interface OntologyClass extends DataType {
 
 
     /**
+     * This method return true if the property exists.
+     *
+     * @param uri The uri of the object.
+     * @return TRUE if found, FALSE if not
+     * @throws OntologyException
+     */
+    public boolean hasProperty(URI uri) throws OntologyException;
+
+
+    /**
+     * Return the ontology property reference.
+     *
+     * @param uri The uri of the proeprty
+     * @return The reference to the ontology property.
+     * @throws OntologyException
+     */
+    public OntologyProperty getProperty(URI uri) throws OntologyException;
+    
+
+    /**
      * This method returns a list of properties.
      *
      * @return The list of ontology properties associated with this object.
