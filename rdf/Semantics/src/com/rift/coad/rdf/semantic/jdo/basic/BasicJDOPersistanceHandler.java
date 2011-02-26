@@ -24,6 +24,7 @@ package com.rift.coad.rdf.semantic.jdo.basic;
 import com.rift.coad.rdf.semantic.Constants;
 import com.rift.coad.rdf.semantic.RDFConstants;
 import com.rift.coad.rdf.semantic.Resource;
+import com.rift.coad.rdf.semantic.jdo.mapping.JavaRDFTypeMapping;
 import com.rift.coad.rdf.semantic.jdo.obj.ClassInfo;
 import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
 import com.rift.coad.rdf.semantic.ontology.OntologyClass;
@@ -161,7 +162,12 @@ public class BasicJDOPersistanceHandler {
                         identifier.toURI().toString());
             }
             OntologyProperty ontologyProperty = ontologyClass.getProperty(identifier.toURI());
-            
+            if (!ontologyProperty.getType().getURI().equals(
+                    JavaRDFTypeMapping.getRDFTypeURI(value.getClass()).getURI()) ) {
+                throw new BasicJDOException("The ontology type requires a type of [" +
+                        ontologyProperty.getURI().toString() + "] but received [" +
+                        identifier.toURI().toString());
+            }
             PersistanceProperty property =
                     resource.createProperty(identifier);
             if (value instanceof String) {
