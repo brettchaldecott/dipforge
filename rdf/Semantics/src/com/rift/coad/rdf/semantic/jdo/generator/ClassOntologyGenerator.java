@@ -21,6 +21,7 @@
 
 package com.rift.coad.rdf.semantic.jdo.generator;
 
+import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.jdo.mapping.JavaRDFTypeMapping;
 import com.rift.coad.rdf.semantic.jdo.obj.ClassInfo;
 import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
@@ -28,6 +29,7 @@ import com.rift.coad.rdf.semantic.ontology.OntologyClass;
 import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
+import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,8 +86,7 @@ public class ClassOntologyGenerator {
     public void processTypes() throws GeneratorException {
         try {
             for (Class type : types) {
-                
-
+                processType(type);
             }
         } catch (Exception ex) {
             throw new GeneratorException("Failed to generate the ontology : " +
@@ -94,19 +95,41 @@ public class ClassOntologyGenerator {
     }
 
 
-    
-    public void processType(Class classRef) throws GeneratorException {
+    /**
+     * This method is called to process the type passed into it.
+     *
+     * @param classRef The class reference
+     * @throws GeneratorException
+     */
+    private void processType(Class classRef) throws GeneratorException {
         try {
             ClassInfo info = ClassInfo.interrogateClass(classRef);
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                     info.getNamespace(), info.getLocalName());
+            if (session.hasClass(identifier.toURI())) {
+                return;
+            }
             OntologyClass result = session.createClass(identifier.toURI());
             for (MethodInfo methodInfo : info.getGetters()) {
                 PersistanceIdentifier methodIdentifier = PersistanceIdentifier.getInstance(
                     methodInfo.getNamespace(), methodInfo.getLocalName());
-                OntologyProperty property = session.createProperty(methodIdentifier.toURI());
-                property.setType(JavaRDFTypeMapping.getRDFTypeURI(methodInfo.getMethodRef().getReturnType()));
-                //if (methodInfo.getMethodRef().getReturnType())
+                OntologyProperty property = null;
+                if (session.hasProperty(methodIdentifier.toURI())) {
+                    property = session.getProperty(methodIdentifier.toURI());
+                } else {
+                    property = session.createProperty(methodIdentifier.toURI());
+                }
+                Class returnType = methodInfo.getMethodRef().getReturnType();
+                if (returnType.equals(Resource.class) ||
+                        ClassTypeInfo.isCollection(returnType)) {
+                    continue;
+                }
+                property.setType(JavaRDFTypeMapping.getRDFTypeURI(
+                        methodInfo.getMethodRef().getReturnType()));
+                if (!ClassTypeInfo.isBasicType(returnType) &&
+                        !types.contains(returnType)) {
+                    processType(returnType);
+                }
             }
         } catch (Exception ex) {
             throw new GeneratorException("Failed to generate the ontology  for ["

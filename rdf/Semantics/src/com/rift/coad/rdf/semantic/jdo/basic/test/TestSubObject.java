@@ -46,12 +46,12 @@ public class TestSubObject {
         this.dub = dub;
     }
 
-    @PropertyLocalName("Count")
+    @PropertyLocalName("dub")
     public double getDub() {
         return dub;
     }
 
-    @PropertyLocalName("Count")
+    @PropertyLocalName("dub")
     public void setDub(double dub) {
         this.dub = dub;
     }

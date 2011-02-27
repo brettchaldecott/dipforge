@@ -108,6 +108,28 @@ public class JenaOntologySession implements OntologySession {
 
 
     /**
+     * This method returns true true if the property is found.
+     *
+     * @param uri The URI of the property to find.
+     * @return TRUE if found, FALSE if not.
+     * @throws OntologyException
+     */
+    public boolean hasProperty(URI uri) throws OntologyException {
+        try {
+            OntProperty property = jenaOntModel.getOntProperty(uri.toString());
+            if (property == null) {
+                return false;
+            }
+            return true;
+        } catch (Exception ex) {
+            throw new OntologyException(
+                    "Failed to check for the uri [" + uri.toString() + "] because :"
+                    + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
      * This method removes the property.
      *
      * @param uri The uri.
@@ -173,6 +195,28 @@ public class JenaOntologySession implements OntologySession {
             throw new OntologyException
                     ("Failed to retrieve the ontology class because : " +
                     ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method returns true if the ontology contains the identified class.
+     *
+     * @param uri The uri of the class to check for.
+     * @return TRUE if found, FALSE if not.
+     * @throws OntologyException
+     */
+    public boolean hasClass(URI uri) throws OntologyException {
+        try {
+            OntClass ontClass = jenaOntModel.getOntClass(uri.toString());
+            if (ontClass == null) {
+                return false;
+            }
+            return true;
+        } catch (Exception ex) {
+            throw new OntologyException(
+                    "Failed to check for the uri [" + uri.toString() + "] because :"
+                    + ex.getMessage(),ex);
         }
     }
 

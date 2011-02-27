@@ -41,6 +41,7 @@ public class XSDDataDictionary {
     public static final String XSD_INT = "int";
     public static final String XSD_SHORT = "short";
     public static final String XSD_BYTE = "byte";
+    public static final String XSD_DATE = "date";
 
     public static DataType getTypeByName(String name) throws DataTypeException {
         if (name.equalsIgnoreCase(XSD_STRING)) {
@@ -63,6 +64,8 @@ public class XSDDataDictionary {
             return new XSDDataType(XSD_NAMESPACE,XSD_SHORT);
         } else if (name.equalsIgnoreCase(XSD_BYTE)) {
             return new XSDDataType(XSD_NAMESPACE,XSD_BYTE);
+        } else if (name.equalsIgnoreCase(XSD_DATE)) {
+            return new XSDDataType(XSD_NAMESPACE,XSD_DATE);
         } else {
             throw new DataTypeException("The type [" + name + "]is unknown");
         }

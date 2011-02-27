@@ -63,6 +63,16 @@ public interface OntologySession {
 
 
     /**
+     * This method returns true true if the property is found.
+     *
+     * @param uri The URI of the property to find.
+     * @return TRUE if found, FALSE if not.
+     * @throws OntologyException
+     */
+    public boolean hasProperty(URI uri) throws OntologyException;
+
+
+    /**
      * This method removes the property.
      *
      * @param uri The uri.
@@ -88,6 +98,16 @@ public interface OntologySession {
      * @throws OntologyException
      */
     public OntologyClass getClass(URI uri) throws OntologyException;
+
+
+    /**
+     * This method returns true if the ontology contains the identified class.
+     *
+     * @param uri The uri of the class to check for.
+     * @return TRUE if found, FALSE if not.
+     * @throws OntologyException
+     */
+    public boolean hasClass(URI uri) throws OntologyException;
 
 
     /**

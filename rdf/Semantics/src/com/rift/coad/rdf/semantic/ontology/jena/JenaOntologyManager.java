@@ -64,18 +64,9 @@ public class JenaOntologyManager implements OntologyManager {
                     jenaOntModel.read(uri.trim());
                 }
             } else {
-                log.error("Cannot construct the jena ontology manager because neither the "
-                        + "[" + OntologyConstants.ONTOLOGY_CONTENTS + "] or the [" +
-                        "[" + OntologyConstants.ONTOLOGY_LOCATION_URIS +
-                        "] [" + properties.toString() + "]");
-                throw new OntologyException
-                        ("Cannot construct the jena ontology manager because neither the "
-                        + "[" + OntologyConstants.ONTOLOGY_CONTENTS + "] or the [" +
-                        "[" + OntologyConstants.ONTOLOGY_LOCATION_URIS + 
-                        "] [" + properties.toString() + "]");
+                log.warn("No [ontology_contents] or [ontology_location_uris] "
+                        + "supplied, assuming a new blank ontology");
             }
-        } catch (OntologyException ex) {
-            throw ex;
         } catch (Throwable ex) {
             log.error("Failed to construct the jena ontology manager : " + 
                     ex.getMessage(),ex);

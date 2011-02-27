@@ -21,6 +21,11 @@
 
 package com.rift.coad.rdf.semantic.jdo.basic;
 
+import com.rift.coad.rdf.semantic.jdo.basic.test.TestListObject;
+import java.util.Calendar;
+import java.util.List;
+import java.util.ArrayList;
+import com.rift.coad.rdf.semantic.jdo.generator.ClassOntologyGenerator;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.ontology.OntologyManagerFactory;
@@ -85,20 +90,24 @@ public class BasicJDOPersistanceHandlerTest {
 
 
         Properties ontologyProperties = new Properties();
-        properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
+        ontologyProperties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
-        File testFile = new File("./base.xml");
-        FileInputStream in = new FileInputStream(testFile);
-        byte[] buffer = new byte[(int)testFile.length()];
-        in.read(buffer);
-        in.close();
-        properties.put(OntologyConstants.ONTOLOGY_CONTENTS, new String(buffer));
-        OntologyManager ontologyManager = OntologyManagerFactory.init(properties);
+        OntologyManager ontologyManager = OntologyManagerFactory.init(ontologyProperties);
         OntologySession ontologySession = ontologyManager.getSession();
 
+        List<Class> types = new ArrayList<Class>();
+        types.add(TestSubObject.class);
+        types.add(TestBaseObject.class);
+        types.add(TestListObject.class);
+        ClassOntologyGenerator generator = new ClassOntologyGenerator(
+                ontologySession, types);
+        generator.processTypes();
+        System.out.println(ontologySession.dumpXML());
 
         TestSubObject subObject = new TestSubObject("subobject1",1,2.2);
         TestBaseObject baseObject = new TestBaseObject("testbase1", 1, subObject);
+        baseObject.getListObjects().add(new TestListObject("testlist1", 1111, Calendar.getInstance()));
+        baseObject.getListObjects().add(new TestListObject("testlist2", 2222, Calendar.getInstance()));
         BasicJDOPersistanceHandler instance = new BasicJDOPersistanceHandler(baseObject,
             persistanceSession, ontologySession);
         PersistanceResource result = instance.persist();

@@ -21,8 +21,10 @@
 
 package com.rift.coad.rdf.semantic.jdo.basic.test;
 
+import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
+import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
 import java.util.Calendar;
 
 /**
@@ -49,6 +51,39 @@ public class TestListObject {
         this.name = name;
         this.timestamp = timestamp;
         this.date = date;
+    }
+
+    @PropertyLocalName("Date")
+    public Calendar getDate() {
+        return date;
+    }
+
+    @PropertyLocalName("Date")
+    public void setDate(Calendar date) {
+        this.date = date;
+    }
+
+    @Identifier()
+    @PropertyLocalName("Name")
+    public String getName() {
+        return name;
+    }
+
+    @PropertyLocalName("Name")
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    @PropertyLocalName("TimeStamp")
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    
+    @PropertyLocalName("dub")
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
 
