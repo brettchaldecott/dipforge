@@ -111,7 +111,7 @@ public class BasicJDOSession implements JDOSession {
             BasicJDOPersistanceHandler handler = new BasicJDOPersistanceHandler(
                     source,persistanceSession, ontologySession);
             PersistanceResource resource = handler.persist();
-            return null;
+            return BasicJDOProxyFactory.createJDOProxy(source.getClass(), resource);
         } catch (Exception ex) {
             log.error("Failed to persist the object : " + ex.getMessage(),ex);
             throw new SessionException
