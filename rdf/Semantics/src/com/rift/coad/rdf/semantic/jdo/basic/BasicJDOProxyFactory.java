@@ -34,7 +34,16 @@ import net.sf.cglib.proxy.Proxy;
  */
 public class BasicJDOProxyFactory {
 
-    public static <T> T createJDOProxy(Class<T> type, PersistanceResource resource)
+    /**
+     * This method returns a JDO proxy.
+     *
+     * @param <T> The type of object being dealt with.
+     * @param type The source object.
+     * @param resource The resource.
+     * @return The result.
+     * @throws BasicJDOException
+     */
+    public static <T> T createJDOProxy(Class type, PersistanceResource resource)
             throws BasicJDOException {
         try {
             T result = (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),

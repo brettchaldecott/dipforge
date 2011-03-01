@@ -6,6 +6,8 @@
 package com.rift.coad.rdf.semantic.jdo.basic;
 
 // java imports
+import com.rift.coad.rdf.semantic.Resource;
+import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import java.lang.reflect.Method;
 import net.sf.cglib.proxy.InvocationHandler;
 
@@ -15,6 +17,27 @@ import net.sf.cglib.proxy.InvocationHandler;
  */
 public class BasicJDOInvocationHandler implements InvocationHandler {
     
+    // private member variablees
+    private Class type;
+    private boolean isResource;
+    private PersistanceResource resource;
+
+    
+    /**
+     * The constructor 
+     * @param type
+     * @param resource
+     */
+    public BasicJDOInvocationHandler(Class type, PersistanceResource resource) {
+        this.type = type;
+        if (type.equals(Resource.class)) {
+            isResource = true;
+        }
+        this.resource = resource;
+    }
+
+
+
     
     /**
      * This method is responsible to handling the invocation request.
