@@ -38,6 +38,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceSession;
 import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Calendar;
 import java.util.Collection;
@@ -61,16 +62,19 @@ public class BasicJDOPersistanceHandler {
         this.ontologySession = ontologySession;
     }
 
+
     /**
      * This method is called to persist the object to the session
      * @return
      * @throws BasicJDOException
      */
-    public PersistanceResource persist() throws BasicJDOException {
+    public PersistanceResource persist() throws BasicJDOException, InvocationTargetException {
         PersistanceManager persistance = null;
         try {
             PersistanceResource resource = persist(dataSource);
             return resource;
+        } catch (InvocationTargetException ex) {
+            throw ex;
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -85,6 +89,7 @@ public class BasicJDOPersistanceHandler {
         }
     }
 
+
     /**
      * This method is responsible for the persistence session.
      *
@@ -93,7 +98,7 @@ public class BasicJDOPersistanceHandler {
      * @throws BasicJDOException
      */
     private PersistanceResource persist(Object dataSource)
-            throws BasicJDOException {
+            throws BasicJDOException, InvocationTargetException {
         try {
             if (dataSource == null) {
                 return null;
@@ -132,6 +137,8 @@ public class BasicJDOPersistanceHandler {
                 }
             }
             return resource;
+        } catch (InvocationTargetException ex) {
+            throw ex;
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -150,7 +157,7 @@ public class BasicJDOPersistanceHandler {
     private void persistBasicType(Object dataSource, MethodInfo methodInfo,
             PersistanceResource resource, PersistanceIdentifier identifier,
             OntologyClass ontologyClass)
-            throws BasicJDOException {
+            throws BasicJDOException, InvocationTargetException {
         try {
             resource.removeProperty(identifier);
             Object value = methodInfo.getMethodRef().invoke(dataSource);
@@ -199,6 +206,8 @@ public class BasicJDOPersistanceHandler {
                 throw new BasicJDOException("Unsupported type [" +
                         value.getClass().getName() + "]");
             }
+        } catch (InvocationTargetException ex) {
+            throw ex;
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -207,6 +216,7 @@ public class BasicJDOPersistanceHandler {
         }
     }
 
+    
     /**
      * This method persists the collection information
      *
@@ -217,7 +227,7 @@ public class BasicJDOPersistanceHandler {
      */
     private void persistCollection(Object dataSource, MethodInfo methodInfo,
             PersistanceResource resource,PersistanceIdentifier identifier)
-            throws BasicJDOException {
+            throws BasicJDOException, InvocationTargetException {
         try {
             resource.removeProperty(identifier);
             Collection collection =
@@ -238,6 +248,8 @@ public class BasicJDOPersistanceHandler {
                     }
                 }
             }
+        } catch (InvocationTargetException ex) {
+            throw ex;
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -257,7 +269,7 @@ public class BasicJDOPersistanceHandler {
      */
     private void persistObject(Object dataSource, MethodInfo methodInfo,
             PersistanceResource resource, PersistanceIdentifier identifier)
-            throws BasicJDOException {
+            throws BasicJDOException, InvocationTargetException {
         try {
             resource.removeProperty(identifier);
             Object value = methodInfo.getMethodRef().invoke(dataSource);
@@ -268,6 +280,8 @@ public class BasicJDOPersistanceHandler {
                     resource.createProperty(identifier);
             property.setValue(
                     persist(value));
+        } catch (InvocationTargetException ex) {
+            throw ex;
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {

@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * BasicJDOSession.java
+ * BasicJDOProxyFactory.java
  */
 
 
@@ -24,7 +24,9 @@ package com.rift.coad.rdf.semantic.jdo.basic;
 
 // package
 import com.rift.coad.rdf.semantic.Resource;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
+import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import net.sf.cglib.proxy.Proxy;
 
 /**
@@ -43,12 +45,15 @@ public class BasicJDOProxyFactory {
      * @return The result.
      * @throws BasicJDOException
      */
-    public static <T> T createJDOProxy(Class type, PersistanceResource resource)
+    public static <T> T createJDOProxy(Class type, PersistanceSession persistanceSession ,
+            PersistanceResource resource, OntologySession ontologySession)
             throws BasicJDOException {
         try {
+            BasicJDOInvocationHandler handler = new 
+                    BasicJDOInvocationHandler(type, persistanceSession,resource,
+                    ontologySession);
             T result = (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                    new Class[] {type,Resource.class}, null);
-
+                    new Class[] {type,Resource.class}, handler);
             return result;
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to create the JDO proxy : " +

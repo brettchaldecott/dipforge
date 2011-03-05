@@ -1,42 +1,94 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * CoaduntionSemantics: The semantic library for coadunation os
+ * Copyright (C) 2011  Rift IT Contracting
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * BasicJDOInvocationHandler.java
  */
 
+// package path
 package com.rift.coad.rdf.semantic.jdo.basic;
 
 // java imports
 import com.rift.coad.rdf.semantic.Resource;
+import com.rift.coad.rdf.semantic.jdo.mapping.JavaRDFTypeMapping;
+import com.rift.coad.rdf.semantic.jdo.obj.ClassInfo;
+import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
+import com.rift.coad.rdf.semantic.ontology.OntologyClass;
+import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
+import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
+import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import net.sf.cglib.proxy.InvocationHandler;
+import org.apache.log4j.Logger;
 
 /**
  * 
  * @author brett chaldecott
  */
 public class BasicJDOInvocationHandler implements InvocationHandler {
-    
+
+    // class singletons
+    private static Logger log = Logger.getLogger(BasicJDOInvocationHandler.class);
     // private member variablees
     private Class type;
+    private ClassInfo classInfo;
     private boolean isResource;
+    private PersistanceSession persistanceSession;
     private PersistanceResource resource;
+    private OntologySession ontologySession;
+    private OntologyClass ontologyClass;
 
-    
     /**
-     * The constructor 
-     * @param type
-     * @param resource
+     * The constructor of the basic jdo invocation handler.
+     *
+     * @param type The class type.
+     * @param resource The resource information.
+     * @throws BasicJDOException
      */
-    public BasicJDOInvocationHandler(Class type, PersistanceResource resource) {
-        this.type = type;
-        if (type.equals(Resource.class)) {
-            isResource = true;
+    public BasicJDOInvocationHandler(Class type, PersistanceSession persistanceSession,
+            PersistanceResource resource,
+            OntologySession ontologySession)
+            throws BasicJDOException {
+        try {
+            this.type = type;
+            this.persistanceSession = persistanceSession;
+            this.ontologySession = ontologySession;
+            if (type.equals(Resource.class)) {
+                isResource = true;
+            } else {
+                classInfo = ClassInfo.interrogateClass(type);
+                ontologyClass = ontologySession.getClass(
+                        PersistanceIdentifier.getInstance(classInfo.getNamespace(),
+                        classInfo.getLocalName()).toURI());
+            }
+            this.resource = resource;
+        } catch (Exception ex) {
+            throw new BasicJDOException("Failed to instanciate the basic jdo "
+                    + "invocation handler : " + ex.getMessage(), ex);
         }
-        this.resource = resource;
     }
-
-
 
     
     /**
@@ -49,7 +101,345 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
      * @throws Throwable
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            if (isResource || proxy instanceof Resource) {
+                return invokeResource(proxy, method, args);
+            } else {
+                return invokeObject(proxy, method, args);
+            }
+        } catch (InvocationTargetException ex) {
+            throw ex.getTargetException();
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable ex) {
+            log.error("Failed to invoke the call : " + ex.getMessage(), ex);
+            throw ex;
+        }
     }
 
+
+    /**
+     * This method invokes the call onto the object that is being wrapped.
+     *
+     * @param proxy The proxy object that the called is being mapped form.
+     * @param method The method to call.
+     * @param args The arguments to call.
+     * @return The returns of the call.
+     * @throws Throwable
+     */
+    private Object invokeObject(Object proxy, Method method, Object[] args) 
+            throws Throwable, InvocationTargetException {
+        try {
+            MethodInfo info = new MethodInfo(method, classInfo.getNamespace());
+            PersistanceIdentifier identifier =
+                    PersistanceIdentifier.getInstance(
+                    info.getNamespace(), info.getLocalName());
+            PersistanceProperty property = resource.getProperty(identifier);
+            if (info.isGetter()) {
+                return getResult(info, args);
+            } else if (info.isSetter()) {
+                Object value = args[0];
+                persistObject(value, info,resource, identifier,ontologyClass);
+                return null;
+            }
+
+            return null;
+        } catch (InvocationTargetException ex) {
+            throw ex;
+        } catch (Throwable ex) {
+            log.error("Failed to invoke the call : " + ex.getMessage(), ex);
+            throw ex;
+        }
+    }
+
+    
+    /**
+     * This method is called to invoke the call on the persistance resource on behalf of an
+     * interface resource.
+     *
+     * @param proxy The interface type that that call was made on.
+     * @param method The method that is being called
+     * @param args The list of arguments.
+     * @return The object retrieved form the resource.
+     * @throws Throwable
+     */
+    private Object invokeResource(Object proxy, Method method, Object[] args)
+            throws Throwable, InvocationTargetException {
+        try {
+
+
+            return null;
+        } catch (Throwable ex) {
+            log.error("Failed to invoke the call : " + ex.getMessage(), ex);
+            throw ex;
+        }
+    }
+
+
+    /**
+     * This method returns the result from the call.
+     *
+     * @param info
+     * @param args
+     * @return
+     * @throws BasicJDOException
+     */
+    public Object getResult(MethodInfo info, Object[] args)
+            throws BasicJDOException, InvocationTargetException {
+        try {
+            Class classType = info.getMethodRef().getReturnType();
+            PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                    info.getNamespace(), info.getLocalName());
+            if (ClassTypeInfo.isBasicType(classType)) {
+                return getBasicObject(info, identifier, classType);
+            } else if (ClassTypeInfo.isCollection(classType)) {
+                return getCollectionObject(info,identifier, classType);
+            }
+        } catch (BasicJDOException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to get the result because : " + ex.getMessage(),ex);
+            throw new BasicJDOException
+                    ("Failed to get the result because : " + ex.getMessage(),ex);
+        }
+        return null;
+    }
+
+
+    /**
+     * This method is called to persist an object.
+     *
+     * @param value
+     * @param methodInfo
+     * @param resource
+     * @param identifier
+     * @param ontologyClass
+     * @throws BasicJDOException
+     */
+    private void persistObject(Object value, MethodInfo methodInfo,
+            PersistanceResource resource, PersistanceIdentifier identifier,
+            OntologyClass ontologyClass) throws BasicJDOException, InvocationTargetException {
+        try {
+            Class type = value.getClass();
+            if (ClassTypeInfo.isBasicType(type)) {
+                persistBasicType(value, methodInfo, resource, identifier,
+                        ontologyClass);
+            } else if (type.isArray()) {
+                throw new BasicJDOException("The array type is not supported");
+            } else if (ClassTypeInfo.isCollection(type)) {
+                persistCollection(value, methodInfo, resource, identifier, ontologyClass);
+            } else {
+                BasicJDOPersistanceHandler handler =
+                            new BasicJDOPersistanceHandler(value, persistanceSession,
+                            ontologySession);
+                PersistanceResource childResource = handler.persist();
+                resource.createProperty(identifier).setValue(childResource);
+            }
+        } catch (InvocationTargetException ex) {
+            throw ex;
+        } catch (BasicJDOException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to persist the object : "
+                    + ex.getMessage(), ex);
+            throw new BasicJDOException(
+                    "Failed to persist the object : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+
+    /**
+     * This method is called to persist the basic type
+     *
+     * @param methodInfo The method to persist the basic type.
+     * @param resource The resource reference
+     * @throws BasicJDOException
+     */
+    private void persistBasicType(Object value, MethodInfo methodInfo,
+            PersistanceResource resource, PersistanceIdentifier identifier,
+            OntologyClass ontologyClass)
+            throws BasicJDOException, InvocationTargetException {
+        try {
+            resource.removeProperty(identifier);
+            if (value == null) {
+                return;
+            }
+            if (!ontologyClass.hasProperty(identifier.toURI())) {
+                throw new BasicJDOException("The ontology class does not have the property : "
+                        + identifier.toURI().toString());
+            }
+            OntologyProperty ontologyProperty = ontologyClass.getProperty(identifier.toURI());
+            if (!ontologyProperty.getType().getURI().equals(
+                    JavaRDFTypeMapping.getRDFTypeURI(value.getClass()).getURI())) {
+                throw new BasicJDOException("The ontology type requires a type of ["
+                        + ontologyProperty.getURI().toString() + "] but received ["
+                        + identifier.toURI().toString());
+            }
+            PersistanceProperty property =
+                    resource.createProperty(identifier);
+            if (value instanceof String) {
+                property.setValue(value.toString());
+            } else if (value instanceof Date) {
+                Date dateValue = (Date) value;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateValue);
+                property.setValue(calendar);
+            } else if (value instanceof Calendar) {
+                property.setValue((Calendar) value);
+            } else if (value instanceof Integer) {
+                property.setValue((long) (Integer) value);
+            } else if (value.getClass().equals(int.class)) {
+                property.setValue(long.class.cast(value));
+            } else if (value instanceof Long) {
+                property.setValue(Long.class.cast(value));
+            } else if (value.getClass().equals(long.class)) {
+                property.setValue(long.class.cast(value));
+            } else if (value instanceof Double) {
+                property.setValue(Double.class.cast(value));
+            } else if (value.getClass().equals(double.class)) {
+                property.setValue(double.class.cast(value));
+            } else if (value instanceof Float) {
+                property.setValue(Float.class.cast(value));
+            } else if (value.getClass().equals(float.class)) {
+                property.setValue(float.class.cast(value));
+            } else {
+                throw new BasicJDOException("Unsupported type ["
+                        + value.getClass().getName() + "]");
+            }
+        } catch (BasicJDOException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to persist the basic type : "
+                    + ex.getMessage(), ex);
+            throw new BasicJDOException("Failed to persist the basic type : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+    /**
+     * This method returns the basic objects.
+     *
+     * @param info The information about the method that is being invoked.
+     * @param args The arguments being invoked for the method.
+     * @return The object that results from the call.
+     */
+    private Object getBasicObject(MethodInfo info, PersistanceIdentifier identifier, Class classType)
+            throws BasicJDOException {
+        try {
+            
+            if (!resource.hasProperty(identifier)) {
+                throw new BasicJDOException(
+                        "The property [" + identifier.toURI().toString() +
+                        "] does not exist for this resource [" +
+                        resource.getURI().toString() + "]");
+            }
+            PersistanceProperty property =
+                    resource.getProperty(identifier);
+
+            if (String.class.equals(classType)) {
+                return property.getValueAsString();
+            } else if (Date.class.equals(classType)) {
+                Calendar calendar = property.getValueAsCalendar();
+                return calendar.getTime();
+            } else if (Calendar.class.equals(classType)) {
+                return property.getValueAsCalendar();
+            } else if (Long.class.equals(classType)) {
+                return new Long(property.getValueAsLong()).intValue();
+            } else if (classType.equals(int.class)) {
+                return new Long(property.getValueAsLong()).intValue();
+            } else if (Long.class.equals(classType)) {
+                return property.getValueAsLong();
+            } else if (classType.equals(long.class)) {
+                return property.getValueAsLong();
+            } else if (Double.class.equals(classType)) {
+                return property.getValueAsDouble();
+            } else if (classType.equals(double.class)) {
+                return property.getValueAsDouble();
+            } else if (Float.class.equals(classType)) {
+                return property.getValueAsFloat();
+            } else if (classType.equals(float.class)) {
+                return property.getValueAsFloat();
+            } else {
+                throw new BasicJDOException("Unsupported type ["
+                        + classType.getName() + "]");
+            }
+        } catch (BasicJDOException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed get the basic object information because : " + ex.getMessage(),ex);
+            throw new BasicJDOException
+                    ("Failed get the basic object information because : " + ex.getMessage(),ex);
+        }
+    }
+
+    /**
+     * This method persists the collection information
+     *
+     * @param methodInfo The method information.
+     * @param resource The resource information.
+     * @param identifier The identifier.
+     * @throws BasicJDOException
+     */
+    private void persistCollection(Object value, MethodInfo methodInfo,
+            PersistanceResource resource, PersistanceIdentifier identifier,
+            OntologyClass ontologyClass)
+            throws BasicJDOException, InvocationTargetException {
+        try {
+            resource.removeProperty(identifier);
+            Collection collection =
+                    (Collection) value;
+            for (Object obj : collection) {
+                if (obj == null) {
+                    // ignore a null value
+                    continue;
+                }
+                // if this object is a basic type it cannot be stored like this.
+                if (ClassTypeInfo.isBasicType(obj.getClass())) {
+                    persistBasicType(obj, methodInfo, resource, identifier,
+                            ontologyClass);
+
+                } else {
+                    BasicJDOPersistanceHandler handler =
+                            new BasicJDOPersistanceHandler(obj, persistanceSession,
+                            ontologySession);
+                    PersistanceResource childResource = handler.persist();
+                    resource.createProperty(identifier).setValue(childResource);
+                }
+            }
+        } catch (InvocationTargetException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to persist the collection : "
+                    + ex.getMessage(), ex);
+            throw new BasicJDOException("Failed to persist the collection : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+
+    /**
+     * This method returns the colletion information.
+     *
+     * @param info The reference to the metho.
+     * @param identifier The identifier for the entry
+     * @param classType The class type.
+     * @return
+     * @throws BasicJDOException
+     */
+    private Object getCollectionObject(MethodInfo info,
+            PersistanceIdentifier identifier, Class classType)
+            throws BasicJDOException {
+        try {
+
+            return null;
+        } catch (Exception ex) {
+            log.error("Failed to persist the collection : "
+                    + ex.getMessage(), ex);
+            throw new BasicJDOException("Failed to persist the collection : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+    
 }

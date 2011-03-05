@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -61,7 +62,8 @@ public class ClassTypeInfo {
      * @return TRUE if a collection, FALSE if not.
      */
     public static boolean isCollection(Class c) {
-        if (Collection.class.isAssignableFrom(c)) {
+        // enforse the list object as the only supported collection type.
+        if (List.class.isAssignableFrom(c)) {
             return true;
         }
         return false;

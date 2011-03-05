@@ -61,9 +61,11 @@ public class ClassTypeInfoTest {
         boolean expResult = true;
         boolean result = ClassTypeInfo.isCollection(c);
         assertEquals(expResult, result);
+
+        // the collection base type is currently not supported
         c = Collection.class;
         result = ClassTypeInfo.isCollection(c);
-        assertEquals(expResult, result);
+        assertEquals(false, result);
 
         c = String.class;
         result = ClassTypeInfo.isCollection(c);

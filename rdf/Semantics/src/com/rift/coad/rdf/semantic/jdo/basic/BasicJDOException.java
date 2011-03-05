@@ -26,7 +26,7 @@ package com.rift.coad.rdf.semantic.jdo.basic;
  *
  * @author brett chaldecott
  */
-public class BasicJDOException extends Exception {
+public class BasicJDOException extends RuntimeException {
 
     /**
      * Creates a new instance of <code>BasicJDOException</code> without detail message.
