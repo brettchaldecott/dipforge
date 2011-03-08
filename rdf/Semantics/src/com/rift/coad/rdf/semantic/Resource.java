@@ -43,14 +43,6 @@ public interface Resource {
     public URI getURI() throws ResourceException;
 
     /**
-     * This object is responsible for updating
-     * 
-     * @param reference The reference to the object to update.
-     * @throws com.rift.coad.rdf.semantic.ResourceException
-     */
-    public void update(Object reference) throws ResourceException;
-
-    /**
      * This method returns the object instance identifed by the type information.
      *
      * @param <T> The type information for this call.

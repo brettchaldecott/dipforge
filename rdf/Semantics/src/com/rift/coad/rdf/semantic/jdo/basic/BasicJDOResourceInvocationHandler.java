@@ -1,0 +1,258 @@
+/*
+ * CoaduntionSemantics: The semantic library for coadunation os
+ * Copyright (C) 2011  Rift IT Contracting
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * BasicJDOResourceInvocationHandler.java
+ */
+
+// package path
+package com.rift.coad.rdf.semantic.jdo.basic;
+
+import com.rift.coad.rdf.semantic.Resource;
+import com.rift.coad.rdf.semantic.ResourceException;
+import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
+import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
+import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.util.RDFURIHelper;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.List;
+import org.apache.log4j.Logger;
+
+/**
+ * This object is responsible for invoking the resource calls.
+ *
+ * @author brett chaldecott
+ */
+public class BasicJDOResourceInvocationHandler {
+
+    // class constants
+    private final static String GET_URI = "getURI";
+    private final static String UPDATE  = "update";
+    private final static String GET  = "get";
+
+    // class singletons
+    private static Logger log = Logger.getLogger(BasicJDOInvocationHandler.class);
+
+
+
+    // private member variables
+    private PersistanceSession persistanceSession;
+    private PersistanceResource resource;
+    private OntologySession ontologySession;
+
+
+    /**
+     * This constructor sets up the invocation handler.
+     *
+     * @param persistanceSession The session that the resource is from.
+     * @param resource The resource.
+     */
+    public BasicJDOResourceInvocationHandler(
+            PersistanceSession persistanceSession, PersistanceResource resource,
+            OntologySession ontologySession) {
+        this.persistanceSession = persistanceSession;
+        this.resource = resource;
+        this.ontologySession = ontologySession;
+    }
+
+
+    /**
+     * This method invokes the method
+     *
+     * @param method The method information inorder to identify the request.
+     * @param args The arguments.
+     * @return The result of the call.
+     * @throws Throwable The cause of the exception.
+     * @throws InvocationTargetException
+     */
+    public Object invokeMethod(MethodInfo info, Object[] args) throws
+            Throwable, InvocationTargetException {
+        if (info.getMethodRef().getName().equals(GET_URI)) {
+            return getURI();
+        } else if (info.getMethodRef().getName().equals(UPDATE)) {
+            return getURI();
+        } else if (info.getMethodRef().getName().equals(GET)) {
+            return getURI();
+        } else if (info.getMethodRef().getName().equals(GET)) {
+            return getURI();
+        }
+        return null;
+    }
+
+
+
+    /**
+     * This method returns the URI of this object.
+     *
+     * @return The uri of this object.
+     * @throws ResourceException
+     */
+    private Object getURI() throws ResourceException {
+        try {
+            return resource.getURI();
+        } catch (Exception ex) {
+            log.error("Failed to get the uri because : " +
+                    ex.getMessage(),ex);
+            throw new ResourceException("Failed to get the uri because : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method returns the object instance identifed by the type information.
+     *
+     * @param <T> The type information for this call.
+     * @param t The type to perform the cast to.
+     * @return This method contains the type information.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    private Object get(Object[] args) throws ResourceException {
+        try {
+            return BasicJDOProxyFactory.createJDOProxy((Class)args[0],
+                    persistanceSession, resource, ontologySession);
+        } catch (Exception ex) {
+            log.error("Failed to get the uri because : " +
+                    ex.getMessage(),ex);
+            throw new ResourceException("Failed to get the uri because : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+
+    /**
+     * The method adds properties to the resource.
+     *
+     * @param url The url for the property.
+     * @param value The value to add.
+     * @return The resource.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    private Object addProperty(Object[] args) throws ResourceException {
+        try {
+            BasicJDOPersistanceHandler handler = new BasicJDOPersistanceHandler(
+                    args[1],persistanceSession, ontologySession);
+            PersistanceResource propertyResource = handler.persist();
+            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                    uriHelper.getNamespace(), uriHelper.getLocalName());
+            this.resource.createProperty(identifier).setValue(propertyResource);
+            return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
+                    persistanceSession, propertyResource, ontologySession);
+        } catch (Exception ex) {
+            log.error("Failed to persist the object : " + ex.getMessage(),ex);
+            throw new ResourceException
+                    ("Failed to persist the object : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * The method adds properties to the resource.
+     *
+     * @param url The url for the property.
+     * @param obj The object to add to the property.
+     * @return The resource.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public Object getProperty(Object[] args) throws ResourceException {
+        try {
+            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                    uriHelper.getNamespace(), uriHelper.getLocalName());
+            return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
+                    persistanceSession, this.resource.getProperty(identifier).
+                    getValueAsResource(), ontologySession);
+        } catch (Exception ex) {
+            log.error("Failed to get the property : " + ex.getMessage(),ex);
+            throw new ResourceException
+                    ("Failed to get the property : " + ex.getMessage(),ex);
+        }
+    }
+
+
+
+    /**
+     * This method removes the property.
+     *
+     * @param url The url of the propety.
+     * @param objectType The object type.
+     * @param identifier The identifier.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public void removeProperty(Object[] args) throws ResourceException {
+        try {
+            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                    uriHelper.getNamespace(), uriHelper.getLocalName());
+            this.resource.removeProperty(identifier);
+        } catch (Exception ex) {
+            log.error("Failed to remove the property : " + ex.getMessage(),ex);
+            throw new ResourceException
+                    ("Failed to remove the property : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method is called to remove the property from the resource.
+     *
+     * @param url The url of the property to remove.
+     * @param resource The resource name
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public void removePropertyResource(Object[] args)  throws ResourceException {
+        try {
+            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                    uriHelper.getNamespace(), uriHelper.getLocalName());
+            PersistanceResource persisanceResource =
+                    persistanceSession.getResource(
+                    Resource.class.cast(args[1]).getURI());
+            this.resource.removeProperty(identifier,persisanceResource);
+        } catch (Exception ex) {
+            log.error("Failed to remove the property : " + ex.getMessage(),ex);
+            throw new ResourceException
+                    ("Failed to remove the property : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method lists properties.
+     * @return The list of resources.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public List listProperties() throws ResourceException {
+        return null;
+    }
+
+
+    /**
+     * This method lists properties.
+     * @param url The url of the property to retrieve.
+     * @return The list of resources.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public List listProperties(String url) throws ResourceException {
+        return null;
+    }
+}

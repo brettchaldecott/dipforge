@@ -111,4 +111,15 @@ public interface PersistanceResource {
      */
     public void removeProperty(PersistanceIdentifier identifier) throws
             PersistanceException;
+
+
+    /**
+     * This method removes the property identified by the identifier.
+     *
+     * @param identifier The identifier.
+     * @param resource The resource that has to be removed or unlinked.
+     * @throws PersistanceException
+     */
+    public void removeProperty(PersistanceIdentifier identifier,
+            PersistanceResource resource) throws PersistanceException;
 }

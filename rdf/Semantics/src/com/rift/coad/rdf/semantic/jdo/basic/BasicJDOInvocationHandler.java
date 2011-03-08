@@ -24,6 +24,7 @@ package com.rift.coad.rdf.semantic.jdo.basic;
 
 // java imports
 import com.rift.coad.rdf.semantic.Resource;
+import com.rift.coad.rdf.semantic.jdo.basic.collection.BasicJDOList;
 import com.rift.coad.rdf.semantic.jdo.mapping.JavaRDFTypeMapping;
 import com.rift.coad.rdf.semantic.jdo.obj.ClassInfo;
 import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
@@ -37,9 +38,12 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import net.sf.cglib.proxy.InvocationHandler;
 import org.apache.log4j.Logger;
 
@@ -166,7 +170,7 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
     private Object invokeResource(Object proxy, Method method, Object[] args)
             throws Throwable, InvocationTargetException {
         try {
-
+            
 
             return null;
         } catch (Throwable ex) {
@@ -179,9 +183,9 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
     /**
      * This method returns the result from the call.
      *
-     * @param info
-     * @param args
-     * @return
+     * @param info The method information.
+     * @param args The list of arguments.
+     * @return The result object retrieved.
      * @throws BasicJDOException
      */
     public Object getResult(MethodInfo info, Object[] args)
@@ -193,7 +197,11 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
             if (ClassTypeInfo.isBasicType(classType)) {
                 return getBasicObject(info, identifier, classType);
             } else if (ClassTypeInfo.isCollection(classType)) {
-                return getCollectionObject(info,identifier, classType);
+                return getCollectionObject(info, resource,identifier, classType);
+            } else {
+                return BasicJDOProxyFactory.createJDOProxy(classType,
+                        persistanceSession, resource.getProperty(identifier).
+                        getValueAsResource(), ontologySession);
             }
         } catch (BasicJDOException ex) {
             throw ex;
@@ -202,7 +210,6 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
             throw new BasicJDOException
                     ("Failed to get the result because : " + ex.getMessage(),ex);
         }
-        return null;
     }
 
 
@@ -336,34 +343,7 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
             }
             PersistanceProperty property =
                     resource.getProperty(identifier);
-
-            if (String.class.equals(classType)) {
-                return property.getValueAsString();
-            } else if (Date.class.equals(classType)) {
-                Calendar calendar = property.getValueAsCalendar();
-                return calendar.getTime();
-            } else if (Calendar.class.equals(classType)) {
-                return property.getValueAsCalendar();
-            } else if (Long.class.equals(classType)) {
-                return new Long(property.getValueAsLong()).intValue();
-            } else if (classType.equals(int.class)) {
-                return new Long(property.getValueAsLong()).intValue();
-            } else if (Long.class.equals(classType)) {
-                return property.getValueAsLong();
-            } else if (classType.equals(long.class)) {
-                return property.getValueAsLong();
-            } else if (Double.class.equals(classType)) {
-                return property.getValueAsDouble();
-            } else if (classType.equals(double.class)) {
-                return property.getValueAsDouble();
-            } else if (Float.class.equals(classType)) {
-                return property.getValueAsFloat();
-            } else if (classType.equals(float.class)) {
-                return property.getValueAsFloat();
-            } else {
-                throw new BasicJDOException("Unsupported type ["
-                        + classType.getName() + "]");
-            }
+            return getBasicTypeFromProperty(property, classType);
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -427,12 +407,29 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
      * @return
      * @throws BasicJDOException
      */
-    private Object getCollectionObject(MethodInfo info,
+    private Object getCollectionObject(MethodInfo info, PersistanceResource resource,
             PersistanceIdentifier identifier, Class classType)
             throws BasicJDOException {
         try {
-
-            return null;
+            TypeVariable[] parameterTypes = classType.getTypeParameters();
+            parameterTypes[0].getGenericDeclaration().getClass();
+            Class objectType = parameterTypes[0].getGenericDeclaration().getClass();
+            List base = new ArrayList();
+            List<PersistanceProperty> properties = resource.listProperties(identifier);
+            for (PersistanceProperty property : properties) {
+                // this logic makes the assumption that there will not be lists of lists
+                if (ClassTypeInfo.isBasicType(objectType)) {
+                    base.add(getBasicTypeFromProperty(property,objectType));
+                } else {
+                    base.add(BasicJDOProxyFactory.createJDOProxy(classType,
+                        persistanceSession, resource.getProperty(identifier).
+                        getValueAsResource(), ontologySession));
+                }
+            }
+            
+            BasicJDOList result = new BasicJDOList(base, persistanceSession,
+                ontologySession,identifier);
+            return base;
         } catch (Exception ex) {
             log.error("Failed to persist the collection : "
                     + ex.getMessage(), ex);
@@ -441,5 +438,53 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
         }
     }
 
+
+    /**
+     * This method returns the basic property from the object.
+     *
+     * @param property
+     * @param classType
+     * @return
+     * @throws BasicJDOException
+     */
+    private Object getBasicTypeFromProperty(
+            PersistanceProperty property, Class classType)
+            throws BasicJDOException {
+        try  {
+            if (String.class.equals(classType)) {
+                return property.getValueAsString();
+            } else if (Date.class.equals(classType)) {
+                Calendar calendar = property.getValueAsCalendar();
+                return calendar.getTime();
+            } else if (Calendar.class.equals(classType)) {
+                return property.getValueAsCalendar();
+            } else if (Long.class.equals(classType)) {
+                return new Long(property.getValueAsLong()).intValue();
+            } else if (classType.equals(int.class)) {
+                return new Long(property.getValueAsLong()).intValue();
+            } else if (Long.class.equals(classType)) {
+                return property.getValueAsLong();
+            } else if (classType.equals(long.class)) {
+                return property.getValueAsLong();
+            } else if (Double.class.equals(classType)) {
+                return property.getValueAsDouble();
+            } else if (classType.equals(double.class)) {
+                return property.getValueAsDouble();
+            } else if (Float.class.equals(classType)) {
+                return property.getValueAsFloat();
+            } else if (classType.equals(float.class)) {
+                return property.getValueAsFloat();
+            } else {
+                throw new BasicJDOException("Unsupported type ["
+                        + classType.getName() + "]");
+            }
+        } catch (BasicJDOException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed get the basic object information because : " + ex.getMessage(),ex);
+            throw new BasicJDOException
+                    ("Failed get the basic object information because : " + ex.getMessage(),ex);
+        }
+    }
     
 }

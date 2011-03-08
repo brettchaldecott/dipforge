@@ -178,6 +178,39 @@ public class JenaPersistanceResource implements PersistanceResource {
     }
 
     /**
+     * This method removes the property identified by the identifier.
+     *
+     * @param identifier The identifier.
+     * @param resource The resource that has to be removed or unlinked.
+     * @throws PersistanceException
+     */
+    public void removeProperty(PersistanceIdentifier identifier,
+            PersistanceResource resource) throws PersistanceException {
+        try {
+            Property property = this.resource.getModel().getProperty(
+                identifier.toURI().toString());
+            StmtIterator iterator =
+                    this.resource.listProperties(property);
+            while (iterator.hasNext()) {
+                Statement statement = iterator.nextStatement();
+                if (statement.getResource().getURI().equals(
+                        resource.getURI().toString())) {
+                    statement.remove();
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            log.error("Failed to remove the property from the resource : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException
+                    ("Failed to remove the property from the resource : " +
+                    ex.getMessage(),ex);
+        }
+
+    }
+    
+
+    /**
      * This method retrieves a resources.
      *
      * @return The jena resource.
