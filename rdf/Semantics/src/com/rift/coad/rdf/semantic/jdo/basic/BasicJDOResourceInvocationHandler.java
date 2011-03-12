@@ -22,18 +22,25 @@
 // package path
 package com.rift.coad.rdf.semantic.jdo.basic;
 
+import com.rift.coad.rdf.semantic.RDFConstants;
 import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.ResourceException;
 import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
+import com.rift.coad.rdf.semantic.ontology.OntologyClass;
+import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
+import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 import com.rift.coad.rdf.semantic.util.RDFURIHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import net.sf.cglib.proxy.InvocationHandler;
 import org.apache.log4j.Logger;
 
 /**
@@ -41,12 +48,15 @@ import org.apache.log4j.Logger;
  *
  * @author brett chaldecott
  */
-public class BasicJDOResourceInvocationHandler {
+public class BasicJDOResourceInvocationHandler implements InvocationHandler {
 
     // class constants
     private final static String GET_URI = "getURI";
-    private final static String UPDATE  = "update";
     private final static String GET  = "get";
+    private final static String ADD_PROPERTY = "addProperty";
+    private final static String GET_PROPERTY = "getProperty";
+    private final static String REMOVE_PROPERTY = "removeProperty";
+    private final static String REMOVE_PROPERTY_RESOURCE = "removePropertyResource";
 
     // class singletons
     private static Logger log = Logger.getLogger(BasicJDOInvocationHandler.class);
@@ -57,6 +67,7 @@ public class BasicJDOResourceInvocationHandler {
     private PersistanceSession persistanceSession;
     private PersistanceResource resource;
     private OntologySession ontologySession;
+    private OntologyClass ontologyClass;
 
 
     /**
@@ -67,10 +78,23 @@ public class BasicJDOResourceInvocationHandler {
      */
     public BasicJDOResourceInvocationHandler(
             PersistanceSession persistanceSession, PersistanceResource resource,
-            OntologySession ontologySession) {
+            OntologySession ontologySession) throws BasicJDOException {
         this.persistanceSession = persistanceSession;
         this.resource = resource;
         this.ontologySession = ontologySession;
+
+        // retrieve the ontology class
+        try {
+            PersistanceIdentifier typeIdentifier = PersistanceIdentifier.
+                    getInstance(RDFConstants.SYNTAX_NAMESPACE, RDFConstants.TYPE_LOCALNAME);
+            ontologyClass = ontologySession.getClass(
+                    resource.getProperty(typeIdentifier).getValueAsResource().getURI());
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the resource type information : " +
+                    ex.getMessage(),ex);
+            throw new BasicJDOException("Failed to retrieve the resource type information : " +
+                    ex.getMessage(),ex);
+        }
     }
 
 
@@ -83,16 +107,25 @@ public class BasicJDOResourceInvocationHandler {
      * @throws Throwable The cause of the exception.
      * @throws InvocationTargetException
      */
-    public Object invokeMethod(MethodInfo info, Object[] args) throws
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return invoke(method,args);
+    }
+
+    public Object invoke(Method info, Object[] args) throws
             Throwable, InvocationTargetException {
-        if (info.getMethodRef().getName().equals(GET_URI)) {
+        if (info.getName().equals(GET_URI)) {
             return getURI();
-        } else if (info.getMethodRef().getName().equals(UPDATE)) {
-            return getURI();
-        } else if (info.getMethodRef().getName().equals(GET)) {
-            return getURI();
-        } else if (info.getMethodRef().getName().equals(GET)) {
-            return getURI();
+        } else if (info.getName().equals(GET)) {
+            return get(args);
+        } else if (info.getName().equals(ADD_PROPERTY)) {
+            return addProperty(args);
+        } else if (info.getName().equals(GET_PROPERTY)) {
+            return getProperty(args);
+        } else if (info.getName().equals(REMOVE_PROPERTY)) {
+            return removeProperty(args);
+        } else if (info.getName().equals(
+                REMOVE_PROPERTY_RESOURCE)) {
+            return removePropertyResource(args);
         }
         return null;
     }
@@ -198,12 +231,13 @@ public class BasicJDOResourceInvocationHandler {
      * @param identifier The identifier.
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
-    public void removeProperty(Object[] args) throws ResourceException {
+    public Object removeProperty(Object[] args) throws ResourceException {
         try {
             RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                     uriHelper.getNamespace(), uriHelper.getLocalName());
             this.resource.removeProperty(identifier);
+            return null;
         } catch (Exception ex) {
             log.error("Failed to remove the property : " + ex.getMessage(),ex);
             throw new ResourceException
@@ -219,7 +253,7 @@ public class BasicJDOResourceInvocationHandler {
      * @param resource The resource name
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
-    public void removePropertyResource(Object[] args)  throws ResourceException {
+    public Object removePropertyResource(Object[] args)  throws ResourceException {
         try {
             RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
@@ -228,6 +262,7 @@ public class BasicJDOResourceInvocationHandler {
                     persistanceSession.getResource(
                     Resource.class.cast(args[1]).getURI());
             this.resource.removeProperty(identifier,persisanceResource);
+            return null;
         } catch (Exception ex) {
             log.error("Failed to remove the property : " + ex.getMessage(),ex);
             throw new ResourceException
@@ -242,7 +277,51 @@ public class BasicJDOResourceInvocationHandler {
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
     public List listProperties() throws ResourceException {
-        return null;
+        try {
+            List<PersistanceProperty> resourceProperties = resource.listProperties();
+            List resultList = new ArrayList();
+            
+            for (PersistanceProperty resourceProperty : resourceProperties) {
+                OntologyProperty ontologyProperty  = ontologyClass.
+                        getProperty(resourceProperty.getURI());
+                String typeName = ontologyProperty.getLocalname();
+                if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_STRING)) {
+                    resultList.add(resourceProperty.getValueAsString());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_BOOLEAN)) {
+                    resultList.add(resourceProperty.getValueAsBoolean());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_FLOAT)) {
+                    resultList.add(resourceProperty.getValueAsFloat());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_DOUBLE)) {
+                    resultList.add(resourceProperty.getValueAsDouble());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_INTEGER)) {
+                    resultList.add(new Long(resourceProperty.getValueAsLong()).intValue());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_LONG)) {
+                    resultList.add(resourceProperty.getValueAsLong());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_INT)) {
+                    resultList.add(new Long(resourceProperty.getValueAsLong()).intValue());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_SHORT)
+                        || typeName.equalsIgnoreCase(XSDDataDictionary.XSD_BYTE)) {
+                    // type is currently not supported
+                    throw new ResourceException("Unsupported data type of byte");
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_DATE)) {
+                    resultList.add(resourceProperty.getValueAsCalendar());
+                } else {
+                    resultList.add(BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                        persistanceSession, resourceProperty.getValueAsResource(),
+                        ontologySession));
+                }
+            }
+
+            return resultList;
+        } catch (ResourceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the list or properties : " +
+                    ex.getMessage(),ex);
+            throw new ResourceException
+                    ("Failed to retrieve the list or properties : " +
+                    ex.getMessage(),ex);
+        }
     }
 
 
@@ -253,6 +332,54 @@ public class BasicJDOResourceInvocationHandler {
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
     public List listProperties(String url) throws ResourceException {
-        return null;
+        try {
+            RDFURIHelper helper = new RDFURIHelper(url);
+            PersistanceIdentifier listIdentifier = PersistanceIdentifier.
+                    getInstance(helper.getNamespace(), helper.getLocalName());
+            List<PersistanceProperty> resourceProperties = 
+                    resource.listProperties(listIdentifier);
+            List resultList = new ArrayList();
+
+            for (PersistanceProperty resourceProperty : resourceProperties) {
+                OntologyProperty ontologyProperty  = ontologyClass.
+                        getProperty(resourceProperty.getURI());
+                String typeName = ontologyProperty.getLocalname();
+                if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_STRING)) {
+                    resultList.add(resourceProperty.getValueAsString());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_BOOLEAN)) {
+                    resultList.add(resourceProperty.getValueAsBoolean());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_FLOAT)) {
+                    resultList.add(resourceProperty.getValueAsFloat());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_DOUBLE)) {
+                    resultList.add(resourceProperty.getValueAsDouble());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_INTEGER)) {
+                    resultList.add(new Long(resourceProperty.getValueAsLong()).intValue());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_LONG)) {
+                    resultList.add(resourceProperty.getValueAsLong());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_INT)) {
+                    resultList.add(new Long(resourceProperty.getValueAsLong()).intValue());
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_SHORT)
+                        || typeName.equalsIgnoreCase(XSDDataDictionary.XSD_BYTE)) {
+                    // type is currently not supported
+                    throw new ResourceException("Unsupported data type of byte");
+                } else if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_DATE)) {
+                    resultList.add(resourceProperty.getValueAsCalendar());
+                } else {
+                    resultList.add(BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                        persistanceSession, resourceProperty.getValueAsResource(),
+                        ontologySession));
+                }
+            }
+
+            return resultList;
+        } catch (ResourceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the list or properties : " +
+                    ex.getMessage(),ex);
+            throw new ResourceException
+                    ("Failed to retrieve the list or properties : " +
+                    ex.getMessage(),ex);
+        }
     }
 }

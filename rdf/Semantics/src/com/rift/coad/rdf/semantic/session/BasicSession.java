@@ -53,7 +53,7 @@ import com.rift.coad.rdf.semantic.Transaction;
 import com.rift.coad.rdf.semantic.annotation.helpers.NamespaceHelper;
 import com.rift.coad.rdf.semantic.annotation.helpers.LocalNameHelper;
 import com.rift.coad.rdf.semantic.query.BasicQuery;
-import com.rift.coad.rdf.semantic.query.BasicSPARQLQuery;
+import com.rift.coad.rdf.semantic.jdo.basic.sparql.BasicJDOSPARQLQuery;
 import com.rift.coad.rdf.semantic.resource.BasicResource;
 
 /**

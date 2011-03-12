@@ -40,6 +40,11 @@ public class TestSubObject {
     public int number;
     public double dub;
 
+    
+    public TestSubObject() {
+    }
+
+
     public TestSubObject(String name, int number, double dub) {
         this.name = name;
         this.number = number;

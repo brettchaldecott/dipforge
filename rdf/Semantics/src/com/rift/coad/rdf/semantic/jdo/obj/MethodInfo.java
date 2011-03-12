@@ -21,11 +21,13 @@
 
 package com.rift.coad.rdf.semantic.jdo.obj;
 
+import com.rift.coad.rdf.semantic.annotation.CollectionTypeParameter;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
 import com.rift.coad.rdf.semantic.annotation.PropertyNamespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyURI;
 import com.rift.coad.rdf.semantic.annotation.helpers.AnnotationHelper;
 import com.rift.coad.rdf.semantic.types.DataType;
+import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
 import com.rift.coad.rdf.semantic.util.RDFURIHelper;
 import java.lang.reflect.Method;
 
@@ -45,6 +47,8 @@ public class MethodInfo {
     private Method methodRef;
     private String namespace;
     private String localName;
+    private Class returnType;
+    private Class parameterType;
     private DataType type;
     private boolean getter = false;
     private boolean setter = false;
@@ -104,7 +108,25 @@ public class MethodInfo {
             }
         }
 
-        
+        returnType = methodRef.getReturnType();
+        try {
+            if (!void.class.equals(returnType)) {
+                if (ClassTypeInfo.isCollection(returnType)) {
+                    CollectionTypeParameter collectionTypeParameter =
+                            (CollectionTypeParameter)AnnotationHelper.getAnnotation(
+                            methodRef.getDeclaredAnnotations(),
+                            CollectionTypeParameter.class);
+                    if (collectionTypeParameter == null) {
+                        parameterType = com.rift.coad.rdf.semantic.Resource.class;
+                    } else {
+                        parameterType = Class.forName(collectionTypeParameter.value());
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            throw new ObjException("Failed to get the collection type parameter information : "
+                    + ex.getMessage(),ex);
+        }
     }
 
 
@@ -151,7 +173,16 @@ public class MethodInfo {
         return type;
     }
 
+    public Class getParameterType() {
+        return parameterType;
+    }
 
+    public Class getReturnType() {
+        return returnType;
+    }
+
+
+    
 
     
 }

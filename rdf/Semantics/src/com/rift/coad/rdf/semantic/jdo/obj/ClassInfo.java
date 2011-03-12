@@ -61,13 +61,14 @@ public class ClassInfo {
                     (Namespace)AnnotationHelper.getAnnotation(classRef,
                     Namespace.class);
             if (namespace == null) {
-                throw new ObjException("There is no name space attached to this class");
+                throw new ObjException("There is no name space attached to this class : " +
+                        classRef.getName());
             }
             this.namespace = namespace.value();
             LocalName localName = (LocalName)AnnotationHelper.getAnnotation(classRef,
                     LocalName.class);
             if (localName == null) {
-                throw new ObjException("There is no local name attached to this class");
+                throw new ObjException("There is no local name attached to this class : " + classRef.getName() );
             }
             this.localName = localName.value();
             for (Method method: this.classRef.getMethods()) {

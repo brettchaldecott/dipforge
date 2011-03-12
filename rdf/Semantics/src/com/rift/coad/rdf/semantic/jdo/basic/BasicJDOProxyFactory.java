@@ -28,6 +28,7 @@ import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import net.sf.cglib.proxy.Proxy;
+import net.sf.cglib.proxy.Enhancer;
 
 /**
  * This object is responsible for creating a new proxy for the class.
@@ -35,6 +36,9 @@ import net.sf.cglib.proxy.Proxy;
  * @author brett chaldecott
  */
 public class BasicJDOProxyFactory {
+
+    
+
 
     /**
      * This method returns a JDO proxy.
@@ -49,11 +53,21 @@ public class BasicJDOProxyFactory {
             PersistanceResource resource, OntologySession ontologySession)
             throws BasicJDOException {
         try {
-            BasicJDOInvocationHandler handler = new 
+            T result;
+            if (type.equals(Resource.class)) {
+                BasicJDOResourceInvocationHandler handler = new
+                    BasicJDOResourceInvocationHandler(persistanceSession,resource,
+                    ontologySession);
+                result = (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                        new Class[] {Resource.class}, handler);
+            } else {
+                BasicJDOInvocationHandler handler = new
                     BasicJDOInvocationHandler(type, persistanceSession,resource,
                     ontologySession);
-            T result = (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                    new Class[] {type,Resource.class}, handler);
+
+                result = (T)Enhancer.create(type, new Class[] {Resource.class}, handler);
+
+            }
             return result;
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to create the JDO proxy : " +

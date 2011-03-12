@@ -41,6 +41,15 @@ public class TestListObject {
     public long timestamp;
     public Calendar date;
 
+    
+    /**
+     * Required default constructor
+     */
+    public TestListObject() {
+    }
+
+
+
     /**
      * 
      * @param name

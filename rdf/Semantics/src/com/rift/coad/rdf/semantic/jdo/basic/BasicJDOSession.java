@@ -23,13 +23,17 @@
 package com.rift.coad.rdf.semantic.jdo.basic;
 
 import com.rift.coad.rdf.semantic.Query;
+import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.SPARQLQuery;
 import com.rift.coad.rdf.semantic.SessionException;
 import com.rift.coad.rdf.semantic.jdo.JDOSession;
+import com.rift.coad.rdf.semantic.jdo.basic.sparql.BasicJDOSPARQLQuery;
+import com.rift.coad.rdf.semantic.jdo.obj.ClassInfo;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.session.UnknownEntryException;
+import com.rift.coad.rdf.semantic.util.ClassURIBuilder;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -158,13 +162,21 @@ public class BasicJDOSession implements JDOSession {
     /**
      * This method is called to remove the object target.
      *
-     * @param <T>
-     * @param target
-     * @return
+     * @param <T> The type of object to remove.
+     * @param target The target
+     * @return The target to remove.
      * @throws SessionException
      */
     public <T> T remove(T target) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            Resource resource = (Resource)target;
+            persistanceSession.removeResource(resource.getURI());
+            return target;
+        } catch (Exception ex) {
+            log.error("Failed to remove the : " + ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed to remove the : " + ex.getMessage(),ex);
+        }
     }
 
     
@@ -224,16 +236,57 @@ public class BasicJDOSession implements JDOSession {
 
     
 
+    /**
+     * This method returns the reference to the object.
+     *
+     * @param <T> The type of object.
+     * @param c The class type.
+     * @param identifier The identifier.
+     * @return The return type.
+     * @throws SessionException
+     * @throws UnknownEntryException
+     */
     public <T> T get(Class<T> c, Serializable identifier) throws SessionException, UnknownEntryException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            URI resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            return BasicJDOProxyFactory.createJDOProxy(c,
+                    persistanceSession, persistanceSession.getResource(resourceUri),
+                    ontologySession);
+        } catch (Exception ex) {
+            log.error("Failed to remove the resource identified by the RDF XML : " +
+                    ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed to remove the resource identified by the RDF XML : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method creates a query
+     *
+     * @param queryString
+     * @return
+     * @throws SessionException
+     */
     public Query createQuery(String queryString) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("This object query is currently unsupported");
     }
 
+
+    /**
+     * This 
+     * @param queryString
+     * @return
+     * @throws SessionException
+     */
     public SPARQLQuery createSPARQLQuery(String queryString) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return new BasicJDOSPARQLQuery(persistanceSession,ontologySession,queryString);
+        } catch (Exception ex) {
+            log.error("Failed to create they query : " + ex.getMessage(),ex);
+            throw new SessionException("Failed to create they query : " + ex.getMessage(),ex);
+        }
     }
 
 }

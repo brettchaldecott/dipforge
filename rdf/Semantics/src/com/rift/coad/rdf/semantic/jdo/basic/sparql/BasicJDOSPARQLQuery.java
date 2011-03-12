@@ -1,6 +1,6 @@
 /*
  * CoaduntionSemantics: The semantic library for coadunation os
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2011  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,11 +16,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * BasicSPARQLQuery.java
+ * BasicJDOSPARQLQuery.java
  */
 
 // package path
-package com.rift.coad.rdf.semantic.query;
+package com.rift.coad.rdf.semantic.jdo.basic.sparql;
 
 // java imports
 import java.net.URI;
@@ -30,14 +30,13 @@ import java.util.List;
 // log4j import
 import org.apache.log4j.Logger;
 
-// jena imports
-import com.hp.hpl.jena.rdf.model.Model;
-
 // coadunation import
 import com.rift.coad.rdf.semantic.QueryException;
 import com.rift.coad.rdf.semantic.SPARQLQuery;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.query.sparql.SPARQLTokenParser;
 import com.rift.coad.rdf.semantic.util.DateHelper;
 
@@ -46,15 +45,15 @@ import com.rift.coad.rdf.semantic.util.DateHelper;
  *
  * @author brett chaldecott
  */
-public class BasicSPARQLQuery implements SPARQLQuery {
+public class BasicJDOSPARQLQuery implements SPARQLQuery {
 
     // singleton member variables
-    private static Logger log = Logger.getLogger(BasicSPARQLQuery.class);
+    private static Logger log = Logger.getLogger(BasicJDOSPARQLQuery.class);
 
     // private member variables
-    private Session session;
-    private Model config;
-    private Model store;
+    // private member variables
+    private PersistanceSession persistanceSession;
+    private OntologySession ontologySession;
     private SPARQLTokenParser parser;
 
     /**
@@ -65,10 +64,10 @@ public class BasicSPARQLQuery implements SPARQLQuery {
      * @param store The model the data is stored in.
      * @param queryString The query to execute on the database.
      */
-    public BasicSPARQLQuery(Session session, Model config, Model store, String queryString) throws QueryException {
-        this.session = session;
-        this.config = config;
-        this.store = store;
+    public BasicJDOSPARQLQuery(PersistanceSession persistanceSession,
+            OntologySession ontologySession, String queryString) throws QueryException {
+        this.persistanceSession = persistanceSession;
+        this.ontologySession = ontologySession;
         try {
             this.parser = new SPARQLTokenParser(queryString);
         } catch (Exception ex) {

@@ -38,6 +38,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceSession;
 import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
+import com.rift.coad.rdf.semantic.util.ClassURIBuilder;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Calendar;
@@ -113,9 +114,8 @@ public class BasicJDOPersistanceHandler {
             System.out.println(classInfo.getNamespace() + "#" +
                     classInfo.getLocalName() + "/" +
                     classInfo.getIdMethod().getMethodRef().getName());
-            URI resourceUri = new URI(String.format(Constants.RESOURCE_URI_FORMAT,
-                    classInfo.getNamespace(), classInfo.getLocalName(),
-                    classInfo.getIdMethod().getMethodRef().invoke(dataSource).toString()));
+            URI resourceUri = ClassURIBuilder.generateClassURI(dataSource.getClass(),
+                    classInfo.getIdMethod().getMethodRef().invoke(dataSource).toString());
             PersistanceResource typeResource = session.createResource(PersistanceIdentifier.getInstance(
                     classInfo.getNamespace(), classInfo.getLocalName()));
             PersistanceResource resource = session.createResource(

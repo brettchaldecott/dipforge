@@ -26,6 +26,7 @@ import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import com.rift.coad.rdf.semantic.annotation.CollectionTypeParameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,14 @@ public class TestBaseObject {
     private int count;
     private TestSubObject subObject;
     private List<TestListObject> listObjects = new ArrayList<TestListObject>();
+
+    
+    /**
+     * Required default constructor
+     */
+    public TestBaseObject() {
+    }
+
 
     /**
      * 
@@ -69,6 +78,7 @@ public class TestBaseObject {
 
     
     @PropertyLocalName("ListObjects")
+    @CollectionTypeParameter("com.rift.coad.rdf.semantic.jdo.basic.test.TestListObject")
     public List<TestListObject> getListObjects() {
         return listObjects;
     }

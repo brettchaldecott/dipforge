@@ -43,26 +43,30 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import net.sf.cglib.proxy.InvocationHandler;
+import java.util.Map;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 import org.apache.log4j.Logger;
 
 /**
  * 
  * @author brett chaldecott
  */
-public class BasicJDOInvocationHandler implements InvocationHandler {
+public class BasicJDOInvocationHandler implements MethodInterceptor {
 
     // class singletons
     private static Logger log = Logger.getLogger(BasicJDOInvocationHandler.class);
     // private member variablees
     private Class type;
     private ClassInfo classInfo;
-    private boolean isResource;
     private PersistanceSession persistanceSession;
     private PersistanceResource resource;
     private OntologySession ontologySession;
     private OntologyClass ontologyClass;
+    private BasicJDOResourceInvocationHandler resourceInvocationHandler;
+    private Map<String,Object> checkMap = new HashMap<String,Object>();
 
     /**
      * The constructor of the basic jdo invocation handler.
@@ -79,15 +83,15 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
             this.type = type;
             this.persistanceSession = persistanceSession;
             this.ontologySession = ontologySession;
-            if (type.equals(Resource.class)) {
-                isResource = true;
-            } else {
-                classInfo = ClassInfo.interrogateClass(type);
-                ontologyClass = ontologySession.getClass(
-                        PersistanceIdentifier.getInstance(classInfo.getNamespace(),
-                        classInfo.getLocalName()).toURI());
-            }
+            classInfo = ClassInfo.interrogateClass(type);
+            ontologyClass = ontologySession.getClass(
+                    PersistanceIdentifier.getInstance(classInfo.getNamespace(),
+                    classInfo.getLocalName()).toURI());
             this.resource = resource;
+            this.resourceInvocationHandler =
+                    new BasicJDOResourceInvocationHandler(
+                    persistanceSession, resource,
+                    ontologySession);
         } catch (Exception ex) {
             throw new BasicJDOException("Failed to instanciate the basic jdo "
                     + "invocation handler : " + ex.getMessage(), ex);
@@ -104,10 +108,11 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
      * @return The result of the call.
      * @throws Throwable
      */
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object intercept(Object obj, java.lang.reflect.Method method, Object[] args,
+            MethodProxy proxy) throws Throwable {
         try {
-            if (isResource || proxy instanceof Resource) {
-                return invokeResource(proxy, method, args);
+            if (!typeHasMethod(method)) {
+                return invokeResource(method, args);
             } else {
                 return invokeObject(proxy, method, args);
             }
@@ -167,12 +172,10 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
      * @return The object retrieved form the resource.
      * @throws Throwable
      */
-    private Object invokeResource(Object proxy, Method method, Object[] args)
+    private Object invokeResource(Method method, Object[] args)
             throws Throwable, InvocationTargetException {
         try {
-            
-
-            return null;
+            return resourceInvocationHandler.invoke(method, args);
         } catch (Throwable ex) {
             log.error("Failed to invoke the call : " + ex.getMessage(), ex);
             throw ex;
@@ -194,15 +197,22 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
             Class classType = info.getMethodRef().getReturnType();
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                     info.getNamespace(), info.getLocalName());
+            String methodName = generateGenericMethodName(info.getMethodRef());
+            if (checkMap.containsKey(methodName)) {
+                return checkMap.get(methodName);
+            }
+            Object result = null;
             if (ClassTypeInfo.isBasicType(classType)) {
-                return getBasicObject(info, identifier, classType);
+                result = getBasicObject(info, identifier, classType);
             } else if (ClassTypeInfo.isCollection(classType)) {
-                return getCollectionObject(info, resource,identifier, classType);
+                result = getCollectionObject(info, resource,identifier, classType);
             } else {
-                return BasicJDOProxyFactory.createJDOProxy(classType,
+                result = BasicJDOProxyFactory.createJDOProxy(classType,
                         persistanceSession, resource.getProperty(identifier).
                         getValueAsResource(), ontologySession);
             }
+            checkMap.put(methodName, result);
+            return result;
         } catch (BasicJDOException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -223,18 +233,20 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
      * @param ontologyClass
      * @throws BasicJDOException
      */
-    private void persistObject(Object value, MethodInfo methodInfo,
+    private void persistObject(Object value, MethodInfo info,
             PersistanceResource resource, PersistanceIdentifier identifier,
             OntologyClass ontologyClass) throws BasicJDOException, InvocationTargetException {
         try {
+            String methodName = generateGenericMethodName(info.getMethodRef());
+            checkMap.remove(methodName);
             Class type = value.getClass();
             if (ClassTypeInfo.isBasicType(type)) {
-                persistBasicType(value, methodInfo, resource, identifier,
+                persistBasicType(value, info, resource, identifier,
                         ontologyClass);
             } else if (type.isArray()) {
                 throw new BasicJDOException("The array type is not supported");
             } else if (ClassTypeInfo.isCollection(type)) {
-                persistCollection(value, methodInfo, resource, identifier, ontologyClass);
+                persistCollection(value, info, resource, identifier, ontologyClass);
             } else {
                 BasicJDOPersistanceHandler handler =
                             new BasicJDOPersistanceHandler(value, persistanceSession,
@@ -411,9 +423,8 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
             PersistanceIdentifier identifier, Class classType)
             throws BasicJDOException {
         try {
-            TypeVariable[] parameterTypes = classType.getTypeParameters();
-            parameterTypes[0].getGenericDeclaration().getClass();
-            Class objectType = parameterTypes[0].getGenericDeclaration().getClass();
+            
+            Class objectType = info.getParameterType();
             List base = new ArrayList();
             List<PersistanceProperty> properties = resource.listProperties(identifier);
             for (PersistanceProperty property : properties) {
@@ -421,9 +432,9 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
                 if (ClassTypeInfo.isBasicType(objectType)) {
                     base.add(getBasicTypeFromProperty(property,objectType));
                 } else {
-                    base.add(BasicJDOProxyFactory.createJDOProxy(classType,
-                        persistanceSession, resource.getProperty(identifier).
-                        getValueAsResource(), ontologySession));
+                    base.add(BasicJDOProxyFactory.createJDOProxy(objectType,
+                        persistanceSession, property.getValueAsResource(),
+                        ontologySession));
                 }
             }
             
@@ -431,9 +442,9 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
                 ontologySession,identifier);
             return base;
         } catch (Exception ex) {
-            log.error("Failed to persist the collection : "
+            log.error("Failed to retrieve the collection : "
                     + ex.getMessage(), ex);
-            throw new BasicJDOException("Failed to persist the collection : "
+            throw new BasicJDOException("Failed to retrieve the collection : "
                     + ex.getMessage(), ex);
         }
     }
@@ -486,5 +497,29 @@ public class BasicJDOInvocationHandler implements InvocationHandler {
                     ("Failed get the basic object information because : " + ex.getMessage(),ex);
         }
     }
-    
+
+
+    /**
+     * This method returns true if the type is contained on this object.
+     *
+     * @param method The method to perform the check on.
+     */
+    private boolean typeHasMethod(Method method) {
+        try {
+            type.getMethod(method.getName(), method.getParameterTypes());
+            return true;
+        } catch (NoSuchMethodException ex) {
+            return false;
+        }
+    }
+
+
+    /**
+     * This method generates a generic method name using the method passed in.
+     * @param method The method name
+     * @return The string result from this manipulation
+     */
+    private String generateGenericMethodName(Method method) {
+        return method.getName().substring(1);
+    }
 }

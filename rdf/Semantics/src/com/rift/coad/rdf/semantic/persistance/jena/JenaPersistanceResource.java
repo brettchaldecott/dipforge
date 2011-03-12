@@ -95,7 +95,7 @@ public class JenaPersistanceResource implements PersistanceResource {
     public boolean hasProperty(PersistanceIdentifier identifier)
             throws PersistanceException {
         return resource.hasProperty(resource.getModel().
-                getProperty(identifier.toString()));
+                getProperty(identifier.toURI().toString()));
     }
 
     /**
