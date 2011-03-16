@@ -359,8 +359,8 @@ public class BasicJDOSPARQLQuery implements SPARQLQuery {
      */
     public List<SPARQLResultRow> execute() throws QueryException {
         try {
-            //return new SPARQLList(session, config, store, this.parser.generateQuery());
-            return null;
+            return new BasicJDOSparqlResultList(persistanceSession,ontologySession,
+                    this.parser.generateQuery());
         } catch (Exception ex) {
             log.error("Failed to execute the query : " + ex.getMessage(),ex);
             throw new QueryException

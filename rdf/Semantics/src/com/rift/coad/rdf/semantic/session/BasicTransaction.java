@@ -36,6 +36,10 @@ import javax.transaction.xa.Xid;
 // coadunation imports
 import com.rift.coad.rdf.semantic.TransactionException;
 import com.rift.coad.rdf.semantic.Transaction;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.ontology.OntologyTransaction;
+import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceTransaction;
 import com.rift.coad.rdf.semantic.transaction.TransactionManager;
 
 /**
@@ -48,15 +52,21 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
     private static Logger log = Logger.getLogger(BasicTransaction.class);
 
     // private member variables
-    private Model store;
+    private PersistanceSession persistanceSession;
+    private PersistanceTransaction persistanceTransaction = null;
+    private OntologySession ontologySession;
+    private OntologyTransaction ontologyTransaction = null;
     private boolean enlisted = false;
+
     
     /**
      * The constructor that sets the store reference.
      * @param store
      */
-    public BasicTransaction(Model store) throws TransactionException {
-        this.store = store;
+    public BasicTransaction(PersistanceSession persistanceSession,
+            OntologySession ontologySession) throws TransactionException {
+        this.persistanceSession = persistanceSession;
+        this.ontologySession = ontologySession;
 
         try {
             TransactionManager.getInstance().enlist(this);
@@ -72,8 +82,21 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
      * @throws com.rift.coad.rdf.semantic.TransactionException
      */
     public void begin() throws TransactionException {
-        if (store.supportsTransactions() && !enlisted) {
-            store.begin();
+        if (!enlisted) {
+            try {
+                persistanceTransaction = persistanceSession.getTransaction();
+                persistanceTransaction.begin();
+            } catch (Exception ex) {
+                log.error("Failed to begin a transaction for the peristance manager: " +
+                        ex.getMessage(),ex);
+            }
+            try {
+                ontologyTransaction = ontologySession.getTransaction();
+                ontologyTransaction.begin();
+            } catch (Exception ex) {
+                log.error("Failed to begin a transaction for the peristance manager: " +
+                        ex.getMessage(),ex);
+            }
         }
     }
 
@@ -83,8 +106,19 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
      * @throws com.rift.coad.rdf.semantic.TransactionException
      */
     public void rollback() throws TransactionException {
-        if (store.supportsTransactions() && !enlisted) {
-            store.abort();
+        if (!enlisted) {
+            try {
+                persistanceTransaction.rollback();
+            } catch (Exception ex) {
+                log.error("Failed to rollback the changes: " +
+                        ex.getMessage(),ex);
+            }
+            try {
+                ontologyTransaction.rollback();
+            } catch (Exception ex) {
+                log.error("Failed to rollback the changes: " +
+                        ex.getMessage(),ex);
+            }
         }
     }
 
@@ -95,8 +129,19 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
      * @throws com.rift.coad.rdf.semantic.TransactionException
      */
     public void commit() throws TransactionException {
-        if (store.supportsTransactions() && !enlisted) {
-            store.commit();
+        if (!enlisted) {
+            try {
+                persistanceTransaction.commit();
+            } catch (Exception ex) {
+                log.error("Failed to commit the changes : " +
+                        ex.getMessage(),ex);
+            }
+            try {
+                ontologyTransaction.commit();
+            } catch (Exception ex) {
+                log.error("Failed to commit the changes : " +
+                        ex.getMessage(),ex);
+            }
         }
     }
 
@@ -109,8 +154,17 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
      * @throws javax.transaction.xa.XAException
      */
     public void commit(Xid arg0, boolean arg1) throws XAException {
-        if (store.supportsTransactions()) {
-            store.commit();
+        try {
+            persistanceTransaction.commit();
+        } catch (Exception ex) {
+            log.error("Failed to commit the changes : " +
+                    ex.getMessage(),ex);
+        }
+        try {
+            ontologyTransaction.commit();
+        } catch (Exception ex) {
+            log.error("Failed to commit the changes : " +
+                    ex.getMessage(),ex);
         }
     }
 
@@ -189,8 +243,17 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
      * @throws javax.transaction.xa.XAException
      */
     public void rollback(Xid arg0) throws XAException {
-        if (store.supportsTransactions()) {
-            store.abort();
+        try {
+            persistanceTransaction.rollback();
+        } catch (Exception ex) {
+            log.error("Failed to rollback the changes : " +
+                    ex.getMessage(),ex);
+        }
+        try {
+            ontologyTransaction.rollback();
+        } catch (Exception ex) {
+            log.error("Failed to rollback the changes : " +
+                    ex.getMessage(),ex);
         }
     }
 
@@ -214,8 +277,19 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
      */
     public void start(Xid arg0, int arg1) throws XAException {
         enlisted = true;
-        if (store.supportsTransactions()) {
-            store.begin();
+        try {
+            persistanceTransaction = persistanceSession.getTransaction();
+            persistanceTransaction.begin();
+        } catch (Exception ex) {
+            log.error("Failed to begin a transaction for the peristance manager: " +
+                    ex.getMessage(),ex);
+        }
+        try {
+            ontologyTransaction = ontologySession.getTransaction();
+            ontologyTransaction.begin();
+        } catch (Exception ex) {
+            log.error("Failed to begin a transaction for the peristance manager: " +
+                    ex.getMessage(),ex);
         }
     }
 

@@ -24,12 +24,11 @@ package com.rift.coad.rdf.semantic.persistance.jena.sdb;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sdb.SDBFactory;
 import com.hp.hpl.jena.sdb.Store;
+import com.hp.hpl.jena.sdb.store.SDBStoreWrapper;
 
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
-import com.rift.coad.rdf.semantic.query.engine.EngineManager;
-import com.rift.coad.rdf.semantic.sdb.SDBQueryEngine;
 import java.util.Properties;
 
 /**
@@ -56,8 +55,6 @@ public class JenaSDBModelFactory implements JenaStore {
                 store.getTableFormatter().create();
             }
             dataStore = SDBFactory.connectDefaultModel(store);
-            EngineManager.getInstance().addEngine(dataStore,
-                    new SDBQueryEngine(store));
         } catch (PersistanceException ex) {
             throw ex;
         } catch (Throwable ex) {
@@ -96,7 +93,7 @@ public class JenaSDBModelFactory implements JenaStore {
      */
     public void close() throws PersistanceException {
         try {
-            store.close();
+            SDBStoreWrapper.close(store);
         } catch (Exception ex) {
             // ignore
         }

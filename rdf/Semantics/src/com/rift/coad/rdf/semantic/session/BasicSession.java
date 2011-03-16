@@ -52,8 +52,10 @@ import com.rift.coad.rdf.semantic.SessionException;
 import com.rift.coad.rdf.semantic.Transaction;
 import com.rift.coad.rdf.semantic.annotation.helpers.NamespaceHelper;
 import com.rift.coad.rdf.semantic.annotation.helpers.LocalNameHelper;
-import com.rift.coad.rdf.semantic.query.BasicQuery;
+import com.rift.coad.rdf.semantic.jdo.JDOSession;
 import com.rift.coad.rdf.semantic.jdo.basic.sparql.BasicJDOSPARQLQuery;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.resource.BasicResource;
 
 /**
@@ -65,48 +67,232 @@ public class BasicSession implements Session {
     // class singletons
     private static Logger log = Logger.getLogger(BasicSession.class);
 
+    // private member variables
+    private PersistanceSession persistanceSession;
+    private OntologySession ontologySession;
+    private JDOSession jdoSession;
+    private Transaction transaction;
+
+
+    /**
+     * This constructor sets up a new
+     *
+     * @param persistanceSession
+     * @param ontologySession
+     */
+    public BasicSession(PersistanceSession persistanceSession, OntologySession ontologySession,
+            JDOSession jdoSession)
+            throws SessionException {
+        this.persistanceSession = persistanceSession;
+        this.ontologySession = ontologySession;
+        this.jdoSession = jdoSession;
+        try {
+            transaction = new BasicTransaction(persistanceSession,ontologySession);
+        } catch (Exception ex) {
+            log.error("Failed to instanciate the basic session : " + ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed to instanciate the basic session : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * The transaction object
+     *
+     * @return The reference to the transaction object
+     * @throws SessionException
+     */
     public Transaction getTransaction() throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return transaction;
     }
 
+
+    /**
+     * This method is called to persist a stream
+     *
+     * @param in The input stream to persist.
+     * @throws SessionException
+     */
     public void persist(InputStream in) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            jdoSession.persist(in);
+        } catch (Exception ex) {
+            log.error("Failed to persist the stream : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to persist the stream : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method persists the value.
+     *
+     * @param rdf The rdf value to persist.
+     * @throws SessionException
+     */
     public void persist(String rdf) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            jdoSession.persist(rdf);
+        } catch (Exception ex) {
+            log.error("Failed to persist the rdf : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to persist the rdf : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method is used to persist the object.
+     *
+     * @param <T> The object type to persist and return.
+     * @param object The value to persist
+     * @return The reference to the object.
+     * @throws SessionException
+     */
     public <T> T persist(T object) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return jdoSession.persist(object);
+        } catch (Exception ex) {
+            log.error("Failed to persist the rdf : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to persist the rdf : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method dumps the xml.
+     *
+     * @return The xml that is being dumped.
+     * @throws SessionException
+     */
     public String dumpXML() throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return jdoSession.dumpXML();
+        } catch (Exception ex) {
+            log.error("Failed to dump the xml : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to dump the xml : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method dumps the xml to an output stream.
+     *
+     * @param out The output stream.
+     * @throws SessionException
+     */
     public void dumpXML(OutputStream out) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            jdoSession.dumpXML(out);
+        } catch (Exception ex) {
+            log.error("Failed to dump the xml : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to dump the xml : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method removes the target.
+     * 
+     * @param <T> The object type to remove.
+     * @param target The target to remove.
+     * @return The removed object
+     * @throws SessionException
+     */
     public <T> T remove(T target) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return jdoSession.remove(target);
+        } catch (Exception ex) {
+            log.error("Failed to remove the object : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to remove the object : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method removes the data identified by the rdf.
+     *
+     * @param rdf The rdf to remove
+     * @throws SessionException
+     */
     public void remove(String rdf) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            jdoSession.remove(rdf);
+        } catch (Exception ex) {
+            log.error("Failed to remove the rdf : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to remove the rdf : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method gets the session.
+     *
+     * @param <T> The type of object being delt with.
+     * @param c The class to return
+     * @param identifier The identifier.
+     * @return The result object.
+     * @throws SessionException
+     * @throws UnknownEntryException
+     */
     public <T> T get(Class<T> c, Serializable identifier) throws SessionException, UnknownEntryException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return jdoSession.get(c,identifier);
+        } catch (Exception ex) {
+            log.error("Failed to remove the rdf : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to remove the rdf : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     * This method creates a new query.
+     *
+     * @param queryString The query string
+     * @return The resulting query object.
+     * @throws SessionException
+     */
     public Query createQuery(String queryString) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return jdoSession.createQuery(queryString);
+        } catch (Exception ex) {
+            log.error("Failed to create the query : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to create the query : " +
+                    ex.getMessage(),ex);
+        }
     }
 
+
+    /**
+     *
+     * @param queryString
+     * @return
+     * @throws SessionException
+     */
     public SPARQLQuery createSPARQLQuery(String queryString) throws SessionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return jdoSession.createSPARQLQuery(queryString);
+        } catch (Exception ex) {
+            log.error("Failed to create the query : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to create the query : " +
+                    ex.getMessage(),ex);
+        }
     }
 
    

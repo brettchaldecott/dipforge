@@ -50,7 +50,6 @@ import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResultRow;
-import com.rift.coad.rdf.semantic.query.engine.EngineManager;
 
 
 /**
@@ -77,8 +76,9 @@ public class JenaSPARQLList extends ArrayList<PersistanceResultRow> {
     public JenaSPARQLList(Model store, String queryString) throws 
             PersistanceQueryException {
         try {
-            ResultSet resultSet = EngineManager.getInstance().
-                    getEngine(store).execute(queryString);
+            Query query = QueryFactory.create(queryString);
+            QueryExecution executioner = QueryExecutionFactory.create(query, store);
+            ResultSet resultSet = executioner.execSelect();
             while (resultSet.hasNext()) {
                 QuerySolution solution = resultSet.nextSolution();
                 JenaPersistanceResultRow row = new JenaPersistanceResultRow(store,solution);

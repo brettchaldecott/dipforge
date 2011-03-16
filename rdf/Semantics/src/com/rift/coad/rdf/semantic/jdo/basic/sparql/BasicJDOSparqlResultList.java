@@ -21,10 +21,55 @@
 
 package com.rift.coad.rdf.semantic.jdo.basic.sparql;
 
+import com.rift.coad.rdf.semantic.SPARQLResultRow;
+import com.rift.coad.rdf.semantic.jdo.basic.BasicJDOException;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceResultRow;
+import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * The basic JDO SPARQL result list
  *
  * @author brettc
  */
-public class BasicJDOSparqlResultList {
+public class BasicJDOSparqlResultList extends ArrayList<SPARQLResultRow> {
+
+    // private member variables
+    private PersistanceSession persistanceSession;
+    private OntologySession ontologySession;
+
+
+    
+    /**
+     * This constructor creates a basic jdo sparql result list.
+     *
+     * @param persistanceSession The reference to the persistance session.
+     * @param ontologySession The ontology session.
+     * @param query The query.
+     */
+    public BasicJDOSparqlResultList(PersistanceSession persistanceSession,
+            OntologySession ontologySession, String query) throws BasicJDOException {
+        this.persistanceSession = persistanceSession;
+        this.ontologySession = ontologySession;
+        try {
+            List<PersistanceResultRow> sparqlresult = persistanceSession.
+                    createQuery(query).execute();
+            for (PersistanceResultRow row : sparqlresult) {
+                add(new BasicJDOSPARQLResultRow(persistanceSession,
+                        ontologySession, row));
+            }
+        } catch (Exception ex) {
+            throw new BasicJDOException("Failed to insanciate the basic JDO value. : " +
+                    ex.getMessage(),ex);
+        }
+        
+    }
+
+
+    
+    
+
 
 }
