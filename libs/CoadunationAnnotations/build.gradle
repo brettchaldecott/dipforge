@@ -20,6 +20,7 @@ configurations {
 }
 
 dependencies {
+    compile(ivyDependencies('compile'))
 }
 
 sourceSets {
@@ -53,3 +54,17 @@ build.dependsOn {
     [jar, uploadArchives]
 }
 release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
+
