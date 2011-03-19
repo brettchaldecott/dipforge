@@ -28,7 +28,8 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 // coadunation imports
-import com.rift.coad.rdf.objmapping.resource.ResourceBase;
+import com.rift.coad.type.dto.ResourceDefinition;
+import com.rift.coad.type.dto.RDFDataType;
 
 
 /**
@@ -54,7 +55,7 @@ public interface TypeManagerDaemon extends Remote {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public void addType(ResourceBase resource) throws TypeManagerException, RemoteException;
+    public void addType(ResourceDefinition resource) throws TypeManagerException, RemoteException;
 
 
     /**
@@ -74,7 +75,7 @@ public interface TypeManagerDaemon extends Remote {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public void updateType(ResourceBase resource) throws TypeManagerException, RemoteException;
+    public void updateType(ResourceDefinition resource) throws TypeManagerException, RemoteException;
 
 
     /**
@@ -94,7 +95,7 @@ public interface TypeManagerDaemon extends Remote {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public void deleteType(ResourceBase resource) throws TypeManagerException, RemoteException;
+    public void deleteType(ResourceDefinition resource) throws TypeManagerException, RemoteException;
 
 
     /**
@@ -114,7 +115,7 @@ public interface TypeManagerDaemon extends Remote {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public ResourceBase getType(String typeId) throws TypeManagerException, RemoteException;
+    public ResourceDefinition getType(String uri) throws TypeManagerException, RemoteException;
 
 
     /**
@@ -125,7 +126,7 @@ public interface TypeManagerDaemon extends Remote {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public List<ResourceBase> listTypes(String[] uri) throws TypeManagerException, RemoteException;
+    public List<RDFDataType> listTypes(String[] uri) throws TypeManagerException, RemoteException;
 
 
     /**
@@ -136,6 +137,6 @@ public interface TypeManagerDaemon extends Remote {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public List<ResourceBase> listTypesByBasicType(String[] basicTypes) throws TypeManagerException, RemoteException;
+    public List<RDFDataType> listTypesByBasicType(String[] basicTypes) throws TypeManagerException, RemoteException;
     
 }
