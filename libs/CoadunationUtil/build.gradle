@@ -20,7 +20,7 @@ configurations {
 }
 
 dependencies {
-    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
+    compile(ivyDependencies('compile'))
 }
 
 sourceSets {
@@ -54,3 +54,17 @@ build.dependsOn {
     [jar, uploadArchives]
 }
 release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
+
