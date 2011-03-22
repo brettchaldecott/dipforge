@@ -23,8 +23,6 @@
 package com.rift.coad.audit;
 
 // java imports
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
-import com.rift.coad.rdf.objmapping.audit.LogEntry.Status;
 import java.util.Date;
 
 /**

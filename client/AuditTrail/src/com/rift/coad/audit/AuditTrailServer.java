@@ -1,6 +1,6 @@
 /*
  * AuditTrail: The audit trail log object.
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2011  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  */
 package com.rift.coad.audit;
 
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
+import com.rift.coad.audit.dto.LogEntry;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;

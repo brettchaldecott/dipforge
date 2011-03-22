@@ -1,6 +1,6 @@
 /*
  * AuditTrail: The audit trail log object.
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2011  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -34,10 +34,9 @@ import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 
 // audit trail imports
 import com.rift.coad.audit.AuditTrailLoggerAsync;
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
 import com.rift.coad.audit.Constants;
+import com.rift.coad.audit.dto.LogEntry;
 import com.rift.coad.lib.security.SessionManager;
-import com.rift.coad.rdf.objmapping.base.DataType;
 
 
 /**
@@ -91,7 +90,7 @@ public class AuditTrail {
      * @param data This data item to add.
      * @return The reference to the current audit trail item.
      */
-    public AuditTrail addData(DataType data) {
+    public AuditTrail addData(Object data) {
         this.entry.getAssociated().add(entry);
         return this;
     }

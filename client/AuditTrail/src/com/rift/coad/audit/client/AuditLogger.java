@@ -36,8 +36,8 @@ import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 
 // audit trail imports
 import com.rift.coad.audit.AuditTrailLoggerAsync;
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
 import com.rift.coad.audit.Constants;
+import com.rift.coad.audit.dto.LogEntry;
 import com.rift.coad.lib.security.SessionManager;
 
 /**

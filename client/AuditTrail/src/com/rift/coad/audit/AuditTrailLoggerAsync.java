@@ -22,7 +22,7 @@
 package com.rift.coad.audit;
 
 // the rmi remove interface.
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
+import com.rift.coad.audit.dto.LogEntry;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

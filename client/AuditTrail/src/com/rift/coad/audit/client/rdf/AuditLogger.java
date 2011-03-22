@@ -31,14 +31,9 @@ import java.util.List;
 // log4j object
 import org.apache.log4j.Logger;
 
-// coadunation message service
-import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
-
 // audit trail imports
 import com.rift.coad.audit.AuditTrailLoggerAsync;
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
 import com.rift.coad.audit.Constants;
-import com.rift.coad.lib.security.SessionManager;
 
 /**
  * This object is responsible for managing the audit trail log.

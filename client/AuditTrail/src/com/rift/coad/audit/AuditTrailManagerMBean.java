@@ -22,7 +22,6 @@
 package com.rift.coad.audit;
 
 // java imports
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -32,6 +31,7 @@ import com.rift.coad.annotation.MethodInfo;
 import com.rift.coad.annotation.ParamInfo;
 import com.rift.coad.annotation.Version;
 import com.rift.coad.annotation.Result;
+import com.rift.coad.audit.dto.LogEntry;
 
 /**
  * This interface exposes the bean management functionality.

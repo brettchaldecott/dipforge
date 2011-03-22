@@ -5,7 +5,6 @@
 
 package com.rift.coad.audit.client.rdf;
 
-import com.rift.coad.rdf.objmapping.base.Name;
 import junit.framework.TestCase;
 
 /**
@@ -34,7 +33,7 @@ public class AuditLoggerTest extends TestCase {
     public void testLogger() {
         System.out.println("testLogger");
         AuditLogger result = AuditLogger.getLogger("test");
-        result.create("fred %s %s", "test1","test2").addData(new Name("fred")).
+        result.create("fred %s %s", "test1","test2").addData(new String("fred")).
                 setCorrelationId("test1").setExternalId("test2").complete();
     }
 
