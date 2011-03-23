@@ -21,6 +21,7 @@
         </data>
         <ivyConfiguration xmlns="http://code.google.com/p/ivybeans/ns/ivy-module/1">
             <descriptorFile>ivy.xml</descriptorFile>
+            <settingsFile>ivysettings.xml</settingsFile>
             <configurationMapping>
                 <scope confs="compile" name="COMPILE"/>
                 <scope confs="compile,runtime" name="RUNTIME"/>
@@ -30,7 +31,7 @@
         </ivyConfiguration>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
-                <foreign-project>CoadunationBase</foreign-project>
+                <foreign-project>CoadunationBase-1</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>

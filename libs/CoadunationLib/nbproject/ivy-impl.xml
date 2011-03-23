@@ -55,6 +55,7 @@
         <mkdir dir="${basedir}/${build.dir}/${lib.dir}"/>
     </target>
     <target depends="-ivy-define, -ant-contrib-define, -lib-path-init" name="-ivy-retrieve">
+        <ivy:settings file="ivysettings.xml"/>
         <ivy:resolve file="ivy.xml"/>
         <ivy:retrieve pattern="${basedir}/${build.dir}/${lib.dir}/[artifact]-[revision].[ext]" type="jar"/>
         <path id="ivy.path">
@@ -128,6 +129,7 @@
         <echo level="debug" message="$${debug.classpath} : ${debug.classpath}"/>
     </target>
     <target name="-ivy-publish">
+        <ivy:settings file="ivysettings.xml"/>
         <ivy:resolve file="ivy.xml"/>
         <ivy:publish forcedeliver="true" overwrite="true" resolver="local">
             <artifacts pattern="${basedir}/${dist.dir}/[artifact].[ext]"/>

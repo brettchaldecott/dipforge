@@ -18,6 +18,7 @@
         <dependency org="ant" name="ant" rev="1.6.5"/>
         <dependency org="jotm" name="jotm" rev="2.0.10">
             <exclude org="javax.jts" name="jts"/>
+            <exclude org="javax.resource" name="connector"/>
         </dependency>
         <dependency org="jotm" name="jotm_iiop_stubs" rev="2.0.10"/>
         <dependency org="org.objectweb.carol" name="carol" rev="2.2.10"/>
