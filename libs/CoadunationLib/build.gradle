@@ -23,19 +23,7 @@ configurations {
 }
 
 dependencies {
-    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
-    compile group: 'jacorb', name: 'jacorb', version: '2.3.0jboss.patch6-brew', ext: 'jar'
-    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.1-beta2', ext: 'jar'
-    compile group: 'javax.transaction', name: 'jta', version: '1.1', ext: 'jar'
-    compile group: 'axis', name: 'axis', version: '1.4', ext: 'jar'
-    compile group: 'axis', name: 'axis-jaxrpc', version: '1.4', ext: 'jar'
-    compile group: 'ant', name: 'ant', version: '1.6.5', ext: 'jar'
-    compile group: 'jotm', name: 'jotm', version: '2.0.10', ext: 'jar'
-    compile group: 'jotm', name: 'jotm_iiop_stubs', version: '2.0.10', ext: 'jar'
-    compile group: 'org.objectweb.carol', name: 'carol', version: '2.2.10', ext: 'jar'
-    compile group: 'org.objectweb.carol', name: 'carol-iiop-delegate', version: '2.2.10', ext: 'jar'
-    compile group: 'apache-avalon', name: 'avalon-framework', version: '4.1.5', ext: 'jar'
-    compile group: 'wsdl4j', name: 'wsdl4j', version: '1.5.1', ext: 'jar'
+    compile(ivyDependencies('compile'))
     compile project(':libs:CoadunationBase')
     compile project(':libs:CoadunationAnnotations')
     compile project(':libs:CoadunationClient')
@@ -74,3 +62,17 @@ build.dependsOn {
     [jar, uploadArchives]
 }
 release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
+

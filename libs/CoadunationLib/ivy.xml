@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+    <info module="CoadunationLib" organisation="CoadunationLib" revision="1.0"/>
+    <configurations>
+        <conf name="compile"/>
+        <conf name="runtime"/>
+        <conf name="compile-test"/>
+        <conf name="runtime-test"/>
+    </configurations>
+
+    <dependencies >
+        <dependency org="log4j" name="log4j" rev="1.2.14"/>
+        <dependency org="jacorb" name="jacorb" rev="2.3.0jboss.patch5-brew"/>
+        <dependency org="org.apache.httpcomponents" name="httpcore" rev="4.1-beta2"/>
+        <dependency org="javax.transaction" name="jta" rev="1.1"/>
+        <dependency org="axis" name="axis" rev="1.4"/>
+        <dependency org="axis" name="axis-jaxrpc" rev="1.4"/>
+        <dependency org="ant" name="ant" rev="1.6.5"/>
+        <dependency org="jotm" name="jotm" rev="2.0.10">
+            <exclude org="javax.jts" name="jts"/>
+        </dependency>
+        <dependency org="jotm" name="jotm_iiop_stubs" rev="2.0.10"/>
+        <dependency org="org.objectweb.carol" name="carol" rev="2.2.10"/>
+        <dependency org="org.objectweb.carol" name="carol-iiop-delegate" rev="2.2.10"/>
+        <dependency org="apache-avalon" name="avalon-framework" rev="4.1.5"/>
+        <dependency org="wsdl4j" name="wsdl4j" rev="1.5.1"/>
+    </dependencies>
+
+</ivy-module>
