@@ -40,6 +40,9 @@ import org.apache.log4j.Logger;
 // coadunation imports
 import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.Session;
+import com.rift.coad.rdf.semantic.SessionManagerBuilder;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * This class sets up a hibernate SessionFactory.
@@ -88,10 +91,15 @@ public class SemanticUtil implements XAResource {
             timeout = (int)coadConfig.getLong(TRANSACTION_TIMEOUT,
                     DEFAULT_TRANSACTION_TIMEOUT);
 
+            // ket the key set
+            Set keys = coadConfig.getKeys();
+            Properties properties = new Properties();
+            for (Object key : keys) {
+                properties.put(key, coadConfig.getString((String)key));
+            }
+            
             // instanciate the session manager
-            this.sessionManager = com.rift.coad.rdf.semantic.config.SDB.
-                    initSessionManager(coadConfig.getString(RDF_CONFIG_URL),
-                    coadConfig.getString(SDB_CONFIG_FILE));
+            this.sessionManager = SessionManagerBuilder.createManager(properties);
         } catch (Throwable ex) {
             log.error("Initial SessionManager " +
                     "creation failed: " + ex.getMessage(),ex);

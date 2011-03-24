@@ -43,4 +43,5 @@ include 'libs:CoadunationBase',
 	'web:CoadunationDesktop',
 	'web:FileManager',
 	'rdf:Semantics',
+        'rdf:CoadunationSemantics',
 	'release'
