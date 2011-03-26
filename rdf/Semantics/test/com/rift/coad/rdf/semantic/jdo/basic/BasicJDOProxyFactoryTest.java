@@ -96,10 +96,12 @@ public class BasicJDOProxyFactoryTest {
         Object expResult = null;
         TestBaseObject testBase = BasicJDOProxyFactory.createJDOProxy(
                 type, persistanceSession, persistanceResource, ontologySession);
+        System.out.println(testBase.toString());
         assertEquals(1, testBase.getCount());
         assertEquals("testbase1", testBase.getName());
 
         System.out.println(testBase.getSubObject().getDub());
+        System.out.println(testBase.toString());
         //assertEquals(2.2, testBase.getSubObject().getDub());
         testBase.getSubObject().setDub(3.3);
         System.out.println(testBase.getSubObject().getDub());
@@ -124,6 +126,7 @@ public class BasicJDOProxyFactoryTest {
                 ontologySession);
 
         System.out.println("RDF XML [" + persistanceSession.dumpXML() + "]");
+
     }
 
 }

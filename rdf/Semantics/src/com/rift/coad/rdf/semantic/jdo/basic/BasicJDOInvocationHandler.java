@@ -48,6 +48,8 @@ import java.util.List;
 import java.util.Map;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import net.sf.cglib.core.Signature;
+import net.sf.cglib.core.ReflectUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -67,6 +69,7 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
     private OntologyClass ontologyClass;
     private BasicJDOResourceInvocationHandler resourceInvocationHandler;
     private Map<String,Object> checkMap = new HashMap<String,Object>();
+    private Object ref;
 
     /**
      * The constructor of the basic jdo invocation handler.
@@ -98,6 +101,28 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
         }
     }
 
+
+    /**
+     * This method is used to init the object. This is done by calling all the getters.
+     *
+     * @param ref The reference to the object to init.
+     */
+    public void initObject(Object ref) {
+        try {
+            for (MethodInfo method : classInfo.getGetters()) {
+                Method methodRef = method.getMethodRef();
+                if (ClassTypeInfo.isBasicType(methodRef.getReturnType())) {
+                    methodRef.invoke(ref, new Object[0]);
+                }
+            }
+        } catch (Exception ex) {
+            log.error("Failed to initialize the object "
+                    + "because : " + ex.getMessage(), ex);
+            throw new BasicJDOException("Failed to initialize the object "
+                    + "because : " + ex.getMessage(), ex);
+        }
+    }
+
     
     /**
      * This method is responsible to handling the invocation request.
@@ -114,7 +139,7 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
             if (!typeHasMethod(method)) {
                 return invokeResource(method, args);
             } else {
-                return invokeObject(proxy, method, args);
+                return invokeObject(obj, proxy, method, args);
             }
         } catch (InvocationTargetException ex) {
             throw ex.getTargetException();
@@ -136,7 +161,7 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
      * @return The returns of the call.
      * @throws Throwable
      */
-    private Object invokeObject(Object proxy, Method method, Object[] args) 
+    private Object invokeObject(Object obj, MethodProxy proxy, Method method, Object[] args)
             throws Throwable, InvocationTargetException {
         try {
             MethodInfo info = new MethodInfo(method, classInfo.getNamespace());
@@ -145,14 +170,15 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
                     info.getNamespace(), info.getLocalName());
             PersistanceProperty property = resource.getProperty(identifier);
             if (info.isGetter()) {
-                return getResult(info, args);
+                return getResult(obj,proxy,info, args);
             } else if (info.isSetter()) {
                 Object value = args[0];
-                persistObject(value, info,resource, identifier,ontologyClass);
+                persistObject(obj,proxy, method, args, value, info,resource,
+                        identifier,ontologyClass);
                 return null;
+            } else {
+                return proxy.invokeSuper(obj, args);
             }
-
-            return null;
         } catch (InvocationTargetException ex) {
             throw ex;
         } catch (Throwable ex) {
@@ -191,7 +217,7 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
      * @return The result object retrieved.
      * @throws BasicJDOException
      */
-    public Object getResult(MethodInfo info, Object[] args)
+    public Object getResult(Object obj, MethodProxy proxy, MethodInfo info, Object[] args)
             throws BasicJDOException, InvocationTargetException {
         try {
             Class classType = info.getMethodRef().getReturnType();
@@ -199,7 +225,7 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
                     info.getNamespace(), info.getLocalName());
             String methodName = generateGenericMethodName(info.getMethodRef());
             if (checkMap.containsKey(methodName)) {
-                return checkMap.get(methodName);
+                return proxy.invokeSuper(obj, args);
             }
             Object result = null;
             if (ClassTypeInfo.isBasicType(classType)) {
@@ -212,16 +238,19 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
                         getValueAsResource(), ontologySession);
             }
             checkMap.put(methodName, result);
+            MethodProxy setProxy = proxy.find(obj.getClass(),
+                    ReflectUtils.getSignature(type.getMethod("s" + methodName, 
+                    new Class[] {info.getReturnType()} )));
+            setProxy.invokeSuper(obj, new Object[] {result} );
             return result;
         } catch (BasicJDOException ex) {
             throw ex;
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             log.error("Failed to get the result because : " + ex.getMessage(),ex);
             throw new BasicJDOException
                     ("Failed to get the result because : " + ex.getMessage(),ex);
         }
     }
-
 
     /**
      * This method is called to persist an object.
@@ -233,21 +262,23 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
      * @param ontologyClass
      * @throws BasicJDOException
      */
-    private void persistObject(Object value, MethodInfo info,
-            PersistanceResource resource, PersistanceIdentifier identifier,
+    private void persistObject(Object obj, MethodProxy proxy, Method method, Object[] args,
+            Object value, MethodInfo info, PersistanceResource resource, PersistanceIdentifier identifier,
             OntologyClass ontologyClass) throws BasicJDOException, InvocationTargetException {
         try {
             String methodName = generateGenericMethodName(info.getMethodRef());
-            checkMap.remove(methodName);
             Class type = value.getClass();
             if (ClassTypeInfo.isBasicType(type)) {
                 persistBasicType(value, info, resource, identifier,
                         ontologyClass);
+                proxy.invokeSuper(obj, args);
             } else if (type.isArray()) {
                 throw new BasicJDOException("The array type is not supported");
             } else if (ClassTypeInfo.isCollection(type)) {
+                checkMap.remove(methodName);
                 persistCollection(value, info, resource, identifier, ontologyClass);
             } else {
+                checkMap.remove(methodName);
                 BasicJDOPersistanceHandler handler =
                             new BasicJDOPersistanceHandler(value, persistanceSession,
                             ontologySession);
@@ -258,7 +289,7 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
             throw ex;
         } catch (BasicJDOException ex) {
             throw ex;
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             log.error("Failed to persist the object : "
                     + ex.getMessage(), ex);
             throw new BasicJDOException(

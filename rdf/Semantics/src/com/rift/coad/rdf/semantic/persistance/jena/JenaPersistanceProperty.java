@@ -391,7 +391,9 @@ public class JenaPersistanceProperty implements PersistanceProperty {
                 throw new PersistanceException("The property [" +
                         property.getURI() + "]has not been set.");
             } else {
-                return (Calendar)statement.getLiteral().getValue();
+                com.hp.hpl.jena.datatypes.xsd.XSDDateTime dateTime =
+                        (com.hp.hpl.jena.datatypes.xsd.XSDDateTime)statement.getLiteral().getValue();
+                return dateTime.asCalendar();
             }
         } catch (PersistanceException ex) {
             throw ex;

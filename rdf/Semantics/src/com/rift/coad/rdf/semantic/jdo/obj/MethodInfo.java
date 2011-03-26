@@ -90,7 +90,7 @@ public class MethodInfo {
             this.localName = propertyLocalName.value();
         }
         // attempt to search for a uri value to set things.
-        if (localName == null) {
+        if (!operator && localName == null) {
             PropertyURI propertyURI =
                 (PropertyURI)AnnotationHelper.getAnnotation(
                 methodRef.getDeclaredAnnotations(),

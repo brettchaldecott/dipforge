@@ -110,8 +110,13 @@ public class TestBaseObject {
         this.subObject = subObject;
     }
 
+    @Override
+    public String toString() {
+        return "TestBaseObject{" + "name=" + name + "count=" + count + "subObject=" + subObject + "listObjects=" + listObjects + '}';
+    }
 
 
 
+    
 
 }

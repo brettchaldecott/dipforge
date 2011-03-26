@@ -64,9 +64,8 @@ public class BasicJDOProxyFactory {
                 BasicJDOInvocationHandler handler = new
                     BasicJDOInvocationHandler(type, persistanceSession,resource,
                     ontologySession);
-
                 result = (T)Enhancer.create(type, new Class[] {Resource.class}, handler);
-
+                handler.initObject(result);
             }
             return result;
         } catch (Exception ex) {
