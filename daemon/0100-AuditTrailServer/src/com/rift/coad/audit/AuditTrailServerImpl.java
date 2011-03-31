@@ -22,6 +22,8 @@
 package com.rift.coad.audit;
 
 // java imports
+import com.rift.coad.audit.dao.LogEntryDAO;
+import com.rift.coad.audit.dto.LogEntry;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ArrayList;
@@ -31,11 +33,10 @@ import org.apache.log4j.Logger;
 
 // coaduantion imports
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
-import com.rift.coad.rdf.objmapping.inventory.Host;
-import com.rift.coad.rdf.objmapping.service.SoftwareService;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
+import com.rift.coad.rdf.types.network.Host;
+import com.rift.coad.rdf.types.network.Service;
 
 /**
  * The audit trail server.
@@ -65,13 +66,13 @@ public class AuditTrailServerImpl implements AuditTrailServer {
             Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/inventory#Host> . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/inventory#Hostname> ?Hostname . } " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Host> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?Hostname . } " +
                     "ORDER BY ?Hostname").execute();
             List<String> result = new ArrayList<String>();
             for (SPARQLResultRow entry : entries) {
                 System.out.println("Looping through the results");
-                result.add(entry.get(0).cast(Host.class).getHostname());
+                result.add(entry.get(Host.class, 0).getName());
             }
             return result;
         } catch (Exception ex) {
@@ -94,14 +95,13 @@ public class AuditTrailServerImpl implements AuditTrailServer {
             Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/service#SoftwareService> . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/service#SoftwareHostname> ?hostname . " +
-                    "FILTER (?hostname = ${hostname}) } ").setString("hostname", host)
-                    .execute();
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Service> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?ServiceName. } " +
+                    "ORDER BY ?ServiceName").execute();
             List<String> result = new ArrayList<String>();
             for (SPARQLResultRow entry : entries) {
                 try {
-                    result.add(entry.get(0).cast(SoftwareService.class).getName());
+                    result.add(entry.get(Service.class,0).getName());
                 } catch(Exception ex) {
                     log.error("Failed to find an entry : " + ex.getMessage(),ex);
                     // ignore
@@ -125,14 +125,18 @@ public class AuditTrailServerImpl implements AuditTrailServer {
     public List<LogEntry> queryAuditTrail(AuditTrailFilter filter) throws AuditTrailException {
         try {
             StringBuffer queryStr = new StringBuffer();
-            queryStr.append("SELECT ?s WHERE { ?s a <http://www.coadunation.net/schema/rdf/1.0/audit#LogEntry> . ").
-                    append("?s <http://www.coadunation.net/schema/rdf/1.0/audit#CorrelationId> ?CorrelationId . ").
-                    append("?s <http://www.coadunation.net/schema/rdf/1.0/audit#ExternalId> ?ExternalId . ").
-                    append("?s <http://www.coadunation.net/schema/rdf/1.0/audit#Hostname> ?Hostname . ").
-                    append("?s <http://www.coadunation.net/schema/rdf/1.0/audit#Status> ?Status . ").
-                    append("?s <http://www.coadunation.net/schema/rdf/1.0/audit#Source> ?Source . ").
-                    append("?s <http://www.coadunation.net/schema/rdf/1.0/audit#User> ?User .  ").
-                    append("?s <http://www.coadunation.net/schema/rdf/1.0/audit#Time> ?Time . ");
+            queryStr.append("SELECT ?s WHERE {").
+                    append("?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#LogEntry> . ").
+                    append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#CorrelationId> ?CorrelationId . ").
+                    append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#ExternalId> ?ExternalId . ").
+                    append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Host> ?Host . ").
+                    append("?Host <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?Hostname . ").
+                    append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Status> ?Status . ").
+                    append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Service> ?Service . ").
+                    append("?Service <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?Source . ").
+                    append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#User> ?User .  ").
+                    append("?User <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Operation#Name> ?UserName .  ").
+                    append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Time> ?Time . ");
 
             StringBuffer sparqlFilter = new StringBuffer();
 
@@ -163,7 +167,7 @@ public class AuditTrailServerImpl implements AuditTrailServer {
                 sep = "&&";
             }
             if (!filter.getUser().equals("")) {
-                sparqlFilter.append(sep).append(" ?User = \"").
+                sparqlFilter.append(sep).append(" ?UserName = \"").
                         append(filter.getUser()).append("\" ");
                 sep = "&&";
             }
@@ -184,8 +188,10 @@ public class AuditTrailServerImpl implements AuditTrailServer {
                     createSPARQLQuery(queryStr.toString()).execute();
             List<LogEntry> result = new ArrayList<LogEntry>();
             for (SPARQLResultRow row : entries) {
-                System.out.println("Retrieve the log entry");
-                result.add(row.get(0).cast(LogEntry.class));
+                LogEntryDAO dao = row.get(LogEntryDAO.class, 0);
+                result.add(new LogEntry(dao.getId(), dao.getHost().getName(),dao.getService().getName(),
+                        dao.getUser().getName(), dao.getTime(), dao.getStatus(),dao.getCorrelationId(),
+                        dao.getExternalId(),dao.getRequest()));
             }
             return result;
         } catch (Exception ex) {

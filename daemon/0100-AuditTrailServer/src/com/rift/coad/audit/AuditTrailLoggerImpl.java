@@ -22,15 +22,14 @@
 package com.rift.coad.audit;
 
 // rmi imports
+import com.rift.coad.audit.dao.LogEntryDAO;
+import com.rift.coad.audit.dto.LogEntry;
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import java.rmi.RemoteException;
 
 // log4j imports
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
-
-// coadunation imports
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
 
 // java imports
 import java.rmi.RemoteException;
@@ -39,13 +38,13 @@ import java.rmi.RemoteException;
 import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
-import com.rift.coad.rdf.objmapping.constants.RDFUri;
-import com.rift.coad.rdf.objmapping.inventory.Host;
-import com.rift.coad.rdf.objmapping.service.SoftwareService;
 import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
 import com.rift.coad.rdf.semantic.session.UnknownEntryException;
+import com.rift.coad.rdf.types.network.Host;
+import com.rift.coad.rdf.types.network.Service;
+import com.rift.coad.rdf.types.operation.User;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,22 +83,10 @@ public class AuditTrailLoggerImpl implements AuditTrailLogger, BeanRunnable {
     public void logEvent(LogEntry entry) throws RemoteException {
         try {
             Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
-            Resource host = null;
-            try {
-                host = session.getResource(Host.class, new Host(), entry.getHostname());
-            } catch (UnknownEntryException ex) {
-                host = session.persist(new Host(entry.getHostname()));
-            }
-            Resource softwareService = null;
-            try {
-                softwareService = session.getResource(SoftwareService.class, new SoftwareService(),
-                        new SoftwareService(entry.getHostname(),entry.getSource()).getId());
-            } catch (UnknownEntryException ex) {
-                softwareService = session.persist(new SoftwareService(entry.getHostname(),entry.getSource()));
-            }
-            Resource entryResource = session.persist(entry);
-            entryResource.addProperty(RDFUri.ASSOCIATED_URI, host);
-            entryResource.addProperty(RDFUri.ASSOCIATED_URI, softwareService);
+            session.persist(new LogEntryDAO(entry.getId(), new Host(entry.getHostname()),
+                    new Service(entry.getSource()), new User(entry.getUser()),
+                    entry.getTime(), entry.getStatus(), entry.getCorrelationId(), entry.getExternalId(),
+                    entry.getRequest()));
         } catch (Exception ex) {
             log.error("Failed to persist the log event : " + ex.getMessage(),ex);
             throw new RemoteException(

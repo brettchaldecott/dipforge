@@ -23,7 +23,7 @@
 package com.rift.coad.audit.webservice;
 
 // java imports
-import com.rift.coad.rdf.objmapping.base.DataType;
+import com.rift.coad.audit.dto.LogEntry;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -70,9 +70,8 @@ public class AuditTrailLoggerImpl implements AuditTrailLogger {
         try {
             com.rift.coad.audit.AuditTrailLogger logger = (com.rift.coad.audit.AuditTrailLogger)ConnectionManager.getInstance().
                     getConnection(com.rift.coad.audit.AuditTrailLogger.class, "java:comp/env/bean/audit/AuditTrailLogger");
-            logger.logEvent(new com.rift.coad.rdf.objmapping.audit.LogEntry(
-                    hostname, source, user, new Date(),status, correlationId, externalId, request,
-                    new ArrayList<DataType>()));
+            logger.logEvent(new LogEntry(
+                    hostname, source, user, status, new Date(), correlationId, externalId, request));
         } catch (Exception ex) {
             log.error("Failed to log the audit trail event : " + ex.getMessage(),ex);
             throw throwAuditTrailException(

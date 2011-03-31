@@ -24,6 +24,7 @@
 package com.rift.coad.audit;
 
 // java imports
+import com.rift.coad.audit.dto.LogEntry;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -31,7 +32,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 // coadunation imports
-import com.rift.coad.rdf.objmapping.audit.LogEntry;
 import com.rift.coad.util.connection.ConnectionManager;
 
 /**
