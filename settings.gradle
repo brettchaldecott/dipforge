@@ -44,4 +44,7 @@ include 'libs:CoadunationBase',
 	'web:FileManager',
 	'rdf:Semantics',
         'rdf:CoadunationSemantics',
+        'rdf:CommonTypes',
+        'client:AuditTrail',
+        'daemon:0100-AuditTrailServer',
 	'release'
