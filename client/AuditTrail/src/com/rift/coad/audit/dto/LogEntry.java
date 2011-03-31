@@ -50,17 +50,19 @@ public class LogEntry implements Serializable {
     private String hostname;
     private String source;
     private String user;
-    private Date time = new Date();
+    private Date time;
     private String status;
-    private String correlationId = "";
-    private String externalId = "";
+    private String correlationId;
+    private String externalId;
     private String request;
-    private List<Serializable> associated = new ArrayList<Serializable>();
 
     /**
      * The default constructor.
      */
     public LogEntry() {
+        time = new Date();
+        correlationId = "";
+        externalId = "";
         try {
             id = RandomGuid.getInstance().getGuid();
         } catch (Exception ex) {
@@ -85,6 +87,7 @@ public class LogEntry implements Serializable {
      */
     public LogEntry(String source, String status, String user,
             String correlationId, String externalId, String request) {
+        time = new Date();
         try {
             id = RandomGuid.getInstance().getGuid();
         } catch (Exception ex) {
@@ -105,20 +108,18 @@ public class LogEntry implements Serializable {
 
 
     /**
-     * The constructor that sets all internal member variables.
      *
-     * @param hostname The name of the host that the request came from.
-     * @param source The string containing the source object information.
-     * @param user The name of the user.
-     * @param time The time the event occurred.
-     * @param status The status of the event.
-     * @param correlationId The correlation id to attache the log entries together.
-     * @param externalId The external id.
-     * @param request The request.
+     * @param hostname
+     * @param source
+     * @param status
+     * @param user
+     * @param time
+     * @param correlationId
+     * @param externalId
+     * @param request
      */
-    public LogEntry(String hostname, String source, String user, Date time,
-            String status, String correlationId, String externalId, String request,
-            List<Serializable> associated) {
+    public LogEntry(String hostname, String source, String status, String user,
+            Date time,String correlationId, String externalId, String request) {
         try {
             id = RandomGuid.getInstance().getGuid();
         } catch (Exception ex) {
@@ -132,10 +133,36 @@ public class LogEntry implements Serializable {
         this.correlationId = correlationId;
         this.externalId = externalId;
         this.request = request;
-        this.associated = associated;
     }
 
 
+    /**
+     * This constructor that populates all values.
+     *
+     * @param id The id.
+     * @param hostname The hostname
+     * @param source The source.
+     * @param user The user.
+     * @param time The time.
+     * @param status The status.
+     * @param correlationId The correlation id.
+     * @param externalId The external id.
+     * @param request The request.
+     */
+    public LogEntry(String id, String hostname, String source, String user,
+            Date time, String status, String correlationId, String externalId, String request) {
+        this.id = id;
+        this.hostname = hostname;
+        this.source = source;
+        this.user = user;
+        this.time = time;
+        this.status = status;
+        this.correlationId = correlationId;
+        this.externalId = externalId;
+        this.request = request;
+    }
+    
+    
     /**
      * This method gets the id of the of the log entry.
      *
@@ -317,26 +344,6 @@ public class LogEntry implements Serializable {
 
 
     /**
-     * Theis method retrieves the objects associated with this audit trail event.
-     *
-     * @return The data object associaited with this.
-     */
-    public List<Serializable> getAssociated() {
-        return associated;
-    }
-
-
-    /**
-     * This method sets the objects associated with this audit entry.
-     *
-     * @param associated The associated audit entry objects.
-     */
-    public void setAssociated(List<Serializable> associated) {
-        this.associated = associated;
-    }
-    
-    
-    /**
      * This method performs an equals check on the log entry.
      * 
      * @param obj The object to perform the equals check on.
@@ -378,8 +385,8 @@ public class LogEntry implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s %s %s \"%s\" %s%n", hostname,source,user,time.toString(),
-                status,correlationId,externalId,request, this.associated.toString());
+        return String.format("%s %s %s %s %s %s %s \"%s\"%n", hostname,source,user,time.toString(),
+                status,correlationId,externalId,request);
     }
 
 

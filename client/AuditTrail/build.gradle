@@ -24,6 +24,7 @@ dependencies {
     compile project(':libs:CoadunationAnnotations')
     compile project(':libs:CoadunationCommon')
     compile project(':libs:CoadunationUtil')
+    compile project(':libs:CoadunationLib')
     compile project(':client:MessageServiceClient')
 }
 
