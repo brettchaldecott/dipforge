@@ -19,42 +19,38 @@
  * Service.java
  */
 
+package com.rift.coad.rdf.types.operation;
 
-package com.rift.coad.rdf.types.network;
-
-// imports
 import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
 
 /**
- * This class represents a service.
+ * The user object.
  *
  * @author brett chaldecott
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network")
-@LocalName("Service")
-public class Service {
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/Operation")
+@LocalName("User")
+public class User {
 
     // private member variables
     private String name;
     private String description;
 
-
     /**
-     * The default constructor
+     * The constructor.
      */
-    public Service() {
+    public User() {
     }
 
-
     /**
-     * This method sets the service name.
-     *
-     * @param name The name of the service.
+     * The constructor that sets the user name information.
+     * 
+     * @param name The name
      */
-    public Service(String name) {
+    public User(String name) {
         this.name = name;
     }
 
@@ -64,19 +60,19 @@ public class Service {
     /**
      * This constructor sets up all the internal values.
      *
-     * @param name The name of the service.
-     * @param description The description of the service.
+     * @param name
+     * @param description
      */
-    public Service(String name, String description) {
+    public User(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
 
     /**
-     * This method returns the description of the object.
+     * This method returns the description.
      *
-     * @return The string containing the description of the object.
+     * @return The description of the object.
      */
     @PropertyLocalName("Description")
     public String getDescription() {
@@ -85,9 +81,9 @@ public class Service {
 
 
     /**
-     * This method returns the description of the object.
+     * This method sets the description
      *
-     * @param description The description.
+     * @param description The description
      */
     @PropertyLocalName("Description")
     public void setDescription(String description) {
@@ -96,9 +92,9 @@ public class Service {
 
 
     /**
-     * This method returns the name of the service.
+     * This method gets the name of the user.
      *
-     * @return The string containing the name of the service.
+     * @return The name of the user.
      */
     @Identifier()
     @PropertyLocalName("Name")
@@ -108,9 +104,9 @@ public class Service {
 
 
     /**
-     * The setter for the name of the service.
-     *
-     * @param name The name of the service.
+     * This method sets the name.
+     * 
+     * @param name This method sets the name.
      */
     @PropertyLocalName("Name")
     public void setName(String name) {
@@ -119,9 +115,9 @@ public class Service {
 
 
     /**
-     * This method returns true if the values are equal.
+     * This method returns true if the object equal.
      *
-     * @param obj The object to perform the equals comparison on.
+     * @param obj The objects are equal.
      * @return TRUE if equal, FALSE if not.
      */
     @Override
@@ -132,11 +128,8 @@ public class Service {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Service other = (Service) obj;
+        final User other = (User) obj;
         if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
             return false;
         }
         return true;
@@ -144,31 +137,29 @@ public class Service {
 
 
     /**
-     * This method returns the hash code for the object.
-     *
-     * @return The hash code for the object.
+     * This method returns the hash code for the user.
+     * 
+     * @return The hash code for this object.
      */
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + (this.name != null ? this.name.hashCode() : 0);
-        hash = 59 * hash + (this.description != null ? this.description.hashCode() : 0);
+        int hash = 7;
+        hash = 17 * hash + (this.name != null ? this.name.hashCode() : 0);
         return hash;
     }
 
 
     /**
-     * This method returns the string value of the object.
+     * This method returns the string.
      *
-     * @return
+     * @return The string.
      */
     @Override
     public String toString() {
-        return "Service{" + "name=" + name + "description=" + description + '}';
+        return "User{" + "name=" + name + "description=" + description + '}';
     }
 
 
     
-
 
 }

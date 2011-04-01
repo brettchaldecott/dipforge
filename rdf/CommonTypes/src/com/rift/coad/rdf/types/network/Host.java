@@ -48,6 +48,28 @@ public class Host {
     public Host() {
     }
 
+    /**
+     * Set the host name.
+     * 
+     * @param name The host name.
+     */
+    public Host(String name) {
+        this.name = name;
+    }
+
+
+    /**
+     * Set all internal member variables.
+     *
+     * @param name The name of the host.
+     * @param description The description of the host.
+     */
+    public Host(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+
     
     /**
      * This method returns the description
