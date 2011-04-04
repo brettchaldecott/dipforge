@@ -38,6 +38,7 @@ import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import com.rift.coad.audit.AuditTrailLoggerAsync;
 import com.rift.coad.audit.Constants;
 import com.rift.coad.audit.dto.LogEntry;
+import com.rift.coad.daemon.messageservice.MessageSession;
 import com.rift.coad.lib.security.SessionManager;
 
 /**
@@ -88,56 +89,45 @@ public class AuditLogger {
     /**
      * This method is called to addd an audit event for a completed task.
      *
-     * @param correlationId The id for the correlation of audit entries.
-     * @param externalId The external id.
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void complete(String correlationId, String externalId, String format, String... args) {
-        log(source, LogEntry.Status.COMPLETE,
-            correlationId, externalId, String.format(format, (Object[])args));
+    public void complete(String format, String... args) {
+        log(source, LogEntry.Status.COMPLETE,String.format(format, (Object[])args));
     }
 
 
     /**
      * This method is called to add an audit entry of type info.
      *
-     * @param correlationId The id for the correlation of audit entries.
-     * @param externalId The external id.
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void info(String correlationId, String externalId, String format, String... args) {
-        log(source, LogEntry.Status.INFO,
-            correlationId, externalId, String.format(format, (Object[])args));
+    public void info(String format, String... args) {
+        log(source, LogEntry.Status.INFO,String.format(format, (Object[])args));
     }
 
 
     /**
      * This method is called to add an audit entry of type failure.
      *
-     * @param correlationId The id for the correlation of audit entries.
-     * @param externalId The external id.
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void failure(String correlationId, String externalId, String format, String... args) {
-        log(source, LogEntry.Status.FAILURE,
-            correlationId, externalId, String.format(format, (Object[])args));
+    public void failure(String format, String... args) {
+        log(source, LogEntry.Status.FAILURE, String.format(format, (Object[])args));
     }
 
 
     /**
      * This method is called to add an audit entry of type critical.
      *
-     * @param correlationId The id for the correlation of audit entries.
-     * @param externalId The external id.
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void critical(String correlationId, String externalId, String format, String... args) {
+    public void critical(String format, String... args) {
         log(source, LogEntry.Status.CRITICAL_FAILURE,
-            correlationId, externalId, String.format(format, (Object[])args));
+                String.format(format, (Object[])args));
     }
     
     
@@ -150,9 +140,21 @@ public class AuditLogger {
      * @param externalId The external id.
      * @param request The request id.
      */
-    private void log(String source, LogEntry.Status status,
-            String correlationId, String externalId, String request) {
+    private void log(String source, LogEntry.Status status, String request) {
         try {
+            MessageSession messageSession = MessageSession.getMessageSession();
+            String correlationId = "";
+            String externalId = "";
+            if (messageSession != null) {
+                if (messageSession.getMessage().getCorrelationId() != null) {
+                    correlationId =
+                            messageSession.getMessage().getCorrelationId();
+                }
+                if (null != messageSession.getMessage().getStringProperty(Constants.EXTENAL_ID)) {
+                    externalId =
+                            messageSession.getMessage().getStringProperty(Constants.EXTENAL_ID);
+                }
+            }
             String user = "Unknown";
             try {
                 user = SessionManager.getInstance().getSession().getUser().getName();
@@ -163,9 +165,7 @@ public class AuditLogger {
             services.add(Constants.SERVICE);
             AuditTrailLoggerAsync logger = (AuditTrailLoggerAsync)RPCMessageClient.createOneWay(
                     source, AuditTrailLogger.class, AuditTrailLoggerAsync.class, services, false);
-            logger.logEvent(new LogEntry(source,status.name(),user,
-                    correlationId == null? "" : correlationId,
-                    externalId == null? "" : externalId,request));
+            logger.logEvent(new LogEntry(source,status.name(),user,correlationId,externalId,request));
         } catch (Throwable ex) {
             log.error("Failed to log an event : " + ex.getMessage(),ex);
         }

@@ -31,4 +31,10 @@ public class Constants {
      * The name of the service that will bound to the service broker.
      */
     public final static String SERVICE = "AUDIT_TRAIL";
+
+
+    /**
+     * The key that identifies the external id in the message session.
+     */
+    public final static String EXTENAL_ID = "EXTERNAL_ID";
 }
