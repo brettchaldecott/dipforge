@@ -37,7 +37,11 @@ import com.rift.coad.daemon.messageservice.Producer;
 import com.rift.coad.daemon.messageservice.MessageProducer;
 import com.rift.coad.daemon.messageservice.RPCMessage;
 import com.rift.coad.daemon.messageservice.Message;
+import com.rift.coad.daemon.messageservice.MessageHeader;
+import com.rift.coad.daemon.messageservice.message.state.MessageHeaderImpl;
 import com.rift.coad.util.connection.ConnectionManager;
+import java.util.Enumeration;
+import java.util.Properties;
 
 /**
  * This object handles the creation of a RPC message.
@@ -59,6 +63,10 @@ public class RPCMessageHandler implements InvocationHandler {
     private boolean broadcast = false;
     private String correlationId = null;
     private boolean usedCorrelationId = false;
+
+    {
+        MessageHeaderImpl.initMessageHeader();
+    }
     
     /** 
      * Creates a new instance of RPCMessageHandler 
@@ -276,7 +284,16 @@ public class RPCMessageHandler implements InvocationHandler {
             message.defineMethod(targetMethod.getReturnType(),
                     method.getName(),method.getParameterTypes());
             message.setArguments(args);
-            
+
+            // set the propeties on the message using the message header.
+            Properties headerProperties =
+                    ((MessageHeaderImpl)MessageHeader.getMessageHeader()).
+                    getProperties();
+            Enumeration keys = headerProperties.propertyNames();
+            for (;keys.hasMoreElements();) {
+                String key = (String)keys.nextElement();
+                message.setPropertyValue(key, headerProperties.getProperty(key));
+            }
             producer.submit(message);
             return message.getMessageId();
         } catch (Exception ex) {
