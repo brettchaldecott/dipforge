@@ -42,6 +42,7 @@ import com.rift.coad.daemon.messageservice.message.MessageImpl;
 import com.rift.coad.daemon.messageservice.message.RPCMessageImpl;
 import com.rift.coad.daemon.messageservice.message.MessageManagerImpl;
 import com.rift.coad.daemon.messageservice.message.MessageManagerFactory;
+import com.rift.coad.daemon.messageservice.message.state.MessageSessionImpl;
 import com.rift.coad.daemon.messageservice.named.NamedMemoryQueue;
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import com.rift.coad.lib.common.RandomGuid;
@@ -926,9 +927,10 @@ public class MessageProcessor extends InterceptorWrapper implements Task  {
                         (RPCMessageImpl)((RPCMessageImpl)message).clone();
                 Method method = ref.getClass().getMethod(rpcMessageImpl.getMethodName(),
                         rpcMessageImpl.getArgumentTypes());
+                MessageSessionImpl.initMessageSession(message);
                 Object result = method.invoke(ref,rpcMessageImpl.getArguments());
                 ((RPCMessage)message).setResult(result);
-                
+                MessageSessionImpl.resetMessageSession();
                 // reset the class loader
                 if (original != null) {
                     Thread.currentThread().setContextClassLoader(original);
@@ -937,6 +939,7 @@ public class MessageProcessor extends InterceptorWrapper implements Task  {
             } catch (Throwable ex) {
                 log.error("Caught an exception : "
                         + ex.getMessage(),ex);
+                MessageSessionImpl.resetMessageSession();
                 // reset the class loader
                 if (original != null) {
                     Thread.currentThread().setContextClassLoader(original);
@@ -1053,7 +1056,7 @@ public class MessageProcessor extends InterceptorWrapper implements Task  {
                 original = Thread.currentThread().getContextClassLoader();
                 Thread.currentThread().setContextClassLoader(
                         ref.getClass().getClassLoader());
-                
+                MessageSessionImpl.initMessageSession(message);
                 // cast the rpc message
                 rpcMessage = (RPCMessage)message;
                 
@@ -1077,10 +1080,12 @@ public class MessageProcessor extends InterceptorWrapper implements Task  {
                     rpcMessage.getCorrelationId(),
                     rpcMessage.getResult()});
                 }
+                MessageSessionImpl.resetMessageSession();
             } catch (Throwable ex) {
                 log.error("Caught an exception : "
                         + ex.getMessage(),ex);
                 // reset the class loader
+                MessageSessionImpl.resetMessageSession();
                 if (original != null) {
                     Thread.currentThread().setContextClassLoader(original);
                     original = null;

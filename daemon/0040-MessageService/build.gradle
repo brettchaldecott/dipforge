@@ -22,9 +22,7 @@ configurations {
 }
 
 dependencies {
-    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
-    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
-    compile group: 'javax.transaction', name: 'jta', version: '1.1', ext: 'jar'
+    compile(ivyDependencies('compile'))
     compile project(':client:MessageServiceClient')
     compile project(':client:ServiceBrokerClient')
     compile project(':libs:CoadunationSecurity')
@@ -87,3 +85,16 @@ build.dependsOn {
     [jar, uploadArchives, copyJars]
 }
 release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}

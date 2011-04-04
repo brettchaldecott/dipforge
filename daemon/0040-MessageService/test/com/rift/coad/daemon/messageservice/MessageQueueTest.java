@@ -42,9 +42,6 @@ import javax.transaction.UserTransaction;
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 
-// object web imports
-import org.objectweb.jotm.Jotm;
-
 // coadunation imports
 import com.rift.coad.lib.naming.NamingDirector;
 import com.rift.coad.lib.naming.ContextManager;

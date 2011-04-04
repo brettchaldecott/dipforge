@@ -2,6 +2,13 @@
 <project xmlns="http://www.netbeans.org/ns/project/1">
     <type>org.netbeans.modules.java.j2seproject</type>
     <configuration>
+        <buildExtensions xmlns="http://www.netbeans.org/ns/ant-build-extender/1">
+            <extension file="ivy-impl.xml" id="ivy">
+                <dependency dependsOn="-ivy-retrieve" target="-do-init"/>
+                <dependency dependsOn="-ivy-clean" target="-post-clean"/>
+                <dependency dependsOn="-ivy-publish" target="jar"/>
+            </extension>
+        </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>0040-MessageService</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
@@ -12,6 +19,16 @@
                 <root id="test.src.dir"/>
             </test-roots>
         </data>
+        <ivyConfiguration xmlns="http://code.google.com/p/ivybeans/ns/ivy-module/1">
+            <descriptorFile>ivy.xml</descriptorFile>
+            <settingsFile>ivysettings.xml</settingsFile>
+            <configurationMapping>
+                <scope confs="compile" name="COMPILE"/>
+                <scope confs="compile,runtime" name="RUNTIME"/>
+                <scope confs="compile,compile-test" name="COMPILE_TEST"/>
+                <scope confs="compile,compile-test,runtime,runtime-test" name="RUNTIME_TEST"/>
+            </configurationMapping>
+        </ivyConfiguration>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
                 <foreign-project>CoadunationAnnotations</foreign-project>
@@ -22,7 +39,7 @@
                 <id>jar</id>
             </reference>
             <reference>
-                <foreign-project>CoadunationClient</foreign-project>
+                <foreign-project>CoadunationClient-1</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+    <info module="0040-MessageService" organisation="0040-MessageService" revision="1.0"/>
+    <configurations>
+        <conf name="compile"/>
+        <conf name="runtime"/>
+        <conf name="compile-test"/>
+        <conf name="runtime-test"/>
+    </configurations>
+    <dependencies>
+        <dependency org="javax.transaction" name="jta" rev="1.1" />
+        <dependency org="log4j" name="log4j" rev="1.2.14"/>
+        <dependency org="org.hibernate" name="hibernate-core" rev="3.5.1-Final"/>
+    </dependencies>
+</ivy-module>
