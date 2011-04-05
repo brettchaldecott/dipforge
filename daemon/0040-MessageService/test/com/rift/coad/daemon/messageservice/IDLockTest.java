@@ -40,9 +40,6 @@ import com.rift.coad.util.transaction.TransactionManager;
 // junit imports
 import junit.framework.*;
 
-// object web imports
-import org.objectweb.jotm.Jotm;
-
 // coadunation imports
 import com.rift.coad.lib.naming.NamingDirector;
 import com.rift.coad.lib.naming.ContextManager;
