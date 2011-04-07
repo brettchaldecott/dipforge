@@ -1,2 +1,5 @@
 The dipforge project
 
+This project is released under LGPL and was orgininaly called Coadunation. It
+is currently going through a very serious code rework in order to improve its
+design. A re-release is tentatively scheduled for the third quarter of 2011.
