@@ -36,11 +36,13 @@ dependencies {
     compile project(':rdf:CommonTypes')
     compile project(':rdf:CoadunationSemantics')
     compile project(':rdf:Semantics')
+    compile project(':rdf:SchemaUtils')
     releaseJars(ivyDependencies('compile'))
     releaseJars project(':rdf:CommonTypes')
     releaseJars project(':rdf:CoadunationSemantics')
     releaseJars project(':rdf:Semantics')
     releaseJars project(':client:AuditTrail')
+    releaseJars project(':rdf:SchemaUtils')
 }
 
 sourceSets {
