@@ -22,6 +22,7 @@ configurations {
 dependencies {
     compile project(':libs:CoadunationLib')
     compile project(':rdf:Semantics')
+    compile project(':rdf:SchemaUtils')
     compile(ivyDependencies('compile'))
 }
 

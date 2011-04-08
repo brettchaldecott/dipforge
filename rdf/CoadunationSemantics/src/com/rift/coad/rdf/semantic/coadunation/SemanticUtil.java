@@ -41,6 +41,10 @@ import org.apache.log4j.Logger;
 import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.SessionManagerBuilder;
+import com.rift.coad.rdf.semantic.ontology.OntologyConstants;
+import com.rift.coad.schema.util.XMLListParser;
+import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -51,7 +55,7 @@ public class SemanticUtil implements XAResource {
 
     // class constants
     public final static String RDF_CONFIG_URL = "rdf_config_url";
-    public final static String SDB_CONFIG_FILE = "sdb_config_file";
+    public final static String RDF_QUERY_URL = "rdf_query_url";
     public final static String TRANSACTION_TIMEOUT = "transaction_timeout";
     public final static int DEFAULT_TRANSACTION_TIMEOUT = 180000;
 
@@ -91,11 +95,32 @@ public class SemanticUtil implements XAResource {
             timeout = (int)coadConfig.getLong(TRANSACTION_TIMEOUT,
                     DEFAULT_TRANSACTION_TIMEOUT);
 
+            // setup the basic uri property list
+            Properties properties = new Properties();
+            StringBuffer ontologyListBuffer = new StringBuffer();
+            String sep = "";
+            if (coadConfig.containsKey(RDF_QUERY_URL)) {
+                List<URL> urls = 
+                        new XMLListParser(new URL(coadConfig.getString(RDF_QUERY_URL))).getURLs();
+                for (URL url : urls) {
+                    ontologyListBuffer.append(sep).append(url.toString());
+                    sep = ",";
+                }
+            }
+            if (coadConfig.containsKey(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
+                ontologyListBuffer.append(sep).append(coadConfig.getString(OntologyConstants.ONTOLOGY_LOCATION_URIS));
+            }
+            properties.put(OntologyConstants.ONTOLOGY_LOCATION_URIS, ontologyListBuffer.toString());
+
+
             // ket the key set
             Set keys = coadConfig.getKeys();
-            Properties properties = new Properties();
             for (Object key : keys) {
+                if (key.toString().equals(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
+                    continue;
+                }
                 properties.put(key, coadConfig.getString((String)key));
+
             }
             
             // instanciate the session manager
