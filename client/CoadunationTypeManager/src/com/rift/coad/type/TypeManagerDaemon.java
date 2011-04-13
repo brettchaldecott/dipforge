@@ -39,16 +39,6 @@ import com.rift.coad.type.dto.RDFDataType;
  */
 public interface TypeManagerDaemon extends Remote {
     /**
-     * This method adds the adds XML defined type to the store.
-     *
-     * @param xml The string containing the XML information.
-     * @throws com.rift.coad.type.TypeManagerException
-     * @throws java.rmi.RemoteException
-     */
-    public void addType(String xml) throws TypeManagerException, RemoteException;
-
-
-    /**
      * This method accepts a resource to the types definition.
      *
      * @param resource The resource definition to add to the store.
@@ -56,16 +46,6 @@ public interface TypeManagerDaemon extends Remote {
      * @throws java.rmi.RemoteException
      */
     public void addType(ResourceDefinition resource) throws TypeManagerException, RemoteException;
-
-
-    /**
-     * This method is called to update the type information.
-     *
-     * @param xml The xml containing the update information.
-     * @throws com.rift.coad.type.TypeManagerException
-     * @throws java.rmi.RemoteException
-     */
-    public void updateType(String xml) throws TypeManagerException, RemoteException;
 
 
     /**
@@ -79,16 +59,6 @@ public interface TypeManagerDaemon extends Remote {
 
 
     /**
-     * This method is called to delete a type from the store.
-     *
-     * @param xml The xml containing the information to delete
-     * @throws com.rift.coad.type.TypeManagerException
-     * @throws java.rmi.RemoteException
-     */
-    public void deleteType(String xml) throws TypeManagerException, RemoteException;
-
-
-    /**
      * This method is responsible for deleting the type.
      *
      * @param resource The resource to delete.
@@ -99,18 +69,8 @@ public interface TypeManagerDaemon extends Remote {
 
 
     /**
-     * This method returns the XML string containing all the types defined by this system.
-     * @return The string containing all the registered types
-     * @throws com.rift.coad.type.TypeManagerException
-     * @throws java.rmi.RemoteException
-     */
-    public String getTypes() throws TypeManagerException, RemoteException;
-
-
-    /**
      * This method returns the type information.
      *
-     * @param typeId The id of the type to retrieve.
      * @return The resource base object.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
@@ -129,14 +89,35 @@ public interface TypeManagerDaemon extends Remote {
     public List<RDFDataType> listTypes(String[] uri) throws TypeManagerException, RemoteException;
 
 
+
     /**
-     * This method lists the types for the given list of basic types.
+     * This method adds the adds XML defined type to the store.
      *
-     * @param basicTypes The list of basic types
-     * @return The list of strings containing the type ids.
+     * @param xml The string containing the XML information.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public List<RDFDataType> listTypesByBasicType(String[] basicTypes) throws TypeManagerException, RemoteException;
+    public void importTypes(String namespace,String xml) throws TypeManagerException, RemoteException;
+
+
+    /**
+     * The export method for the types
+     *
+     * @return The string containing the export.
+     * @param The namespace to export.
+     * @throws com.rift.coad.type.TypeManagerException
+     * @throws java.rmi.RemoteException
+     */
+    public String exportTypes(String namespace) throws TypeManagerException, RemoteException;
+
+
+    /**
+     * This method is called to drop the given name space.
+     *
+     * @param namespace The name space to drop.
+     * @throws com.rift.coad.type.TypeManagerException
+     * @throws java.rmi.RemoteException
+     */
+    public void dropTypes(String namespace) throws TypeManagerException, RemoteException;
     
 }

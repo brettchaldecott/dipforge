@@ -85,48 +85,40 @@ public interface TypeManagerMBean extends Remote {
      */
     @MethodInfo(description="This method adds a new type from the xml supplied")
     @Version(number="1.0")
-    public void addType(
+    public void importTypes(
+            @ParamInfo(name="namespace",
+            description="The namespace containing the new type.")String namespace,
             @ParamInfo(name="xml",
             description="The xml containing the new type.")String xml) throws TypeManagerException, RemoteException;
 
+    
+    /**
+     * The export method for the types
+     *
+     * @return The string containing the export.
+     * @param The namespace to export.
+     * @throws com.rift.coad.type.TypeManagerException
+     * @throws java.rmi.RemoteException
+     */
+    @MethodInfo(description="This method exports the types for the namespace.")
+    @Version(number="1.0")
+    @Result(description="The xml containing the type information.")
+    public String exportTypes(@ParamInfo(name="namespace",
+            description="The namespace containing the types.")String namespace) throws TypeManagerException, RemoteException;
+
 
     /**
-     * This method is called to update the type information.
+     * This method is called to drop the given name space.
      *
-     * @param xml The xml containing the update information.
+     * @param namespace The name space to drop.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
     @MethodInfo(description="This method updates a type from the xml supplied")
     @Version(number="1.0")
-    public void updateType(
-            @ParamInfo(name="xml",
-            description="The xml containing the updated type.")String xml)
+    public void dropTypes(
+            @ParamInfo(name="namespace",
+            description="The namespace to drop.")String namespace)
             throws TypeManagerException, RemoteException;
 
-
-    /**
-     * This method is called to delete a type from the store.
-     * @param xml The xmle containing the information to delete
-     * @throws com.rift.coad.type.TypeManagerException
-     * @throws java.rmi.RemoteException
-     */
-    @MethodInfo(description="This method deletes a type from the xml supplied")
-    @Version(number="1.0")
-    public void deleteType(
-            @ParamInfo(name="xml",
-            description="The xml containing the type to delete.")String xml)
-            throws TypeManagerException, RemoteException;
-
-
-    /**
-     * This method returns the XML string containing all the types defined by this system.
-     * @return The string containing all the registered types
-     * @throws com.rift.coad.type.TypeManagerException
-     * @throws java.rmi.RemoteException
-     */
-    @MethodInfo(description="This method dumps the complete xml.")
-    @Version(number="1.0")
-    @Result(description="The xml containing the type information.")
-    public String getTypes() throws TypeManagerException, RemoteException;
 }
