@@ -24,6 +24,7 @@
 package com.rift.coad.rdf.semantic.ontology;
 
 import java.net.URI;
+import java.util.List;
 
 /**
  * This interface defines the ontology information.
@@ -126,4 +127,13 @@ public interface OntologySession {
      * @throws OntologyException
      */
     public String dumpXML() throws OntologyException;
+
+
+    /**
+     * This method lists the classes.
+     *
+     * @return The list of classes.
+     * @throws OntologyException
+     */
+    public List<OntologyClass> listClasses() throws OntologyException;
 }

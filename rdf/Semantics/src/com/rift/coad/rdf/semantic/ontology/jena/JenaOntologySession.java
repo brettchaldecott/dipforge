@@ -26,6 +26,7 @@ package com.rift.coad.rdf.semantic.ontology.jena;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
+import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import com.rift.coad.rdf.semantic.ontology.OntologyClass;
 import com.rift.coad.rdf.semantic.ontology.OntologyException;
 import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
@@ -33,6 +34,8 @@ import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.ontology.OntologyTransaction;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
@@ -256,6 +259,31 @@ public class JenaOntologySession implements OntologySession {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             jenaOntModel.write(out);
             return out.toString();
+        } catch (Exception ex) {
+            log.error("Failed to dump the ontology to xml because : "
+                    + ex.getMessage(), ex);
+            throw new OntologyException(
+                    "Failed to dump the ontology to xml because : "
+                    + ex.getMessage(), ex);
+        }
+    }
+
+
+    /**
+     * This method lists the classes.
+     *
+     * @return The list of cles
+     * @throws OntologyException
+     */
+    public List<OntologyClass> listClasses() throws OntologyException {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ExtendedIterator<OntClass> classes = jenaOntModel.listClasses();
+            List<OntologyClass> result = new ArrayList<OntologyClass>();
+            for (; classes.hasNext(); ){
+                result.add(new JenaOntologyClass(classes.next()));
+            }
+            return result;
         } catch (Exception ex) {
             log.error("Failed to dump the ontology to xml because : "
                     + ex.getMessage(), ex);
