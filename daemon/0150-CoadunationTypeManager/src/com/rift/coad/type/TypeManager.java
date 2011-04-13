@@ -83,82 +83,69 @@ public class TypeManager implements TypeManagerMBean {
 
 
     /**
-     * This method adds the type to the type manager store.
+     * This method adds the adds XML defined type to the store.
      *
-     * @param xml The xml containing the type information to add.
+     * @param xml The string containing the XML information.
      * @throws com.rift.coad.type.TypeManagerException
+     * @throws java.rmi.RemoteException
      */
-    public void addType(String xml) throws TypeManagerException {
+    public void importTypes(String namespace,String xml) throws TypeManagerException, RemoteException {
         try {
             ((TypeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).addType(xml);
+                    getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).
+                    importTypes(namespace, xml);
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
-            log.error("Failed to add the type : " + ex.getMessage(),ex);
+            log.error("Failed to import the types : " + ex.getMessage(),ex);
             throw new TypeManagerException
-                    ("Failed to add the type : " + ex.getMessage(),ex);
+                    ("Failed to import the types : " + ex.getMessage(),ex);
         }
     }
 
 
     /**
-     * This method updates the type information
+     * The export method for the types
      *
-     * @param xml The xml to update the type information for.
+     * @return The string containing the export.
+     * @param The namespace to export.
      * @throws com.rift.coad.type.TypeManagerException
+     * @throws java.rmi.RemoteException
      */
-    public void updateType(String xml) throws TypeManagerException {
-        try {
-            ((TypeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).updateType(xml);
-        } catch (TypeManagerException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("Failed to update the type : " + ex.getMessage(),ex);
-            throw new TypeManagerException
-                    ("Failed to update the type : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method delete the type information
-     *
-     * @param xml The xml type information to delete.
-     * @throws com.rift.coad.type.TypeManagerException
-     */
-    public void deleteType(String xml) throws TypeManagerException {
-        try {
-            ((TypeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).deleteType(xml);
-        } catch (TypeManagerException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("Failed to delete the type : " + ex.getMessage(),ex);
-            throw new TypeManagerException
-                    ("Failed to delete the type : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method returns the type information.
-     *
-     * @return The string containing the type information.
-     * @throws com.rift.coad.type.TypeManagerException
-     */
-    public String getTypes() throws TypeManagerException {
+    public String exportTypes(String namespace) throws TypeManagerException, RemoteException {
         try {
             return ((TypeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).getTypes();
+                    getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).
+                    exportTypes(namespace);
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
-            log.error("Failed to get the types : " + ex.getMessage(),ex);
+            log.error("Failed to export the types : " + ex.getMessage(),ex);
             throw new TypeManagerException
-                    ("Failed to get the types : " + ex.getMessage(),ex);
+                    ("Failed to export the types : " + ex.getMessage(),ex);
         }
     }
 
+
+    /**
+     * This method is called to drop the given name space.
+     *
+     * @param namespace The name space to drop.
+     * @throws com.rift.coad.type.TypeManagerException
+     * @throws java.rmi.RemoteException
+     */
+    public void dropTypes(String namespace) throws TypeManagerException, RemoteException {
+        try {
+            ((TypeManagerDaemon)ConnectionManager.getInstance().
+                    getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).
+                    dropTypes(namespace);
+        } catch (TypeManagerException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to drop the types : " + ex.getMessage(),ex);
+            throw new TypeManagerException
+                    ("Failed to drop the types : " + ex.getMessage(),ex);
+        }
+    }
+    
 }

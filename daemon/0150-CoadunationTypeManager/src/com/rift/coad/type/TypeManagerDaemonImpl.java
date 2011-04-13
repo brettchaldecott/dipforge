@@ -34,15 +34,24 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 // coadunation imports
-import com.rift.coad.rdf.objmapping.resource.ResourceBase;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.rdf.semantic.Session;
-import com.rift.coad.rdf.semantic.config.Basic;
 import com.rift.coad.rdf.semantic.RDFFormats;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
-import com.rift.coad.audit.client.rdf.AuditLogger;
-import com.rift.coad.audit.client.rdf.AuditTrail;
+import com.rift.coad.audit.client.AuditLogger;
+import com.rift.coad.rdf.semantic.ontology.OntologyClass;
+import com.rift.coad.rdf.semantic.ontology.OntologyConstants;
+import com.rift.coad.rdf.semantic.ontology.OntologyManager;
+import com.rift.coad.rdf.semantic.ontology.OntologyManagerFactory;
+import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
+import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
+import com.rift.coad.rdf.semantic.util.RDFURIHelper;
+import com.rift.coad.type.dto.RDFDataType;
+import com.rift.coad.type.dto.ResourceDefinition;
+import java.net.URI;
+import java.util.Properties;
 
 /**
  * This object is responsible for managing the types.
@@ -53,6 +62,10 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
 
     // class constants
     private final static String TYPE_FILE = "type_file";
+    private final static String ONTOLOGY_MANAGER_CLASS = "ontology_manager_impl";
+    private final static String DEFAULT_ONTOLOGY_MANAGER_CLASS =
+            "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager";
+    private static final String SCHEMA_DIR = "schema_dir";
 
     // class singletons
     private static Logger log = Logger.getLogger(TypeManagerDaemonImpl.class);
@@ -61,6 +74,8 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
 
     // private member variables
     private String typeFile;
+    private String ontologyClass;
+    private String schemaDir;
 
     /**
      * The default constructor of the type manager
@@ -70,6 +85,11 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             Configuration config = ConfigurationFactory.getInstance().getConfig(
                     TypeManagerDaemonImpl.class);
             typeFile = config.getString(TYPE_FILE);
+            ontologyClass = config.getString(ONTOLOGY_MANAGER_CLASS,
+                    DEFAULT_ONTOLOGY_MANAGER_CLASS);
+            schemaDir = config.getString(SCHEMA_DIR);
+            
+
         } catch (Exception ex) {
             log.error("Failed to instantiate the type manager : " +
                     ex.getMessage(),ex);
@@ -81,68 +101,29 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
 
 
     /**
-     * This method is responsible for adding the type.
-     * @param xml
-     * @throws com.rift.coad.type.TypeManagerException
-     * @throws java.rmi.RemoteException
-     */
-    public void addType(String xml) throws TypeManagerException {
-        try {
-            Session session = this.getSession();
-            session.persist(xml);
-            this.persist(session);
-            auditLog.create("Add new type via xml").complete();
-        } catch (TypeManagerException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("Failed to add the type : " + ex.getMessage(),ex);
-            throw new TypeManagerException
-                    ("Failed to add the type : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
      * This method adds a new type.
      *
      * @param resource The resource
      * @throws com.rift.coad.type.TypeManagerException
      */
-    public void addType(ResourceBase resource) throws TypeManagerException {
+    public void addType(ResourceDefinition resource) throws TypeManagerException {
         try {
-            Session session = this.getSession();
-            session.persist(resource);
-            this.persist(session);
-            auditLog.create("Add new type %s",resource.toString()).
-                    addData(resource).complete();
+            OntologySession session = this.getSession(resource.getNamespace());
+            URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
+            OntologyClass ontologyClass = session.createClass(uri);
+            for (String key : resource.getProperties().keySet()) {
+                RDFDataType type = resource.getProperties().get(key);
+                ontologyClass.addProperty(
+                        session.createProperty(new URI(type.getNamespace() + "#" + type.getLocalName())));
+            }
+            this.persist(session,resource.getNamespace());
+            auditLog.complete(null, null, "Add new type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
             log.error("Failed to add the type : " + ex.getMessage(),ex);
             throw new TypeManagerException
                     ("Failed to add the type : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method updates the type.
-     *
-     * @param xml This method updates the type based on the xml string
-     * @throws com.rift.coad.type.TypeManagerException
-     */
-    public void updateType(String xml) throws TypeManagerException {
-        try {
-            Session session = this.getSession();
-            session.persist(xml);
-            this.persist(session);
-            auditLog.create("Update type information via xml.").complete();
-        } catch (TypeManagerException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("Failed to update the type : " + ex.getMessage(),ex);
-            throw new TypeManagerException
-                    ("Failed to update the type : " + ex.getMessage(),ex);
         }
     }
 
@@ -153,13 +134,19 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @param resource The resource
      * @throws com.rift.coad.type.TypeManagerException
      */
-    public void updateType(ResourceBase resource) throws TypeManagerException {
+    public void updateType(ResourceDefinition resource) throws TypeManagerException {
         try {
-            Session session = this.getSession();
-            session.persist(resource);
-            this.persist(session);
-            auditLog.create("Update a type %s",resource.toString()).
-                    addData(resource).complete();
+            OntologySession session = this.getSession(resource.getNamespace());
+            URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
+            session.removeClass(uri);
+            OntologyClass ontologyClass = session.createClass(uri);
+            for (String key : resource.getProperties().keySet()) {
+                RDFDataType type = resource.getProperties().get(key);
+                ontologyClass.addProperty(
+                        session.createProperty(new URI(type.getNamespace() + "#" + type.getLocalName())));
+            }
+            this.persist(session,resource.getNamespace());
+            auditLog.complete(null, null, "Updated a type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -171,39 +158,18 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
 
 
     /**
-     * This method is responsible for deleting the type identified by the xml
-     *
-     * @param xml The XML that identifies the type to delete.
-     * @throws com.rift.coad.type.TypeManagerException
-     */
-    public void deleteType(String xml) throws TypeManagerException {
-        try {
-            Session session = this.getSession();
-            session.remove(xml);
-            this.persist(session);
-            auditLog.create("Delete a type identifified vai xml").complete();
-        } catch (TypeManagerException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("Failed to remove the type : " + ex.getMessage(),ex);
-            throw new TypeManagerException
-                    ("Failed to remove the type : " + ex.getMessage(),ex);
-        }
-    }
-
-    /**
      * This method is called to delete the type identified by the resource information.
      *
      * @param resource The resource to delete from the database.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    public void deleteType(ResourceBase resource) throws TypeManagerException {
+    public void deleteType(ResourceDefinition resource) throws TypeManagerException {
         try {
-            Session session = this.getSession();
-            session.remove(resource);
-            this.persist(session);
-            auditLog.create("Delete a type %s",resource.toString()).
-                    addData(resource).complete();
+            OntologySession session = this.getSession(resource.getNamespace());
+            URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
+            session.removeClass(uri);
+            this.persist(session,resource.getNamespace());
+            auditLog.complete(null, null, "Remove type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -213,24 +179,6 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
         }
     }
 
-
-    /**
-     * This method is called to retrieve the type from the store.
-     * @return The string containing the rdf type information
-     * @throws com.rift.coad.type.TypeManagerException
-     */
-    public String getTypes() throws TypeManagerException {
-        try {
-            Session session = this.getSession();
-            return session.dump(RDFFormats.XML_ABBREV);
-        } catch (TypeManagerException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("Failed to get the type information : " + ex.getMessage(),ex);
-            throw new TypeManagerException
-                    ("Failed to get the type information : " + ex.getMessage(),ex);
-        }
-    }
 
 
     /**
@@ -240,25 +188,28 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @return The base resource to retrieve.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    public ResourceBase getType(String typeId) throws TypeManagerException {
+    public ResourceDefinition getType(String uriStr) throws TypeManagerException {
         try {
-            Session session = this.getSession();
-            List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/base#IdForDataType> ?typeId . " +
-                    "FILTER (?typeId = ${typeId}) } ").setString("typeId", typeId)
-                    .execute();
-            for (SPARQLResultRow row : entries) {
-                return row.get(0).cast(ResourceBase.class);
+            RDFURIHelper helper = new RDFURIHelper(uriStr);
+            OntologySession session = this.getSession(helper.getNamespace());
+            URI uri = new URI(uriStr);
+            OntologyClass ontologyClass = session.getClass(uri);
+            ResourceDefinition result = new ResourceDefinition();
+            result.setNamespace(helper.getNamespace());
+            result.setLocalname(helper.getLocalName());
+            for (OntologyProperty property : ontologyClass.listProperties()) {
+                PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                        property.getNamespace(),property.getLocalname());
+                result.getProperties().put(identifier.toURI().toString(),
+                        new RDFDataType(property.getNamespace(),property.getLocalname())) ;
             }
+            return result;
         } catch (Exception ex) {
             log.error("Failed to get the type : " + ex.getMessage(),ex);
             throw new TypeManagerException
                     ("Failed to get the type : " + ex.getMessage(),ex);
 
         }
-        throw new TypeManagerException
-                    ("Type was not found : " + typeId);
     }
     
 
@@ -269,68 +220,22 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @return The list of resources
      * @throws com.rift.coad.type.TypeManagerException
      */
-    public List<ResourceBase> listTypes(String[] uris) throws TypeManagerException {
+    public List<RDFDataType> listTypes(String[] namespaces) throws TypeManagerException {
         try {
-            String query = "SELECT ?s WHERE {";
-            for (String uri: uris) {
-                query += "? a <" + uri + "> . ";
-            }
-            query += "}";
-            List<SPARQLResultRow> rows = getSession().createSPARQLQuery(query).execute();
-            List<ResourceBase> result = new ArrayList<ResourceBase>();
-            for (SPARQLResultRow row : rows) {
-                ResourceBase resource = row.get(0).cast(ResourceBase.class);
-                if (resource.getAssociatedObject() != null) {
-                    continue;
+            List<RDFDataType> types = new ArrayList<RDFDataType>();
+            for (String namespace: namespaces) {
+                OntologySession session = this.getSession(namespace);
+                List<OntologyClass> ontClasses = session.listClasses();
+                for (OntologyClass ontClass : ontClasses ) {
+                    types.add(new RDFDataType(ontClass.getNamespace(),
+                            ontClass.getLocalName()));
                 }
-                result.add(resource);
             }
-            return result;
+            return types;
         } catch (Exception ex) {
-            log.error("Failed to list the types : " + ex.getMessage(),ex);
+            log.error("Failed to get the type : " + ex.getMessage(),ex);
             throw new TypeManagerException
-                    ("Failed to list the types : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method returns the list of types that are implementations of the given basic types.
-     *
-     * @param basicTypes The list of basic types.
-     * @return The list of types.
-     * @throws com.rift.coad.type.TypeManagerException
-     */
-    public List<ResourceBase> listTypesByBasicType(String[] basicTypes) throws TypeManagerException {
-        try {
-            Session session = this.getSession();
-            String search = "SELECT ?s ?typeId WHERE { " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/base#IdForDataType> ?typeId . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/base#BasicTypeId> ?basicTypeId . " +
-                    "FILTER (";
-            String seperator = "";
-            for (String basicType : basicTypes) {
-
-                search += seperator + " ?basicTypeId = \""+ basicType +"\" ";
-                seperator = "||";
-            }
-            search += ") }";
-
-            List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery(search).execute();
-            List<ResourceBase> rows = new ArrayList<ResourceBase>();
-            for (SPARQLResultRow row : entries) {
-                ResourceBase resource = row.get(0).cast(ResourceBase.class);
-                if (resource.getAssociatedObject() != null) {
-                    continue;
-                }
-                rows.add(resource);
-            }
-            return rows;
-        } catch (Exception ex) {
-            log.error("Failed to list the types : " + ex.getMessage(),ex);
-            throw new TypeManagerException
-                    ("Failed to list the types : " + ex.getMessage(),ex);
+                    ("Failed to get the type : " + ex.getMessage(),ex);
 
         }
     }
@@ -342,16 +247,22 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @return The active session.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    private Session getSession() throws TypeManagerException {
+    private OntologySession getSession(String namespace) throws TypeManagerException {
         try {
-            Session result = Basic.initSessionManager().getSession();
-            File source = new File(this.typeFile);
-            if (source.isFile()) {
-                FileInputStream in = new FileInputStream(source);
-                result.persist(in);
+            Properties properties = new Properties();
+            properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
+                    "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+            File ontologyFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            if (ontologyFile.isFile()) {
+                FileInputStream in = new FileInputStream(ontologyFile);
+                byte[] buffer = new byte[(int)ontologyFile.length()];
+                in.read(buffer);
                 in.close();
+                properties.put(OntologyConstants.ONTOLOGY_CONTENTS, new String(buffer));
             }
-            return result;
+            OntologyManager ontologyManager =
+                    (OntologyManager)OntologyManagerFactory.init(properties);
+            return (OntologySession)ontologyManager.getSession();
         } catch (Exception ex) {
             log.error("Failed to create a new session : " + ex.getMessage(),ex);
             throw new TypeManagerException
@@ -366,11 +277,34 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @param session The session to persist.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    private void persist(Session session) throws TypeManagerException {
+    private void persist(OntologySession ontologySession,String namespace) throws TypeManagerException {
         try {
-            File outFile = new File(this.typeFile);
+            persist(namespace, ontologySession.dumpXML());
+        } catch (TypeManagerException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to persist the changes : " + ex.getMessage(),ex);
+            throw new TypeManagerException
+                    ("Failed to persist the changes : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method is called to persist the changes.
+     *
+     * @param namespace The namespace to persist for.
+     * @param contents The contents to persist.
+     * @throws com.rift.coad.type.TypeManagerException
+     */
+    private void persist(String namespace, String contents) throws TypeManagerException {
+        try {
+            File outFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            String path = outFile.getPath();
+            File outDir = new File(path.substring(0,path.lastIndexOf("/")));
+            outDir.mkdirs();
             FileOutputStream out = new FileOutputStream(outFile);
-            session.dump(out, RDFFormats.XML_ABBREV);
+            out.write(contents.getBytes());
             out.close();
         } catch (Exception ex) {
             log.error("Failed to persist the changes : " + ex.getMessage(),ex);
@@ -379,6 +313,115 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
         }
     }
 
-    
+
+    /**
+     * This method attempts to load the ontology from the file.
+     *
+     * @return The string containing the ontology
+     * @throws TypeManagerException
+     */
+    private String loadOntology(String namespace) throws TypeManagerException {
+        try {
+            File ontFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            if (ontFile.isFile()) {
+                byte[] buffer = new byte[(int)ontFile.length()];
+                FileInputStream in = new FileInputStream(ontFile);
+                in.read(buffer);
+                in.close();
+                return new String(buffer);
+            }
+            return null;
+        } catch (Exception ex) {
+            log.error("Attempt to load the ontology : " + ex.getMessage(),ex);
+            throw new TypeManagerException
+                    ("Attempt to load the ontology : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * The stripped namespace.
+     *
+     * @param namespace The name space.
+     * @return The string containing the stripped value.
+     */
+    private String stripNamespace(String namespace) {
+        String result = namespace.trim();
+        if (result.startsWith("http://")) {
+            result = result.substring("http://".length());
+        }
+        return result.substring(result.indexOf("/"));
+    }
+
+
+    /**
+     * This method is called to import a given file
+     *
+     * @param namespace The name space.
+     * @param xml The xml.
+     * @throws TypeManagerException
+     * @throws RemoteException
+     */
+    public void importTypes(String namespace, String xml) throws TypeManagerException {
+        try {
+            persist(namespace, xml);
+        } catch (TypeManagerException ex) {
+            log.error("Failed to import the types : " +
+                    ex.getMessage(),ex);
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to import the types : " +
+                    ex.getMessage(),ex);
+            throw new TypeManagerException("Failed to import the types : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * The export of the types.
+     *
+     * @param namespace The namespace to export.
+     * @return The string containing the export.
+     * @throws TypeManagerException
+     */
+    public String exportTypes(String namespace) throws TypeManagerException {
+        try {
+            return loadOntology(namespace);
+        } catch (TypeManagerException ex) {
+            log.error("Failed to export the types : " +
+                    ex.getMessage(),ex);
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to export the types : " +
+                    ex.getMessage(),ex);
+            throw new TypeManagerException("Failed to export the types : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method is responsible for dropping the ontology information associated with a namespace.
+     *
+     * @param namespace The namespace to drop.
+     * @throws TypeManagerException
+     */
+    public void dropTypes(String namespace) throws TypeManagerException {
+        try {
+            File ontFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            if (ontFile.isFile()) {
+                ontFile.delete();
+            } else {
+                throw new TypeManagerException("The ontology types do not exist");
+            }
+        } catch (TypeManagerException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to drop the types : " +
+                    ex.getMessage(),ex);
+            throw new TypeManagerException("Failed to drop the types : " +
+                    ex.getMessage(),ex);
+        }
+    }
 
 }
