@@ -37,7 +37,7 @@ dependencies {
     compile project(':rdf:Semantics')
     releaseJars project(':client:AuditTrail')
     releaseJars project(':client:CoadunationTypeManager')
-    releasejars project(':rdf:Semantics')
+    releaseJars project(':rdf:Semantics')
 }
 
 sourceSets {
