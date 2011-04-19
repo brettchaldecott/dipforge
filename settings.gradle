@@ -51,4 +51,5 @@ include 'libs:CoadunationBase',
         'daemon:0150-CoadunationTypeManager',
         'web:lib:CoadunationGWTLibrary',
         'web:lib:WebLibs',
+        'web:lib:AuditTrailGWT',
 	'release'
