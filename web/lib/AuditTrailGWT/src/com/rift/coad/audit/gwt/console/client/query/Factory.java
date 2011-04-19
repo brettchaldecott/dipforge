@@ -33,7 +33,7 @@ import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
 // coadunation imports
-import com.rift.coad.rdf.objmapping.client.audit.LogEntry;
+import com.rift.coad.audit.gwt.console.client.query.dto.LogEntry;
 
 /**
  * This object represents the source audit trail.

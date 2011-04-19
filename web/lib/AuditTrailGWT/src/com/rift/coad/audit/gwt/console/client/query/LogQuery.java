@@ -24,7 +24,7 @@ package com.rift.coad.audit.gwt.console.client.query;
 
 // gwt imports
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.rift.coad.rdf.objmapping.client.audit.LogEntry;
+import com.rift.coad.audit.gwt.console.client.query.dto.LogEntry;
 
 /**
  * This interface defines the log query interface.

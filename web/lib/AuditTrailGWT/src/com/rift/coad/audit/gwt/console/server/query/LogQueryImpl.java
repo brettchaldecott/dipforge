@@ -32,10 +32,10 @@ import org.apache.log4j.Logger;
 import com.rift.coad.audit.AuditTrailServer;
 import com.rift.coad.audit.gwt.console.client.query.LogQuery;
 import com.rift.coad.audit.gwt.console.client.query.QueryException;
-import com.rift.coad.rdf.objmapping.client.audit.LogEntry;
+import com.rift.coad.audit.gwt.console.client.query.dto.LogEntry;
 import com.rift.coad.util.connection.ConnectionManager;
 import com.rift.coad.audit.AuditTrailFilter;
-import com.rift.coad.rdf.objmapping.util.RDFCopy;
+import com.rift.coad.web.utils.copy.BeanCopy;
 
 
 /**
@@ -62,11 +62,11 @@ public class LogQueryImpl extends RemoteServiceServlet implements
         try {
             AuditTrailServer server = (AuditTrailServer)ConnectionManager.getInstance().
                     getConnection(AuditTrailServer.class, "audit/AuditTrailServer");
-            com.rift.coad.rdf.objmapping.audit.LogEntry[] entries =
+            com.rift.coad.audit.dto.LogEntry[] entries =
                     server.queryAuditTrail(new AuditTrailFilter("",source,
                     user,status,correlationId,externalId,maxRows)).toArray(
-                    new com.rift.coad.rdf.objmapping.audit.LogEntry[0]);
-            return (LogEntry[])RDFCopy.copyToClientArray(entries);
+                    new com.rift.coad.audit.dto.LogEntry[0]);
+            return (LogEntry[])BeanCopy.copyToArray(LogEntry.class,entries);
         } catch (Exception ex) {
             log.error("Failed to retrieve the list of log entries: " + ex.getMessage(),ex);
             throw new QueryException
