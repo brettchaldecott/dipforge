@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @author brett chaldecott
  */
-public class LogEntry {
+public class LogEntry implements com.google.gwt.user.client.rpc.IsSerializable {
 
     /**
      * This enum represents the status of the log entry object.
