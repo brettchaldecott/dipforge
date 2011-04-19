@@ -1,0 +1,109 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'war'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="AuditTrailConsole"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+    mavenRepo urls: "http://www.smartclient.com/maven2/"
+    mavenRepo urls: "file://localhost/$projectDir/../../maven"
+}
+
+configurations {
+    compile
+    gwt
+}
+
+dependencies {
+    compile(ivyDependencies('compile'))
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':client:AuditTrail')
+    compile project(':rdf:Semantics')
+    compile project(':web:lib:CoadunationGWTLibrary')
+    compile project(':web:lib:AuditTrailGWT')
+    compile project(':utils:CoadunationUtil')
+    gwt group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
+    gwt group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
+    gwt group: 'com.smartgwt', name: 'smartgwt', version: '2.4'
+    gwt group: 'com.smartgwt', name: 'smartgwt-skins', version: '2.4'
+    gwt project(':web:lib:CoadunationGWTLibrary')
+    gwt project(':web:lib:AuditTrailGWT')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src/java'
+        }
+        resources {
+            srcDir './src/java'
+            srcDir './src/conf'
+        }
+    }
+}
+
+gwtBuildDir = "$projectDir/build/js"
+gwtOutDir = "$projectDir/build/out"
+gwtGenDir = "$projectDir/build/gen"
+
+task gwtCompile << {
+  created = (new File(gwtBuildDir)).mkdirs()
+  created = (new File(gwtGenDir)).mkdirs()
+  created = (new File(gwtOutDir)).mkdirs()
+  ant.java(classname:'com.google.gwt.dev.Compiler',
+              failOnError: 'true',
+              fork: 'true') {
+    jvmarg(value: '-Xmx184M')
+    arg(line: '-war ' + gwtOutDir)
+    arg(line: '-logLevel INFO')
+    arg(line: '-style PRETTY')
+//    arg(line: '-treeLogger')
+    arg(value: 'com.rift.coad.audit.gwt.console.Main')
+    classpath {
+      pathElement(location: './src/java')
+      pathElement(path: configurations.gwt.asPath)
+    }
+  }
+}
+
+war.dependsOn gwtCompile
+
+war {
+    classPath = getClasspath().filter({file -> file.name.contains("classes") ||
+        file.name.contains("gwt-servlet") ||
+        file.name.contains("gwm") ||
+        file.name.contains("CoadunationUtil") ||
+        file.name.contains("DesktopServerClient") ||
+        file.name.contains("EventServerClient")}) 
+    setClasspath(classPath)
+    classpath 'build/classes/main/'
+    from 'web'
+    from gwtOutDir
+}
+
+release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
