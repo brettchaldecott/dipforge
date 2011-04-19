@@ -48,6 +48,13 @@ uploadArchives {
 
 }
 
+jar.doFirst {
+    ant.mkdir(dir: "${buildDir}/classes/main")
+    ant.copy(todir: "${buildDir}/classes/main") {
+         fileset(dir: "./src")
+    }
+}
+
 
 jar {
     manifest {
