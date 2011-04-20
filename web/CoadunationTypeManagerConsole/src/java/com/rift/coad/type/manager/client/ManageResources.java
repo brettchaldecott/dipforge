@@ -21,7 +21,7 @@
 
 package com.rift.coad.type.manager.client;
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.rift.coad.rdf.objmapping.client.resource.ResourceBase;
+import com.rift.coad.type.manager.client.dto.ResourceDefinition;
 import java.util.List;
 
 /**
@@ -38,7 +38,7 @@ public interface ManageResources extends RemoteService{
      * @param base The base type to add.
      * @throws com.rift.coad.type.manager.client.ManageResourcesException
      */
-    public void addType(ResourceBase base) throws ManageResourcesException;
+    public void addType(ResourceDefinition base) throws ManageResourcesException;
 
 
     /**
@@ -47,7 +47,7 @@ public interface ManageResources extends RemoteService{
      * @param base The base type to update.
      * @throws com.rift.coad.type.manager.client.ManageResourcesException
      */
-    public void updateType(ResourceBase base) throws ManageResourcesException;
+    public void updateType(ResourceDefinition base) throws ManageResourcesException;
 
 
     /**
@@ -57,7 +57,7 @@ public interface ManageResources extends RemoteService{
      * @return The resource base.
      * @throws com.rift.coad.type.manager.client.ManageResourcesException
      */
-    public ResourceBase getType(String name) throws ManageResourcesException;
+    public ResourceDefinition getType(String name) throws ManageResourcesException;
     
     
     /**
@@ -76,5 +76,5 @@ public interface ManageResources extends RemoteService{
      * @return The array of base types.
      * @throws com.rift.coad.type.manager.client.ManageResourcesException
      */
-    public List<ResourceBase> listTypes(String[] baseTypes) throws ManageResourcesException;
+    public List<ResourceDefinition> listTypes(String[] baseTypes) throws ManageResourcesException;
 }

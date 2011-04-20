@@ -26,6 +26,7 @@ package com.rift.coad.type.manager.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 // java imports
+import com.rift.coad.type.manager.client.dto.ResourceDefinition;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -33,8 +34,6 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 // coadunation imports
-import com.rift.coad.rdf.objmapping.client.resource.ResourceBase;
-import com.rift.coad.rdf.objmapping.util.RDFCopy;
 import com.rift.coad.type.TypeManagerDaemon;
 import com.rift.coad.type.manager.client.ManageResources;
 import com.rift.coad.type.manager.client.ManageResourcesException;
@@ -57,6 +56,26 @@ public class ManageResourcesImpl extends RemoteServiceServlet implements
     public ManageResourcesImpl() {
     }
 
+    public void addType(ResourceDefinition base) throws ManageResourcesException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void updateType(ResourceDefinition base) throws ManageResourcesException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ResourceDefinition getType(String name) throws ManageResourcesException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void deleteType(String name) throws ManageResourcesException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<ResourceDefinition> listTypes(String[] baseTypes) throws ManageResourcesException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 
     /**
      * This method is called to add a new type.
@@ -64,7 +83,7 @@ public class ManageResourcesImpl extends RemoteServiceServlet implements
      * @param base The base type.
      * @throws com.rift.coad.type.manager.client.ManageResourcesException
      */
-    public void addType(ResourceBase base) throws ManageResourcesException {
+    /*public void addType(ResourceBase base) throws ManageResourcesException {
         try {
             TypeManagerDaemon daemon = (TypeManagerDaemon)
                     ConnectionManager.getInstance().getConnection(TypeManagerDaemon.class, 
@@ -76,95 +95,10 @@ public class ManageResourcesImpl extends RemoteServiceServlet implements
             throw new ManageResourcesException("Failed to add type : " +
                     ex.getMessage());
         }
-    }
+    }*/
 
 
-    /**
-     * This method is called to update a type.
-     *
-     * @param base The base type.
-     * @throws com.rift.coad.type.manager.client.ManageResourcesException
-     */
-    public void updateType(ResourceBase base) throws ManageResourcesException {
-        try {
-            TypeManagerDaemon daemon = (TypeManagerDaemon)
-                    ConnectionManager.getInstance().getConnection(TypeManagerDaemon.class,
-                    "type/ManagementDaemon");
-            daemon.updateType((com.rift.coad.rdf.objmapping.resource.ResourceBase)
-                    RDFCopy.copyFromClient(base));
-        } catch (Exception ex) {
-            log.error("Failed to update the type : " + ex.getMessage(),ex);
-            throw new ManageResourcesException("Failed to update the type : " +
-                    ex.getMessage());
-        }
-    }
-
-
-    /**
-     * This method returns the type information for the resource manager.
-     *
-     * @param name The name of the type.
-     * @return The resource base object.
-     * @throws com.rift.coad.type.manager.client.ManageResourcesException
-     */
-    public ResourceBase getType(String name) throws ManageResourcesException {
-        try {
-            TypeManagerDaemon daemon = (TypeManagerDaemon)
-                    ConnectionManager.getInstance().getConnection(TypeManagerDaemon.class,
-                    "type/ManagementDaemon");
-            return (ResourceBase)RDFCopy.copyToClient(daemon.getType(name));
-        } catch (Exception ex) {
-            log.error("Failed to get the type : " + ex.getMessage(),ex);
-            throw new ManageResourcesException("Failed to get the type : " +
-                    ex.getMessage());
-        }
-    }
-
-
-    /**
-     * This method is called to delete the given type.
-     * @param name The name of the entry to delete.
-     * @throws com.rift.coad.type.manager.client.ManageResourcesException
-     */
-    public void deleteType(String name) throws ManageResourcesException {
-        try {
-            TypeManagerDaemon daemon = (TypeManagerDaemon)
-                    ConnectionManager.getInstance().getConnection(TypeManagerDaemon.class,
-                    "type/ManagementDaemon");
-            daemon.deleteType(daemon.getType(name));
-        } catch (Exception ex) {
-            log.error("Failed to delete the type : " + ex.getMessage(),ex);
-            throw new ManageResourcesException("Failed to delete the type : " +
-                    ex.getMessage());
-        }
-    }
-
-
-    /**
-     * This method returns the list of types.
-     *
-     * @param baseTypes The basic types to perform the query for.
-     * @return This method returns the list of types.
-     * @throws com.rift.coad.type.manager.client.ManageResourcesException
-     */
-    public List<ResourceBase> listTypes(String[] baseTypes) throws ManageResourcesException {
-        try {
-            TypeManagerDaemon daemon = (TypeManagerDaemon)
-                    ConnectionManager.getInstance().getConnection(TypeManagerDaemon.class,
-                    "type/ManagementDaemon");
-            List<ResourceBase> result = new ArrayList<ResourceBase>();
-            List<com.rift.coad.rdf.objmapping.resource.ResourceBase> resources =
-                    daemon.listTypesByBasicType(baseTypes);
-            for (com.rift.coad.rdf.objmapping.resource.ResourceBase resource : resources) {
-                result.add((ResourceBase)RDFCopy.copyToClient(resource));
-            }
-            return result;
-        } catch (Exception ex) {
-            log.error("Failed to list the types : " + ex.getMessage(),ex);
-            throw new ManageResourcesException("Failed to list the types : " +
-                    ex.getMessage());
-        }
-    }
+    
 
 
 }

@@ -30,7 +30,6 @@ import com.smartgwt.client.widgets.Canvas;
 
 // The coadunation includes
 import com.rift.coad.gwt.lib.client.console.PanelFactory;
-import com.rift.coad.rdf.objmapping.ui.client.tree.type.TypeManager;
 import com.smartgwt.client.types.TitleOrientation;
 import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.IButton;
@@ -106,7 +105,8 @@ public class ResourceCreationFactory implements PanelFactory {
                         String typeName = typeItem.getValue().toString();
                         String baseTypeStr = baseType.getValue().toString();
                         ResourceFactory factory = new ResourceFactory(baseTypeStr,typeName);
-                        NavigationTreeNode node = new NavigationTreeNode(typeName, typeName, name, TypeManager.getIcon(baseTypeStr),
+                        // TODO : correct image
+                        NavigationTreeNode node = new NavigationTreeNode(typeName, typeName, name, "application-system.png",
                                         factory, true, "",false);
                         addPanel(node, (ConsolePanel)factory.create());
                     } catch (Exception ex) {

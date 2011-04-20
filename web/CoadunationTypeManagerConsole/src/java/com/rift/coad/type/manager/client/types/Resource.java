@@ -24,8 +24,7 @@ package com.rift.coad.type.manager.client.types;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.rift.coad.rdf.objmapping.client.base.DataType;
-import com.rift.coad.rdf.objmapping.util.client.type.TypeManager;
+import com.rift.coad.type.manager.client.dto.ResourceDefinition;
 
 /**
  * The definition of a resource.
@@ -38,7 +37,7 @@ public class Resource {
     private String type;
     private String uri;
     private String className;
-    private DataType dataType;
+    private ResourceDefinition dataType;
 
     
     /**
@@ -54,7 +53,7 @@ public class Resource {
         this.uri = uri;
         this.className = className;
         try {
-            this.dataType = TypeManager.getType(className);
+            //this.dataType = TypeManager.getType(className);
         } catch (Exception ex) {
             throw new TypeException("Failed to retrieve the type : " + ex.getMessage(),ex);
         }
@@ -119,7 +118,7 @@ public class Resource {
      *
      * @return The reference to specified data type.
      */
-    public DataType getDataType() {
+    public ResourceDefinition getDataType() {
         return dataType;
     }
 
@@ -129,7 +128,7 @@ public class Resource {
      *
      * @param dataType The data type.
      */
-    public void setDataType(DataType dataType) {
+    public void setDataType(ResourceDefinition dataType) {
         this.dataType = dataType;
     }
 
@@ -139,9 +138,10 @@ public class Resource {
      *
      * @return The resource object to retrieve.
      */
-    public DataType getResource() {
+    public ResourceDefinition getResource() {
         try {
-            return TypeManager.getType(this.className);
+            //return TypeManager.getType(this.className);
+            return null;
         } catch (Exception ex) {
             return null;
         }

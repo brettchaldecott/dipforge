@@ -21,7 +21,7 @@
 
 package com.rift.coad.type.manager.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.rift.coad.rdf.objmapping.client.resource.ResourceBase;
+import com.rift.coad.type.manager.client.dto.ResourceDefinition;
 
 
 /**
@@ -37,7 +37,7 @@ public interface ManageResourcesAsync {
      * @param base The base type.
      * @param callback The call back object.
      */
-    public void addType(ResourceBase base, AsyncCallback callback);
+    public void addType(ResourceDefinition base, AsyncCallback callback);
 
 
     /**
@@ -46,7 +46,7 @@ public interface ManageResourcesAsync {
      * @param base The base type to update.
      * @param callback The call back.
      */
-    public void updateType(ResourceBase base, AsyncCallback callback);
+    public void updateType(ResourceDefinition base, AsyncCallback callback);
 
 
     /**

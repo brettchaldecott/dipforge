@@ -26,10 +26,9 @@ import com.rift.coad.audit.gwt.console.client.query.Factory;
 import com.rift.coad.gwt.lib.client.console.NavigationDataCallback;
 import com.rift.coad.gwt.lib.client.console.NavigationDataHandler;
 import com.rift.coad.gwt.lib.client.console.NavigationTreeNode;
-import com.rift.coad.rdf.objmapping.client.resource.ResourceBase;
-import com.rift.coad.rdf.objmapping.util.client.type.TypeManager;
 import com.rift.coad.type.manager.client.ManageResourcesUtil;
 import com.rift.coad.type.manager.client.RDFViewFactory;
+import com.rift.coad.type.manager.client.dto.ResourceDefinition;
 import com.rift.coad.type.manager.client.type.factory.ResourceCreationFactory;
 import com.rift.coad.type.manager.client.type.factory.ResourceFactory;
 import com.smartgwt.client.util.SC;
@@ -78,13 +77,13 @@ public class ResourceDataHandler implements NavigationDataHandler {
          */
         public void onSuccess(Object result) {
             try {
-                List<ResourceBase> types = (List<ResourceBase>)result;
+                List<ResourceDefinition> types = (List<ResourceDefinition>)result;
                 NavigationTreeNode[] nodes = new NavigationTreeNode[types.size()];
                 for (int count = 0; count < types.size(); count++) {
-                    ResourceBase type = types.get(count);
+                    ResourceDefinition type = types.get(count);
                     ResourceFactory factory = new ResourceFactory(type);
-                    nodes[count] = new NavigationTreeNode(type.getIdForDataType(),
-                            type.getIdForDataType(), parent, com.rift.coad.rdf.objmapping.ui.client.tree.type.TypeManager.getIcon(type.getBasicType()),
+                    nodes[count] = new NavigationTreeNode(type.toURL(),
+                            type.toURL(), parent, "applications-system.png",
                                             factory, true, "",false);
                 }
                 callback.addChildren(nodes);
@@ -116,10 +115,10 @@ public class ResourceDataHandler implements NavigationDataHandler {
                             new NavigationTreeNode("Management", "management", "root", "preferences-system.png", null, true, "",true),
                             new NavigationTreeNode("Audit Trail", "audittrail", "root", "media-record.png",
                                     new Factory("","com.rift.coad.type.TypeManagerDaemonImpl"), true, "",false)});
-            } else if (name.equals("development")) {
+            } /*else if (name.equals("development")) {
                 callback.addChildren(new NavigationTreeNode[] {
                             new NavigationTreeNode("Organisation", "organisation", "development", "system-users.png",
-                                    new ResourceCreationFactory("Development/Organisation","Organisation",TypeManager.getTypesForGroup("Organisation")), true, "",true),
+                                    new ResourceCreationFactory("Development/Organisation","Organisation",null, true, "",true),
                             new NavigationTreeNode("Person", "person", "development", "contact-new.png",
                                     new ResourceCreationFactory("Development/Person","Person",TypeManager.getTypesForGroup("Person")), true, "",true),
                             new NavigationTreeNode("Inventory", "inventory", "development", "folder.png",
@@ -128,11 +127,11 @@ public class ResourceDataHandler implements NavigationDataHandler {
                                     new ResourceCreationFactory("Development/Service","Service",TypeManager.getTypesForGroup("Service")), true, "",true),
                             new NavigationTreeNode("Misc", "misc", "development", "package-x-generic.png",
                                     new ResourceCreationFactory("Development/Resource","Misc",TypeManager.getTypesForGroup("Misc")), true, "", true)});
-            } else if (name.equals("management")) {
+            } */else if (name.equals("management")) {
                 callback.addChildren(new NavigationTreeNode[] {
                             new NavigationTreeNode("RDF", "rdf", "rdf", "applications-system.png", RDFViewFactory.getInstance(), true, "",false)});
             } else {
-                ManageResourcesUtil.getService().listTypes(TypeManager.getTypesForGroup(name),new HandleResourceList(callback,name));
+                //ManageResourcesUtil.getService().listTypes(TypeManager.getTypesForGroup(name),new HandleResourceList(callback,name));
             }
         } catch (Exception ex) {
             SC.say("Failed to render tree changes : " + ex.getMessage());

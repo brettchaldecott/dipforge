@@ -23,12 +23,6 @@ package com.rift.coad.type.manager.client.type.factory;
 
 import com.rift.coad.gwt.lib.client.console.ConsolePanel;
 import com.rift.coad.gwt.lib.client.console.PanelFactory;
-import com.rift.coad.rdf.objmapping.client.resource.ResourceBase;
-import com.rift.coad.rdf.objmapping.ui.client.panel.TypePanel;
-import com.rift.coad.rdf.objmapping.ui.client.property.PropertyEditor;
-import com.rift.coad.rdf.objmapping.ui.client.tree.ResourceTreeGrid;
-import com.rift.coad.rdf.objmapping.ui.client.tree.stack.TypeStack;
-import com.rift.coad.rdf.objmapping.util.client.type.TypeManager;
 import com.rift.coad.type.manager.client.ManageResourcesUtil;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.util.SC;
@@ -39,6 +33,7 @@ import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.tree.TreeGrid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.rift.coad.type.manager.client.dto.ResourceDefinition;
 
 /**
  * The resource factory.
@@ -68,7 +63,8 @@ public class ResourceFactory implements PanelFactory {
      */
     public class ResourcePanel extends ConsolePanel {
 
-        private TypePanel typePanel;
+        // TODO: Type Panel
+        //private TypePanel typePanel;
         private IButton button;
 
 
@@ -90,8 +86,8 @@ public class ResourceFactory implements PanelFactory {
             VLayout layout = new VLayout();
             layout.setWidth100();
             layout.setHeight100();
-            typePanel = new TypePanel(resource);
-            layout.addMember(typePanel);
+            //typePanel = new TypePanel(resource);
+            //layout.addMember(typePanel);
             
             VLayout spacer = new VLayout();
             spacer.setWidth("*");
@@ -103,13 +99,13 @@ public class ResourceFactory implements PanelFactory {
 
                 public void onClick(ClickEvent event) {
                     if (created) {
-                        ResourceBase base = typePanel.getResource();
+                        //ResourceBase base = typePanel.getResource();
                         //SC.say("Number of attributes is : " + base.getAttributes().length);
-                        ManageResourcesUtil.getService().addType(
-                                base, new CallBack());
+                        //ManageResourcesUtil.getService().addType(
+                        //        base, new CallBack());
                     } else {
-                        ManageResourcesUtil.getService().updateType(
-                                typePanel.getResource(), new CallBack());
+                        //ManageResourcesUtil.getService().updateType(
+                        //        typePanel.getResource(), new CallBack());
                     }
                 }
 
@@ -126,7 +122,7 @@ public class ResourceFactory implements PanelFactory {
          */
         @Override
         public String getName() {
-            return resource.getIdForDataType();
+            return resource.getLocalname();
         }
 
 
@@ -138,8 +134,9 @@ public class ResourceFactory implements PanelFactory {
         @Override
         public String getIcon() {
             try {
-                return com.rift.coad.rdf.objmapping.ui.client.tree.type.TypeManager.
-                    getIcon(typePanel.getBasicType());
+                //return com.rift.coad.rdf.objmapping.ui.client.tree.type.TypeManager.
+                //    getIcon(typePanel.getBasicType());
+                return null;
             } catch (Exception ex) {
                 SC.say("Failed to return the type : " + ex.getMessage());
                 return null;
@@ -152,7 +149,7 @@ public class ResourceFactory implements PanelFactory {
     }
 
     // private member variables
-    private ResourceBase resource;
+    private ResourceDefinition resource;
     private String id;
     private boolean created = false;
 
@@ -161,7 +158,7 @@ public class ResourceFactory implements PanelFactory {
      *
      * @param resource The resource reference.
      */
-    public ResourceFactory(ResourceBase resource) {
+    public ResourceFactory(ResourceDefinition resource) {
        this.resource = resource;
     }
 
@@ -174,15 +171,15 @@ public class ResourceFactory implements PanelFactory {
      */
     public ResourceFactory(String basicType, String typeId) throws FactoryException {
         try {
-            this.resource = (ResourceBase)TypeManager.getType(basicType);
-            this.resource.setIdForDataType(typeId);
+            //this.resource = (ResourceBase)TypeManager.getType(basicType);
+            //this.resource.setIdForDataType(typeId);
 
             // set the data type name for this type.
             String name = typeId;
             if (typeId.contains(".")) {
                 name = typeId.substring(typeId.lastIndexOf(".") + 1);
             }
-            this.resource.setDataName(name);
+            //this.resource.setDataName(name);
             
             created = true;
         } catch (Exception ex) {
