@@ -39,7 +39,7 @@ sourceSets {
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "file://localhost/$projectDir/../../repository")
+        repository(url: "file://localhost/$projectDir/../../../repository")
         pom.version = version
         pom.artifactId = archivesBaseName
         pom.groupId = archivesBaseName
