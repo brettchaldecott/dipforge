@@ -110,6 +110,16 @@ public class ResourceDefinition implements Serializable {
 
 
     /**
+     * This method returns the url of this object.
+     *
+     * @return The string containing the URL of this object.
+     */
+    public String toURL() {
+        return namespace + "#" + localname;
+    }
+
+
+    /**
      *
      * @param properties
      */

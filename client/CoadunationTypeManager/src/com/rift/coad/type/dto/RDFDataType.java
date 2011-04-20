@@ -21,12 +21,14 @@
 
 package com.rift.coad.type.dto;
 
+import java.io.Serializable;
+
 /**
  * This class contains type information
  *
  * @author brett chaldecott
  */
-public class RDFDataType {
+public class RDFDataType implements Serializable {
 
     private String namespace;
     private String localName;
