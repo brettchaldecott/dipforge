@@ -47,6 +47,18 @@ dependsOn(':daemon:0102-RSSReader')
 dependsOn(':web:CoadunationAdmin')
 dependsOn(':web:CoadunationDesktop')
 dependsOn(':web:FileManager')
+dependsOn(':rdf:SchemaUtils')
+dependsOn(':web:SchemaStore')
+dependsOn(':rdf:Semantics')
+dependsOn(':rdf:CoadunationSemantics')
+dependsOn(':rdf:CommonTypes')
+dependsOn(':client:AuditTrail')
+dependsOn(':daemon:0100-AuditTrailServer')
+dependsOn(':daemon:0150-CoadunationTypeManager')
+dependsOn(':web:lib:CoadunationGWTLibrary')
+dependsOn(':web:lib:WebLibs')
+dependsOn(':web:lib:AuditTrailGWT')
+dependsOn(':web:AuditTrailConsole')
 
 repositories {
     mavenCentral()
@@ -66,6 +78,8 @@ configurations {
     releaseDaemon
     releaseWeb
     releaseTools
+    releaseRDFClients
+    releaseExtractWeb
     compile
 }
 
@@ -88,6 +102,10 @@ task copyToClient(type: Copy) {
     into "dipforge/clientlib/"
     from configurations.releaseClients
 }
+task copyToRDFClient(type: Copy) {
+    into "dipforge/clientlib/rdf/"
+    from configurations.releaseRDFClients
+}
 
 task copyToDaemon(type: Copy) {
     into "dipforge/deploy/"
@@ -100,6 +118,12 @@ task copyWarToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseWeb
     include "**/*" + version + ".war"
+}
+
+release.doLast {
+    ant.unzip(
+        src: "$projectDir/../web/SchemaStore/build/SchemaStore-${version}.war" , 
+        dest: "$projectDir/dipforge/var/tomcat/webapps/schema")
 }
 
 task copyToTools(type: Copy) {
@@ -197,6 +221,12 @@ dependencies {
     releaseClients project(':client:TimerClient')
     releaseClients project(':client:TomcatClient')
     
+    // release rdf libs
+    releaseRDFClients project(':rdf:SchemaUtils')
+    releaseRDFClients project(':rdf:Semantics')
+    releaseRDFClients project(':rdf:CoadunationSemantics')
+    releaseRDFClients project(':rdf:CommonTypes')
+    
     // copy to tools
     releaseTools project(':cli:DeploymentDaemonCommandLineTool') {transitive = true}
     releaseTools project(':cli:MessageServiceCommandLineTool') {transitive = true}
@@ -216,15 +246,21 @@ dependencies {
     releaseDaemon project(':daemon:0060-Tomcat') {transitive = false}
     releaseDaemon project(':daemon:0101-DeploymentDaemon') {transitive = false}
     releaseDaemon project(':daemon:0102-RSSReader') {transitive = false}
+    releaseDaemon project(':daemon:0100-AuditTrailServer')
+    releaseDaemon project(':daemon:0150-CoadunationTypeManager')
     
     // release web
-    releaseWeb project(':web:CoadunationAdmin') {transitive = false}
-    releaseWeb project(':web:CoadunationDesktop') {transitive = false}
-    releaseWeb project(':web:FileManager') {transitive = false}
+    releaseWeb project(':web:CoadunationAdmin')
+    releaseWeb project(':web:CoadunationDesktop')
+    releaseWeb project(':web:FileManager')
+    releaseWeb project(':web:AuditTrailConsole')
+
+    // release extract web
+    releaseExtractWeb project(':web:SchemaStore')
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools]) {
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient]) {
 }
 
 release.dependsOn build

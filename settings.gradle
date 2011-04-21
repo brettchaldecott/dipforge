@@ -52,4 +52,6 @@ include 'libs:CoadunationBase',
         'web:lib:CoadunationGWTLibrary',
         'web:lib:WebLibs',
         'web:lib:AuditTrailGWT',
+        'web:AuditTrailConsole',
+        'web:CoadunationTypeManagerConsole',
 	'release'

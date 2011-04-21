@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
+if [ -d ${JAVA_HOME} ]
+then
+   echo "Using JAVA_HOME [${JAVA_HOME}]"
+else
+   echo "JAVA_HOME must be set
+   exit -1
+fi
+
 # setup the java path
-JAVA_PATH=/usr/lib/jvm/java-6-openjdk/bin/java
+JAVA_PATH=$JAVA_HOME/bin/java
 
 if [ -f $JAVA_PATH ]
 then
@@ -11,10 +19,10 @@ else
 fi
 
 # setup tools path
-TOOLS=/usr/lib/jvm/java-6-openjdk/lib/tools.jar
-DIPFORGE_HOME=/home/brettc/Documents/external/github/dipforge.git2/release/dipforge/
+TOOLS=$JAVA_HOME/lib/tools.jar
+DIPFORGE_HOME=${DIPFORGE_HOME}
 export DIPFORGE_HOME
-VERSION=1.0.1
+VERSION=${DIPFORGE_VERSION}
 export VERSION
 
 if [ -f $TOOLS ]
