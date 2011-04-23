@@ -152,6 +152,12 @@ task copyEtcTemplate(type: Copy) {
     filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version,java_home: javaHome, hostname: InetAddress.getLocalHost().getHostName()] )
 }
 
+
+task copyWebManagerToTomcat(type: Copy) {
+    into "${projectDir}/dipforge/var/tomcat/webapps/manager"
+    from "${projectDir}/template/web/manager"
+}
+
 task clean {
     ant {
         delete {
@@ -299,7 +305,7 @@ dependencies {
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate]) {
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat]) {
 }
 
 release.dependsOn build
