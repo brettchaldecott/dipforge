@@ -11,7 +11,7 @@
 <configuration>
     <object>
         <entry key="Client_Stub" type="String">
-            ${DIPFORGE_HOME}/client
+            @dipforge_home@/client
         </entry>
         <entry key="primary" type="boolean">
             true
@@ -24,17 +24,17 @@
         </entry>
         <!-- new -->
         <entry key="host" type="string">
-            ${HOSTNAME}
+            @hostname@
         </entry>
         <entry key="http_port" type="long">
             8085
         </entry>
         <entry key="installation_base" type="string">
-            ${DIPFORGE_HOME}
+            @dipforge_home@
         </entry>
         <!-- script base -->
         <entry key="script_base" type="string">
-            ${DIPFORGE_HOME}/var/script
+            @dipforge_home@/var/script
         </entry>
         <!-- script base -->
     </object>
@@ -109,7 +109,7 @@
     </object>
     <object name="com.rift.coad.lib.security.user.xml.XMLUserParser">
         <entry key="password_file" type="string">
-            ${DIPFORGE_HOME}/etc/users.xml
+            @dipforge_home@/etc/users.xml
         </entry>
     </object>
     <object name="com.rift.coad.lib.security.user.UserStoreManager">
@@ -128,7 +128,7 @@
             daemon
         </entry>
         <entry key="directory" type="string">
-            ${DIPFORGE_HOME}/deploy
+            @dipforge_home@/deploy
         </entry>
     </object>
     <object name="com.rift.coad.lib.deployment.DeploymentManager$DeploymentThread">
@@ -138,7 +138,7 @@
     </object>
     <object name="com.rift.coad.lib.deployment.DeploymentLoader">
         <entry key="temp_dir" type="string">
-            ${DIPFORGE_HOME}/tmp
+            @dipforge_home@/tmp
         </entry>
     </object>
     <object name="com.rift.coad.lib.db.DBSourceManager">
@@ -149,7 +149,7 @@
     <object name="org.hsqldb.jdbcDriver">
         <entry key="db_source" type="string">
             jndi=hsqldb,
-            url=jdbc:hsqldb:hsql://localhost/dipforge,
+            url=jdbc:hsqldb:hsql://@hostname@/coadunation,
             username=sa,
             password=,
             min=25,
@@ -157,7 +157,7 @@
         </entry>
         <entry key="db_source2" type="string">
             jndi=audit,
-            url=jdbc:hsqldb:hsql://localhost/audit,
+            url=jdbc:hsqldb:hsql://@hostname@/audit,
             username=sa,
             password=,
             min=10,
@@ -165,7 +165,7 @@
         </entry>
         <entry key="db_source3" type="string">
             jndi=change,
-            url=jdbc:hsqldb:hsql://localhost/change,
+            url=jdbc:hsqldb:hsql://@hostname@/change,
             username=sa,
             password=,
             min=25,
@@ -173,7 +173,7 @@
         </entry>
         <entry key="db_source4" type="string">
             jndi=data_mapper_broker,
-            url=jdbc:hsqldb:hsql://localhost/data_mapper_broker,
+            url=jdbc:hsqldb:hsql://@hostname@/data_mapper_broker,
             username=sa,
             password=,
             min=10,
@@ -181,7 +181,7 @@
         </entry>
         <entry key="db_source5" type="string">
             jndi=script,
-            url=jdbc:hsqldb:hsql://localhost/script,
+            url=jdbc:hsqldb:hsql://@hostname@/script,
             username=sa,
             password=,
             min=10,
@@ -189,7 +189,7 @@
         </entry>
         <entry key="db_source6" type="string">
             jndi=revision,
-            url=jdbc:hsqldb:hsql://localhost/revision,
+            url=jdbc:hsqldb:hsql://@hostname@/revision,
             username=sa,
             password=,
             min=10,
@@ -197,7 +197,7 @@
         </entry>
         <entry key="db_source7" type="string">
             jndi=groovy,
-            url=jdbc:hsqldb:hsql://localhost/groovy,
+            url=jdbc:hsqldb:hsql://@hostname@/groovy,
             username=sa,
             password=,
             min=10,
@@ -205,7 +205,7 @@
         </entry>
         <entry key="db_source8" type="string">
             jndi=jython,
-            url=jdbc:hsqldb:hsql://localhost/jython,
+            url=jdbc:hsqldb:hsql://@hostname@/jython,
             username=sa,
             password=,
             min=10,
@@ -213,7 +213,7 @@
         </entry>
         <entry key="db_source9" type="string">
             jndi=requestbroker,
-            url=jdbc:hsqldb:hsql://localhost/requestbroker,
+            url=jdbc:hsqldb:hsql://@hostname@/requestbroker,
             username=sa,
             password=,
             min=10,
@@ -221,7 +221,7 @@
         </entry>
         <entry key="db_source10" type="string">
             jndi=controlpanel,
-            url=jdbc:hsqldb:hsql://localhost/controlpanel,
+            url=jdbc:hsqldb:hsql://@hostname@/controlpanel,
             username=sa,
             password=,
             min=10,
@@ -304,21 +304,21 @@
     </object>
     <object name="com.rift.coad.lib.naming.jacorb.JacORBManager">
         <entry key="host" type="string">
-            ${HOSTNAME}
+            @hostname@
         </entry>
         <entry key="port" type="string">
             2000
         </entry>
         <entry key="name_server_store" type="string">
-            ${DIPFORGE_HOME}/var/nameservice
+            @dipforge_home@/var/nameservice
         </entry>
     </object>
     <object name="com.rift.coad.lib.naming.cos.CosContext">
         <entry key="instance_cos_url" type="string">
-            corbaloc:iiop:${HOSTNAME}:2000/StandardNS/NameServer-POA/_root
+            corbaloc:iiop:@hostname@:2000/StandardNS/NameServer-POA/_root
         </entry>
         <entry key="master_cos_url" type="string">
-            corbaloc:iiop:${HOSTNAME}:2000/StandardNS/NameServer-POA/_root
+            corbaloc:iiop:@hostname@:2000/StandardNS/NameServer-POA/_root
         </entry>
         <entry key="cos_user" type="string">
             daemon
@@ -336,13 +336,13 @@
     </object>
     <object name="com.rift.coad.daemon.hsqldb.HsqlDBEngine">
         <entry key="db_path" type="string">
-           ${DIPFORGE_HOME}/var/hsqldb/dipforge
+           @dipforge_home@/var/hsqldb/dipforge
         </entry>
         <entry key="db_hostname" type="string">
-           localhost
+           @hostname@
         </entry>
         <entry key="db_base" type="string">
-           ${DIPFORGE_HOME}/var/hsqldb
+           @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
            audit,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,controlpanel
@@ -393,21 +393,21 @@
     </object>
     <object name="com.rift.coad.daemon.jython.JythonDaemonImpl">
         <entry key="python_home" type="string">
-            ${DIPFORGE_HOME}/var/jython
+            @dipforge_home@/var/jython
         </entry>
         <entry key="script_location" type="string">
-            ${DIPFORGE_HOME}/var/script
+            @dipforge_home@/var/script
         </entry>
         <entry key="coadunation_temp" type="string">
-            ${DIPFORGE_HOME}/tmp
+            @dipforge_home@/tmp
         </entry>
     </object>
     <object name="com.rift.coad.daemon.deployment.DeploymentDaemonImpl">
         <entry key="coadunation_deploy" type="string">
-            ${DIPFORGE_HOME}/deploy
+            @dipforge_home@/deploy
         </entry>
         <entry key="coadunation_temp" type="string">
-            ${DIPFORGE_HOME}/tmp
+            @dipforge_home@/tmp
         </entry>
     </object>
     <object name="com.rift.coad.daemon.messageservice.MessageServiceManager">
@@ -418,7 +418,7 @@
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            ${DIPFORGE_HOME}/var/messageservice
+            @dipforge_home@/var/messageservice
         </entry>
         <entry key="db_dialect" type="string">
             org.hibernate.dialect.HSQLDialect
@@ -448,19 +448,19 @@
     <!-- tomcat configuration information -->
     <object name="com.rift.coad.daemon.tomcat.TomcatDeployer">
         <entry key="directory" type="string">
-            ${DIPFORGE_HOME}/deploy
+            @dipforge_home@/deploy
         </entry>
     </object>
     <object name="com.rift.coad.daemon.tomcat.TomcatWrapper">
         <entry key="TomcatBasePath" type="string">
-            ${DIPFORGE_HOME}/var/tomcat
+            @dipforge_home@/var/tomcat
         </entry>
     </object>
     <!-- end of tomcat configuration -->
     <!-- dns configuration information -->
     <object name="com.rift.coad.daemon.dns.DNSServer">
         <entry key="dns_base" type="string">
-            ${DIPFORGE_HOME}/var/named
+            @dipforge_home@/var/named
         </entry>
     </object>
     <object name="com.rift.coad.daemon.dns.server.Server">
@@ -486,7 +486,7 @@
            email
         </entry>
         <entry key="email_server_base" type="string">
-           ${DIPFORGE_HOME}/var/email
+           @dipforge_home@/var/email
         </entry>
     </object>
     <object name="com.rift.coad.daemon.email.server.ServerConfig">
@@ -506,7 +506,7 @@
             com/rift/coad/daemon/email/server/db/hibernate.xml
         </entry>
         <entry key="email_server_base" type="string">
-            ${DIPFORGE_HOME}/var/email
+            @dipforge_home@/var/email
         </entry>
     </object>
     <object name="com.rift.coad.daemon.email.server.smtp.SmtpRequest">
@@ -581,25 +581,25 @@
     <!-- desktop configuration information -->
     <object name="com.rift.coad.daemon.desktop.master.MasterBarImpl">
         <entry key="menu_file" type="string">
-            ${DIPFORGE_HOME}/var/desktop/menu.xml
+            @dipforge_home@/var/desktop/menu.xml
         </entry>
         <entry key="gadgets_file" type="string">
-            ${DIPFORGE_HOME}/var/desktop/gadgets.xml
+            @dipforge_home@/var/desktop/gadgets.xml
         </entry>
     </object>
     <object name="com.rift.coad.daemon.desktop.DesktopManagerImpl">
         <entry key="desktop_file" type="string">
-            ${DIPFORGE_HOME}/var/desktop/desktops.xml
+            @dipforge_home@/var/desktop/desktops.xml
         </entry>
         <entry key="desktop_app_file" type="string">
-            ${DIPFORGE_HOME}/var/desktop/desktopapps.xml
+            @dipforge_home@/var/desktop/desktopapps.xml
         </entry>
     </object>
     <!-- end of desktop configuration -->
     <!-- Mime information -->
     <object name="com.rift.coad.daemon.desktop.MimeManagerImpl">
         <entry key="mime_file" type="string">
-            ${DIPFORGE_HOME}/var/mime/mime.xml
+            @dipforge_home@/var/mime/mime.xml
         </entry>
     </object>
     <!-- end of Mime Information -->
@@ -623,14 +623,14 @@
     </object>
     <object name="com.rift.coad.daemon.event.FeedServerImpl">
         <entry key="event_config" type="string">
-            ${DIPFORGE_HOME}/var/event/feed.xml
+            @dipforge_home@/var/event/feed.xml
         </entry>
     </object>
     <!-- end of event configuration -->
     <!--  RSS configuration -->
     <object name="com.rift.coad.daemon.rss.RSSClientManagement">
         <entry key="feed_config" type="string">
-            ${DIPFORGE_HOME}/var/rss/feeds.xml
+            @dipforge_home@/var/rss/feeds.xml
         </entry>
         <entry key="db_dialect" type="string">
             org.hibernate.dialect.HSQLDialect
@@ -652,33 +652,33 @@
     <!-- Coadunation RDF Types -->
     <object name="com.rift.coad.type.TypeManagerDaemonImpl">
         <entry key="type_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/types/types.xml
+            @dipforge_home@/var/semantics/types/types.xml
         </entry>
     </object>
     <!-- end of Coadunation RDF Types -->
     <!-- Coadunation RDF Source Types -->
     <object name="com.rift.coad.rdf.web.RDFTypeServer">
         <entry key="type_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/types/types.xml
+            @dipforge_home@/var/semantics/types/types.xml
         </entry>
     </object>
     <!-- Audit trail configuration -->
     <object name="com.rift.coad.audit.AuditTrailLoggerImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/audit.ttl
+            @dipforge_home@/var/semantics/audit.ttl
         </entry>
     </object>
     <!-- Audit trail configuration -->
     <!-- Change Manager configuration -->
     <object name="com.rift.coad.change.ChangeManagerDaemonImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/change.ttl
+            @dipforge_home@/var/semantics/change.ttl
         </entry>
     </object>
     <object name="com.rift.coad.change.request.RequestFactoryDaemonImpl">
@@ -686,30 +686,30 @@
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            ${DIPFORGE_HOME}/var/requestmanager
+            @dipforge_home@/var/requestmanager
         </entry>
     </object>
     <!-- Change Manager configuration -->
     <!-- Data Mapper configuration -->
     <object name="com.rift.coad.datamapperbroker.DataMapperBrokerDaemonImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/data_mapper_broker.ttl
+            @dipforge_home@/var/semantics/data_mapper_broker.ttl
         </entry>
     </object>
     <!-- Data Mapper configuration -->
     <!-- Script Manager Configuration -->
     <object name="com.rift.coad.script.broker.ScriptManagerDaemonImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/script_manager.ttl
+            @dipforge_home@/var/semantics/script_manager.ttl
         </entry>
         <entry key="template_dir" type="string">
-            ${DIPFORGE_HOME}/var/scripttemplate
+            @dipforge_home@/var/scripttemplate
         </entry>
         <entry key="script_repository" type="string">
             script
@@ -725,70 +725,70 @@
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            ${DIPFORGE_HOME}/var/scriptdistribution
+            @dipforge_home@/var/scriptdistribution
         </entry>
     </object>
     <!-- Revision Manager -->
     <object name="com.rift.coad.revision.RevisionManagerDaemonImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/revision_manager.ttl
+            @dipforge_home@/var/semantics/revision_manager.ttl
         </entry>
         <entry key="repository_base_path" type="string">
-            ${DIPFORGE_HOME}/var/revision
+            @dipforge_home@/var/revision
         </entry>
     </object>
     <!-- Revision Manager configuration -->
     <!-- Groovy Mapping Manager Configuration -->
     <object name="com.rift.coad.groovy.GroovyDaemonImpl">
         <entry key="groovy_lib_dir" type="string">
-            ${DIPFORGE_HOME}/var/groovylib/
+            @dipforge_home@/var/groovylib/
         </entry>
     </object>
     <object name="com.rift.coad.groovy.GroovyMappingManagerDaemonImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/groovy_manager.ttl
+            @dipforge_home@/var/semantics/groovy_manager.ttl
         </entry>
     </object>
     <!-- Groovy Mapping Manager configuration -->
     <!-- Jython Mapping Manager Configuration -->
     <object name="com.rift.coad.daemon.jython.JythonMappingManagerDaemonImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/jython_manager.ttl
+            @dipforge_home@/var/semantics/jython_manager.ttl
         </entry>
     </object>
     <!-- Jython Mapping Manager configuration -->
     <!-- Request Broker Configuration -->
     <object name="com.rift.coad.request.RequestBrokerDaemonImpl">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/request_broker.ttl
+            @dipforge_home@/var/semantics/request_broker.ttl
         </entry>
         <entry key="changelog_username" type="string">
             daemon
         </entry>
         <entry key="changelog_data_dir" type="string">
-            ${DIPFORGE_HOME}/var/requestbroker
+            @dipforge_home@/var/requestbroker
         </entry>
     </object>
     <!-- Request Broker configuration -->
     <!-- PHP Manager Configuration -->
     <object name="com.rift.coad.script.server.files.php.PHPFileManagerImpl">
         <entry key="php_base" type="string">
-            ${DIPFORGE_HOME}/var/tomcat/webapps/quercus-4.0.3
+            @dipforge_home@/var/tomcat/webapps/quercus-4.0.3
         </entry>
         <entry key="php_template_dir" type="string">
-            ${DIPFORGE_HOME}/var/phptemplate
+            @dipforge_home@/var/phptemplate
         </entry>
     </object>
     <object name="com.rift.coad.script.server.files.php.ViewSourceManagerImpl">
@@ -800,10 +800,10 @@
     <!-- Groovy Manager Configuration -->
     <object name="com.rift.coad.script.server.files.groovy.GroovyFileManagerImpl">
         <entry key="groovy_base" type="string">
-            ${DIPFORGE_HOME}/var/tomcat/webapps/GroovyWeb
+            @dipforge_home@/var/tomcat/webapps/GroovyWeb
         </entry>
         <entry key="groovy_template_dir" type="string">
-            ${DIPFORGE_HOME}/var/groovytemplate
+            @dipforge_home@/var/groovytemplate
         </entry>
     </object>
     <object name="com.rift.coad.script.server.files.groovy.GroovyViewSourceManagerImpl">
@@ -815,10 +815,10 @@
     <!-- Groovy Web Configuration -->
     <object name="com.rift.coad.web.rdf.RDFConfigure">
         <entry key="rdf_config_url" type="string">
-            http://localhost:8080/RDFTypeSource/Query?
+            http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
-            ${DIPFORGE_HOME}/var/semantics/control_panel.ttl
+            @dipforge_home@/var/semantics/control_panel.ttl
         </entry>
     </object>
     <!-- End of Groovy Web configuration -->

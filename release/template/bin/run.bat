@@ -1,7 +1,7 @@
 @echo off
-set JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
-set DIPFORGE_HOME=${DIPFORGE_HOME}
-set VERSION=${DIPFORGE_VERSION}
+set JAVA_HOME=@java_home@
+set DIPFORGE_HOME=@dipforge_home@
+set VERSION=@dipforge_version@
 set EXTRA=""
 set JAVA="%JAVA_HOME%java"
 set JAVA_OPTS=-Dcoad.config=com.rift.coad.lib.configuration.xml.XMLConfigurationFactory

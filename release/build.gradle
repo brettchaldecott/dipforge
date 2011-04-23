@@ -1,9 +1,12 @@
 apply plugin: 'maven'
+import org.apache.tools.ant.filters.ReplaceTokens
 
 libsDirName="."
 version="1.0.1"
 sourceCompatibility=1.6
 targetCompatibility=1.6
+javaHome = getJavaHomeVar()
+dipforgeHome = "${projectDir}/dipforge/".toString()
 
 
 dependsOn(':libs:CoadunationBase')
@@ -132,6 +135,23 @@ task copyToTools(type: Copy) {
     include "**/*CommandLine*" + version + ".jar"
 }
 
+task copyBinTemplate(type: Copy) {
+    from "${projectDir}/template/bin/"
+    into "${projectDir}/dipforge/bin/"
+    include 'run.bat'
+    include 'run.sh'
+    filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version, hostname: InetAddress.getLocalHost().getHostName(), java_home: javaHome] )
+}
+
+task copyEtcTemplate(type: Copy) {
+    from "${projectDir}/template/etc/"
+    into "${projectDir}/dipforge/etc/"
+    include 'config.xml'
+    include 'log4j.properties'
+    include 'server.policy'
+    filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version,java_home: javaHome, hostname: InetAddress.getLocalHost().getHostName()] )
+}
+
 task clean {
     ant {
         delete {
@@ -153,6 +173,24 @@ task clean {
         delete (includeEmptyDirs:true){
             fileset(dir: "dipforge/var/tomcat/work"){
                 exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/bin"){
+                include(name: "**/*.bat")
+                include(name: "**/*.sh")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/etc"){
+                include(name: "**/config.xml")
+                include(name: "**/*.policy")
+                include(name: "**/*.properties")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/log"){
+                include(name: "**/*.*")
             }
         }
     }
@@ -254,13 +292,22 @@ dependencies {
     releaseWeb project(':web:CoadunationDesktop')
     releaseWeb project(':web:FileManager')
     releaseWeb project(':web:AuditTrailConsole')
+    releaseWeb project(':web:CoadunationTypeManagerConsole')
 
     // release extract web
     releaseExtractWeb project(':web:SchemaStore')
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient]) {
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate]) {
 }
 
 release.dependsOn build
+
+def getJavaHomeVar() {
+    def javaHome = System.properties["java.home"]
+    if (javaHome.endsWith("/jre")) {
+        javaHome = javaHome.substring(0,javaHome.length() - "/jre".length())
+    }
+    return javaHome
+}
