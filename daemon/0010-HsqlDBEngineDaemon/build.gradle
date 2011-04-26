@@ -22,10 +22,7 @@ configurations {
 }
 
 dependencies {
-    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
-    compile group: 'org.hsqldb', name: 'hsqldb', version: '2.0.0', ext: 'jar'
-    compile group: 'axis', name: 'axis', version: '1.4', ext: 'jar'
-    compile group: 'axis', name: 'axis-jaxrpc', version: '1.4', ext: 'jar'
+    compile(ivyDependencies('compile'))
     compile project(':client:HsqlDBEngineClient')
     compile project(':libs:CoadunationLib')
     compile project(':libs:CoadunationAnnotations')
@@ -83,3 +80,16 @@ build.dependsOn {
     [jar, uploadArchives, copyJars]
 }
 release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}

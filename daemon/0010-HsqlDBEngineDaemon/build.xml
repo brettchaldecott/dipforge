@@ -67,8 +67,4 @@
 
     -->
     
-    <target name="-pre-jar">
-        <copy file="${file.reference.hsqldb.jar}" todir="${build.classes.dir}"/>
-        <copy file="${reference.HsqlDBEngineClient.jar}" todir="${build.classes.dir}"/>
-    </target>
 </project>

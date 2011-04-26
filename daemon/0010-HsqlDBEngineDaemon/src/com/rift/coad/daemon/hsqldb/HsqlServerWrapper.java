@@ -60,7 +60,7 @@ public class HsqlServerWrapper {
     private long startPort;
     private int count = 0;
     private HsqlProperties properties = new HsqlProperties();
-    private List<Server> servers = new ArrayList<Server>();
+    private Server server;
     private boolean silent;
     private boolean trace;
     private boolean tls;
@@ -98,11 +98,21 @@ public class HsqlServerWrapper {
      */
     public void addDB(String name) throws HsqlDBEngineException {
         try {
-            File path = new File(base, name);
-            properties.setProperty(ServerConstants.SC_KEY_DATABASE + "." + count,
-                    path.toURI().toURL().toString());
-            properties.setProperty(ServerConstants.SC_KEY_DBNAME + "." + count,
-                    name);
+            //properties.setProperty(ServerConstants.SC_KEY_DATABASE + "." + count,
+            //        path.toURI().toURL().toString() + ";sql.enforce_strict_size=true;");
+            //properties.setProperty(ServerConstants.SC_KEY_DBNAME + "." + count,
+            //        name);
+            String[] arguments = name.split("=");
+            if (arguments.length == 2 && arguments[1].equals("backwards")) {
+                File path = new File(base, arguments[0]);
+                server.setDatabasePath(count, path.toURI().toURL().toString() +
+                        ";sql.enforce_strict_size=false;sql.enforce_size=false;");
+                server.setDatabaseName(count, arguments[0]);
+            } else {
+                File path = new File(base, arguments[0]);
+                server.setDatabasePath(count, path.toURI().toURL().toString());
+                server.setDatabaseName(count, arguments[0]);
+            }
             count++;
         } catch (Exception ex) {
             throw new HsqlDBEngineException("Failed to add the db because : " + ex.getMessage(),ex);
@@ -115,11 +125,8 @@ public class HsqlServerWrapper {
      */
     public void start() {
         try {
-            servers.get(servers.size() - 1).setProperties(properties);
-            properties = null;
-            for (int index = 0; index < servers.size(); index++) {
-                servers.get(index).start();
-            }
+            server.setProperties(properties);
+            server.start();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -129,9 +136,7 @@ public class HsqlServerWrapper {
      * This method stops the server
      */
     public void stop() {
-        for (int index = 0; index < servers.size(); index++) {
-            servers.get(index).shutdown();
-        }
+        server.shutdown();
     }
 
     /**
@@ -143,9 +148,8 @@ public class HsqlServerWrapper {
      * @throws com.rift.coad.daemon.hsqldb.HsqlDBEngineException
      */
     public String getDatabaseName(int index, boolean asconfigured) throws HsqlDBEngineException {
-        int serverIndex = index;
         int dbIndex = index;
-        return servers.get(serverIndex).getDatabaseName(dbIndex, trace);
+        return server.getDatabaseName(dbIndex, trace);
     }
 
     /**
@@ -157,9 +161,8 @@ public class HsqlServerWrapper {
      * @throws com.rift.coad.daemon.hsqldb.HsqlDBEngineException
      */
     public String getDatabasePath(int index, boolean asconfigured) throws HsqlDBEngineException {
-        int serverIndex = index;
         int dbIndex = index;
-        return servers.get(serverIndex).getDatabasePath(dbIndex, trace);
+        return server.getDatabasePath(dbIndex, trace);
     }
 
     /**
@@ -169,9 +172,8 @@ public class HsqlServerWrapper {
      * @return The string containing the database type.
      */
     public String getDatabaseType(int index) {
-        int serverIndex = index;
         int dbIndex = index;
-        return servers.get(serverIndex).getDatabaseType(dbIndex);
+        return server.getDatabaseType(dbIndex);
     }
 
     /**
@@ -179,16 +181,18 @@ public class HsqlServerWrapper {
      */
     private void setupServer() throws HsqlDBEngineException {
         try {
-            Server server = new Server();
+            server = new Server();
             properties = new HsqlProperties();
             properties.setProperty(ServerConstants.SC_KEY_ADDRESS, this.hostname);
-            properties.setProperty(ServerConstants.SC_KEY_PORT, new Long(this.startPort++).toString());
+            properties.setProperty(ServerConstants.SC_KEY_PORT, new Long(this.startPort).toString());
+            properties.setProperty("sql.enforce_strict_size", false);
+            properties.setProperty("sql.enforce_size", false);
             server.setSilent(this.silent);
             server.setTrace(this.trace);
             server.setTls(this.tls);
             server.setNoSystemExit(true);
             server.setRestartOnShutdown(true);
-            servers.add(server);
+
         } catch (Exception ex) {
             throw new HsqlDBEngineException("Failed to instanciate a server : " + ex.getMessage(), ex);
         }

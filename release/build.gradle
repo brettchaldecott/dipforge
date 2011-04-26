@@ -140,6 +140,7 @@ task copyBinTemplate(type: Copy) {
     into "${projectDir}/dipforge/bin/"
     include 'run.bat'
     include 'run.sh'
+    fileMode=00755
     filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version, hostname: InetAddress.getLocalHost().getHostName(), java_home: javaHome] )
 }
 
@@ -197,6 +198,11 @@ task clean {
         delete {
             fileset(dir: "dipforge/log"){
                 include(name: "**/*.*")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/hsqldb"){
+                exclude(name: "**/*.keepme")
             }
         }
     }

@@ -43,6 +43,7 @@ dependencies {
     releaseJars project(':rdf:Semantics')
     releaseJars project(':client:AuditTrail')
     releaseJars project(':rdf:SchemaUtils')
+    releaseJars project(':client:ServiceBrokerClient')
 }
 
 sourceSets {

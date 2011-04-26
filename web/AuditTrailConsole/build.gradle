@@ -83,10 +83,10 @@ war.dependsOn gwtCompile
 war {
     classPath = getClasspath().filter({file -> file.name.contains("classes") ||
         file.name.contains("gwt-servlet") ||
-        file.name.contains("gwm") ||
+        file.name.contains("smartgwt") ||
         file.name.contains("CoadunationUtil") ||
-        file.name.contains("DesktopServerClient") ||
-        file.name.contains("EventServerClient")}) 
+        file.name.contains("AuditTrail") ||
+        file.name.contains("Semantics")}) 
     setClasspath(classPath)
     classpath 'build/classes/main/'
     from 'web'
