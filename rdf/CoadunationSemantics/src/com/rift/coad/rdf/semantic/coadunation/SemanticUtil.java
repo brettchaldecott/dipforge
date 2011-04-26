@@ -110,7 +110,9 @@ public class SemanticUtil implements XAResource {
             if (coadConfig.containsKey(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
                 ontologyListBuffer.append(sep).append(coadConfig.getString(OntologyConstants.ONTOLOGY_LOCATION_URIS));
             }
-            properties.put(OntologyConstants.ONTOLOGY_LOCATION_URIS, ontologyListBuffer.toString());
+            if (ontologyListBuffer.length() > 0) {
+                properties.put(OntologyConstants.ONTOLOGY_LOCATION_URIS, ontologyListBuffer.toString());
+            }
 
 
             // ket the key set
@@ -119,7 +121,9 @@ public class SemanticUtil implements XAResource {
                 if (key.toString().equals(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
                     continue;
                 }
-                properties.put(key, coadConfig.getString((String)key));
+                if (coadConfig.isString((String)key)) {
+                    properties.put(key, coadConfig.getString((String)key));
+                }
 
             }
             
