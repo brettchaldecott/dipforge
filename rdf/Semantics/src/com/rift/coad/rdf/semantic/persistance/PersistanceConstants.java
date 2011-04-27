@@ -42,6 +42,6 @@ public class PersistanceConstants {
     /**
      * If the store being selected requires a configuration file.
      */
-    public final static String STORE_CONFIGURATION_FILE = "store_configuration_FILE";
+    public final static String STORE_CONFIGURATION_FILE = "store_configuration_file";
     
 }

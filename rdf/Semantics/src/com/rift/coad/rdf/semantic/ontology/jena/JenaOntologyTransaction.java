@@ -56,17 +56,7 @@ public class JenaOntologyTransaction implements OntologyTransaction {
      * @throws OntologyException
      */
     public void begin() throws OntologyException {
-        if (inTransaction) {
-            throw new OntologyException("A transaction has already been started");
-        }
-        try {
-            jenaOntModel.begin();
-            inTransaction = true;
-        } catch (Exception ex) {
-            log.error("Failed to start the transaction : " + ex.getMessage(),ex);
-            throw new OntologyException
-                    ("Failed to start the transaction : " + ex.getMessage(),ex);
-        }
+        // Note: This is not supported by this store.
     }
 
 
@@ -76,11 +66,7 @@ public class JenaOntologyTransaction implements OntologyTransaction {
      * @throws PersistanceException
      */
     public void commit() throws OntologyException {
-        try {
-            jenaOntModel.commit();
-        } catch (Exception ex) {
-            log.error("Failed to commit : " + ex.getMessage(),ex);
-        }
+        // Note: This is not supported.
     }
 
 
@@ -90,11 +76,7 @@ public class JenaOntologyTransaction implements OntologyTransaction {
      * @throws OntologyException
      */
     public void rollback() throws OntologyException {
-        try {
-            jenaOntModel.abort();
-        } catch (Exception ex) {
-            log.error("Failed to commit : " + ex.getMessage(),ex);
-        }
+        // Note: This is not supported
     }
 
 

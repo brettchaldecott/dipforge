@@ -25,17 +25,22 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sdb.SDBFactory;
 import com.hp.hpl.jena.sdb.Store;
 import com.hp.hpl.jena.sdb.store.SDBStoreWrapper;
+import com.hp.hpl.jena.sdb.util.StoreUtils;
 
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
 import java.util.Properties;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author brett chaldecott
  */
 public class JenaSDBModelFactory implements JenaStore {
+
+    // logger
+    private static Logger log = Logger.getLogger(JenaSDBModelFactory.class);
 
     // private member variables
     private Store store = null;
@@ -44,20 +49,22 @@ public class JenaSDBModelFactory implements JenaStore {
     private JenaSDBModelFactory(Properties prop) throws PersistanceException {
         try {
             String sdbConfigPath = prop.getProperty(PersistanceConstants.STORE_CONFIGURATION_FILE);
-            if (sdbConfigPath != null) {
+            if (sdbConfigPath == null) {
                 throw new PersistanceException("The configuration file [" +
                         PersistanceConstants.STORE_CONFIGURATION_FILE +
                         "] must be set for the SDB store.");
             }
             // read in the SDB data information
             store = SDBFactory.connectStore(sdbConfigPath);
-            if (store.getSize() == 0) {
+            if (!StoreUtils.isFormatted(store)) {
                 store.getTableFormatter().create();
             }
             dataStore = SDBFactory.connectDefaultModel(store);
         } catch (PersistanceException ex) {
             throw ex;
         } catch (Throwable ex) {
+            log.error("Failed to instantiate the Jena SDB store : "
+                    + ex.getMessage(),ex);
             throw new PersistanceException("Failed to instantiate the Jena SDB store : "
                     + ex.getMessage(),ex);
         }
