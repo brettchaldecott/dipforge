@@ -345,7 +345,7 @@
            @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
-           audit,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,controlpanel
+           audit=backwards,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,controlpanel
         </entry>
     </object>
     <object name="com.rift.coad.daemon.timer.TimerImpl">
@@ -662,10 +662,16 @@
             @dipforge_home@/var/semantics/types/types.xml
         </entry>
     </object>
+    <!-- Schema Storage Source Types -->
+    <object name="com.rift.coad.schema.rdf.OntologyStore">
+        <entry key="schema_dir" type="string">
+            @dipforge_home@/var/semantics/types/
+        </entry>
+    </object>
     <!-- Audit trail configuration -->
     <object name="com.rift.coad.audit.AuditTrailLoggerImpl">
         <entry key="rdf_config_url" type="string">
-            http://@hostname@:8080/schema/rdf?
+            http://@hostname@:8080/schema/rdf?list=true
         </entry>
         <entry key="persistance_manager" type="string">
            com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceManager 
