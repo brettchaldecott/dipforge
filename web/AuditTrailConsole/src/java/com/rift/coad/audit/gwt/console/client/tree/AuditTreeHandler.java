@@ -108,7 +108,7 @@ public class AuditTreeHandler implements NavigationDataHandler {
         // which the host page was served.
         //
         ServiceDefTarget endpoint = (ServiceDefTarget) service;
-        String moduleRelativeURL = GWT.getModuleBaseURL() + "tree/treequery";
+        String moduleRelativeURL = GWT.getHostPageBaseURL() + "tree/treequery";
         endpoint.setServiceEntryPoint(moduleRelativeURL);
         return service;
     }
