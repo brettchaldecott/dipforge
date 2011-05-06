@@ -54,4 +54,5 @@ include 'libs:CoadunationBase',
         'web:lib:AuditTrailGWT',
         'web:AuditTrailConsole',
         'web:CoadunationTypeManagerConsole',
+        'libs:GroovyServletBootStrap',
 	'release'
