@@ -18,8 +18,6 @@
  *
  * GroovyEnvironmentManager.java
  */
-
-
 package com.rift.dipforge.groovy.lib;
 
 import com.rift.dipforge.groovy.lib.reflect.GroovyReflectionUtil;
@@ -28,10 +26,16 @@ import groovy.lang.Closure;
 import groovy.servlet.AbstractHttpServlet;
 import groovy.servlet.ServletBinding;
 import groovy.util.ResourceException;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,10 +50,15 @@ public class GroovyExecuter {
 
     // class singletons
     private Logger log = Logger.getLogger(GroovyExecuter.class);
-
     // private member variables
+    private ContextInfo context;
+    private String dipLibPath;
+    private String basePath;
+    private String[] subdirs;
+    private String[] libsdir;
     private Object groovyScriptEngine;
     private GroovyClassLoader classLoader;
+    private Map<String, File[]> directoryCache = new HashMap<String, File[]>();
 
     /**
      * The constructor of the groovy script engine.
@@ -57,11 +66,15 @@ public class GroovyExecuter {
      * @param groovyScriptEngine The script engine.
      * @param classLoader The class loader.
      */
-    protected GroovyExecuter(Object groovyScriptEngine, GroovyClassLoader classLoader) {
-        this.groovyScriptEngine = groovyScriptEngine;
-        this.classLoader = classLoader;
+    protected GroovyExecuter(ContextInfo context, String dipLibPath, String basePath,
+            String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
+        this.context = context;
+        this.dipLibPath = dipLibPath;
+        this.basePath = basePath;
+        this.subdirs = subdirs;
+        this.libsdir = libsdir;
+        initGroovyScriptEngine();
     }
-
 
     /**
      * This method invokes a script in the groovy environment and returns the result.
@@ -82,33 +95,30 @@ public class GroovyExecuter {
             Thread.currentThread().setContextClassLoader(classLoader);
             Object binding = classLoader.loadClass("groovy.lang.Binding").newInstance();
             // bind the parameters
-            Method bindMethod = GroovyReflectionUtil.getMethod(binding,"setProperty", String.class,Object.class);
+            Method bindMethod = GroovyReflectionUtil.getMethod(binding, "setProperty", String.class, Object.class);
             for (int index = 0; index < parameters.length; index++) {
                 String parameterName = parameterNames[index];
                 Object parameter = parameters[index];
                 log.info("Adding the bind parameter named : " + parameterName);
-                bindMethod.invoke(binding, parameterName,parameter);
+                bindMethod.invoke(binding, parameterName, parameter);
             }
 
             Method run = groovyScriptEngine.getClass().getMethod("run",
-                    String.class,binding.getClass());
-            return run.invoke(groovyScriptEngine, script,binding);
+                    String.class, binding.getClass());
+            return run.invoke(groovyScriptEngine, script, binding);
         } catch (InvocationTargetException invocationException) {
             Throwable ex = invocationException.getTargetException();
-            log.error("Failed to execute the groovy script : " + ex.getMessage(),ex);
-            throw new GroovyEnvironmentException
-                    ("Failed to execute the groovy script : " + ex.getMessage());
+            log.error("Failed to execute the groovy script : " + ex.getMessage(), ex);
+            throw new GroovyEnvironmentException("Failed to execute the groovy script : " + ex.getMessage());
 
         } catch (Throwable ex) {
-            log.error("Failed to execute the groovy script : " + ex.getMessage(),ex);
-            throw new GroovyEnvironmentException
-                    ("Failed to execute the groovy script : " + ex.getMessage());
+            log.error("Failed to execute the groovy script : " + ex.getMessage(), ex);
+            throw new GroovyEnvironmentException("Failed to execute the groovy script : " + ex.getMessage());
         } finally {
             // reset the class loader
             Thread.currentThread().setContextClassLoader(current);
         }
     }
-
 
     /**
      * This method is called to execute a script on behalf of a servlet.
@@ -133,12 +143,12 @@ public class GroovyExecuter {
             Thread.currentThread().setContextClassLoader(classLoader);
 
             // Set it to HTML by default
-            response.setContentType("text/html; charset="+servlet.getEncoding());
+            response.setContentType("text/html; charset=" + servlet.getEncoding());
 
             // Set up the script context
             Class bindingClass = classLoader.loadClass("groovy.servlet.ServletBinding");
             Constructor bindingConstructor = bindingClass.getConstructor(
-                    HttpServletRequest.class,HttpServletResponse.class,
+                    HttpServletRequest.class, HttpServletResponse.class,
                     ServletContext.class);
             Object binding = bindingConstructor.newInstance(request, response, servletContext);
 
@@ -149,9 +159,9 @@ public class GroovyExecuter {
                     groovyScriptEngine.getClass());
             Object bootstrap = bindingConstructor.newInstance(groovyScriptEngine);
             Method run = bootstrap.getClass().getMethod("run",
-                        String.class,binding.getClass());
-            run.invoke(scriptUri,binding);
-            
+                    String.class, binding.getClass());
+            run.invoke(scriptUri, binding);
+
             /*
              * Set reponse code 200.
              */
@@ -169,8 +179,9 @@ public class GroovyExecuter {
             if (e == null) {
                 error.append(" Script processing failed.");
                 error.append(runtimeException.getMessage());
-                if (runtimeException.getStackTrace().length > 0)
+                if (runtimeException.getStackTrace().length > 0) {
                     error.append(runtimeException.getStackTrace()[0].toString());
+                }
                 servletContext.log(error.toString());
                 System.err.println(error.toString());
                 runtimeException.printStackTrace(System.err);
@@ -192,13 +203,14 @@ public class GroovyExecuter {
              */
             servletContext.log("An error occurred processing the request", runtimeException);
             error.append(e.getMessage());
-            if (e.getStackTrace().length > 0)
+            if (e.getStackTrace().length > 0) {
                 error.append(e.getStackTrace()[0].toString());
+            }
             servletContext.log(e.toString());
             System.err.println(e.toString());
             runtimeException.printStackTrace(System.err);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
-        }  catch (Throwable runtimeException) {
+        } catch (Throwable runtimeException) {
             StringBuffer error = new StringBuffer("GroovyServlet Error: ");
             error.append(" script: '");
             error.append(scriptUri);
@@ -210,8 +222,9 @@ public class GroovyExecuter {
             if (e == null) {
                 error.append(" Script processing failed.");
                 error.append(runtimeException.getMessage());
-                if (runtimeException.getStackTrace().length > 0)
+                if (runtimeException.getStackTrace().length > 0) {
                     error.append(runtimeException.getStackTrace()[0].toString());
+                }
                 servletContext.log(error.toString());
                 System.err.println(error.toString());
                 runtimeException.printStackTrace(System.err);
@@ -233,8 +246,9 @@ public class GroovyExecuter {
              */
             servletContext.log("An error occurred processing the request", runtimeException);
             error.append(e.getMessage());
-            if (e.getStackTrace().length > 0)
+            if (e.getStackTrace().length > 0) {
                 error.append(e.getStackTrace()[0].toString());
+            }
             servletContext.log(e.toString());
             System.err.println(e.toString());
             runtimeException.printStackTrace(System.err);
@@ -250,4 +264,183 @@ public class GroovyExecuter {
         }
     }
 
+    /**
+     * This method is used to return the groovy script engine.
+     *
+     * @return The object reference.
+     * @throws GroovyEnvironmentException
+     */
+    private void initGroovyScriptEngine() throws GroovyEnvironmentException {
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
+        try {
+            List<URL> paths = generateGroovyLibPath(libsdir);
+            classLoader = new GroovyClassLoader(paths.toArray(new URL[0]),
+                    current);
+
+            classLoader.clearAssertionStatus();
+            Thread.currentThread().setContextClassLoader(classLoader);
+            Class ref = classLoader.loadClass("groovy.util.GroovyScriptEngine");
+            List<String> pathList = generateScriptDirectories(basePath,context.getPath());
+            pathList.addAll(generateScriptDirectories(this.dipLibPath));
+            String[] path = pathList.toArray(new String[0]);
+            Constructor constructor = ref.getConstructor(path.getClass(), ClassLoader.class);
+            groovyScriptEngine = constructor.newInstance(path, classLoader);
+            // force the recompile of dependancy classes
+            Method method = groovyScriptEngine.getClass().getMethod("getGroovyClassLoader");
+            Object groovyClassLoader = method.invoke(groovyScriptEngine);
+            method = GroovyReflectionUtil.getMethod(groovyClassLoader, "setShouldRecompile", boolean.class);
+            if (method != null) {
+                method.invoke(groovyClassLoader, true);
+            } else {
+                log.error("Failed to set the should recompile flag");
+            }
+        } catch (GroovyEnvironmentException ex) {
+            throw ex;
+        } catch (Throwable ex) {
+            log.error("Failed to instanticte the groovy environment : " + ex.getMessage(), ex);
+            throw new GroovyEnvironmentException(
+                    "Failed to instanticte the groovy environment : " + ex.getMessage(), ex);
+        } finally {
+            Thread.currentThread().setContextClassLoader(current);
+        }
+    }
+
+    /**
+     * This method returns true if there are any changes in the directories that
+     * the groovy script engine runs through.
+     *
+     * @return boolean TRUE there are changes, FALSE if not.
+     *
+     */
+    protected boolean checkForChanges() throws GroovyEnvironmentException {
+        return checkDirectoryList(libsdir);
+    }
+
+    
+    /**
+     * This method loops through the base path list.
+     *
+     * @param paths The list of paths.
+     * @return The reference to the base path list.
+     * @throws GroovyEnvironmentExeption
+     */
+    private boolean checkDirectoryList(String[] paths) throws GroovyEnvironmentException {
+        for (String path : paths) {
+            File directory = new File(path);
+            if (!directory.isDirectory()) {
+                log.info("The directory path [" + path + "] is invalid.");
+                throw new GroovyEnvironmentException("The directory path [" + path + "] is invalid.");
+            }
+            File[] currentFiles = directory.listFiles();
+            File[] oldFiles = directoryCache.get(path);
+            if (oldFiles == null) {
+                return true;
+            }
+            for (File currentFile : currentFiles) {
+                if (!findFile(oldFiles, currentFile)) {
+                    return true;
+                }
+            }
+            for (File oldFile : oldFiles) {
+                if (!findFile(currentFiles, oldFile)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method performs a search for files in the file path.
+     *
+     * @param fileList The file list to perform the search on.
+     * @param searchPath The search file.
+     * @return True if found.
+     */
+    private boolean findFile(File[] fileList, File searchFile) {
+        for (File file : fileList) {
+            if (file.equals(searchFile)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method returns a directory contain the groovy lib paths.
+     *
+     * @param groovyLibPath The file path.
+     * @return The generated path.
+     * @throws com.rift.coad.groovy.GroovyDaemonException
+     */
+    private List<URL> generateGroovyLibPath(String[] libDirectories) throws GroovyEnvironmentException {
+        try {
+            List<URL> paths = new ArrayList<URL>();
+            for (String groovyLibPath : libDirectories) {
+                File[] files = new File(groovyLibPath).listFiles();
+                for (File file : files) {
+                    if (!file.isFile()) {
+                        continue;
+                    }
+                    if (file.getName().endsWith("jar")) {
+                        paths.add(file.toURI().toURL());
+                    }
+                }
+            }
+            return paths;
+        } catch (Exception ex) {
+            log.error("Failed to generate a groovy lib path : " + ex.getMessage());
+            throw new GroovyEnvironmentException("Failed to generate a groovy lib path : " + ex.getMessage());
+        }
+    }
+
+    
+    /**
+     * This method builds a path using a path and a sub path.
+     * @param path The path
+     * @param subpath The sub path.
+     * @return The list of directories.
+     * @throws GroovyEnvironmentException
+     */
+    private List<String> generateScriptDirectories(String path,String subpath) throws GroovyEnvironmentException {
+        return generateScriptDirectories(new File(path,subpath));
+    }
+
+    /**
+     * This method takes a string and generates a path.
+     *
+     * @param path The path to check.
+     * @return The list of script directories.
+     * @throws GroovyEnvironmentException
+     */
+    private List<String> generateScriptDirectories(String path) throws GroovyEnvironmentException {
+        return generateScriptDirectories(new File(path));
+    }
+
+    /**
+     * This method generates the script directories.
+     *
+     * @param basePaths The list of base paths that contains script directories.
+     * @return The list of paths.
+     * @throws GroovyEnvironmentException
+     */
+    private List<String> generateScriptDirectories(File path) throws GroovyEnvironmentException {
+        try {
+            List<String> resultPaths = new ArrayList<String>();
+            File[] directories = path.listFiles();
+            for (File directory : directories) {
+                for (String subdir : subdirs) {
+                    File subdirectory = new File(directory, subdir);
+                    if (!subdirectory.isDirectory()) {
+                        continue;
+                    }
+                    resultPaths.add(subdirectory.getPath());
+                }
+            }
+            return resultPaths;
+        } catch (Throwable ex) {
+            log.error("Failed to generate the script paths : " + ex.getMessage(), ex);
+            throw new GroovyEnvironmentException("Failed to generate the script paths : " + ex.getMessage(), ex);
+        }
+    }
 }

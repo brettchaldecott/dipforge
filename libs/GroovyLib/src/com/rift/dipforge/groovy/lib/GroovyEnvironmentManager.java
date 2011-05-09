@@ -44,25 +44,26 @@ public class GroovyEnvironmentManager {
     private static Logger log = Logger.getLogger(GroovyEnvironmentManager.class);
 
     // private member variables.
-    private String[] basePaths;
+    private String dipLibPath;
+    private String basePath;
     private String[] subdirs;
     private String[] libsdir;
-    private Object groovyScriptEngine;
-    private GroovyClassLoader classLoader;
-
-
-    private Map<String,File[]> directoryCache = new HashMap<String, File[]>();
-
+    
+    private Map<ContextInfo,GroovyExecuter> executerMap = new HashMap<ContextInfo,GroovyExecuter>();
+    
     /**
      * The groovy environment manager.
      *
-     * @param basePaths The base paths.
+     * @param dipLibPath The dip lib paths.
+     * @param basePath The base paths.
      * @param subdirs The sub directories.
      * @param libsdir The libs directory.
      * @throws GroovyEnvironmentException
      */
-    private GroovyEnvironmentManager(String[] basePaths, String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
-        this.basePaths = basePaths;
+    private GroovyEnvironmentManager(String dipLibPath, String basePath,
+            String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
+        this.dipLibPath = dipLibPath;
+        this.basePath = basePath;
         this.subdirs = subdirs;
         this.libsdir = libsdir;
     }
@@ -77,9 +78,9 @@ public class GroovyEnvironmentManager {
      * @return And instance of the groovy environment singleton.
      * @throws GroovyEnvironmentException
      */
-    public static synchronized GroovyEnvironmentManager init(String[] basePaths,
+    public static synchronized GroovyEnvironmentManager init(String dipLibPath, String basePath,
             String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
-        return singleton = new GroovyEnvironmentManager(basePaths, subdirs, libsdir);
+        return singleton = new GroovyEnvironmentManager(dipLibPath,basePath,subdirs, libsdir);
     }
 
 
@@ -101,182 +102,20 @@ public class GroovyEnvironmentManager {
     /**
      * This method returns the reference to the groovy executer.
      *
+     * @param context The context identifying url.
      * @return The reference to the environment executer.
      * @throws GroovyEnvironmentException
      */
-    public GroovyExecuter getExecuter() throws GroovyEnvironmentException {
-        manageGroovyScriptEngine();
-        return new GroovyExecuter(groovyScriptEngine,classLoader);
+    public GroovyExecuter getExecuter(ContextInfo context) throws GroovyEnvironmentException {
+        GroovyExecuter executer = executerMap.get(context);
+        if (executer != null && !executer.checkForChanges()) {
+            return executer;
+        }
+        executer = new GroovyExecuter(context, dipLibPath, basePath,subdirs, libsdir);
+        executerMap.put(context, executer);
+        return executer;
     }
 
 
-    /**
-     * This method is used to return the groovy script engine.
-     *
-     * @return The object reference.
-     * @throws GroovyEnvironmentException
-     */
-    private void manageGroovyScriptEngine() throws GroovyEnvironmentException {
-        if (!checkForChanges()) {
-            return;
-        }
-
-        ClassLoader current = Thread.currentThread().getContextClassLoader();
-        try {
-            List<URL> paths = generateGroovyLibPath(libsdir);
-            classLoader = new GroovyClassLoader(paths.toArray(new URL[0]),
-                    current);
-
-            classLoader.clearAssertionStatus();
-            Thread.currentThread().setContextClassLoader(classLoader);
-            Class ref = classLoader.loadClass("groovy.util.GroovyScriptEngine");
-            String[] path = generateScriptDirectories(basePaths).toArray(new String[0]);
-            Constructor constructor = ref.getConstructor(path.getClass(),ClassLoader.class);
-            groovyScriptEngine = constructor.newInstance(path,classLoader);
-            // force the recompile of dependancy classes
-            Method method = groovyScriptEngine.getClass().getMethod("getGroovyClassLoader");
-            Object groovyClassLoader = method.invoke(groovyScriptEngine);
-            method = GroovyReflectionUtil.getMethod(groovyClassLoader, "setShouldRecompile", boolean.class);
-            if (method != null) {
-                method.invoke(groovyClassLoader, true);
-            } else {
-                log.error("Failed to set the should recompile flag");
-            }
-        } catch (GroovyEnvironmentException ex) {
-            throw ex;
-        } catch (Throwable ex) {
-            log.error("Failed to instanticte the groovy environment : " + ex.getMessage(),ex);
-            throw new GroovyEnvironmentException(
-                    "Failed to instanticte the groovy environment : " + ex.getMessage(),ex);
-        } finally {
-            Thread.currentThread().setContextClassLoader(current);
-        }
-    }
-
-
-    /**
-     * This method returns true if there are any changes in the directories that
-     * the groovy script engine runs through.
-     *
-     * @return boolean TRUE there are changes, FALSE if not.
-     *
-     */
-    private boolean checkForChanges() throws GroovyEnvironmentException {
-        if (checkDirectoryList(basePaths) || checkDirectoryList(libsdir)) {
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * This method loops through the base path list.
-     *
-     * @param paths The list of paths.
-     * @return The reference to the base path list.
-     * @throws GroovyEnvironmentExeption
-     */
-    private boolean checkDirectoryList(String[] paths) throws GroovyEnvironmentException {
-        for (String path: paths) {
-            File directory = new File(path);
-            if (!directory.isDirectory()) {
-                log.info("The directory path [" + path + "] is invalid.");
-                throw new GroovyEnvironmentException("The directory path [" + path + "] is invalid.");
-            }
-            File[] currentFiles = directory.listFiles();
-            File[] oldFiles = directoryCache.get(path);
-            if (oldFiles == null) {
-                return true;
-            }
-            for (File currentFile: currentFiles) {
-                if (!findFile(oldFiles, currentFile)) {
-                    return true;
-                }
-            }
-            for (File oldFile: oldFiles) {
-                if (!findFile(currentFiles, oldFile)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * This method performs a search for files in the file path.
-     *
-     * @param fileList The file list to perform the search on.
-     * @param searchPath The search file.
-     * @return True if found.
-     */
-    private boolean findFile(File[] fileList, File searchFile) {
-        for (File file: fileList) {
-            if (file.equals(searchFile)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * This method returns a directory contain the groovy lib paths.
-     *
-     * @param groovyLibPath The file path.
-     * @return The generated path.
-     * @throws com.rift.coad.groovy.GroovyDaemonException
-     */
-    private List<URL> generateGroovyLibPath(String[] libDirectories) throws GroovyEnvironmentException {
-        try {
-            List<URL> paths = new ArrayList<URL>();
-            for (String groovyLibPath: libDirectories) {
-                File[] files = new File(groovyLibPath).listFiles();
-                for (File file : files) {
-                    if (!file.isFile()) {
-                        continue;
-                    }
-                    if (file.getName().endsWith("jar")) {
-                        paths.add(file.toURI().toURL());
-                    }
-                }
-            }
-            return paths;
-        } catch (Exception ex) {
-            log.error("Failed to generate a groovy lib path : " + ex.getMessage());
-            throw new GroovyEnvironmentException
-                    ("Failed to generate a groovy lib path : " + ex.getMessage());
-        }
-    }
-
-
-    /**
-     * This method generates the script directories.
-     *
-     * @param basePaths The list of base paths that contains script directories.
-     * @return The list of paths.
-     * @throws GroovyEnvironmentException
-     */
-    private List<String> generateScriptDirectories(String[] basePaths) throws GroovyEnvironmentException {
-        try {
-            List<String> resultPaths = new ArrayList<String>();
-            for (String basePath: basePaths) {
-                File[] directories = new File(basePath).listFiles();
-                for (File directory: directories) {
-                    for (String subdir: subdirs) {
-                        File subdirectory = new File(directory, subdir);
-                        if (!subdirectory.isDirectory()) {
-                            continue;
-                        }
-                        resultPaths.add(subdirectory.getPath());
-                    }
-                }
-            }
-            return resultPaths;
-        } catch (Throwable ex) {
-            log.error("Failed to generate the script paths : " + ex.getMessage(),ex);
-            throw new GroovyEnvironmentException
-                    ("Failed to generate the script paths : " + ex.getMessage(),ex);
-        }
-    }
+    
 }
