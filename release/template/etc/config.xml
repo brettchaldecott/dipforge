@@ -844,5 +844,19 @@
         </entry>
     </object>
     <!-- End of Document Management Configuration -->
+    
+    <!-- Dipforge Groovy Environment -->
+    <object name="com.rift.dipforge.groovy.web.WebGroovyServlet">
+        <entry key="environment_base" type="string">
+            @dipforge_home@/var/projects
+        </entry>
+        <entry key="environment_sub_directories" type="string">
+            views,controlls,services,libs
+        </entry>
+        <entry key="environment_libs_dir" type="string">
+            @dipforge_home@/var/groovylib/
+        </entry>
+    </object>
+    <!-- End of Dipforge Groovy Environment -->
 </configuration>
 
