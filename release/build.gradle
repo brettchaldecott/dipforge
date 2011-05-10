@@ -339,7 +339,7 @@ dependencies {
     // groovy lib
     releaseGroovyLib project(':libs:GroovyServletBootStrap')
     releaseGroovyLib project(':rdf:Semantics')
-    releaseGroovyLib project(':rdf:CoaduntionSemantics')
+    releaseGroovyLib project(':rdf:CoadunationSemantics')
     
 }
 
