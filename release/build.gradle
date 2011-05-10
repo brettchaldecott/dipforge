@@ -62,6 +62,9 @@ dependsOn(':web:lib:CoadunationGWTLibrary')
 dependsOn(':web:lib:WebLibs')
 dependsOn(':web:lib:AuditTrailGWT')
 dependsOn(':web:AuditTrailConsole')
+dependsOn(':libs:GroovyServletBootStrap')
+dependsOn(':libs:GroovyLib')
+dependsOn(':web:DipforgeWeb')
 
 repositories {
     mavenCentral()
@@ -83,6 +86,7 @@ configurations {
     releaseTools
     releaseRDFClients
     releaseExtractWeb
+    releaseGroovyLib
     compile
 }
 
@@ -153,10 +157,22 @@ task copyEtcTemplate(type: Copy) {
     filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version,java_home: javaHome, hostname: InetAddress.getLocalHost().getHostName()] )
 }
 
+task copySemanticTemplate(type: Copy) {
+    from "${projectDir}/template/var/semantics/"
+    into "${projectDir}/dipforge/var/semantics/"
+    include "*.ttl"
+    filter(ReplaceTokens, tokens:[hostname: InetAddress.getLocalHost().getHostName()] )
+}
 
 task copyWebManagerToTomcat(type: Copy) {
     into "${projectDir}/dipforge/var/tomcat/webapps/manager"
     from "${projectDir}/template/web/manager"
+}
+
+task copyToGroovyLib(type: Copy) {
+    into "dipforge/var/groovylib/"
+    from configurations.releaseGroovyLib
+    exclude "**/*servlet-api*"
 }
 
 task clean {
@@ -203,6 +219,16 @@ task clean {
         delete (includeEmptyDirs:true){
             fileset(dir: "dipforge/var/hsqldb"){
                 exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/semantics"){
+                include(name: "**/*.ttl")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/groovylib"){
+                include(name: "**/*.jar")
             }
         }
     }
@@ -305,13 +331,20 @@ dependencies {
     releaseWeb project(':web:FileManager')
     releaseWeb project(':web:AuditTrailConsole')
     releaseWeb project(':web:CoadunationTypeManagerConsole')
+    releaseWeb project(':web:DipforgeWeb')
 
     // release extract web
     releaseExtractWeb project(':web:SchemaStore')
+
+    // groovy lib
+    releaseGroovyLib project(':libs:GroovyServletBootStrap')
+    releaseGroovyLib project(':rdf:Semantics')
+    releaseGroovyLib project(':rdf:CoaduntionSemantics')
+    
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat]) {
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat,copySemanticTemplate,copyToGroovyLib]) {
 }
 
 release.dependsOn build
