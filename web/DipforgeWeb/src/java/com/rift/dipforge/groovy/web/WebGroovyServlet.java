@@ -36,14 +36,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import groovy.lang.Closure;
-import groovy.servlet.AbstractHttpServlet;
-import groovy.servlet.ServletBinding;
-import groovy.servlet.ServletCategory;
-import groovy.util.GroovyScriptEngine;
-import groovy.util.ResourceException;
-import groovy.util.ScriptException;
 import javax.servlet.ServletConfig;
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.runtime.GroovyCategorySupport;
