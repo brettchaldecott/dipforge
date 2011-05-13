@@ -1,4 +1,6 @@
 apply plugin: 'maven'
+apply plugin: 'announce'
+
 import org.apache.tools.ant.filters.ReplaceTokens
 
 libsDirName="."
@@ -131,6 +133,7 @@ release.doLast {
     ant.unzip(
         src: "$projectDir/../web/SchemaStore/build/SchemaStore-${version}.war" , 
         dest: "$projectDir/dipforge/var/tomcat/webapps/schema")
+    announce("Release complete", "notify-send")
 }
 
 task copyToTools(type: Copy) {
@@ -340,6 +343,12 @@ dependencies {
     releaseGroovyLib project(':libs:GroovyServletBootStrap')
     releaseGroovyLib project(':rdf:Semantics')
     releaseGroovyLib project(':rdf:CoadunationSemantics')
+    releaseGroovyLib "asm:asm:3.2"
+    releaseGroovyLib "antlr:antlr:2.7.7"
+    releaseGroovyLib "asm:asm-commons:3.2"
+    releaseGroovyLib "asm:asm-util:3.2"
+    releaseGroovyLib "asm:asm-analysis:3.2"
+    releaseGroovyLib "asm:asm-tree:3.2"
     
 }
 

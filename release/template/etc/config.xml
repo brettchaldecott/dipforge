@@ -847,6 +847,9 @@
     
     <!-- Dipforge Groovy Environment -->
     <object name="com.rift.dipforge.groovy.web.WebGroovyServlet">
+        <entry key="dipforge_lib_dir" type="string">
+            @dipforge_home@/var/projects/dipforge
+        </entry>
         <entry key="environment_base" type="string">
             @dipforge_home@/var/projects
         </entry>
