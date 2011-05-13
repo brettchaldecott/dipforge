@@ -40,6 +40,62 @@ import java.util.Enumeration;
  */
 public class GroovyClassLoader extends URLClassLoader {
 
+    // internal class loader
+    public class InternalClassLoader extends URLClassLoader {
+
+        public InternalClassLoader(URL[] urls) {
+            super(urls);
+        }
+
+        public InternalClassLoader(URL[] urls, ClassLoader parent) {
+            super(urls,parent);
+        }
+
+
+        /**
+         *
+         * @param name
+         * @return
+         * @throws java.lang.ClassNotFoundException
+         */
+        @Override
+        public Class<?> loadClass(String name) throws ClassNotFoundException {
+            // search system first to make sure that the J2SE classes are
+            // not over run
+            try {
+                return systemLoader.loadClass(name);
+            } catch (Exception ex) {
+
+            }
+
+            // fall back to parent
+            return parent.loadClass(name);
+        }
+
+        /**
+         * This method defers the to the main load class method.
+         *
+         * @param name The name of the class
+         * @param resolve
+         * @return
+         * @throws java.lang.ClassNotFoundException
+         */
+        @Override
+        protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+            // search system first to make sure that the J2SE classes are
+            // not over run
+            try {
+                return systemLoader.loadClass(name);
+            } catch (Exception ex) {
+
+            }
+
+            // fall back to parent
+            return parent.loadClass(name);
+        }
+
+    }
+
     // private member variables
     private ClassLoader systemLoader;
     private ClassLoader parent;
@@ -52,7 +108,7 @@ public class GroovyClassLoader extends URLClassLoader {
      */
     public GroovyClassLoader(URL[] urls) {
         super(urls);
-        local = new URLClassLoader(urls);
+        local = new URLClassLoader(urls, new InternalClassLoader(urls,this.getClass().getClassLoader()));
         systemLoader = ClassLoader.getSystemClassLoader();
     }
 
@@ -64,7 +120,7 @@ public class GroovyClassLoader extends URLClassLoader {
      */
     public GroovyClassLoader(URL[] urls, ClassLoader parent) {
         super(urls, parent);
-        this.local = new URLClassLoader(urls);
+        this.local = new URLClassLoader(urls,new InternalClassLoader(urls,parent));
         this.parent = parent;
         this.systemLoader = ClassLoader.getSystemClassLoader();
     }

@@ -25,7 +25,6 @@ import com.rift.dipforge.groovy.lib.servlet.DipforgeServlet;
 import groovy.lang.Closure;
 import groovy.servlet.AbstractHttpServlet;
 import groovy.servlet.ServletBinding;
-import groovy.util.ResourceException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -132,12 +131,13 @@ public class GroovyExecuter {
             HttpServletResponse response, DipforgeServlet servlet)
             throws GroovyEnvironmentException, java.io.IOException {
 
+        // Get the script path from the request - include aware (GROOVY-815)
+        String scriptUri = this.context.stripContext(servlet.getScriptUri(request));
+
         // Run the script
         ServletContext servletContext = servlet.getServletContext();
         ClassLoader current = Thread.currentThread().getContextClassLoader();
 
-        // Get the script path from the request - include aware (GROOVY-815)
-        String scriptUri = servlet.getScriptUri(request);
 
         try {
             Thread.currentThread().setContextClassLoader(classLoader);
@@ -147,20 +147,21 @@ public class GroovyExecuter {
 
             // Set up the script context
             Class bindingClass = classLoader.loadClass("groovy.servlet.ServletBinding");
-            Constructor bindingConstructor = bindingClass.getConstructor(
-                    HttpServletRequest.class, HttpServletResponse.class,
-                    ServletContext.class);
-            Object binding = bindingConstructor.newInstance(request, response, servletContext);
+            Class requestClass = classLoader.loadClass("javax.servlet.http.HttpServletRequest");
+            Class responseClass = classLoader.loadClass("javax.servlet.http.HttpServletResponse");
+            Class servletContextClass = classLoader.loadClass("javax.servlet.ServletContext");
+            Constructor[] bindingConstructors = bindingClass.getConstructors();
+            Object binding = bindingConstructors[0].newInstance(request, response, servletContext);
 
             // setup the servlet boot strap environment
             Class bootstrapClass = classLoader.loadClass(
                     "com.rift.dipforge.groovy.bootstrap.BoostrapClosureWrapper");
             Constructor bootstrapConstructor = bootstrapClass.getConstructor(
                     groovyScriptEngine.getClass());
-            Object bootstrap = bindingConstructor.newInstance(groovyScriptEngine);
+            Object bootstrap = bootstrapConstructor.newInstance(groovyScriptEngine);
             Method run = bootstrap.getClass().getMethod("run",
                     String.class, binding.getClass());
-            run.invoke(scriptUri, binding);
+            run.invoke(bootstrap, scriptUri, binding);
 
             /*
              * Set reponse code 200.
@@ -191,12 +192,16 @@ public class GroovyExecuter {
             /*
              * Resource not found.
              */
-            if (e instanceof ResourceException) {
-                error.append(" Script not found, sending 404.");
-                servletContext.log(error.toString());
-                System.err.println(error.toString());
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                return;
+            try {
+                if (e.getClass().isAssignableFrom(classLoader.loadClass("groovy.util.ResourceException"))) {
+                    error.append(" Script not found, sending 404.");
+                    servletContext.log(error.toString());
+                    System.err.println(error.toString());
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    return;
+                }
+            } catch (Exception ex) {
+                log.error("Failed to check the exception is not a [groovy.util.ResourceException] because : " + ex.getMessage(), ex);
             }
             /*
              * Other internal error. Perhaps syntax?!
@@ -234,12 +239,16 @@ public class GroovyExecuter {
             /*
              * Resource not found.
              */
-            if (e instanceof ResourceException) {
-                error.append(" Script not found, sending 404.");
-                servletContext.log(error.toString());
-                System.err.println(error.toString());
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                return;
+            try {
+                if (e.getClass().isAssignableFrom(classLoader.loadClass("groovy.util.ResourceException"))) {
+                    error.append(" Script not found, sending 404.");
+                    servletContext.log(error.toString());
+                    System.err.println(error.toString());
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    return;
+                }
+            } catch (Exception ex) {
+                log.error("Failed to check the exception is not a [groovy.util.ResourceException] because : " + ex.getMessage(), ex);
             }
             /*
              * Other internal error. Perhaps syntax?!
@@ -271,26 +280,29 @@ public class GroovyExecuter {
      * @throws GroovyEnvironmentException
      */
     private void initGroovyScriptEngine() throws GroovyEnvironmentException {
-        ClassLoader current = Thread.currentThread().getContextClassLoader();
+        //ClassLoader current = Thread.currentThread().getContextClassLoader();
+        ClassLoader current = this.getClass().getClassLoader();
         try {
             List<URL> paths = generateGroovyLibPath(libsdir);
+            log.info("Setup the groovy class loader up with the following path [" + paths.toString() + "]");
             classLoader = new GroovyClassLoader(paths.toArray(new URL[0]),
                     current);
 
             classLoader.clearAssertionStatus();
             Thread.currentThread().setContextClassLoader(classLoader);
             Class ref = classLoader.loadClass("groovy.util.GroovyScriptEngine");
-            List<String> pathList = generateScriptDirectories(basePath,context.getPath());
+            List<String> pathList = generateScriptDirectories(basePath, context.getPath());
             pathList.addAll(generateScriptDirectories(this.dipLibPath));
+            log.info("Setup the groovy environment for [" + pathList.toString() + "]");
             String[] path = pathList.toArray(new String[0]);
             Constructor constructor = ref.getConstructor(path.getClass(), ClassLoader.class);
             groovyScriptEngine = constructor.newInstance(path, classLoader);
             // force the recompile of dependancy classes
             Method method = groovyScriptEngine.getClass().getMethod("getGroovyClassLoader");
             Object groovyClassLoader = method.invoke(groovyScriptEngine);
-            method = GroovyReflectionUtil.getMethod(groovyClassLoader, "setShouldRecompile", boolean.class);
+            method = GroovyReflectionUtil.getMethod(groovyClassLoader, "setShouldRecompile", Boolean.class);
             if (method != null) {
-                method.invoke(groovyClassLoader, true);
+                method.invoke(groovyClassLoader, new Boolean(true));
             } else {
                 log.error("Failed to set the should recompile flag");
             }
@@ -316,7 +328,6 @@ public class GroovyExecuter {
         return checkDirectoryList(libsdir);
     }
 
-    
     /**
      * This method loops through the base path list.
      *
@@ -376,8 +387,10 @@ public class GroovyExecuter {
     private List<URL> generateGroovyLibPath(String[] libDirectories) throws GroovyEnvironmentException {
         try {
             List<URL> paths = new ArrayList<URL>();
+            directoryCache.clear();
             for (String groovyLibPath : libDirectories) {
                 File[] files = new File(groovyLibPath).listFiles();
+                directoryCache.put(groovyLibPath, files);
                 for (File file : files) {
                     if (!file.isFile()) {
                         continue;
@@ -394,7 +407,6 @@ public class GroovyExecuter {
         }
     }
 
-    
     /**
      * This method builds a path using a path and a sub path.
      * @param path The path
@@ -402,8 +414,8 @@ public class GroovyExecuter {
      * @return The list of directories.
      * @throws GroovyEnvironmentException
      */
-    private List<String> generateScriptDirectories(String path,String subpath) throws GroovyEnvironmentException {
-        return generateScriptDirectories(new File(path,subpath));
+    private List<String> generateScriptDirectories(String path, String subpath) throws GroovyEnvironmentException {
+        return generateScriptDirectories(new File(path, subpath));
     }
 
     /**
@@ -427,15 +439,12 @@ public class GroovyExecuter {
     private List<String> generateScriptDirectories(File path) throws GroovyEnvironmentException {
         try {
             List<String> resultPaths = new ArrayList<String>();
-            File[] directories = path.listFiles();
-            for (File directory : directories) {
-                for (String subdir : subdirs) {
-                    File subdirectory = new File(directory, subdir);
-                    if (!subdirectory.isDirectory()) {
-                        continue;
-                    }
-                    resultPaths.add(subdirectory.getPath());
+            for (String subdir : subdirs) {
+                File subdirectory = new File(path, subdir);
+                if (!subdirectory.isDirectory()) {
+                    continue;
                 }
+                resultPaths.add(subdirectory.getPath());
             }
             return resultPaths;
         } catch (Throwable ex) {

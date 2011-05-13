@@ -73,6 +73,26 @@ public class ContextInfo {
 
 
     /**
+     * This method is used to strip the context from a uri.
+     *
+     * @param uri The uri to strip.
+     * @return
+     */
+    public String stripContext(String uri) {
+        String result = uri;
+        if (result.startsWith(path)) {
+            result = result.substring(path.length());
+        } else if (result.startsWith("/" + path)) {
+            result = result.substring(("/" + path).length());
+        }
+        while (result.startsWith("/")) {
+            result = result.substring(1);
+        }
+        return result;
+    }
+
+    
+    /**
      * This equals operator.
      *
      * @param obj The object reference.
