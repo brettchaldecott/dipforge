@@ -55,4 +55,7 @@ include 'libs:CoadunationBase',
         'web:AuditTrailConsole',
         'web:CoadunationTypeManagerConsole',
         'libs:GroovyServletBootStrap',
+        'libs:GroovyLib',
+        ':web:DipforgeWeb',
+        ':web:DipforgeEntryPoint',
 	'release'

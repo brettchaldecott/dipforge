@@ -14,11 +14,11 @@
         <url-pattern>*.groovy</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>GroovyTemplate</servlet-name>
-        <servlet-class>groovy.servlet.TemplateServlet</servlet-class>
+        <servlet-name>GSPTemplate</servlet-name>
+        <servlet-class>com.rift.dipforge.groovy.web.template.DipforgeGSPServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GroovyTemplate</servlet-name>
+        <servlet-name>GSPTemplate</servlet-name>
         <url-pattern>*.gsp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

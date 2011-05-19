@@ -860,6 +860,30 @@
             @dipforge_home@/var/groovylib/
         </entry>
     </object>
+    <object name="com.rift.dipforge.groovy.web.template.DipforgeGSPServlet">
+        <entry key="dipforge_lib_dir" type="string">
+            @dipforge_home@/var/projects/dipforge
+        </entry>
+        <entry key="environment_base" type="string">
+            @dipforge_home@/var/projects
+        </entry>
+        <entry key="web_dir" type="string">
+            views
+        </entry>
+        <entry key="environment_sub_directories" type="string">
+            views,controlls,services,libs
+        </entry>
+        <entry key="environment_libs_dir" type="string">
+            @dipforge_home@/var/groovylib/
+        </entry>
+    </object>
     <!-- End of Dipforge Groovy Environment -->
+    <!-- Reverse Proxy Configuration -->
+    <object name="net.sf.j2ep.ProxyFilter">
+        <entry key="data_url" type="string">
+            @dipforge_home@/var/proxy/proxy_config.xml
+        </entry>
+    </object>
+    <!-- End of Reverse Proxy Configuration -->
 </configuration>
 

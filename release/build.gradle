@@ -335,6 +335,7 @@ dependencies {
     releaseWeb project(':web:AuditTrailConsole')
     releaseWeb project(':web:CoadunationTypeManagerConsole')
     releaseWeb project(':web:DipforgeWeb')
+    releaseWeb project(':web:DipforgeEntryPoint')
 
     // release extract web
     releaseExtractWeb project(':web:SchemaStore')
