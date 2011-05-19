@@ -150,8 +150,8 @@ public class GroovyExecuter {
             Class requestClass = classLoader.loadClass("javax.servlet.http.HttpServletRequest");
             Class responseClass = classLoader.loadClass("javax.servlet.http.HttpServletResponse");
             Class servletContextClass = classLoader.loadClass("javax.servlet.ServletContext");
-            Constructor[] bindingConstructors = bindingClass.getConstructors();
-            Object binding = bindingConstructors[0].newInstance(request, response, servletContext);
+            Constructor bindingConstructor = bindingClass.getConstructor(requestClass,responseClass,servletContextClass);
+            Object binding = bindingConstructor.newInstance(request, response, servletContext);
 
             // setup the servlet boot strap environment
             Class bootstrapClass = classLoader.loadClass(
