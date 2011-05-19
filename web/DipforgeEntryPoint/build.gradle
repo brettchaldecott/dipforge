@@ -1,0 +1,67 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'war'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="DipforgeEntryPoint"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+    mavenRepo urls: "http://www.smartclient.com/maven2/"
+    mavenRepo urls: "file://localhost/$projectDir/../../maven"
+}
+
+configurations {
+    compile
+    gwt
+}
+
+dependencies {
+    compile(ivyDependencies('compile'))
+    compile project(':libs:CoadunationLib')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src/java'
+        }
+        resources {
+            srcDir './src/java'
+            srcDir './src/conf'
+        }
+    }
+}
+
+war {
+    classPath = getClasspath().filter({file -> file.name.contains("classes") ||
+        file.name.contains("GroovyLib") }) 
+    setClasspath(classPath)
+    classpath 'build/classes/main/'
+    from 'web'
+}
+
+release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}

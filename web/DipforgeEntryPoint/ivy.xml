@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+    <info module="DipforgeEntryPoint" organisation="DipforgeEntryPoint" revision="1.0"/>
+    <configurations>
+        <conf name="compile"/>
+        <conf name="runtime"/>
+        <conf name="compile-test"/>
+        <conf name="runtime-test"/>
+    </configurations>
+    <dependencies>
+        <dependency org="log4j" name="log4j" rev="1.2.14"/>
+        <dependency org="commons-httpclient" name="commons-httpclient" rev="3.1"/>
+        <dependency org="commons-digester" name="commons-digester" rev="2.1"/>
+        <dependency org="commons-codec" name="commons-codec" rev="1.5"/>
+        <dependency org="commons-beanutils" name="commons-beanutils" rev="1.8.3"/>
+        <dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
+    </dependencies>
+</ivy-module>
