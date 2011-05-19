@@ -205,7 +205,7 @@ public class ProxyFilter implements Filter {
                 serverChain = null;
             } else {
                 try {
-                    File dataFile = new File(filterConfig.getServletContext().getRealPath(data));
+                    File dataFile = new File(data);
                     ConfigParser parser = new ConfigParser(dataFile);
                     serverChain = parser.getServerChain();
                 } catch (Exception e) {
