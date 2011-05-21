@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <servlet>
-        <servlet-name>RDFManagementServlet</servlet-name>
-        <servlet-class>com.rift.dipforge.groovy.web.RDFManagementServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <filter>
+        <filter-name>TransactionScopeFilter</filter-name>
+        <filter-class>com.rift.dipforge.groovy.web.TransactionScopeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TransactionScopeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>RedirectFilter</filter-name>
+        <filter-class>com.rift.dipforge.groovy.web.redirect.RedirectFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RedirectFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>WebGroovyServlet</servlet-name>
         <servlet-class>com.rift.dipforge.groovy.web.WebGroovyServlet</servlet-class>
@@ -28,10 +39,6 @@
     <servlet-mapping>
         <servlet-name>GSPTemplate</servlet-name>
         <url-pattern>*.gsp</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RDFManagementServlet</servlet-name>
-        <url-pattern>/RDFManagementServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MediaServlet</servlet-name>
@@ -71,6 +78,9 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.gsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.groovy</welcome-file>
     </welcome-file-list>
 </web-app>

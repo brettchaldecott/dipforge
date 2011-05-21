@@ -85,6 +85,19 @@ public class WebGroovyServlet extends DipforgeServlet {
 
 
     /**
+     * This method is called to shut down the rdf configurtion object.
+     */
+    @Override
+    public void destroy() {
+        super.destroy();
+        try {
+            GroovyEnvironmentManager.getInstance().close();
+        } catch (Throwable ex) {
+            log.error("Failed to close down the groovy environment manager : " + ex.getMessage(),ex);
+        }
+    }
+
+    /**
      * Handle web requests to the GroovyServlet
      */
     public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
