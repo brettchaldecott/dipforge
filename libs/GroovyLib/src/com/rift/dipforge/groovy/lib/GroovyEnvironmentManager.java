@@ -46,6 +46,7 @@ public class GroovyEnvironmentManager {
     // private member variables.
     private String dipLibPath;
     private String basePath;
+    private String libDir;
     private String[] subdirs;
     private String[] libsdir;
     
@@ -56,14 +57,16 @@ public class GroovyEnvironmentManager {
      *
      * @param dipLibPath The dip lib paths.
      * @param basePath The base paths.
+     * @param libDir The lib Directory.
      * @param subdirs The sub directories.
      * @param libsdir The libs directory.
      * @throws GroovyEnvironmentException
      */
-    private GroovyEnvironmentManager(String dipLibPath, String basePath,
+    private GroovyEnvironmentManager(String dipLibPath, String basePath,String libDir,
             String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
         this.dipLibPath = dipLibPath;
         this.basePath = basePath;
+        this.libDir = libDir;
         this.subdirs = subdirs;
         this.libsdir = libsdir;
     }
@@ -79,8 +82,8 @@ public class GroovyEnvironmentManager {
      * @throws GroovyEnvironmentException
      */
     public static synchronized GroovyEnvironmentManager init(String dipLibPath, String basePath,
-            String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
-        return singleton = new GroovyEnvironmentManager(dipLibPath,basePath,subdirs, libsdir);
+            String libDir, String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
+        return singleton = new GroovyEnvironmentManager(dipLibPath,basePath,libDir,subdirs, libsdir);
     }
 
 
@@ -111,7 +114,7 @@ public class GroovyEnvironmentManager {
         if (executer != null && !executer.checkForChanges()) {
             return executer;
         }
-        executer = new GroovyExecuter(context, dipLibPath, basePath,subdirs, libsdir);
+        executer = new GroovyExecuter(context, dipLibPath, basePath, libDir, subdirs, libsdir);
         executerMap.put(context, executer);
         return executer;
     }

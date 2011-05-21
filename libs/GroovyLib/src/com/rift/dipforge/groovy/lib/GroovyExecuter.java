@@ -53,6 +53,7 @@ public class GroovyExecuter {
     private ContextInfo context;
     private String dipLibPath;
     private String basePath;
+    private String libDir;
     private String[] subdirs;
     private String[] libsdir;
     private Object groovyScriptEngine;
@@ -66,10 +67,11 @@ public class GroovyExecuter {
      * @param classLoader The class loader.
      */
     protected GroovyExecuter(ContextInfo context, String dipLibPath, String basePath,
-            String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
+            String libDir, String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
         this.context = context;
         this.dipLibPath = dipLibPath;
         this.basePath = basePath;
+        this.libDir = libDir;
         this.subdirs = subdirs;
         this.libsdir = libsdir;
         initGroovyScriptEngine();
@@ -284,6 +286,8 @@ public class GroovyExecuter {
         ClassLoader current = this.getClass().getClassLoader();
         try {
             List<URL> paths = generateGroovyLibPath(libsdir);
+            paths.addAll(generateGroovyLibPath(basePath + File.separator +
+                    context.getPath() + File.separator + this.libDir));
             log.info("Setup the groovy class loader up with the following path [" + paths.toString() + "]");
             classLoader = new GroovyClassLoader(paths.toArray(new URL[0]),
                     current);
@@ -376,6 +380,23 @@ public class GroovyExecuter {
         }
         return false;
     }
+
+    
+    /**
+     * This method returns the generated groovy lib path for the specified lib directory within the
+     * context of this gsp servlet.
+     *
+     * @param libDirectory The lib directory.
+     * @return The
+     * @throws GSPEnvironmentException
+     */
+    private List<URL> generateGroovyLibPath(String libDirectory) throws GroovyEnvironmentException {
+        if (new File(libDirectory).isDirectory()) {
+            return generateGroovyLibPath(new String[] {libDirectory});
+        }
+        return new ArrayList<URL>();
+    }
+
 
     /**
      * This method returns a directory contain the groovy lib paths.

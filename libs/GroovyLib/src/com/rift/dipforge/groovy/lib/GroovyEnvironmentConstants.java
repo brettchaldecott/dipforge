@@ -40,6 +40,11 @@ public class GroovyEnvironmentConstants {
      */
     public final static String ENVIRONMENT_BASE = "environment_base";
 
+    /**
+     * The library directory
+     */
+    public final static String LIB_DIR = "lib_dir";
+
 
     /**
      * The environment sub directories

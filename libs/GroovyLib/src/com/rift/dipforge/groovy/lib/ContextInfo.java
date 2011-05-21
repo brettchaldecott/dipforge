@@ -34,7 +34,8 @@ public class ContextInfo {
     private static String j2eeContext = null;
 
     // private member variables
-    public String path;
+    private String servletContext = null;
+    private String path;
 
 
     /**
@@ -54,6 +55,7 @@ public class ContextInfo {
      */
     public ContextInfo(HttpServletRequest request) {
         String uri = request.getRequestURI();
+        this.servletContext = request.getContextPath();
         if (uri.startsWith(request.getContextPath())) {
             uri = uri.substring(request.getContextPath().length());
         }
@@ -84,6 +86,8 @@ public class ContextInfo {
             result = result.substring(path.length());
         } else if (result.startsWith("/" + path)) {
             result = result.substring(("/" + path).length());
+        } else if (servletContext != null && result.startsWith(servletContext + "/" + path)) {
+            result = result.substring((servletContext + "/" + path).length());
         }
         while (result.startsWith("/")) {
             result = result.substring(1);
