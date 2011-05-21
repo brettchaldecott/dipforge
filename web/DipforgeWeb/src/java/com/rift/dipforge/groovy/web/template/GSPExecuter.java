@@ -127,6 +127,7 @@ public class GSPExecuter {
     private String dipLibPath;
     private String basePath;
     private String webDir;
+    private String libDir;
     private String[] subdirs;
     private String[] libsdir;
     private Object templateEngine;
@@ -141,11 +142,12 @@ public class GSPExecuter {
      * @param classLoader The class loader.
      */
     public GSPExecuter(ContextInfo context, String dipLibPath, String basePath, String webDir,
-            String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
+            String libDir, String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
         this.context = context;
         this.dipLibPath = dipLibPath;
         this.basePath = basePath;
         this.webDir = webDir;
+        this.libDir = libDir;
         this.subdirs = subdirs;
         this.libsdir = libsdir;
         initTemplateEngineScriptEngine();
@@ -335,6 +337,8 @@ public class GSPExecuter {
         ClassLoader current = this.getClass().getClassLoader();
         try {
             List<URL> paths = generateGroovyLibPath(libsdir);
+            paths.addAll(generateGroovyLibPath(basePath + File.separator +
+                    context.getPath() + File.separator + this.libDir));
             paths.addAll(generateSourceDirectories(basePath, context.getPath()));
             paths.addAll(generateSourceDirectories(this.dipLibPath));
 
@@ -419,6 +423,22 @@ public class GSPExecuter {
         }
         return false;
     }
+
+    /**
+     * This method returns the generated groovy lib path for the specified lib directory within the
+     * context of this gsp servlet.
+     *
+     * @param libDirectory The lib directory.
+     * @return The
+     * @throws GSPEnvironmentException
+     */
+    private List<URL> generateGroovyLibPath(String libDirectory) throws GSPEnvironmentException {
+        if (new File(libDirectory).isDirectory()) {
+            return generateGroovyLibPath(new String[] {libDirectory});
+        }
+        return new ArrayList<URL>();
+    }
+
 
     /**
      * This method returns a directory contain the groovy lib paths.
@@ -506,6 +526,11 @@ public class GSPExecuter {
     private File generateFullPath(String relativePath) throws GSPEnvironmentException {
         File path = new File(basePath + File.separator + this.context.getPath()
                 + File.separator + webDir + File.separator + relativePath);
+        if (path.isFile()) {
+            return path;
+        }
+        // fall back to the master lib directory
+        path = new File(this.dipLibPath + File.separator + webDir + File.separator + relativePath);
         if (path.isFile()) {
             return path;
         }

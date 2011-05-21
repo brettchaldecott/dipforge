@@ -64,6 +64,8 @@ public class DipforgeGSPServlet extends DipforgeServlet {
                     configuration.getString(
                     GSPEnvironmentConstants.WEB_DIRECTORY),
                     configuration.getString(
+                    GSPEnvironmentConstants.LIB_DIRECTORY),
+                    configuration.getString(
                     GSPEnvironmentConstants.ENVIRONMENT_SUB_DIRECTORIES).split(","),
                     configuration.getString(
                     GSPEnvironmentConstants.ENVIRONMENT_LIBS_DIR).split(","));

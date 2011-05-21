@@ -70,6 +70,8 @@ public class WebGroovyServlet extends DipforgeServlet {
                     configuration.getString(
                     GroovyEnvironmentConstants.ENVIRONMENT_BASE),
                     configuration.getString(
+                    GroovyEnvironmentConstants.LIB_DIR),
+                    configuration.getString(
                     GroovyEnvironmentConstants.ENVIRONMENT_SUB_DIRECTORIES).split(","),
                     configuration.getString(
                     GroovyEnvironmentConstants.ENVIRONMENT_LIBS_DIR).split(","));

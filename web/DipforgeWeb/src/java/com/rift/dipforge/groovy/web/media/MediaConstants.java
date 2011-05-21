@@ -16,24 +16,25 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * GSPEnvironmentConstants.java
+ * MediaConstants.java
  */
 
 
-package com.rift.dipforge.groovy.web.template;
+package com.rift.dipforge.groovy.web.media;
+
+import com.rift.dipforge.groovy.web.template.*;
 
 /**
  * The constants for the groovy environment.
  *
  * @author brett chaldecott
  */
-public class GSPEnvironmentConstants {
+public class MediaConstants {
 
     /**
      * The library directory
      */
     public final static String DIPFORGE_LIB_DIR = "dipforge_lib_dir";
-
 
     /**
      * The base of the environment
@@ -42,25 +43,14 @@ public class GSPEnvironmentConstants {
 
 
     /**
-     * The web directory
+     * The base of the environment
      */
     public final static String WEB_DIRECTORY = "web_dir";
 
-    /**
-     * The lib directory for project specific libraries
-     */
-    public final static String LIB_DIRECTORY = "lib_dir";
-
 
     /**
-     * The environment sub directories
+     * The content disposition
      */
-    public final static String ENVIRONMENT_SUB_DIRECTORIES = "environment_sub_directories";
-
-
-    /**
-     * The environmental libraries
-     */
-    public final static String ENVIRONMENT_LIBS_DIR = "environment_libs_dir";
+    public final static String CONTENT_DISPOSITION = "Content-Disposition";
     
 }

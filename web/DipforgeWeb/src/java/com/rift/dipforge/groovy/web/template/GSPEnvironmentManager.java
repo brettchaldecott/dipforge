@@ -48,6 +48,7 @@ public class GSPEnvironmentManager {
     private String dipLibPath;
     private String basePath;
     private String webDir;
+    private String libDir;
     private String[] subdirs;
     private String[] libsdir;
     
@@ -63,10 +64,11 @@ public class GSPEnvironmentManager {
      * @throws GSPEnvironmentException
      */
     private GSPEnvironmentManager(String dipLibPath, String basePath, String webDir,
-            String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
+            String libDir, String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
         this.dipLibPath = dipLibPath;
         this.basePath = basePath;
         this.webDir = webDir;
+        this.libDir = libDir;
         this.subdirs = subdirs;
         this.libsdir = libsdir;
     }
@@ -82,8 +84,8 @@ public class GSPEnvironmentManager {
      * @throws GSPEnvironmentException
      */
     public static synchronized GSPEnvironmentManager init(String dipLibPath, String basePath,
-            String webDir, String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
-        return singleton = new GSPEnvironmentManager(dipLibPath,basePath,webDir, subdirs, libsdir);
+            String webDir, String libDir, String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
+        return singleton = new GSPEnvironmentManager(dipLibPath,basePath,webDir, libDir, subdirs, libsdir);
     }
 
 
@@ -114,7 +116,7 @@ public class GSPEnvironmentManager {
         if (executer != null && !executer.checkForChanges()) {
             return executer;
         }
-        executer = new GSPExecuter(context, dipLibPath, basePath, webDir, subdirs, libsdir);
+        executer = new GSPExecuter(context, dipLibPath, basePath, webDir, libDir, subdirs, libsdir);
         executerMap.put(context, executer);
         return executer;
     }

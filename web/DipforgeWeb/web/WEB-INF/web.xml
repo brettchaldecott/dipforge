@@ -9,6 +9,14 @@
         <servlet-name>WebGroovyServlet</servlet-name>
         <servlet-class>com.rift.dipforge.groovy.web.WebGroovyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MediaServlet</servlet-name>
+        <servlet-class>com.rift.dipforge.groovy.web.media.MediaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TextHtmlServlet</servlet-name>
+        <servlet-class>com.rift.dipforge.groovy.web.text.TextHtmlServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WebGroovyServlet</servlet-name>
         <url-pattern>*.groovy</url-pattern>
@@ -24,6 +32,38 @@
     <servlet-mapping>
         <servlet-name>RDFManagementServlet</servlet-name>
         <url-pattern>/RDFManagementServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.gif</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.jpeg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TextHtmlServlet</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TextHtmlServlet</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TextHtmlServlet</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TextHtmlServlet</servlet-name>
+        <url-pattern>*.txt</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
