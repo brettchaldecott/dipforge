@@ -113,6 +113,8 @@ public class GroovyEnvironmentManager {
         GroovyExecuter executer = executerMap.get(context);
         if (executer != null && !executer.checkForChanges()) {
             return executer;
+        } else if (executer != null) {
+            executer.close();
         }
         executer = new GroovyExecuter(context, dipLibPath, basePath, libDir, subdirs, libsdir);
         executerMap.put(context, executer);
@@ -120,5 +122,14 @@ public class GroovyEnvironmentManager {
     }
 
 
-    
+    /**
+     * This method is responsible for closing down all the executers appropriatly.
+     */
+    public void close() {
+
+        for (ContextInfo key: executerMap.keySet()) {
+            executerMap.get(key).close();
+        }
+        executerMap.clear();
+    }
 }

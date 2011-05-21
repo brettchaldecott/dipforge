@@ -473,4 +473,17 @@ public class GroovyExecuter {
             throw new GroovyEnvironmentException("Failed to generate the script paths : " + ex.getMessage(), ex);
         }
     }
+
+
+    /**
+     * This method is called to close down the
+     */
+    public void close() {
+        try {
+            executeScript(GroovyEnvironmentConstants.CLOSE_SCRIPT,
+                    new String[0], new Object[0]);
+        } catch (Throwable ex) {
+            log.error("Close down the executer using the script : " + ex.getMessage(), ex);
+        }
+    }
 }

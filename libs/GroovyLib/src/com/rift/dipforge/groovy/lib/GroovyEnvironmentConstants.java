@@ -56,5 +56,11 @@ public class GroovyEnvironmentConstants {
      * The environmental libraries
      */
     public final static String ENVIRONMENT_LIBS_DIR = "environment_libs_dir";
+
+
+    /**
+     * This method closes the script down.
+     */
+    public final static String CLOSE_SCRIPT = "com/dipforge/close/Shutdown.groovy";
     
 }
