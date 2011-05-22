@@ -1,6 +1,6 @@
 /*
  * DataMapperClient: The client information for the data mapper.
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2011  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,7 +21,6 @@
 
 package com.rift.coad.datamapper;
 
-import com.rift.coad.rdf.objmapping.base.DataType;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -32,14 +31,15 @@ import java.rmi.RemoteException;
  */
 public interface DataMapper extends Remote {
     /**
-     * This method executes the
+     * This method is responsible for executing the relevant method on the data mapper.
      *
-     * @param serviceId The id of the service that is responsible for executing this method.
-     * @param method The name of the method to execute.
-     * @param parameters The parameter for the request.
-     * @return The return result.
-     * @throws com.rift.coad.datamapper.DataMapperException
-     * @throws java.rmi.RemoteException
+     * @param serviceId The service id to execute.
+     * @param method The method on the target to invoke.
+     * @param rdfXML XML containing the rdf structures to deserialize on the target.
+     * @return The result serialized in RDF xml.
+     * @throws DataMapperException
+     * @throws RemoteException
      */
-    public DataType execute(String serviceId, String method, DataType[] parameters) throws DataMapperException, RemoteException;
+    public String execute(String serviceId, String method, String rdfXML)
+            throws DataMapperException, RemoteException;
 }

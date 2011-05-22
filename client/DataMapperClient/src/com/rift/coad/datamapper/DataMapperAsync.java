@@ -27,9 +27,6 @@ package com.rift.coad.datamapper;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-// coadunation imports
-import com.rift.coad.rdf.objmapping.base.DataType;
-
 /**
  * This interface defines the async version of the data mapper interface.
  *
@@ -37,14 +34,13 @@ import com.rift.coad.rdf.objmapping.base.DataType;
  */
 public interface DataMapperAsync extends Remote {
     /**
-     * This method provides an async way of calling the execute method on the data mapper client.
+     * This is the asynchronous version of the data mapper executer.
      *
-     * @param serviceId The id of the service that is responsible for executing this query.
-     * @param method The name of the method to execute.
-     * @param parameters The parameter for the request.
-     * @return The return result.
-     * @throws com.rift.coad.datamapper.DataMapperException
-     * @throws java.rmi.RemoteException
+     * @param serviceId The service id that the execution is taking place on.
+     * @param method The method to invoke.
+     * @param rdfXML The xml.
+     * @return The Message id.
+     * @throws RemoteException
      */
-    public String execute(String serviceId, String method, DataType[] parameters) throws RemoteException;
+    public String execute(String serviceId, String method, String rdfXML) throws RemoteException;
 }
