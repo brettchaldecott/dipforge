@@ -456,6 +456,19 @@
             @dipforge_home@/var/tomcat
         </entry>
     </object>
+    <object name="com.rift.coad.daemon.tomcat.loader.ContextClassLoaderLookup">
+        <entry key="loader_context_properties" type="string">
+            @dipforge_home@/var/tomcat/conf/loader_context.properties
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.tomcat.ear.EARDeploymentManager">
+        <entry key="ear_deployment_properties" type="string">
+            @dipforge_home@/var/tomcat/conf/ear_deployment.properties
+        </entry>
+        <entry key="ear_config_dir" type="string">
+            @dipforge_home@/var/tomcat/conf/ear/
+        </entry>
+    </object>
     <!-- end of tomcat configuration -->
     <!-- dns configuration information -->
     <object name="com.rift.coad.daemon.dns.DNSServer">

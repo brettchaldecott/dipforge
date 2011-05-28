@@ -1,0 +1,4 @@
+<Context>
+    <Loader   loaderClass=”com.rift.coad.daemon.tomcat.loader.DipforgeWebAppClassLoader” delegate=”true” />
+</Context>
+

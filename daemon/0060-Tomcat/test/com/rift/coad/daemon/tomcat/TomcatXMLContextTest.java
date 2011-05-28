@@ -7,6 +7,7 @@
 
 package com.rift.coad.daemon.tomcat;
 
+import com.rift.coad.daemon.tomcat.war.TomcatXMLContext;
 import junit.framework.*;
 
 /**

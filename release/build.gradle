@@ -63,7 +63,7 @@ dependsOn(':daemon:0150-CoadunationTypeManager')
 dependsOn(':web:lib:CoadunationGWTLibrary')
 dependsOn(':web:lib:WebLibs')
 dependsOn(':web:lib:AuditTrailGWT')
-dependsOn(':web:AuditTrailConsole')
+//dependsOn(':web:AuditTrailConsole')
 dependsOn(':libs:GroovyServletBootStrap')
 dependsOn(':libs:GroovyLib')
 dependsOn(':web:DipforgeWeb')
@@ -330,10 +330,10 @@ dependencies {
     
     // release web
     releaseWeb project(':web:CoadunationAdmin')
-    releaseWeb project(':web:CoadunationDesktop')
+//    releaseWeb project(':web:CoadunationDesktop')
     releaseWeb project(':web:FileManager')
-    releaseWeb project(':web:AuditTrailConsole')
-    releaseWeb project(':web:CoadunationTypeManagerConsole')
+//    releaseWeb project(':web:AuditTrailConsole')
+//    releaseWeb project(':web:CoadunationTypeManagerConsole')
     releaseWeb project(':web:DipforgeWeb')
     releaseWeb project(':web:DipforgeEntryPoint')
 

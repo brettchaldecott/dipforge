@@ -26,13 +26,12 @@ configurations {
 }
 
 dependencies {
-    compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
-    compile group: 'org.apache.tomcat', name: 'catalina', version: '6.0.29', ext: 'jar'
-    compile group: 'org.apache.tomcat', name: 'servlet-api', version: '6.0.29', ext: 'jar'
-    compile group: 'org.apache.tomcat', name: 'coyote', version: '6.0.29', ext: 'jar'
+    compile(ivyDependencies('compile'))
     compile project(':client:TomcatClient')
     compile project(':libs:CoadunationAnnotations')
     compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationCommon')
+    compile project(':libs:CoadunationClient')
     releaseJars project(':client:TomcatClient')
     releaseJars group: 'org.apache.tomcat', name: 'catalina', version: '6.0.29', ext: 'jar'
     releaseJars group: 'org.apache.tomcat', name: 'catalina-ha', version: '6.0.29', ext: 'jar'
@@ -100,3 +99,17 @@ build.dependsOn {
     [jar, uploadArchives, copyJars]
 }
 release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
+

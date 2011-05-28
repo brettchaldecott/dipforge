@@ -20,9 +20,10 @@
  */
 
 // package path
-package com.rift.coad.daemon.tomcat;
+package com.rift.coad.daemon.tomcat.war;
 
 // java imports
+import com.rift.coad.daemon.tomcat.TomcatException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

@@ -23,6 +23,8 @@
 package com.rift.coad.daemon.tomcat;
 
 // java imports
+import com.rift.coad.daemon.tomcat.war.TomcatXMLContext;
+import com.rift.coad.daemon.tomcat.war.WarUtils;
 import java.net.InetAddress;
 import java.io.File;
 import java.net.URLClassLoader;
@@ -202,7 +204,7 @@ public class TomcatWrapper {
         try {
             log.info("Deploy the file [" + war.getPath() + "]");
             Thread.currentThread().setContextClassLoader(childLoader);
-            String context = getWarContext(war);
+            String context = WarUtils.getWarContext(war);
             // check if it is deployed
             isDeployed(context);
             
@@ -229,7 +231,7 @@ public class TomcatWrapper {
             log.info("Redeploy the file [" + war.getPath() + "]");
             Thread.currentThread().setContextClassLoader(childLoader);
             String existingContext =(String)this.deploymentMapping.get(war.getPath());
-            String context = getWarContext(war);
+            String context = WarUtils.getWarContext(war);
             if (existingContext.equals(context)) {
                 unloadWar(war);
             } else {
@@ -439,26 +441,6 @@ public class TomcatWrapper {
                     "Failed to clear out the configuration directory :" +
                     ex.getMessage());
         }*/
-    }
-    
-    
-    /**
-     * This method retrieves the context for the war file.
-     *
-     * @return The context for this file.
-     * @param war The war file.
-     */
-    private String getWarContext(File war) {
-        try {
-            TomcatXMLContext xmlParser = new TomcatXMLContext(
-                    new URLClassLoader(new URL[] {war.toURL()}));
-            return xmlParser.getContext();
-        } catch (Exception ex) {
-            log.info("Failed to retrieve the Tomcat context from the war [" 
-                    + ex.getMessage() + "] defaulting to file name.",ex);
-        }
-        String context = war.getName().replaceAll(" ","_");
-        return "/" + context.substring(0,context.lastIndexOf("."));
     }
     
     
