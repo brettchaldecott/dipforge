@@ -75,6 +75,7 @@ public class DeploymentLoader {
         
         // private member variables
         private Map lookupMap = new HashMap();
+        private Map<String, DeploymentLoader> loaderMap = new HashMap<String,DeploymentLoader>();
         
         /**
          * The constructor of the class loader lookup
@@ -106,6 +107,7 @@ public class DeploymentLoader {
         protected void addClassLoader(DeploymentLoader loader) {
             lookupMap.put(loader.getClassLoader(),
                     loader.getClientStubCodeName());
+            loaderMap.put(loader.getFile().getName(),loader);
         }
         
         
@@ -116,6 +118,7 @@ public class DeploymentLoader {
          */
         protected void removeClassLoader(DeploymentLoader loader) {
             lookupMap.remove(loader.getClassLoader());
+            loaderMap.remove(loader.getFile().getName());
         }
         
         
@@ -127,6 +130,20 @@ public class DeploymentLoader {
          */
         public String getStubCodeForLoader(ClassLoader loader) {
             return (String)lookupMap.get(loader);
+        }
+
+
+        /**
+         * This method return the class loader identified by the file name
+         *
+         * @param name The name of the file.
+         * @return The reference to the identified class loader.
+         */
+        public ClassLoader getClassLoaderByFileName(String name) {
+            if (!loaderMap.containsKey(name)) {
+                return null;
+            }
+            return loaderMap.get(name).getClassLoader();
         }
         
     }
