@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.InputStream;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.loader.WebappClassLoader;
+import org.apache.log4j.Logger;
 
 /**
  * The implementation of a customer class loader.
@@ -34,6 +35,10 @@ import org.apache.catalina.loader.WebappClassLoader;
  */
 public class DipforgeWebAppClassLoader extends  WebappClassLoader {
 
+    // class singletons
+    private static Logger log = Logger.getLogger(DipforgeWebAppClassLoader.class);
+
+    
     // private member variables
     private ClassLoader[] loaders = null;
 
@@ -42,47 +47,26 @@ public class DipforgeWebAppClassLoader extends  WebappClassLoader {
      * The dip
      */
     public DipforgeWebAppClassLoader() {
-        System.out.println("########################################################");
-        System.out.println("From the Dipforge web app class loader");
-        System.out.println("########################################################");
-
     }
 
     /**
-     *
+     * 
      * @param parent
      */
     public DipforgeWebAppClassLoader(ClassLoader parent) {
         super(parent);
-        System.out.println("########################################################");
-        System.out.println("From the Dipforge web app class loader");
-        System.out.println("########################################################");
     }
 
 
+    /**
+     * This method is called to start the dipforge web class loader
+     *
+     * @throws LifecycleException
+     */
     @Override
     public void start() throws LifecycleException {
         super.start();
-        try {
-            InputStream input = this.getResourceAsStream("testing.xml");
-            byte[] buffer = new byte[1024];
-            StringBuffer stringBuffer = new StringBuffer();
-            while (input.read(buffer) != -1) {
-                stringBuffer.append(new String(buffer));
-            }
-            input.close();
-            System.out.println("The context file consists of [" + stringBuffer.toString() + "]");
-        } catch (Throwable ex) {
-            System.out.println("########################################################");
-            System.out.println("Failed to retrieve the resource : " + ex.getMessage());
-            ex.printStackTrace();
-            System.out.println("########################################################");
-        }
-        System.out.println("File : " + canonicalLoaderDir);
-        for (File file: files) {
-            System.out.println("File : " + file.getPath());
-        }
-        System.out.println("The context is " + this.getContextName());
+        log.info("Start the context : " + this.getContextName());
 
     }
 
@@ -158,8 +142,14 @@ public class DipforgeWebAppClassLoader extends  WebappClassLoader {
                     // ignore and continue
                 }
             }
+        } catch (ClassNotFoundException ex) {
+            throw ex;
         } catch (Exception ex) {
-            throw new ClassNotFoundException("Failed to find the class :" + ex.getMessage());
+            log.error("Failed to find the class [" + name + "] because :" +
+                    ex.getMessage(),ex);
+            throw new ClassNotFoundException
+                    ("Failed to find the class [" + name + "] because :" +
+                    ex.getMessage(),ex);
         }
         throw new ClassNotFoundException("Failed to find the class :" + name);
     }
@@ -180,7 +170,7 @@ public class DipforgeWebAppClassLoader extends  WebappClassLoader {
                     getDependanciesForContext(this.getContextName());
             return loaders;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Failed to retrieve the class loaders : " + ex.getMessage(),ex);
             throw new ClassNotFoundException("Failed to find the loaders : " +
                     ex.getMessage(),ex);
         }

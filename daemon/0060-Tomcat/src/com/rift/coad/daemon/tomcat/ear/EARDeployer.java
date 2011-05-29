@@ -91,25 +91,28 @@ public class EARDeployer extends BasicThread {
     @Override
     public void process() throws Exception {
         while (!state.isTerminated()) {
-            log.info("The ear deployer is running");
+            try {
+                // the reference to the manager
+                EARDeploymentManager manager = EARDeploymentManager.getInstance();
 
-            // the reference to the manager
-            EARDeploymentManager manager = EARDeploymentManager.getInstance();
-
-            List<EARDeployEntry> entries = manager.listEntries();
-            for (EARDeployEntry entry : entries) {
-                if (entry.getFile().exists() || entry.isValid()) {
-                    continue;
+                List<EARDeployEntry> entries = manager.listEntries();
+                for (EARDeployEntry entry : entries) {
+                    if (entry.getFile().exists() || entry.isValid()) {
+                        continue;
+                    }
+                    manager.undeployEntry(entry.getFile());
                 }
-                manager.undeployEntry(entry.getFile());
-            }
 
-            File[] earFiles = FileUtil.filter(deploymentDir.listFiles(),"*.ear");
-            for (File earFile: earFiles) {
-                if (manager.contains(earFile)) {
-                    continue;
+                File[] earFiles = FileUtil.filter(deploymentDir.listFiles(),"*.ear");
+                for (File earFile: earFiles) {
+                    if (manager.contains(earFile)) {
+                        continue;
+                    }
+                    manager.deployEntry(earFile);
                 }
-                manager.deployEntry(earFile);
+            } catch (Exception ex) {
+                log.error("Failed to process the ear files bcause : " +
+                        ex.getMessage(),ex);
             }
             // check the state
             state.monitor();
