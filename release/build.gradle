@@ -203,7 +203,7 @@ task clean {
                 include(name: "**/*.xml")
             }
         }
-        delete {
+        delete (includeEmptyDirs:true){
             fileset(dir: "dipforge/var/tomcat/conf/ear"){
                 exclude(name: "**/*.keepme")
             }
