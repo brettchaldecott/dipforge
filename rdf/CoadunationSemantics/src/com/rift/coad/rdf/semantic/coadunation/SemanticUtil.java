@@ -110,9 +110,7 @@ public class SemanticUtil implements XAResource {
             if (coadConfig.containsKey(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
                 ontologyListBuffer.append(sep).append(coadConfig.getString(OntologyConstants.ONTOLOGY_LOCATION_URIS));
             }
-            if (ontologyListBuffer.length() > 0) {
-                properties.put(OntologyConstants.ONTOLOGY_LOCATION_URIS, ontologyListBuffer.toString());
-            }
+            
 
 
             // ket the key set
@@ -126,6 +124,9 @@ public class SemanticUtil implements XAResource {
                 }
 
             }
+            if (ontologyListBuffer.length() > 0) {
+                properties.put(OntologyConstants.ONTOLOGY_LOCATION_URIS, ontologyListBuffer.toString());
+            }
             
             // instanciate the session manager
             this.sessionManager = SessionManagerBuilder.createManager(properties);
@@ -135,6 +136,23 @@ public class SemanticUtil implements XAResource {
             throw new SemanticUtilException("Initial SessionManager " +
                     "creation failed: " + ex.getMessage(),ex);
         }
+    }
+
+
+    /**
+     * This method returns a semantic util instance.
+     *
+     * @return The reference to the semantic util.
+     * @throws SemanticUtilException
+     */
+    public synchronized static SemanticUtil getInstance() throws
+            SemanticUtilException {
+        SemanticUtil singleton = null;
+        if (singletons.size() > 0) {
+            singleton = (SemanticUtil)singletons.get(
+                    singletons.keySet().iterator().next());
+        }
+        return singleton;
     }
 
 
