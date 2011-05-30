@@ -21,12 +21,14 @@
 
 package com.rift.dipforge.rdf.store;
 
+import java.io.Serializable;
+
 /**
  * An exception that gets thrown when an there is a problem with RDF store.
  *
  * @author brett chaldecott
  */
-public class RDFStoreException extends Exception {
+public class RDFStoreException extends Exception implements Serializable {
 
     /**
      * Creates a new instance of <code>RDFStoreException</code> without detail message.

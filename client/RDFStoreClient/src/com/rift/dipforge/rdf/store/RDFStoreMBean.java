@@ -25,6 +25,7 @@ package com.rift.dipforge.rdf.store;
 import com.rift.coad.annotation.MethodInfo;
 import com.rift.coad.annotation.Result;
 import com.rift.coad.annotation.Version;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
@@ -32,7 +33,7 @@ import java.rmi.RemoteException;
  *
  * @author brett chaldecott
  */
-public interface RDFStoreMBean {
+public interface RDFStoreMBean extends Remote {
 
     /**
      * This method returns the name of the tomcat daemon.

@@ -31,14 +31,6 @@ import java.rmi.RemoteException;
  */
 public interface RDFStoreDaemon extends Remote {
 
-    /**
-     * The store actions
-     */
-    enum StoreAction {
-        PERSIST,
-        REMOVE
-    };
-
 
     /**
      * The persist method used to update the store.
@@ -48,5 +40,5 @@ public interface RDFStoreDaemon extends Remote {
      * @throws RDFStoreException
      * @throws RemoteException
      */
-    public void persist(StoreAction action, String rdfXML) throws RDFStoreException, RemoteException;
+    public void persist(String action, String rdfXML) throws RDFStoreException, RemoteException;
 }

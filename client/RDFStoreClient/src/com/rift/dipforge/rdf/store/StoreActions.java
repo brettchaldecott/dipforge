@@ -16,21 +16,19 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * RDFStoreMBean.java
+ * RDFStoreDaemon.java
  */
 
 package com.rift.dipforge.rdf.store;
 
 /**
- * The constants associated with the store.
- * 
+ * This object is responsible for storing the actions
+ *
  * @author brett chaldecott
  */
-public class Constants {
-
-    /**
-     * The services offered by the rdf store.
-     */
-    public final static String SERVICE = "rdf_store";
+public class StoreActions {
+    public final static String PERSIST = "PERSIST";
     
+    
+    public final static String REMOVE = "REMOVE";
 }
