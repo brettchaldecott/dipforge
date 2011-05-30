@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Brett Chaldecott
+    Description:
+        This is the configuration of the RDF store.
+-->
+
+<coadunation version="1" name="RDFStore">
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.dipforge.rdf.store.RDFStoreMBean</interface>
+            <class>com.rift.dipforge.rdf.store.RDFStore</class>
+            <objectName>com.rift.coad.daemon:type=RDFStore</objectName>
+            <bindName>rdf/Store</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.dipforge.rdf.store.RDFStoreDaemon</interface>
+            <class>com.rift.dipforge.rdf.store.RDFStoreDaemonImpl</class>
+            <bindName>rdf/RDFStoreDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

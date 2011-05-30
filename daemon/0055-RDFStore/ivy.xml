@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+    <info module="0110-RDFStore" organisation="0110-RDFStore" revision="1.0"/>
+    <configurations>
+        <conf name="compile"/>
+        <conf name="runtime"/>
+        <conf name="compile-test"/>
+        <conf name="runtime-test"/>
+    </configurations>
+    <dependencies>
+        <dependency org="javax.transaction" name="jta" rev="1.1" />
+        <dependency org="log4j" name="log4j" rev="1.2.14"/>
+        <dependency org="com.hp.hpl.jena" name="jena" rev="2.6.4" />
+        <dependency org="com.hp.hpl.jena" name="arq" rev="2.8.7" />
+        <dependency org="com.hp.hpl.jena" name="arq-extra" rev="2.6.0" />
+        <dependency org="com.hp.hpl.jena" name="sdb" rev="1.3.4" />
+        <dependency org="com.hp.hpl.jena" name="iri" rev="0.8" />
+        <dependency org="com.ibm.icu" name="icu4j" rev="3.4.4" />
+        <dependency org="commons-logging" name="commons-logging" rev="1.0.4" />
+        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8"/>
+        <dependency org="cglib" name="cglib" rev="2.1_3"/>
+    </dependencies>
+</ivy-module>
