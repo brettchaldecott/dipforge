@@ -97,17 +97,19 @@ public class EARDeployer extends BasicThread {
 
                 List<EARDeployEntry> entries = manager.listEntries();
                 for (EARDeployEntry entry : entries) {
-                    if (entry.getFile().exists() || entry.isValid()) {
+                    if (entry.getFile().exists() && entry.isValid()) {
                         continue;
                     }
                     manager.undeployEntry(entry.getFile());
                 }
 
-                File[] earFiles = FileUtil.filter(deploymentDir.listFiles(),"*.ear");
+                log.debug("Process the directory : " + deploymentDir);
+                File[] earFiles = FileUtil.filter(deploymentDir.listFiles(),".ear");
                 for (File earFile: earFiles) {
                     if (manager.contains(earFile)) {
                         continue;
                     }
+                    log.info("Attempt to deploy the file : " + earFile);
                     manager.deployEntry(earFile);
                 }
             } catch (Exception ex) {

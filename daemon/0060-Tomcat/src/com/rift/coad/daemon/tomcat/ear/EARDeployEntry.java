@@ -175,7 +175,7 @@ public class EARDeployEntry {
 
             // create the files properties file
             Properties fileProperties = new Properties();
-            copyFiles(tempDir,"*.jar", fileProperties);
+            copyFiles(tempDir,".jar", fileProperties);
 
             // create the context file
             Properties contextProperties = createContextEntries(tempDir, fileProperties);
@@ -302,8 +302,8 @@ public class EARDeployEntry {
     private Properties createContextEntries(File tempDir, Properties fileProperties) throws EARException {
         try {
             Properties properties = new Properties();
-            File[] jarFiles = FileUtil.filter(tempDir.listFiles(),"*.jar");
-            File[] warFiles = FileUtil.filter(tempDir.listFiles(),"*.war");
+            File[] jarFiles = FileUtil.filter(tempDir.listFiles(),".jar");
+            File[] warFiles = FileUtil.filter(tempDir.listFiles(),".war");
 
             int count = 1;
             for (File warFile: warFiles) {
