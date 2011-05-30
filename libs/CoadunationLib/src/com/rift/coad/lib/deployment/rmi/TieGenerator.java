@@ -361,9 +361,10 @@ public class TieGenerator {
             fileWriter.write(tieClass);
             fileWriter.close();
         } catch (Exception ex) {
-            log.error("Failed to create the tie : " + ex.getMessage(),ex);
-            throw new RMIException("Failed to create the tie : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to create the tie for [" + ref.getName() +
+                    "] because : " + ex.getMessage(),ex);
+            throw new RMIException("Failed to create the tie for [" + ref.getName() +
+                    "] because : " + ex.getMessage(),ex);
         }
     }
     
@@ -489,8 +490,10 @@ public class TieGenerator {
         } catch (RMIException ex) {
             throw ex;
         } catch (Exception ex) {
-            throw new RMIException("Failed to generate the exception list : " + 
-                    ex.getMessage(),ex);
+            log.error("Failed to generate the method code [" + method.getName() 
+                    + "] : " + ex.getMessage(),ex);
+            throw new RMIException("Failed to generate the method code [" + method.getName()
+                    + "] : " + ex.getMessage(),ex);
         }
     }
     

@@ -919,8 +919,20 @@
         </entry>
     </object>
     <object name="com.rift.coad.web.rdf.RDFConfigure">
+        <entry key="rdf_config_url" type="string">
+            http://@hostname@:8080/schema/rdf?list=true
+        </entry>
+        <entry key="persistance_manager" type="string">
+           com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceManager
+        </entry>
+        <entry key="ontology_manager" type="string">
+           com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
+        </entry>
+        <entry key="jena_store_type" type="string">
+           sdb
+        </entry>
         <entry key="sdb_config_file" type="string">
-            @dipforge_home@/var/semantics/dipforgeweb.ttl
+            @dipforge_home@/var/semantics/dipforge_web.ttl
         </entry>
     </object>
     <!-- End of Dipforge Groovy Environment -->

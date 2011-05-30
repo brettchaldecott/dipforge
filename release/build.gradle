@@ -203,6 +203,16 @@ task clean {
                 include(name: "**/*.xml")
             }
         }
+        delete {
+            fileset(dir: "dipforge/var/tomcat/conf/ear"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/tomcat/conf"){
+                include(name: "**/*.properties")
+            }
+        }
         delete (includeEmptyDirs:true){
             fileset(dir: "dipforge/var/tomcat/work"){
                 exclude(name: "**/*.keepme")
@@ -350,8 +360,6 @@ dependencies {
 
     // groovy lib
     releaseGroovyLib project(':libs:GroovyServletBootStrap')
-    releaseGroovyLib project(':rdf:Semantics')
-    releaseGroovyLib project(':rdf:CoadunationSemantics')
     releaseGroovyLib "asm:asm:3.2"
     releaseGroovyLib "antlr:antlr:2.7.7"
     releaseGroovyLib "asm:asm-commons:3.2"
