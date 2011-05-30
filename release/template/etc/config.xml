@@ -220,8 +220,8 @@
             max=10
         </entry>
         <entry key="db_source10" type="string">
-            jndi=controlpanel,
-            url=jdbc:hsqldb:hsql://@hostname@/controlpanel,
+            jndi=dipforgeweb,
+            url=jdbc:hsqldb:hsql://@hostname@/dipforgeweb,
             username=sa,
             password=,
             min=10,
@@ -345,7 +345,7 @@
            @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
-           audit=backwards,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,controlpanel
+           audit=backwards,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,dipforgeweb
         </entry>
     </object>
     <object name="com.rift.coad.daemon.timer.TimerImpl">
@@ -916,6 +916,11 @@
         </entry>
         <entry key="web_dir" type="string">
             views
+        </entry>
+    </object>
+    <object name="com.rift.coad.web.rdf.RDFConfigure">
+        <entry key="sdb_config_file" type="string">
+            @dipforge_home@/var/semantics/dipforgeweb.ttl
         </entry>
     </object>
     <!-- End of Dipforge Groovy Environment -->

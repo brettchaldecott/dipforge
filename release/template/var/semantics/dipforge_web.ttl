@@ -8,7 +8,7 @@
      sdb:driver         "org.hsqldb.jdbcDriver" ;
      sdb:sdbUser        "sa" ;
      sdb:sdbPassword    "" ;
-     sdb:jdbcURL        "jdbc:hsqldb:hsql://@hostname@/controlpanel" ;
+     sdb:jdbcURL        "jdbc:hsqldb:hsql://@hostname@/dipforgeweb" ;
      .
 
 [] rdf:type sdb:Store ;

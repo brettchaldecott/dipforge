@@ -1,0 +1,100 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="DipforgeEnvironment"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+    mavenRepo urls: "http://repo1.maven.org/maven2/"
+    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+    mavenRepo urls: "http://tomcat.apache.org/dev/dist/m2-repository"
+    mavenRepo urls: "http://openjena.org/repo"
+}
+
+configurations {
+    compile
+    releaseJars
+}
+
+dependencies {
+    releaseJars project(':daemon:0055-RDFStore')
+    releaseJars project(':web:DipforgeWeb')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+
+task createDir << {
+    ant.mkdir(dir: 'build/classes/main')
+}
+
+task copyToJars(type: Copy) {
+    into "build/classes/main"
+    from configurations.releaseJars {
+        include '**/0055-*'
+        include '**/Dipforge*'
+    }
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+    extension = "ear"
+}
+
+processResources.dependsOn {
+    [createDir,copyToJars]
+}
+
+task copyJars << {
+    ant.mkdir(dir: '../../sbin')
+    ant.copy(todir: '../../sbin/', file: "build/" + archivesBaseName + "-" + version + ".ear") 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives, copyJars]
+}
+release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
+
