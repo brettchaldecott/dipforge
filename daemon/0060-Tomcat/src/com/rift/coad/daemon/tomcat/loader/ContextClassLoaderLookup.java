@@ -57,7 +57,7 @@ public class ContextClassLoaderLookup {
             Configuration config = ConfigurationFactory.getInstance().getConfig(
                     ContextClassLoaderLookup.class);
             path = config.getString(LoaderConstants.LOADER_CONTEXT_PROPERTIES);
-
+            readProperties();
         } catch (Exception ex) {
             log.error("Failed to instanciate the context loader : " +
                     ex.getMessage(),ex);
