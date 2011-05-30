@@ -49,8 +49,8 @@ dependsOn(':daemon:0050-Timer')
 dependsOn(':daemon:0060-Tomcat')
 dependsOn(':daemon:0101-DeploymentDaemon')
 dependsOn(':daemon:0102-RSSReader')
-dependsOn(':web:CoadunationAdmin')
-dependsOn(':web:CoadunationDesktop')
+//dependsOn(':web:CoadunationAdmin')
+//dependsOn(':web:CoadunationDesktop')
 dependsOn(':web:FileManager')
 dependsOn(':rdf:SchemaUtils')
 dependsOn(':web:SchemaStore')
@@ -66,7 +66,6 @@ dependsOn(':web:lib:AuditTrailGWT')
 //dependsOn(':web:AuditTrailConsole')
 dependsOn(':libs:GroovyServletBootStrap')
 dependsOn(':libs:GroovyLib')
-dependsOn(':web:DipforgeWeb')
 
 repositories {
     mavenCentral()
@@ -85,6 +84,7 @@ configurations {
     releaseBin
     releaseDaemon
     releaseWeb
+    releaseEAR
     releaseTools
     releaseRDFClients
     releaseExtractWeb
@@ -127,6 +127,12 @@ task copyWarToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseWeb
     include "**/*" + version + ".war"
+}
+
+task copyEarToDaemon(type: Copy) {
+    into "dipforge/deploy/"
+    from configurations.releaseEAR
+    include "**/*" + version + ".ear"
 }
 
 release.doLast {
@@ -184,6 +190,7 @@ task clean {
             fileset(dir: "dipforge"){
                 include(name: "**/*.war")
                 include(name: "**/*.jar")
+                include(name: "**/*.ear")
             }
         }
         delete (includeEmptyDirs:true){
@@ -329,13 +336,14 @@ dependencies {
     releaseDaemon project(':daemon:0150-CoadunationTypeManager')
     
     // release web
-    releaseWeb project(':web:CoadunationAdmin')
+//    releaseWeb project(':web:CoadunationAdmin')
 //    releaseWeb project(':web:CoadunationDesktop')
     releaseWeb project(':web:FileManager')
 //    releaseWeb project(':web:AuditTrailConsole')
 //    releaseWeb project(':web:CoadunationTypeManagerConsole')
-    releaseWeb project(':web:DipforgeWeb')
     releaseWeb project(':web:DipforgeEntryPoint')
+
+    releaseEAR project(':composite:dipforgeenvironment')
 
     // release extract web
     releaseExtractWeb project(':web:SchemaStore')
@@ -354,7 +362,7 @@ dependencies {
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat,copySemanticTemplate,copyToGroovyLib]) {
+task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat,copySemanticTemplate,copyToGroovyLib]) {
 }
 
 release.dependsOn build

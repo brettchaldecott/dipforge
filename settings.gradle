@@ -60,5 +60,6 @@ include 'libs:CoadunationBase',
         'daemon:0055-RDFStore',
         'web:DipforgeEntryPoint',
         'client:RDFStoreClient',
+        'composite:dipforgeenvironment',
         'client:RDFMasterStoreClient',
 	'release'
