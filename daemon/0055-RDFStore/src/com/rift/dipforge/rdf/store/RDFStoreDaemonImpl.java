@@ -63,11 +63,11 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
      * @throws RDFStoreException
      * @throws RemoteException
      */
-    public void persist(StoreAction action, String rdfXML) throws 
+    public void persist(String action, String rdfXML) throws
             RDFStoreException, RemoteException {
         try {
             Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
-            if (StoreAction.PERSIST == action) {
+            if (StoreActions.PERSIST.equals(action)) {
                 session.persist(rdfXML);
                 RDFStoreStatsManager.getInstance().incrementUpdate();
             } else {
