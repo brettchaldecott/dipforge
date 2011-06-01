@@ -19,5 +19,6 @@
         <dependency org="commons-logging" name="commons-logging" rev="1.0.4" />
         <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8"/>
         <dependency org="cglib" name="cglib" rev="2.1_3"/>
+        <dependency org="xerces" name="xercesImpl" rev="2.7.1"/>
     </dependencies>
 </ivy-module>
