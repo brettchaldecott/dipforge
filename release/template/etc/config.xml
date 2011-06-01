@@ -345,7 +345,7 @@
            @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
-           audit=backwards,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,dipforgeweb
+           audit=backwards,change,data_mapper_broker,script,revision,groovy,jython,requestbroker,dipforgeweb=backwards
         </entry>
     </object>
     <object name="com.rift.coad.daemon.timer.TimerImpl">
@@ -667,6 +667,9 @@
         <entry key="type_file" type="string">
             @dipforge_home@/var/semantics/types/types.xml
         </entry>
+        <entry key="schema_dir" type="string">
+            @dipforge_home@/var/semantics/types/
+        </entry>
     </object>
     <!-- end of Coadunation RDF Types -->
     <!-- Coadunation RDF Source Types -->
@@ -931,7 +934,7 @@
         <entry key="jena_store_type" type="string">
            sdb
         </entry>
-        <entry key="sdb_config_file" type="string">
+        <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/dipforge_web.ttl
         </entry>
     </object>
