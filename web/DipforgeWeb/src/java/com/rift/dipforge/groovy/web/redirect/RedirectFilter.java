@@ -33,6 +33,7 @@ import java.util.Set;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -123,11 +124,14 @@ public class RedirectFilter implements Filter {
 	Throwable problem = null;
 
 	try {
+            HttpServletRequest httpRequest = (HttpServletRequest)request;
+
             // TODO: This check is nasty and needs to be refined, assumes simply that
             // if the path ends with a back-slash that it is a directory path and then
             // appends index.gsp to that. Very crude.
             if (wrappedRequest.getRequestURI().trim().endsWith("/")) {
-                wrappedResponse.sendRedirect(wrappedRequest.getRequestURI().trim() + DEFAULT_WELCOME_FILE);
+                RequestDispatcher dispatcher = httpRequest.getRequestDispatcher(DEFAULT_WELCOME_FILE);
+                dispatcher.forward(request, response);
             } else {
                 // no redirect is required.
                 chain.doFilter(wrappedRequest, wrappedResponse);

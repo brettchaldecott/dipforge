@@ -39,6 +39,7 @@ dependencies {
     releaseJars project(':client:RDFStoreClient')
     releaseJars project(':client:ServiceBrokerClient')
     releaseJars project(':rdf:CoadunationSemantics')
+    releaseJars project(':libs:CoadunationUtil')
     releaseJars project(':rdf:Semantics')
     releaseJars project(':rdf:SchemaUtils')
 }
