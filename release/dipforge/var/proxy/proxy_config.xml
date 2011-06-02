@@ -2,7 +2,7 @@
 <config>
         <server className="net.sf.j2ep.servers.BaseServer"
                 domainName="localhost:8080"
-                path="/Desktop"
+                path="/DipforgeWeb/desktop"
                 isRewriting="true">
                 <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
         </server>
