@@ -145,8 +145,8 @@ public class DipforgeWebAppClassLoader extends  WebappClassLoader {
         } catch (ClassNotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
-            log.error("Failed to find the class [" + name + "] because :" +
-                    ex.getMessage(),ex);
+            log.info("Failed to find the class [" + name + "] because :" +
+                    ex.getMessage());
             throw new ClassNotFoundException
                     ("Failed to find the class [" + name + "] because :" +
                     ex.getMessage(),ex);
@@ -170,7 +170,7 @@ public class DipforgeWebAppClassLoader extends  WebappClassLoader {
                     getDependanciesForContext(this.getContextName());
             return loaders;
         } catch (Exception ex) {
-            log.error("Failed to retrieve the class loaders : " + ex.getMessage(),ex);
+            log.info("Failed to retrieve the class loaders : " + ex.getMessage());
             throw new ClassNotFoundException("Failed to find the loaders : " +
                     ex.getMessage(),ex);
         }

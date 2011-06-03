@@ -135,7 +135,7 @@ public class ContextClassLoaderLookup {
             ClassLoader loader = ClassLoaderLookup.getInstance().
                     getClassLoaderByFileName(dependancyName);
             if (loader == null) {
-                log.error("The context [" + context +
+                log.info("The context [" + context +
                         "] does not have all its dependancies loaded [" +
                         dependancyName + "]");
                 throw new LoaderException("The context [" + context +
