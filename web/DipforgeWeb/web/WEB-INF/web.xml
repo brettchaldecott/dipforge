@@ -4,14 +4,14 @@
         <filter-name>TransactionScopeFilter</filter-name>
         <filter-class>com.rift.dipforge.groovy.web.TransactionScopeFilter</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>TransactionScopeFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
     <filter>
         <filter-name>RedirectFilter</filter-name>
         <filter-class>com.rift.dipforge.groovy.web.redirect.RedirectFilter</filter-class>
     </filter>
+    <filter-mapping>
+        <filter-name>TransactionScopeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>RedirectFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -91,4 +91,33 @@
         <welcome-file>index.htm</welcome-file>
         <welcome-file>index.groovy</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <display-name>public</display-name>
+        <web-resource-collection>
+            <web-resource-name>public</web-resource-name>
+            <description>public</description>
+            <url-pattern>/public/*</url-pattern>
+            <url-pattern>*.ico</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+    <security-constraint>
+        <display-name>secure</display-name>
+        <web-resource-collection>
+            <web-resource-name>secure</web-resource-name>
+            <description>secure</description>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Desktop constraints</description>
+            <role-name>desktop</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Dipforge Web</realm-name>
+    </login-config>
+    <security-role>
+        <description>Desktop access</description>
+        <role-name>desktop</role-name>
+    </security-role>
 </web-app>

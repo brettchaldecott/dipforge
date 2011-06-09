@@ -97,14 +97,14 @@ public class MediaServlet extends HttpServlet {
 
         File f = new File(this.baseDir + File.separator + context.getPath() +
                 File.separator + this.webDir + File.separator + subPath);
-        if (!f.exists()) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
         // fall back
         if (!f.isFile()) {
             f = new File(this.dipforgeLibDir +
                 File.separator + this.webDir + File.separator + subPath);
+        }
+        if (!f.exists()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
         String name = f.getName();
 
