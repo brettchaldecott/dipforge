@@ -18,7 +18,7 @@ repositories {
     mavenRepo urls: "http://www.mvnsearch.org/maven2/"
     mavenRepo urls: "http://repo1.maven.org/maven2/"
     mavenRepo urls: "http://www.jraf.org/static/maven/2/"
-    mavenRepo urls: "http://repository.jboss.com/maven2/"
+    mavenRepo urls: "https://repository.jboss.org/nexus/content/groups/public/"
     mavenRepo urls: "file://localhost/$projectDir/../../maven"
 }
 
