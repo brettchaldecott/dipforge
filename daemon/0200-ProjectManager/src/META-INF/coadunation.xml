@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : July 2011
+    Author     : Brett Chaldecott
+    Description:
+        This document defines the configurationation for the project manager.
+-->
+
+<coadunation version="1" name="0200-ProjectManager">
+    <description>The project manager</description>
+    <beans>
+        <bean>
+            <interface>com.rift.dipforge.project.ProjectTypeManager</interface>
+            <class>com.rift.dipforge.project.ProjectTypeManagerImpl</class>
+            <bindName>project/TypeManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.dipforge.project.ProjectManager</interface>
+            <class>com.rift.dipforge.project.ProjectManagerImpl</class>
+            <bindName>project/Manager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.dipforge.project.ProjectFileManager</interface>
+            <class>com.rift.dipforge.project.ProjectFileManagerImpl</class>
+            <bindName>project/FileManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>
