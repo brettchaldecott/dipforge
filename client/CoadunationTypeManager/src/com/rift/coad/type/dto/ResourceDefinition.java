@@ -50,6 +50,19 @@ public class ResourceDefinition implements Serializable {
      *
      * @param namespace The name space information.
      * @param localname The local name.
+     */
+    public ResourceDefinition(String namespace, String localname) {
+        this.namespace = namespace;
+        this.localname = localname;
+        this.properties = new HashMap<String,RDFDataType>();
+    }
+
+
+    /**
+     * The resource definition.
+     *
+     * @param namespace The name space information.
+     * @param localname The local name.
      * @param properties The properties.
      */
     public ResourceDefinition(String namespace, String localname, Map<String, RDFDataType> properties) {
@@ -127,6 +140,24 @@ public class ResourceDefinition implements Serializable {
         this.properties = properties;
     }
 
+
+    /**
+     * This method adds the property.
+     *
+     * @param name The name of the property.
+     * @param type The property.
+     */
+    public void addProperty(String name, RDFDataType type) {
+        properties.put(name, type);
+    }
+
+    
+    /**
+     * This method sets the equal sign.
+     *
+     * @param obj The object to perform the comparison on.
+     * @return TRUE if equal, FALSE if not.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

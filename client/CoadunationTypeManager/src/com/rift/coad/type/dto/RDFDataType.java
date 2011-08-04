@@ -32,7 +32,7 @@ public class RDFDataType implements Serializable {
 
     private String namespace;
     private String localName;
-
+    private String typeUri = null;
 
     /**
      * The default constructor.
@@ -52,6 +52,18 @@ public class RDFDataType implements Serializable {
         this.localName = localName;
     }
 
+
+    /**
+     * The RDF data type information.
+     *
+     * @param namespace The name space information.
+     * @param localName The local name.
+     */
+    public RDFDataType(String namespace, String localName, String typeUri) {
+        this.namespace = namespace;
+        this.localName = localName;
+        this.typeUri = typeUri;
+    }
 
 
     /**
@@ -93,6 +105,26 @@ public class RDFDataType implements Serializable {
         this.namespace = namespace;
     }
 
+    
+    /**
+     * This method returns the uri of the rdf data type.
+     *
+     * @return The string containing the type information.
+     */
+    public String getTypeUri() {
+        return typeUri;
+    }
+
+
+    /**
+     * This method sets the type information.
+     *
+     * @param typeUri The string containing the type information.
+     */
+    public void setTypeUri(String typeUri) {
+        this.typeUri = typeUri;
+    }
+    
 
     /**
      * This method performs an equals operation.
