@@ -47,6 +47,7 @@ import com.rift.coad.rdf.semantic.ontology.OntologyManagerFactory;
 import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
+import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 import com.rift.coad.rdf.semantic.util.RDFURIHelper;
 import com.rift.coad.type.dto.RDFDataType;
 import com.rift.coad.type.dto.ResourceDefinition;
@@ -111,10 +112,15 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             OntologySession session = this.getSession(resource.getNamespace());
             URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
             OntologyClass ontologyClass = session.createClass(uri);
+
             for (String key : resource.getProperties().keySet()) {
                 RDFDataType type = resource.getProperties().get(key);
-                ontologyClass.addProperty(
-                        session.createProperty(new URI(type.getNamespace() + "#" + type.getLocalName())));
+                OntologyProperty property =session.createProperty(new URI(type.getNamespace() + "#" + type.getLocalName()));
+                if (type.getTypeUri() != null) {
+                    property.setType(XSDDataDictionary.getTypeByURI(
+                            type.getTypeUri()));
+                }
+                ontologyClass.addProperty(property);
             }
             this.persist(session,resource.getNamespace());
             auditLog.complete(null, null, "Add new type %s",resource.toString());
@@ -142,8 +148,13 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             OntologyClass ontologyClass = session.createClass(uri);
             for (String key : resource.getProperties().keySet()) {
                 RDFDataType type = resource.getProperties().get(key);
-                ontologyClass.addProperty(
-                        session.createProperty(new URI(type.getNamespace() + "#" + type.getLocalName())));
+                OntologyProperty property = session.createProperty(
+                        new URI(type.getNamespace() + "#" + type.getLocalName()));
+                if (type.getTypeUri() != null) {
+                    property.setType(XSDDataDictionary.getTypeByURI(
+                            type.getTypeUri()));
+                }
+                ontologyClass.addProperty(property);
             }
             this.persist(session,resource.getNamespace());
             auditLog.complete(null, null, "Updated a type %s",resource.toString());
@@ -200,8 +211,11 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             for (OntologyProperty property : ontologyClass.listProperties()) {
                 PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                         property.getNamespace(),property.getLocalname());
-                result.getProperties().put(identifier.toURI().toString(),
-                        new RDFDataType(property.getNamespace(),property.getLocalname())) ;
+                RDFDataType dataType = new RDFDataType(property.getNamespace(),property.getLocalname());
+                if (property.getType() != null) {
+                    dataType.setTypeUri(property.getType().getURI().toString());
+                }
+                result.getProperties().put(identifier.toURI().toString(),dataType) ;
             }
             return result;
         } catch (Exception ex) {
@@ -227,8 +241,12 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                 OntologySession session = this.getSession(namespace);
                 List<OntologyClass> ontClasses = session.listClasses();
                 for (OntologyClass ontClass : ontClasses ) {
-                    types.add(new RDFDataType(ontClass.getNamespace(),
-                            ontClass.getLocalName()));
+                    OntologyProperty property = session.getProperty(ontClass.getURI());
+                    RDFDataType dataType = new RDFDataType(property.getNamespace(),property.getLocalname());
+                    if (property.getType() != null) {
+                        dataType.setTypeUri(property.getType().getURI().toString());
+                    }
+                    types.add(dataType);
                 }
             }
             return types;
