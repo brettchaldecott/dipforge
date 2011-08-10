@@ -11,13 +11,6 @@ sourceCompatibility=1.6
 targetCompatibility=1.6
 
 
-repositories {
-    mavenCentral()
-    mavenRepo urls: 'http://repo1.maven.org/maven2/'
-    mavenRepo urls: 'http://repository.jboss.org/maven2/'
-    mavenRepo urls: "file://localhost/$projectDir/../../repository"
-}
-
 configurations {
     compile
 }

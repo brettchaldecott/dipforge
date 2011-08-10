@@ -11,11 +11,6 @@ sourceCompatibility=1.6
 targetCompatibility=1.6
 
 
-repositories {
-    mavenCentral()
-    mavenRepo urls: "file://localhost/$projectDir/../../repository"
-}
-
 configurations {
     compile
     releaseJars

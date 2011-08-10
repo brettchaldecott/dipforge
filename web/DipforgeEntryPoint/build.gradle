@@ -10,17 +10,6 @@ archivesBaseName="DipforgeEntryPoint"
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
-
-repositories {
-    mavenCentral()
-    mavenRepo urls: "file://localhost/$projectDir/../../repository/"
-    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
-    mavenRepo urls: "http://repo1.maven.org/maven2/"
-    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
-    mavenRepo urls: "http://www.smartclient.com/maven2/"
-    mavenRepo urls: "file://localhost/$projectDir/../../maven"
-}
-
 configurations {
     compile
     gwt

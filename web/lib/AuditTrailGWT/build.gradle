@@ -10,14 +10,6 @@ archivesBaseName="AuditTrailGWT"
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
-
-repositories {
-    mavenCentral()
-    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
-    mavenRepo urls: "http://repo1.maven.org/maven2/"
-    mavenRepo urls: "http://www.smartclient.com/maven2"
-}
-
 configurations {
     compile
 }

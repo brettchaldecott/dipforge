@@ -11,12 +11,6 @@ sourceCompatibility=1.6
 targetCompatibility=1.6
 
 
-repositories {
-    mavenCentral()
-    mavenRepo urls: 'https://repository.jboss.org/nexus/content/groups/public'
-    mavenRepo urls: "file://localhost/$projectDir/../../repository"
-}
-
 configurations {
     compile
     releaseJars

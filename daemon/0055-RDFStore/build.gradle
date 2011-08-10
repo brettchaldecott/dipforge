@@ -11,15 +11,6 @@ sourceCompatibility=1.6
 targetCompatibility=1.6
 
 
-repositories {
-    mavenCentral()
-    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
-    mavenRepo urls: "http://repo1.maven.org/maven2/"
-    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
-    mavenRepo urls: "http://tomcat.apache.org/dev/dist/m2-repository"
-    mavenRepo urls: "http://openjena.org/repo"
-}
-
 configurations {
     compile
     releaseJars

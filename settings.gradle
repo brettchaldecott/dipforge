@@ -62,4 +62,5 @@ include 'libs:CoadunationBase',
         'client:RDFStoreClient',
         'composite:dipforgeenvironment',
         'client:RDFMasterStoreClient',
+        'client:ProjectClient',
 	'release'

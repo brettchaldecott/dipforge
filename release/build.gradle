@@ -67,16 +67,6 @@ dependsOn(':web:lib:AuditTrailGWT')
 dependsOn(':libs:GroovyServletBootStrap')
 dependsOn(':libs:GroovyLib')
 
-repositories {
-    mavenCentral()
-    mavenRepo urls: "http://repository.jboss.org/maven2/"
-    mavenRepo urls: "http://www.mvnsearch.org/maven2/"
-    mavenRepo urls: "http://repo1.maven.org/maven2/"
-    mavenRepo urls: "http://www.jraf.org/static/maven/2/"
-    mavenRepo urls: "http://tomcat.apache.org/dev/dist/m2-repository"
-    mavenRepo urls: "file://localhost/$projectDir/../maven"
-}
-
 configurations {
     releaseSbin
     releaseLibs
@@ -153,7 +143,7 @@ task copyBinTemplate(type: Copy) {
     into "${projectDir}/dipforge/bin/"
     include 'run.bat'
     include 'run.sh'
-    fileMode=00755
+    fileMode=0755
     filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version, hostname: InetAddress.getLocalHost().getHostName(), java_home: javaHome] )
 }
 

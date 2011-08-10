@@ -1,5 +1,23 @@
+
+
+
 allprojects {
     version = '1.0.1'
+    repositories {
+        mavenCentral()
+        mavenRepo urls: "http://repo1.maven.org/maven2/"
+        mavenRepo urls: "http://www.jraf.org/static/maven/2/"
+        mavenRepo urls: "http://www.mvnsearch.org/maven2/"
+        mavenRepo urls: "https://repository.jboss.org/nexus/content/groups/public"
+        mavenRepo urls: "http://tomcat.apache.org/dev/dist/m2-repository"
+        mavenRepo urls: "http://openjena.org/repo"
+        mavenRepo urls: "http://www.topazproject.org/maven2/"
+        mavenRepo urls: "http://www.smartclient.com/maven2/"
+        mavenRepo urls: "file://localhost/$projectDir/../../repository"
+        mavenRepo urls: "file://localhost/$projectDir/../../maven"
+        mavenRepo urls: "file://localhost/$projectDir/../maven"
+    }
+
     task release << {}
 }
 
