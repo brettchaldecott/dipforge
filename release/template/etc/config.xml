@@ -946,5 +946,23 @@
         </entry>
     </object>
     <!-- End of Reverse Proxy Configuration -->
+    <object name="com.rift.dipforge.project.ProjectManagerImpl">
+        <entry key="project_base" type="string">
+            @dipforge_home@/var/projects
+        </entry>
+    </object>
+    <object name="com.rift.dipforge.project.factory.ProjectFactory">
+        <entry key="project_base" type="string">
+            @dipforge_home@/var/projects
+        </entry>
+        <entry key="template_dir" type="string">
+            @dipforge_home@/var/template/project
+        </entry>
+    </object>
+    <object name="com.rift.dipforge.project.factory.ProjectBean">
+        <entry key="template_dir" type="string">
+            @dipforge_home@/var/template/files
+        </entry>
+    </object>
 </configuration>
 
