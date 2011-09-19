@@ -63,4 +63,5 @@ include 'libs:CoadunationBase',
         'composite:dipforgeenvironment',
         'client:RDFMasterStoreClient',
         'client:ProjectClient',
+        'daemon:0200-ProjectManager',
 	'release'
