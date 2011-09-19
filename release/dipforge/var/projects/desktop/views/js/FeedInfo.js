@@ -27,7 +27,7 @@ Ext.define('FeedViewer.FeedInfo', {
         };
         
         this.callParent();
-    },
+    },   
     
     /**
      * Add a new feed
@@ -38,7 +38,7 @@ Ext.define('FeedViewer.FeedInfo', {
         var active = this.getComponent(title);
         if (!active) {
             active = this.add(Ext.create('Ext.panel.Panel', {
-                html: "<iframe src=\"" + url + "\" width=\"100%\" height=\"100%\"/>",
+                html: "<iframe src=\"" + url + "\" width=\"100%\" height=\"100%\" frameborder=\"0\"/>",
                 itemId: title,
                 title: title,
                 url: url,

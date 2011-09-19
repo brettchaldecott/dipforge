@@ -14,9 +14,9 @@ Ext.define('Desktop.DesktopFeedShortCutBar', {
     alias: 'widget.desktopfeedshortcutbar',
     layout: 'fit',
     width: 250,
-    height: 400,
+    //height: 400,
     //autoScroll: true, 
-    //style: "padding-top:5px",
+    style: "padding-top:5px",
     /**
      * The function to init the component
      */
@@ -39,7 +39,7 @@ Ext.define('Desktop.DesktopFeedShortCutBar', {
     
     createMasterContainer: function() {
     	var masterContainer = Ext.create('Ext.container.Container', {
-    		 layout: 'anchor',
+    		 layout:  'anchor',
     		 items: [this.createFeedShortCut('feeds/UserFeedShortCut.groovy','100% 40%'),
               //this.createSeperator(),
               this.createFeedShortCut('feeds/FeedShortCut.groovy','100% 60%')]});

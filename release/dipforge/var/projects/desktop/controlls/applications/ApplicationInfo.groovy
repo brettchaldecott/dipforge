@@ -7,8 +7,8 @@ def builder = new JsonBuilder()
 def menu = [
              [
                 image: 'favicon.ico',
-                title: '<b>News BBC</b>',
-                url: 'http://news.bbc.co.uk/'
+                title: '<b>IDE</b>',
+                url: '/DipforgeWeb/ide/'
             ],
              [
                 image: 'favicon.ico',

@@ -15,13 +15,19 @@ Ext.define('FeedViewer.FeedPanel', {
     alias: 'widget.feedpanel',
 
     //animCollapse: true,
-    layout: 'auto',
-    title: '<image src="favicon.ico" style="vertical-align:middle horizontal-align:center" height=20 width=20/>&nbsp;Dipforge',
+    layout: 'fit',
+    title: 'Dipforge',
     //titleCollapse: true,
 
     initComponent: function(){
         Ext.apply(this, {
-            items: [this.createView(),this.createLHSContainer(),this.createShortFeedContainer()]
+            items: [
+            	Ext.create('Ext.container.Container', {
+                   layout: {
+                       type: 'anchor'
+                   },
+            	    items: [this.createView(),this.createLHSContainer(),this.createShortFeedContainer()]
+            	})]
         });
         this.addEvents(
             /**
@@ -39,8 +45,9 @@ Ext.define('FeedViewer.FeedPanel', {
              */
             'feedentryshortcutselect'
         );
+        this.setIconCls("dipforge-icon");
         this.callParent(arguments);
-    },
+    },   
 
     // template method
     afterRender: function(){
@@ -61,6 +68,8 @@ Ext.define('FeedViewer.FeedPanel', {
     createLHSContainer: function() {
         this.lhsContainer = Ext.create('widget.desktopsearch', {
             minWidth: 250,
+            height:50,
+            anchor: '100% 5%',
             listeners: {
                 scope: this,
                 desktopsearch: this.onDesktopSearch
@@ -74,6 +83,7 @@ Ext.define('FeedViewer.FeedPanel', {
      */
     createShortFeedContainer: function() {
         this.shortCutFeedsContainer = Ext.create('widget.desktopfeedshortcutbar', {
+        		anchor: '100% 75%',
             minWidth: 250
         });
 		  return this.shortCutFeedsContainer;
@@ -109,7 +119,11 @@ Ext.define('FeedViewer.FeedPanel', {
                 scope: this,
                 contextmenu: this.onContextMenu
             },
+            //height: 250,
+            width: 200,
+            anchor: '100% 20%',
             trackOver: true,
+            autoScroll: true,
             style: "padding-top:5px",
             cls: 'feed-list',
             itemSelector: '.feed-list-item',

@@ -4,3 +4,8 @@
 	border-bottom-style:solid;
 	border-bottom-width: 1px;
 }
+
+
+.dipforge-icon {
+    background-image: url('favicon.ico') !important;
+}

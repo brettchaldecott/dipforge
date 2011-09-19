@@ -40,6 +40,12 @@ def feeds = [
                 author: 'test',
                 msg: 'there is sky well I do not know',
                 url: 'http://www.sky.com/'
+            ],
+            [
+                image: 'favicon.ico',
+                author: 'test',
+                msg: 'there is sky well I do not know',
+                url: 'http://www.sky.com/'
             ]]
 
 builder(feeds)
