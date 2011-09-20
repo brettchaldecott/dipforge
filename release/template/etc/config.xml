@@ -873,7 +873,7 @@
             lib
         </entry>
         <entry key="environment_sub_directories" type="string">
-            controlls,services,packages
+            controls,services,packages
         </entry>
         <entry key="environment_libs_dir" type="string">
             @dipforge_home@/var/groovylib/
@@ -893,7 +893,7 @@
             lib
         </entry>
         <entry key="environment_sub_directories" type="string">
-            controlls,services,packages
+            controls,services,packages
         </entry>
         <entry key="environment_libs_dir" type="string">
             @dipforge_home@/var/groovylib/
