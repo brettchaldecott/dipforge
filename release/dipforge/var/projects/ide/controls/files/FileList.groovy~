@@ -29,5 +29,6 @@ try {
    log.error("This is an error" + ex.getMessage());
 }
 log.info("Tree " + tree)
+println "Tree " + tree
 builder(tree)
 println builder.toString()

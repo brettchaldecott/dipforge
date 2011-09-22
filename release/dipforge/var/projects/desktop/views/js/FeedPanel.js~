@@ -267,3 +267,4 @@ Ext.define('FeedViewer.FeedPanel', {
         this.menu.destroy();
     }
 });
+url : 

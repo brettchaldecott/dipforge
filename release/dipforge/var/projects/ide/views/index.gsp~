@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="ext-js-4.0/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="css/Feed-Viewer.css">
     <link rel="stylesheet" type="text/css" href="css/TabScrollerMenu.css">
-    <link rel="stylesheet" type="text/css" href="css/Editor.css">
+    <link rel="stylesheet" type="text/css" href="css/Desktop.css">
     
 <style type="text/css">
 .x-menu-item img.preview-right, .preview-right {

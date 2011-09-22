@@ -1,8 +1,11 @@
 package applications
 
 import groovy.json.*
+import org.apache.log4j.Logger;
 
 def builder = new JsonBuilder()
+
+def log = Logger.getLogger(String.class);
 
 
 def menu = [
@@ -34,4 +37,5 @@ def menu = [
 
 builder(menu)
 
+log.info("Hello world");
 println builder.toString()
