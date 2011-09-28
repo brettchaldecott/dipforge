@@ -131,6 +131,96 @@ release.doLast {
     ant.unzip(
         src: "$projectDir/../web/SchemaStore/build/SchemaStore-${version}.war" , 
         dest: "$projectDir/dipforge/var/tomcat/webapps/schema")
+    ant {
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationCommon")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationCommon"){
+            fileset(dir: "../libs/CoadunationCommon/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationHibernate")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationHibernate"){
+            fileset(dir: "../libs/CoadunationHibernate/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationLib")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationLib"){
+            fileset(dir: "../libs/CoadunationLib/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationUtil")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationUtil"){
+            fileset(dir: "../libs/CoadunationUtil/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/Semantics")
+        copy(todir: "dipforge/var/projects/documentation/views/Semantics"){
+            fileset(dir: "../rdf/Semantics/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/AuditTrail")
+        copy(todir: "dipforge/var/projects/documentation/views/AuditTrail"){
+            fileset(dir: "../client/AuditTrail/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationTypeManager")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationTypeManager"){
+            fileset(dir: "../client/CoadunationTypeManager/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DeploymentDaemonClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DeploymentDaemonClient"){
+            fileset(dir: "../client/DeploymentDaemonClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DesktopServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DesktopServerClient"){
+            fileset(dir: "../client/DesktopServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DNSServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DNSServerClient"){
+            fileset(dir: "../client/DNSServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/EmailServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/EmailServerClient"){
+            fileset(dir: "../client/EmailServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/EventServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/EventServerClient"){
+            fileset(dir: "../client/EventServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/HsqlDBEngineClient")
+        copy(todir: "dipforge/var/projects/documentation/views/HsqlDBEngineClient"){
+            fileset(dir: "../client/HsqlDBEngineClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/MessageServiceClient")
+        copy(todir: "dipforge/var/projects/documentation/views/MessageServiceClient"){
+            fileset(dir: "../client/MessageServiceClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ProjectClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ProjectClient"){
+            fileset(dir: "../client/ProjectClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RDBUserManagerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RDBUserManagerClient"){
+            fileset(dir: "../client/RDBUserManagerClient/build/docs/javadoc") {}
+        }
+        //mkdir(dir:"dipforge/var/projects/documentation/views/RDFMaterStoreClient")
+        //copy(todir: "dipforge/var/projects/documentation/views/RDFMaterStoreClient"){
+        //    fileset(dir: "../client/RDFMaterStoreClient/build/docs/javadoc") {}
+        //}
+        //mkdir(dir:"dipforge/var/projects/documentation/views/RDFStoreClient")
+        //copy(todir: "dipforge/var/projects/documentation/views/RDFStoreClient"){
+        //    fileset(dir: "../client/RDFStoreClient/build/docs/javadoc") {}
+        //}
+        mkdir(dir:"dipforge/var/projects/documentation/views/RSSReaderClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RSSReaderClient"){
+            fileset(dir: "../client/RSSReaderClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ServiceBrokerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ServiceBrokerClient"){
+            fileset(dir: "../client/ServiceBrokerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/TimerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/TimerClient"){
+            fileset(dir: "../client/TimerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/TomcatClient")
+        copy(todir: "dipforge/var/projects/documentation/views/TomcatClient"){
+            fileset(dir: "../client/TomcatClient/build/docs/javadoc") {}
+        }
+    }
     announce("Release complete", "notify-send")
 }
 
@@ -175,6 +265,7 @@ task copyToGroovyLib(type: Copy) {
     from configurations.releaseGroovyLib
     exclude "**/*servlet-api*"
 }
+
 
 task clean {
     ant {
@@ -241,6 +332,13 @@ task clean {
         delete {
             fileset(dir: "dipforge/var/groovylib"){
                 include(name: "**/*.jar")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/projects/documentation/views"){
+                exclude(name: "**/images")
+                exclude(name: "**/index.gsp")
+                exclude(name: "**/dipForgeLogo_small.png")
             }
         }
     }

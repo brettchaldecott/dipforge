@@ -46,7 +46,7 @@ uploadArchives {
 }
 
 build.dependsOn {
-    [jar, uploadArchives]
+    [jar, uploadArchives, javadoc]
 }
 release.dependsOn build
 
