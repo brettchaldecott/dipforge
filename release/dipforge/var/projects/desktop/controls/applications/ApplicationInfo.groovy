@@ -33,8 +33,13 @@ def menu = [
             ],
             [
                 image: 'favicon.ico',                
-                title: '<b>Documentation</b>',
+                title: 'Documentation',
                 url: '/documentation/'
+            ],
+            [
+                image: 'favicon.ico',                
+                title: 'File Manager',
+                url: '/FileManager/path/'
             ]]
 
 builder(menu)
