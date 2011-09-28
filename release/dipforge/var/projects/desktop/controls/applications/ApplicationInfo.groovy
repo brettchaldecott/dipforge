@@ -9,7 +9,7 @@ def menu = [
              [
                 image: 'favicon.ico',
                 title: '<b>IDE</b>',
-                url: '/DipforgeWeb/ide/'
+                url: '/ide/'
             ],
              [
                 image: 'favicon.ico',
@@ -30,6 +30,11 @@ def menu = [
                 image: 'favicon.ico',                
                 title: 'Space.com',
                 url: 'http://www.space.com'
+            ],
+            [
+                image: 'favicon.ico',                
+                title: '<b>Documentation</b>',
+                url: '/documentation/'
             ]]
 
 builder(menu)
