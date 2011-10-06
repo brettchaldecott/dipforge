@@ -1,6 +1,0 @@
-com.rift.coad.daemon.messageservice
-com.rift.coad.daemon.messageservice.message
-com.rift.coad.daemon.messageservice.message.rpc
-com.rift.coad.daemon.messageservice.message.state
-com.rift.coad.daemon.messageservice.named
-com.rift.coad.daemon.messageservice.rpc
