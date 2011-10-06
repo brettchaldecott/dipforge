@@ -16,14 +16,15 @@ The build process requires gradle, and at the time of writing the latest
 version of gradle was 1.0-milestone-3. The build process has not been tested
 with a later version.
 
-To build the application server follow the following steps
+To build the application server follow the following steps:
+----------------------------------------------------------
 
-bash# git clone https://brettchaldecott@github.com/brettchaldecott/dipforge.git
-bash# cd dipforge
-bash# gradle release
-bash# cd release/dipforge/bin
-bash# chown a+r run.sh
-bash# sudo ./run.sh
+git clone https://brettchaldecott@github.com/brettchaldecott/dipforge.git
+cd dipforge
+gradle release
+cd release/dipforge/bin
+chown a+r run.sh
+sudo ./run.sh
 
 I have not tested the build process on windows. It will be the same but the
 last step will require the invocation of the run.bat script. Feel free to try
