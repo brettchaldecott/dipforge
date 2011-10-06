@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
+	
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dipforge</title>
     <link rel="stylesheet" type="text/css" href="ext-js-4.0/resources/css/ext-all.css">
@@ -26,18 +27,18 @@
     margin: 0;
 }
 </style>
-    
     <script type="text/javascript" src="ext-js-4.0/bootstrap.js"></script>
     <script type="text/javascript" src="js/States.js"></script>
     <script type="text/javascript" src="js/EditorPanel.js"></script>
     <script type="text/javascript" src="js/ProjectPanel.js"></script>
-    <script type="text/javascript" src="js/IDEPanel.js"></script>
     <script type="text/javascript" src="js/IDEView.js"></script>
     <script type="text/javascript" src="ux/TabScrollerMenu.js"></script>
-    <script type="text/javascript" src="/ace-0.2.0/ace-uncompressed.js"></script>
+	<script type="text/javascript" src="/ace-0.2.0/ace-uncompressed.js"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-javascript.js" charset="utf-8"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-groovy.js" charset="utf-8"></script>
+    <!--    
     <script type="text/javascript" src="/extjs4-ace/Component.js"></script>
+    -->
     
     <script type="text/javascript">
         Ext.Loader.setConfig({enabled: true});
@@ -61,6 +62,6 @@
     </script>
     
 </head>
-<body>   
+<body> 
 </body>
 </html>

@@ -1,0 +1,55 @@
+/**
+ * @class com.dipforge.IDE.ProjectPanel
+ * @extends Ext.panel.Panel
+ *
+ * Shows a list of available feeds. Also has the ability to add/remove and load feeds.
+ *
+ * @constructor
+ * Create a new Feed Panel
+ * @param {Object} config The config object
+ */
+
+Ext.define('com.dipforge.IDE.AceEditor', {
+    extend: 'Ext.panel.Panel',
+    
+    alias: 'widget.aceeditor',
+    
+    layout: 'fit',
+    title: 'project',
+    preventHeader: true,
+    
+    initComponent: function(){
+        Ext.apply(this, {
+            items: [
+            	Ext.create('Ext.container.Container', {
+                    layout: {
+                       type: 'fit'},
+            	    items: [this.createEditor()]
+            	    })]
+        });
+        this.callParent(arguments);
+    },
+    
+    
+    /**
+     * This method is called to create the editor
+     */
+    createEditor: function() {
+    	var newdiv = document.createElement('testing');
+    	newdiv.innerHTML = "def bob=1"
+        //var element = new Ext.Element(this.content,true);
+        //element.dom.innerHTML = this.content
+        var editor = ace.edit(newdiv);
+        var JavaScriptMode = require("ace/mode/" + this.mode).Mode;
+        editor.getSession().setMode(new JavaScriptMode());
+        this.editorpanel = Ext.create('Ext.panel.Panel', {
+                layout: "fit",
+                items: editor,
+                itemId: 'test',
+                width: '100%',
+                height: '100%'
+            });
+		editor.resize();
+        return this.editorpanel;             	
+    }
+});

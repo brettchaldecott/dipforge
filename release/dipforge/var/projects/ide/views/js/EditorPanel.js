@@ -21,19 +21,17 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                 maxText  : 15,
                 pageSize : 5
             }],
-    
+
     initComponent: function() {
         this.tabBar = {
             border: true
         };
-        //this.addFeed("cnn","http://www.cnn.com");
-        this.callParent();
+        this.callParent(arguments);
     },
     
     // template method
     afterRender: function(){
         this.callParent(arguments);
-        this.addFeed("Editor","editor.gsp");
     },
     
     /**
@@ -41,32 +39,30 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
      * @param {String} title The title of the feed
      * @param {String} url The url of the feed
      */
-    addFeed: function(title, url){
-        var active = this.getComponent(title);
+    addEditor: function(fileName, path,content, mode){
+        var active = this.getComponent(path);
         if (!active) {
             active = this.add(Ext.create('Ext.panel.Panel', {
-               layout: "fit",
-                items: this.addContainer(url),
-                itemId: title,
-                title: title,
-                url: url,
+                layout: "fit",
+                html: '<div id="id|' + path + '" style="height: 100%; width: 100%">var test = 1</div>',
+                itemId: path,
+                id: path,
+                title: fileName,
+                url: path,
                 closable: true,
                 width: '100%',
-               height: '100%'
+                height: '100%'
             }));
+            this.setActiveTab(active);
+        
+            var el = Ext.get("id|" + path)
+            var editor = ace.edit(el.dom);
+            var JavaScriptMode = require("ace/mode/" + mode).Mode;
+            editor.getSession().setMode(new JavaScriptMode());
+            editor.resize();
+            
+        } else {
+            this.setActiveTab(active);
         }
-        this.setActiveTab(active);
-    },
-    
-    
-    addContainer: function(url) {
-       var editor = new Ext.ux.AceEditor();
-       editor.setValue("int bob = 0;",  {
-            mode: "groovy",
-            callback: function(doc)
-            {
-            }
-       });
-       return editor;
-    }    
+    }
 });

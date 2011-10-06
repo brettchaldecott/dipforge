@@ -1,18 +1,15 @@
 package applications
 
 import groovy.json.*
-import org.apache.log4j.Logger;
 
 def builder = new JsonBuilder()
-
-def log = Logger.getLogger(String.class);
 
 
 def menu = [
              [
                 image: 'favicon.ico',
                 title: '<b>IDE</b>',
-                url: '/DipforgeWeb/ide/'
+                url: '/ide/'
             ],
              [
                 image: 'favicon.ico',
@@ -33,9 +30,18 @@ def menu = [
                 image: 'favicon.ico',                
                 title: 'Space.com',
                 url: 'http://www.space.com'
+            ],
+            [
+                image: 'favicon.ico',                
+                title: 'Documentation',
+                url: '/documentation/'
+            ],
+            [
+                image: 'favicon.ico',                
+                title: 'File Manager',
+                url: '/FileManager/path/'
             ]]
 
 builder(menu)
 
-log.info("Hello world");
 println builder.toString()

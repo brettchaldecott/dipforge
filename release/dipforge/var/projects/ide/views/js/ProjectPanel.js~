@@ -22,20 +22,20 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
         Ext.apply(this, {
             items: [
             	Ext.create('Ext.container.Container', {
-                   layout: {
-                       type: 'anchor'
-                   },
+                    layout: {
+                       type: 'anchor'},
             	    items: [this.createProjectView()]
-            	})]
+            	    })]
         });
+        
         this.addEvents(
             /**
-             * @event feedselect Fired when a feed is selected
+             * @event fileselect Fired when a feed is selected
              * @param {FeedPanel} this
              * @param {String} title The title of the feed
              * @param {String} url The url of the feed
              */
-            'feedselect',
+            'fileselect',
             /**
              * @event feedentryshortcutselect Fired when a feed entry short is selected
              * @param {FeedPanel} this
@@ -46,7 +46,11 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
         );
         this.callParent(arguments);
     },   
-    
+
+    // template method
+    afterRender: function(){
+        this.callParent(arguments);
+    },
     
     /**
      * Create the DataView to be used for the feed list.
@@ -54,53 +58,54 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
      * @return {Ext.view.View}
      */
     createProjectView: function(){
-        //we want to setup a model and store instead of using dataUrl
-    	Ext.define('File', {
-        extend: 'Ext.data.Model',
-        fields: [
-            {name: 'file',     type: 'string'},
-            {name: 'user',     type: 'string'}
-        ]
-    	});
-
-    	var store = Ext.create('Ext.data.TreeStore', {
-        model: 'File',
-        autoLoad: true,
-        root: 'root',
-        proxy: {
-            type: 'ajax',
-            //the store will get the content from the .json file
-            url: 'files/FileList.groovy'
-        }
-    	});
-
-    	//Ext.ux.tree.TreeGrid is no longer a Ux. You can simply use a tree.TreePanel
+        //Ext.ux.tree.TreeGrid is no longer a Ux. You can simply use a tree.TreePanel
     	this.tree = Ext.create('Ext.tree.Panel', {
-        title: 'Core Team Projects',
-        anchor: '100% 100%',
-        renderTo: Ext.getBody(),
-        collapsible: true,
-        useArrows: true,
-        rootVisible: false,
-        store: store,
-        multiSelect: true,
-        singleExpand: true,
-        //the 'columns' property is now 'headers'
-        columns: [{
-            xtype: 'treecolumn', //this is so we know which column will show the tree
-            text: 'File',
-            flex: 2,
-            sortable: true,
-            dataIndex: 'file'
-        },{
-            text: 'Assigned To',
-            flex: 1,
-            dataIndex: 'user',
-            sortable: true
-        }]
-    	});
+            //title: 'Core Team Projects',
+            preventHeader: true,
+            anchor: '100% 100%',
+            collapsible: false,
+            useArrows: true,
+            rootVisible: false,
+            store: Ext.create('Ext.data.TreeStore', {
+            	model: 'File',
+            	autoLoad: true,
+            	proxy: {
+                	type: 'ajax',
+                	//the store will get the content from the .json file
+                	url: 'files/FileList.groovy'
+            		}
+    			}),
+            singleExpand: false,
+            //the 'columns' property is now 'headers'
+            columns: [{
+                xtype: 'treecolumn', //this is so we know which column will show the tree
+                text: 'File',
+                flex: 2,
+                sortable: true,
+                dataIndex: 'file'
+            }],
+            selModel: {
+                mode: 'SINGLE',
+                    listeners: {
+                        selectionchange: {
+                        	scope: this,
+                            fn: this.onSelectionChange
+                        }
+                    }}});
     	return this.tree;
-    }   
-       
+    },
+    
+    
+    /**
+     * Used when view selection changes so we can disable toolbar buttons.
+     * @private
+     */
+    onSelectionChange: function(model,records){
+        if (records.length != 0 && records[0].get('leaf')) {
+        	var record = records[0]
+        	this.fireEvent('fileselect', this, record.get('file'), 
+        		record.get('project') + ":" + record.get('path'));
+        }
+    }
     
  });
