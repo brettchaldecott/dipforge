@@ -19,12 +19,12 @@ with a later version.
 To build the application server follow the following steps:
 ----------------------------------------------------------
 
-git clone https://brettchaldecott@github.com/brettchaldecott/dipforge.git
-cd dipforge
-gradle release
-cd release/dipforge/bin
-chown a+r run.sh
-sudo ./run.sh
+    bash# git clone https://brettchaldecott@github.com/brettchaldecott/dipforge.git<br/>
+    bash# cd dipforge<br/>
+    bash# gradle release<br/>
+    bash# cd release/dipforge/bin<br/>
+    bash# chown a+r run.sh<br/>
+    bash# sudo ./run.sh<br/>
 
 I have not tested the build process on windows. It will be the same but the
 last step will require the invocation of the run.bat script. Feel free to try
