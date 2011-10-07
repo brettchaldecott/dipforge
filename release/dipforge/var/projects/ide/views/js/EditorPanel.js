@@ -39,28 +39,43 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
      * @param {String} title The title of the feed
      * @param {String} url The url of the feed
      */
-    addEditor: function(fileName, path,content, mode){
-        var active = this.getComponent(path);
+    addEditor: function(project, fileName, path, editor, mode){
+        var id = project + ":" + path
+        var active = this.getComponent(id);
         if (!active) {
-            active = this.add(Ext.create('Ext.panel.Panel', {
-                layout: "fit",
-                html: '<div id="id|' + path + '" style="height: 100%; width: 100%">var test = 1</div>',
-                itemId: path,
-                id: path,
-                title: fileName,
-                url: path,
-                closable: true,
-                width: '100%',
-                height: '100%'
-            }));
-            this.setActiveTab(active);
-        
-            var el = Ext.get("id|" + path)
-            var editor = ace.edit(el.dom);
-            var JavaScriptMode = require("ace/mode/" + mode).Mode;
-            editor.getSession().setMode(new JavaScriptMode());
-            editor.resize();
-            
+        	if (editor == "ace") {
+        		active = this.add(Ext.create('Ext.panel.Panel', {
+                    layout: "fit",
+                    html: '<div id="id|' + id + '" style="height: 100%; width: 100%">var test = 1</div>',
+                    itemId: id,
+                    id: id,
+                    title: fileName,
+                    url: path,
+                    closable: true,
+                    width: '100%',
+                    height: '100%'
+                }));
+                this.setActiveTab(active);
+                
+                var el = Ext.get("id|" + id)
+                var editor = ace.edit(el.dom);
+                var JavaScriptMode = require(mode).Mode;
+                editor.getSession().setMode(new JavaScriptMode());
+                editor.resize();
+            } else if (editor == "image") {
+            	active = this.add(Ext.create('Ext.panel.Panel', {
+                    layout: "fit",
+                    html: '<img src="/DipforgeWeb/' + project + '/' + path.substring(7) + '"/>',
+                    itemId: id,
+                    id: id,
+                    title: fileName,
+                    url: path,
+                    closable: true,
+                    width: '100%',
+                    height: '100%'
+                }));
+                this.setActiveTab(active);
+            }
         } else {
             this.setActiveTab(active);
         }

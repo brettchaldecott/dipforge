@@ -1,4 +1,6 @@
-
+/**
+ * The file list groovy object
+ */
 // package path
 package files;
 
@@ -6,6 +8,7 @@ import com.rift.coad.util.connection.ConnectionManager
 import com.rift.dipforge.project.ProjectManager
 import com.rift.dipforge.project.ProjectFileManager
 import java.util.Date
+import files.mimes.MimeTypeMapper
 	
 import groovy.json.*;
 import org.apache.log4j.Logger;
@@ -43,13 +46,24 @@ try {
 		    filePath = nodeValues[2]
 		}
 		def files = daemon.listFiles(project,filePath)
+		def mimeTypeMapper = new MimeTypeMapper()
 		files.each { file ->
 			if (!file.getName().startsWith(".")) {
-			   log.info("The icon type for " + file.getPath() + " is : " + file.getType())			
+			    log.info("The icon type for " + file.getPath() + " is : " + file.getType())
+			    def mode = "directory"
+			    def editor = "directory"
+			    def fileName = file.getName() 
 			    if (file.getType() == 1) {
 				    log.info("This is a file and leaf node")			
 			        leafNode = true
 			        iconCls = 'file'
+			        def pos = fileName.lastIndexOf(".")
+			        def fileSuffix = "text"
+			        if (pos != -1) {
+			            fileSuffix = fileName.substring(pos + 1).toLowerCase();
+			        }
+			        editor = mimeTypeMapper.getEditor(fileSuffix)
+			        mode = mimeTypeMapper.getMode(fileSuffix)
 			    } else if (file.getType() == 0) {
 				    log.info("This is a directory")
 				    leafNode = false
@@ -59,11 +73,13 @@ try {
 		            [
 		                id: "P:" + project + ":" + file.getPath(),
 		                project: project,
-		                file: file.getName(),
+		                file: fileName,
 		                path: file.getPath(),
 		                user: file.getModifier(),
 		                leaf: leafNode,
-		  			    iconCls: iconCls 
+		  			    iconCls: iconCls,
+		  			    editor: editor,
+		  			    mode: mode
 		            ]
 		        ]
 		    }

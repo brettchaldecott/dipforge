@@ -1,11 +1,11 @@
 /**
- * @class FeedViewer.FeedViewer
+ * @class com.dipforge.IDE.App
  * @extends Ext.container.Viewport
  *
- * The main FeedViewer application
+ * The IDE application
  * 
  * @constructor
- * Create a new Feed Viewer app
+ * Create a new IDE application
  * @param {Object} config The config object
  */
 
@@ -20,10 +20,12 @@ Ext.define('com.dipforge.IDE.App', {
     	Ext.define('File', {
             extend: 'Ext.data.Model',
             fields: [
-                {name: 'project',     type: 'string'},
+                {name: 'project',  type: 'string'},
                 {name: 'file',     type: 'string'},
                 {name: 'path',     type: 'string'},
-                {name: 'user',     type: 'string'}
+                {name: 'user',     type: 'string'},
+                {name: 'editor',   type: 'string'},
+                {name: 'mode',     type: 'string'}
             ]
     	});
 
@@ -73,11 +75,12 @@ Ext.define('com.dipforge.IDE.App', {
         return this.editorpanel;
     },
 	
+	
 	/**
 	 * This method is called to handle the on select event
 	 */
-	onFileSelect: function(panel,fileName,path) {
-		this.editorpanel.addEditor(fileName, path,"def bob= 1", "groovy");
+	onFileSelect: function(panel,project,fileName,path,editor,mode) {
+		this.editorpanel.addEditor(project,fileName, path,editor,mode);
 		//alert("why now, hello world : " + path);
 	}
 });

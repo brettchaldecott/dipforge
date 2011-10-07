@@ -103,8 +103,8 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     onSelectionChange: function(model,records){
         if (records.length != 0 && records[0].get('leaf')) {
         	var record = records[0]
-        	this.fireEvent('fileselect', this, record.get('file'), 
-        		record.get('project') + ":" + record.get('path'));
+        	this.fireEvent('fileselect', this, record.get('project'), 
+        		record.get('file'), record.get('path'), record.get('editor'), record.get('mode'));
         }
     }
     

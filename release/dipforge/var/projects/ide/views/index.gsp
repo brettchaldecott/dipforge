@@ -36,9 +36,6 @@
 	<script type="text/javascript" src="/ace-0.2.0/ace-uncompressed.js"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-javascript.js" charset="utf-8"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-groovy.js" charset="utf-8"></script>
-    <!--    
-    <script type="text/javascript" src="/extjs4-ace/Component.js"></script>
-    -->
     
     <script type="text/javascript">
         Ext.Loader.setConfig({enabled: true});
