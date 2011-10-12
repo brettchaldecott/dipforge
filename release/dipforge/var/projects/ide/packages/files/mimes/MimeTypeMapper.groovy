@@ -13,7 +13,7 @@ class MimeTypeMapper {
             return "ace/mode/groovy";
         } else if (suffix.equals('js')) {
             return "ace/mode/javascript";
-        } else if (suffix.equals('html') || suffix.equals('htm')) {
+        } else if (suffix.equals('html') || suffix.equals('htm') || suffix.equals('gsp')) {
             return "ace/mode/html";
         } else if (suffix.equals('css')) {
             return "ace/mode/css";

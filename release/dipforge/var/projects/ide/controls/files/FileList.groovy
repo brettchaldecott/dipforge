@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 
 def tree = []
 def builder = new JsonBuilder()
-def log = Logger.getLogger(String.class);
+def log = Logger.getLogger("files.FileList");
 
 try {
 	log.info("the parameters are " + params)

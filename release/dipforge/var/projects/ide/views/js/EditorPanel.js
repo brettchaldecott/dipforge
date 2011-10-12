@@ -42,26 +42,38 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
     addEditor: function(project, fileName, path, editor, mode){
         var id = project + ":" + path
         var active = this.getComponent(id);
+        var self = this
         if (!active) {
         	if (editor == "ace") {
-        		active = this.add(Ext.create('Ext.panel.Panel', {
-                    layout: "fit",
-                    html: '<div id="id|' + id + '" style="height: 100%; width: 100%">var test = 1</div>',
-                    itemId: id,
-                    id: id,
-                    title: fileName,
-                    url: path,
-                    closable: true,
-                    width: '100%',
-                    height: '100%'
-                }));
-                this.setActiveTab(active);
+        		Ext.Ajax.request({
+                    url: 'files/FileRetriever.groovy',
+                    params: {
+                        project: project,
+                        path: path
+                    },
+                    success: function(response){
+                        var fileInfo = Ext.decode(response.responseText);
+                  		active = self.add(Ext.create('Ext.panel.Panel', {
+                            layout: "fit",
+                            html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
+                            itemId: id,
+                            id: id,
+                            title: fileName,
+                            url: path,
+                            closable: true,
+                            width: '100%',
+                            height: '100%'
+                        }));
+                        self.setActiveTab(active);
                 
-                var el = Ext.get("id|" + id)
-                var editor = ace.edit(el.dom);
-                var JavaScriptMode = require(mode).Mode;
-                editor.getSession().setMode(new JavaScriptMode());
-                editor.resize();
+                        var el = Ext.get("id|" + id)
+                        var editor = ace.edit(el.dom);
+                        var JavaScriptMode = require(mode).Mode;
+                        editor.getSession().setMode(new JavaScriptMode());
+                        editor.resize();
+                   }
+                });
+        		
             } else if (editor == "image") {
             	active = this.add(Ext.create('Ext.panel.Panel', {
                     layout: "fit",
