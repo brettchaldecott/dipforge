@@ -224,6 +224,8 @@ public class ProjectBean {
                 fileDto.setPath(directory + "/" + file.getName());
                 if (file.isDirectory()) {
                     fileDto.setType(FileTypes.DIRECTORY);
+                } else {
+                    fileDto.setType(FileTypes.FILE);
                 }
                 files.add(fileDto);
             }
@@ -267,7 +269,7 @@ public class ProjectBean {
     public String getFile(String path) throws ProjectFactoryException {
         try {
             File  file = new File(projectDir,path);
-            if (!file.isDirectory()) {
+            if (file.isDirectory()) {
                 log.error("Trying to access directory [" + path + "] as a file");
                 throw new ProjectFactoryException
                         ("Trying to access directory [" + path + "] as a file");
@@ -275,8 +277,9 @@ public class ProjectBean {
             FileInputStream in = new FileInputStream(file);
             StringBuffer result = new StringBuffer();
             byte[] buffer = new byte[1024];
-            while (in.read(buffer) != -1) {
-                result.append(buffer);
+            int bits = 0;
+            while ( (bits = in.read(buffer)) != -1) {
+                result.append(new String(buffer, 0, bits));
             }
             return result.toString();
         } catch (ProjectFactoryException ex) {
