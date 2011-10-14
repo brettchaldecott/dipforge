@@ -24,7 +24,7 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
 
     initComponent: function() {
         this.tabBar = {
-            border: true
+            border: false
         };
         this.callParent(arguments);
     },
@@ -54,6 +54,39 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                     success: function(response){
                         var fileInfo = Ext.decode(response.responseText);
                   		active = self.add(Ext.create('Ext.panel.Panel', {
+                  			tbar: [
+                                { xtype: 'button', text: 'Save',
+                                    handler: function() {
+                                        Ext.Ajax.request({
+                                            url: 'files/FileSave.groovy',
+                                            params: {
+                                                project: project,
+                                                path: path,
+                                                content: editor.getSession().getValue()
+                                        }})
+                                    }},
+                                { xtype: 'button', text: 'Find',
+                                    handler: function() {
+                                        editor.find(Ext.getCmp("search:"+id).value,{
+                                            backwards: false,
+                                            wrap: true,
+                                            caseSensitive: false,
+                                            wholeWord: false,
+                                            regExp: false
+                                            });
+                                    }},
+                                { xtype: 'textfield', id: "search:"+id, 
+                                    itemId: "search:"+id, name: "search",
+                                    emptyText: 'enter search term' },
+                                { xtype: 'tbtext', text: 'and' },
+                                { xtype: 'textfield', id: "replace:"+id, 
+                                    itemId: "replace:"+id, name: "replace",
+                                    emptyText: 'enter replace term' },
+                                { xtype: 'button', text: 'Replace',
+                                    handler: function() {
+                                        editor.find(Ext.getCmp("search:"+id).value);
+                                        editor.replace(Ext.getCmp("replace:"+id).value);
+                                    }}],
                             layout: "fit",
                             html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
                             itemId: id,
@@ -62,7 +95,10 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                             url: path,
                             closable: true,
                             width: '100%',
-                            height: '100%'
+                            height: '100%',
+                            editor: null,
+                            project: project,
+                            path: path
                         }));
                         self.setActiveTab(active);
                 
@@ -71,6 +107,8 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         var JavaScriptMode = require(mode).Mode;
                         editor.getSession().setMode(new JavaScriptMode());
                         editor.resize();
+                        
+                        fileInfo.editor = editor;
                    }
                 });
         		

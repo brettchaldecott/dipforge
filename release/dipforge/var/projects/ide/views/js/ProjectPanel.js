@@ -17,6 +17,13 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     layout: 'fit',
     title: 'project',
     preventHeader: true,
+    tbar: [
+        { xtype: 'button', text: 'File' },
+        { xtype: 'button', text: 'Project',
+          handler: function() {
+                alert('your look like a monkey');
+            } }
+        ],
     
     initComponent: function(){
         Ext.apply(this, {
