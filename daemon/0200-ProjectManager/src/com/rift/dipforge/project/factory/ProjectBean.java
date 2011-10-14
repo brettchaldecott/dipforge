@@ -303,7 +303,7 @@ public class ProjectBean {
             throws ProjectFactoryException {
         try {
             File  file = new File(projectDir,path);
-            if (!file.isDirectory()) {
+            if (file.isDirectory()) {
                 log.error("Trying to access directory [" + path + "] as a file");
                 throw new ProjectFactoryException
                         ("Trying to access directory [" + path + "] as a file");
