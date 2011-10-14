@@ -115,10 +115,22 @@ public class FileDTO implements Serializable {
         this.path = path;
     }
 
+
+    /**
+     * This method returns the file type for this entity.
+     *
+     * @return int identifying the file type, 0 = Directory, 1 = File
+     */
     public int getType() {
         return type;
     }
 
+
+    /**
+     * This method sets the file type.
+     *
+     * @param type int identifying the file type, 0 = Directory, 1 = File
+     */
     public void setType(int type) {
         this.type = type;
     }

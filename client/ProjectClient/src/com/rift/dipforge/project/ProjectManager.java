@@ -21,6 +21,7 @@
 
 package com.rift.dipforge.project;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import java.util.List;
  *
  * @author brett chaldecott
  */
-public interface ProjectManager {
+public interface ProjectManager extends Remote {
 
 
     /**
