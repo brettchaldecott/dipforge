@@ -25,6 +25,7 @@ package com.rift.dipforge.project.factory;
 import com.rift.coad.lib.common.FileUtil;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
+import com.rift.coad.lib.security.ThreadsPermissionContainerAccessor;
 import com.rift.dipforge.project.Constants;
 import com.rift.dipforge.project.FileDTO;
 import com.rift.dipforge.project.FileTypes;
@@ -93,9 +94,15 @@ public class ProjectBean {
             manager = new ProjectInfoManager(projectDir);
             Configuration config = ConfigurationFactory.getInstance().
                     getConfig(ProjectBean.class);
+            String username = ThreadsPermissionContainerAccessor.getInstance().
+                    getThreadsPermissionContainer().getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
             info.setName(name);
             info.setDescription(description);
+            info.setAuthor(username);
+            info.setCreated(new Date());
+            info.setModifiedBy(username);
+            info.setModified(new Date());
             setInfo(info);
         } catch (ProjectFactoryException ex) {
             throw ex;
@@ -141,6 +148,12 @@ public class ProjectBean {
             if (dir.exists()) {
                 throw new ProjectFactoryException("The directory [" + directory + "] already exists");
             }
+            String username = ThreadsPermissionContainerAccessor.getInstance().
+                    getThreadsPermissionContainer().getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
         } catch (ProjectFactoryException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -167,6 +180,12 @@ public class ProjectBean {
                 throw new ProjectFactoryException("The directory [" + directory + "] already exists");
             }
             removeDirectory(dir);
+            String username = ThreadsPermissionContainerAccessor.getInstance().
+                    getThreadsPermissionContainer().getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
         } catch (ProjectFactoryException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -258,6 +277,12 @@ public class ProjectBean {
         try {
             FileUtil.copyFile(new File(templateDir,
                     type + Constants.TEMPLATE_SUFFIX), new File(projectDir,path));
+            String username = ThreadsPermissionContainerAccessor.getInstance().
+                    getThreadsPermissionContainer().getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
         } catch (Exception ex) {
             log.error("Failed to create the file : " + ex.getMessage(),ex);
             throw new ProjectFactoryException
@@ -318,6 +343,12 @@ public class ProjectBean {
             FileOutputStream out = new FileOutputStream(file);
             out.write(contents.getBytes());
             out.flush();
+            String username = ThreadsPermissionContainerAccessor.getInstance().
+                    getThreadsPermissionContainer().getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
         } catch (ProjectFactoryException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -340,6 +371,12 @@ public class ProjectBean {
         try {
             FileUtil.copyFile(new File(projectDir,source),
                     new File(projectDir,target));
+            String username = ThreadsPermissionContainerAccessor.getInstance().
+                    getThreadsPermissionContainer().getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
         } catch (Exception ex) {
             log.error("Failed to rename the file : " + ex.getMessage(),ex);
             throw new ProjectFactoryException
@@ -365,6 +402,12 @@ public class ProjectBean {
                         "] is a directory and not a file");
             }
             file.delete();
+            String username = ThreadsPermissionContainerAccessor.getInstance().
+                    getThreadsPermissionContainer().getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
         } catch (ProjectFactoryException ex) {
             throw ex;
         } catch (Exception ex) {
