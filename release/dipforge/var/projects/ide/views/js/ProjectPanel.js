@@ -18,10 +18,12 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     title: 'project',
     preventHeader: true,
     tbar: [
-        { xtype: 'button', text: 'File' },
-        { xtype: 'button', text: 'Project',
+        { xtype: 'button', text: 'Create Project',
           handler: function() {
-                alert('your look like a monkey');
+                var projectCreatorDialog = Ext.create('com.dipforge.IDE.CreateProjectDialog', {
+	    						projectPanel:this.findParentByType("widget.projectpanel")
+	    			});
+	    		projectCreatorDialog.show();
             } }
         ],
     
@@ -51,6 +53,7 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
              */
             'feedentryshortcutselect'
         );
+        this.createContextMenu();
         this.callParent(arguments);
     },   
 
@@ -91,17 +94,64 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
                 sortable: true,
                 dataIndex: 'file'
             }],
-            selModel: {
-                mode: 'SINGLE',
-                    listeners: {
-                        selectionchange: {
-                        	scope: this,
-                            fn: this.onSelectionChange
-                        }
-                    }}});
+            listeners: {
+            	scope: this,
+                selectionchange: this.onSelectionChange,
+                itemcontextmenu: this.onContainerContextMenu
+                }});
     	return this.tree;
     },
     
+    
+    createContextMenu: function() {
+    	this.mnuContext = new Ext.menu.Menu({
+    		items: [{
+        		id: 'create-file',
+        		text: 'Create File'
+    		},{
+        		id: 'delete-file',
+        		text: 'Delete File'
+    		}],
+    		listeners: {
+        		click: function(menu,item,objEvent,options) {
+        			switch (item.id) {
+                		case 'create-file':
+                			if ((this.record.data.project_dir == false) &&
+	    						(this.record.data.project != "documentation")) {      			
+		                		var fileDialog = Ext.create('com.dipforge.IDE.FilePanelDialog', {});
+	    						fileDialog.show();
+    						}
+                			break;
+    					case 'delete-file':
+                			var result = ""
+							if ((this.record.data.project_dir == false) &&
+	    						(this.record.data.project != "documentation")&&
+	    						(this.record.data.path != "/project.properties")) {      			
+	                			var fileDialog = Ext.create('com.dipforge.IDE.DeleteFileDialog', {
+	    							fileName: this.record.data.path,
+	    							project: this.record.data.project,
+	    							fileId: this.record.id,
+	    							record: this.record});
+	    						fileDialog.show();
+	    					} else if ((this.record.data.project_dir) &&
+	    						(this.record.data.project != "public") &&
+	    						(this.record.data.project != "desktop") &&
+	    						(this.record.data.project != "documentation") &&
+	    						(this.record.data.project != "ide") &&
+	    						(this.record.data.project != "test") &&
+	    						(this.record.data.project != "dipforge")) { 
+                    			var projectDialog = Ext.create('com.dipforge.IDE.DeleteProjectDialog', {
+	    							project: this.record.data.project,
+	    							fileId: this.record.id,
+	    							record: this.record});
+	    						projectDialog.show();
+                    		}
+                    		break;
+            		}
+        		}
+    		}
+		});
+    },
     
     /**
      * Used when view selection changes so we can disable toolbar buttons.
@@ -113,6 +163,17 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
         	this.fireEvent('fileselect', this, record.get('project'), 
         		record.get('file'), record.get('path'), record.get('editor'), record.get('mode'));
         }
-    }
+    },
     
+    
+    /**
+     * This method is called when the context menu
+     */
+    onContainerContextMenu: function(model,record,item,index,eventObj,options) {
+        eventObj.stopEvent();
+        this.mnuContext.model = this.tree;
+        this.mnuContext.record = record;
+        this.mnuContext.item = item;
+    	this.mnuContext.showAt(eventObj.getXY());    
+    }
  });

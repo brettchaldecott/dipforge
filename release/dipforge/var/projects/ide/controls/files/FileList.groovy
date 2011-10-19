@@ -32,6 +32,7 @@ try {
 		            file: project.getName(),
 		            user: project.getModifiedBy(),
 		            leaf: false,
+		            project_dir: true,
 		  			iconCls: 'project'        
 		        ]
 		        ]
@@ -79,6 +80,7 @@ try {
 		                leaf: leafNode,
 		  			    iconCls: iconCls,
 		  			    editor: editor,
+		  			    project_dir: false,
 		  			    mode: mode
 		            ]
 		        ]

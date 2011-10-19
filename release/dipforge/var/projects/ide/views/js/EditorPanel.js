@@ -107,6 +107,8 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         var JavaScriptMode = require(mode).Mode;
                         editor.getSession().setMode(new JavaScriptMode());
                         editor.resize();
+                        editor.getSession().setUseSoftTabs(true);
+                        editor.getSession().setTabSize(4);
                         
                         fileInfo.editor = editor;
                    }

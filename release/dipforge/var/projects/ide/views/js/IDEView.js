@@ -25,7 +25,8 @@ Ext.define('com.dipforge.IDE.App', {
                 {name: 'path',     type: 'string'},
                 {name: 'user',     type: 'string'},
                 {name: 'editor',   type: 'string'},
-                {name: 'mode',     type: 'string'}
+                {name: 'mode',     type: 'string'},
+                {name: 'project_dir', type: 'boolean'}
             ]
     	});
 
