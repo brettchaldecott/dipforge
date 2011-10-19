@@ -58,7 +58,7 @@ public interface ProjectManager extends Remote {
      * @param name The name of the project to delete.
      * @throws ProjectException
      */
-    public void deletetProject(String name) throws ProjectException, RemoteException;
+    public void deleteProject(String name) throws ProjectException, RemoteException;
 
 
     /**
