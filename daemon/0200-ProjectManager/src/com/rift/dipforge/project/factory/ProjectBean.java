@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import org.apache.log4j.Logger;
 
 /**
@@ -215,7 +216,9 @@ public class ProjectBean {
                 throw new ProjectFactoryException("The directory [" + directory + "] does not exist");
             }
             List<FileDTO> files = new ArrayList<FileDTO>();
-            for (File file: dir.listFiles()) {
+            File[] filesArray = dir.listFiles();
+            Arrays.sort(filesArray);
+            for (File file: filesArray) {
                 FileDTO fileDto = new FileDTO();
                 // at this point the java libraries to not provide
                 // a means to get at the created date of a file.
