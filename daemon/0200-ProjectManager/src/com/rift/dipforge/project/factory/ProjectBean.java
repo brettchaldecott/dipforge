@@ -84,14 +84,18 @@ public class ProjectBean {
      * @param baseDir The base directory.
      * @param name The name of the project.
      */
-    public ProjectBean(File baseDir, String name, File templateDirectory) throws ProjectFactoryException {
+    public ProjectBean(File baseDir, String name, String description, 
+            File templateDirectory) throws ProjectFactoryException {
         try {
             this.name = name;
             projectDir = createProject(baseDir, name, templateDirectory);
             manager = new ProjectInfoManager(projectDir);
             Configuration config = ConfigurationFactory.getInstance().
                     getConfig(ProjectBean.class);
-
+            ProjectInfoDTO info = getInfo();
+            info.setName(name);
+            info.setDescription(description);
+            setInfo(info);
         } catch (ProjectFactoryException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -401,10 +405,8 @@ public class ProjectBean {
         try {
             for (File file: sourceDir.listFiles()) {
                 File targetSub = new File(targetDir,file.getName());
-                if (!targetSub.exists()) {
-                    targetSub.mkdirs();
-                }
                 if (file.isDirectory()) {
+                    targetSub.mkdirs();
                     copyRecursive(file, targetSub);
                     continue;
                 }

@@ -89,8 +89,9 @@ public class ProjectFactory {
      * @return
      * @throws ProjectFactoryException
      */
-    public ProjectBean createProject(String project) throws ProjectFactoryException {
-        ProjectBean projectBean = new ProjectBean(new File(basePath), project, new File(templatePath));
+    public ProjectBean createProject(String project, String description) throws ProjectFactoryException {
+        ProjectBean projectBean = new ProjectBean(new File(basePath), project,
+                description, new File(templatePath));
         entries.put(project, projectBean);
         return projectBean;
     }

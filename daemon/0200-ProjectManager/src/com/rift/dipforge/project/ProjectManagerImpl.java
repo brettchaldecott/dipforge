@@ -27,6 +27,7 @@ import com.rift.dipforge.project.factory.ProjectBean;
 import com.rift.dipforge.project.factory.ProjectFactory;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -72,6 +73,7 @@ public class ProjectManagerImpl implements ProjectManager {
         try {
             File dir = new File(projectDir);
             File[] files = dir.listFiles();
+            Arrays.sort(files);
             List<ProjectInfoDTO> projectList = new ArrayList<ProjectInfoDTO>();
             for (File file : files) {
                 if (!file.isDirectory()) {
@@ -99,10 +101,8 @@ public class ProjectManagerImpl implements ProjectManager {
      */
     public void createProject(String name, String description) throws ProjectException {
         try {
-            ProjectBean project = ProjectFactory.getInstance().createProject(name);
-            ProjectInfoDTO info = project.getInfo();
-            info.setDescription(description);
-            project.setInfo(info);
+            ProjectBean project = ProjectFactory.getInstance().
+                    createProject(name,description);
         } catch (Exception ex) {
             log.error("Failed to create the project : " + ex.getMessage(),ex);
             throw new ProjectException
@@ -117,7 +117,7 @@ public class ProjectManagerImpl implements ProjectManager {
      * @param name The name of the project
      * @throws ProjectException
      */
-    public void deletetProject(String name) throws ProjectException {
+    public void deleteProject(String name) throws ProjectException {
         try {
             ProjectFactory.getInstance().removeProject(name);
         } catch (Exception ex) {
