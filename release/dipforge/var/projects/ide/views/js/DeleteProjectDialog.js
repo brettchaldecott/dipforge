@@ -85,11 +85,7 @@ Ext.define('com.dipforge.IDE.DeleteProjectDialog', {
 	            handler: function() {
 	                var form = this.up('form').getForm();
 	                if (form.isValid()) {
-	                	var result = ""
-	                    for (var key in form.items) {
-	                    	result += "[" + key + "]";
-	                    }
-						Ext.Ajax.request({
+	                	Ext.Ajax.request({
                                             url: 'projects/ProjectRemover.groovy',
                                             params: {
                                                 project: form.items[0].value
@@ -97,7 +93,6 @@ Ext.define('com.dipforge.IDE.DeleteProjectDialog', {
 	 	                                    success : function() {
 	 	                                    	record.parentNode.removeChild(record)
 	 	                                    },
-	 	                                    ,
 	 	                                    failure: function(response) {
 	 	                                    	Ext.Msg.show({
 												     title:"Failed to create the project [" + form.items[0].value + "]",

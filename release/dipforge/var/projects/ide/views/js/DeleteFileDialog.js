@@ -92,11 +92,7 @@ Ext.define('com.dipforge.IDE.DeleteFileDialog', {
 	            handler: function() {
 	                var form = this.up('form').getForm();
 	                if (form.isValid()) {
-	                	var result = ""
-	                    for (var key in form.items) {
-	                    	result += "[" + key + "]";
-	                    }
-						Ext.Ajax.request({
+	                	Ext.Ajax.request({
                                             url: 'files/FileRemover.groovy',
                                             params: {
                                                 project: form.items[0].value,
