@@ -37,7 +37,7 @@ Ext.define('com.dipforge.IDE.DeleteFileDialog', {
             	Ext.create('Ext.container.Container', {
                     layout: {
                        type: 'fit'},
-            	    items: [this.createForm(this.record)]
+            	    items: [this.createForm(this.record,this.menu)]
             	    })]
         });
         this.callParent(arguments);
@@ -47,7 +47,7 @@ Ext.define('com.dipforge.IDE.DeleteFileDialog', {
     /**
      * This method creates the form.
      */
-    createForm : function(record) {
+    createForm : function(record, dialog) {
     	var formPanel = Ext.create('Ext.form.Panel', {
 	        title: 'Simple Form',
 	        bodyPadding: 5,

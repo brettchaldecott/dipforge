@@ -25,7 +25,7 @@ Ext.define('com.dipforge.IDE.CreateProjectDialog', {
             	Ext.create('Ext.container.Container', {
                     layout: {
                        type: 'fit'},
-            	    items: [this.createForm(this.projectPanel)]
+            	    items: [this.createForm(this.toolBar)]
             	    })]
         });
         this.callParent(arguments);
@@ -35,7 +35,7 @@ Ext.define('com.dipforge.IDE.CreateProjectDialog', {
     /**
      * This method creates the form.
      */
-    createForm : function(projectPanel) {
+    createForm : function(toolBar) {
     	var formPanel = Ext.create('Ext.form.Panel', {
 	        title: 'Project Form',
 	        alias: 'createprojectform',
@@ -92,16 +92,19 @@ Ext.define('com.dipforge.IDE.CreateProjectDialog', {
                                                 description: projectDescription
 	 	                                       },
 	 	                                    success : function() {
-	 	                                    	var treeNode = Ext.data.NodeInterface.create({
-    												id: "P:" + projectName,
+												var treeNode = Ext.create('File',{
+    												id: 'P:' + projectName,
 										            project: projectName,
 										            file: projectName,
 										            user: projectName,
 										            leaf: false,
 										            project_dir: true,
-										  			iconCls: 'project'
+										  			iconCls: 'project',
+										  			text: projectName
 												});
-	 	                                    	projectPanel.getRootNode().appendChild(treeNode)
+												Ext.data.NodeInterface.decorate(treeNode);
+												var projectPanel = toolBar.up("panel")
+												projectPanel.getRootNode().appendChild(treeNode)
 	 	                                    },
 	 	                                    failure: function(response) {
 	 	                                    	Ext.Msg.show({

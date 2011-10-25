@@ -29,6 +29,15 @@ Ext.define('com.dipforge.IDE.App', {
                 {name: 'project_dir', type: 'boolean'}
             ]
     	});
+    	
+    	Ext.define('FileType', {
+            extend: 'Ext.data.Model',
+            fields: [
+            	{name: 'name', type: 'string'},
+            	{name: 'suffix', type: 'string'},
+            	{name: 'editor', type: 'string'},
+            	{name: 'mode', type: 'string'}]
+        });
 
     	Ext.apply(this, {
             layout: {
@@ -56,7 +65,8 @@ Ext.define('com.dipforge.IDE.App', {
             minWidth: 250,
             listeners: {
                 scope: this,
-                fileselect: this.onFileSelect
+                fileselect: this.onFileSelect,
+                deletefile: this.onDeleteFile
             }
         });
         return this.projectPanel;
@@ -83,5 +93,12 @@ Ext.define('com.dipforge.IDE.App', {
 	onFileSelect: function(panel,project,fileName,path,editor,mode) {
 		this.editorpanel.addEditor(project,fileName, path,editor,mode);
 		//alert("why now, hello world : " + path);
+	},
+	
+	/**
+	 * This method is called to handle an on delete file event.
+	 */
+	onDeleteFile: function(source,project,path) {
+		this.editorpanel.removeEditor(project,path);
 	}
 });

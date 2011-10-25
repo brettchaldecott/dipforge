@@ -35,9 +35,12 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
     },
     
     /**
-     * Add a new feed
-     * @param {String} title The title of the feed
-     * @param {String} url The url of the feed
+     * Add a new editor
+     * @param {String} project The name of the project
+     * @param {String} fileName The file name of the project
+     * @param {String} path The path of the file
+     * @param {String} editor The type of editor
+     * @param {mode} The mode of the editor
      */
     addEditor: function(project, fileName, path, editor, mode){
         var id = project + ":" + path
@@ -130,6 +133,20 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
             }
         } else {
             this.setActiveTab(active);
+        }
+    },
+    
+    
+    /**
+     * Remove an editor
+     * @param {String} project The name of the project
+     * @param {String} path The path of the file
+     */
+    removeEditor: function(project, path){
+        var id = project + ":" + path
+        var component = this.getComponent(id)
+        if (component) {
+        	this.remove(this.getComponent(id));
         }
     }
 });
