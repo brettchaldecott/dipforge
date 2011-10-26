@@ -19,6 +19,7 @@ def builder = new JsonBuilder()
 def log = Logger.getLogger("files.FileRetriever");
 
 def fileContent = ""
+log.info("parameters [" + params + "]")
 try {
     def daemon = ConnectionManager.getInstance().getConnection(
 			ProjectFileManager.class,"project/FileManager")

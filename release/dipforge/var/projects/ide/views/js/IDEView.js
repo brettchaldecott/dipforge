@@ -91,8 +91,8 @@ Ext.define('com.dipforge.IDE.App', {
 	 * This method is called to handle the on select event
 	 */
 	onFileSelect: function(panel,project,fileName,path,editor,mode) {
-		this.editorpanel.addEditor(project,fileName, path,editor,mode);
 		//alert("why now, hello world : " + path);
+		this.editorpanel.addEditor(project,fileName, path,editor,mode);
 	},
 	
 	/**

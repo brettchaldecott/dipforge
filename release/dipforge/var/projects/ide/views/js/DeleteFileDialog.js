@@ -96,7 +96,8 @@ Ext.define('com.dipforge.IDE.DeleteFileDialog', {
                                             url: 'files/FileRemover.groovy',
                                             params: {
                                                 project: form.items[0].value,
-                                                path: form.items[1].value
+                                                path: form.items[1].value,
+                                                isFile: record.get('leaf')
 	 	                                       },
 	 	                                    success : function() {
 	 	                                    	record.parentNode.removeChild(record)

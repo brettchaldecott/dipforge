@@ -38,12 +38,13 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
              */
             'fileselect',
             /**
-             * @event delete Fired when a node is deleted
+             * @event deletefile Fired when a node is deleted
              * @param {ProjectPanell} this
              * @param {String} id The id of the node to remove
              * @param {String} url The url of the feed
              */
             'deletefile'
+            
         );
         this.createContextMenu();
         this.callParent(arguments);
@@ -90,7 +91,8 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
             	scope: this,
                 selectionchange: this.onSelectionChange,
                 itemcontextmenu: this.onContainerContextMenu,
-                itemremove: this.onItemRemove
+                itemremove: this.onItemRemove,
+                itemappend: this.onItemAppend
                 },
             tbar: [
 		        { xtype: 'button', text: 'Create Project',
@@ -120,8 +122,10 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
         			switch (item.id) {
                 		case 'create-file':
                 			if ((this.record.data.project_dir == false) &&
+                				!this.record.get('leaf') &&
 	    						(this.record.data.project != "documentation")) {      			
-		                		var fileDialog = Ext.create('com.dipforge.IDE.FilePanelDialog', {});
+		                		var fileDialog = Ext.create('com.dipforge.IDE.FilePanelDialog', {
+		                			record: this.record});
 	    						fileDialog.show();
     						}
                 			break;
@@ -162,7 +166,7 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
      * @private
      */
     onSelectionChange: function(model,records){
-        if (records.length != 0 && records[0].get('leaf')) {
+    	if (records.length != 0 && records[0].get('leaf')) {
         	var record = records[0]
         	this.fireEvent('fileselect', this, record.get('project'), 
         		record.get('file'), record.get('path'), record.get('editor'), record.get('mode'));
@@ -171,12 +175,23 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     
     
     /**
-     * Used when view selection changes so we can disable toolbar buttons.
+     * Used when an item is removed.
      * @private
      */
     onItemRemove: function(model,record){
         if (record.get('leaf')) {
         	this.fireEvent('deletefile', this, record.get('project'),record.get('path'));
+        }
+    },
+    
+    /**
+     * Used when
+     */
+    onItemAppend: function(model,treeNode,number,options) {
+    	if (treeNode.get('leaf')) {
+        	this.fireEvent('fileselect', this, treeNode.get('project'), 
+        		treeNode.get('file'), treeNode.get('path'), 
+        		treeNode.get('editor'), treeNode.get('mode'));
         }
     },
     
@@ -189,8 +204,5 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
         this.mnuContext.record = record;
         this.mnuContext.item = item;
     	this.mnuContext.showAt(eventObj.getXY());    
-    },
-    
-    handlClickCreateProject: function() {
     }
  });

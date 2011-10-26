@@ -21,44 +21,44 @@ try {
             name: 'groovy',
             suffix: 'groovy',
             editor: mimeTypeMapper.getEditor('groovy'),
-            mode: mimeTypeMapper.getEditor('groovy')
+            mode: mimeTypeMapper.getMode('groovy')
         ],
         [
-            name: 'javascript',
+            name: 'js',
             suffix: 'js',
             editor: mimeTypeMapper.getEditor('js'),
-            mode: mimeTypeMapper.getEditor('js')
+            mode: mimeTypeMapper.getMode('js')
         ],
         [
             name: 'html',
             suffix: 'html',
             editor: mimeTypeMapper.getEditor('html'),
-            mode: mimeTypeMapper.getEditor('html')
+            mode: mimeTypeMapper.getMode('html')
         ],
         [
             name: 'css',
             suffix: 'css',
             editor: mimeTypeMapper.getEditor('css'),
-            mode: mimeTypeMapper.getEditor('css')
+            mode: mimeTypeMapper.getMode('css')
         ],
         [
             name: 'xml',
             suffix: 'xml',
             editor: mimeTypeMapper.getEditor('xml'),
-            mode: mimeTypeMapper.getEditor('xml')
+            mode: mimeTypeMapper.getMode('xml')
         ],
         [
             name: 'json',
             suffix: 'json',
             editor: mimeTypeMapper.getEditor('json'),
-            mode: mimeTypeMapper.getEditor('json')
-        ],
+            mode: mimeTypeMapper.getMode('json')
+        ]/*,
         [
             name: 'java',
             suffix: 'java',
             editor: mimeTypeMapper.getEditor('java'),
             mode: mimeTypeMapper.getEditor('java')
-        ],
+        ]*/,
         [
             name: 'folder',
             suffix: 'folder',

@@ -35,7 +35,7 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
             	Ext.create('Ext.container.Container', {
                     layout: {
                        type: 'fit'},
-            	    items: [this.createForm()]
+            	    items: [this.createForm(this.record)]
             	    })]
         });
         this.callParent(arguments);
@@ -45,7 +45,7 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
     /**
      * This method creates the form.
      */
-    createForm : function() {
+    createForm : function(record) {
     	var formPanel = Ext.create('Ext.form.Panel', {
 	        title: 'Simple Form',
 	        bodyPadding: 5,
@@ -65,31 +65,21 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 	        // The fields
 	        defaultType: 'textfield',
 	        items: [
-	        	Ext.create('Ext.tree.Panel', {
-		            //title: 'Core Team Projects',
-		            fieldLabel: 'Project',
-		            preventHeader: true,
-		            collapsible: false,
-		            useArrows: true,
-		            rootVisible: false,
-		            store: Ext.create('Ext.data.TreeStore', {
-		            	model: 'File',
-		            	autoLoad: true,
-		            	proxy: {
-		                	type: 'ajax',
-		                	//the store will get the content from the .json file
-		                	url: 'files/FileList.groovy'
-		            		}
-		    			}),
-		            singleExpand: false,
-		            //the 'columns' property is now 'headers'
-		            columns: [{
-		                xtype: 'treecolumn', //this is so we know which column will show the tree
-		                text: 'Project',
-		                flex: 2,
-		                sortable: true,
-		                dataIndex: 'file'}]
-	            }),// Create the combo box, attached to the states data store
+	        	{
+					id: 'project',
+			        fieldLabel: 'Project',
+			        name: 'project',
+			        value: record.get('project'),
+			        allowBlank: false,
+	            	disabled: true
+			    },{
+					id: 'path',
+			        fieldLabel: 'Path',
+			        name: 'path',
+			        value: record.get('path'),
+			        allowBlank: false,
+	            	disabled: true
+			    },// Create the combo box, attached to the states data store
 				Ext.create('Ext.form.ComboBox', {
 				    fieldLabel: 'File Type',
 				    store: Ext.create('Ext.data.Store', {
@@ -103,11 +93,16 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 			                    }
 			                }
 			            }),
-				    displayField: 'name'
+			        id: 'fileType',
+				    displayField: 'name',
+				    name: 'fileType',
+	            	disabled: false
 				}),{
+					id: 'fileName',
 			        fieldLabel: 'Name',
 			        name: 'fileName',
-			        allowBlank: false
+			        allowBlank: false,
+	            	disabled: false
 			    }],
 	        
 	        // Reset and Submit buttons
@@ -119,33 +114,60 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 		            }
 	        	}, {
 	            text: 'Submit',
+	            id: 'submit',
 	            formBind: true, //only enabled once the form is valid
 	            disabled: true,
 	            handler: function() {
 	                var form = this.up('form').getForm();
+	                var projectName = form.items[0].value
+	                var path = form.items[1].value
+					var fileName = form.getValues().fileName
+					var fileType = form.getValues().fileType
+					var typeField = form.getFields().get("fileType")
+					var typeFieldRecord = typeField.findRecordByDisplay(fileType)
 	                if (form.isValid()) {
 						Ext.Ajax.request({
-                                            url: 'projects/ProjectCreator.groovy',
+                                            url: 'files/FileCreator.groovy',
                                             params: {
                                                 project: projectName,
-                                                description: projectDescription
+                                                path: path,
+                                                fileName: fileName,
+                                                fileType: fileType
 	 	                                       },
 	 	                                    success : function() {
-	 	                                    	var treeNode = Ext.data.NodeInterface.create({
-    												id: "P:" + projectName,
-										            project: projectName,
-										            file: projectName,
-										            user: projectName,
-										            leaf: false,
-										            project_dir: true,
-										  			iconCls: 'project'
-												});
-												var result = ""
-												for (var key in projectPanel) {
-													result += "[" + key + "]"
-												}
-												alert(result)
-	 	                                    	//projectPanel.getRootNode().appendChild(treeNode)
+	 	                                    	var treeNode = null;
+	 	                                    	if (fileType == "folder") {
+	 	                                    		var completePath = path + "/" + fileName
+	 	                                    		treeNode = Ext.create('File',{
+		    												id: 'P:' + projectName + ":" + completePath,
+												            project: projectName,
+												            file: fileName,
+												            user: projectName,
+												            leaf: false,
+												            path: completePath,
+												            project_dir: false,
+												  			iconCls: 'directory',
+												  			text: fileName
+														});
+	 	                                    	} else {
+	 	                                    		var completePath = path + "/" + fileName + "." + fileType
+	 	                                    		treeNode = Ext.create('File',{
+		    												id: 'P:' + projectName + ":" + completePath,
+												            project: projectName,
+												            file: fileName + "." + fileType,
+												            user: projectName,
+												            leaf: true,
+												            path: completePath,
+												            project_dir: false,
+												            editor: typeFieldRecord.get('editor'), 
+												            mode: typeFieldRecord.get('mode'),
+												  			iconCls: 'file',
+												  			text: fileName + "." + fileType
+														});
+	 	                                    	}
+	 	                                    	
+												Ext.data.NodeInterface.decorate(treeNode);
+												record.appendChild(treeNode)
 	 	                                    },
 	 	                                    failure: function(response) {
 	 	                                    	Ext.Msg.show({
