@@ -148,6 +148,7 @@ public class ProjectBean {
             if (dir.exists()) {
                 throw new ProjectFactoryException("The directory [" + directory + "] already exists");
             }
+            dir.mkdirs();
             String username = ThreadsPermissionContainerAccessor.getInstance().
                     getThreadsPermissionContainer().getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
