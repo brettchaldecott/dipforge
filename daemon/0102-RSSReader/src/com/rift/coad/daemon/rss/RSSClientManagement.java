@@ -194,6 +194,11 @@ public class RSSClientManagement implements RSSClientManagementMBean, BeanRunnab
         initDBFromConfig();
         com.rift.coad.lib.deployment.DeploymentMonitor.
                 getInstance().waitUntilInitDeployComplete();
+        try {
+            Thread.sleep(1000 * 60);
+        } catch (Exception ex) {
+            
+        }
         while(!monitor.isTerminated()) {
             pullFeeds();
             monitor.monitor();
