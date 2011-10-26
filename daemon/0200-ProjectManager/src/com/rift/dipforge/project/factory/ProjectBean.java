@@ -25,11 +25,14 @@ package com.rift.dipforge.project.factory;
 import com.rift.coad.lib.common.FileUtil;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
+import com.rift.coad.lib.security.SessionManager;
 import com.rift.coad.lib.security.ThreadsPermissionContainerAccessor;
 import com.rift.dipforge.project.Constants;
 import com.rift.dipforge.project.FileDTO;
 import com.rift.dipforge.project.FileTypes;
 import com.rift.dipforge.project.ProjectInfoDTO;
+import com.rift.dipforge.project.util.TemplateHelper;
+import com.rift.dipforge.project.util.TemplateVariables;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +40,8 @@ import java.util.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
@@ -208,9 +213,11 @@ public class ProjectBean {
             for (File file: directory.listFiles()) {
                 if (file.isDirectory()) {
                     removeDirectory(file);
+                    continue;
                 }
                 file.delete();
             }
+            directory.delete();
         } catch (Exception ex) {
             log.error("Failed to remove the directory : " + ex.getMessage(),ex);
             throw new ProjectFactoryException
@@ -276,14 +283,32 @@ public class ProjectBean {
      */
     public void createFile(String path, String type) throws ProjectFactoryException {
         try {
-            FileUtil.copyFile(new File(templateDir,
-                    type + Constants.TEMPLATE_SUFFIX), new File(projectDir,path));
-            String username = ThreadsPermissionContainerAccessor.getInstance().
-                    getThreadsPermissionContainer().getSession().getUser().getName();
+            File targetFile = new File(projectDir,path + "." + type);
+            if (targetFile.exists()) {
+                log.error("Attempting to create duplicate file [" + path + 
+                        "." + type + "]");
+                throw new ProjectFactoryException(
+                        "Attempting to create duplicate file [" + path + 
+                        "." + type + "]");
+            }
+            
+            // process path information
+            String directory = path.substring(0,path.lastIndexOf("/"));
+            String fileName = path.substring(path.lastIndexOf("/") + 1);
+            
+            String contents = getTemplate(directory,fileName,type);
+            java.io.FileOutputStream out = new java.io.FileOutputStream(targetFile);
+            out.write(contents.getBytes());
+            out.close();
+            
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
             info.setModifiedBy(username);
             info.setModified(new Date());
             setInfo(info);
+        } catch (ProjectFactoryException ex) {
+            throw ex;
         } catch (Exception ex) {
             log.error("Failed to create the file : " + ex.getMessage(),ex);
             throw new ProjectFactoryException
@@ -344,8 +369,8 @@ public class ProjectBean {
             FileOutputStream out = new FileOutputStream(file);
             out.write(contents.getBytes());
             out.flush();
-            String username = ThreadsPermissionContainerAccessor.getInstance().
-                    getThreadsPermissionContainer().getSession().getUser().getName();
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
             info.setModifiedBy(username);
             info.setModified(new Date());
@@ -372,8 +397,8 @@ public class ProjectBean {
         try {
             FileUtil.copyFile(new File(projectDir,source),
                     new File(projectDir,target));
-            String username = ThreadsPermissionContainerAccessor.getInstance().
-                    getThreadsPermissionContainer().getSession().getUser().getName();
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
             info.setModifiedBy(username);
             info.setModified(new Date());
@@ -403,8 +428,8 @@ public class ProjectBean {
                         "] is a directory and not a file");
             }
             file.delete();
-            String username = ThreadsPermissionContainerAccessor.getInstance().
-                    getThreadsPermissionContainer().getSession().getUser().getName();
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
             info.setModifiedBy(username);
             info.setModified(new Date());
@@ -515,5 +540,41 @@ public class ProjectBean {
         
     }
 
+    
+    /**
+     * This method returns the contents of the specified template file.
+     *
+     * @param suffix The string containing the suffix name for the template file.
+     * @return The string containing the template file information.
+     * @throws ProjectFactoryException
+     */
+    private String getTemplate(String directory, String fileName, String type)
+            throws ProjectFactoryException {
+        try {
+            TemplateHelper template = new TemplateHelper(new File(templateDir,
+                    type + Constants.TEMPLATE_SUFFIX).getPath());
+            Map<String,String> values = new HashMap<String,String>();
+            
+            String fullFilename = fileName + "." + type;
+
+            // setup the variables
+            values.put(TemplateVariables.AUTHOR, SessionManager.getInstance().
+                    getSession().getUser().getName());
+            values.put(TemplateVariables.DATE, new Date().toString());
+            values.put(TemplateVariables.FILE_NAME,fullFilename);
+            values.put(TemplateVariables.SCOPE,directory.substring(
+                    directory.indexOf("/",1) + 1).
+                    replaceAll("/","[.]"));
+            values.put(TemplateVariables.PATH,
+                    directory + File.separator + fullFilename);
+            values.put(TemplateVariables.NAME,fileName);
+            template.setParameters(values);
+            return template.parse();
+        } catch (Exception ex) {
+            log.error("Failed to read in the template : " + ex.getMessage(),ex);
+            throw new ProjectFactoryException
+                    ("Failed to read in the template : " + ex.getMessage(),ex);
+        }
+    }
 
 }
