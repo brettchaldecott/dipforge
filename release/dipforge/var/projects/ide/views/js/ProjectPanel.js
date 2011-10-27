@@ -188,7 +188,7 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
      * Used when
      */
     onItemAppend: function(model,treeNode,number,options) {
-    	if (treeNode.get('leaf')) {
+    	if (treeNode.get('leaf') && treeNode.get("newFile")) {
         	this.fireEvent('fileselect', this, treeNode.get('project'), 
         		treeNode.get('file'), treeNode.get('path'), 
         		treeNode.get('editor'), treeNode.get('mode'));

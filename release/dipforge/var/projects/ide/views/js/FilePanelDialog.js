@@ -162,6 +162,7 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 												            editor: typeFieldRecord.get('editor'), 
 												            mode: typeFieldRecord.get('mode'),
 												  			iconCls: 'file',
+												  			newFile: true,
 												  			text: fileName + "." + fileType
 														});
 	 	                                    	}

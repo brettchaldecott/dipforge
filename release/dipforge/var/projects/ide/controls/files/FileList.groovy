@@ -38,6 +38,8 @@ try {
 		        ]
 		}
     } else if (params.node.startsWith("P:")) {
+		
+		// handle the rest of the nodes		
 		def daemon = ConnectionManager.getInstance().getConnection(
 			ProjectFileManager.class,"project/FileManager")
 		def nodeValues = params.node.split(":")
