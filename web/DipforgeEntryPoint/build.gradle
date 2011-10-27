@@ -42,6 +42,10 @@ war {
     from 'web'
 }
 
+artifacts {
+    runtime war
+}
+
 release.dependsOn build
 
 def ivyDependencies(conf) {

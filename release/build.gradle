@@ -267,7 +267,7 @@ task copyToGroovyLib(type: Copy) {
 }
 
 
-task clean {
+clean {
     ant {
         delete {
             fileset(dir: "dipforge"){

@@ -13,9 +13,9 @@ allprojects {
         mavenRepo urls: "http://openjena.org/repo"
         mavenRepo urls: "http://www.topazproject.org/maven2/"
         mavenRepo urls: "http://www.smartclient.com/maven2/"
-        mavenRepo urls: "file://localhost/$projectDir/../../repository"
-        mavenRepo urls: "file://localhost/$projectDir/../../maven"
-        mavenRepo urls: "file://localhost/$projectDir/../maven"
+        mavenRepo urls: "file://$projectDir/../../repository"
+        mavenRepo urls: "file://$projectDir/../../maven"
+        mavenRepo urls: "file://$projectDir/../maven"
     }
 
     task release << {}

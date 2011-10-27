@@ -13,7 +13,6 @@ targetCompatibility=1.6
 
 configurations {
     compile
-    gwt
 }
 
 dependencies {
@@ -42,6 +41,10 @@ war {
     setClasspath(classPath)
     classpath 'build/classes/main/'
     from 'web'
+}
+
+artifacts {
+    runtime war
 }
 
 release.dependsOn build
