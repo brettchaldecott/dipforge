@@ -60,4 +60,10 @@ public class TemplateVariables {
      * The name of the file.
      */
     public final static String NAME = "name";
+    
+    
+    /**
+     * The project the file belongs to.
+     */
+    public final static String PROJECT = "project";
 }

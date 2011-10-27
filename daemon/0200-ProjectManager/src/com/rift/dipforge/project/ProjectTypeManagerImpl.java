@@ -66,7 +66,8 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
         try {
             ProjectBean projectBean =
                     ProjectFactory.getInstance().getProject(project);
-            return projectBean.getFile(Constants.PROJECT_TYPES);
+            return projectBean.getFile(Constants.CONFIG_DIRECTORY + 
+                    Constants.PROJECT_TYPES);
         } catch (Exception ex) {
             log.error("Failed to retrieve the types file : " + ex.getMessage(),ex);
             throw new ProjectException
@@ -88,11 +89,12 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
             new XMLTypeInfoParser(xml);
             ProjectBean projectBean =
                     ProjectFactory.getInstance().getProject(project);
-            projectBean.updateFile(Constants.PROJECT_TYPES, xml);
+            projectBean.updateFile(Constants.CONFIG_DIRECTORY + 
+                    Constants.PROJECT_TYPES, xml);
         } catch (Exception ex) {
-            log.error("Failed to retrieve the types file : " + ex.getMessage(),ex);
+            log.error("Failed to set the types file : " + ex.getMessage(),ex);
             throw new ProjectException
-                    ("Failed to retrieve the types file : " + ex.getMessage(),ex);
+                    ("Failed to set the types file : " + ex.getMessage(),ex);
         }
     }
 
@@ -108,7 +110,8 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
             ProjectBean projectBean =
                     ProjectFactory.getInstance().getProject(project);
             XMLTypeInfoParser parser = new XMLTypeInfoParser(
-                    projectBean.getFile(Constants.PROJECT_TYPES));
+                    projectBean.getFile(Constants.CONFIG_DIRECTORY + 
+                    Constants.PROJECT_TYPES));
             List<ResourceDefinition> resources = parser.getTypes();
             TypeManagerDaemon daemon = (TypeManagerDaemon)
                     ConnectionManager.getInstance().getConnection(TypeManagerDaemon.class,
@@ -117,9 +120,9 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
                 daemon.updateType(resource);
             }
         } catch (Exception ex) {
-            log.error("Failed to retrieve the types file : " + ex.getMessage(),ex);
+            log.error("Failed to publish the types file : " + ex.getMessage(),ex);
             throw new ProjectException
-                    ("Failed to retrieve the types file : " + ex.getMessage(),ex);
+                    ("Failed to publish the types file : " + ex.getMessage(),ex);
         }
     }
 

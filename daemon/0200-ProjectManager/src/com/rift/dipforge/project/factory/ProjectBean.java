@@ -154,8 +154,8 @@ public class ProjectBean {
                 throw new ProjectFactoryException("The directory [" + directory + "] already exists");
             }
             dir.mkdirs();
-            String username = ThreadsPermissionContainerAccessor.getInstance().
-                    getThreadsPermissionContainer().getSession().getUser().getName();
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
             info.setModifiedBy(username);
             info.setModified(new Date());
@@ -186,8 +186,8 @@ public class ProjectBean {
                 throw new ProjectFactoryException("The directory [" + directory + "] already exists");
             }
             removeDirectory(dir);
-            String username = ThreadsPermissionContainerAccessor.getInstance().
-                    getThreadsPermissionContainer().getSession().getUser().getName();
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
             info.setModifiedBy(username);
             info.setModified(new Date());
@@ -454,7 +454,7 @@ public class ProjectBean {
             }
             
             projectDir.mkdirs();
-            copyRecursive(templateDirectory, projectDir);
+            copyRecursive(name,templateDirectory, projectDir);
             return projectDir;
         } catch (ProjectFactoryException ex) {
             throw ex;
@@ -473,16 +473,35 @@ public class ProjectBean {
      * @param targetDir The target directory to copy to.
      * @throws ProjectFactoryException
      */
-    private void copyRecursive(File sourceDir, File targetDir) throws ProjectFactoryException {
+    private void copyRecursive(String project, File sourceDir,
+            File targetDir) throws ProjectFactoryException {
         try {
             for (File file: sourceDir.listFiles()) {
                 File targetSub = new File(targetDir,file.getName());
                 if (file.isDirectory()) {
                     targetSub.mkdirs();
-                    copyRecursive(file, targetSub);
+                    copyRecursive(project, file, targetSub);
                     continue;
                 }
-                FileUtil.copyFile(file, targetSub);
+                if (isParsable(file)) {
+                    TemplateHelper template = new TemplateHelper(file.getPath());
+                    Map<String,String> values = new HashMap<String,String>();
+
+                    // setup the variables
+                    values.put(TemplateVariables.AUTHOR, SessionManager.getInstance().
+                            getSession().getUser().getName());
+                    values.put(TemplateVariables.DATE, new Date().toString());
+                    values.put(TemplateVariables.PROJECT, project);
+                    
+                    template.setParameters(values);
+                    String contents = template.parse();
+                    java.io.FileOutputStream out = 
+                            new java.io.FileOutputStream(targetSub);
+                    out.write(contents.getBytes());
+                    out.close();
+                } else {
+                    FileUtil.copyFile(file, targetSub);
+                }
             }
         } catch (ProjectFactoryException ex) {
             throw ex;
@@ -494,53 +513,6 @@ public class ProjectBean {
     }
 
 
-    // types
-    /**
-     * This method returns the project types information.
-     *
-     * @param project The project to get the information for
-     * @return
-     * @throws ProjectException
-     * @throws RemoteException
-     */
-    public String getProjectTypes() throws ProjectFactoryException {
-        try {
-            File  file = new File(projectDir,Constants.PROJECT_TYPES);
-            if (!file.exists()) {
-                return "";
-            }
-            
-        } catch (Exception ex) {
-            
-        }
-        return null;
-    }
-
-
-    /**
-     * This method sets the project types.
-     *
-     * @param project The string containing the project name.
-     * @param xml The string containing the xml.
-     * @throws ProjectException
-     * @throws RemoteException
-     */
-    public void setProjectTypes(String project, String xml) throws ProjectFactoryException {
-
-    }
-
-
-    /**
-     * This method publishes types.
-     *
-     * @param project The name of the project
-     * @throws ProjectException
-     */
-    public void publishTypes(String project) throws ProjectFactoryException {
-        
-    }
-
-    
     /**
      * This method returns the contents of the specified template file.
      *
@@ -556,15 +528,20 @@ public class ProjectBean {
             Map<String,String> values = new HashMap<String,String>();
             
             String fullFilename = fileName + "." + type;
+            
+            String scope = ".";
+            int index = 0;
+            if ( (index = directory.indexOf("/",1)) != -1) {
+                scope = directory.substring(index + 1).
+                    replaceAll("/",".");
+            }
 
             // setup the variables
             values.put(TemplateVariables.AUTHOR, SessionManager.getInstance().
                     getSession().getUser().getName());
             values.put(TemplateVariables.DATE, new Date().toString());
             values.put(TemplateVariables.FILE_NAME,fullFilename);
-            values.put(TemplateVariables.SCOPE,directory.substring(
-                    directory.indexOf("/",1) + 1).
-                    replaceAll("/","[.]"));
+            values.put(TemplateVariables.SCOPE,scope);
             values.put(TemplateVariables.PATH,
                     directory + File.separator + fullFilename);
             values.put(TemplateVariables.NAME,fileName);
@@ -576,5 +553,20 @@ public class ProjectBean {
                     ("Failed to read in the template : " + ex.getMessage(),ex);
         }
     }
-
+    
+    
+    /**
+     * This method determines if the file is parsable
+     * 
+     * @param file The file to perform the check on.
+     * @return TRUE if parsable
+     */
+    private boolean isParsable(File file) {
+        for (String suffix : Constants.FILE_SUFFIXES) {
+            if (file.getName().endsWith(suffix)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
