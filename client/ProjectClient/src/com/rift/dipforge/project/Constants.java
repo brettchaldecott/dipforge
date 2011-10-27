@@ -51,10 +51,18 @@ public class Constants {
      */
     public final static String TEMPLATE_SUFFIX = ".template";
 
+    /**
+     * This variable defines the standard config directory for a project
+     */
+    public final static String CONFIG_DIRECTORY = "/config/";
 
     /**
      * The project types
      */
     public final static String PROJECT_TYPES = "project_types.xml";
+    
+    
+    public final static String[] FILE_SUFFIXES = {"groovy","js","html",
+            "css", "xml", "json"};
 
 }
