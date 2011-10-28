@@ -13,7 +13,7 @@ and when that is complete the project will officially release the entire
 application server as an innitial alphar release.
 
 The build process requires gradle, and at the time of writing the latest 
-version of gradle was 1.0-milestone-3. The build process has not been tested
+version of gradle was 1.0-milestone-5. The build process has not been tested
 with a later version.
 
 To build the application server follow the following steps:
@@ -22,7 +22,6 @@ To build the application server follow the following steps:
     bash# git clone https://brettchaldecott@github.com/brettchaldecott/dipforge.git  
     bash# cd dipforge  
     bash# gradle release  
-    note: build will only work with gradle milestone 5+  
     bash# cd release/dipforge/bin  
     bash# chown a+r run.sh  
     bash# sudo ./run.sh  
