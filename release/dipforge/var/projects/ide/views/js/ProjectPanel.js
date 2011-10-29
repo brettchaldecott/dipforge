@@ -115,6 +115,9 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     		},{
         		id: 'delete-file',
         		text: 'Delete File'
+    		},{
+        		id: 'rename-file',
+        		text: 'Rename File'
     		}],
     		bubbleEvents: ['deletefile'],
     		listeners: {
@@ -155,6 +158,19 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
 	    						projectDialog.show();
                     		}
                     		break;
+                    	case 'rename-file':
+                			var result = ""
+							if ((this.record.data.project_dir == false) &&
+	    						(this.record.data.project != "documentation")&&
+	    						(this.record.data.path != "/project.properties")) {      			
+	                			var renameFileDialog = Ext.create('com.dipforge.IDE.RenameFileDialog', {
+	    							fileName: this.record.data.path,
+	    							project: this.record.data.project,
+	    							fileId: this.record.id,
+	    							record: this.record,
+									menu: menu});
+	    						renameFileDialog.show();
+	    					}
             		}
         		}
     		}
