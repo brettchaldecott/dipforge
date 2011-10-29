@@ -395,8 +395,8 @@ public class ProjectBean {
     public void renameFile(String source, String target)
              throws ProjectFactoryException {
         try {
-            FileUtil.copyFile(new File(projectDir,source),
-                    new File(projectDir,target));
+            File sourceFile = new File(projectDir,source);
+            sourceFile.renameTo(new File(projectDir,target));
             String username = SessionManager.getInstance().
                     getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
