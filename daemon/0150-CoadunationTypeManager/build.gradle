@@ -26,6 +26,7 @@ dependencies {
     compile project(':client:CoadunationTypeManager')
     compile project(':client:AuditTrail')
     compile project(':rdf:Semantics')
+    releaseJars(ivyDependencies('compile'))
     releaseJars project(':client:AuditTrail')
     releaseJars project(':client:CoadunationTypeManager')
     releaseJars project(':rdf:Semantics')

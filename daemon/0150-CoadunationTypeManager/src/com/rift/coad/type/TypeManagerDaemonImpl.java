@@ -123,7 +123,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                 ontologyClass.addProperty(property);
             }
             this.persist(session,resource.getNamespace());
-            auditLog.complete(null, null, "Add new type %s",resource.toString());
+            auditLog.complete("Add new type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -157,7 +157,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                 ontologyClass.addProperty(property);
             }
             this.persist(session,resource.getNamespace());
-            auditLog.complete(null, null, "Updated a type %s",resource.toString());
+            auditLog.complete("Updated a type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -180,7 +180,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
             session.removeClass(uri);
             this.persist(session,resource.getNamespace());
-            auditLog.complete(null, null, "Remove type %s",resource.toString());
+            auditLog.complete("Remove type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
