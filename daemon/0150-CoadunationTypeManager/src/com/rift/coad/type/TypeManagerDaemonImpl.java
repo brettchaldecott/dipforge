@@ -115,7 +115,14 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
 
             for (String key : resource.getProperties().keySet()) {
                 RDFDataType type = resource.getProperties().get(key);
-                OntologyProperty property =session.createProperty(new URI(type.getNamespace() + "#" + type.getLocalName()));
+                URI propertyURI = 
+                        new URI(type.getNamespace() + "#" + type.getLocalName());
+                OntologyProperty property = null;
+                if (session.hasProperty(propertyURI)) {
+                    property = session.getProperty(propertyURI);
+                } else {
+                    property = session.createProperty(propertyURI);
+                }
                 if (type.getTypeUri() != null) {
                     property.setType(XSDDataDictionary.getTypeByURI(
                             type.getTypeUri()));
@@ -148,8 +155,14 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             OntologyClass ontologyClass = session.createClass(uri);
             for (String key : resource.getProperties().keySet()) {
                 RDFDataType type = resource.getProperties().get(key);
-                OntologyProperty property = session.createProperty(
-                        new URI(type.getNamespace() + "#" + type.getLocalName()));
+                URI propertyURI = 
+                        new URI(type.getNamespace() + "#" + type.getLocalName());
+                OntologyProperty property = null;
+                if (session.hasProperty(propertyURI)) {
+                    property = session.getProperty(propertyURI);
+                } else {
+                    property = session.createProperty(propertyURI);
+                }
                 if (type.getTypeUri() != null) {
                     property.setType(XSDDataDictionary.getTypeByURI(
                             type.getTypeUri()));
