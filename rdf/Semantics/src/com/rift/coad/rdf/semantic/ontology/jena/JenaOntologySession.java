@@ -232,7 +232,7 @@ public class JenaOntologySession implements OntologySession {
      */
     public void removeClass(URI uri) throws OntologyException {
         OntClass ontClass = jenaOntModel.getOntClass(uri.toString());
-        if (jenaOntModel.contains(ontClass, null)) {
+        if (!jenaOntModel.contains(ontClass, null)) {
             return;
         }
         try {
