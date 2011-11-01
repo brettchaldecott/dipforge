@@ -62,11 +62,19 @@ try {
 			        iconCls = 'file'
 			        def pos = fileName.lastIndexOf(".")
 			        def fileSuffix = "text"
-			        if (pos != -1) {
-			            fileSuffix = fileName.substring(pos + 1).toLowerCase();
+			        // types file
+			        if (file.getPath().equals("/config/project_types.xml")) {
+			        	editor = "ace-project-types"
+			        	mode = mimeTypeMapper.getMode("xml")
 			        }
-			        editor = mimeTypeMapper.getEditor(fileSuffix)
-			        mode = mimeTypeMapper.getMode(fileSuffix)
+			        // normal files 
+			        else {
+				        if (pos != -1) {
+				            fileSuffix = fileName.substring(pos + 1).toLowerCase();
+				        }
+				        editor = mimeTypeMapper.getEditor(fileSuffix)
+				        mode = mimeTypeMapper.getMode(fileSuffix)
+				    }
 			    } else if (file.getType() == 0) {
 				    log.info("This is a directory")
 				    leafNode = false
