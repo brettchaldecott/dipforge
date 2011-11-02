@@ -11,6 +11,7 @@ import com.rift.coad.rdf.semantic.jdo.obj.JDODataType;
 import com.rift.coad.rdf.semantic.types.DataType;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * This object is responsible for returning mapping information between Java and
@@ -41,7 +42,8 @@ public class JavaRDFTypeMapping {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_FLOAT);
             } else if (javaType.equals(Byte.class) || javaType.equals(byte.class)) {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_BYTE);
-            } else if (Calendar.class.isAssignableFrom(javaType)) {
+            } else if (Calendar.class.isAssignableFrom(javaType) || 
+                    Date.class.isAssignableFrom(javaType)) {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DATE);
             }
             return new JDODataType(new NamespaceHelper(javaType).getNamespace(),

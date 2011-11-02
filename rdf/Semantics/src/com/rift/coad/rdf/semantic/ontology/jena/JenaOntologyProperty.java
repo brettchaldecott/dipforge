@@ -199,7 +199,8 @@ public class JenaOntologyProperty implements OntologyProperty {
                 Resource resource = iterator.next();
                 String uri = resource.getURI();
                 if (uri.equals(OntologyConstants.DATA_TYPE_PROPERTY_URI) ||
-                        uri.equals(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
+                        uri.equals(OntologyConstants.ONTOLOGY_LOCATION_URIS) ||
+                        uri.equals(OntologyConstants.PROPERTY_NS_URI)) {
                     continue;
                 }
                 DataType type = XSDDataDictionary.getTypeByURI(uri);
