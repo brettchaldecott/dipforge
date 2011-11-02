@@ -686,7 +686,7 @@
     </object>
     <!-- Audit trail configuration -->
     <object name="com.rift.coad.audit.AuditTrailLoggerImpl">
-        <entry key="rdf_config_url" type="string">
+        <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/schema/rdf?list=true
         </entry>
         <entry key="persistance_manager" type="string">
@@ -705,7 +705,7 @@
     <!-- Audit trail configuration -->
     <!-- Change Manager configuration -->
     <object name="com.rift.coad.change.ChangeManagerDaemonImpl">
-        <entry key="rdf_config_url" type="string">
+        <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
@@ -723,7 +723,7 @@
     <!-- Change Manager configuration -->
     <!-- Data Mapper configuration -->
     <object name="com.rift.coad.datamapperbroker.DataMapperBrokerDaemonImpl">
-        <entry key="rdf_config_url" type="string">
+        <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
@@ -733,7 +733,7 @@
     <!-- Data Mapper configuration -->
     <!-- Script Manager Configuration -->
     <object name="com.rift.coad.script.broker.ScriptManagerDaemonImpl">
-        <entry key="rdf_config_url" type="string">
+        <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/RDFTypeSource/Query?
         </entry>
         <entry key="sdb_config_file" type="string">
