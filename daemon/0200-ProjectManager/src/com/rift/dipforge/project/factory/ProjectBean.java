@@ -75,6 +75,8 @@ public class ProjectBean {
             Configuration config = ConfigurationFactory.getInstance().
                     getConfig(ProjectBean.class);
             templateDir = config.getString(Constants.TEMPLATE_DIR);
+            ProjectInfoDTO info = getInfo();
+            this.name = info.getName();
         } catch (ProjectFactoryException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -545,6 +547,7 @@ public class ProjectBean {
             values.put(TemplateVariables.PATH,
                     directory + File.separator + fullFilename);
             values.put(TemplateVariables.NAME,fileName);
+            values.put(TemplateVariables.PROJECT, this.name);
             template.setParameters(values);
             return template.parse();
         } catch (Exception ex) {
