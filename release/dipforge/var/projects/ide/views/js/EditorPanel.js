@@ -121,8 +121,30 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                             path: path
                         }));
                         self.setActiveTab(active);
+                        
+                        var canon = require("pilot/canon");
+                        
+                        // Fake-Save, works from the editor and the command line.
+                        canon.addCommand({
+                            name: "save",
+                            bindKey: {
+                                win: "Ctrl-S",
+                                mac: "Command-S",
+                                sender: "editor"
+                            },
+                            exec: function() {
+                                Ext.Ajax.request({
+                                    url: 'files/FileSave.groovy',
+                                    params: {
+                                        project: project,
+                                        path: path,
+                                        content: editor.getSession().getValue()
+                                }})
+                            }
+                        });
+                        
                 
-                        var el = Ext.get("id|" + id)
+                        var el = Ext.get("id|'" + id)
                         var editor = ace.edit(el.dom);
                         var JavaScriptMode = require(mode).Mode;
                         editor.getSession().setMode(new JavaScriptMode());
@@ -191,6 +213,27 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                             path: path
                         }));
                         self.setActiveTab(active);
+                        
+                        var canon = require("pilot/canon");
+                        
+                        // Fake-Save, works from the editor and the command line.
+                        canon.addCommand({
+                            name: "save",
+                            bindKey: {
+                                win: "Ctrl-S",
+                                mac: "Command-S",
+                                sender: "editor"
+                            },
+                            exec: function() {
+                                Ext.Ajax.request({
+                                    url: 'files/FileSave.groovy',
+                                    params: {
+                                        project: project,
+                                        path: path,
+                                        content: editor.getSession().getValue()
+                                }})
+                            }
+                        });
                 
                         var el = Ext.get("id|" + id)
                         var editor = ace.edit(el.dom);
