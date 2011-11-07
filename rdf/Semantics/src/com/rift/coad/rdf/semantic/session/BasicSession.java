@@ -106,7 +106,18 @@ public class BasicSession implements Session {
         return transaction;
     }
 
-
+    
+    /**
+     * This method returns a reference to the ontology session object.
+     * 
+     * @return The reference to the ontology session.
+     * @throws SessionException 
+     */
+    public OntologySession getOntologySession() throws SessionException {
+        return this.ontologySession;
+    }
+    
+    
     /**
      * This method is called to persist a stream
      *

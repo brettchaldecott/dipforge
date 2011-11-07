@@ -23,6 +23,7 @@
 package com.rift.coad.rdf.semantic;
 
 // java imports
+import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import java.io.Serializable;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -44,7 +45,16 @@ public interface Session {
      */
     public Transaction getTransaction() throws SessionException;
 
-
+    
+    /**
+     * This method returns a reference to the ontology session object.
+     * 
+     * @return The reference to the ontology session.
+     * @throws SessionException 
+     */
+    public OntologySession getOntologySession() throws SessionException;
+    
+    
     /**
      * This method is called to persist the stream changes to this semantic session.
      *
