@@ -28,6 +28,7 @@ import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
+import com.rift.coad.type.subscriber.PublishSubscriber;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import org.apache.log4j.Logger;
  *
  * @author brett chaldecott
  */
-public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
+public class RDFStoreDaemonImpl implements RDFStoreDaemon, PublishSubscriber, BeanRunnable  {
 
     // class singletons.
     private Logger log = Logger.getLogger(RDFStoreDaemonImpl.class);
@@ -108,6 +109,7 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
                     getConnection(ServiceBroker.class, "ServiceBroker");
             List<String> services = new ArrayList<String>();
             services.add(Constants.SERVICE);
+            services.add(PublishSubscriber.SERVICE_NAME);
             broker.registerService("rdf/RDFStoreDaemon", services);
         } catch (Exception ex) {
             log.error("Failed to register the entries with the service broker : " +
@@ -130,6 +132,19 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
      */
     public void terminate() {
         monitor.terminate(true);
+    }
+
+    
+    /**
+     * This method is called when RDF is published.
+     */
+    public void rdfPublished() {
+        try {
+            SemanticUtil.getInstance(RDFConfig.class).releadOntology();
+        } catch (Exception ex) {
+            log.error("Failed to reload the ontology because : " + 
+                    ex.getMessage(),ex);
+        }
     }
 
 }
