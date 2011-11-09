@@ -22,6 +22,7 @@
 package com.rift.dipforge.project;
 
 // general imports
+import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import java.rmi.RemoteException;
 import org.apache.log4j.Logger;
 
@@ -29,10 +30,12 @@ import org.apache.log4j.Logger;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.type.TypeManagerDaemon;
 import com.rift.coad.type.dto.ResourceDefinition;
+import com.rift.coad.type.subscriber.PublishSubscriber;
 import com.rift.coad.util.connection.ConnectionManager;
 import com.rift.dipforge.project.factory.ProjectBean;
 import com.rift.dipforge.project.factory.ProjectFactory;
 import com.rift.dipforge.project.type.XMLTypeInfoParser;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,6 +122,7 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
             for (ResourceDefinition resource: resources) {
                 daemon.updateType(resource);
             }
+            broadCastChange();
         } catch (Exception ex) {
             log.error("Failed to publish the types file : " + ex.getMessage(),ex);
             throw new ProjectException
@@ -126,6 +130,21 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
         }
     }
 
-
+    
+    /**
+     * This method is called to broad cast the ontology change.
+     */
+    public void broadCastChange() {
+        try {
+            List<String> services = new ArrayList<String>();
+            services.add(PublishSubscriber.SERVICE_NAME);
+            PublishSubscriberAsync subscriber = (PublishSubscriberAsync)RPCMessageClient.createOneWay(
+                    "project/TypeManager", PublishSubscriber.class, PublishSubscriberAsync.class, services, true);
+            subscriber.rdfPublished();
+        } catch (Exception ex) {
+            log.error("Failed to broad cast the change : " + 
+                    ex.getMessage(),ex);
+        }
+    }
     
 }

@@ -24,9 +24,13 @@ dependencies {
     compile project(':libs:CoadunationUtil')
     compile project(':client:ProjectClient')
     compile project(':client:CoadunationTypeManager')
+    compile project(':client:ServiceBrokerClient')
+    compile project(':client:MessageServiceClient')
     releaseJars project(':client:ProjectClient')
     releaseJars project(':client:CoadunationTypeManager')
     releaseJars project(':libs:CoadunationUtil')
+    releaseJars project(':client:ServiceBrokerClient')
+    releaseJars project(':client:MessageServiceClient')
 }
 
 sourceSets {
