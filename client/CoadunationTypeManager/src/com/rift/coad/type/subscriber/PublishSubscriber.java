@@ -21,6 +21,7 @@
 package com.rift.coad.type.subscriber;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * The interface for the publish subscriber object.
@@ -38,5 +39,5 @@ public interface PublishSubscriber extends Remote {
     /**
      * This method will be called when ever new RDF is published.
      */
-    public void rdfPublished();
+    public void rdfPublished() throws RemoteException;
 }
