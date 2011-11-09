@@ -144,7 +144,7 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         });
                         
                 
-                        var el = Ext.get("id|'" + id)
+                        var el = Ext.get("id|" + id)
                         var editor = ace.edit(el.dom);
                         var JavaScriptMode = require(mode).Mode;
                         editor.getSession().setMode(new JavaScriptMode());
