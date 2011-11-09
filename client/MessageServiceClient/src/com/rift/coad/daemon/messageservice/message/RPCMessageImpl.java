@@ -185,7 +185,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * @exception MessageServiceException
      */
     public void setArguments(Object[] args) throws MessageServiceException {
-        for (int index = 0; index < args.length; index++) {
+        for (int index = 0; args != null && index < args.length; index++) {
             String name = "p" + (index + 1);
             this.setObjectProperty(name,args[index]);
         }
