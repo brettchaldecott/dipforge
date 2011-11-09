@@ -228,7 +228,7 @@ public class SemanticUtil implements XAResource {
      * @param configId
      * @throws SemanticUtilException 
      */
-    public void releadOntology() throws SemanticUtilException {
+    public void reloadOntology() throws SemanticUtilException {
         try {
             // Retrieve the configuration for the message service implementation
             com.rift.coad.lib.configuration.Configuration coadConfig =
