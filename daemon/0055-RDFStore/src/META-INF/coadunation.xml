@@ -31,5 +31,14 @@
             <cache_timeout>60000</cache_timeout>
             <transaction>true</transaction>
         </bean>
+        <bean>
+            <interface>com.rift.coad.type.subscriber.PublishSubscriber</interface>
+            <class>com.rift.dipforge.rdf.store.PublishSubscriberImpl</class>
+            <bindName>rdf/PublishSubscriber</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
     </beans>
 </coadunation>
