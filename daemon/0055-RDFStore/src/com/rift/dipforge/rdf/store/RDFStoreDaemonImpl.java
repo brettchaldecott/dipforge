@@ -138,7 +138,7 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, PublishSubscriber, Be
     /**
      * This method is called when RDF is published.
      */
-    public void rdfPublished() {
+    public void rdfPublished() throws RemoteException {
         try {
             SemanticUtil.getInstance(RDFConfig.class).releadOntology();
         } catch (Exception ex) {
