@@ -68,6 +68,7 @@ public class SemanticUtil implements XAResource {
 
     // class private member variables
     private int timeout = 0;
+    private Class configId = null;
     private Context context = null;
     private SessionManager sessionManager = null;
     private Map<Xid,Session> sessions = new ConcurrentHashMap<Xid,Session>();
@@ -82,6 +83,8 @@ public class SemanticUtil implements XAResource {
      */
     private SemanticUtil(Class configId) throws SemanticUtilException {
         try {
+            this.configId = configId;
+            
             // retrieve the initial context
             context = new InitialContext();
 
@@ -219,6 +222,64 @@ public class SemanticUtil implements XAResource {
         }
     }
 
+    
+    /**
+     * This method is called to reload the ontology based on the 
+     * @param configId
+     * @throws SemanticUtilException 
+     */
+    public void releadOntology() throws SemanticUtilException {
+        try {
+            // Retrieve the configuration for the message service implementation
+            com.rift.coad.lib.configuration.Configuration coadConfig =
+                    com.rift.coad.lib.configuration.ConfigurationFactory.
+                    getInstance()
+                    .getConfig(configId);
+
+            // retrieve the default transaction timeout
+            timeout = (int)coadConfig.getLong(TRANSACTION_TIMEOUT,
+                    DEFAULT_TRANSACTION_TIMEOUT);
+
+            // setup the basic uri property list
+            Properties properties = new Properties();
+            StringBuffer ontologyListBuffer = new StringBuffer();
+            String sep = "";
+            if (coadConfig.containsKey(RDF_QUERY_URL)) {
+                List<URL> urls = 
+                        new XMLListParser(new URL(coadConfig.getString(RDF_QUERY_URL))).getURLs();
+                for (URL url : urls) {
+                    ontologyListBuffer.append(sep).append(url.toString());
+                    sep = ",";
+                }
+            }
+            if (coadConfig.containsKey(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
+                ontologyListBuffer.append(sep).append(coadConfig.getString(OntologyConstants.ONTOLOGY_LOCATION_URIS));
+            }
+            
+            // ket the key set
+            Set keys = coadConfig.getKeys();
+            for (Object key : keys) {
+                if (key.toString().equals(OntologyConstants.ONTOLOGY_LOCATION_URIS)) {
+                    continue;
+                }
+                if (coadConfig.isString((String)key)) {
+                    properties.put(key, coadConfig.getString((String)key));
+                }
+
+            }
+            if (ontologyListBuffer.length() > 0) {
+                properties.put(OntologyConstants.ONTOLOGY_LOCATION_URIS, ontologyListBuffer.toString());
+            }
+            
+            // call the session manager to reload the ontology.
+            this.sessionManager.reloadOntology(properties);
+            
+        } catch (Exception ex) {
+           log.error("Failed to reload the ontology : " + ex.getMessage(),ex);
+           throw new SemanticUtilException
+                   ("Failed to reload the ontology : " + ex.getMessage(),ex);
+        }
+    }
 
 
 
