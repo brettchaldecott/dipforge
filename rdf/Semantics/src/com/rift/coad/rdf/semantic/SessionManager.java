@@ -22,6 +22,8 @@
 // the package path
 package com.rift.coad.rdf.semantic;
 
+import java.util.Properties;
+
 
 /**
  * This class is responsible for managing the semantic connections and information.
@@ -61,7 +63,16 @@ public interface SessionManager {
      */
     public Session getSession() throws SessionException;
     
-
+    
+    /**
+     * This method is called to reload the ontology information.
+     * 
+     * @param properties The properties to reload the ontology with.
+     * @throws SessionException 
+     */
+    public void reloadOntology(Properties properties) throws SessionException;
+    
+    
     /**
      * This method is called to shut down the semantic manager depending on the backend data store.
      * 

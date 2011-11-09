@@ -117,7 +117,24 @@ public class BasicSessionManager implements SessionManager {
         }
     }
 
-
+    
+    /**
+     * This method is called to reload the ontology information.
+     * 
+     * @param properties The properties to reload the ontology with.
+     * @throws SessionException 
+     */
+    public void reloadOntology(Properties properties) throws SessionException {
+        try {
+            ontologyManager = OntologyManagerFactory.init(properties);
+        } catch (Exception ex) {
+            log.error("Failed to reload the ontology : " + ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed to reload the ontology : " + ex.getMessage(),ex);
+        }
+    }
+    
+    
     /**
      * This method is called to shut down the session manager.
      *

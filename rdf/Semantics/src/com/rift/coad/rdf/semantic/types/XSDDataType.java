@@ -90,4 +90,45 @@ public class XSDDataType implements DataType {
         return localName;
     }
 
+    
+    /**
+     * This method returns true if the objects are equal.
+     * 
+     * @param obj The object to perform the comparison on.
+     * @return TRUE if equals, FALSE if not.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final XSDDataType other = (XSDDataType) obj;
+        if ((this.namespace == null) ? (other.namespace != null) : !this.namespace.equals(other.namespace)) {
+            return false;
+        }
+        if ((this.localName == null) ? (other.localName != null) : !this.localName.equals(other.localName)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    /**
+     * This method generates a hash code based on the internal values.
+     * 
+     * @return The hash code to perform the comparison on.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + (this.namespace != null ? this.namespace.hashCode() : 0);
+        hash = 79 * hash + (this.localName != null ? this.localName.hashCode() : 0);
+        return hash;
+    }
+    
+    
+    
 }
