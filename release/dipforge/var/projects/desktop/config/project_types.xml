@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : project_types.xml
+    Created on : Wed Oct 26 18:54:47 SAST 2011
+    Author     : admin
+    Description:
+        The types within the [desktop] project
+-->
+
+<types project="desktop">
+    <!--
+    Example configuration -->
+    <namespace value="http://dipforge.sourceforge.net/desktop"/>
+    <!--
+    <type name="type1">
+        <property name="property1" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="property2" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    <type name="type2">
+        <property name="property3" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="property4" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="property5" datatype="http://desktop.sourceforge.net/test#type1"/>
+    </type>
+    <type name="type3">
+        <property name="property3" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="property4" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link datatype="http://desktop.sourceforge.net/test#type1"/>
+    </type>
+    -->
+</types>
+
