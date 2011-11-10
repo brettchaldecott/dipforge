@@ -41,7 +41,8 @@ task copyToJars(type: Copy) {
     into "build/classes/main"
     from configurations.releaseJars {
         include '**/0055-*'
-        include '**/Dipforge*'
+        include '**/Dipforge*war'
+        exclude '**/Dipforge*jar'
     }
 }
 
