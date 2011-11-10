@@ -25,7 +25,7 @@
     <type name="type3">
         <property name="property3" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="property4" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link datatype="http://desktop.sourceforge.net/test#type1"/>
+        <link datatype="http://dipforge.sourceforge.net/test#type1"/>
     </type>
     -->
 </types>
