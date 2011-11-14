@@ -230,7 +230,7 @@ release.doLast {
             args: "generator ${projectDir}/dipforge/var/semantics/types/LogEntry.xml com.rift.coad.audit.dao.LogEntryDAO")
         java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
             classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
-            args: "generator ${projectDir}/dipforge/var/semantics/types/CommonTypes.xml com.rift.coad.rdf.types.network.Host com.rift.coad.rdf.types.network.Service com.rift.coad.rdf.types.operation.User")
+            args: "generator ${projectDir}/dipforge/var/semantics/types/CommonTypes.xml com.rift.coad.rdf.types.network.Host com.rift.coad.rdf.types.network.Service com.rift.coad.rdf.types.operation.User com.rift.coad.rdf.types.mapping.MethodMapping")
     }
     announce("Release complete", "notify-send")
 }
