@@ -27,7 +27,6 @@ import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -43,8 +42,9 @@ public class MethodMapping {
     private String id;
     private String jndi;
     private String project;
-    private String script;
-    private List<String> typeURIs;
+    private String className;
+    private String methodName;
+    private List<ParameterMapping> typeParameters;
     
     /**
      * The default constructor for the method mapping.
@@ -58,13 +58,16 @@ public class MethodMapping {
      * 
      * @param jndi The reference to the jndi object.
      * @param project The project name.
-     * @param script The script path
+     * @param className The className path.
+     * @param typeParameters The type parameters
      */
-    public MethodMapping(String jndi, String project, String script, List<String> typeURIs) {
+    public MethodMapping(String jndi, String project, String className,
+            String methodName, List<ParameterMapping> typeParameters) {
         this.jndi = jndi;
         this.project = project;
-        this.script = script;
-        this.typeURIs = typeURIs;
+        this.className = className;
+        this.methodName = methodName;
+        this.typeParameters = typeParameters;
     }
 
     
@@ -90,9 +93,6 @@ public class MethodMapping {
         this.id = id;
     }
 
-    
-    
-    
     
     /**
      * This method retrieves the property name.
@@ -139,26 +139,47 @@ public class MethodMapping {
 
     
     /**
-     * This method retrieves the path to the script file.
+     * This method retrieves the path to the className file.
      * 
      * @return The project type
      */
-    @PropertyLocalName("Project")
-    public String getScript() {
-        return script;
+    @PropertyLocalName("ClassName")
+    public String getClassName() {
+        return className;
     }
 
     
     /**
-     * This method sets the script path
+     * This method sets the className path
      * 
-     * @param script The string containing the new script path
+     * @param className The string containing the new className path
      */
-    @PropertyLocalName("Project")
-    public void setScript(String script) {
-        this.script = script;
+    @PropertyLocalName("ClassName")
+    public void setClassName(String className) {
+        this.className = className;
     }
 
+    
+    /**
+     * This method returns the method name
+     * 
+     * @return This method return the name
+     */
+    @PropertyLocalName("MethodName")
+    public String getMethodName() {
+        return methodName;
+    }
+
+    
+    /**
+     * This method sets the name of the method.
+     * 
+     * @param methodName The name of the method.
+     */
+    @PropertyLocalName("MethodName")
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
     
     
     /**
@@ -166,9 +187,9 @@ public class MethodMapping {
      * 
      * @return The array of type URIS
      */
-    @PropertyLocalName("TypeURIs")
-    public List<String> getTypeURIs() {
-        return typeURIs;
+    @PropertyLocalName("TypeParameters")
+    public List<ParameterMapping> getTypeParameters() {
+        return typeParameters;
     }
     
     
@@ -177,9 +198,9 @@ public class MethodMapping {
      * 
      * @param typeURIs The string containing the type uri's
      */
-    @PropertyLocalName("TypeURIs")
-    public void setTypeURIs(List<String> typeURIs) {
-        this.typeURIs = typeURIs;
+    @PropertyLocalName("TypeParameters")
+    public void setTypeParameters(List<ParameterMapping> typeParameters) {
+        this.typeParameters = typeParameters;
     }
 
     
@@ -204,10 +225,10 @@ public class MethodMapping {
         if ((this.project == null) ? (other.project != null) : !this.project.equals(other.project)) {
             return false;
         }
-        if ((this.script == null) ? (other.script != null) : !this.script.equals(other.script)) {
+        if ((this.className == null) ? (other.className != null) : !this.className.equals(other.className)) {
             return false;
         }
-        if (this.typeURIs.equals(other.typeURIs)) {
+        if (this.typeParameters.equals(other.typeParameters)) {
             return false;
         }
         return true;
@@ -224,8 +245,8 @@ public class MethodMapping {
         int hash = 7;
         hash = 31 * hash + (this.jndi != null ? this.jndi.hashCode() : 0);
         hash = 31 * hash + (this.project != null ? this.project.hashCode() : 0);
-        hash = 31 * hash + (this.script != null ? this.script.hashCode() : 0);
-        hash = 31 * hash + this.typeURIs.hashCode();
+        hash = 31 * hash + (this.className != null ? this.className.hashCode() : 0);
+        hash = 31 * hash + this.typeParameters.hashCode();
         return hash;
     }
     
