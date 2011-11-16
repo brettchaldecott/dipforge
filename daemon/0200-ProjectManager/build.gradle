@@ -26,11 +26,15 @@ dependencies {
     compile project(':client:CoadunationTypeManager')
     compile project(':client:ServiceBrokerClient')
     compile project(':client:MessageServiceClient')
+    compile project(':rdf:CommonTypes')
+    compile project(':libs:ProjectUtils')
     releaseJars project(':client:ProjectClient')
     releaseJars project(':client:CoadunationTypeManager')
     releaseJars project(':libs:CoadunationUtil')
     releaseJars project(':client:ServiceBrokerClient')
     releaseJars project(':client:MessageServiceClient')
+    releaseJars project(':rdf:CommonTypes')
+    releaseJars project(':libs:ProjectUtils')
 }
 
 sourceSets {

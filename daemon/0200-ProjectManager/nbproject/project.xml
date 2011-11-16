@@ -61,6 +61,14 @@
                 <id>jar</id>
             </reference>
             <reference>
+                <foreign-project>CommonTypes</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
                 <foreign-project>MessageServiceClient</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
@@ -70,6 +78,14 @@
             </reference>
             <reference>
                 <foreign-project>ProjectClient</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
+                <foreign-project>ProjectUtils</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>
