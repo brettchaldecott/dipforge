@@ -27,6 +27,9 @@ import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import com.rift.coad.rdf.types.TypesException;
+import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,30 +47,55 @@ public class MethodMapping {
     private String project;
     private String className;
     private String methodName;
-    private List<ParameterMapping> typeParameters;
+    private String version;
+    private List<ParameterMapping> parameters;
     
     /**
      * The default constructor for the method mapping.
      */
     public MethodMapping() {
+        this.parameters = new ArrayList<ParameterMapping>();
     }
 
     
     /**
      * The constructor that sets all internal values.
      * 
+     * @param id The id of this method
      * @param jndi The reference to the jndi object.
      * @param project The project name.
      * @param className The className path.
      * @param typeParameters The type parameters
      */
     public MethodMapping(String jndi, String project, String className,
-            String methodName, List<ParameterMapping> typeParameters) {
+            String methodName) throws TypesException {
         this.jndi = jndi;
         this.project = project;
         this.className = className;
         this.methodName = methodName;
-        this.typeParameters = typeParameters;
+        this.parameters = new ArrayList<ParameterMapping>();
+        this.generateHashId();
+    }
+    
+    
+    /**
+     * The constructor that sets all internal values.
+     * 
+     * @param id The id of this method
+     * @param jndi The reference to the jndi object.
+     * @param project The project name.
+     * @param className The className path.
+     * @param parameters The parameter definitions
+     */
+    public MethodMapping(String jndi, String project, String className,
+            String methodName, List<ParameterMapping> parameters)
+        throws TypesException {
+        this.jndi = jndi;
+        this.project = project;
+        this.className = className;
+        this.methodName = methodName;
+        this.parameters = parameters;
+        this.generateHashId();
     }
 
     
@@ -183,24 +211,46 @@ public class MethodMapping {
     
     
     /**
-     * This method gets the types.
+     * THis method returns the version information for this method.
      * 
-     * @return The array of type URIS
+     * @return The string containing the version information for this method.
      */
-    @PropertyLocalName("TypeParameters")
-    public List<ParameterMapping> getTypeParameters() {
-        return typeParameters;
+    @PropertyLocalName("Version")
+    public String getVersion() {
+        return version;
+    }
+
+    
+    /**
+     * This method sets the version information for the method mapping.
+     * 
+     * @param version The string containing the version information.
+     */
+    @PropertyLocalName("Version")
+    public void setVersion(String version) {
+        this.version = version;
     }
     
     
     /**
-     * This method sets the type uris
+     * This method gets the parameter definition list.
      * 
-     * @param typeURIs The string containing the type uri's
+     * @return The array of type URIS
      */
-    @PropertyLocalName("TypeParameters")
-    public void setTypeParameters(List<ParameterMapping> typeParameters) {
-        this.typeParameters = typeParameters;
+    @PropertyLocalName("Parameters")
+    public List<ParameterMapping> getParameters() {
+        return parameters;
+    }
+
+    
+    /**
+     * This method sets the parameter definition list
+     * 
+     * @param parameters The list of parameter definitions
+     */
+    @PropertyLocalName("Parameters")
+    public void setParameters(List<ParameterMapping> parameters) {
+        this.parameters = parameters;
     }
 
     
@@ -228,7 +278,7 @@ public class MethodMapping {
         if ((this.className == null) ? (other.className != null) : !this.className.equals(other.className)) {
             return false;
         }
-        if (this.typeParameters.equals(other.typeParameters)) {
+        if (this.parameters.equals(other.parameters)) {
             return false;
         }
         return true;
@@ -246,9 +296,49 @@ public class MethodMapping {
         hash = 31 * hash + (this.jndi != null ? this.jndi.hashCode() : 0);
         hash = 31 * hash + (this.project != null ? this.project.hashCode() : 0);
         hash = 31 * hash + (this.className != null ? this.className.hashCode() : 0);
-        hash = 31 * hash + this.typeParameters.hashCode();
+        hash = 31 * hash + this.parameters.hashCode();
         return hash;
     }
     
     
+    /**
+     * This method is called to generate the hash id. It uses the internal member
+     * variables to generate a unique hash value.
+     * 
+     * @exception TypesException
+     */
+    private void generateHashId() throws TypesException {
+        try {
+            StringBuffer sbValueBeforeMD5 = new StringBuffer();
+            // init the md5 hash
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            
+            sbValueBeforeMD5.append(this.jndi);
+            sbValueBeforeMD5.append(":");
+            sbValueBeforeMD5.append(this.project);
+            sbValueBeforeMD5.append(":");
+            sbValueBeforeMD5.append(this.className);
+            sbValueBeforeMD5.append(":");
+            sbValueBeforeMD5.append(this.methodName);
+            sbValueBeforeMD5.append(":");
+            sbValueBeforeMD5.append(this.version);
+            
+            // generate the md5 hash value.
+            String valueBeforeMD5 = sbValueBeforeMD5.toString();
+            md5.update(sbValueBeforeMD5.toString().getBytes());
+            byte[] array = md5.digest();
+            StringBuffer sb = new StringBuffer();
+            for (int j = 0; j < array.length; ++j) {
+                int b = array[j] & 0xFF;
+                if (b < 0x10) sb.append('0');
+                sb.append(Integer.toHexString(b));
+            }
+            
+            this.id = sb.toString();
+            
+        } catch (Exception ex) {
+            throw new TypesException("Failed to generate the hash id : " + 
+                    ex.getMessage(),ex);
+        }
+    }
 }

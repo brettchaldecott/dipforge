@@ -25,6 +25,8 @@ import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import com.rift.coad.rdf.types.TypesException;
+import java.security.MessageDigest;
 
 
 /**
@@ -37,6 +39,7 @@ import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
 public class ParameterMapping {
     
     private String id;
+    private String methodId;
     private String name;
     private String type;
 
@@ -49,13 +52,19 @@ public class ParameterMapping {
 
     
     /**
+     * This constructor is called to setup the parameter information.
      * 
-     * @param name
-     * @param type 
+     * @param methodId The id of the method this parameter is tied to.
+     * @param name The name of this parameter.
+     * @param type The type of this parameter.
+     * @exception TypesException
      */
-    public ParameterMapping(String name, String type) {
+    public ParameterMapping(String methodId, String name, String type) 
+        throws TypesException {
+        this.methodId = methodId;
         this.name = name;
         this.type = type;
+        generateHashId();
     }
 
     
@@ -81,6 +90,28 @@ public class ParameterMapping {
         this.id = id;
     }
 
+    
+    /**
+     * This method returns the id of the method this parameter is tied to.
+     * 
+     * @return The string containing the method id value.
+     */
+    @PropertyLocalName("MethodId")
+    public String getMethodId() {
+        return methodId;
+    }
+
+    
+    /**
+     * This method sets the method id that this parameter is tied to.
+     * 
+     * @param methodId The id of the method. 
+     */
+    @PropertyLocalName("MethodId")
+    public void setMethodId(String methodId) {
+        this.methodId = methodId;
+    }
+    
     
     /**
      * This method retrieves the name of this parameter.
@@ -169,4 +200,40 @@ public class ParameterMapping {
         return hash;
     }
     
+    
+    /**
+     * This method is called to generate the hash id for this parameter.
+     * 
+     * @throws TypesException 
+     */
+    private void generateHashId() throws TypesException {
+        try {
+            StringBuffer sbValueBeforeMD5 = new StringBuffer();
+            // init the md5 hash
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            
+            sbValueBeforeMD5.append(this.methodId);
+            sbValueBeforeMD5.append(":");
+            sbValueBeforeMD5.append(this.name);
+            sbValueBeforeMD5.append(":");
+            sbValueBeforeMD5.append(this.type);
+            
+            // generate the md5 hash value.
+            String valueBeforeMD5 = sbValueBeforeMD5.toString();
+            md5.update(sbValueBeforeMD5.toString().getBytes());
+            byte[] array = md5.digest();
+            StringBuffer sb = new StringBuffer();
+            for (int j = 0; j < array.length; ++j) {
+                int b = array[j] & 0xFF;
+                if (b < 0x10) sb.append('0');
+                sb.append(Integer.toHexString(b));
+            }
+            
+            this.id = sb.toString();
+            
+        } catch (Exception ex) {
+            throw new TypesException("Failed to generate the hash id : " + 
+                    ex.getMessage(),ex);
+        }
+    }
 }
