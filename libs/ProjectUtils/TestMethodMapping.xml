@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : TestMethodMapping.xml.xml
+    Created on : 15 November 2011, 6:53 AM
+    Author     : brett
+    Description:
+        This is a test method mapping xml file.
+-->
+
+<mapping>
+    <jndi name="test/path">
+        <project name="test">
+            <method class="com.test.name1" name="test1">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+                <parameter name="test3" type="xmltype"/>
+            </method>
+            <method class="com.test.name1" name="test2">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+            </method>
+        </project>
+        <project name="test2">
+            <method class="com.test.name1" name="test1">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+                <parameter name="test3" type="xmltype"/>
+            </method>
+            <method class="com.test.name1" name="test2">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+            </method>
+        </project>
+    </jndi>
+    <jndi name="test2/path">
+        <project name="test2">
+            <method class="com.test.name1" name="test1">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+                <parameter name="test3" type="xmltype"/>
+            </method>
+            <method class="com.test.name1" name="test2">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+            </method>
+        </project>
+    </jndi>
+</mapping>
