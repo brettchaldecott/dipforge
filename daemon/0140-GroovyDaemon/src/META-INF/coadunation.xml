@@ -20,39 +20,12 @@
             <username>groovy_manager</username>
             <transaction>true</transaction>
         </bean>
-        <bean>
-            <interface>com.rift.coad.groovy.GroovyMappingManagerMBean</interface>
-            <class>com.rift.coad.groovy.GroovyMappingManager</class>
-            <objectName>com.rift.coad.groovy:type=MappingManagement</objectName>
-            <bindName>groovy/MappingManagement</bindName>
-            <role>groovy_manager</role>
-            <username>groovy_manager</username>
-            <transaction>true</transaction>
-        </bean>
     </jmxbeans>
     <beans>
         <bean>
             <interface>com.rift.coad.groovy.GroovyDaemon</interface>
             <class>com.rift.coad.groovy.GroovyDaemonImpl</class>
             <bindName>groovy/Daemon</bindName>
-            <role>daemon</role>
-            <username>daemon</username>
-            <cache_timeout>60000</cache_timeout>
-            <transaction>false</transaction>
-        </bean>
-        <bean>
-            <interface>com.rift.coad.groovy.GroovyMappingManagerDaemon</interface>
-            <class>com.rift.coad.groovy.GroovyMappingManagerDaemonImpl</class>
-            <bindName>groovy/MappingManagerDaemon</bindName>
-            <role>groovy_manager</role>
-            <username>groovy_manager</username>
-            <cache_timeout>60000</cache_timeout>
-            <transaction>true</transaction>
-        </bean>
-        <bean>
-            <interface>com.rift.coad.datamapper.DataMapper</interface>
-            <class>com.rift.coad.groovy.GroovyDataMapper</class>
-            <bindName>groovy/DataMapperManager</bindName>
             <role>daemon</role>
             <username>daemon</username>
             <cache_timeout>60000</cache_timeout>
