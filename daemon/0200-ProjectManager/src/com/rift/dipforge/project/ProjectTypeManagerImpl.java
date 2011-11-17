@@ -1,5 +1,5 @@
 /*
- * ProjectClient: The project client interface..
+ * ProjectDaemon: The project daemon implementation
  * Copyright (C) 2011  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * ProjectTypeManager.java
+ * ProjectTypeManagerImpl.java
  */
 
 package com.rift.dipforge.project;

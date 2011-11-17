@@ -21,6 +21,15 @@
             <transaction>true</transaction>
         </bean>
         <bean>
+            <interface>com.rift.dipforge.project.ProjectMethodManager</interface>
+            <class>com.rift.dipforge.project.ProjectMethodManagerImpl</class>
+            <bindName>project/MethodManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
             <interface>com.rift.dipforge.project.ProjectManager</interface>
             <class>com.rift.dipforge.project.ProjectManagerImpl</class>
             <bindName>project/Manager</bindName>
