@@ -82,7 +82,7 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
             //the 'columns' property is now 'headers'
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
-                text: 'Project',
+                text: 'Projects',
                 flex: 2,
                 sortable: true,
                 dataIndex: 'file'
@@ -111,13 +111,13 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     	this.mnuContext = new Ext.menu.Menu({
     		items: [{
         		id: 'create-file',
-        		text: 'Create File'
+        		text: 'Create'
     		},{
         		id: 'delete-file',
-        		text: 'Delete File'
+        		text: 'Delete'
     		},{
         		id: 'rename-file',
-        		text: 'Rename File'
+        		text: 'Rename'
     		}],
     		bubbleEvents: ['deletefile'],
     		listeners: {
