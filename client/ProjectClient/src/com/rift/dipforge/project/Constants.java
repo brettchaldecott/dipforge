@@ -62,6 +62,15 @@ public class Constants {
     public final static String PROJECT_TYPES = "project_types.xml";
     
     
+    /**
+     * The project methods
+     */
+    public final static String PROJECT_METHODS = "project_methods.xml";
+    
+    
+    /**
+     * The list of file suffixes.
+     */
     public final static String[] FILE_SUFFIXES = {"groovy","js","html",
             "css", "xml", "json"};
 
