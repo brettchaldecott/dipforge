@@ -33,13 +33,12 @@ public interface DataMapper extends Remote {
     /**
      * This method is responsible for executing the relevant method on the data mapper.
      *
-     * @param serviceId The service id to execute.
-     * @param method The method on the target to invoke.
+     * @param methodId The id of the method.
      * @param rdfXML XML containing the rdf structures to deserialize on the target.
      * @return The result serialized in RDF xml.
      * @throws DataMapperException
      * @throws RemoteException
      */
-    public String execute(String serviceId, String method, String rdfXML)
+    public String execute(String methodId, String rdfXML)
             throws DataMapperException, RemoteException;
 }

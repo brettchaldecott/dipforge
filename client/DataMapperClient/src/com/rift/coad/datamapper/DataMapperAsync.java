@@ -36,11 +36,10 @@ public interface DataMapperAsync extends Remote {
     /**
      * This is the asynchronous version of the data mapper executer.
      *
-     * @param serviceId The service id that the execution is taking place on.
-     * @param method The method to invoke.
-     * @param rdfXML The xml.
+     * @param methodId The id of the method.
+     * @param rdfXML XML containing the rdf structures to deserialize on the target.
      * @return The Message id.
      * @throws RemoteException
      */
-    public String execute(String serviceId, String method, String rdfXML) throws RemoteException;
+    public String execute(String methodId, String rdfXML) throws RemoteException;
 }

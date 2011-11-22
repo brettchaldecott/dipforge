@@ -1,0 +1,51 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="DataMapperClient"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+configurations {
+    compile
+}
+
+dependencies {
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
+build.dependsOn {
+    [jar, uploadArchives, javadoc]
+}
+release.dependsOn build
