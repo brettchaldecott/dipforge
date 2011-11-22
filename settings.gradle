@@ -63,5 +63,8 @@ include 'libs:CoadunationBase',
         'composite:dipforgeenvironment',
         'client:RDFMasterStoreClient',
         'client:ProjectClient',
+        'libs:ProjectUtils',
         'daemon:0200-ProjectManager',
+        'client:DataMapperClient',
+        'client:DataMapperBroker',
 	'release'
