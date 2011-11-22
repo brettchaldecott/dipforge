@@ -28,8 +28,8 @@ import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import com.rift.coad.datamapperbroker.DataMapperBrokerConstants;
 import com.rift.coad.datamapperbroker.DataMapperBrokerDaemon;
 import com.rift.coad.datamapperbroker.DataMapperBrokerDaemonAsync;
-import com.rift.coad.datamapperbroker.rdf.DataMapperMethod;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
+import com.rift.coad.rdf.types.mapping.MethodMapping;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class DataMapperBrokerUtil {
      * @param methods The methods to register.
      * @throws com.rift.coad.datamapperbroker.util.DataMapperBrokerUtilException
      */
-    public void register(DataMapperMethod[] methods) throws DataMapperBrokerUtilException {
+    public void register(List<MethodMapping> methods) throws DataMapperBrokerUtilException {
         if (!DeploymentMonitor.getInstance().isInitDeployComplete()) {
             throw new DataMapperBrokerUtilException("The initial deployment has not been " +
                     "completed, cannot register");
@@ -76,7 +76,7 @@ public class DataMapperBrokerUtil {
             services.add(DataMapperBrokerConstants.SERVICE);
             DataMapperBrokerDaemonAsync dataMapperBroker = (DataMapperBrokerDaemonAsync)RPCMessageClient.createOneWay(
                     jndi, DataMapperBrokerDaemon.class, DataMapperBrokerDaemonAsync.class, services, false);
-            dataMapperBroker.register(serviceId, methods);
+            dataMapperBroker.register(methods);
             
         } catch (Throwable ex) {
             throw new DataMapperBrokerUtilException("Failed to register : " + ex.getMessage(),ex);

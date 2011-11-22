@@ -26,7 +26,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 // data mapper method
-import com.rift.coad.datamapperbroker.rdf.DataMapperMethod;
+import com.rift.coad.rdf.types.mapping.MethodMapping;
 import java.util.List;
 
 /**
@@ -45,19 +45,21 @@ public interface DataMapperBrokerDaemon extends Remote {
      * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
      * @throws java.rmi.RemoteException
      */
-    public void register(String serviceId, DataMapperMethod[] methods) throws
+    public void register(List<MethodMapping> methods) throws
             DataMapperBrokerException, RemoteException;
 
-
+    
     /**
-     * This method returns the list of data mappers.
-     *
-     * @return The list of data mappers.
-     * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
-     * @throws java.rmi.RemoteException
+     * This method lists the jndi bindings this data mapper broker can
+     * communicate with.
+     * 
+     * @return This method returns a list of JNDI bindings
+     * @throws DataMapperBrokerException
+     * @throws RemoteException 
      */
-    public List<String> listDataMappers() throws DataMapperBrokerException, RemoteException;
-
+    public List<String> listJNDIBindings() throws
+            DataMapperBrokerException, RemoteException;
+    
 
     /**
      * This method returns the list of methods attached to a given service id.
@@ -67,7 +69,7 @@ public interface DataMapperBrokerDaemon extends Remote {
      * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
      * @throws java.rmi.RemoteException
      */
-    public DataMapperMethod[] listMethods(String serviceId) throws
+    public List<MethodMapping> listMethods(String jndi) throws
             DataMapperBrokerException, RemoteException;
 
     
@@ -80,6 +82,6 @@ public interface DataMapperBrokerDaemon extends Remote {
      * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
      * @throws java.rmi.RemoteException
      */
-    public DataMapperMethod getMethod(String serviceId, String methodName) throws
+    public MethodMapping getMethod(String serviceId, String methodName) throws
             DataMapperBrokerException, RemoteException;
 }

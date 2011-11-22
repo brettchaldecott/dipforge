@@ -26,8 +26,9 @@ package com.rift.coad.datamapperbroker;
 import java.rmi.Remote;
 
 // coadunation imports
-import com.rift.coad.datamapperbroker.rdf.DataMapperMethod;
+import com.rift.coad.rdf.types.mapping.MethodMapping;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * This is the asynchronous version of the data mapper broker.
@@ -44,6 +45,6 @@ public interface DataMapperBrokerDaemonAsync extends Remote {
      * @return The id of the message in the que.
      * @throws java.rmi.RemoteException
      */
-    public String register(String serviceId, DataMapperMethod[] methods) throws RemoteException;
+    public String register(List<MethodMapping> methods) throws RemoteException;
 
 }
