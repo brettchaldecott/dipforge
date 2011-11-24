@@ -67,4 +67,5 @@ include 'libs:CoadunationBase',
         'daemon:0200-ProjectManager',
         'client:DataMapperClient',
         'client:DataMapperBroker',
+        'daemon:0160-DataMapperBroker',
 	'release'
