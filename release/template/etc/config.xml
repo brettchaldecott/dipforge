@@ -964,5 +964,21 @@
             @dipforge_home@/var/template/files
         </entry>
     </object>
+    <!-- XML semantic utility configuration -->
+    <object name="com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil">
+        <entry key="rdf_config_url" type="string">
+            http://@hostname@:8080/schema/rdf?list=true
+        </entry>
+        <entry key="persistance_manager" type="string">
+           com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceManager
+        </entry>
+        <entry key="ontology_manager" type="string">
+           com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
+        </entry>
+        <entry key="jena_store_type" type="string">
+           xml
+        </entry>
+    </object>
+    <!-- End of XML semantic utility configuration -->
 </configuration>
 
