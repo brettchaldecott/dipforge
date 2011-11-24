@@ -78,40 +78,39 @@ public interface DataMapperBrokerMBean extends Remote {
 
 
     /**
-     * This method returns a list of services registered with the broker.
+     * This method returns a list of bindings registered with the broker.
      *
-     * @return The string list of services.
+     * @return The string list of bindings.
      * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
      * @throws java.rmi.RemoteException
      */
-    @MethodInfo(description="This method returns a list of services registered with the broker.")
+    @MethodInfo(description="This method returns a list of bindings registered with the broker.")
     @Version(number="1.0")
-    @Result(description="The list of services registered with the broker.")
-    public List<String> listServices() throws DataMapperBrokerException, RemoteException;
+    @Result(description="The list of JNDI bindings registered with the broker.")
+    public List<String> listJNDIBindings() throws DataMapperBrokerException, RemoteException;
 
 
     /**
-     * This method returns the list of methods registered against the given method id.
+     * This method returns the list of methods registered against the given jndi id.
      *
      * @param serviceId The name of the service to retrieve the methods for.
      * @return The list of methods registered with the given service id.
      * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
      * @throws java.rmi.RemoteException
      */
-    @MethodInfo(description="This method returns a list of method registered against a given service id.")
+    @MethodInfo(description="This method returns a list of method registered against a given jndi reference.")
     @Version(number="1.0")
-    @Result(description="The list of methods registered with the given service id.")
+    @Result(description="The list of methods registered with the given jndi reference.")
     public List<String> listMethods(
-            @ParamInfo(name="serviceId",
-            description="The id of the service to list the methods for.")String serviceId)
+            @ParamInfo(name="jndi",
+            description="The jndi identifier for the method.")String jndi)
             throws DataMapperBrokerException, RemoteException;
 
 
     /**
      * This method describes the specified method.
      *
-     * @param serviceId The id of the service.
-     * @param method The name of the method.
+     * @param methodId The id of the method.
      * @return The string containing the description of the method.
      * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
      * @throws java.rmi.RemoteException
@@ -119,9 +118,7 @@ public interface DataMapperBrokerMBean extends Remote {
     @MethodInfo(description="This method returns a string description of the specified method.")
     @Version(number="1.0")
     @Result(description="The string description of the method.")
-    public String describeMethodAsXML(@ParamInfo(name="serviceId",
-            description="The id of the service to get the method description for.")String serviceId,
-            @ParamInfo(name="method",
-            description="The name of the service to get the method description for.")String method) throws
+    public String describeMethodAsXML(@ParamInfo(name="methodId",
+            description="The id that identifies this method.")String methodId) throws
             DataMapperBrokerException, RemoteException;
 }

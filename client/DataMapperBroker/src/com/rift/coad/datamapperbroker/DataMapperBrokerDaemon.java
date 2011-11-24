@@ -76,12 +76,11 @@ public interface DataMapperBrokerDaemon extends Remote {
     /**
      * This method returns a reference to the data mapper method.
      *
-     * @param serviceId The service id for the data mapper.
-     * @param methodName The name of the method.
+     * @param methodId The id of the method to retrieve.
      * @return The reference to the specified method.
      * @throws com.rift.coad.datamapperbroker.DataMapperBrokerException
      * @throws java.rmi.RemoteException
      */
-    public MethodMapping getMethod(String serviceId, String methodName) throws
+    public MethodMapping getMethod(String methodId) throws
             DataMapperBrokerException, RemoteException;
 }
