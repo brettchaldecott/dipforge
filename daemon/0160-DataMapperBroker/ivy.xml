@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+    <info module="0160-DataMapperBroker" organisation="0160-DataMapperBroker" revision="1.0"/>
+    <configurations>
+        <conf name="compile"/>
+        <conf name="runtime"/>
+        <conf name="compile-test"/>
+        <conf name="runtime-test"/>
+    </configurations>
+    <dependencies>
+        <dependency org="log4j" name="log4j" rev="1.2.14"/>
+    </dependencies>
+</ivy-module>
