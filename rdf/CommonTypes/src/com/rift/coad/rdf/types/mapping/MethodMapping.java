@@ -28,6 +28,7 @@ import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
 import com.rift.coad.rdf.types.TypesException;
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ import java.util.List;
  */
 @Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping")
 @LocalName("MethodMapping")
-public class MethodMapping {
+public class MethodMapping implements Serializable {
     
     private String id;
     private String jndi;

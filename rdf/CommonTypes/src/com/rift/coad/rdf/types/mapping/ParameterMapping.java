@@ -26,6 +26,7 @@ import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
 import com.rift.coad.rdf.types.TypesException;
+import java.io.Serializable;
 import java.security.MessageDigest;
 
 
@@ -36,7 +37,7 @@ import java.security.MessageDigest;
  */
 @Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping")
 @LocalName("Parameter")
-public class ParameterMapping {
+public class ParameterMapping implements Serializable {
     
     private String id;
     private String methodId;
