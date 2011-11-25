@@ -44,19 +44,13 @@ import java.util.List;
  */
 public class DataMapperBrokerUtil {
     
-    // private member variables
-    private String serviceId;
-    private String jndi;
-
     /**
      * This constructor sets up the
      *
      * @param serviceId The id of the service to register.
      * @param jndi The jndi binding for the service.
      */
-    public DataMapperBrokerUtil(String serviceId, String jndi) {
-        this.serviceId = serviceId;
-        this.jndi = jndi;
+    public DataMapperBrokerUtil() {
     }
 
 
@@ -75,22 +69,11 @@ public class DataMapperBrokerUtil {
             List<String> services = new ArrayList<String>();
             services.add(DataMapperBrokerConstants.SERVICE);
             DataMapperBrokerDaemonAsync dataMapperBroker = (DataMapperBrokerDaemonAsync)RPCMessageClient.createOneWay(
-                    jndi, DataMapperBrokerDaemon.class, DataMapperBrokerDaemonAsync.class, services, false);
+                    "datamapper", DataMapperBrokerDaemon.class, DataMapperBrokerDaemonAsync.class, services, false);
             dataMapperBroker.register(methods);
             
         } catch (Throwable ex) {
             throw new DataMapperBrokerUtilException("Failed to register : " + ex.getMessage(),ex);
-        }
-        // register the audit trail logger with the service broker
-        try {
-            ServiceBroker broker = (ServiceBroker)ConnectionManager.getInstance().
-                    getConnection(ServiceBroker.class, "ServiceBroker");
-            List<String> services = new ArrayList<String>();
-            services.add(serviceId);
-            broker.registerService(jndi, services);
-        } catch (Exception ex) {
-            throw new DataMapperBrokerUtilException("Failed to register entry with the service broker: "
-                    + ex.getMessage(),ex);
         }
     }
 }
