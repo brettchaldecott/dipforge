@@ -21,9 +21,12 @@
 
 package com.rift.dipforge.project;
 
+import com.rift.coad.datamapperbroker.util.DataMapperBrokerUtil;
+import com.rift.coad.rdf.types.mapping.MethodMapping;
 import com.rift.dipforge.project.factory.ProjectBean;
 import com.rift.dipforge.project.factory.ProjectFactory;
 import com.rift.dipforge.project.method.XMLMethodMappingParser;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 
@@ -99,6 +102,11 @@ public class ProjectMethodManagerImpl implements ProjectMethodManager {
             XMLMethodMappingParser parser = new XMLMethodMappingParser(
                     this.getProjectMethods(project));
             
+            DataMapperBrokerUtil brokerUtil = new DataMapperBrokerUtil();
+            for (String jndi : parser.getJNDIList()) {
+                List<MethodMapping> methods = parser.getMethodMapping(jndi);
+                brokerUtil.register(methods);
+            }
         } catch (ProjectException ex) {
             throw ex;
         } catch (Exception ex) {
