@@ -66,6 +66,8 @@ dependsOn(':web:lib:AuditTrailGWT')
 //dependsOn(':web:AuditTrailConsole')
 dependsOn(':libs:GroovyServletBootStrap')
 dependsOn(':libs:GroovyLib')
+dependsOn(':client:DataMapperBroker')
+dependsOn(':daemon:0160-DataMapperBroker')
 dependsOn(':client:ProjectClient')
 dependsOn(':daemon:0200-ProjectManager')
 
@@ -425,6 +427,7 @@ dependencies {
     releaseClients project(':client:TimerClient')
     releaseClients project(':client:TomcatClient')
     releaseClients project(':client:CoadunationTypeManager')
+    releaseClients project(':client:DataMapperBroker')
     releaseClients project(':client:ProjectClient')
     
     // release rdf libs
@@ -454,6 +457,7 @@ dependencies {
     releaseDaemon project(':daemon:0102-RSSReader') {transitive = false}
     releaseDaemon project(':daemon:0100-AuditTrailServer')
     releaseDaemon project(':daemon:0150-CoadunationTypeManager')
+    releaseDaemon project(':daemon:0160-DataMapperBroker')
     releaseDaemon project(':daemon:0200-ProjectManager')
     
     // release web
