@@ -85,8 +85,8 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
                 List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
                     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Project> ?Project . } " +
-                    "FILTER (?Project = ${project})").setString("project", project).execute();
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Project> ?Project . " +
+                    "FILTER (?Project = ${project}) }").setString("project", project).execute();
                 for (SPARQLResultRow entry : entries) {
                     Resource resource = entry.get(Resource.class, 0);
                     session.remove(resource);
@@ -146,8 +146,8 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
                     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#JNDI> ?JNDI . } " +
-                    "FILTER (?JNDI = ${jndi})").setString("jndi", jndi).execute();
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#JNDI> ?JNDI . " +
+                    "FILTER (?JNDI = ${jndi}) }").setString("jndi", jndi).execute();
             List<MethodMapping> result = new ArrayList<MethodMapping>();
             for (SPARQLResultRow entry : entries) {
                 result.add(entry.get(MethodMapping.class,0));
@@ -206,6 +206,7 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
      */
     public void process() {
         DeploymentMonitor.getInstance().waitUntilInitDeployComplete();
+        
         while (!monitor.isTerminated()) {
             try {
                 SemanticUtil.getInstance(DataMapperBrokerDaemonImpl.class);
