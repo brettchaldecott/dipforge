@@ -1,6 +1,6 @@
 /*
  * GroovyDaemonClient: The client libraries for the groovy data mapper.
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2011  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,11 +24,8 @@
 package com.rift.coad.groovy;
 
 // java imports
-import com.rift.coad.datamapper.DataMapperException;
-import com.rift.coad.rdf.objmapping.base.DataType;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  * The daemon that controls the groovy environment.
@@ -39,24 +36,16 @@ public interface GroovyDaemon extends Remote {
 
 
     /**
-     * This method lists the scripts that are within the groovy daemons access.
-     *
-     * @return The list of scripts.
-     * @throws com.rift.coad.groovy.GroovyDaemonException
-     * @throws java.rmi.RemoteException
-     */
-    public List<String> listScripts() throws GroovyDaemonException, RemoteException;
-    
-    
-    /**
      * This method is called to execute the given script path.
      * 
+     * @param project The project the script is in.
      * @param scriptPath The path to the script
      * @return The results of executing the script.
      * @throws com.rift.coad.groovy.GroovyDaemonException
      * @throws java.rmi.RemoteException
      */
-    public String execute(String scriptPath) throws GroovyDaemonException, RemoteException;
+    public String execute(String project, String scriptPath)
+        throws GroovyDaemonException, RemoteException;
     
 
     /**
@@ -68,10 +57,8 @@ public interface GroovyDaemon extends Remote {
      * @throws com.rift.coad.datamapper.DataMapperException
      * @throws java.rmi.RemoteException
      */
-    public DataType execute(String scriptPath, DataType[] parameters)
+    public String execute(String project, String scriptPath, String input)
             throws GroovyDaemonException, RemoteException;
 
-
-    
 
 }

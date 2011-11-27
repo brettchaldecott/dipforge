@@ -103,6 +103,7 @@ public interface GroovyManagerMBean extends Remote {
     @Version(number="1.0")
     @Result(description="The string containing the result of the execution.")
     public String execute(
+            @ParamInfo(name="project",description="The project the script is in.")String project,
             @ParamInfo(name="scriptPath",description="The path to the script.")String scriptPath)
             throws GroovyDaemonException, RemoteException;
 
@@ -121,6 +122,7 @@ public interface GroovyManagerMBean extends Remote {
     @Version(number="1.0")
     @Result(description="The string containing the result of the execution.")
     public String execute(
+            @ParamInfo(name="project",description="The project the script is in.")String project,
             @ParamInfo(name="scriptPath",description="The path to the script.")String scriptPath,
             @ParamInfo(name="xmlParameters",description="Parameters in xml.")String xmlParameters)
             throws GroovyDaemonException, RemoteException;
