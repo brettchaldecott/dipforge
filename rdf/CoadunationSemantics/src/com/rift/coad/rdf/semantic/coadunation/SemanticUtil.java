@@ -106,6 +106,7 @@ public class SemanticUtil implements XAResource {
                 List<URL> urls = 
                         new XMLListParser(new URL(coadConfig.getString(RDF_QUERY_URL))).getURLs();
                 for (URL url : urls) {
+                    log.info("URL for ontology : " + url.toString());
                     ontologyListBuffer.append(sep).append(url.toString());
                     sep = ",";
                 }
@@ -248,6 +249,7 @@ public class SemanticUtil implements XAResource {
                 List<URL> urls = 
                         new XMLListParser(new URL(coadConfig.getString(RDF_QUERY_URL))).getURLs();
                 for (URL url : urls) {
+                    log.info("URL for ontology : " + url.toString());
                     ontologyListBuffer.append(sep).append(url.toString());
                     sep = ",";
                 }
