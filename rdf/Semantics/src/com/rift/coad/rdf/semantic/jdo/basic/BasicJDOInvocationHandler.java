@@ -379,10 +379,7 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
         try {
             
             if (!resource.hasProperty(identifier)) {
-                throw new BasicJDOException(
-                        "The property [" + identifier.toURI().toString() +
-                        "] does not exist for this resource [" +
-                        resource.getURI().toString() + "]");
+                return getNullBasicType(classType);
             }
             PersistanceProperty property =
                     resource.getProperty(identifier);
@@ -516,6 +513,55 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
                 return property.getValueAsFloat();
             } else if (classType.equals(float.class)) {
                 return property.getValueAsFloat();
+            } else {
+                throw new BasicJDOException("Unsupported type ["
+                        + classType.getName() + "]");
+            }
+        } catch (BasicJDOException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed get the basic object information because : " + ex.getMessage(),ex);
+            throw new BasicJDOException
+                    ("Failed get the basic object information because : " + ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns the basic property from the object.
+     *
+     * @param property
+     * @param classType
+     * @return
+     * @throws BasicJDOException
+     */
+    private Object getNullBasicType(Class classType)
+            throws BasicJDOException {
+        try  {
+            if (String.class.equals(classType)) {
+                return null;
+            } else if (Date.class.equals(classType)) {
+                return null;
+            } else if (Calendar.class.equals(classType)) {
+                return null;
+            } else if (Long.class.equals(classType)) {
+                return null;
+            } else if (classType.equals(int.class)) {
+                int result = 0;
+                return result;
+            } else if (classType.equals(long.class)) {
+                long result = 0;
+                return result;
+            } else if (Double.class.equals(classType)) {
+                return null;
+            } else if (classType.equals(double.class)) {
+                double result = 0;
+                return result;
+            } else if (Float.class.equals(classType)) {
+                return null;
+            } else if (classType.equals(float.class)) {
+                float result = 0;
+                return result;
             } else {
                 throw new BasicJDOException("Unsupported type ["
                         + classType.getName() + "]");
