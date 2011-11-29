@@ -79,19 +79,6 @@ public interface GroovyManagerMBean extends Remote {
 
 
     /**
-     * This method lists the scripts that are within the groovy daemons access.
-     *
-     * @return The list of scripts.
-     * @throws com.rift.coad.groovy.GroovyDaemonException
-     * @throws java.rmi.RemoteException
-     */
-    @MethodInfo(description="This method returns a list of all the scripts that can be executed.")
-    @Version(number="1.0")
-    @Result(description="The list of scripts to execute.")
-    public List<String> listScripts() throws GroovyDaemonException, RemoteException;
-
-
-    /**
      * This method is called to execute the given script path.
      *
      * @param scriptPath The path to the script
@@ -121,9 +108,8 @@ public interface GroovyManagerMBean extends Remote {
     @MethodInfo(description="This method executes the script identified by the name.")
     @Version(number="1.0")
     @Result(description="The string containing the result of the execution.")
-    public String execute(
-            @ParamInfo(name="project",description="The project the script is in.")String project,
-            @ParamInfo(name="scriptPath",description="The path to the script.")String scriptPath,
+    public String executeMethod(
+            @ParamInfo(name="methodId",description="The id of the method to execute.")String methodId,
             @ParamInfo(name="xmlParameters",description="Parameters in xml.")String xmlParameters)
             throws GroovyDaemonException, RemoteException;
 

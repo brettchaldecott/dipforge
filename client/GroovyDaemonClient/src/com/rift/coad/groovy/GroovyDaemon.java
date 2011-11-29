@@ -57,7 +57,7 @@ public interface GroovyDaemon extends Remote {
      * @throws com.rift.coad.datamapper.DataMapperException
      * @throws java.rmi.RemoteException
      */
-    public String execute(String project, String scriptPath, String input)
+    public String executeMethod(String methodId, String input)
             throws GroovyDaemonException, RemoteException;
 
 
