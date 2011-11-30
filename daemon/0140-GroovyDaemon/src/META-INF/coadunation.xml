@@ -38,5 +38,12 @@
             <role>daemon</role>
             <username>daemon</username>
         </bean>
+        <bean>
+            <interface>com.rift.coad.datamapper.DataMapper</interface>
+            <class>com.rift.coad.groovy.GroovyDataMapperImpl</class>
+            <bindName>groovy/DataMapper</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+        </bean>
     </beans>
 </coadunation>

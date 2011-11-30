@@ -55,8 +55,8 @@ public class GroovyTimerImpl implements TimerEventHandler {
         try {
             GroovyDaemon server = (GroovyDaemon)ConnectionManager.getInstance().
                     getConnection(GroovyDaemon.class, "java:comp/env/bean/groovy/Daemon");
-            String result = server.execute((String) serializable);
-            log.info("Executed Script [" + (String) serializable + "] result : " + result);
+            //String result = server.execute((String) serializable);
+            //log.info("Executed Script [" + (String) serializable + "] result : " + result);
         } catch (Exception ex) {
             log.error("Failed to retrieve and run script:" + ex, ex);
         }
