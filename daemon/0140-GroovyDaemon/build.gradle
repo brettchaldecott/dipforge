@@ -31,6 +31,8 @@ dependencies {
     compile project(':rdf:Semantics')
     compile project(':rdf:SchemaUtils')
     releaseJars(ivyDependencies('compile'))
+    releaseJars project(':libs:CoadunationUtil')
+    releaseJars project(':libs:GroovyLib')
     releaseJars project(':rdf:CommonTypes')
     releaseJars project(':rdf:CoadunationSemantics')
     releaseJars project(':rdf:Semantics')
@@ -38,6 +40,7 @@ dependencies {
     releaseJars project(':client:DataMapperClient')
     releaseJars project(':client:TimerClient')
     releaseJars project(':client:GroovyDaemonClient')
+    releaseJars project(':rdf:CommonTypes')
     releaseJars project(':rdf:SchemaUtils')
     releaseJars project(':client:ServiceBrokerClient')
 }

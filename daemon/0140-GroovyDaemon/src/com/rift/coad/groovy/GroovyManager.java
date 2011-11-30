@@ -94,7 +94,17 @@ public class GroovyManager implements GroovyManagerMBean {
      * @throws com.rift.coad.groovy.GroovyDaemonException
      */
     public String execute(String project, String path) throws GroovyDaemonException {
-        return null;
+        try {
+            GroovyDaemon server = (GroovyDaemon)ConnectionManager.getInstance().
+                    getConnection(GroovyDaemon.class, "java:comp/env/bean/groovy/Daemon");
+            return server.execute(project,path);
+        } catch (GroovyDaemonException ex) {
+            throw new GroovyDaemonException(ex.getMessage());
+        } catch (Exception ex) {
+            log.error("Failed to execute the script : " + ex.getMessage(),ex);
+            throw new GroovyDaemonException
+                ("Failed to execute the script : " + ex.getMessage(),ex);
+        }
     }
     
     

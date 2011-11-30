@@ -38,8 +38,10 @@ import com.rift.coad.lib.configuration.ConfigurationFactory;
 //import groovy.util.GroovyScriptEngine;
 //import groovy.lang.Binding;
 //import groovy.util.GroovyScriptEngine;
+import com.rift.dipforge.groovy.lib.ContextInfo;
 import com.rift.dipforge.groovy.lib.GroovyEnvironmentConstants;
 import com.rift.dipforge.groovy.lib.GroovyEnvironmentManager;
+import com.rift.dipforge.groovy.lib.GroovyExecuter;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -99,7 +101,15 @@ public class GroovyDaemonImpl implements GroovyDaemon {
      * @throws com.rift.coad.groovy.GroovyDaemonException
      */
     public String execute(String project, String scriptPath) throws GroovyDaemonException {
-        return null;
+        try {
+            GroovyExecuter executer = GroovyEnvironmentManager.getInstance().getExecuter(
+                    new ContextInfo(project));
+            return executer.executeScript(scriptPath, new String[0], new String[0]).toString();
+        } catch (Exception ex) {
+            log.error("Failed to execute the script : " + ex.getMessage(),ex);
+            throw new GroovyDaemonException
+                    ("Failed to execute the script : " + ex.getMessage(),ex);
+        }
     }
     
     
