@@ -66,6 +66,8 @@ dependsOn(':web:lib:AuditTrailGWT')
 //dependsOn(':web:AuditTrailConsole')
 dependsOn(':libs:GroovyServletBootStrap')
 dependsOn(':libs:GroovyLib')
+dependsOn(':client:GroovyDaemonClient')
+dependsOn(':daemon:0140-GroovyDaemon')
 dependsOn(':client:DataMapperBroker')
 dependsOn(':daemon:0160-DataMapperBroker')
 dependsOn(':client:ProjectClient')
@@ -234,7 +236,7 @@ release.doLast {
             classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
             args: "generator ${projectDir}/dipforge/var/semantics/types/CommonTypes.xml com.rift.coad.rdf.types.network.Host com.rift.coad.rdf.types.network.Service com.rift.coad.rdf.types.operation.User com.rift.coad.rdf.types.mapping.MethodMapping com.rift.coad.rdf.types.mapping.ParameterMapping")
     }
-    announce("Release complete", "notify-send")
+    //announce("Release complete", "notify-send")
 }
 
 task copyToTools(type: Copy) {
@@ -456,6 +458,7 @@ dependencies {
     releaseDaemon project(':daemon:0101-DeploymentDaemon') {transitive = false}
     releaseDaemon project(':daemon:0102-RSSReader') {transitive = false}
     releaseDaemon project(':daemon:0100-AuditTrailServer')
+    releaseDaemon project(':daemon:0140-GroovyDaemon')
     releaseDaemon project(':daemon:0150-CoadunationTypeManager')
     releaseDaemon project(':daemon:0160-DataMapperBroker')
     releaseDaemon project(':daemon:0200-ProjectManager')
@@ -477,6 +480,7 @@ dependencies {
     releaseGroovyLib project(':libs:GroovyServletBootStrap')
     releaseGroovyLib project(':client:ProjectClient')
     releaseGroovyLib project(':client:CoadunationTypeManager')
+    releaseGroovyLib project(':client:GroovyDaemonClient')
     releaseGroovyLib "asm:asm:3.2"
     releaseGroovyLib "antlr:antlr:2.7.7"
     releaseGroovyLib "asm:asm-commons:3.2"
