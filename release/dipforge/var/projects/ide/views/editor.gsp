@@ -31,7 +31,7 @@
     <script type="text/javascript" src="js/States.js"></script>
     <script type="text/javascript" src="js/EditorPanel.js"></script>
     <script type="text/javascript" src="js/ProjectPanel.js"></script>
-    <script type="text/javascript" src="js/IDEView.js"></script>
+    <script type="text/javascript" src="js/EditorView.js"></script>
     <script type="text/javascript" src="js/FilePanelDialog.js"></script>
     <script type="text/javascript" src="js/DeleteFileDialog.js"></script>
 	<script type="text/javascript" src="js/DeleteProjectDialog.js"></script>
@@ -73,15 +73,13 @@
             'Ext.ux.TabScrollerMenu'
         ]);
         Ext.onReady(function(){
-            var app = new com.dipforge.IDE.App();
-            //Ext.create('Ext.panel.Panel', {
-            //    title: 'Hello',
-            //    width: '100%',
-            //    height: '100%',
-            //    html: '<p>World!</p>',
-            //    renderTo: Ext.getBody()
-            //});
-            
+            //var app = new com.dipforge.IDE.App();
+            var app = Ext.create("widget.EditorView",{
+            	project: "<%= params.project %>",
+            	path: "<%= params.path %>",
+            	fileName: "<%= params.fileName %>",
+            	editor: "<%= params.editor %>",
+            	mode:  "<%= params.mode %>"});
             
         });
     </script>

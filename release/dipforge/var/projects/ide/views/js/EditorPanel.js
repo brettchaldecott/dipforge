@@ -47,8 +47,8 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
         var active = this.getComponent(id);
         var self = this
         if (!active) {
-        	if (editor == "ace-project-types") {
-        		Ext.Ajax.request({
+        	if (editor == "ace-project-types" || editor == "ace-project-methods" || editor == "ace") {
+        		/*Ext.Ajax.request({
                     url: 'files/FileRetriever.groovy',
                     params: {
                         project: project,
@@ -122,28 +122,27 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         }));
                         self.setActiveTab(active);
                         
-                        var canon = require("pilot/canon");
+                        //var canon = require("pilot/canon");
                         
                         // Fake-Save, works from the editor and the command line.
-                        canon.addCommand({
-                            name: "save",
-                            bindKey: {
-                                win: "Ctrl-S",
-                                mac: "Command-S",
-                                sender: "editor"
-                            },
-                            exec: function() {
-                                Ext.Ajax.request({
-                                    url: 'files/FileSave.groovy',
-                                    params: {
-                                        project: project,
-                                        path: path,
-                                        content: editor.getSession().getValue()
-                                }})
-                            }
-                        });
+                        //canon.addCommand({
+                        //    name: "save",
+                        //    bindKey: {
+                        //        win: "Ctrl-S",
+                        //        mac: "Command-S",
+                        //        sender: "editor"
+                        //    },
+                        //    exec: function() {
+                        //        Ext.Ajax.request({
+                        //            url: 'files/FileSave.groovy',
+                        //            params: {
+                        //                project: project,
+                        //                path: path,
+                        //                content: editor.getSession().getValue()
+                        //        }})
+                        //    }
+                        //});
                         
-                
                         var el = Ext.get("id|" + id)
                         var editor = ace.edit(el.dom);
                         var JavaScriptMode = require(mode).Mode;
@@ -151,6 +150,15 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         editor.resize();
                         editor.getSession().setUseSoftTabs(true);
                         editor.getSession().setTabSize(4);
+                        
+                        var map = new Ext.util.KeyMap(Ext.get("id|" + id), {
+                            key: "y",
+                            ctrl:true,
+                            fn: function(){ alert('Control + S has been pressed.') },
+                            scope:active
+                        });
+                
+                        
                         
                         fileInfo.editor = editor;
                    }
@@ -231,26 +239,26 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         }));
                         self.setActiveTab(active);
                         
-                        var canon = require("pilot/canon");
+                        //var canon = require("pilot/canon");
                         
                         // Fake-Save, works from the editor and the command line.
-                        canon.addCommand({
-                            name: "save",
-                            bindKey: {
-                                win: "Ctrl-S",
-                                mac: "Command-S",
-                                sender: "editor"
-                            },
-                            exec: function() {
-                                Ext.Ajax.request({
-                                    url: 'files/FileSave.groovy',
-                                    params: {
-                                        project: project,
-                                        path: path,
-                                        content: editor.getSession().getValue()
-                                }})
-                            }
-                        });
+                        //canon.addCommand({
+                        //    name: "save",
+                        //    bindKey: {
+                        //        win: "Ctrl-S",
+                        //        mac: "Command-S",
+                        //        sender: "editor"
+                        //    },
+                        //    exec: function() {
+                        //        Ext.Ajax.request({
+                        //            url: 'files/FileSave.groovy',
+                        //            params: {
+                        //                project: project,
+                        //                path: path,
+                        //                content: editor.getSession().getValue()
+                        //        }})
+                        //    }
+                        //});
                         
                 
                         var el = Ext.get("id|" + id)
@@ -260,6 +268,13 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         editor.resize();
                         editor.getSession().setUseSoftTabs(true);
                         editor.getSession().setTabSize(4);
+                        
+                        var map = new Ext.util.KeyMap(Ext.get("id|" + id), {
+                            key: "y",
+                            ctrl:true,
+                            fn: function(){ alert('Control + S has been pressed.') },
+                            scope:active
+                        });
                         
                         fileInfo.editor = editor;
                    }
@@ -323,26 +338,26 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         }));
                         self.setActiveTab(active);
                         
-                        var canon = require("pilot/canon");
+                        //var canon = require("pilot/canon");
                         
                         // Fake-Save, works from the editor and the command line.
-                        canon.addCommand({
-                            name: "save",
-                            bindKey: {
-                                win: "Ctrl-S",
-                                mac: "Command-S",
-                                sender: "editor"
-                            },
-                            exec: function() {
-                                Ext.Ajax.request({
-                                    url: 'files/FileSave.groovy',
-                                    params: {
-                                        project: project,
-                                        path: path,
-                                        content: editor.getSession().getValue()
-                                }})
-                            }
-                        });
+                        //canon.addCommand({
+                        //    name: "save",
+                        //    bindKey: {
+                        //        win: "Ctrl-S",
+                        //        mac: "Command-S",
+                        //        sender: "editor"
+                        //    },
+                        //    exec: function() {
+                        //        Ext.Ajax.request({
+                        //            url: 'files/FileSave.groovy',
+                        //            params: {
+                        //                project: project,
+                        //                path: path,
+                        //                content: editor.getSession().getValue()
+                        //        }})
+                        //    }
+                        //});
                 
                         var el = Ext.get("id|" + id)
                         var editor = ace.edit(el.dom);
@@ -352,10 +367,29 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                         editor.getSession().setUseSoftTabs(true);
                         editor.getSession().setTabSize(4);
                         
+                        var map = new Ext.util.KeyMap(Ext.get("id|" + id), {
+                            key: "y",
+                            ctrl:true,
+                            fn: function(){ alert('Control + S has been pressed.') },
+                            scope:active
+                        });
+                        
                         fileInfo.editor = editor;
                    }
                 });
-        		
+        		*/
+                active = this.add(Ext.create('Ext.panel.Panel', {
+                    layout: "fit",
+                    html: '<iframe src="/ide/editor.gsp?project=' + project + '&path=' + path + '&fileName=' + fileName + '&editor=' + editor + '&mode=' + mode + '" width="100%" height="100%" frameboarder=0 scrolling="no" marginheight="0" marginwidth="0"/>',
+                    itemId: id,
+                    id: id,
+                    title: fileName,
+                    url: path,
+                    closable: true,
+                    width: '100%',
+                    height: '100%'
+                }));
+                this.setActiveTab(active);
             } else if (editor == "image") {
             	active = this.add(Ext.create('Ext.panel.Panel', {
                     layout: "fit",

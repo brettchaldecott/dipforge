@@ -36,6 +36,12 @@ try {
             mode: mimeTypeMapper.getMode('html')
         ],
         [
+            name: 'gsp',
+            suffix: 'gsp',
+            editor: mimeTypeMapper.getEditor('gsp'),
+            mode: mimeTypeMapper.getMode('html')
+        ],
+        [
             name: 'css',
             suffix: 'css',
             editor: mimeTypeMapper.getEditor('css'),
