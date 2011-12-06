@@ -64,6 +64,10 @@ task gwtCompile << {
   }
 }
 
+artifacts {
+    runtime war
+}
+
 war.dependsOn gwtCompile
 jar.enabled = true
 

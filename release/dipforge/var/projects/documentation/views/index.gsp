@@ -66,6 +66,10 @@
                 <td>The Event Server Client Library</td>
         </tr>
         <tr>
+                <td><a href="GroovyDaemonClient/index.html">Groovy Daemon Client Library</a></td>
+                <td>The Groovy Daemon Client Library</td>
+        </tr>
+        <tr>
                 <td><a href="HsqlDBEngineClient/index.html">Hsql DB Engine Client Library</a></td>
                 <td>The Hsql DB Engine Client Library</td>
         </tr>

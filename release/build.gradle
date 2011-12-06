@@ -49,7 +49,7 @@ dependsOn(':daemon:0050-Timer')
 dependsOn(':daemon:0060-Tomcat')
 dependsOn(':daemon:0101-DeploymentDaemon')
 dependsOn(':daemon:0102-RSSReader')
-//dependsOn(':web:CoadunationAdmin')
+dependsOn(':web:CoadunationAdmin')
 //dependsOn(':web:CoadunationDesktop')
 dependsOn(':web:FileManager')
 dependsOn(':rdf:SchemaUtils')
@@ -225,6 +225,10 @@ release.doLast {
         mkdir(dir:"dipforge/var/projects/documentation/views/TomcatClient")
         copy(todir: "dipforge/var/projects/documentation/views/TomcatClient"){
             fileset(dir: "../client/TomcatClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/GroovyDaemonClient")
+        copy(todir: "dipforge/var/projects/documentation/views/GroovyDaemonClient"){
+            fileset(dir: "../client/GroovyDaemonClient/build/docs/javadoc") {}
         }
     }
     // generate the types
@@ -464,7 +468,7 @@ dependencies {
     releaseDaemon project(':daemon:0200-ProjectManager')
     
     // release web
-//    releaseWeb project(':web:CoadunationAdmin')
+    releaseWeb project(':web:CoadunationAdmin')
 //    releaseWeb project(':web:CoadunationDesktop')
     releaseWeb project(':web:FileManager')
 //    releaseWeb project(':web:AuditTrailConsole')
