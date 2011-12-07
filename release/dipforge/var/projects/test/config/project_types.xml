@@ -9,8 +9,6 @@
 -->
 
 <types project="test">
-    <!--
-    Example configuration
     <namespace value="http://dipforge.sourceforge.net/test"/>
     <type name="type1">
         <property name="property1" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -26,6 +24,5 @@
         <property name="property4" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <link datatype="http://dipforge.sourceforge.net/test#type1"/>
     </type>
-    -->
 </types>
 

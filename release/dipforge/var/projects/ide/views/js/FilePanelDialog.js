@@ -151,20 +151,37 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 														});
 	 	                                    	} else {
 	 	                                    		var completePath = path + "/" + fileName + "." + fileType
-	 	                                    		treeNode = Ext.create('File',{
-		    												id: 'P:' + projectName + ":" + completePath,
-												            project: projectName,
-												            file: fileName + "." + fileType,
-												            user: projectName,
-												            leaf: true,
-												            path: completePath,
-												            project_dir: false,
-												            editor: typeFieldRecord.get('editor'), 
-												            mode: typeFieldRecord.get('mode'),
-												  			iconCls: 'file',
-												  			newFile: true,
-												  			text: fileName + "." + fileType
-														});
+                                                    if (completePath.indexOf("/services/") == 0) {
+    	 	                                    		treeNode = Ext.create('File',{
+    		    												id: 'P:' + projectName + ":" + completePath,
+    												            project: projectName,
+    												            file: fileName + "." + fileType,
+    												            user: projectName,
+    												            leaf: true,
+    												            path: completePath,
+    												            project_dir: false,
+    												            editor: "ace-project-services", 
+    												            mode: typeFieldRecord.get('mode'),
+    												  			iconCls: 'file',
+    												  			newFile: true,
+    												  			text: fileName + "." + fileType
+    														});
+                                                    } else {
+                                                        treeNode = Ext.create('File',{
+        	    												id: 'P:' + projectName + ":" + completePath,
+    												            project: projectName,
+    												            file: fileName + "." + fileType,
+    												            user: projectName,
+    												            leaf: true,
+    												            path: completePath,
+    												            project_dir: false,
+    												            editor: typeFieldRecord.get('editor'), 
+    												            mode: typeFieldRecord.get('mode'),
+    												  			iconCls: 'file',
+    												  			newFile: true,
+    												  			text: fileName + "." + fileType
+    														});
+                                                    }
 	 	                                    	}
 	 	                                    	
 												Ext.data.NodeInterface.decorate(treeNode);

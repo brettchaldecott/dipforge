@@ -74,7 +74,8 @@ Ext.define('com.dipforge.IDE.Editor', {
             region: 'center',
             height: '100%',
             width: '100%',
-            html: '<p>Loading.....<br/>Project:' + this.project + '</br>Path:' + this.path + '</br>Editor:' + this.editor + '</br>File:' + this.fileName + '</br>Mode:' + this.mode + '</p>'
+            border: '1',
+            html: '<p>Loading.....</p>'
         });
 		var project = this.project
 		var path = this.path
@@ -91,6 +92,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                 success: function(response){
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
+                        border: '0',
               			preventHeader: true,
               			tbar: [
                             { xtype: 'button', text: 'Save',
@@ -200,7 +202,8 @@ Ext.define('com.dipforge.IDE.Editor', {
                 success: function(response){
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
-              			preventHeader: true,
+              			border: '0',
+                  		preventHeader: true,
             			tbar: [
                             { xtype: 'button', text: 'Save',
                                 handler: function() {
@@ -300,6 +303,126 @@ Ext.define('com.dipforge.IDE.Editor', {
                }
             });
     		
+        } else if (this.editor == "ace-project-services") {
+            Ext.Ajax.request({
+                url: 'files/FileRetriever.groovy',
+                params: {
+                    project: project,
+                    path: path
+                },
+                success: function(response){
+                    var fileInfo = Ext.decode(response.responseText);
+              		var editorPanelContent = Ext.create('Ext.panel.Panel', {
+              			border: '0',
+                  		preventHeader: true,
+            			tbar: [
+                            { xtype: 'button', text: 'Save',
+                                handler: function() {
+                                    Ext.Ajax.request({
+                                        url: 'files/FileSave.groovy',
+                                        params: {
+                                            project: project,
+                                            path: path,
+                                            content: editor.getSession().getValue()
+                                    }})
+                                }},
+                            { xtype: 'button', text: 'Execute',
+                                handler: function() {
+                                    Ext.Ajax.request({
+                                        url: 'scripts/ExecuteScript.groovy',
+                                        params: {
+                                            project: project,
+                                            path: path
+                                        },
+                                        success: function(response) {
+                                         	Ext.Msg.show({
+											     title:"Execute the script [" + path + "]",
+											     msg: response.responseText,
+											     autoScroll: true,
+											     buttons: Ext.Msg.CANCEL
+											});
+ 	                                    },
+                                        failure: function(response) {
+ 	                                    	Ext.Msg.show({
+											     title:"Failed to execute the script [" + path + "] methods",
+											     msg: response.responseText,
+											     autoScroll: true,
+											     buttons: Ext.Msg.CANCEL
+											});
+ 	                                    }
+                                    })
+                                }},
+                            { xtype: 'button', text: 'Find',
+                                handler: function() {
+                                    editor.find(Ext.getCmp("search:"+id).value,{
+                                        backwards: false,
+                                        wrap: true,
+                                        caseSensitive: false,
+                                        wholeWord: false,
+                                        regExp: false
+                                        });
+                                }},
+                            { xtype: 'textfield', id: "search:"+id, 
+                                itemId: "search:"+id, name: "search",
+                                emptyText: 'enter search term' },
+                            { xtype: 'tbtext', text: 'and' },
+                            { xtype: 'textfield', id: "replace:"+id, 
+                                itemId: "replace:"+id, name: "replace",
+                                emptyText: 'enter replace term' },
+                            { xtype: 'button', text: 'Replace',
+                                handler: function() {
+                                    editor.find(Ext.getCmp("search:"+id).value);
+                                    editor.replace(Ext.getCmp("replace:"+id).value);
+                                }}],
+                        layout: "fit",
+                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
+                        itemId: id,
+                        id: id,
+                        title: fileName,
+                        url: path,
+                        closable: true,
+                        width: '100%',
+                        height: '100%',
+                        editor: null,
+                        project: project,
+                        path: path
+                    });
+					editorpanel.removeAll()
+                    editorpanel.add(editorPanelContent)                    
+                    
+                    var canon = require("pilot/canon");
+                    
+                    // Fake-Save, works from the editor and the command line.
+                    canon.addCommand({
+                        name: "save",
+                        bindKey: {
+                            win: "Ctrl-S",
+                            mac: "Command-S",
+                            sender: "editor"
+                        },
+                        exec: function() {
+                            Ext.Ajax.request({
+                                url: 'files/FileSave.groovy',
+                                params: {
+                                    project: project,
+                                    path: path,
+                                    content: editor.getSession().getValue()
+                            }})
+                        }
+                    });
+                    
+            
+                    var el = Ext.get("id|" + id)
+                    var editor = ace.edit(el.dom);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
+                    editor.resize();
+                    editor.getSession().setUseSoftTabs(true);
+                    editor.getSession().setTabSize(4);
+                    
+               }
+            });
+    		
         } else if (this.editor == "ace") {
     		Ext.Ajax.request({
                 url: 'files/FileRetriever.groovy',
@@ -310,7 +433,8 @@ Ext.define('com.dipforge.IDE.Editor', {
                 success: function(response){
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
-              			preventHeader: true,
+              			border: '0',
+                  		preventHeader: true,
               			tbar: [
                             { xtype: 'button', text: 'Save',
                                 handler: function() {

@@ -11,26 +11,6 @@ def menu = [
                 title: '<b>IDE</b>',
                 url: '/ide/'
             ],
-             [
-                image: 'favicon.ico',
-                title: 'CNN',
-                url: 'http://www.cnn.com'
-            ],
-            [
-                image: 'favicon.ico',                
-                title: 'SKY',
-                url: 'http://www.sky.com'
-            ],
-            [
-                image: 'favicon.ico',                
-                title: 'News 24',
-                url: 'http://www.news24.com'
-            ],
-            [
-                image: 'favicon.ico',                
-                title: 'Space.com',
-                url: 'http://www.space.com'
-            ],
             [
                 image: 'favicon.ico',                
                 title: 'Documentation',
@@ -40,6 +20,11 @@ def menu = [
                 image: 'favicon.ico',                
                 title: 'File Manager',
                 url: '/FileManager/path/'
+            ],
+            [
+                image: 'favicon.ico',                
+                title: 'Admin',
+                url: '/DipforgeAdmin/'
             ]]
 
 builder(menu)

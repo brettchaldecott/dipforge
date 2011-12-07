@@ -69,6 +69,12 @@ try {
 			        } else if (file.getPath().equals("/config/project_methods.xml")) {
     		        	editor = "ace-project-methods"
 			        	mode = mimeTypeMapper.getMode("xml")
+			        } else if (file.getPath().startsWith("/services/")) {
+        	        	if (pos != -1) {
+    			            fileSuffix = fileName.substring(pos + 1).toLowerCase();
+				        }
+				        editor = "ace-project-services"
+			        	mode = mimeTypeMapper.getMode(fileSuffix)
 			        }// normal files 
 			        else {
 				        if (pos != -1) {
