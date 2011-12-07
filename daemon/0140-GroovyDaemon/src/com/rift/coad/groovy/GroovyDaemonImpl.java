@@ -25,7 +25,6 @@ package com.rift.coad.groovy;
 
 // java imports
 import java.rmi.RemoteException;
-import java.util.List;
 
 // log 4j imports
 import org.apache.log4j.Logger;
@@ -33,21 +32,10 @@ import org.apache.log4j.Logger;
 // coadunation imports
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
-//import groovy.lang.Binding;
-//import groovy.lang.Script;
-//import groovy.util.GroovyScriptEngine;
-//import groovy.lang.Binding;
-//import groovy.util.GroovyScriptEngine;
 import com.rift.dipforge.groovy.lib.ContextInfo;
 import com.rift.dipforge.groovy.lib.GroovyEnvironmentConstants;
 import com.rift.dipforge.groovy.lib.GroovyEnvironmentManager;
 import com.rift.dipforge.groovy.lib.GroovyExecuter;
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
 
 
 /**
@@ -60,9 +48,7 @@ public class GroovyDaemonImpl implements GroovyDaemon {
     // singleton member variables
     private static Logger log = Logger.getLogger(GroovyDaemonImpl.class);
 
-//    private GroovyScriptEngine gse;
-//    private URLClassLoader loader;
-    
+    private String[] subDirectories = null;
     /**
      * The default constructor for the groovy daemon.
      */
@@ -71,15 +57,16 @@ public class GroovyDaemonImpl implements GroovyDaemon {
         try {
             Configuration configuration = ConfigurationFactory.getInstance().getConfig(
                     GroovyDaemonImpl.class);
-
+            
+            subDirectories = configuration.getString(
+                    GroovyEnvironmentConstants.ENVIRONMENT_SUB_DIRECTORIES).split(",");
             GroovyEnvironmentManager.init(configuration.getString(
                     GroovyEnvironmentConstants.DIPFORGE_LIB_DIR),
                     configuration.getString(
                     GroovyEnvironmentConstants.ENVIRONMENT_BASE),
                     configuration.getString(
                     GroovyEnvironmentConstants.LIB_DIR),
-                    configuration.getString(
-                    GroovyEnvironmentConstants.ENVIRONMENT_SUB_DIRECTORIES).split(","),
+                    subDirectories,
                     configuration.getString(
                     GroovyEnvironmentConstants.ENVIRONMENT_LIBS_DIR).split(","));
 
@@ -104,7 +91,8 @@ public class GroovyDaemonImpl implements GroovyDaemon {
         try {
             GroovyExecuter executer = GroovyEnvironmentManager.getInstance().getExecuter(
                     new ContextInfo(project));
-            return executer.executeScript(scriptPath, new String[0], new String[0]).toString();
+            return executer.executeScript(trimSubDirectories(scriptPath),
+                    new String[0], new String[0]).toString();
         } catch (Exception ex) {
             log.error("Failed to execute the script : " + ex.getMessage(),ex);
             throw new GroovyDaemonException
@@ -127,5 +115,24 @@ public class GroovyDaemonImpl implements GroovyDaemon {
     }
 
     
+    /**
+     * This of directory prefix.
+     * 
+     * @param path The path to trim
+     * @return The result of the trim.
+     */
+    public String trimSubDirectories(String path) {
+        String result = path;
+        for (String directory: subDirectories) {
+            if (path.startsWith("/" + directory)) {
+                result = path.substring(("/" + directory).length());
+                break;
+            }
+        }
+        while (result.startsWith("/")) {
+            result = result.substring(1);
+        }
+        return result;
+    }
     
 }

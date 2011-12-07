@@ -22,9 +22,6 @@
 package com.rift.coad.groovy;
 
 // java imports
-import com.rift.coad.rdf.semantic.RDFFormats;
-import com.rift.coad.rdf.semantic.SPARQLResultRow;
-import com.rift.coad.rdf.semantic.Session;
 import java.rmi.RemoteException;
 import java.util.List;
 
