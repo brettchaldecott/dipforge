@@ -101,6 +101,7 @@ public class ProjectBean {
             manager = new ProjectInfoManager(projectDir);
             Configuration config = ConfigurationFactory.getInstance().
                     getConfig(ProjectBean.class);
+            templateDir = config.getString(Constants.TEMPLATE_DIR);
             String username = ThreadsPermissionContainerAccessor.getInstance().
                     getThreadsPermissionContainer().getSession().getUser().getName();
             ProjectInfoDTO info = getInfo();
