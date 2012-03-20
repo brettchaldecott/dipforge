@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+    <info module="LeviathanScriptEngine" organisation="LeviathanScriptEngine" revision="1.0"/>
+    <configurations>
+        <conf name="compile"/>
+        <conf name="runtime"/>
+        <conf name="compile-test"/>
+        <conf name="runtime-test"/>
+    </configurations>
+    <dependencies>
+        <dependency org="log4j" name="log4j" rev="1.2.14"/>
+        <dependency org="org.antlr" name="antlr-runtime" rev="3.4"/>
+    </dependencies>
+</ivy-module>
