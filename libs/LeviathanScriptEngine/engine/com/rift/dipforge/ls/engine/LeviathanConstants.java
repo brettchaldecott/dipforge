@@ -34,6 +34,7 @@ public class LeviathanConstants {
      * The status types for a process within an engine
      */
     public enum Status {
+        INIT,
         RUNNING,
         SUSPENDED,
         COMPLETED,

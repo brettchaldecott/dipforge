@@ -34,6 +34,7 @@ public class Constants {
      */
     public final static String BLOCK = "*block";
     
+    
     /**
      * The last statement executed in the flow
      */
@@ -44,4 +45,30 @@ public class Constants {
      * The constant that identifies the line number value.
      */
     public final static String LINE_NUMBER = "*line_number";
+    
+    
+    /**
+     * The constant that defines the result store variable
+     */
+    public final static String RESULT = "*result";
+    
+    
+    /**
+     * The reference to the caller object.
+     */
+    public final static String CALLER = "*caller";
+    
+    
+    /**
+     * The last statement executed in the flow
+     */
+    public final static String EXPRESSION_POS = "*expression";
+    
+    
+    /**
+     * The last statement executed in the flow
+     */
+    public final static String ASSIGNMENT = "*assignment";
+    
+    
 }

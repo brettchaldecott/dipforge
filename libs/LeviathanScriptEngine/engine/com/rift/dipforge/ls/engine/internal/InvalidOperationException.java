@@ -16,35 +16,49 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * LeviathanProcessor.java
+ * InvalidOperationException.java
  */
-
-// the package path
 package com.rift.dipforge.ls.engine.internal;
 
+// 
+import com.rift.dipforge.ls.engine.EngineException;
+
 /**
- * This object is responsible for processing the statements
+ * This object represents an invalid operation exception.
  * 
  * @author brett chaldecott
  */
-public class StatementProcessor {
-    
-    // private member variables
-    private ProcessorMemoryManager memory;
+public class InvalidOperationException extends EngineException {
+
+    /**
+     * Creates a new instance of
+     * <code>InvalidOperationException</code> without detail message.
+     */
+    public InvalidOperationException() {
+    }
+
+    /**
+     * Constructs an instance of
+     * <code>InvalidOperationException</code> with the specified detail message.
+     *
+     * @param msg the detail message.
+     */
+    public InvalidOperationException(String msg) {
+        super(msg);
+    }
 
     
     /**
-     * The constructor of the statement object.
-     * 
-     * @param memory The statement object
+     * Constructs an instance of
+     * <code>InvalidOperationException</code> with the specified detail message.
+     *
+     * @param msg the detail message.
+     * @param cause the cause of the message
      */
-    public StatementProcessor(ProcessorMemoryManager memory) {
-        this.memory = memory;
+    public InvalidOperationException(String message, Throwable cause) {
+        super(message, cause);
     }
     
     
-    public void execute() {
-        
-    }
     
 }
