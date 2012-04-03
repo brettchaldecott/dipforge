@@ -26,6 +26,7 @@ import com.rift.dipforge.ls.engine.internal.Constants;
 import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
 import com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager;
 import com.rift.dipforge.ls.parser.obj.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -66,7 +67,16 @@ public class BlockStackEntry extends ProcessStackEntry {
      */
     @Override
     public void execute() throws EngineException {
-        executeStatement(getNextStatement());
+        if (StackUtil.popStack(this)) {
+            pop();
+        } else {
+            Statement statement = getNextStatement();
+            if (statement != null) {
+                executeStatement(statement);
+            } else {
+                pop();
+            }
+        }
     }
     
     /**
@@ -87,7 +97,7 @@ public class BlockStackEntry extends ProcessStackEntry {
      * @param statement The current statement
      * @return The reference to the statement
      */
-    private Statement getNextStatement()
+    protected Statement getNextStatement()
             throws EngineException {
         Block blk = (Block)getVariable(Constants.BLOCK);
         Statement statement = null;
@@ -119,7 +129,7 @@ public class BlockStackEntry extends ProcessStackEntry {
      *
      * @param statement The statement to execute
      */
-    private void executeStatement(Statement statement) throws EngineException {
+    protected void executeStatement(Statement statement) throws EngineException {
         try {
             if (statement instanceof Variable) {
                 // retrieve the inital value
@@ -127,14 +137,44 @@ public class BlockStackEntry extends ProcessStackEntry {
                         this.getProcessorMemoryManager(),this, 
                         (Variable)statement);
             } else if (statement instanceof CallStatement) {
+                CallStatementStackEntry stackEntry = new CallStatementStackEntry(
+                        this.getProcessorMemoryManager(),this, null,
+                        (CallStatement)statement);
             } else if (statement instanceof IfStatement) {
+                IfStatementStackEntry stackEntry = new IfStatementStackEntry(
+                        this.getProcessorMemoryManager(),this, null,
+                        (IfStatement)statement);
             } else if (statement instanceof WhileStatement) {
+                WhileStatementStackEntry stackEntry =
+                        new WhileStatementStackEntry(
+                        this.getProcessorMemoryManager(),this,
+                        (WhileStatement)statement);
             } else if (statement instanceof ForStatement) {
+                ForStatementStackEntry stackEntry =
+                        new ForStatementStackEntry(
+                        this.getProcessorMemoryManager(),this,
+                        (ForStatement)statement);
             } else if (statement instanceof CaseStatement) {
+                // THIS has been removed from the language for the time being
             } else if (statement instanceof Block) {
+                // retrieve the inital value
+                Map parameters = new HashMap();
+                parameters.put(Constants.BLOCK, statement);
+                BlockStackEntry stackEntry = new BlockStackEntry(
+                        this.getProcessorMemoryManager(),this,parameters);
             } else if (statement instanceof ContinueStatement) {
+                ContinueStatementStackEntry stackEntry =
+                        new ContinueStatementStackEntry(
+                        this.getProcessorMemoryManager(),this);
             } else if (statement instanceof BreakStatement) {
+                BreakStatementStackEntry stackEntry =
+                        new BreakStatementStackEntry(
+                        this.getProcessorMemoryManager(),this);
             } else if (statement instanceof ReturnStatement) {
+                ReturnStatementStackEntry stackEntry =
+                        new ReturnStatementStackEntry(
+                        this.getProcessorMemoryManager(),this,
+                        (ReturnStatement)statement);
             }
         } catch (Exception ex) {
             throw new EngineException("Failed to execute the statement : "

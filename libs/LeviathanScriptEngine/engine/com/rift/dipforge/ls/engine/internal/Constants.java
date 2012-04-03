@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * DuplicateVariable.java
+ * Constants.java
  */
 
 // package path
@@ -36,7 +36,7 @@ public class Constants {
     
     
     /**
-     * The last statement executed in the flow
+     * The last statement executed in the flow.
      */
     public final static String STATEMENT_POS = "*statement";
     
@@ -48,27 +48,25 @@ public class Constants {
     
     
     /**
-     * The constant that defines the result store variable
+     * The constant that defines the result store variable.
      */
     public final static String RESULT = "*result";
     
-    
     /**
-     * The reference to the caller object.
+     * This constant identifies the variable flag that will contain the continue
+     * value.
      */
-    public final static String CALLER = "*caller";
-    
-    
-    /**
-     * The last statement executed in the flow
-     */
-    public final static String EXPRESSION_POS = "*expression";
+    public final static String CONTINUE = "*continue";
     
     
     /**
-     * The last statement executed in the flow
+     * The string that identifies the break flag.
      */
-    public final static String ASSIGNMENT = "*assignment";
+    public final static String BREAK = "*break";
     
     
+    /**
+     * The string that identifies the return flag.
+     */
+    public final static String RETURN = "*return";
 }

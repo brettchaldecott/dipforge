@@ -138,8 +138,10 @@ public class LeviathanProcessor {
                                     continue;
                                 }
                                 Map mainBlockVars = new HashMap();
-                                memory.pushStack(new VariableStackEntry(memory,null, 
-                                        var));
+                                // create a new stack entry it will add it self
+                                // to the stack
+                                VariableStackEntry entry = 
+                                        new VariableStackEntry(memory,null, var);
                                 memory.setState(LeviathanConstants.Status.RUNNING);
                                 memory.setCurrentStatement(statement);
                             }
@@ -161,7 +163,8 @@ public class LeviathanProcessor {
                     memory.setCurrentStatement(mainBlock);
                     Map mainBlockVars = new HashMap();
                     mainBlockVars.put(Constants.BLOCK, mainBlock);
-                    memory.pushStack(new BlockStackEntry(memory,null, mainBlockVars));
+                    BlockStackEntry entry = new 
+                            BlockStackEntry(memory,null, mainBlockVars);
                     memory.setState(LeviathanConstants.Status.RUNNING);
                 }
             }

@@ -52,10 +52,10 @@ public abstract class ProcessStackEntry implements Serializable {
         this.processorMemoryManager = processorMemoryManager;
         this.parent = parent;
         this.variables = variables;
-        this.variables.put(Constants.RESULT, null);
         this.processorMemoryManager.pushStack(this);
     }
 
+    
     /**
      * This method returns the parent information
      *

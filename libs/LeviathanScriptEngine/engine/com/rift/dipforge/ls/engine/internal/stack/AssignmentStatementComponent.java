@@ -27,6 +27,7 @@ import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
 import com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager;
 import com.rift.dipforge.ls.parser.obj.Assignment;
 import com.rift.dipforge.ls.parser.obj.Expression;
+import com.rift.dipforge.ls.parser.obj.LsList;
 import java.util.Map;
 
 /**
@@ -82,18 +83,20 @@ public class AssignmentStatementComponent extends StatementComponentStackEntry {
     @Override
     public void execute() throws EngineException {
         if (set) {
-            if (this.getParent() instanceof VariableStackEntry) {
-                ProcessStackEntry entry = (ProcessStackEntry)this.getParent();
-                entry.setResult(result);
-            } else {
-                // set method call
-            }
+            ProcessStackEntry entry = (ProcessStackEntry)this.getParent();
+            entry.setResult(result);
             this.pop();
         } else {
-            ExpressionStatementComponent expression = new 
-                    ExpressionStatementComponent(
-                    this.getProcessorMemoryManager(),this, 
-                    (Expression)this.assignment.getValue());
+            if (this.assignment.getValue() instanceof Expression) {
+                ExpressionStatementComponent expression = new 
+                        ExpressionStatementComponent(
+                        this.getProcessorMemoryManager(),this, 
+                        (Expression)this.assignment.getValue());
+            } else if (this.assignment.getValue() instanceof LsList) {
+                LsListStackEntry listStack = new 
+                        LsListStackEntry(this.getProcessorMemoryManager(),
+                        this, (LsList)this.assignment.getValue());
+            }
         }
     }
     

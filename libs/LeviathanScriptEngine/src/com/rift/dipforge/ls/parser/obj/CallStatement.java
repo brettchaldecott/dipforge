@@ -33,10 +33,6 @@ import java.util.List;
  * @author brett chaldecott
  *
  */
-/**
- * @author brett
- *
- */
 public class CallStatement extends Statement implements Serializable {
 	
 	/**
@@ -239,7 +235,12 @@ public class CallStatement extends Statement implements Serializable {
 		this.assignment = assignment;
 	}
 
-
+        
+        /**
+         * This method returns the hash code for the object.
+         * 
+         * @return 
+         */
 	@Override
 	public int hashCode() {
 		final int prime = 31;

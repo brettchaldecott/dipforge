@@ -45,6 +45,15 @@ public class Assignment implements Serializable {
 	public Assignment() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	/**
+	 * This constructor sets up the initial value.
+	 * @param value
+	 */
+	public Assignment(Object value) {
+		this.value = value;
+	}
 
 	/**
 	 * This method returns the value contained within.
