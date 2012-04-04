@@ -23,6 +23,7 @@ package com.rift.dipforge.ls.engine.internal;
 
 import com.rift.dipforge.ls.engine.EngineException;
 import com.rift.dipforge.ls.engine.TypeManager;
+import com.rift.dipforge.ls.parser.obj.LsAnnotation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,23 @@ public class TypeManagerLookup {
         managers.add(manager);
     }
     
+    
+    /**
+     * This method returns a reference to the annotation responsible for the type.
+     * 
+     * @param annotation The reference to the annotation.
+     * @return The link to the annotation
+     * @throws EngineException 
+     */
+    public synchronized TypeManager getManager(LsAnnotation annotation) throws EngineException {
+        for (TypeManager manager: managers) {
+            if (manager.canHandleAnnotation(annotation)) {
+                return manager;
+            }
+        }
+        throw new EngineException("There is no manager for this annotation : " + 
+                annotation.getName());
+    }
     
     /**
      * This method returns a reference to the type manager responsible for a

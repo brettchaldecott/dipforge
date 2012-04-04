@@ -23,6 +23,8 @@ package com.rift.dipforge.ls.parser.obj;
 
 // imports
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,7 +32,7 @@ import java.io.Serializable;
  * 
  * @author brett chaldecott
  */
-public class Annotation implements Serializable {
+public class LsAnnotation implements Serializable {
 	
 	
 	
@@ -39,12 +41,12 @@ public class Annotation implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private LsList list;
+	private List<String> list = new ArrayList<String>();
 	
 	/**
 	 * The default constructor for the annotation object
 	 */
-	public Annotation() {
+	public LsAnnotation() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -55,10 +57,9 @@ public class Annotation implements Serializable {
 	 * @param name The name of the annotation.
 	 * @param list The list of annotations.
 	 */
-	public Annotation(String name, LsList list) {
+	public LsAnnotation(String name) {
 		super();
 		this.name = name;
-		this.list = list;
 	}
 
 
@@ -85,16 +86,25 @@ public class Annotation implements Serializable {
 	 * 
 	 * @return The list contained by this object.
 	 */
-	public LsList getList() {
+	public List<String> getList() {
 		return list;
 	}
-
+	
+	
+	/**
+	 * This method adds a new value
+	 * 
+	 * @param value The value of the annotation
+	 */
+	public void addValue(String value) {
+		this.list.add(value);
+	}
 	
 	/**
 	 * This method is called to set the 
 	 * @param list
 	 */
-	public void setList(LsList list) {
+	public void setList(List list) {
 		this.list = list;
 	}
 
@@ -123,7 +133,7 @@ public class Annotation implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Annotation other = (Annotation) obj;
+		LsAnnotation other = (LsAnnotation) obj;
 		if (list == null) {
 			if (other.list != null)
 				return false;

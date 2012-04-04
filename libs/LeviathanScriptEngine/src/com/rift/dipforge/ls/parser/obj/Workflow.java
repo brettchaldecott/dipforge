@@ -42,7 +42,7 @@ public class Workflow extends Block implements Serializable {
 	// private member variables
 	private String name;
 	private List<TypeDefinition> definedTypes = new ArrayList<TypeDefinition>();
-	private List<Annotation> annotations = new ArrayList<Annotation>();
+	private List<LsAnnotation> annotations = new ArrayList<LsAnnotation>();
 	
 	
 	
@@ -69,9 +69,9 @@ public class Workflow extends Block implements Serializable {
 	 * 
 	 * @return The list of type definitions.
 	 */
-	public List<TypeDefinition> getDefinedTypes() {
+	/*public List<TypeDefinition> getDefinedTypes() {
 		return definedTypes;
-	}
+	}*/
 	
 	
 	/**
@@ -79,9 +79,9 @@ public class Workflow extends Block implements Serializable {
 	 * 
 	 * @param definedTypes
 	 */
-	public void setDefinedTypes(List<TypeDefinition> definedTypes) {
+	/*public void setDefinedTypes(List<TypeDefinition> definedTypes) {
 		this.definedTypes = definedTypes;
-	}
+	}*/
 
 	
 	/**
@@ -89,7 +89,7 @@ public class Workflow extends Block implements Serializable {
 	 * 
 	 * @return This method returns the list of annotations associated with an object.
 	 */
-	public List<Annotation> getAnnotations() {
+	public List<LsAnnotation> getAnnotations() {
 		return annotations;
 	}
 
@@ -99,7 +99,7 @@ public class Workflow extends Block implements Serializable {
 	 * 
 	 * @param annotations
 	 */
-	public void setAnnotations(List<Annotation> annotations) {
+	public void setAnnotations(List<LsAnnotation> annotations) {
 		this.annotations = annotations;
 	}
 

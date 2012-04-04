@@ -1,8 +1,8 @@
-// $ANTLR 3.4 /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g 2012-04-03 05:11:18
+// $ANTLR 3.4 /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g 2012-04-04 10:57:15
 
   package com.rift.dip.leviathan;
   
-  import com.rift.dipforge.ls.parser.obj.Annotation;
+  import com.rift.dipforge.ls.parser.obj.LsAnnotation;
   import com.rift.dipforge.ls.parser.obj.Assignment;
   import com.rift.dipforge.ls.parser.obj.TypeDefinition;
   import com.rift.dipforge.ls.parser.obj.Workflow;
@@ -85,8 +85,6 @@ public class LeviathanLexer extends Lexer {
     public static final int T__52=52;
     public static final int T__53=53;
     public static final int T__54=54;
-    public static final int T__55=55;
-    public static final int T__56=56;
     public static final int COMMENT=4;
     public static final int FLOAT=5;
     public static final int IDENT=6;
@@ -632,10 +630,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:66:7: ( 'as' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:66:9: 'as'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:66:7: ( 'break' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:66:9: 'break'
             {
-            match("as"); 
+            match("break"); 
 
 
 
@@ -655,10 +653,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:67:7: ( 'break' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:67:9: 'break'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:67:7: ( 'byte' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:67:9: 'byte'
             {
-            match("break"); 
+            match("byte"); 
 
 
 
@@ -678,10 +676,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__38;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:68:7: ( 'byte' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:68:9: 'byte'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:68:7: ( 'char' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:68:9: 'char'
             {
-            match("byte"); 
+            match("char"); 
 
 
 
@@ -701,10 +699,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:69:7: ( 'char' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:69:9: 'char'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:69:7: ( 'continue' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:69:9: 'continue'
             {
-            match("char"); 
+            match("continue"); 
 
 
 
@@ -724,10 +722,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__40;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:70:7: ( 'continue' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:70:9: 'continue'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:70:7: ( 'def' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:70:9: 'def'
             {
-            match("continue"); 
+            match("def"); 
 
 
 
@@ -747,10 +745,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__41;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:71:7: ( 'def' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:71:9: 'def'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:71:7: ( 'double' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:71:9: 'double'
             {
-            match("def"); 
+            match("double"); 
 
 
 
@@ -770,10 +768,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__42;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:72:7: ( 'define' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:72:9: 'define'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:72:7: ( 'else' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:72:9: 'else'
             {
-            match("define"); 
+            match("else"); 
 
 
 
@@ -793,10 +791,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__43;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:73:7: ( 'double' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:73:9: 'double'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:73:7: ( 'float' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:73:9: 'float'
             {
-            match("double"); 
+            match("float"); 
 
 
 
@@ -816,10 +814,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__44;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:74:7: ( 'else' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:74:9: 'else'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:74:7: ( 'flow' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:74:9: 'flow'
             {
-            match("else"); 
+            match("flow"); 
 
 
 
@@ -839,10 +837,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__45;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:75:7: ( 'float' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:75:9: 'float'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:75:7: ( 'for' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:75:9: 'for'
             {
-            match("float"); 
+            match("for"); 
 
 
 
@@ -862,10 +860,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__46;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:76:7: ( 'flow' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:76:9: 'flow'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:76:7: ( 'if' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:76:9: 'if'
             {
-            match("flow"); 
+            match("if"); 
 
 
 
@@ -885,10 +883,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__47;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:77:7: ( 'for' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:77:9: 'for'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:77:7: ( 'int' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:77:9: 'int'
             {
-            match("for"); 
+            match("int"); 
 
 
 
@@ -908,10 +906,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__48;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:78:7: ( 'if' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:78:9: 'if'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:78:7: ( 'long' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:78:9: 'long'
             {
-            match("if"); 
+            match("long"); 
 
 
 
@@ -931,10 +929,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__49;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:79:7: ( 'int' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:79:9: 'int'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:79:7: ( 'return' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:79:9: 'return'
             {
-            match("int"); 
+            match("return"); 
 
 
 
@@ -954,10 +952,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__50;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:80:7: ( 'long' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:80:9: 'long'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:80:7: ( 'void' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:80:9: 'void'
             {
-            match("long"); 
+            match("void"); 
 
 
 
@@ -977,10 +975,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__51;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:81:7: ( 'return' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:81:9: 'return'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:81:7: ( 'while' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:81:9: 'while'
             {
-            match("return"); 
+            match("while"); 
 
 
 
@@ -1000,12 +998,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__52;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:82:7: ( 'void' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:82:9: 'void'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:82:7: ( '{' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:82:9: '{'
             {
-            match("void"); 
-
-
+            match('{'); 
 
             }
 
@@ -1023,10 +1019,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__53;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:83:7: ( 'while' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:83:9: 'while'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:83:7: ( '||' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:83:9: '||'
             {
-            match("while"); 
+            match("||"); 
 
 
 
@@ -1046,52 +1042,8 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = T__54;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:84:7: ( '{' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:84:9: '{'
-            {
-            match('{'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "T__54"
-
-    // $ANTLR start "T__55"
-    public final void mT__55() throws RecognitionException {
-        try {
-            int _type = T__55;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:85:7: ( '||' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:85:9: '||'
-            {
-            match("||"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "T__55"
-
-    // $ANTLR start "T__56"
-    public final void mT__56() throws RecognitionException {
-        try {
-            int _type = T__56;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:86:7: ( '}' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:86:9: '}'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:84:7: ( '}' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:84:9: '}'
             {
             match('}'); 
 
@@ -1104,15 +1056,15 @@ public class LeviathanLexer extends Lexer {
         	// do for sure before leaving
         }
     }
-    // $ANTLR end "T__56"
+    // $ANTLR end "T__54"
 
     // $ANTLR start "IDENT"
     public final void mIDENT() throws RecognitionException {
         try {
             int _type = IDENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:347:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:347:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:350:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:350:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
                 input.consume();
@@ -1124,7 +1076,7 @@ public class LeviathanLexer extends Lexer {
             }
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:347:29: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:350:29: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -1174,12 +1126,12 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:349:7: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '\"' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:349:9: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '\"'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:352:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '\"' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:352:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '\"'
             {
             match('\"'); 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:349:13: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:352:14: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )*
             loop2:
             do {
                 int alt2=2;
@@ -1224,6 +1176,8 @@ public class LeviathanLexer extends Lexer {
 
             match('\"'); 
 
+            setText(getText().substring(1,getText().length() -2));
+
             }
 
             state.type = _type;
@@ -1240,10 +1194,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:351:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:351:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:354:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:354:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:351:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:354:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             int cnt3=0;
             loop3:
             do {
@@ -1300,10 +1254,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = INTEGER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:353:8: ( ( '0' .. '9' )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:353:10: ( '0' .. '9' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:8: ( ( '0' .. '9' )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:10: ( '0' .. '9' )*
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:353:10: ( '0' .. '9' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:10: ( '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -1353,10 +1307,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = FLOAT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:355:6: ( ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:355:8: ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:358:6: ( ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:358:8: ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9'
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:355:8: ( '0' .. '9' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:358:8: ( '0' .. '9' )*
             loop5:
             do {
                 int alt5=2;
@@ -1412,10 +1366,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = INCREMENTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:357:12: ( ( '++' | '--' ) )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:357:14: ( '++' | '--' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:12: ( ( '++' | '--' ) )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:14: ( '++' | '--' )
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:357:14: ( '++' | '--' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:14: ( '++' | '--' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1434,7 +1388,7 @@ public class LeviathanLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:357:15: '++'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:15: '++'
                     {
                     match("++"); 
 
@@ -1443,7 +1397,7 @@ public class LeviathanLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:357:21: '--'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:21: '--'
                     {
                     match("--"); 
 
@@ -1471,14 +1425,14 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:359:9: ( '/*' ( . )* '*/' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:359:11: '/*' ( . )* '*/'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:9: ( '/*' ( . )* '*/' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:11: '/*' ( . )* '*/'
             {
             match("/*"); 
 
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:359:16: ( . )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:16: ( . )*
             loop7:
             do {
                 int alt7=2;
@@ -1503,7 +1457,7 @@ public class LeviathanLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:359:16: .
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:16: .
             	    {
             	    matchAny(); 
 
@@ -1538,14 +1492,14 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:14: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:16: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:14: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:16: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:21: (~ ( '\\n' | '\\r' ) )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:21: (~ ( '\\n' | '\\r' ) )*
             loop8:
             do {
                 int alt8=2;
@@ -1579,7 +1533,7 @@ public class LeviathanLexer extends Lexer {
             } while (true);
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:35: ( '\\r' )?
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:35: ( '\\r' )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1588,7 +1542,7 @@ public class LeviathanLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:35: '\\r'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:35: '\\r'
                     {
                     match('\r'); 
 
@@ -1614,8 +1568,8 @@ public class LeviathanLexer extends Lexer {
     // $ANTLR end "LINE_COMMENT"
 
     public void mTokens() throws RecognitionException {
-        // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | IDENT | STRING | WHITESPACE | INTEGER | FLOAT | INCREMENTER | COMMENT | LINE_COMMENT )
-        int alt10=53;
+        // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | IDENT | STRING | WHITESPACE | INTEGER | FLOAT | INCREMENTER | COMMENT | LINE_COMMENT )
+        int alt10=51;
         alt10 = dfa10.predict(input);
         switch (alt10) {
             case 1 :
@@ -1963,79 +1917,63 @@ public class LeviathanLexer extends Lexer {
                 }
                 break;
             case 44 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:268: T__55
-                {
-                mT__55(); 
-
-
-                }
-                break;
-            case 45 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:274: T__56
-                {
-                mT__56(); 
-
-
-                }
-                break;
-            case 46 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:280: IDENT
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:268: IDENT
                 {
                 mIDENT(); 
 
 
                 }
                 break;
-            case 47 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:286: STRING
+            case 45 :
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:274: STRING
                 {
                 mSTRING(); 
 
 
                 }
                 break;
-            case 48 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:293: WHITESPACE
+            case 46 :
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:281: WHITESPACE
                 {
                 mWHITESPACE(); 
 
 
                 }
                 break;
-            case 49 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:304: INTEGER
+            case 47 :
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:292: INTEGER
                 {
                 mINTEGER(); 
 
 
                 }
                 break;
-            case 50 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:312: FLOAT
+            case 48 :
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:300: FLOAT
                 {
                 mFLOAT(); 
 
 
                 }
                 break;
-            case 51 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:318: INCREMENTER
+            case 49 :
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:306: INCREMENTER
                 {
                 mINCREMENTER(); 
 
 
                 }
                 break;
-            case 52 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:330: COMMENT
+            case 50 :
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:318: COMMENT
                 {
                 mCOMMENT(); 
 
 
                 }
                 break;
-            case 53 :
-                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:338: LINE_COMMENT
+            case 51 :
+                // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:326: LINE_COMMENT
                 {
                 mLINE_COMMENT(); 
 
@@ -2050,186 +1988,177 @@ public class LeviathanLexer extends Lexer {
 
     protected DFA10 dfa10 = new DFA10(this);
     static final String DFA10_eotS =
-        "\1\47\1\51\5\uffff\1\53\1\uffff\1\54\1\56\1\61\2\uffff\1\63\1\65"+
-        "\1\67\1\uffff\1\43\2\uffff\13\43\6\uffff\1\47\21\uffff\1\43\1\112"+
-        "\11\43\1\124\6\43\1\uffff\4\43\1\140\3\43\1\145\1\uffff\1\146\6"+
-        "\43\1\155\1\156\2\43\1\uffff\1\43\1\162\1\43\1\164\2\uffff\1\165"+
-        "\1\43\1\167\2\43\1\172\2\uffff\3\43\1\uffff\1\176\2\uffff\1\43\1"+
-        "\uffff\1\u0080\1\u0081\1\uffff\1\43\1\u0083\1\u0084\1\uffff\1\u0085"+
-        "\2\uffff\1\43\3\uffff\1\u0087\1\uffff";
+        "\1\46\1\50\5\uffff\1\52\1\uffff\1\53\1\55\1\60\2\uffff\1\62\1\64"+
+        "\1\66\1\uffff\1\42\2\uffff\12\42\6\uffff\1\46\21\uffff\12\42\1\121"+
+        "\12\42\1\134\3\42\1\141\1\uffff\1\142\6\42\1\151\1\152\1\42\1\uffff"+
+        "\1\42\1\155\1\42\1\157\2\uffff\1\160\1\42\1\162\2\42\1\165\2\uffff"+
+        "\2\42\1\uffff\1\170\2\uffff\1\42\1\uffff\1\172\1\173\1\uffff\1\42"+
+        "\1\175\1\uffff\1\176\2\uffff\1\42\2\uffff\1\u0080\1\uffff";
     static final String DFA10_eofS =
-        "\u0088\uffff";
+        "\u0081\uffff";
     static final String DFA10_minS =
         "\1\11\1\75\5\uffff\1\53\1\uffff\1\55\1\60\1\52\2\uffff\3\75\1\uffff"+
-        "\1\164\2\uffff\1\163\1\162\1\150\1\145\2\154\1\146\1\157\1\145\1"+
-        "\157\1\150\6\uffff\1\56\21\uffff\1\162\1\60\1\145\1\164\1\141\1"+
-        "\156\1\146\1\165\1\163\1\157\1\162\1\60\1\164\1\156\1\164\3\151"+
-        "\1\uffff\1\141\1\145\1\162\1\164\1\60\1\142\1\145\1\141\1\60\1\uffff"+
-        "\1\60\1\147\1\165\1\144\1\154\1\156\1\153\2\60\1\151\1\156\1\uffff"+
-        "\1\154\1\60\1\164\1\60\2\uffff\1\60\1\162\1\60\1\145\1\147\1\60"+
-        "\2\uffff\1\156\2\145\1\uffff\1\60\2\uffff\1\156\1\uffff\2\60\1\uffff"+
-        "\1\165\2\60\1\uffff\1\60\2\uffff\1\145\3\uffff\1\60\1\uffff";
+        "\1\164\2\uffff\1\162\1\150\1\145\2\154\1\146\1\157\1\145\1\157\1"+
+        "\150\6\uffff\1\56\21\uffff\1\162\1\145\1\164\1\141\1\156\1\146\1"+
+        "\165\1\163\1\157\1\162\1\60\1\164\1\156\1\164\3\151\1\141\1\145"+
+        "\1\162\1\164\1\60\1\142\1\145\1\141\1\60\1\uffff\1\60\1\147\1\165"+
+        "\1\144\1\154\1\156\1\153\2\60\1\151\1\uffff\1\154\1\60\1\164\1\60"+
+        "\2\uffff\1\60\1\162\1\60\1\145\1\147\1\60\2\uffff\1\156\1\145\1"+
+        "\uffff\1\60\2\uffff\1\156\1\uffff\2\60\1\uffff\1\165\1\60\1\uffff"+
+        "\1\60\2\uffff\1\145\2\uffff\1\60\1\uffff";
     static final String DFA10_maxS =
         "\1\175\1\75\5\uffff\1\53\1\uffff\1\55\1\71\1\57\2\uffff\3\75\1\uffff"+
-        "\1\164\2\uffff\1\163\1\171\2\157\1\154\1\157\1\156\1\157\1\145\1"+
-        "\157\1\150\6\uffff\1\71\21\uffff\1\162\1\172\1\145\1\164\1\141\1"+
-        "\156\1\146\1\165\1\163\1\157\1\162\1\172\1\164\1\156\1\164\3\151"+
-        "\1\uffff\1\141\1\145\1\162\1\164\1\172\1\142\1\145\1\167\1\172\1"+
-        "\uffff\1\172\1\147\1\165\1\144\1\154\1\156\1\153\2\172\1\151\1\156"+
-        "\1\uffff\1\154\1\172\1\164\1\172\2\uffff\1\172\1\162\1\172\1\145"+
-        "\1\147\1\172\2\uffff\1\156\2\145\1\uffff\1\172\2\uffff\1\156\1\uffff"+
-        "\2\172\1\uffff\1\165\2\172\1\uffff\1\172\2\uffff\1\145\3\uffff\1"+
-        "\172\1\uffff";
+        "\1\164\2\uffff\1\171\2\157\1\154\1\157\1\156\1\157\1\145\1\157\1"+
+        "\150\6\uffff\1\71\21\uffff\1\162\1\145\1\164\1\141\1\156\1\146\1"+
+        "\165\1\163\1\157\1\162\1\172\1\164\1\156\1\164\3\151\1\141\1\145"+
+        "\1\162\1\164\1\172\1\142\1\145\1\167\1\172\1\uffff\1\172\1\147\1"+
+        "\165\1\144\1\154\1\156\1\153\2\172\1\151\1\uffff\1\154\1\172\1\164"+
+        "\1\172\2\uffff\1\172\1\162\1\172\1\145\1\147\1\172\2\uffff\1\156"+
+        "\1\145\1\uffff\1\172\2\uffff\1\156\1\uffff\2\172\1\uffff\1\165\1"+
+        "\172\1\uffff\1\172\2\uffff\1\145\2\uffff\1\172\1\uffff";
     static final String DFA10_acceptS =
         "\2\uffff\1\3\1\4\1\5\1\6\1\7\1\uffff\1\11\3\uffff\1\15\1\16\3\uffff"+
-        "\1\25\1\uffff\1\27\1\30\13\uffff\1\53\1\54\1\55\1\56\1\57\1\60\1"+
-        "\uffff\1\61\1\2\1\1\1\63\1\10\1\12\1\62\1\13\1\64\1\65\1\14\1\20"+
-        "\1\17\1\22\1\21\1\24\1\23\22\uffff\1\31\11\uffff\1\45\13\uffff\1"+
-        "\36\4\uffff\1\44\1\46\6\uffff\1\33\1\34\3\uffff\1\41\1\uffff\1\43"+
-        "\1\47\1\uffff\1\51\2\uffff\1\32\3\uffff\1\42\1\uffff\1\52\1\26\1"+
-        "\uffff\1\37\1\40\1\50\1\uffff\1\35";
+        "\1\25\1\uffff\1\27\1\30\12\uffff\1\51\1\52\1\53\1\54\1\55\1\56\1"+
+        "\uffff\1\57\1\2\1\1\1\61\1\10\1\12\1\60\1\13\1\62\1\63\1\14\1\20"+
+        "\1\17\1\22\1\21\1\24\1\23\32\uffff\1\43\12\uffff\1\35\4\uffff\1"+
+        "\42\1\44\6\uffff\1\32\1\33\2\uffff\1\37\1\uffff\1\41\1\45\1\uffff"+
+        "\1\47\2\uffff\1\31\2\uffff\1\40\1\uffff\1\50\1\26\1\uffff\1\36\1"+
+        "\46\1\uffff\1\34";
     static final String DFA10_specialS =
-        "\u0088\uffff}>";
+        "\u0081\uffff}>";
     static final String[] DFA10_transitionS = {
-            "\2\45\1\uffff\2\45\22\uffff\1\45\1\1\1\44\2\uffff\1\2\1\3\1"+
-            "\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\12\46\1\14\1\15\1"+
-            "\16\1\17\1\20\1\uffff\1\21\22\43\1\22\7\43\1\23\1\uffff\1\24"+
-            "\3\uffff\1\25\1\26\1\27\1\30\1\31\1\32\2\43\1\33\2\43\1\34\5"+
-            "\43\1\35\3\43\1\36\1\37\3\43\1\40\1\41\1\42",
-            "\1\50",
+            "\2\44\1\uffff\2\44\22\uffff\1\44\1\1\1\43\2\uffff\1\2\1\3\1"+
+            "\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\12\45\1\14\1\15\1"+
+            "\16\1\17\1\20\1\uffff\1\21\22\42\1\22\7\42\1\23\1\uffff\1\24"+
+            "\3\uffff\1\42\1\25\1\26\1\27\1\30\1\31\2\42\1\32\2\42\1\33\5"+
+            "\42\1\34\3\42\1\35\1\36\3\42\1\37\1\40\1\41",
+            "\1\47",
             "",
             "",
             "",
             "",
             "",
-            "\1\52",
+            "\1\51",
             "",
-            "\1\52",
-            "\12\55",
-            "\1\57\4\uffff\1\60",
-            "",
-            "",
-            "\1\62",
-            "\1\64",
-            "\1\66",
-            "",
-            "\1\70",
+            "\1\51",
+            "\12\54",
+            "\1\56\4\uffff\1\57",
             "",
             "",
-            "\1\71",
+            "\1\61",
+            "\1\63",
+            "\1\65",
+            "",
+            "\1\67",
+            "",
+            "",
+            "\1\70\6\uffff\1\71",
             "\1\72\6\uffff\1\73",
-            "\1\74\6\uffff\1\75",
-            "\1\76\11\uffff\1\77",
-            "\1\100",
-            "\1\101\2\uffff\1\102",
-            "\1\103\7\uffff\1\104",
+            "\1\74\11\uffff\1\75",
+            "\1\76",
+            "\1\77\2\uffff\1\100",
+            "\1\101\7\uffff\1\102",
+            "\1\103",
+            "\1\104",
             "\1\105",
             "\1\106",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\54\1\uffff\12\45",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\107",
             "\1\110",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\55\1\uffff\12\46",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\111",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\112",
             "\1\113",
             "\1\114",
             "\1\115",
             "\1\116",
             "\1\117",
             "\1\120",
-            "\1\121",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "\1\122",
             "\1\123",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\124",
             "\1\125",
             "\1\126",
             "\1\127",
             "\1\130",
             "\1\131",
             "\1\132",
-            "",
             "\1\133",
-            "\1\134",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "\1\135",
             "\1\136",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\10\43\1\137\21\43",
-            "\1\141",
-            "\1\142",
-            "\1\143\25\uffff\1\144",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\137\25\uffff\1\140",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\143",
+            "\1\144",
+            "\1\145",
+            "\1\146",
             "\1\147",
             "\1\150",
-            "\1\151",
-            "\1\152",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "\1\153",
+            "",
             "\1\154",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-            "\1\157",
-            "\1\160",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\156",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "",
+            "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "\1\161",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "\1\163",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\164",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "",
             "",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "\1\166",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-            "\1\170",
+            "\1\167",
+            "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
+            "",
             "\1\171",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "",
-            "\1\173",
             "\1\174",
-            "\1\175",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             "",
             "",
             "\1\177",
             "",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "",
-            "\1\u0082",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-            "",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-            "",
-            "",
-            "\1\u0086",
-            "",
-            "",
-            "",
-            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
             ""
     };
 
@@ -2263,7 +2192,7 @@ public class LeviathanLexer extends Lexer {
             this.transition = DFA10_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | IDENT | STRING | WHITESPACE | INTEGER | FLOAT | INCREMENTER | COMMENT | LINE_COMMENT );";
+            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | IDENT | STRING | WHITESPACE | INTEGER | FLOAT | INCREMENTER | COMMENT | LINE_COMMENT );";
         }
     }
  

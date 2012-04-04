@@ -23,6 +23,8 @@ package com.rift.dipforge.ls.engine;
 import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
 import com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager;
 import com.rift.dipforge.ls.parser.obj.CallStatement;
+import com.rift.dipforge.ls.parser.obj.LsAnnotation;
+import com.rift.dipforge.ls.parser.obj.Workflow;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +34,33 @@ import java.util.Map;
  * @author brett chaldecott
  */
 public interface TypeManager {
+    
+    /**
+     * This method is called to determine if the type manager can handle the
+     * specified annotation.
+     * 
+     * @param annotation The reference to the annotation.
+     * @return The annotations to determine.
+     * @throws EngineException 
+     */
+    public boolean canHandleAnnotation(LsAnnotation annotation)
+            throws EngineException;
+    
+    
+    /**
+     * This method is called to process the annotation.
+     * 
+     * @param flow The workflow annotation.
+     * @param annotation The annotation to process.
+     * @param configParameters The source configuration parameters
+     * @param envParameters The environmental parameters.
+     * @throws EngineException 
+     */
+    public void processAnnotation(Workflow flow, 
+            LsAnnotation annotation,
+            Map configParameters, 
+            Map envParameters) throws EngineException;
+    
     
     /**
      * This method returns true if the type is managed by this object.

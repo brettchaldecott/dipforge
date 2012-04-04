@@ -15,16 +15,16 @@ public class LeviathanParserTest {
 	 */
 	public static void main(String[] args) throws Exception {
 		LeviathanLexer lex = new LeviathanLexer(new ANTLRFileStream("example-leviathan.ls"));
-        CommonTokenStream tokens = new CommonTokenStream(lex);
+            CommonTokenStream tokens = new CommonTokenStream(lex);
 
-        LeviathanParser parser = new LeviathanParser(tokens);
+            LeviathanParser parser = new LeviathanParser(tokens);
 
-        try {
-        	Workflow flow = parser.workflow();
-        	System.out.println(flow.toString());
-        } catch (RecognitionException e)  {
-            e.printStackTrace();
-        }
+            try {
+                Workflow flow = parser.workflow();
+                System.out.println(flow.toString());
+            } catch (RecognitionException e) {
+                e.printStackTrace();
+            }
 	}
 
 }

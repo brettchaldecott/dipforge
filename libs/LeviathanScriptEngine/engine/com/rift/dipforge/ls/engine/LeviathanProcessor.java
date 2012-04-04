@@ -52,9 +52,8 @@ public class LeviathanProcessor {
      * @param filePath The path to the file.
      * @exception EngineException
      */
-    public LeviathanProcessor(String filePath) throws EngineException {
+    public LeviathanProcessor(File file) throws EngineException {
         try {
-            File file = new File(filePath);
             FileInputStream in = new FileInputStream(file);
             byte[] input = new byte[(int) file.length()];
             in.read(input);
@@ -72,15 +71,9 @@ public class LeviathanProcessor {
      * @param codeSpace The code space
      * @exception EngineException
      */
-    public LeviathanProcessor(String sourceFile, Map variables)
+    public LeviathanProcessor(Workflow flow, Map variables)
             throws EngineException {
         try {
-            LeviathanLexer lex = new LeviathanLexer(new ANTLRFileStream(sourceFile));
-            CommonTokenStream tokens = new CommonTokenStream(lex);
-
-            LeviathanParser parser = new LeviathanParser(tokens);
-            Workflow flow = parser.workflow();
-
             memory = new ProcessorMemoryManager(flow, variables);
             memory.setState(LeviathanConstants.Status.INIT);
         } catch (Exception ex) {
@@ -114,15 +107,15 @@ public class LeviathanProcessor {
      * @param value The value pass in.
      * @throws EngineException
      */
-    private void execute(Object value) throws EngineException {
+    private synchronized void execute(Object value) throws EngineException {
         try {
             // walk the code space and find the initial heap variables
             if (memory.getCurrentStatement() == null || 
                     memory.getCurrentStatement() instanceof Variable) {
                 Block mainBlock = null;
                 Workflow flow = memory.getCodeSpace();
-                while (memory.getState() == LeviathanConstants.Status.RUNNING ||
-                        memory.getState() == LeviathanConstants.Status.INIT) {
+                while (memory.getState() == LeviathanConstants.Status.INIT && 
+                        checkForShutdown()) {
                     ProcessStackEntry stack = null;
                     if ((stack = memory.peekStack()) == null) {
                         Statement statement = null;
@@ -169,7 +162,8 @@ public class LeviathanProcessor {
                 }
             }
             ProcessStackEntry stack = null;
-            while (memory.getState() == LeviathanConstants.Status.RUNNING && 
+            while (memory.getState() == LeviathanConstants.Status.RUNNING &&
+                    checkForShutdown() &&
                     (stack = memory.peekStack()) != null && 
                     memory.getCurrentStatement() instanceof Block) {
                 stack.execute();
@@ -179,6 +173,9 @@ public class LeviathanProcessor {
                     memory.getState() == LeviathanConstants.Status.RUNNING) {
                 memory.setState(LeviathanConstants.Status.COMPLETED);
             }
+        } catch (AbortException ex) {
+            // processing has been borted for now
+            throw ex;
         } catch (Exception ex) {
             throw new EngineException("Failed to execute the script : "
                     + ex.getMessage(), ex);
@@ -203,12 +200,14 @@ public class LeviathanProcessor {
      * to
      * @throws EngineException
      */
-    public void persist(String dirPath) throws EngineException {
+    public synchronized void persist(File dirPath) throws EngineException {
         try {
-            File file = new File(dirPath, memory.getGuid());
-            FileOutputStream out = new FileOutputStream(file);
-            out.write(ObjectSerializer.serialize(memory));
-            out.close();
+            if (this.memory.getState() != LeviathanConstants.Status.COMPLETED) {
+                File file = new File(dirPath, memory.getGuid());
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(ObjectSerializer.serialize(memory));
+                out.close();
+            }
         } catch (Exception ex) {
             throw new EngineException("This method persists the object : "
                     + ex.getMessage(), ex);
@@ -223,5 +222,19 @@ public class LeviathanProcessor {
      */
     public String getGUID() {
         return memory.getGuid();
+    }
+    
+    
+    /**
+     * This method is called to see if the environment has been shut down.
+     * 
+     * @throws AbortException 
+     */
+    private boolean checkForShutdown() throws AbortException {
+       if (LeviathanEngine.getInstance().getStatus() != 
+               LeviathanConstants.Status.RUNNING) {
+           throw new AbortException("The engine is not running");
+       }
+       return true;
     }
 }

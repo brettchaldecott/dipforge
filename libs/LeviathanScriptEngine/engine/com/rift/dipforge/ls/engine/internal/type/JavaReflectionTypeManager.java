@@ -22,8 +22,12 @@ package com.rift.dipforge.ls.engine.internal.type;
 
 import com.rift.dipforge.ls.engine.EngineException;
 import com.rift.dipforge.ls.engine.TypeManager;
+import com.rift.dipforge.ls.engine.internal.InvalidParameterException;
 import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
+import com.rift.dipforge.ls.engine.internal.util.VariableUtil;
 import com.rift.dipforge.ls.parser.obj.CallStatement;
+import com.rift.dipforge.ls.parser.obj.LsAnnotation;
+import com.rift.dipforge.ls.parser.obj.Workflow;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +54,56 @@ public class JavaReflectionTypeManager implements TypeManager {
     public boolean manageType(Object type) throws EngineException {
         return true;
     }
+
+    
+    /**
+     * This method returns true if the object can process the annotation.
+     * 
+     * @param annotation The annotation to process.
+     * @return
+     * @throws EngineException 
+     */
+    @Override
+    public boolean canHandleAnnotation(LsAnnotation annotation) throws EngineException {
+        boolean result = annotation.getName().equalsIgnoreCase("java");
+        if (result && annotation.getList().size() < 1) {
+            throw new EngineException(
+                    "The annotation is corrupt and must provide atleast one parameter");
+        }
+        return result;
+    }
+
+    
+    /**
+     * This method is called to process the annotation
+     * 
+     * @param annotation
+     * @param configParameters
+     * @param envParameters
+     * @throws EngineException 
+     */
+    @Override
+    public void processAnnotation(
+            Workflow flow,
+            LsAnnotation annotation, 
+            Map configParameters,
+            Map envParameters) throws EngineException {
+        for (String key : annotation.getList()) {
+            if (!configParameters.containsKey(key)) {
+                throw new InvalidParameterException(
+                        "The configuration parameter [" + key + "] was not found");
+            }
+            if (!VariableUtil.containsHeapVariable(flow, key)) {
+                throw new InvalidParameterException(
+                        "A variable in the flow by the name of [" + key + "] was not found");
+            }
+            envParameters.put(key, configParameters.get(key));
+        }
+    }
+    
+    
+    
+    
     
     
     /**

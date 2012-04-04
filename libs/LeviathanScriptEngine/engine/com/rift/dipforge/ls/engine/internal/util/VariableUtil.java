@@ -28,32 +28,29 @@ import java.util.List;
 
 /**
  * This util is used to manipulate variables.
- * 
+ *
  * @author brett chaldecott
  */
 public class VariableUtil {
-   
-    
-    
+
     /**
      * This method is called to clone the variables.
-     * 
+     *
      * @param callStatement The call statement.
      * @param method The method
      * @return The list of variables.
-     * @throws EngineException 
+     * @throws EngineException
      */
     public static List<Variable> cloneVariables(CallStatement callStatement,
             MethodDefinition method) throws EngineException {
         if (!(callStatement.getEntries().get(
-                callStatement.getEntries().size() -1).getArgument() instanceof
-                ParameterArgument)) {
+                callStatement.getEntries().size() - 1).getArgument() instanceof ParameterArgument)) {
             throw new IncompatibleClassChangeError(
                     "Arguments parameters are not compatible");
         }
-        ParameterArgument parameterArgument = 
-                (ParameterArgument)callStatement.getEntries().get(
-                callStatement.getEntries().size() -1).getArgument();
+        ParameterArgument parameterArgument =
+                (ParameterArgument) callStatement.getEntries().get(
+                callStatement.getEntries().size() - 1).getArgument();
         List<Expression> expressions = parameterArgument.getExpressions();
         List<Variable> parameters = method.getParameters();
         if (expressions.size() != parameters.size()) {
@@ -63,8 +60,27 @@ public class VariableUtil {
         for (int index = 0; index < parameters.size(); index++) {
             Expression exp = expressions.get(index);
             Variable var = parameters.get(index);
-            result.add(new Variable(Types.DEF, var.getName(),new Assignment(exp)));
+            result.add(new Variable(Types.DEF, var.getName(), new Assignment(exp)));
         }
         return result;
+    }
+
+    /**
+     * This method returns true if the flow contains a specified heap variable.
+     * 
+     * @param flow The flow to perform the check against
+     * @param name The name of the variable to perform the check for.
+     * @return TRUE if the variable is found.
+     */
+    public static boolean containsHeapVariable(Workflow flow, String name) {
+        for (Statement statement : flow.getStatements()) {
+            if (statement instanceof Variable) {
+                Variable var = (Variable)statement;
+                if (var.getName().equals(name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -16,32 +16,44 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * LeviathanEngine.java
+ * AbortException.java
  */
+package com.rift.dipforge.ls.engine.internal;
 
-// package path
-package com.rift.dipforge.ls.engine;
-
+import com.rift.dipforge.ls.engine.EngineException;
 
 /**
- * The constants for the leviathan engine.
+ * This exception is called to abort processing.
  * 
  * @author brett chaldecott
  */
-public class LeviathanConstants {
+public class AbortException extends EngineException {
+
+    /**
+     * Creates a new instance of
+     * <code>AbortException</code> without detail message.
+     */
+    public AbortException() {
+    }
+
+    /**
+     * Constructs an instance of
+     * <code>AbortException</code> with the specified detail message.
+     *
+     * @param msg the detail message.
+     */
+    public AbortException(String msg) {
+        super(msg);
+    }
+    
     
     /**
-     * The status types for a process within an engine
+     * Constructs an instance of
+     * <code>AbortException</code> with the specified detail message.
+     *
+     * @param msg the detail message.
      */
-    public enum Status {
-        INIT,
-        RUNNING,
-        SUSPENDED,
-        COMPLETED,
-        ABORTED,
-        SHUTDOWN
-    };
-    
-    
-    public final static String STORAGE_PATH = "storage_path";
+    public AbortException(String msg, Throwable cause) {
+        super(msg,cause);
+    }
 }

@@ -9,7 +9,7 @@ options {
 @header {
   package com.rift.dip.leviathan;
   
-  import com.rift.dipforge.ls.parser.obj.Annotation;
+  import com.rift.dipforge.ls.parser.obj.LsAnnotation;
   import com.rift.dipforge.ls.parser.obj.Assignment;
   import com.rift.dipforge.ls.parser.obj.TypeDefinition;
   import com.rift.dipforge.ls.parser.obj.Workflow;
@@ -44,7 +44,7 @@ options {
 @lexer::header {
   package com.rift.dip.leviathan;
   
-  import com.rift.dipforge.ls.parser.obj.Annotation;
+  import com.rift.dipforge.ls.parser.obj.LsAnnotation;
   import com.rift.dipforge.ls.parser.obj.Assignment;
   import com.rift.dipforge.ls.parser.obj.TypeDefinition;
   import com.rift.dipforge.ls.parser.obj.Workflow;
@@ -94,7 +94,7 @@ workflow returns [Workflow value]
     $value = new Workflow();
     currentBlock = $value;
     }
-    (define {$value.getDefinedTypes().add($define.value);})*
+    //(define {$value.getDefinedTypes().add($define.value);})*
    (anno=annotation {$value.getAnnotations().add($anno.value);} )*
    'flow' flowName=IDENT { $value.setName($flowName.text);}
    '{'
@@ -112,17 +112,20 @@ workflow returns [Workflow value]
    '}' { 
       workflow = $value;};
 
-define returns [TypeDefinition value]
+/*define returns [TypeDefinition value]
   : {$value = new TypeDefinition();} 'define' STRING {
       $value.setUri($STRING.text);
     } 'as' IDENT {
       $value.setName($IDENT.text);
-    };
+    };*/
 
-annotation returns [Annotation value]
-  : '@' name=IDENT '(' (annotationList=list) ')' 
-  {
-  $value = new Annotation($name.text,annotationList);};
+annotation returns [LsAnnotation value]
+  : '@' name=IDENT {
+      $value = new LsAnnotation($name.text);
+    } '(' (STRING{
+      $value.addValue($STRING.text);
+    })* ')' ;
+  
 
 statement returns [Statement value]
   : (
@@ -346,7 +349,7 @@ type returns [String value]
 
 IDENT: ('a'..'z' | 'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
 
-STRING: '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '\'' | '\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '"';
+STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '\'' | '\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '"' {setText($text.substring(1,$text.length() -2));};
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+    { $channel = HIDDEN; } ;
 
