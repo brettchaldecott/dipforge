@@ -41,7 +41,8 @@ public class ForStatement extends Block implements Serializable {
 	
 	private Variable initialValue;
 	private Expression comparison;
-	private Expression increment;
+	private IncrementStatement increment;
+	private CallStatement call;
 	private Block child;
 	
 	/**
@@ -72,13 +73,23 @@ public class ForStatement extends Block implements Serializable {
 	public void setComparison(Expression comparison) {
 		this.comparison = comparison;
 	}
+	
+	public CallStatement getCall() {
+		return call;
+	}
+
+
+	public void setCall(CallStatement call) {
+		this.call = call;
+	}
+
 
 	/**
 	 * This method returns the increment expression.
 	 * 
 	 * @return
 	 */
-	public Expression getIncrement() {
+	public IncrementStatement getIncrement() {
 		return increment;
 	}
 
@@ -88,7 +99,7 @@ public class ForStatement extends Block implements Serializable {
 	 * 
 	 * @param increment The child statment
 	 */
-	public void setIncrement(Expression increment) {
+	public void setIncrement(IncrementStatement increment) {
 		this.increment = increment;
 	}
 

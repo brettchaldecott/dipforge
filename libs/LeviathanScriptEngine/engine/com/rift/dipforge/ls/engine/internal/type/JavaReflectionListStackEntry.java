@@ -82,9 +82,13 @@ public class JavaReflectionListStackEntry extends ProcessStackEntry {
             } else {
                 this.getParent().setResult(list.get(Integer.parseInt(argument.toString())));
             }
+            pop();
+            return;
         } else if (variable instanceof Map) {
             Map map = (Map)variable;
             this.getParent().setResult(map.get(argument));
+            pop();
+            return;
         }
         throw new EngineException("Invalid type [" + 
                 variable.getClass().getName() + 

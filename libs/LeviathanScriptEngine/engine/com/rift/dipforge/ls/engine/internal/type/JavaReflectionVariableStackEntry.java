@@ -74,6 +74,7 @@ public class JavaReflectionVariableStackEntry extends ProcessStackEntry {
         this.getParent().setResult(
                 JavaReflectionUtil.getObject(target, 
                 callStatement.getEntries().subList(1, callStatement.getEntries().size())));
+        pop();
     }
     
     

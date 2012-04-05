@@ -86,7 +86,7 @@ public class UnaryExpressionEntry extends ExpressionEntryStatementComponent {
                     this.getProcessorMemoryManager(), this, currentNegation);
             // set the current comparison = null
             currentNegation = null;
-        } else if (result != null) {
+        } else {
             if (result != null) {
                 value = result;
                 if (operation != null) {

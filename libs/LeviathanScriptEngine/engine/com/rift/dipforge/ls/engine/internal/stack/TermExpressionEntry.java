@@ -86,6 +86,7 @@ public class TermExpressionEntry extends ExpressionEntryStatementComponent {
                     this.getProcessorMemoryManager(), this, 
                         (CallStatement)term);
             } else if (term instanceof Expression) {
+                System.out.println("Execute the expression");
                 ExpressionStatementComponent expression = new 
                     ExpressionStatementComponent(
                     this.getProcessorMemoryManager(),this, 
@@ -93,10 +94,9 @@ public class TermExpressionEntry extends ExpressionEntryStatementComponent {
             } else {
                 result = term;
             }
-            
             // set the current comparison = null
             term = null;
-        } else if (result != null) {
+        } else {
             value = result;
             result = null;
             ProcessStackEntry assignment =

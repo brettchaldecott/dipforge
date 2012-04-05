@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g 2012-04-04 10:57:15
+// $ANTLR 3.4 /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g 2012-04-05 15:07:18
 
   package com.rift.dip.leviathan;
   
@@ -1063,8 +1063,8 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = IDENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:350:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:350:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:6: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:8: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
                 input.consume();
@@ -1076,7 +1076,7 @@ public class LeviathanLexer extends Lexer {
             }
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:350:29: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:29: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -1126,36 +1126,184 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:352:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '\"' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:352:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '\"'
+            int normal;
+
+            StringBuilder lBuf = new StringBuilder();
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:57: ( '\"' ( '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' ) |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )* '\"' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:60: '\"' ( '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' ) |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )* '\"'
             {
             match('\"'); 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:352:14: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '\\\\' | '\\'' | '\\\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )*
-            loop2:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:5: ( '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' ) |normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' ) )*
+            loop3:
             do {
-                int alt2=2;
-                int LA2_0 = input.LA(1);
+                int alt3=3;
+                int LA3_0 = input.LA(1);
 
-                if ( (LA2_0=='\"') ) {
-                    int LA2_1 = input.LA(2);
-
-                    if ( ((LA2_1 >= '\"' && LA2_1 <= '%')||LA2_1=='\''||(LA2_1 >= '.' && LA2_1 <= ':')||(LA2_1 >= '@' && LA2_1 <= 'Z')||LA2_1=='\\'||(LA2_1 >= 'a' && LA2_1 <= 'z')) ) {
-                        alt2=1;
-                    }
-
-
+                if ( (LA3_0=='\\') ) {
+                    alt3=1;
                 }
-                else if ( ((LA2_0 >= '#' && LA2_0 <= '%')||LA2_0=='\''||(LA2_0 >= '.' && LA2_0 <= ':')||(LA2_0 >= '@' && LA2_0 <= 'Z')||LA2_0=='\\'||(LA2_0 >= 'a' && LA2_0 <= 'z')) ) {
-                    alt2=1;
+                else if ( ((LA3_0 >= '\u0000' && LA3_0 <= '\t')||(LA3_0 >= '\u000B' && LA3_0 <= '\f')||(LA3_0 >= '\u000E' && LA3_0 <= '!')||(LA3_0 >= '#' && LA3_0 <= '[')||(LA3_0 >= ']' && LA3_0 <= '\uFFFF')) ) {
+                    alt3=2;
                 }
 
 
-                switch (alt2) {
+                switch (alt3) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:7: '\\\\' ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' )
             	    {
-            	    if ( (input.LA(1) >= '\"' && input.LA(1) <= '%')||input.LA(1)=='\''||(input.LA(1) >= '.' && input.LA(1) <= ':')||(input.LA(1) >= '@' && input.LA(1) <= 'Z')||input.LA(1)=='\\'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
+            	    match('\\'); 
+
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:12: ( 'n' | 'r' | 't' | 'b' | 'f' | '\"' | '\\'' | '/' | '\\\\' )
+            	    int alt2=9;
+            	    switch ( input.LA(1) ) {
+            	    case 'n':
+            	        {
+            	        alt2=1;
+            	        }
+            	        break;
+            	    case 'r':
+            	        {
+            	        alt2=2;
+            	        }
+            	        break;
+            	    case 't':
+            	        {
+            	        alt2=3;
+            	        }
+            	        break;
+            	    case 'b':
+            	        {
+            	        alt2=4;
+            	        }
+            	        break;
+            	    case 'f':
+            	        {
+            	        alt2=5;
+            	        }
+            	        break;
+            	    case '\"':
+            	        {
+            	        alt2=6;
+            	        }
+            	        break;
+            	    case '\'':
+            	        {
+            	        alt2=7;
+            	        }
+            	        break;
+            	    case '/':
+            	        {
+            	        alt2=8;
+            	        }
+            	        break;
+            	    case '\\':
+            	        {
+            	        alt2=9;
+            	        }
+            	        break;
+            	    default:
+            	        NoViableAltException nvae =
+            	            new NoViableAltException("", 2, 0, input);
+
+            	        throw nvae;
+
+            	    }
+
+            	    switch (alt2) {
+            	        case 1 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:361:17: 'n'
+            	            {
+            	            match('n'); 
+
+            	            lBuf.append("\n");
+
+            	            }
+            	            break;
+            	        case 2 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:17: 'r'
+            	            {
+            	            match('r'); 
+
+            	            lBuf.append("\r");
+
+            	            }
+            	            break;
+            	        case 3 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:363:17: 't'
+            	            {
+            	            match('t'); 
+
+            	            lBuf.append("\t");
+
+            	            }
+            	            break;
+            	        case 4 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:17: 'b'
+            	            {
+            	            match('b'); 
+
+            	            lBuf.append("\b");
+
+            	            }
+            	            break;
+            	        case 5 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:365:17: 'f'
+            	            {
+            	            match('f'); 
+
+            	            lBuf.append("\f");
+
+            	            }
+            	            break;
+            	        case 6 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:366:17: '\"'
+            	            {
+            	            match('\"'); 
+
+            	            lBuf.append("\"");
+
+            	            }
+            	            break;
+            	        case 7 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:367:17: '\\''
+            	            {
+            	            match('\''); 
+
+            	            lBuf.append("\'");
+
+            	            }
+            	            break;
+            	        case 8 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:368:17: '/'
+            	            {
+            	            match('/'); 
+
+            	            lBuf.append("/");
+
+            	            }
+            	            break;
+            	        case 9 :
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:369:17: '\\\\'
+            	            {
+            	            match('\\'); 
+
+            	            lBuf.append("\\");
+
+            	            }
+            	            break;
+
+            	    }
+
+
+            	    }
+            	    break;
+            	case 2 :
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:370:13: normal=~ ( '\"' | '\\\\' | '\\n' | '\\r' )
+            	    {
+            	    normal= input.LA(1);
+
+            	    if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '!')||(input.LA(1) >= '#' && input.LA(1) <= '[')||(input.LA(1) >= ']' && input.LA(1) <= '\uFFFF') ) {
             	        input.consume();
             	    }
             	    else {
@@ -1165,18 +1313,20 @@ public class LeviathanLexer extends Lexer {
             	    }
 
 
+            	    lBuf.appendCodePoint(normal);
+
             	    }
             	    break;
 
             	default :
-            	    break loop2;
+            	    break loop3;
                 }
             } while (true);
 
 
             match('\"'); 
 
-            setText(getText().substring(1,getText().length() -2));
+            setText(lBuf.toString());
 
             }
 
@@ -1194,22 +1344,22 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:354:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:354:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:374:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:374:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:354:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
-            int cnt3=0;
-            loop3:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:374:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            int cnt4=0;
+            loop4:
             do {
-                int alt3=2;
-                int LA3_0 = input.LA(1);
+                int alt4=2;
+                int LA4_0 = input.LA(1);
 
-                if ( ((LA3_0 >= '\t' && LA3_0 <= '\n')||(LA3_0 >= '\f' && LA3_0 <= '\r')||LA3_0==' ') ) {
-                    alt3=1;
+                if ( ((LA4_0 >= '\t' && LA4_0 <= '\n')||(LA4_0 >= '\f' && LA4_0 <= '\r')||LA4_0==' ') ) {
+                    alt4=1;
                 }
 
 
-                switch (alt3) {
+                switch (alt4) {
             	case 1 :
             	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:
             	    {
@@ -1227,12 +1377,12 @@ public class LeviathanLexer extends Lexer {
             	    break;
 
             	default :
-            	    if ( cnt3 >= 1 ) break loop3;
+            	    if ( cnt4 >= 1 ) break loop4;
                         EarlyExitException eee =
-                            new EarlyExitException(3, input);
+                            new EarlyExitException(4, input);
                         throw eee;
                 }
-                cnt3++;
+                cnt4++;
             } while (true);
 
 
@@ -1254,63 +1404,10 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = INTEGER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:8: ( ( '0' .. '9' )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:10: ( '0' .. '9' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:376:8: ( ( '0' .. '9' )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:376:10: ( '0' .. '9' )*
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:356:10: ( '0' .. '9' )*
-            loop4:
-            do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
-
-                if ( ((LA4_0 >= '0' && LA4_0 <= '9')) ) {
-                    alt4=1;
-                }
-
-
-                switch (alt4) {
-            	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:
-            	    {
-            	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
-            	        input.consume();
-            	    }
-            	    else {
-            	        MismatchedSetException mse = new MismatchedSetException(null,input);
-            	        recover(mse);
-            	        throw mse;
-            	    }
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop4;
-                }
-            } while (true);
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "INTEGER"
-
-    // $ANTLR start "FLOAT"
-    public final void mFLOAT() throws RecognitionException {
-        try {
-            int _type = FLOAT;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:358:6: ( ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:358:8: ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9'
-            {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:358:8: ( '0' .. '9' )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:376:10: ( '0' .. '9' )*
             loop5:
             do {
                 int alt5=2;
@@ -1344,6 +1441,59 @@ public class LeviathanLexer extends Lexer {
             } while (true);
 
 
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        	// do for sure before leaving
+        }
+    }
+    // $ANTLR end "INTEGER"
+
+    // $ANTLR start "FLOAT"
+    public final void mFLOAT() throws RecognitionException {
+        try {
+            int _type = FLOAT;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:378:6: ( ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:378:8: ( '0' .. '9' )* '.' '0' .. '9' '0' .. '9'
+            {
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:378:8: ( '0' .. '9' )*
+            loop6:
+            do {
+                int alt6=2;
+                int LA6_0 = input.LA(1);
+
+                if ( ((LA6_0 >= '0' && LA6_0 <= '9')) ) {
+                    alt6=1;
+                }
+
+
+                switch (alt6) {
+            	case 1 :
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:
+            	    {
+            	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
+            	        input.consume();
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        recover(mse);
+            	        throw mse;
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop6;
+                }
+            } while (true);
+
+
             match('.'); 
 
             matchRange('0','9'); 
@@ -1366,29 +1516,29 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = INCREMENTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:12: ( ( '++' | '--' ) )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:14: ( '++' | '--' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:380:12: ( ( '++' | '--' ) )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:380:14: ( '++' | '--' )
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:14: ( '++' | '--' )
-            int alt6=2;
-            int LA6_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:380:14: ( '++' | '--' )
+            int alt7=2;
+            int LA7_0 = input.LA(1);
 
-            if ( (LA6_0=='+') ) {
-                alt6=1;
+            if ( (LA7_0=='+') ) {
+                alt7=1;
             }
-            else if ( (LA6_0=='-') ) {
-                alt6=2;
+            else if ( (LA7_0=='-') ) {
+                alt7=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 6, 0, input);
+                    new NoViableAltException("", 7, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt6) {
+            switch (alt7) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:15: '++'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:380:15: '++'
                     {
                     match("++"); 
 
@@ -1397,7 +1547,7 @@ public class LeviathanLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:360:21: '--'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:380:21: '--'
                     {
                     match("--"); 
 
@@ -1425,39 +1575,39 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:9: ( '/*' ( . )* '*/' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:11: '/*' ( . )* '*/'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:382:9: ( '/*' ( . )* '*/' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:382:11: '/*' ( . )* '*/'
             {
             match("/*"); 
 
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:16: ( . )*
-            loop7:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:382:16: ( . )*
+            loop8:
             do {
-                int alt7=2;
-                int LA7_0 = input.LA(1);
+                int alt8=2;
+                int LA8_0 = input.LA(1);
 
-                if ( (LA7_0=='*') ) {
-                    int LA7_1 = input.LA(2);
+                if ( (LA8_0=='*') ) {
+                    int LA8_1 = input.LA(2);
 
-                    if ( (LA7_1=='/') ) {
-                        alt7=2;
+                    if ( (LA8_1=='/') ) {
+                        alt8=2;
                     }
-                    else if ( ((LA7_1 >= '\u0000' && LA7_1 <= '.')||(LA7_1 >= '0' && LA7_1 <= '\uFFFF')) ) {
-                        alt7=1;
+                    else if ( ((LA8_1 >= '\u0000' && LA8_1 <= '.')||(LA8_1 >= '0' && LA8_1 <= '\uFFFF')) ) {
+                        alt8=1;
                     }
 
 
                 }
-                else if ( ((LA7_0 >= '\u0000' && LA7_0 <= ')')||(LA7_0 >= '+' && LA7_0 <= '\uFFFF')) ) {
-                    alt7=1;
+                else if ( ((LA8_0 >= '\u0000' && LA8_0 <= ')')||(LA8_0 >= '+' && LA8_0 <= '\uFFFF')) ) {
+                    alt8=1;
                 }
 
 
-                switch (alt7) {
+                switch (alt8) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:362:16: .
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:382:16: .
             	    {
             	    matchAny(); 
 
@@ -1465,7 +1615,7 @@ public class LeviathanLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop7;
+            	    break loop8;
                 }
             } while (true);
 
@@ -1492,25 +1642,25 @@ public class LeviathanLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:14: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:16: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:384:14: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:384:16: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:21: (~ ( '\\n' | '\\r' ) )*
-            loop8:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:384:21: (~ ( '\\n' | '\\r' ) )*
+            loop9:
             do {
-                int alt8=2;
-                int LA8_0 = input.LA(1);
+                int alt9=2;
+                int LA9_0 = input.LA(1);
 
-                if ( ((LA8_0 >= '\u0000' && LA8_0 <= '\t')||(LA8_0 >= '\u000B' && LA8_0 <= '\f')||(LA8_0 >= '\u000E' && LA8_0 <= '\uFFFF')) ) {
-                    alt8=1;
+                if ( ((LA9_0 >= '\u0000' && LA9_0 <= '\t')||(LA9_0 >= '\u000B' && LA9_0 <= '\f')||(LA9_0 >= '\u000E' && LA9_0 <= '\uFFFF')) ) {
+                    alt9=1;
                 }
 
 
-                switch (alt8) {
+                switch (alt9) {
             	case 1 :
             	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:
             	    {
@@ -1528,21 +1678,21 @@ public class LeviathanLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop8;
+            	    break loop9;
                 }
             } while (true);
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:35: ( '\\r' )?
-            int alt9=2;
-            int LA9_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:384:35: ( '\\r' )?
+            int alt10=2;
+            int LA10_0 = input.LA(1);
 
-            if ( (LA9_0=='\r') ) {
-                alt9=1;
+            if ( (LA10_0=='\r') ) {
+                alt10=1;
             }
-            switch (alt9) {
+            switch (alt10) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:364:35: '\\r'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:384:35: '\\r'
                     {
                     match('\r'); 
 
@@ -1569,9 +1719,9 @@ public class LeviathanLexer extends Lexer {
 
     public void mTokens() throws RecognitionException {
         // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | IDENT | STRING | WHITESPACE | INTEGER | FLOAT | INCREMENTER | COMMENT | LINE_COMMENT )
-        int alt10=51;
-        alt10 = dfa10.predict(input);
-        switch (alt10) {
+        int alt11=51;
+        alt11 = dfa11.predict(input);
+        switch (alt11) {
             case 1 :
                 // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:1:10: T__12
                 {
@@ -1986,17 +2136,17 @@ public class LeviathanLexer extends Lexer {
     }
 
 
-    protected DFA10 dfa10 = new DFA10(this);
-    static final String DFA10_eotS =
+    protected DFA11 dfa11 = new DFA11(this);
+    static final String DFA11_eotS =
         "\1\46\1\50\5\uffff\1\52\1\uffff\1\53\1\55\1\60\2\uffff\1\62\1\64"+
         "\1\66\1\uffff\1\42\2\uffff\12\42\6\uffff\1\46\21\uffff\12\42\1\121"+
         "\12\42\1\134\3\42\1\141\1\uffff\1\142\6\42\1\151\1\152\1\42\1\uffff"+
         "\1\42\1\155\1\42\1\157\2\uffff\1\160\1\42\1\162\2\42\1\165\2\uffff"+
         "\2\42\1\uffff\1\170\2\uffff\1\42\1\uffff\1\172\1\173\1\uffff\1\42"+
         "\1\175\1\uffff\1\176\2\uffff\1\42\2\uffff\1\u0080\1\uffff";
-    static final String DFA10_eofS =
+    static final String DFA11_eofS =
         "\u0081\uffff";
-    static final String DFA10_minS =
+    static final String DFA11_minS =
         "\1\11\1\75\5\uffff\1\53\1\uffff\1\55\1\60\1\52\2\uffff\3\75\1\uffff"+
         "\1\164\2\uffff\1\162\1\150\1\145\2\154\1\146\1\157\1\145\1\157\1"+
         "\150\6\uffff\1\56\21\uffff\1\162\1\145\1\164\1\141\1\156\1\146\1"+
@@ -2006,7 +2156,7 @@ public class LeviathanLexer extends Lexer {
         "\2\uffff\1\60\1\162\1\60\1\145\1\147\1\60\2\uffff\1\156\1\145\1"+
         "\uffff\1\60\2\uffff\1\156\1\uffff\2\60\1\uffff\1\165\1\60\1\uffff"+
         "\1\60\2\uffff\1\145\2\uffff\1\60\1\uffff";
-    static final String DFA10_maxS =
+    static final String DFA11_maxS =
         "\1\175\1\75\5\uffff\1\53\1\uffff\1\55\1\71\1\57\2\uffff\3\75\1\uffff"+
         "\1\164\2\uffff\1\171\2\157\1\154\1\157\1\156\1\157\1\145\1\157\1"+
         "\150\6\uffff\1\71\21\uffff\1\162\1\145\1\164\1\141\1\156\1\146\1"+
@@ -2016,7 +2166,7 @@ public class LeviathanLexer extends Lexer {
         "\1\172\2\uffff\1\172\1\162\1\172\1\145\1\147\1\172\2\uffff\1\156"+
         "\1\145\1\uffff\1\172\2\uffff\1\156\1\uffff\2\172\1\uffff\1\165\1"+
         "\172\1\uffff\1\172\2\uffff\1\145\2\uffff\1\172\1\uffff";
-    static final String DFA10_acceptS =
+    static final String DFA11_acceptS =
         "\2\uffff\1\3\1\4\1\5\1\6\1\7\1\uffff\1\11\3\uffff\1\15\1\16\3\uffff"+
         "\1\25\1\uffff\1\27\1\30\12\uffff\1\51\1\52\1\53\1\54\1\55\1\56\1"+
         "\uffff\1\57\1\2\1\1\1\61\1\10\1\12\1\60\1\13\1\62\1\63\1\14\1\20"+
@@ -2024,9 +2174,9 @@ public class LeviathanLexer extends Lexer {
         "\42\1\44\6\uffff\1\32\1\33\2\uffff\1\37\1\uffff\1\41\1\45\1\uffff"+
         "\1\47\2\uffff\1\31\2\uffff\1\40\1\uffff\1\50\1\26\1\uffff\1\36\1"+
         "\46\1\uffff\1\34";
-    static final String DFA10_specialS =
+    static final String DFA11_specialS =
         "\u0081\uffff}>";
-    static final String[] DFA10_transitionS = {
+    static final String[] DFA11_transitionS = {
             "\2\44\1\uffff\2\44\22\uffff\1\44\1\1\1\43\2\uffff\1\2\1\3\1"+
             "\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\12\45\1\14\1\15\1"+
             "\16\1\17\1\20\1\uffff\1\21\22\42\1\22\7\42\1\23\1\uffff\1\24"+
@@ -2162,34 +2312,34 @@ public class LeviathanLexer extends Lexer {
             ""
     };
 
-    static final short[] DFA10_eot = DFA.unpackEncodedString(DFA10_eotS);
-    static final short[] DFA10_eof = DFA.unpackEncodedString(DFA10_eofS);
-    static final char[] DFA10_min = DFA.unpackEncodedStringToUnsignedChars(DFA10_minS);
-    static final char[] DFA10_max = DFA.unpackEncodedStringToUnsignedChars(DFA10_maxS);
-    static final short[] DFA10_accept = DFA.unpackEncodedString(DFA10_acceptS);
-    static final short[] DFA10_special = DFA.unpackEncodedString(DFA10_specialS);
-    static final short[][] DFA10_transition;
+    static final short[] DFA11_eot = DFA.unpackEncodedString(DFA11_eotS);
+    static final short[] DFA11_eof = DFA.unpackEncodedString(DFA11_eofS);
+    static final char[] DFA11_min = DFA.unpackEncodedStringToUnsignedChars(DFA11_minS);
+    static final char[] DFA11_max = DFA.unpackEncodedStringToUnsignedChars(DFA11_maxS);
+    static final short[] DFA11_accept = DFA.unpackEncodedString(DFA11_acceptS);
+    static final short[] DFA11_special = DFA.unpackEncodedString(DFA11_specialS);
+    static final short[][] DFA11_transition;
 
     static {
-        int numStates = DFA10_transitionS.length;
-        DFA10_transition = new short[numStates][];
+        int numStates = DFA11_transitionS.length;
+        DFA11_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA10_transition[i] = DFA.unpackEncodedString(DFA10_transitionS[i]);
+            DFA11_transition[i] = DFA.unpackEncodedString(DFA11_transitionS[i]);
         }
     }
 
-    class DFA10 extends DFA {
+    class DFA11 extends DFA {
 
-        public DFA10(BaseRecognizer recognizer) {
+        public DFA11(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 10;
-            this.eot = DFA10_eot;
-            this.eof = DFA10_eof;
-            this.min = DFA10_min;
-            this.max = DFA10_max;
-            this.accept = DFA10_accept;
-            this.special = DFA10_special;
-            this.transition = DFA10_transition;
+            this.decisionNumber = 11;
+            this.eot = DFA11_eot;
+            this.eof = DFA11_eof;
+            this.min = DFA11_min;
+            this.max = DFA11_max;
+            this.accept = DFA11_accept;
+            this.special = DFA11_special;
+            this.transition = DFA11_transition;
         }
         public String getDescription() {
             return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | IDENT | STRING | WHITESPACE | INTEGER | FLOAT | INCREMENTER | COMMENT | LINE_COMMENT );";

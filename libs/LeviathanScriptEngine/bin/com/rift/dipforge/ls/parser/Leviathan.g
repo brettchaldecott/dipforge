@@ -130,7 +130,8 @@ annotation returns [LsAnnotation value]
 statement returns [Statement value]
   : (
   varCall=callStatement {$value = varCall;} (ass1=assignment {varCall.setAssignment(ass1);})? ';'? 
-  | var=variable {$value = var;} (ass2=assignment {var.setInitialValue(ass2);})? ';'? 
+  | var=variable {$value = var;} (ass2=assignment {var.setInitialValue(ass2);})? ';'?
+  | incrementStatement ';'
   | ifStat=ifStatement {$value = ifStat;}
   | whileStat=whileStatement {$value = whileStat;}
   | forStat=forStatement {$value = forStat;}
@@ -149,6 +150,17 @@ block returns [Block value]
       {
       currentBlock = currentBlock.getParent();
       };
+
+incrementStatement returns [IncrementStatement value]
+  : {
+      $value = new IncrementStatement();
+    }(inc1=INCREMENTER {
+      $value.setOperation($inc1.text);
+    } ident1=IDENT {$value.setVariable($ident1.text);} | ident2=IDENT {
+      $value.setVariable($ident2.text);} inc2=INCREMENTER {
+      $value.setOperation($inc2.text);
+    });
+
 
 ifStatement returns [IfStatement value]
   : {$value = new IfStatement();}'if' '(' exp1=expression ')' bl1=block {
@@ -172,9 +184,12 @@ forStatement returns [ForStatement value]
   $value.setInitialValue(var);
   } )? ';' exp1=expression {
   $value.setComparison(exp1);
-  } ';'  ( exp2=expression {
-  $value.setIncrement(exp2);
-  })? ')' bl=block {$value.setChild(bl);};
+  } ';'  (inc=incrementStatement {
+    $value.setIncrement(inc);
+  } | varCall=callStatement ass1=assignment {
+    varCall.setAssignment(ass1);
+    $value.setCall(varCall);
+  } )? ')' bl=block {$value.setChild(bl);};
   
 /*
 The case statement has been removed from the language at this point.
@@ -264,22 +279,13 @@ term returns [Object value]
   | value {$value = $value.value;}
   ;
 
-increment returns [IncrementStatement value]
-  : {
-      $value = new IncrementStatement();
-    }(inc1=INCREMENTER {
-      $value.setOperation($inc1.text);
-    })? term {$value.setValue($term.value);} (inc2=INCREMENTER {
-      $value.setOperation($inc2.text);
-    })?;
-  
 negation returns [NegationStatement value]
   : {
       $value = new NegationStatement();
     } ('!' {
       $value.setNegation(true);
-    })? inc=increment {
-      $value.setIncrement($inc.value);
+    })? term1=term {
+      $value.setTerm($term1.value);
     };
 
 unary returns [UnaryStatement value]
@@ -349,7 +355,21 @@ type returns [String value]
 
 IDENT: ('a'..'z' | 'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
 
-STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '\'' | '\"' | '/' | ':' | '@' | '#' | '$' | '%' | '.' )* '"' {setText($text.substring(1,$text.length() -2));};
+//STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '\'' | '\"' | '/' | ':' | '@' | '#' | '$' | '%' | "." | " " | "^" | "&" | "*" | "(" )* '"' {setText($text.substring(1,$text.length() -1));};
+
+STRING @init{StringBuilder lBuf = new StringBuilder();} :  '"'
+    ( '\\' (    'n'    {lBuf.append("\n");}
+        |       'r'    {lBuf.append("\r");}
+        |       't'    {lBuf.append("\t");}
+        |       'b'    {lBuf.append("\b");}
+        |       'f'    {lBuf.append("\f");}
+        |       '"'    {lBuf.append("\"");}
+        |       '\''   {lBuf.append("\'");}
+        |       '/'    {lBuf.append("/");}
+        |       '\\'   {lBuf.append("\\");}
+        ) | normal=~('"'|'\\'|'\n'|'\r') {lBuf.appendCodePoint(normal);} 
+    )*
+    '"' {setText(lBuf.toString());};
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+    { $channel = HIDDEN; } ;
 

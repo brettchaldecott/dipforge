@@ -91,7 +91,7 @@ public class AddExpressionEntry extends ExpressionEntryStatementComponent {
                     this.getProcessorMemoryManager(), this, currentMulti);
             // set the current comparison = null
             currentMulti = null;
-        } else if (result != null) {
+        } else {
             if (value == null && operation == null) {
                 value = result;
             } else {
@@ -200,8 +200,8 @@ public class AddExpressionEntry extends ExpressionEntryStatementComponent {
             }
             result = null;
             if (blocks.size() == 0) {
-                ExpressionStatementComponent assignment =
-                        (ExpressionStatementComponent) this.getParent();
+                ProcessStackEntry assignment =
+                        (ProcessStackEntry) this.getParent();
                 assignment.setResult(value);
                 pop();
             } else {

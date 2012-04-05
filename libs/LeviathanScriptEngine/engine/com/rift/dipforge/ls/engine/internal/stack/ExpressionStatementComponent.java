@@ -90,7 +90,7 @@ public class ExpressionStatementComponent extends StatementComponentStackEntry {
                     this.getProcessorMemoryManager(), this, currentComparison);
             // set the current comparison = null
             currentComparison = null;
-        } else if (result != null) {
+        } else {
             if (value == null && operation == null) {
                 value = result;
             } else {

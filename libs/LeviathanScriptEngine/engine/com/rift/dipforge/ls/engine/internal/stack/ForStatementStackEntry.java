@@ -25,7 +25,9 @@ import com.rift.dipforge.ls.engine.internal.Constants;
 import com.rift.dipforge.ls.engine.internal.InvalidTypeException;
 import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
 import com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager;
+import com.rift.dipforge.ls.parser.obj.CallStatement;
 import com.rift.dipforge.ls.parser.obj.ForStatement;
+import com.rift.dipforge.ls.parser.obj.IncrementStatement;
 import com.rift.dipforge.ls.parser.obj.Variable;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +50,8 @@ public class ForStatementStackEntry extends StatementStackEntry {
     private ForStatement statement;
     private ForOp status;
     private Boolean result;
+    private IncrementStatement increment;
+    private CallStatement callStatement;
 
     /**
      * The constructor that initializes all values.
@@ -66,6 +70,8 @@ public class ForStatementStackEntry extends StatementStackEntry {
         status = ForOp.INIT;
         this.addVariable(Constants.CONTINUE, null);
         this.addVariable(Constants.BREAK, null);
+        this.increment = statement.getIncrement();
+        this.callStatement = statement.getCall();
     }
     
 
@@ -91,9 +97,16 @@ public class ForStatementStackEntry extends StatementStackEntry {
                     statement.getComparison());
             status = ForOp.BLOCK;
         } else if (status == ForOp.INC) {
-            ExpressionStatementComponent expression = new ExpressionStatementComponent(
-                    this.getProcessorMemoryManager(), this,
-                    statement.getIncrement());
+            if (this.increment != null) {
+                IncrementStatementStackEntry stackEntry =
+                        new IncrementStatementStackEntry(
+                        this.getProcessorMemoryManager(),this,
+                        increment);
+            } else {
+                CallStatementStackEntry stackEntry = new CallStatementStackEntry(
+                        this.getProcessorMemoryManager(),this, null,
+                        callStatement);
+            }
             status = ForOp.COMP;
         } else if (status == ForOp.BLOCK) {
             if (result.booleanValue()) {
@@ -102,7 +115,7 @@ public class ForStatementStackEntry extends StatementStackEntry {
                 parameters.put(Constants.BLOCK, this.statement.getChild());
                 BlockStackEntry stackEntry = new BlockStackEntry(
                         this.getProcessorMemoryManager(), this, parameters);
-                status = ForOp.INIT;
+                status = ForOp.INC;
             } else {
                 pop();
             }

@@ -177,6 +177,7 @@ public class LeviathanProcessor {
             // processing has been borted for now
             throw ex;
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new EngineException("Failed to execute the script : "
                     + ex.getMessage(), ex);
         }

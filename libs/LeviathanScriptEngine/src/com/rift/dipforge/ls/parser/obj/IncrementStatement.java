@@ -36,7 +36,7 @@ public class IncrementStatement extends Statement implements Serializable {
 	
 	// private member variables
 	private String operation;
-	private Object value;
+	private String variable;
 	
 	/**
 	 * The default constructor
@@ -49,12 +49,12 @@ public class IncrementStatement extends Statement implements Serializable {
 	 * The constructor that sets up all the properties of this object.
 	 * 
 	 * @param operation The operator name.
-	 * @param value The
+	 * @param variable The identifier for the variable
 	 */
-	public IncrementStatement(String operation, Object value) {
+	public IncrementStatement(String operation, String variable) {
 		super();
 		this.operation = operation;
-		this.value = value;
+		this.variable = variable;
 	}
 
 	/**
@@ -78,22 +78,22 @@ public class IncrementStatement extends Statement implements Serializable {
 
 	
 	/**
-	 * This method returns the value of the increment statement.
+	 * This method returns the identifier for the variable being manipulated
 	 * 
 	 * @return The value of the increment statement.
 	 */
-	public Object getValue() {
-		return value;
+	public String getVariable() {
+		return variable;
 	}
 
 	
 	/**
-	 * This method sets the value that the increment will be performed on.
+	 * This method sets the variable value.
 	 * 
 	 * @param value The value the increment is performed on.
 	 */
-	public void setValue(Object value) {
-		this.value = value;
+	public void setVariable(String variable) {
+		this.variable = variable;
 	}
 
 	
@@ -106,7 +106,7 @@ public class IncrementStatement extends Statement implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((operation == null) ? 0 : operation.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((variable == null) ? 0 : variable.hashCode());
 		return result;
 	}
 	
@@ -128,10 +128,10 @@ public class IncrementStatement extends Statement implements Serializable {
 				return false;
 		} else if (!operation.equals(other.operation))
 			return false;
-		if (value == null) {
-			if (other.value != null)
+		if (variable == null) {
+			if (other.variable != null)
 				return false;
-		} else if (!value.equals(other.value))
+		} else if (!variable.equals(other.variable))
 			return false;
 		return true;
 	}
@@ -142,8 +142,8 @@ public class IncrementStatement extends Statement implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "IncrementStatement [operation=" + operation + ", value="
-				+ value + "]";
+		return "IncrementStatement [operation=" + operation + ", variable="
+				+ variable + "]";
 	}
 	
 	

@@ -158,10 +158,11 @@ public class CallStatementStackEntry extends StatementStackEntry {
             
             // set the current comparison = null
             callStatement = null;
-        } else if (result != null) {
+        } else {
             value = result;
             result = null;
-            if (!(this.getParent() instanceof BlockStackEntry)) {
+            if (!(this.getParent() instanceof BlockStackEntry) &&
+                    !(this.getParent() instanceof ForStatementStackEntry)) {
                 ProcessStackEntry assignment =
                         (ProcessStackEntry) this.getParent();
                 assignment.setResult(value);

@@ -98,7 +98,7 @@ public class RelationExpressionEntry extends ExpressionEntryStatementComponent {
                     this.getProcessorMemoryManager(), this, currentAdd);
             // set the current comparison = null
             currentAdd = null;
-        } else if (result != null) {
+        } else {
             if (value == null && operation == null) {
                 value = result;
             } else {

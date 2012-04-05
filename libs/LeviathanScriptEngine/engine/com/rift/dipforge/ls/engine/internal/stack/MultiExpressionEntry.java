@@ -95,7 +95,7 @@ public class MultiExpressionEntry extends ExpressionEntryStatementComponent {
                     this.getProcessorMemoryManager(), this, currentUnary);
             // set the current comparison = null
             currentUnary = null;
-        } else if (result != null) {
+        } else {
             if (value == null && operation == null) {
                 value = result;
             } else {

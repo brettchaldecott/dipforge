@@ -72,8 +72,9 @@ public class JavaReflectionMethodStackEntry extends ProcessStackEntry {
     public void execute() throws EngineException {
         Object target = JavaReflectionUtil.getObject(this.target, 
                 callStatement.getEntries().subList(1,
-                callStatement.getEntries().size() - 2));
+                callStatement.getEntries().size() - 1));
         this.getParent().setResult(executeMethod(target, callStatement));
+        pop();
     }
 
     

@@ -51,7 +51,11 @@ public abstract class ProcessStackEntry implements Serializable {
             ProcessStackEntry parent, Map variables) {
         this.processorMemoryManager = processorMemoryManager;
         this.parent = parent;
-        this.variables = variables;
+        if (variables != null) {
+            this.variables = variables;
+        } else {
+            this.variables = new HashMap();
+        }
         this.processorMemoryManager.pushStack(this);
     }
 
@@ -149,7 +153,15 @@ public abstract class ProcessStackEntry implements Serializable {
     public void setVariable(String key, Object value) throws NoSuchVariable {
         if (variables.containsKey(key)) {
             variables.put(key, value);
-
+            return;
+        }
+        if (containsVariable(key)) {
+            if (parent != null) {
+                parent.setVariable(key,value);
+            } else {
+                processorMemoryManager.getHeap().setVariable(key, value);
+            }
+            return;
         }
         throw new NoSuchVariable("No such variable [" + key + "]");
     }

@@ -43,7 +43,7 @@ public class NegationExpressionEntry extends ExpressionEntryStatementComponent {
     private Object value;
     private Object result;
     private Boolean negation;
-    private IncrementStatement currentIncrement;
+    private Object currentTerm;
 
     /**
      * This constructor sets up all internal values besides the variable map.
@@ -58,7 +58,7 @@ public class NegationExpressionEntry extends ExpressionEntryStatementComponent {
         super(processorMemoryManager, parent);
         this.negationStatement = negationStatement;
         this.negation = negationStatement.isNegation();
-        this.currentIncrement = negationStatement.getIncrement();
+        this.currentTerm = negationStatement.getTerm();
     }
     
 
@@ -77,7 +77,7 @@ public class NegationExpressionEntry extends ExpressionEntryStatementComponent {
         super(processorMemoryManager, parent, variables);
         this.negationStatement = negationStatement;
         this.negation = negationStatement.isNegation();
-        this.currentIncrement = negationStatement.getIncrement();
+        this.currentTerm = negationStatement.getTerm();
     }
 
     
@@ -88,12 +88,12 @@ public class NegationExpressionEntry extends ExpressionEntryStatementComponent {
      */
     @Override
     public void execute() throws EngineException {
-        if (currentIncrement != null) {
-            IncrementExpressionEntry entry = new IncrementExpressionEntry(
-                    this.getProcessorMemoryManager(), this, currentIncrement);
+        if (currentTerm != null) {
+            TermExpressionEntry entry = new TermExpressionEntry(
+                    this.getProcessorMemoryManager(), this, currentTerm);
             // set the current comparison = null
-            currentIncrement = null;
-        } else if (result != null) {
+            currentTerm = null;
+        } else {
             if (result != null) {
                 value = result;
                 if (negation) {
@@ -105,7 +105,7 @@ public class NegationExpressionEntry extends ExpressionEntryStatementComponent {
                     }
                 }
             }
-            currentIncrement = null;
+            currentTerm = null;
             result = null;
             ProcessStackEntry assignment =
                     (ProcessStackEntry) this.getParent();

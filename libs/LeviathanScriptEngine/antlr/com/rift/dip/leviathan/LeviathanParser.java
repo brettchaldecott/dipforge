@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g 2012-04-04 10:57:15
+// $ANTLR 3.4 /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g 2012-04-05 15:07:18
 
   package com.rift.dip.leviathan;
   
@@ -580,7 +580,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "statement"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:130:1: statement returns [Statement value] : (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' ) ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:130:1: statement returns [Statement value] : (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? | incrementStatement ';' |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' ) ;
     public final Statement statement() throws RecognitionException {
         Statement value = null;
 
@@ -605,15 +605,43 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:131:3: ( (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' ) )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:131:5: (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:131:3: ( (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? | incrementStatement ';' |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' ) )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:131:5: (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? | incrementStatement ';' |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' )
             {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:131:5: (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' )
-            int alt11=9;
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:131:5: (varCall= callStatement (ass1= assignment )? ( ';' )? |var= variable (ass2= assignment )? ( ';' )? | incrementStatement ';' |ifStat= ifStatement |whileStat= whileStatement |forStat= forStatement |bl= block |ret= returnStatement | 'continue' | 'break' )
+            int alt11=10;
             switch ( input.LA(1) ) {
             case IDENT:
                 {
-                alt11=1;
+                int LA11_1 = input.LA(2);
+
+                if ( (LA11_1==IDENT||LA11_1==16||LA11_1==22||LA11_1==25||LA11_1==28||(LA11_1 >= 33 && LA11_1 <= 34)||(LA11_1 >= 36 && LA11_1 <= 41)||LA11_1==43||(LA11_1 >= 45 && LA11_1 <= 52)||LA11_1==54) ) {
+                    alt11=1;
+                }
+                else if ( (LA11_1==INCREMENTER) ) {
+                    int LA11_12 = input.LA(3);
+
+                    if ( (LA11_12==IDENT) ) {
+                        alt11=1;
+                    }
+                    else if ( (LA11_12==25) ) {
+                        alt11=3;
+                    }
+                    else {
+                        NoViableAltException nvae =
+                            new NoViableAltException("", 11, 12, input);
+
+                        throw nvae;
+
+                    }
+                }
+                else {
+                    NoViableAltException nvae =
+                        new NoViableAltException("", 11, 1, input);
+
+                    throw nvae;
+
+                }
                 }
                 break;
             case 33:
@@ -629,39 +657,44 @@ public class LeviathanParser extends Parser {
                 alt11=2;
                 }
                 break;
-            case 46:
+            case INCREMENTER:
                 {
                 alt11=3;
                 }
                 break;
-            case 51:
+            case 46:
                 {
                 alt11=4;
                 }
                 break;
-            case 45:
+            case 51:
                 {
                 alt11=5;
                 }
                 break;
-            case 52:
+            case 45:
                 {
                 alt11=6;
                 }
                 break;
-            case 49:
+            case 52:
                 {
                 alt11=7;
                 }
                 break;
-            case 39:
+            case 49:
                 {
                 alt11=8;
                 }
                 break;
-            case 36:
+            case 39:
                 {
                 alt11=9;
+                }
+                break;
+            case 36:
+                {
+                alt11=10;
                 }
                 break;
             default:
@@ -788,9 +821,22 @@ public class LeviathanParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:134:5: ifStat= ifStatement
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:134:5: incrementStatement ';'
                     {
-                    pushFollow(FOLLOW_ifStatement_in_statement251);
+                    pushFollow(FOLLOW_incrementStatement_in_statement248);
+                    incrementStatement();
+
+                    state._fsp--;
+
+
+                    match(input,25,FOLLOW_25_in_statement250); 
+
+                    }
+                    break;
+                case 4 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:135:5: ifStat= ifStatement
+                    {
+                    pushFollow(FOLLOW_ifStatement_in_statement258);
                     ifStat=ifStatement();
 
                     state._fsp--;
@@ -800,10 +846,10 @@ public class LeviathanParser extends Parser {
 
                     }
                     break;
-                case 4 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:135:5: whileStat= whileStatement
+                case 5 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:136:5: whileStat= whileStatement
                     {
-                    pushFollow(FOLLOW_whileStatement_in_statement261);
+                    pushFollow(FOLLOW_whileStatement_in_statement268);
                     whileStat=whileStatement();
 
                     state._fsp--;
@@ -813,10 +859,10 @@ public class LeviathanParser extends Parser {
 
                     }
                     break;
-                case 5 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:136:5: forStat= forStatement
+                case 6 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:137:5: forStat= forStatement
                     {
-                    pushFollow(FOLLOW_forStatement_in_statement271);
+                    pushFollow(FOLLOW_forStatement_in_statement278);
                     forStat=forStatement();
 
                     state._fsp--;
@@ -826,10 +872,10 @@ public class LeviathanParser extends Parser {
 
                     }
                     break;
-                case 6 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:138:5: bl= block
+                case 7 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:139:5: bl= block
                     {
-                    pushFollow(FOLLOW_block_in_statement284);
+                    pushFollow(FOLLOW_block_in_statement291);
                     bl=block();
 
                     state._fsp--;
@@ -839,10 +885,10 @@ public class LeviathanParser extends Parser {
 
                     }
                     break;
-                case 7 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:139:5: ret= returnStatement
+                case 8 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:140:5: ret= returnStatement
                     {
-                    pushFollow(FOLLOW_returnStatement_in_statement294);
+                    pushFollow(FOLLOW_returnStatement_in_statement301);
                     ret=returnStatement();
 
                     state._fsp--;
@@ -852,19 +898,19 @@ public class LeviathanParser extends Parser {
 
                     }
                     break;
-                case 8 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:140:5: 'continue'
+                case 9 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:141:5: 'continue'
                     {
-                    match(input,39,FOLLOW_39_in_statement302); 
+                    match(input,39,FOLLOW_39_in_statement309); 
 
                     value = new ContinueStatement(); 
 
                     }
                     break;
-                case 9 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:141:5: 'break'
+                case 10 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:142:5: 'break'
                     {
-                    match(input,36,FOLLOW_36_in_statement310); 
+                    match(input,36,FOLLOW_36_in_statement317); 
 
                     value = new BreakStatement(); 
 
@@ -892,7 +938,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "block"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:143:1: block returns [Block value] : '{' ( statement )* '}' ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:144:1: block returns [Block value] : '{' ( statement )* '}' ;
     public final Block block() throws RecognitionException {
         Block value = null;
 
@@ -901,10 +947,10 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:144:3: ( '{' ( statement )* '}' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:144:5: '{' ( statement )* '}'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:145:3: ( '{' ( statement )* '}' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:145:5: '{' ( statement )* '}'
             {
-            match(input,52,FOLLOW_52_in_block328); 
+            match(input,52,FOLLOW_52_in_block335); 
 
 
                   value = new Block();
@@ -912,22 +958,22 @@ public class LeviathanParser extends Parser {
                   currentBlock = value;
                   
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:148:9: ( statement )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:149:9: ( statement )*
             loop12:
             do {
                 int alt12=2;
                 int LA12_0 = input.LA(1);
 
-                if ( (LA12_0==IDENT||LA12_0==33||(LA12_0 >= 36 && LA12_0 <= 41)||LA12_0==43||(LA12_0 >= 45 && LA12_0 <= 52)) ) {
+                if ( ((LA12_0 >= IDENT && LA12_0 <= INCREMENTER)||LA12_0==33||(LA12_0 >= 36 && LA12_0 <= 41)||LA12_0==43||(LA12_0 >= 45 && LA12_0 <= 52)) ) {
                     alt12=1;
                 }
 
 
                 switch (alt12) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:148:10: statement
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:149:10: statement
             	    {
-            	    pushFollow(FOLLOW_statement_in_block333);
+            	    pushFollow(FOLLOW_statement_in_block340);
             	    statement4=statement();
 
             	    state._fsp--;
@@ -944,7 +990,7 @@ public class LeviathanParser extends Parser {
             } while (true);
 
 
-            match(input,54,FOLLOW_54_in_block340); 
+            match(input,54,FOLLOW_54_in_block347); 
 
 
                   currentBlock = currentBlock.getParent();
@@ -967,8 +1013,97 @@ public class LeviathanParser extends Parser {
 
 
 
+    // $ANTLR start "incrementStatement"
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:154:1: incrementStatement returns [IncrementStatement value] : (inc1= INCREMENTER ident1= IDENT |ident2= IDENT inc2= INCREMENTER ) ;
+    public final IncrementStatement incrementStatement() throws RecognitionException {
+        IncrementStatement value = null;
+
+
+        Token inc1=null;
+        Token ident1=null;
+        Token ident2=null;
+        Token inc2=null;
+
+        try {
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:155:3: ( (inc1= INCREMENTER ident1= IDENT |ident2= IDENT inc2= INCREMENTER ) )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:155:5: (inc1= INCREMENTER ident1= IDENT |ident2= IDENT inc2= INCREMENTER )
+            {
+
+                  value = new IncrementStatement();
+                
+
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:157:6: (inc1= INCREMENTER ident1= IDENT |ident2= IDENT inc2= INCREMENTER )
+            int alt13=2;
+            int LA13_0 = input.LA(1);
+
+            if ( (LA13_0==INCREMENTER) ) {
+                alt13=1;
+            }
+            else if ( (LA13_0==IDENT) ) {
+                alt13=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 13, 0, input);
+
+                throw nvae;
+
+            }
+            switch (alt13) {
+                case 1 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:157:7: inc1= INCREMENTER ident1= IDENT
+                    {
+                    inc1=(Token)match(input,INCREMENTER,FOLLOW_INCREMENTER_in_incrementStatement373); 
+
+
+                          value.setOperation((inc1!=null?inc1.getText():null));
+                        
+
+                    ident1=(Token)match(input,IDENT,FOLLOW_IDENT_in_incrementStatement379); 
+
+                    value.setVariable((ident1!=null?ident1.getText():null));
+
+                    }
+                    break;
+                case 2 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:159:58: ident2= IDENT inc2= INCREMENTER
+                    {
+                    ident2=(Token)match(input,IDENT,FOLLOW_IDENT_in_incrementStatement387); 
+
+
+                          value.setVariable((ident2!=null?ident2.getText():null));
+
+                    inc2=(Token)match(input,INCREMENTER,FOLLOW_INCREMENTER_in_incrementStatement393); 
+
+
+                          value.setOperation((inc2!=null?inc2.getText():null));
+                        
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return value;
+    }
+    // $ANTLR end "incrementStatement"
+
+
+
     // $ANTLR start "ifStatement"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:153:1: ifStatement returns [IfStatement value] : 'if' '(' exp1= expression ')' bl1= block ( 'else' 'if' '(' exp2= expression ')' bl2= block )* ( 'else' bl3= block )? ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:165:1: ifStatement returns [IfStatement value] : 'if' '(' exp1= expression ')' bl1= block ( 'else' 'if' '(' exp2= expression ')' bl2= block )* ( 'else' bl3= block )? ;
     public final IfStatement ifStatement() throws RecognitionException {
         IfStatement value = null;
 
@@ -985,24 +1120,24 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:154:3: ( 'if' '(' exp1= expression ')' bl1= block ( 'else' 'if' '(' exp2= expression ')' bl2= block )* ( 'else' bl3= block )? )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:154:5: 'if' '(' exp1= expression ')' bl1= block ( 'else' 'if' '(' exp2= expression ')' bl2= block )* ( 'else' bl3= block )?
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:166:3: ( 'if' '(' exp1= expression ')' bl1= block ( 'else' 'if' '(' exp2= expression ')' bl2= block )* ( 'else' bl3= block )? )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:166:5: 'if' '(' exp1= expression ')' bl1= block ( 'else' 'if' '(' exp2= expression ')' bl2= block )* ( 'else' bl3= block )?
             {
             value = new IfStatement();
 
-            match(input,46,FOLLOW_46_in_ifStatement363); 
+            match(input,46,FOLLOW_46_in_ifStatement412); 
 
-            match(input,16,FOLLOW_16_in_ifStatement365); 
+            match(input,16,FOLLOW_16_in_ifStatement414); 
 
-            pushFollow(FOLLOW_expression_in_ifStatement369);
+            pushFollow(FOLLOW_expression_in_ifStatement418);
             exp1=expression();
 
             state._fsp--;
 
 
-            match(input,17,FOLLOW_17_in_ifStatement371); 
+            match(input,17,FOLLOW_17_in_ifStatement420); 
 
-            pushFollow(FOLLOW_block_in_ifStatement375);
+            pushFollow(FOLLOW_block_in_ifStatement424);
             bl1=block();
 
             state._fsp--;
@@ -1011,42 +1146,42 @@ public class LeviathanParser extends Parser {
 
                   value.addBlock(IfStatement.IfStatementType.IF, exp1, bl1); 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:156:5: ( 'else' 'if' '(' exp2= expression ')' bl2= block )*
-            loop13:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:168:5: ( 'else' 'if' '(' exp2= expression ')' bl2= block )*
+            loop14:
             do {
-                int alt13=2;
-                int LA13_0 = input.LA(1);
+                int alt14=2;
+                int LA14_0 = input.LA(1);
 
-                if ( (LA13_0==42) ) {
-                    int LA13_1 = input.LA(2);
+                if ( (LA14_0==42) ) {
+                    int LA14_1 = input.LA(2);
 
-                    if ( (LA13_1==46) ) {
-                        alt13=1;
+                    if ( (LA14_1==46) ) {
+                        alt14=1;
                     }
 
 
                 }
 
 
-                switch (alt13) {
+                switch (alt14) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:156:6: 'else' 'if' '(' exp2= expression ')' bl2= block
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:168:6: 'else' 'if' '(' exp2= expression ')' bl2= block
             	    {
-            	    match(input,42,FOLLOW_42_in_ifStatement384); 
+            	    match(input,42,FOLLOW_42_in_ifStatement433); 
 
-            	    match(input,46,FOLLOW_46_in_ifStatement386); 
+            	    match(input,46,FOLLOW_46_in_ifStatement435); 
 
-            	    match(input,16,FOLLOW_16_in_ifStatement388); 
+            	    match(input,16,FOLLOW_16_in_ifStatement437); 
 
-            	    pushFollow(FOLLOW_expression_in_ifStatement392);
+            	    pushFollow(FOLLOW_expression_in_ifStatement441);
             	    exp2=expression();
 
             	    state._fsp--;
 
 
-            	    match(input,17,FOLLOW_17_in_ifStatement394); 
+            	    match(input,17,FOLLOW_17_in_ifStatement443); 
 
-            	    pushFollow(FOLLOW_block_in_ifStatement398);
+            	    pushFollow(FOLLOW_block_in_ifStatement447);
             	    bl2=block();
 
             	    state._fsp--;
@@ -1059,25 +1194,25 @@ public class LeviathanParser extends Parser {
             	    break;
 
             	default :
-            	    break loop13;
+            	    break loop14;
                 }
             } while (true);
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:158:5: ( 'else' bl3= block )?
-            int alt14=2;
-            int LA14_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:170:5: ( 'else' bl3= block )?
+            int alt15=2;
+            int LA15_0 = input.LA(1);
 
-            if ( (LA14_0==42) ) {
-                alt14=1;
+            if ( (LA15_0==42) ) {
+                alt15=1;
             }
-            switch (alt14) {
+            switch (alt15) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:158:6: 'else' bl3= block
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:170:6: 'else' bl3= block
                     {
-                    match(input,42,FOLLOW_42_in_ifStatement409); 
+                    match(input,42,FOLLOW_42_in_ifStatement458); 
 
-                    pushFollow(FOLLOW_block_in_ifStatement413);
+                    pushFollow(FOLLOW_block_in_ifStatement462);
                     bl3=block();
 
                     state._fsp--;
@@ -1110,7 +1245,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "whileStatement"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:161:1: whileStatement returns [WhileStatement value] : 'while' '(' exp1= expression ')' bl1= block ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:173:1: whileStatement returns [WhileStatement value] : 'while' '(' exp1= expression ')' bl1= block ;
     public final WhileStatement whileStatement() throws RecognitionException {
         WhileStatement value = null;
 
@@ -1121,24 +1256,24 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:162:3: ( 'while' '(' exp1= expression ')' bl1= block )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:162:5: 'while' '(' exp1= expression ')' bl1= block
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:174:3: ( 'while' '(' exp1= expression ')' bl1= block )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:174:5: 'while' '(' exp1= expression ')' bl1= block
             {
             value = new WhileStatement();
 
-            match(input,51,FOLLOW_51_in_whileStatement432); 
+            match(input,51,FOLLOW_51_in_whileStatement481); 
 
-            match(input,16,FOLLOW_16_in_whileStatement434); 
+            match(input,16,FOLLOW_16_in_whileStatement483); 
 
-            pushFollow(FOLLOW_expression_in_whileStatement438);
+            pushFollow(FOLLOW_expression_in_whileStatement487);
             exp1=expression();
 
             state._fsp--;
 
 
-            match(input,17,FOLLOW_17_in_whileStatement440); 
+            match(input,17,FOLLOW_17_in_whileStatement489); 
 
-            pushFollow(FOLLOW_block_in_whileStatement444);
+            pushFollow(FOLLOW_block_in_whileStatement493);
             bl1=block();
 
             state._fsp--;
@@ -1166,7 +1301,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "forStatement"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:166:1: forStatement returns [ForStatement value] : 'for' '(' (var= variable ass1= assignment )? ';' exp1= expression ';' (exp2= expression )? ')' bl= block ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:178:1: forStatement returns [ForStatement value] : 'for' '(' (var= variable ass1= assignment )? ';' exp1= expression ';' (inc= incrementStatement |varCall= callStatement ass1= assignment )? ')' bl= block ;
     public final ForStatement forStatement() throws RecognitionException {
         ForStatement value = null;
 
@@ -1177,42 +1312,44 @@ public class LeviathanParser extends Parser {
 
         Expression exp1 =null;
 
-        Expression exp2 =null;
+        IncrementStatement inc =null;
+
+        CallStatement varCall =null;
 
         Block bl =null;
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:167:3: ( 'for' '(' (var= variable ass1= assignment )? ';' exp1= expression ';' (exp2= expression )? ')' bl= block )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:167:5: 'for' '(' (var= variable ass1= assignment )? ';' exp1= expression ';' (exp2= expression )? ')' bl= block
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:179:3: ( 'for' '(' (var= variable ass1= assignment )? ';' exp1= expression ';' (inc= incrementStatement |varCall= callStatement ass1= assignment )? ')' bl= block )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:179:5: 'for' '(' (var= variable ass1= assignment )? ';' exp1= expression ';' (inc= incrementStatement |varCall= callStatement ass1= assignment )? ')' bl= block
             {
 
               value = new ForStatement();
               value.setParent(currentBlock);
               currentBlock = value;
 
-            match(input,45,FOLLOW_45_in_forStatement461); 
+            match(input,45,FOLLOW_45_in_forStatement510); 
 
-            match(input,16,FOLLOW_16_in_forStatement463); 
+            match(input,16,FOLLOW_16_in_forStatement512); 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:170:36: (var= variable ass1= assignment )?
-            int alt15=2;
-            int LA15_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:182:36: (var= variable ass1= assignment )?
+            int alt16=2;
+            int LA16_0 = input.LA(1);
 
-            if ( (LA15_0==33||(LA15_0 >= 37 && LA15_0 <= 38)||(LA15_0 >= 40 && LA15_0 <= 41)||LA15_0==43||(LA15_0 >= 47 && LA15_0 <= 48)||LA15_0==50) ) {
-                alt15=1;
+            if ( (LA16_0==33||(LA16_0 >= 37 && LA16_0 <= 38)||(LA16_0 >= 40 && LA16_0 <= 41)||LA16_0==43||(LA16_0 >= 47 && LA16_0 <= 48)||LA16_0==50) ) {
+                alt16=1;
             }
-            switch (alt15) {
+            switch (alt16) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:170:37: var= variable ass1= assignment
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:182:37: var= variable ass1= assignment
                     {
-                    pushFollow(FOLLOW_variable_in_forStatement468);
+                    pushFollow(FOLLOW_variable_in_forStatement517);
                     var=variable();
 
                     state._fsp--;
 
 
-                    pushFollow(FOLLOW_assignment_in_forStatement472);
+                    pushFollow(FOLLOW_assignment_in_forStatement521);
                     ass1=assignment();
 
                     state._fsp--;
@@ -1229,9 +1366,9 @@ public class LeviathanParser extends Parser {
             }
 
 
-            match(input,25,FOLLOW_25_in_forStatement479); 
+            match(input,25,FOLLOW_25_in_forStatement528); 
 
-            pushFollow(FOLLOW_expression_in_forStatement483);
+            pushFollow(FOLLOW_expression_in_forStatement532);
             exp1=expression();
 
             state._fsp--;
@@ -1241,27 +1378,59 @@ public class LeviathanParser extends Parser {
               value.setComparison(exp1);
               
 
-            match(input,25,FOLLOW_25_in_forStatement487); 
+            match(input,25,FOLLOW_25_in_forStatement536); 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:175:10: (exp2= expression )?
-            int alt16=2;
-            int LA16_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:187:10: (inc= incrementStatement |varCall= callStatement ass1= assignment )?
+            int alt17=3;
+            int LA17_0 = input.LA(1);
 
-            if ( ((LA16_0 >= FLOAT && LA16_0 <= INTEGER)||LA16_0==STRING||LA16_0==12||LA16_0==16||LA16_0==19||LA16_0==21) ) {
-                alt16=1;
+            if ( (LA17_0==INCREMENTER) ) {
+                alt17=1;
             }
-            switch (alt16) {
+            else if ( (LA17_0==IDENT) ) {
+                int LA17_2 = input.LA(2);
+
+                if ( (LA17_2==INCREMENTER) ) {
+                    alt17=1;
+                }
+                else if ( (LA17_2==16||LA17_2==22||LA17_2==28||LA17_2==34) ) {
+                    alt17=2;
+                }
+            }
+            switch (alt17) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:175:12: exp2= expression
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:187:11: inc= incrementStatement
                     {
-                    pushFollow(FOLLOW_expression_in_forStatement494);
-                    exp2=expression();
+                    pushFollow(FOLLOW_incrementStatement_in_forStatement542);
+                    inc=incrementStatement();
 
                     state._fsp--;
 
 
 
-                      value.setIncrement(exp2);
+                        value.setIncrement(inc);
+                      
+
+                    }
+                    break;
+                case 2 :
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:189:7: varCall= callStatement ass1= assignment
+                    {
+                    pushFollow(FOLLOW_callStatement_in_forStatement550);
+                    varCall=callStatement();
+
+                    state._fsp--;
+
+
+                    pushFollow(FOLLOW_assignment_in_forStatement554);
+                    ass1=assignment();
+
+                    state._fsp--;
+
+
+
+                        varCall.setAssignment(ass1);
+                        value.setCall(varCall);
                       
 
                     }
@@ -1270,9 +1439,9 @@ public class LeviathanParser extends Parser {
             }
 
 
-            match(input,17,FOLLOW_17_in_forStatement500); 
+            match(input,17,FOLLOW_17_in_forStatement561); 
 
-            pushFollow(FOLLOW_block_in_forStatement504);
+            pushFollow(FOLLOW_block_in_forStatement565);
             bl=block();
 
             state._fsp--;
@@ -1298,7 +1467,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "variable"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:193:1: variable returns [Variable value] :t1= type IDENT ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:208:1: variable returns [Variable value] :t1= type IDENT ;
     public final Variable variable() throws RecognitionException {
         Variable value = null;
 
@@ -1308,18 +1477,18 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:194:3: (t1= type IDENT )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:194:5: t1= type IDENT
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:209:3: (t1= type IDENT )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:209:5: t1= type IDENT
             {
             value = new Variable();
 
-            pushFollow(FOLLOW_type_in_variable529);
+            pushFollow(FOLLOW_type_in_variable590);
             t1=type();
 
             state._fsp--;
 
 
-            IDENT5=(Token)match(input,IDENT,FOLLOW_IDENT_in_variable531); 
+            IDENT5=(Token)match(input,IDENT,FOLLOW_IDENT_in_variable592); 
 
 
                 value.setType(t1);
@@ -1344,7 +1513,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "callStatement"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:199:1: callStatement returns [CallStatement value] :s1= IDENT ( '.' s2= IDENT )* (lsArg1= listArgument |paramArg1= parameterArgument )? ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:214:1: callStatement returns [CallStatement value] :s1= IDENT ( '.' s2= IDENT )* (lsArg1= listArgument |paramArg1= parameterArgument )? ;
     public final CallStatement callStatement() throws RecognitionException {
         CallStatement value = null;
 
@@ -1357,38 +1526,38 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:200:3: (s1= IDENT ( '.' s2= IDENT )* (lsArg1= listArgument |paramArg1= parameterArgument )? )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:200:5: s1= IDENT ( '.' s2= IDENT )* (lsArg1= listArgument |paramArg1= parameterArgument )?
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:215:3: (s1= IDENT ( '.' s2= IDENT )* (lsArg1= listArgument |paramArg1= parameterArgument )? )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:215:5: s1= IDENT ( '.' s2= IDENT )* (lsArg1= listArgument |paramArg1= parameterArgument )?
             {
 
                 value = new CallStatement();
                 CallStatement.CallStatementEntry currentEntry = null;
               
 
-            s1=(Token)match(input,IDENT,FOLLOW_IDENT_in_callStatement553); 
+            s1=(Token)match(input,IDENT,FOLLOW_IDENT_in_callStatement614); 
 
 
                 currentEntry = value.addEntry((s1!=null?s1.getText():null));
               
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:205:5: ( '.' s2= IDENT )*
-            loop17:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:220:5: ( '.' s2= IDENT )*
+            loop18:
             do {
-                int alt17=2;
-                int LA17_0 = input.LA(1);
+                int alt18=2;
+                int LA18_0 = input.LA(1);
 
-                if ( (LA17_0==22) ) {
-                    alt17=1;
+                if ( (LA18_0==22) ) {
+                    alt18=1;
                 }
 
 
-                switch (alt17) {
+                switch (alt18) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:205:6: '.' s2= IDENT
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:220:6: '.' s2= IDENT
             	    {
-            	    match(input,22,FOLLOW_22_in_callStatement558); 
+            	    match(input,22,FOLLOW_22_in_callStatement619); 
 
-            	    s2=(Token)match(input,IDENT,FOLLOW_IDENT_in_callStatement562); 
+            	    s2=(Token)match(input,IDENT,FOLLOW_IDENT_in_callStatement623); 
 
 
             	        currentEntry = value.addEntry((s2!=null?s2.getText():null));
@@ -1398,26 +1567,26 @@ public class LeviathanParser extends Parser {
             	    break;
 
             	default :
-            	    break loop17;
+            	    break loop18;
                 }
             } while (true);
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:207:7: (lsArg1= listArgument |paramArg1= parameterArgument )?
-            int alt18=3;
-            int LA18_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:222:7: (lsArg1= listArgument |paramArg1= parameterArgument )?
+            int alt19=3;
+            int LA19_0 = input.LA(1);
 
-            if ( (LA18_0==34) ) {
-                alt18=1;
+            if ( (LA19_0==34) ) {
+                alt19=1;
             }
-            else if ( (LA18_0==16) ) {
-                alt18=2;
+            else if ( (LA19_0==16) ) {
+                alt19=2;
             }
-            switch (alt18) {
+            switch (alt19) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:207:8: lsArg1= listArgument
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:222:8: lsArg1= listArgument
                     {
-                    pushFollow(FOLLOW_listArgument_in_callStatement571);
+                    pushFollow(FOLLOW_listArgument_in_callStatement632);
                     lsArg1=listArgument();
 
                     state._fsp--;
@@ -1428,9 +1597,9 @@ public class LeviathanParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:207:66: paramArg1= parameterArgument
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:222:66: paramArg1= parameterArgument
                     {
-                    pushFollow(FOLLOW_parameterArgument_in_callStatement579);
+                    pushFollow(FOLLOW_parameterArgument_in_callStatement640);
                     paramArg1=parameterArgument();
 
                     state._fsp--;
@@ -1462,7 +1631,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "listArgument"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:209:1: listArgument returns [LsListArgument value] : '[' exp= expression ']' ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:224:1: listArgument returns [LsListArgument value] : '[' exp= expression ']' ;
     public final LsListArgument listArgument() throws RecognitionException {
         LsListArgument value = null;
 
@@ -1471,14 +1640,14 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:210:3: ( '[' exp= expression ']' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:210:5: '[' exp= expression ']'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:225:3: ( '[' exp= expression ']' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:225:5: '[' exp= expression ']'
             {
             value = new LsListArgument();
 
-            match(input,34,FOLLOW_34_in_listArgument600); 
+            match(input,34,FOLLOW_34_in_listArgument661); 
 
-            pushFollow(FOLLOW_expression_in_listArgument604);
+            pushFollow(FOLLOW_expression_in_listArgument665);
             exp=expression();
 
             state._fsp--;
@@ -1486,7 +1655,7 @@ public class LeviathanParser extends Parser {
 
             value.setExpression(exp); 
 
-            match(input,35,FOLLOW_35_in_listArgument607); 
+            match(input,35,FOLLOW_35_in_listArgument668); 
 
             }
 
@@ -1506,7 +1675,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "parameterArgument"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:212:1: parameterArgument returns [ParameterArgument value] : '(' (exp1= expression ( ',' exp2= expression )* )? ')' ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:227:1: parameterArgument returns [ParameterArgument value] : '(' (exp1= expression ( ',' exp2= expression )* )? ')' ;
     public final ParameterArgument parameterArgument() throws RecognitionException {
         ParameterArgument value = null;
 
@@ -1517,25 +1686,25 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:213:3: ( '(' (exp1= expression ( ',' exp2= expression )* )? ')' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:213:5: '(' (exp1= expression ( ',' exp2= expression )* )? ')'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:228:3: ( '(' (exp1= expression ( ',' exp2= expression )* )? ')' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:228:5: '(' (exp1= expression ( ',' exp2= expression )* )? ')'
             {
             value = new ParameterArgument(); 
 
-            match(input,16,FOLLOW_16_in_parameterArgument623); 
+            match(input,16,FOLLOW_16_in_parameterArgument684); 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:213:46: (exp1= expression ( ',' exp2= expression )* )?
-            int alt20=2;
-            int LA20_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:228:46: (exp1= expression ( ',' exp2= expression )* )?
+            int alt21=2;
+            int LA21_0 = input.LA(1);
 
-            if ( ((LA20_0 >= FLOAT && LA20_0 <= INTEGER)||LA20_0==STRING||LA20_0==12||LA20_0==16||LA20_0==19||LA20_0==21) ) {
-                alt20=1;
+            if ( ((LA21_0 >= FLOAT && LA21_0 <= IDENT)||LA21_0==INTEGER||LA21_0==STRING||LA21_0==12||LA21_0==16||LA21_0==19||LA21_0==21) ) {
+                alt21=1;
             }
-            switch (alt20) {
+            switch (alt21) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:213:47: exp1= expression ( ',' exp2= expression )*
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:228:47: exp1= expression ( ',' exp2= expression )*
                     {
-                    pushFollow(FOLLOW_expression_in_parameterArgument628);
+                    pushFollow(FOLLOW_expression_in_parameterArgument689);
                     exp1=expression();
 
                     state._fsp--;
@@ -1543,24 +1712,24 @@ public class LeviathanParser extends Parser {
 
                     value.addExpression(exp1);
 
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:213:93: ( ',' exp2= expression )*
-                    loop19:
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:228:93: ( ',' exp2= expression )*
+                    loop20:
                     do {
-                        int alt19=2;
-                        int LA19_0 = input.LA(1);
+                        int alt20=2;
+                        int LA20_0 = input.LA(1);
 
-                        if ( (LA19_0==20) ) {
-                            alt19=1;
+                        if ( (LA20_0==20) ) {
+                            alt20=1;
                         }
 
 
-                        switch (alt19) {
+                        switch (alt20) {
                     	case 1 :
-                    	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:213:94: ',' exp2= expression
+                    	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:228:94: ',' exp2= expression
                     	    {
-                    	    match(input,20,FOLLOW_20_in_parameterArgument633); 
+                    	    match(input,20,FOLLOW_20_in_parameterArgument694); 
 
-                    	    pushFollow(FOLLOW_expression_in_parameterArgument637);
+                    	    pushFollow(FOLLOW_expression_in_parameterArgument698);
                     	    exp2=expression();
 
                     	    state._fsp--;
@@ -1572,7 +1741,7 @@ public class LeviathanParser extends Parser {
                     	    break;
 
                     	default :
-                    	    break loop19;
+                    	    break loop20;
                         }
                     } while (true);
 
@@ -1583,7 +1752,7 @@ public class LeviathanParser extends Parser {
             }
 
 
-            match(input,17,FOLLOW_17_in_parameterArgument645); 
+            match(input,17,FOLLOW_17_in_parameterArgument706); 
 
             }
 
@@ -1603,7 +1772,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "method"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:215:1: method returns [MethodDefinition value] :t1= type name= IDENT '(' (param= IDENT )* ')' bl1= block ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:230:1: method returns [MethodDefinition value] :t1= type name= IDENT '(' (param= IDENT )* ')' bl1= block ;
     public final MethodDefinition method() throws RecognitionException {
         MethodDefinition value = null;
 
@@ -1616,8 +1785,8 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:216:3: (t1= type name= IDENT '(' (param= IDENT )* ')' bl1= block )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:216:5: t1= type name= IDENT '(' (param= IDENT )* ')' bl1= block
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:231:3: (t1= type name= IDENT '(' (param= IDENT )* ')' bl1= block )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:231:5: t1= type name= IDENT '(' (param= IDENT )* ')' bl1= block
             {
 
             	  value = new MethodDefinition();
@@ -1625,7 +1794,7 @@ public class LeviathanParser extends Parser {
             	  currentBlock = value;
               
 
-            pushFollow(FOLLOW_type_in_method665);
+            pushFollow(FOLLOW_type_in_method726);
             t1=type();
 
             state._fsp--;
@@ -1635,30 +1804,30 @@ public class LeviathanParser extends Parser {
                 value.setType(t1);
               
 
-            name=(Token)match(input,IDENT,FOLLOW_IDENT_in_method671); 
+            name=(Token)match(input,IDENT,FOLLOW_IDENT_in_method732); 
 
 
                 value.setName((name!=null?name.getText():null));
               
 
-            match(input,16,FOLLOW_16_in_method674); 
+            match(input,16,FOLLOW_16_in_method735); 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:224:8: (param= IDENT )*
-            loop21:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:239:8: (param= IDENT )*
+            loop22:
             do {
-                int alt21=2;
-                int LA21_0 = input.LA(1);
+                int alt22=2;
+                int LA22_0 = input.LA(1);
 
-                if ( (LA21_0==IDENT) ) {
-                    alt21=1;
+                if ( (LA22_0==IDENT) ) {
+                    alt22=1;
                 }
 
 
-                switch (alt21) {
+                switch (alt22) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:224:9: param= IDENT
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:239:9: param= IDENT
             	    {
-            	    param=(Token)match(input,IDENT,FOLLOW_IDENT_in_method679); 
+            	    param=(Token)match(input,IDENT,FOLLOW_IDENT_in_method740); 
 
 
             	        value.addParameter((param!=null?param.getText():null));
@@ -1668,14 +1837,14 @@ public class LeviathanParser extends Parser {
             	    break;
 
             	default :
-            	    break loop21;
+            	    break loop22;
                 }
             } while (true);
 
 
-            match(input,17,FOLLOW_17_in_method686); 
+            match(input,17,FOLLOW_17_in_method747); 
 
-            pushFollow(FOLLOW_block_in_method690);
+            pushFollow(FOLLOW_block_in_method751);
             bl1=block();
 
             state._fsp--;
@@ -1705,7 +1874,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "assignment"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:230:1: assignment returns [Assignment value] : ( '=' exp= expression | '=' ls= list ) ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:245:1: assignment returns [Assignment value] : ( '=' exp= expression | '=' ls= list ) ;
     public final Assignment assignment() throws RecognitionException {
         Assignment value = null;
 
@@ -1716,27 +1885,27 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:231:3: ( ( '=' exp= expression | '=' ls= list ) )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:231:5: ( '=' exp= expression | '=' ls= list )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:246:3: ( ( '=' exp= expression | '=' ls= list ) )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:246:5: ( '=' exp= expression | '=' ls= list )
             {
             value = new Assignment();
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:231:34: ( '=' exp= expression | '=' ls= list )
-            int alt22=2;
-            int LA22_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:246:34: ( '=' exp= expression | '=' ls= list )
+            int alt23=2;
+            int LA23_0 = input.LA(1);
 
-            if ( (LA22_0==28) ) {
-                int LA22_1 = input.LA(2);
+            if ( (LA23_0==28) ) {
+                int LA23_1 = input.LA(2);
 
-                if ( ((LA22_1 >= FLOAT && LA22_1 <= INTEGER)||LA22_1==STRING||LA22_1==12||LA22_1==16||LA22_1==19||LA22_1==21) ) {
-                    alt22=1;
+                if ( ((LA23_1 >= FLOAT && LA23_1 <= IDENT)||LA23_1==INTEGER||LA23_1==STRING||LA23_1==12||LA23_1==16||LA23_1==19||LA23_1==21) ) {
+                    alt23=1;
                 }
-                else if ( (LA22_1==34) ) {
-                    alt22=2;
+                else if ( (LA23_1==34) ) {
+                    alt23=2;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 22, 1, input);
+                        new NoViableAltException("", 23, 1, input);
 
                     throw nvae;
 
@@ -1744,18 +1913,18 @@ public class LeviathanParser extends Parser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 22, 0, input);
+                    new NoViableAltException("", 23, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt22) {
+            switch (alt23) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:231:35: '=' exp= expression
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:246:35: '=' exp= expression
                     {
-                    match(input,28,FOLLOW_28_in_assignment712); 
+                    match(input,28,FOLLOW_28_in_assignment773); 
 
-                    pushFollow(FOLLOW_expression_in_assignment716);
+                    pushFollow(FOLLOW_expression_in_assignment777);
                     exp=expression();
 
                     state._fsp--;
@@ -1766,11 +1935,11 @@ public class LeviathanParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:231:80: '=' ls= list
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:246:80: '=' ls= list
                     {
-                    match(input,28,FOLLOW_28_in_assignment722); 
+                    match(input,28,FOLLOW_28_in_assignment783); 
 
-                    pushFollow(FOLLOW_list_in_assignment726);
+                    pushFollow(FOLLOW_list_in_assignment787);
                     ls=list();
 
                     state._fsp--;
@@ -1802,7 +1971,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "list"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:233:1: list returns [LsList value] : '[' key1= expression ( ':' val1= expression )? ( ',' key2= expression ( ':' val2= expression )? )* ']' ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:248:1: list returns [LsList value] : '[' key1= expression ( ':' val1= expression )? ( ',' key2= expression ( ':' val2= expression )? )* ']' ;
     public final LsList list() throws RecognitionException {
         LsList value = null;
 
@@ -1817,33 +1986,33 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:234:3: ( '[' key1= expression ( ':' val1= expression )? ( ',' key2= expression ( ':' val2= expression )? )* ']' )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:234:5: '[' key1= expression ( ':' val1= expression )? ( ',' key2= expression ( ':' val2= expression )? )* ']'
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:249:3: ( '[' key1= expression ( ':' val1= expression )? ( ',' key2= expression ( ':' val2= expression )? )* ']' )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:249:5: '[' key1= expression ( ':' val1= expression )? ( ',' key2= expression ( ':' val2= expression )? )* ']'
             {
             value = new LsList();
 
-            match(input,34,FOLLOW_34_in_list747); 
+            match(input,34,FOLLOW_34_in_list808); 
 
-            pushFollow(FOLLOW_expression_in_list751);
+            pushFollow(FOLLOW_expression_in_list812);
             key1=expression();
 
             state._fsp--;
 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:234:50: ( ':' val1= expression )?
-            int alt23=2;
-            int LA23_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:249:50: ( ':' val1= expression )?
+            int alt24=2;
+            int LA24_0 = input.LA(1);
 
-            if ( (LA23_0==24) ) {
-                alt23=1;
+            if ( (LA24_0==24) ) {
+                alt24=1;
             }
-            switch (alt23) {
+            switch (alt24) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:234:51: ':' val1= expression
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:249:51: ':' val1= expression
                     {
-                    match(input,24,FOLLOW_24_in_list754); 
+                    match(input,24,FOLLOW_24_in_list815); 
 
-                    pushFollow(FOLLOW_expression_in_list758);
+                    pushFollow(FOLLOW_expression_in_list819);
                     val1=expression();
 
                     state._fsp--;
@@ -1865,43 +2034,43 @@ public class LeviathanParser extends Parser {
                   }
                 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:242:7: ( ',' key2= expression ( ':' val2= expression )? )*
-            loop25:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:257:7: ( ',' key2= expression ( ':' val2= expression )? )*
+            loop26:
             do {
-                int alt25=2;
-                int LA25_0 = input.LA(1);
+                int alt26=2;
+                int LA26_0 = input.LA(1);
 
-                if ( (LA25_0==20) ) {
-                    alt25=1;
+                if ( (LA26_0==20) ) {
+                    alt26=1;
                 }
 
 
-                switch (alt25) {
+                switch (alt26) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:242:8: ',' key2= expression ( ':' val2= expression )?
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:257:8: ',' key2= expression ( ':' val2= expression )?
             	    {
-            	    match(input,20,FOLLOW_20_in_list766); 
+            	    match(input,20,FOLLOW_20_in_list827); 
 
-            	    pushFollow(FOLLOW_expression_in_list770);
+            	    pushFollow(FOLLOW_expression_in_list831);
             	    key2=expression();
 
             	    state._fsp--;
 
 
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:242:28: ( ':' val2= expression )?
-            	    int alt24=2;
-            	    int LA24_0 = input.LA(1);
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:257:28: ( ':' val2= expression )?
+            	    int alt25=2;
+            	    int LA25_0 = input.LA(1);
 
-            	    if ( (LA24_0==24) ) {
-            	        alt24=1;
+            	    if ( (LA25_0==24) ) {
+            	        alt25=1;
             	    }
-            	    switch (alt24) {
+            	    switch (alt25) {
             	        case 1 :
-            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:242:29: ':' val2= expression
+            	            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:257:29: ':' val2= expression
             	            {
-            	            match(input,24,FOLLOW_24_in_list773); 
+            	            match(input,24,FOLLOW_24_in_list834); 
 
-            	            pushFollow(FOLLOW_expression_in_list777);
+            	            pushFollow(FOLLOW_expression_in_list838);
             	            val2=expression();
 
             	            state._fsp--;
@@ -1931,12 +2100,12 @@ public class LeviathanParser extends Parser {
             	    break;
 
             	default :
-            	    break loop25;
+            	    break loop26;
                 }
             } while (true);
 
 
-            match(input,35,FOLLOW_35_in_list786); 
+            match(input,35,FOLLOW_35_in_list847); 
 
             }
 
@@ -1956,7 +2125,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "value"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:256:1: value returns [Object value] : ( INTEGER | FLOAT | STRING );
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:271:1: value returns [Object value] : ( INTEGER | FLOAT | STRING );
     public final Object value() throws RecognitionException {
         Object value = null;
 
@@ -1966,55 +2135,55 @@ public class LeviathanParser extends Parser {
         Token STRING8=null;
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:257:3: ( INTEGER | FLOAT | STRING )
-            int alt26=3;
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:272:3: ( INTEGER | FLOAT | STRING )
+            int alt27=3;
             switch ( input.LA(1) ) {
             case INTEGER:
                 {
-                alt26=1;
+                alt27=1;
                 }
                 break;
             case FLOAT:
                 {
-                alt26=2;
+                alt27=2;
                 }
                 break;
             case STRING:
                 {
-                alt26=3;
+                alt27=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 26, 0, input);
+                    new NoViableAltException("", 27, 0, input);
 
                 throw nvae;
 
             }
 
-            switch (alt26) {
+            switch (alt27) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:257:5: INTEGER
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:272:5: INTEGER
                     {
-                    INTEGER6=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_value801); 
+                    INTEGER6=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_value862); 
 
                      value = new Integer((INTEGER6!=null?INTEGER6.getText():null));
 
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:258:5: FLOAT
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:273:5: FLOAT
                     {
-                    FLOAT7=(Token)match(input,FLOAT,FOLLOW_FLOAT_in_value810); 
+                    FLOAT7=(Token)match(input,FLOAT,FOLLOW_FLOAT_in_value871); 
 
                      value = new Float((FLOAT7!=null?FLOAT7.getText():null)); 
 
                     }
                     break;
                 case 3 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:259:5: STRING
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:274:5: STRING
                     {
-                    STRING8=(Token)match(input,STRING,FOLLOW_STRING_in_value818); 
+                    STRING8=(Token)match(input,STRING,FOLLOW_STRING_in_value879); 
 
                      value = (STRING8!=null?STRING8.getText():null); 
 
@@ -2038,7 +2207,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "term"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:261:1: term returns [Object value] : ( callStatement | '(' expression ')' | value );
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:276:1: term returns [Object value] : ( callStatement | '(' expression ')' | value );
     public final Object term() throws RecognitionException {
         Object value = null;
 
@@ -2051,39 +2220,39 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:262:3: ( callStatement | '(' expression ')' | value )
-            int alt27=3;
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:277:3: ( callStatement | '(' expression ')' | value )
+            int alt28=3;
             switch ( input.LA(1) ) {
             case IDENT:
                 {
-                alt27=1;
+                alt28=1;
                 }
                 break;
             case 16:
                 {
-                alt27=2;
+                alt28=2;
                 }
                 break;
             case FLOAT:
             case INTEGER:
             case STRING:
                 {
-                alt27=3;
+                alt28=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 27, 0, input);
+                    new NoViableAltException("", 28, 0, input);
 
                 throw nvae;
 
             }
 
-            switch (alt27) {
+            switch (alt28) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:262:5: callStatement
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:277:5: callStatement
                     {
-                    pushFollow(FOLLOW_callStatement_in_term834);
+                    pushFollow(FOLLOW_callStatement_in_term895);
                     callStatement9=callStatement();
 
                     state._fsp--;
@@ -2094,11 +2263,11 @@ public class LeviathanParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:263:5: '(' expression ')'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:278:5: '(' expression ')'
                     {
-                    match(input,16,FOLLOW_16_in_term842); 
+                    match(input,16,FOLLOW_16_in_term903); 
 
-                    pushFollow(FOLLOW_expression_in_term844);
+                    pushFollow(FOLLOW_expression_in_term905);
                     expression10=expression();
 
                     state._fsp--;
@@ -2106,14 +2275,14 @@ public class LeviathanParser extends Parser {
 
                     value = expression10;
 
-                    match(input,17,FOLLOW_17_in_term848); 
+                    match(input,17,FOLLOW_17_in_term909); 
 
                     }
                     break;
                 case 3 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:264:5: value
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:279:5: value
                     {
-                    pushFollow(FOLLOW_value_in_term854);
+                    pushFollow(FOLLOW_value_in_term915);
                     value11=value();
 
                     state._fsp--;
@@ -2140,125 +2309,35 @@ public class LeviathanParser extends Parser {
 
 
 
-    // $ANTLR start "increment"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:267:1: increment returns [IncrementStatement value] : (inc1= INCREMENTER )? term (inc2= INCREMENTER )? ;
-    public final IncrementStatement increment() throws RecognitionException {
-        IncrementStatement value = null;
-
-
-        Token inc1=null;
-        Token inc2=null;
-        Object term12 =null;
-
-
-        try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:268:3: ( (inc1= INCREMENTER )? term (inc2= INCREMENTER )? )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:268:5: (inc1= INCREMENTER )? term (inc2= INCREMENTER )?
-            {
-
-                  value = new IncrementStatement();
-                
-
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:270:6: (inc1= INCREMENTER )?
-            int alt28=2;
-            int LA28_0 = input.LA(1);
-
-            if ( (LA28_0==INCREMENTER) ) {
-                alt28=1;
-            }
-            switch (alt28) {
-                case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:270:7: inc1= INCREMENTER
-                    {
-                    inc1=(Token)match(input,INCREMENTER,FOLLOW_INCREMENTER_in_increment877); 
-
-
-                          value.setOperation((inc1!=null?inc1.getText():null));
-                        
-
-                    }
-                    break;
-
-            }
-
-
-            pushFollow(FOLLOW_term_in_increment883);
-            term12=term();
-
-            state._fsp--;
-
-
-            value.setValue(term12);
-
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:272:46: (inc2= INCREMENTER )?
-            int alt29=2;
-            int LA29_0 = input.LA(1);
-
-            if ( (LA29_0==INCREMENTER) ) {
-                alt29=1;
-            }
-            switch (alt29) {
-                case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:272:47: inc2= INCREMENTER
-                    {
-                    inc2=(Token)match(input,INCREMENTER,FOLLOW_INCREMENTER_in_increment890); 
-
-
-                          value.setOperation((inc2!=null?inc2.getText():null));
-                        
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return value;
-    }
-    // $ANTLR end "increment"
-
-
-
     // $ANTLR start "negation"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:276:1: negation returns [NegationStatement value] : ( '!' )? inc= increment ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:282:1: negation returns [NegationStatement value] : ( '!' )? term1= term ;
     public final NegationStatement negation() throws RecognitionException {
         NegationStatement value = null;
 
 
-        IncrementStatement inc =null;
+        Object term1 =null;
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:277:3: ( ( '!' )? inc= increment )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:277:5: ( '!' )? inc= increment
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:283:3: ( ( '!' )? term1= term )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:283:5: ( '!' )? term1= term
             {
 
                   value = new NegationStatement();
                 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:279:7: ( '!' )?
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:285:7: ( '!' )?
+            int alt29=2;
+            int LA29_0 = input.LA(1);
 
-            if ( (LA30_0==12) ) {
-                alt30=1;
+            if ( (LA29_0==12) ) {
+                alt29=1;
             }
-            switch (alt30) {
+            switch (alt29) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:279:8: '!'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:285:8: '!'
                     {
-                    match(input,12,FOLLOW_12_in_negation913); 
+                    match(input,12,FOLLOW_12_in_negation937); 
 
 
                           value.setNegation(true);
@@ -2270,14 +2349,14 @@ public class LeviathanParser extends Parser {
             }
 
 
-            pushFollow(FOLLOW_increment_in_negation921);
-            inc=increment();
+            pushFollow(FOLLOW_term_in_negation945);
+            term1=term();
 
             state._fsp--;
 
 
 
-                  value.setIncrement(inc);
+                  value.setTerm(term1);
                 
 
             }
@@ -2298,7 +2377,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "unary"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:285:1: unary returns [UnaryStatement value] : ( '+' | '-' )? neg= negation ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:291:1: unary returns [UnaryStatement value] : ( '+' | '-' )? neg= negation ;
     public final UnaryStatement unary() throws RecognitionException {
         UnaryStatement value = null;
 
@@ -2307,28 +2386,28 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:286:3: ( ( '+' | '-' )? neg= negation )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:286:5: ( '+' | '-' )? neg= negation
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:292:3: ( ( '+' | '-' )? neg= negation )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:292:5: ( '+' | '-' )? neg= negation
             {
 
                   value = new UnaryStatement();
                 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:288:7: ( '+' | '-' )?
-            int alt31=3;
-            int LA31_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:294:7: ( '+' | '-' )?
+            int alt30=3;
+            int LA30_0 = input.LA(1);
 
-            if ( (LA31_0==19) ) {
-                alt31=1;
+            if ( (LA30_0==19) ) {
+                alt30=1;
             }
-            else if ( (LA31_0==21) ) {
-                alt31=2;
+            else if ( (LA30_0==21) ) {
+                alt30=2;
             }
-            switch (alt31) {
+            switch (alt30) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:288:8: '+'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:294:8: '+'
                     {
-                    match(input,19,FOLLOW_19_in_unary940); 
+                    match(input,19,FOLLOW_19_in_unary964); 
 
 
                           value.setOperation("+");
@@ -2337,9 +2416,9 @@ public class LeviathanParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:290:8: '-'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:296:8: '-'
                     {
-                    match(input,21,FOLLOW_21_in_unary945); 
+                    match(input,21,FOLLOW_21_in_unary969); 
 
 
                           value.setOperation("-");
@@ -2351,7 +2430,7 @@ public class LeviathanParser extends Parser {
             }
 
 
-            pushFollow(FOLLOW_negation_in_unary952);
+            pushFollow(FOLLOW_negation_in_unary976);
             neg=negation();
 
             state._fsp--;
@@ -2379,7 +2458,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "mult"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:296:1: mult returns [MultStatement value] :u1= unary (op= ( '*' | '/' | '%' ) u2= unary )* ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:302:1: mult returns [MultStatement value] :u1= unary (op= ( '*' | '/' | '%' ) u2= unary )* ;
     public final MultStatement mult() throws RecognitionException {
         MultStatement value = null;
 
@@ -2391,14 +2470,14 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:297:3: (u1= unary (op= ( '*' | '/' | '%' ) u2= unary )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:297:5: u1= unary (op= ( '*' | '/' | '%' ) u2= unary )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:303:3: (u1= unary (op= ( '*' | '/' | '%' ) u2= unary )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:303:5: u1= unary (op= ( '*' | '/' | '%' ) u2= unary )*
             {
 
                   value = new MultStatement();
                 
 
-            pushFollow(FOLLOW_unary_in_mult972);
+            pushFollow(FOLLOW_unary_in_mult996);
             u1=unary();
 
             state._fsp--;
@@ -2408,20 +2487,20 @@ public class LeviathanParser extends Parser {
                   value.setInitialValue(u1);
                 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:301:7: (op= ( '*' | '/' | '%' ) u2= unary )*
-            loop32:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:307:7: (op= ( '*' | '/' | '%' ) u2= unary )*
+            loop31:
             do {
-                int alt32=2;
-                int LA32_0 = input.LA(1);
+                int alt31=2;
+                int LA31_0 = input.LA(1);
 
-                if ( (LA32_0==14||LA32_0==18||LA32_0==23) ) {
-                    alt32=1;
+                if ( (LA31_0==14||LA31_0==18||LA31_0==23) ) {
+                    alt31=1;
                 }
 
 
-                switch (alt32) {
+                switch (alt31) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:301:9: op= ( '*' | '/' | '%' ) u2= unary
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:307:9: op= ( '*' | '/' | '%' ) u2= unary
             	    {
             	    op=(Token)input.LT(1);
 
@@ -2435,7 +2514,7 @@ public class LeviathanParser extends Parser {
             	    }
 
 
-            	    pushFollow(FOLLOW_unary_in_mult994);
+            	    pushFollow(FOLLOW_unary_in_mult1018);
             	    u2=unary();
 
             	    state._fsp--;
@@ -2444,6 +2523,98 @@ public class LeviathanParser extends Parser {
 
             	          value.addBlock((op!=null?op.getText():null), u2);
             	        
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop31;
+                }
+            } while (true);
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return value;
+    }
+    // $ANTLR end "mult"
+
+
+
+    // $ANTLR start "add"
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:311:1: add returns [AddStatement value] :m1= mult (op= ( '+' | '-' ) m2= mult )* ;
+    public final AddStatement add() throws RecognitionException {
+        AddStatement value = null;
+
+
+        Token op=null;
+        MultStatement m1 =null;
+
+        MultStatement m2 =null;
+
+
+        try {
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:312:3: (m1= mult (op= ( '+' | '-' ) m2= mult )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:312:5: m1= mult (op= ( '+' | '-' ) m2= mult )*
+            {
+
+                  value = new AddStatement();
+                
+
+            pushFollow(FOLLOW_mult_in_add1041);
+            m1=mult();
+
+            state._fsp--;
+
+
+
+                  value.setInitialValue(m1);
+                
+
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:316:7: (op= ( '+' | '-' ) m2= mult )*
+            loop32:
+            do {
+                int alt32=2;
+                int LA32_0 = input.LA(1);
+
+                if ( (LA32_0==19||LA32_0==21) ) {
+                    alt32=1;
+                }
+
+
+                switch (alt32) {
+            	case 1 :
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:316:9: op= ( '+' | '-' ) m2= mult
+            	    {
+            	    op=(Token)input.LT(1);
+
+            	    if ( input.LA(1)==19||input.LA(1)==21 ) {
+            	        input.consume();
+            	        state.errorRecovery=false;
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        throw mse;
+            	    }
+
+
+            	    pushFollow(FOLLOW_mult_in_add1059);
+            	    m2=mult();
+
+            	    state._fsp--;
+
+
+
+            	          value.addBlockStatement((op!=null?op.getText():null), m2);
 
             	    }
             	    break;
@@ -2467,104 +2638,12 @@ public class LeviathanParser extends Parser {
         }
         return value;
     }
-    // $ANTLR end "mult"
-
-
-
-    // $ANTLR start "add"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:305:1: add returns [AddStatement value] :m1= mult (op= ( '+' | '-' ) m2= mult )* ;
-    public final AddStatement add() throws RecognitionException {
-        AddStatement value = null;
-
-
-        Token op=null;
-        MultStatement m1 =null;
-
-        MultStatement m2 =null;
-
-
-        try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:306:3: (m1= mult (op= ( '+' | '-' ) m2= mult )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:306:5: m1= mult (op= ( '+' | '-' ) m2= mult )*
-            {
-
-                  value = new AddStatement();
-                
-
-            pushFollow(FOLLOW_mult_in_add1017);
-            m1=mult();
-
-            state._fsp--;
-
-
-
-                  value.setInitialValue(m1);
-                
-
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:310:7: (op= ( '+' | '-' ) m2= mult )*
-            loop33:
-            do {
-                int alt33=2;
-                int LA33_0 = input.LA(1);
-
-                if ( (LA33_0==19||LA33_0==21) ) {
-                    alt33=1;
-                }
-
-
-                switch (alt33) {
-            	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:310:9: op= ( '+' | '-' ) m2= mult
-            	    {
-            	    op=(Token)input.LT(1);
-
-            	    if ( input.LA(1)==19||input.LA(1)==21 ) {
-            	        input.consume();
-            	        state.errorRecovery=false;
-            	    }
-            	    else {
-            	        MismatchedSetException mse = new MismatchedSetException(null,input);
-            	        throw mse;
-            	    }
-
-
-            	    pushFollow(FOLLOW_mult_in_add1035);
-            	    m2=mult();
-
-            	    state._fsp--;
-
-
-
-            	          value.addBlockStatement((op!=null?op.getText():null), m2);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop33;
-                }
-            } while (true);
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return value;
-    }
     // $ANTLR end "add"
 
 
 
     // $ANTLR start "relation"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:313:1: relation returns [Relation value] :a1= add (op= ( '<' | '<=' | '>=' | '>' ) a2= add )? ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:319:1: relation returns [Relation value] :a1= add (op= ( '<' | '<=' | '>=' | '>' ) a2= add )? ;
     public final Relation relation() throws RecognitionException {
         Relation value = null;
 
@@ -2576,14 +2655,14 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:314:3: (a1= add (op= ( '<' | '<=' | '>=' | '>' ) a2= add )? )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:314:5: a1= add (op= ( '<' | '<=' | '>=' | '>' ) a2= add )?
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:320:3: (a1= add (op= ( '<' | '<=' | '>=' | '>' ) a2= add )? )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:320:5: a1= add (op= ( '<' | '<=' | '>=' | '>' ) a2= add )?
             {
 
                   value = new Relation();
                 
 
-            pushFollow(FOLLOW_add_in_relation1060);
+            pushFollow(FOLLOW_add_in_relation1084);
             a1=add();
 
             state._fsp--;
@@ -2593,16 +2672,16 @@ public class LeviathanParser extends Parser {
                   value.setInitialValue(a1);
                 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:318:7: (op= ( '<' | '<=' | '>=' | '>' ) a2= add )?
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:324:7: (op= ( '<' | '<=' | '>=' | '>' ) a2= add )?
+            int alt33=2;
+            int LA33_0 = input.LA(1);
 
-            if ( ((LA34_0 >= 26 && LA34_0 <= 27)||(LA34_0 >= 30 && LA34_0 <= 31)) ) {
-                alt34=1;
+            if ( ((LA33_0 >= 26 && LA33_0 <= 27)||(LA33_0 >= 30 && LA33_0 <= 31)) ) {
+                alt33=1;
             }
-            switch (alt34) {
+            switch (alt33) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:318:8: op= ( '<' | '<=' | '>=' | '>' ) a2= add
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:324:8: op= ( '<' | '<=' | '>=' | '>' ) a2= add
                     {
                     op=(Token)input.LT(1);
 
@@ -2616,7 +2695,7 @@ public class LeviathanParser extends Parser {
                     }
 
 
-                    pushFollow(FOLLOW_add_in_relation1086);
+                    pushFollow(FOLLOW_add_in_relation1110);
                     a2=add();
 
                     state._fsp--;
@@ -2649,7 +2728,7 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "comparison"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:321:1: comparison returns [Comparison value] :rel1= relation (op= ( '==' | '!=' ) rel2= relation )* ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:327:1: comparison returns [Comparison value] :rel1= relation (op= ( '==' | '!=' ) rel2= relation )* ;
     public final Comparison comparison() throws RecognitionException {
         Comparison value = null;
 
@@ -2661,14 +2740,14 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:322:3: (rel1= relation (op= ( '==' | '!=' ) rel2= relation )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:322:5: rel1= relation (op= ( '==' | '!=' ) rel2= relation )*
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:328:3: (rel1= relation (op= ( '==' | '!=' ) rel2= relation )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:328:5: rel1= relation (op= ( '==' | '!=' ) rel2= relation )*
             {
 
                   value = new Comparison();
                 
 
-            pushFollow(FOLLOW_relation_in_comparison1109);
+            pushFollow(FOLLOW_relation_in_comparison1133);
             rel1=relation();
 
             state._fsp--;
@@ -2678,20 +2757,20 @@ public class LeviathanParser extends Parser {
                   value.setInitialValue(rel1);
                 
 
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:326:7: (op= ( '==' | '!=' ) rel2= relation )*
-            loop35:
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:332:7: (op= ( '==' | '!=' ) rel2= relation )*
+            loop34:
             do {
-                int alt35=2;
-                int LA35_0 = input.LA(1);
+                int alt34=2;
+                int LA34_0 = input.LA(1);
 
-                if ( (LA35_0==13||LA35_0==29) ) {
-                    alt35=1;
+                if ( (LA34_0==13||LA34_0==29) ) {
+                    alt34=1;
                 }
 
 
-                switch (alt35) {
+                switch (alt34) {
             	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:326:8: op= ( '==' | '!=' ) rel2= relation
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:332:8: op= ( '==' | '!=' ) rel2= relation
             	    {
             	    op=(Token)input.LT(1);
 
@@ -2705,7 +2784,7 @@ public class LeviathanParser extends Parser {
             	    }
 
 
-            	    pushFollow(FOLLOW_relation_in_comparison1126);
+            	    pushFollow(FOLLOW_relation_in_comparison1150);
             	    rel2=relation();
 
             	    state._fsp--;
@@ -2714,6 +2793,96 @@ public class LeviathanParser extends Parser {
 
             	          value.addBlock((op!=null?op.getText():null),rel2);
             	        
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop34;
+                }
+            } while (true);
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return value;
+    }
+    // $ANTLR end "comparison"
+
+
+
+    // $ANTLR start "expression"
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:336:1: expression returns [Expression value] :var1= comparison (op= ( '&&' | '||' ) var2= comparison )* ;
+    public final Expression expression() throws RecognitionException {
+        Expression value = null;
+
+
+        Token op=null;
+        Comparison var1 =null;
+
+        Comparison var2 =null;
+
+
+        try {
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:337:3: (var1= comparison (op= ( '&&' | '||' ) var2= comparison )* )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:337:5: var1= comparison (op= ( '&&' | '||' ) var2= comparison )*
+            {
+            value = new Expression();
+
+            pushFollow(FOLLOW_comparison_in_expression1172);
+            var1=comparison();
+
+            state._fsp--;
+
+
+
+                  value.setInitialValue(var1);
+                
+
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:339:7: (op= ( '&&' | '||' ) var2= comparison )*
+            loop35:
+            do {
+                int alt35=2;
+                int LA35_0 = input.LA(1);
+
+                if ( (LA35_0==15||LA35_0==53) ) {
+                    alt35=1;
+                }
+
+
+                switch (alt35) {
+            	case 1 :
+            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:339:8: op= ( '&&' | '||' ) var2= comparison
+            	    {
+            	    op=(Token)input.LT(1);
+
+            	    if ( input.LA(1)==15||input.LA(1)==53 ) {
+            	        input.consume();
+            	        state.errorRecovery=false;
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        throw mse;
+            	    }
+
+
+            	    pushFollow(FOLLOW_comparison_in_expression1190);
+            	    var2=comparison();
+
+            	    state._fsp--;
+
+
+
+            	          value.addBlock((op!=null?op.getText():null),var2);
 
             	    }
             	    break;
@@ -2737,102 +2906,12 @@ public class LeviathanParser extends Parser {
         }
         return value;
     }
-    // $ANTLR end "comparison"
-
-
-
-    // $ANTLR start "expression"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:330:1: expression returns [Expression value] :var1= comparison (op= ( '&&' | '||' ) var2= comparison )* ;
-    public final Expression expression() throws RecognitionException {
-        Expression value = null;
-
-
-        Token op=null;
-        Comparison var1 =null;
-
-        Comparison var2 =null;
-
-
-        try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:331:3: (var1= comparison (op= ( '&&' | '||' ) var2= comparison )* )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:331:5: var1= comparison (op= ( '&&' | '||' ) var2= comparison )*
-            {
-            value = new Expression();
-
-            pushFollow(FOLLOW_comparison_in_expression1148);
-            var1=comparison();
-
-            state._fsp--;
-
-
-
-                  value.setInitialValue(var1);
-                
-
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:333:7: (op= ( '&&' | '||' ) var2= comparison )*
-            loop36:
-            do {
-                int alt36=2;
-                int LA36_0 = input.LA(1);
-
-                if ( (LA36_0==15||LA36_0==53) ) {
-                    alt36=1;
-                }
-
-
-                switch (alt36) {
-            	case 1 :
-            	    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:333:8: op= ( '&&' | '||' ) var2= comparison
-            	    {
-            	    op=(Token)input.LT(1);
-
-            	    if ( input.LA(1)==15||input.LA(1)==53 ) {
-            	        input.consume();
-            	        state.errorRecovery=false;
-            	    }
-            	    else {
-            	        MismatchedSetException mse = new MismatchedSetException(null,input);
-            	        throw mse;
-            	    }
-
-
-            	    pushFollow(FOLLOW_comparison_in_expression1166);
-            	    var2=comparison();
-
-            	    state._fsp--;
-
-
-
-            	          value.addBlock((op!=null?op.getText():null),var2);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop36;
-                }
-            } while (true);
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return value;
-    }
     // $ANTLR end "expression"
 
 
 
     // $ANTLR start "returnStatement"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:336:1: returnStatement returns [ReturnStatement value] : 'return' exp= expression ;
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:342:1: returnStatement returns [ReturnStatement value] : 'return' exp= expression ;
     public final ReturnStatement returnStatement() throws RecognitionException {
         ReturnStatement value = null;
 
@@ -2841,12 +2920,12 @@ public class LeviathanParser extends Parser {
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:337:3: ( 'return' exp= expression )
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:337:5: 'return' exp= expression
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:343:3: ( 'return' exp= expression )
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:343:5: 'return' exp= expression
             {
-            match(input,49,FOLLOW_49_in_returnStatement1187); 
+            match(input,49,FOLLOW_49_in_returnStatement1211); 
 
-            pushFollow(FOLLOW_expression_in_returnStatement1191);
+            pushFollow(FOLLOW_expression_in_returnStatement1215);
             exp=expression();
 
             state._fsp--;
@@ -2872,145 +2951,145 @@ public class LeviathanParser extends Parser {
 
 
     // $ANTLR start "type"
-    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:339:1: type returns [String value] : ( 'void' | 'int' | 'long' | 'double' | 'float' | 'char' | 'byte' | 'String' | 'def' );
+    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:345:1: type returns [String value] : ( 'void' | 'int' | 'long' | 'double' | 'float' | 'char' | 'byte' | 'String' | 'def' );
     public final String type() throws RecognitionException {
         String value = null;
 
 
         try {
-            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:340:3: ( 'void' | 'int' | 'long' | 'double' | 'float' | 'char' | 'byte' | 'String' | 'def' )
-            int alt37=9;
+            // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:346:3: ( 'void' | 'int' | 'long' | 'double' | 'float' | 'char' | 'byte' | 'String' | 'def' )
+            int alt36=9;
             switch ( input.LA(1) ) {
             case 50:
                 {
-                alt37=1;
+                alt36=1;
                 }
                 break;
             case 47:
                 {
-                alt37=2;
+                alt36=2;
                 }
                 break;
             case 48:
                 {
-                alt37=3;
+                alt36=3;
                 }
                 break;
             case 41:
                 {
-                alt37=4;
+                alt36=4;
                 }
                 break;
             case 43:
                 {
-                alt37=5;
+                alt36=5;
                 }
                 break;
             case 38:
                 {
-                alt37=6;
+                alt36=6;
                 }
                 break;
             case 37:
                 {
-                alt37=7;
+                alt36=7;
                 }
                 break;
             case 33:
                 {
-                alt37=8;
+                alt36=8;
                 }
                 break;
             case 40:
                 {
-                alt37=9;
+                alt36=9;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 37, 0, input);
+                    new NoViableAltException("", 36, 0, input);
 
                 throw nvae;
 
             }
 
-            switch (alt37) {
+            switch (alt36) {
                 case 1 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:340:5: 'void'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:346:5: 'void'
                     {
-                    match(input,50,FOLLOW_50_in_type1209); 
+                    match(input,50,FOLLOW_50_in_type1233); 
 
                     value = Types.VOID;
 
                     }
                     break;
                 case 2 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:341:5: 'int'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:347:5: 'int'
                     {
-                    match(input,47,FOLLOW_47_in_type1217); 
+                    match(input,47,FOLLOW_47_in_type1241); 
 
                     value = Types.INT;
 
                     }
                     break;
                 case 3 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:342:5: 'long'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:348:5: 'long'
                     {
-                    match(input,48,FOLLOW_48_in_type1225); 
+                    match(input,48,FOLLOW_48_in_type1249); 
 
                     value = Types.LONG;
 
                     }
                     break;
                 case 4 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:343:5: 'double'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:349:5: 'double'
                     {
-                    match(input,41,FOLLOW_41_in_type1233); 
+                    match(input,41,FOLLOW_41_in_type1257); 
 
                     value = Types.DOUBLE;
 
                     }
                     break;
                 case 5 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:344:5: 'float'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:350:5: 'float'
                     {
-                    match(input,43,FOLLOW_43_in_type1241); 
+                    match(input,43,FOLLOW_43_in_type1265); 
 
                     value = Types.FLOAT;
 
                     }
                     break;
                 case 6 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:345:5: 'char'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:351:5: 'char'
                     {
-                    match(input,38,FOLLOW_38_in_type1249); 
+                    match(input,38,FOLLOW_38_in_type1273); 
 
                     value = Types.CHAR;
 
                     }
                     break;
                 case 7 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:346:5: 'byte'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:352:5: 'byte'
                     {
-                    match(input,37,FOLLOW_37_in_type1257); 
+                    match(input,37,FOLLOW_37_in_type1281); 
 
                     value = Types.BYTE;
 
                     }
                     break;
                 case 8 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:347:5: 'String'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:353:5: 'String'
                     {
-                    match(input,33,FOLLOW_33_in_type1265); 
+                    match(input,33,FOLLOW_33_in_type1289); 
 
                     value = Types.STRING;
 
                     }
                     break;
                 case 9 :
-                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:348:5: 'def'
+                    // /home/brett/Development/dipforge/dipforge/libs/LeviathanScriptEngine/src/com/rift/dipforge/ls/parser/Leviathan.g:354:5: 'def'
                     {
-                    match(input,40,FOLLOW_40_in_type1273); 
+                    match(input,40,FOLLOW_40_in_type1297); 
 
                     value = Types.DEF;
 
@@ -3057,119 +3136,124 @@ public class LeviathanParser extends Parser {
     public static final BitSet FOLLOW_variable_in_statement228 = new BitSet(new long[]{0x0000000012000002L});
     public static final BitSet FOLLOW_assignment_in_statement235 = new BitSet(new long[]{0x0000000002000002L});
     public static final BitSet FOLLOW_25_in_statement241 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ifStatement_in_statement251 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_whileStatement_in_statement261 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_forStatement_in_statement271 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_block_in_statement284 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_returnStatement_in_statement294 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_39_in_statement302 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_36_in_statement310 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_52_in_block328 = new BitSet(new long[]{0x005FEBF200000040L});
-    public static final BitSet FOLLOW_statement_in_block333 = new BitSet(new long[]{0x005FEBF200000040L});
-    public static final BitSet FOLLOW_54_in_block340 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_46_in_ifStatement363 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_16_in_ifStatement365 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_ifStatement369 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ifStatement371 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_block_in_ifStatement375 = new BitSet(new long[]{0x0000040000000002L});
-    public static final BitSet FOLLOW_42_in_ifStatement384 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_46_in_ifStatement386 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_16_in_ifStatement388 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_ifStatement392 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ifStatement394 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_block_in_ifStatement398 = new BitSet(new long[]{0x0000040000000002L});
-    public static final BitSet FOLLOW_42_in_ifStatement409 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_block_in_ifStatement413 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_51_in_whileStatement432 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_16_in_whileStatement434 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_whileStatement438 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_whileStatement440 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_block_in_whileStatement444 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_45_in_forStatement461 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_16_in_forStatement463 = new BitSet(new long[]{0x00058B6202000000L});
-    public static final BitSet FOLLOW_variable_in_forStatement468 = new BitSet(new long[]{0x0000000010000000L});
-    public static final BitSet FOLLOW_assignment_in_forStatement472 = new BitSet(new long[]{0x0000000002000000L});
-    public static final BitSet FOLLOW_25_in_forStatement479 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_forStatement483 = new BitSet(new long[]{0x0000000002000000L});
-    public static final BitSet FOLLOW_25_in_forStatement487 = new BitSet(new long[]{0x00000000002B15E0L});
-    public static final BitSet FOLLOW_expression_in_forStatement494 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_forStatement500 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_block_in_forStatement504 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_type_in_variable529 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_IDENT_in_variable531 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDENT_in_callStatement553 = new BitSet(new long[]{0x0000000400410002L});
-    public static final BitSet FOLLOW_22_in_callStatement558 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_IDENT_in_callStatement562 = new BitSet(new long[]{0x0000000400410002L});
-    public static final BitSet FOLLOW_listArgument_in_callStatement571 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_parameterArgument_in_callStatement579 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_34_in_listArgument600 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_listArgument604 = new BitSet(new long[]{0x0000000800000000L});
-    public static final BitSet FOLLOW_35_in_listArgument607 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_16_in_parameterArgument623 = new BitSet(new long[]{0x00000000002B15E0L});
-    public static final BitSet FOLLOW_expression_in_parameterArgument628 = new BitSet(new long[]{0x0000000000120000L});
-    public static final BitSet FOLLOW_20_in_parameterArgument633 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_parameterArgument637 = new BitSet(new long[]{0x0000000000120000L});
-    public static final BitSet FOLLOW_17_in_parameterArgument645 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_type_in_method665 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_IDENT_in_method671 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_16_in_method674 = new BitSet(new long[]{0x0000000000020040L});
-    public static final BitSet FOLLOW_IDENT_in_method679 = new BitSet(new long[]{0x0000000000020040L});
-    public static final BitSet FOLLOW_17_in_method686 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_block_in_method690 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_28_in_assignment712 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_assignment716 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_28_in_assignment722 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_list_in_assignment726 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_34_in_list747 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_list751 = new BitSet(new long[]{0x0000000801100000L});
-    public static final BitSet FOLLOW_24_in_list754 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_list758 = new BitSet(new long[]{0x0000000800100000L});
-    public static final BitSet FOLLOW_20_in_list766 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_list770 = new BitSet(new long[]{0x0000000801100000L});
-    public static final BitSet FOLLOW_24_in_list773 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_list777 = new BitSet(new long[]{0x0000000800100000L});
-    public static final BitSet FOLLOW_35_in_list786 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INTEGER_in_value801 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FLOAT_in_value810 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_in_value818 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_callStatement_in_term834 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_16_in_term842 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_term844 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_term848 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_value_in_term854 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INCREMENTER_in_increment877 = new BitSet(new long[]{0x0000000000010560L});
-    public static final BitSet FOLLOW_term_in_increment883 = new BitSet(new long[]{0x0000000000000082L});
-    public static final BitSet FOLLOW_INCREMENTER_in_increment890 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_12_in_negation913 = new BitSet(new long[]{0x00000000000105E0L});
-    public static final BitSet FOLLOW_increment_in_negation921 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_19_in_unary940 = new BitSet(new long[]{0x00000000000115E0L});
-    public static final BitSet FOLLOW_21_in_unary945 = new BitSet(new long[]{0x00000000000115E0L});
-    public static final BitSet FOLLOW_negation_in_unary952 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_unary_in_mult972 = new BitSet(new long[]{0x0000000000844002L});
-    public static final BitSet FOLLOW_set_in_mult980 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_unary_in_mult994 = new BitSet(new long[]{0x0000000000844002L});
-    public static final BitSet FOLLOW_mult_in_add1017 = new BitSet(new long[]{0x0000000000280002L});
-    public static final BitSet FOLLOW_set_in_add1025 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_mult_in_add1035 = new BitSet(new long[]{0x0000000000280002L});
-    public static final BitSet FOLLOW_add_in_relation1060 = new BitSet(new long[]{0x00000000CC000002L});
-    public static final BitSet FOLLOW_set_in_relation1067 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_add_in_relation1086 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_relation_in_comparison1109 = new BitSet(new long[]{0x0000000020002002L});
-    public static final BitSet FOLLOW_set_in_comparison1116 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_relation_in_comparison1126 = new BitSet(new long[]{0x0000000020002002L});
-    public static final BitSet FOLLOW_comparison_in_expression1148 = new BitSet(new long[]{0x0020000000008002L});
-    public static final BitSet FOLLOW_set_in_expression1155 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_comparison_in_expression1166 = new BitSet(new long[]{0x0020000000008002L});
-    public static final BitSet FOLLOW_49_in_returnStatement1187 = new BitSet(new long[]{0x00000000002915E0L});
-    public static final BitSet FOLLOW_expression_in_returnStatement1191 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_50_in_type1209 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_47_in_type1217 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_48_in_type1225 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_41_in_type1233 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_43_in_type1241 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_38_in_type1249 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_37_in_type1257 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_33_in_type1265 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_40_in_type1273 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_incrementStatement_in_statement248 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_25_in_statement250 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ifStatement_in_statement258 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_whileStatement_in_statement268 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_forStatement_in_statement278 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_block_in_statement291 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_returnStatement_in_statement301 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_39_in_statement309 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_36_in_statement317 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_52_in_block335 = new BitSet(new long[]{0x005FEBF2000000C0L});
+    public static final BitSet FOLLOW_statement_in_block340 = new BitSet(new long[]{0x005FEBF2000000C0L});
+    public static final BitSet FOLLOW_54_in_block347 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INCREMENTER_in_incrementStatement373 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_IDENT_in_incrementStatement379 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENT_in_incrementStatement387 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_INCREMENTER_in_incrementStatement393 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_46_in_ifStatement412 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_16_in_ifStatement414 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_ifStatement418 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ifStatement420 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_block_in_ifStatement424 = new BitSet(new long[]{0x0000040000000002L});
+    public static final BitSet FOLLOW_42_in_ifStatement433 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_46_in_ifStatement435 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_16_in_ifStatement437 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_ifStatement441 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ifStatement443 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_block_in_ifStatement447 = new BitSet(new long[]{0x0000040000000002L});
+    public static final BitSet FOLLOW_42_in_ifStatement458 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_block_in_ifStatement462 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_51_in_whileStatement481 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_16_in_whileStatement483 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_whileStatement487 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_whileStatement489 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_block_in_whileStatement493 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_45_in_forStatement510 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_16_in_forStatement512 = new BitSet(new long[]{0x00058B6202000000L});
+    public static final BitSet FOLLOW_variable_in_forStatement517 = new BitSet(new long[]{0x0000000010000000L});
+    public static final BitSet FOLLOW_assignment_in_forStatement521 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_25_in_forStatement528 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_forStatement532 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_25_in_forStatement536 = new BitSet(new long[]{0x00000000000200C0L});
+    public static final BitSet FOLLOW_incrementStatement_in_forStatement542 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_callStatement_in_forStatement550 = new BitSet(new long[]{0x0000000010000000L});
+    public static final BitSet FOLLOW_assignment_in_forStatement554 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_forStatement561 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_block_in_forStatement565 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_type_in_variable590 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_IDENT_in_variable592 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENT_in_callStatement614 = new BitSet(new long[]{0x0000000400410002L});
+    public static final BitSet FOLLOW_22_in_callStatement619 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_IDENT_in_callStatement623 = new BitSet(new long[]{0x0000000400410002L});
+    public static final BitSet FOLLOW_listArgument_in_callStatement632 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_parameterArgument_in_callStatement640 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_34_in_listArgument661 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_listArgument665 = new BitSet(new long[]{0x0000000800000000L});
+    public static final BitSet FOLLOW_35_in_listArgument668 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_16_in_parameterArgument684 = new BitSet(new long[]{0x00000000002B1560L});
+    public static final BitSet FOLLOW_expression_in_parameterArgument689 = new BitSet(new long[]{0x0000000000120000L});
+    public static final BitSet FOLLOW_20_in_parameterArgument694 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_parameterArgument698 = new BitSet(new long[]{0x0000000000120000L});
+    public static final BitSet FOLLOW_17_in_parameterArgument706 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_type_in_method726 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_IDENT_in_method732 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_16_in_method735 = new BitSet(new long[]{0x0000000000020040L});
+    public static final BitSet FOLLOW_IDENT_in_method740 = new BitSet(new long[]{0x0000000000020040L});
+    public static final BitSet FOLLOW_17_in_method747 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_block_in_method751 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_28_in_assignment773 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_assignment777 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_28_in_assignment783 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_list_in_assignment787 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_34_in_list808 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_list812 = new BitSet(new long[]{0x0000000801100000L});
+    public static final BitSet FOLLOW_24_in_list815 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_list819 = new BitSet(new long[]{0x0000000800100000L});
+    public static final BitSet FOLLOW_20_in_list827 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_list831 = new BitSet(new long[]{0x0000000801100000L});
+    public static final BitSet FOLLOW_24_in_list834 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_list838 = new BitSet(new long[]{0x0000000800100000L});
+    public static final BitSet FOLLOW_35_in_list847 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INTEGER_in_value862 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FLOAT_in_value871 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_in_value879 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_callStatement_in_term895 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_16_in_term903 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_term905 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_term909 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_value_in_term915 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_12_in_negation937 = new BitSet(new long[]{0x0000000000010560L});
+    public static final BitSet FOLLOW_term_in_negation945 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_19_in_unary964 = new BitSet(new long[]{0x0000000000011560L});
+    public static final BitSet FOLLOW_21_in_unary969 = new BitSet(new long[]{0x0000000000011560L});
+    public static final BitSet FOLLOW_negation_in_unary976 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_unary_in_mult996 = new BitSet(new long[]{0x0000000000844002L});
+    public static final BitSet FOLLOW_set_in_mult1004 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_unary_in_mult1018 = new BitSet(new long[]{0x0000000000844002L});
+    public static final BitSet FOLLOW_mult_in_add1041 = new BitSet(new long[]{0x0000000000280002L});
+    public static final BitSet FOLLOW_set_in_add1049 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_mult_in_add1059 = new BitSet(new long[]{0x0000000000280002L});
+    public static final BitSet FOLLOW_add_in_relation1084 = new BitSet(new long[]{0x00000000CC000002L});
+    public static final BitSet FOLLOW_set_in_relation1091 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_add_in_relation1110 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_relation_in_comparison1133 = new BitSet(new long[]{0x0000000020002002L});
+    public static final BitSet FOLLOW_set_in_comparison1140 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_relation_in_comparison1150 = new BitSet(new long[]{0x0000000020002002L});
+    public static final BitSet FOLLOW_comparison_in_expression1172 = new BitSet(new long[]{0x0020000000008002L});
+    public static final BitSet FOLLOW_set_in_expression1179 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_comparison_in_expression1190 = new BitSet(new long[]{0x0020000000008002L});
+    public static final BitSet FOLLOW_49_in_returnStatement1211 = new BitSet(new long[]{0x0000000000291560L});
+    public static final BitSet FOLLOW_expression_in_returnStatement1215 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_50_in_type1233 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_47_in_type1241 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_48_in_type1249 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_41_in_type1257 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_43_in_type1265 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_38_in_type1273 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_37_in_type1281 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_33_in_type1289 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_40_in_type1297 = new BitSet(new long[]{0x0000000000000002L});
 
 }

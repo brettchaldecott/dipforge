@@ -79,6 +79,6 @@ public class VariableStackEntry extends StatementStackEntry {
     @Override
     public void setResult(Object result) throws EngineException {
         this.set = true;
-        this.value = value;
+        this.value = result;
     }
 }

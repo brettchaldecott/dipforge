@@ -95,7 +95,11 @@ public class ProcessorMemoryManager implements Serializable {
      * @return The reference to the stack entry that was popped of the top.
      */
     public ProcessStackEntry popStack() {
-        return currentStack = stack.pop();
+        if (stack.size() > 0) {
+            return currentStack = stack.pop();
+        } else {
+            return currentStack = null;
+        }
     }
     
     

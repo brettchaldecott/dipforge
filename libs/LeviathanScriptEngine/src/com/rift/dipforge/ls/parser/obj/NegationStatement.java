@@ -32,7 +32,7 @@ public class NegationStatement extends Statement implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private boolean negation = false;
-	private IncrementStatement increment;
+	private Object term;
 	
 	
 	/**
@@ -64,22 +64,22 @@ public class NegationStatement extends Statement implements Serializable {
 
 
 	/**
-	 * This method returns the reference to the increment statement
+	 * This method returns the reference to the term
 	 * 
-	 * @return This method returns the increment statement value.
+	 * @return This method returns the reference to the term.
 	 */
-	public IncrementStatement getIncrement() {
-		return increment;
+	public Object getTerm() {
+		return term;
 	}
 
 	
 	/**
-	 * This method sets the increment statement value.
+	 * This method sets the term
 	 * 
-	 * @param increment The value to set for the increment statement.
+	 * @param term This method sets a reference to the term.
 	 */
-	public void setIncrement(IncrementStatement increment) {
-		this.increment = increment;
+	public void setTerm(Object term) {
+		this.term = term;
 	}
 
 
@@ -91,7 +91,7 @@ public class NegationStatement extends Statement implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((increment == null) ? 0 : increment.hashCode());
+				+ ((term == null) ? 0 : term.hashCode());
 		result = prime * result + (negation ? 1231 : 1237);
 		return result;
 	}
@@ -109,10 +109,10 @@ public class NegationStatement extends Statement implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		NegationStatement other = (NegationStatement) obj;
-		if (increment == null) {
-			if (other.increment != null)
+		if (term == null) {
+			if (other.term != null)
 				return false;
-		} else if (!increment.equals(other.increment))
+		} else if (!term.equals(other.term))
 			return false;
 		if (negation != other.negation)
 			return false;
@@ -126,7 +126,7 @@ public class NegationStatement extends Statement implements Serializable {
 	@Override
 	public String toString() {
 		return "NegationStatement [negation=" + negation + ", increment="
-				+ increment + "]";
+				+ term + "]";
 	}
 
 	

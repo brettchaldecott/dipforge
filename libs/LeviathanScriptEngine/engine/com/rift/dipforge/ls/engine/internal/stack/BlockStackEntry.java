@@ -26,7 +26,9 @@ import com.rift.dipforge.ls.engine.internal.Constants;
 import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
 import com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager;
 import com.rift.dipforge.ls.parser.obj.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +36,9 @@ import java.util.Map;
  * @author brett chaldecott
  */
 public class BlockStackEntry extends ProcessStackEntry {
-
+    
+    // private member variables
+    private List<Statement> statements = new ArrayList<Statement>();
     
     /**
      * The block stack entry constructor.
@@ -44,8 +48,10 @@ public class BlockStackEntry extends ProcessStackEntry {
      * @param variables The variables.
      */
     public BlockStackEntry(ProcessorMemoryManager processorMemoryManager,
-            ProcessStackEntry parent, Map variables) {
+            ProcessStackEntry parent, Map variables) throws EngineException {
         super(processorMemoryManager, parent, variables);
+        Block blk = (Block)getVariable(Constants.BLOCK);
+        statements.addAll(blk.getStatements());
     }
 
     
@@ -57,8 +63,10 @@ public class BlockStackEntry extends ProcessStackEntry {
      * @param parent The parent reference.
      */
     public BlockStackEntry(ProcessorMemoryManager processorMemoryManager,
-            ProcessStackEntry parent) {
+            ProcessStackEntry parent) throws EngineException {
         super(processorMemoryManager, parent);
+        Block blk = (Block)getVariable(Constants.BLOCK);
+        statements.addAll(blk.getStatements());
     }
 
     
@@ -99,28 +107,10 @@ public class BlockStackEntry extends ProcessStackEntry {
      */
     protected Statement getNextStatement()
             throws EngineException {
-        Block blk = (Block)getVariable(Constants.BLOCK);
-        Statement statement = null;
-        if (containsVariable(Constants.STATEMENT_POS)) {
-            statement = (Statement) getVariable(Constants.STATEMENT_POS);
+        if (this.statements.size() == 0) {
+            return null;
         }
-
-        if ((statement == null)
-                || !(blk.getStatements().contains(statement))) {
-            if (blk.getStatements().size() > 0) {
-                Statement result = blk.getStatements().get(0);
-                addVariable(Constants.STATEMENT_POS, result);
-                return result;
-            }
-        } else {
-            int index = blk.getStatements().indexOf(statement) + 1;
-            if (blk.getStatements().size() > index) {
-                Statement result = blk.getStatements().get(index);
-                setVariable(Constants.STATEMENT_POS, result);
-                return result;
-            }
-        }
-        return null;
+        return this.statements.remove(0);
     }
 
     
@@ -156,6 +146,11 @@ public class BlockStackEntry extends ProcessStackEntry {
                         (ForStatement)statement);
             } else if (statement instanceof CaseStatement) {
                 // THIS has been removed from the language for the time being
+            } else if (statement instanceof IncrementStatement) {
+                IncrementStatementStackEntry stackEntry =
+                        new IncrementStatementStackEntry(
+                        this.getProcessorMemoryManager(),this,
+                        (IncrementStatement)statement);
             } else if (statement instanceof Block) {
                 // retrieve the inital value
                 Map parameters = new HashMap();
