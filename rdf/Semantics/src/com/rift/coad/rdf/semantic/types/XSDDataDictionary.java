@@ -70,6 +70,42 @@ public class XSDDataDictionary {
             throw new DataTypeException("The type [" + name + "]is unknown");
         }
     }
+    
+    
+    /**
+     * This method returns true if the name is for a basic type
+     * 
+     * @param name The name of the type.
+     * @return The boolean result.
+     * @throws DataTypeException 
+     */
+    public static boolean isBasicTypeByName(String name) throws DataTypeException {
+        if (name.equalsIgnoreCase(XSD_STRING)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_BOOLEAN)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_FLOAT)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_DOUBLE)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_DURATION)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_INTEGER)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_LONG)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_INT)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_SHORT)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_BYTE)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_DATE)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * This method returns the type identified by the URI.
@@ -85,6 +121,23 @@ public class XSDDataDictionary {
         }
         String[] names = tokens[1].split("/");
         return getTypeByName(names[0]);
+    }
+    
+    
+    /**
+     * This method returns the type identified by the URI.
+     *
+     * @param uri The URI of the type to retrieve.
+     * @return The reference to the data type.
+     * @throws DataTypeException
+     */
+    public static boolean isBasicTypeByURI(String uri) throws DataTypeException {
+        String[] tokens = uri.split("#");
+        if (tokens.length < 2) {
+            throw new DataTypeException("The uri [" + uri + "] is not formed correctly.");
+        }
+        String[] names = tokens[1].split("/");
+        return isBasicTypeByName(names[0]);
     }
 
 }
