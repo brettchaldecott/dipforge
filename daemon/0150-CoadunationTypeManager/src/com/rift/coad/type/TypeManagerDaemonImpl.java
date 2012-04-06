@@ -124,8 +124,16 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                     property = session.createProperty(propertyURI);
                 }
                 if (type.getTypeUri() != null) {
-                    property.setType(XSDDataDictionary.getTypeByURI(
-                            type.getTypeUri()));
+                    if (XSDDataDictionary.isBasicTypeByURI(
+                            type.getTypeUri())) {
+                        log.info("Set the property uri [" + propertyURI + 
+                                "] to [" + type.getTypeUri() + "]");
+                        property.setType(XSDDataDictionary.getTypeByURI(
+                                type.getTypeUri()));
+                    } else {
+                        property.setType(session.getClass(
+                                new URI(type.getTypeUri())));
+                    }
                 }
                 ontologyClass.addProperty(property);
             }
@@ -148,15 +156,20 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @throws com.rift.coad.type.TypeManagerException
      */
     public void updateType(ResourceDefinition resource) throws TypeManagerException {
+        URI uri = null; 
         try {
             OntologySession session = this.getSession(resource.getNamespace());
-            URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
-            session.removeClass(uri);
+            uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
+            log.info("Add the property [" + uri + "]");
+            if (session.hasClass(uri)) {
+                session.removeClass(uri);
+            }
             OntologyClass ontologyClass = session.createClass(uri);
             for (String key : resource.getProperties().keySet()) {
                 RDFDataType type = resource.getProperties().get(key);
                 URI propertyURI = 
                         new URI(type.getNamespace() + "#" + type.getLocalName());
+                log.info("Add the property [" + propertyURI + "]");
                 OntologyProperty property = null;
                 if (session.hasProperty(propertyURI)) {
                     property = session.getProperty(propertyURI);
@@ -164,8 +177,16 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                     property = session.createProperty(propertyURI);
                 }
                 if (type.getTypeUri() != null) {
-                    property.setType(XSDDataDictionary.getTypeByURI(
-                            type.getTypeUri()));
+                    if (XSDDataDictionary.isBasicTypeByURI(
+                            type.getTypeUri())) {
+                        log.info("Set the property uri [" + propertyURI + 
+                                "] to [" + type.getTypeUri() + "]");
+                        property.setType(XSDDataDictionary.getTypeByURI(
+                                type.getTypeUri()));
+                    } else {
+                        property.setType(session.getClass(
+                                new URI(type.getTypeUri())));
+                    }
                 }
                 ontologyClass.addProperty(property);
             }
@@ -174,9 +195,9 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
-            log.error("Failed to update the type : " + ex.getMessage(),ex);
+            log.error("Failed to update the type [" + uri + "] : " + ex.getMessage(),ex);
             throw new TypeManagerException
-                    ("Failed to update the type : " + ex.getMessage(),ex);
+                    ("Failed to update the type [" + uri + "] : " + ex.getMessage(),ex);
         }
     }
 
