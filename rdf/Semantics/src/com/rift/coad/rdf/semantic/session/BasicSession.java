@@ -269,6 +269,27 @@ public class BasicSession implements Session {
         }
     }
 
+    
+    /**
+     * This returns true if the object can be found.
+     * 
+     * @param c The class to find.
+     * @param identifier The identifier.
+     * @return TRUE if found.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public boolean contains(Class c, Serializable identifier) 
+            throws SessionException, UnknownEntryException {
+        try {
+            return jdoSession.contains(c,identifier);
+        } catch (Exception ex) {
+            log.error("Failed to check if the object exists : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to check if the object exists : " +
+                    ex.getMessage(),ex);
+        }
+    }
 
     /**
      * This method creates a new query.

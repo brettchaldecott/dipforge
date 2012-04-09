@@ -123,7 +123,8 @@ public class BasicJDOSession implements JDOSession {
                     ("Failed to persist the object : " + ex.getMessage(),ex);
         }
     }
-
+    
+    
 
     /**
      * The XML to dump to a string.
@@ -253,15 +254,39 @@ public class BasicJDOSession implements JDOSession {
                     persistanceSession, persistanceSession.getResource(resourceUri),
                     ontologySession);
         } catch (Exception ex) {
-            log.error("Failed to remove the resource identified by the RDF XML : " +
+            log.error("Failed to get the resource identified by the RDF XML : " +
                     ex.getMessage(),ex);
             throw new SessionException
-                    ("Failed to remove the resource identified by the RDF XML : " +
+                    ("Failed to get the resource identified by the RDF XML : " +
                     ex.getMessage(),ex);
         }
     }
 
-
+    
+    /**
+     * This method returns true if the class is found
+     * 
+     * @param c The class found
+     * @param identifier The identifier
+     * @return TRUE if found, FALSE if not.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public boolean contains(Class c, Serializable identifier)
+            throws SessionException, UnknownEntryException {
+        try {
+            URI resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            return persistanceSession.hasResource(resourceUri);
+        } catch (Exception ex) {
+            log.error("Failed to check for the resource identified by the class type and identifer : " +
+                    ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed to check for the resource identified by the class type and identifer : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    
     /**
      * This method creates a query
      *

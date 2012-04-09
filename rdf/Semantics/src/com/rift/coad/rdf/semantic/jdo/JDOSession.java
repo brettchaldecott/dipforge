@@ -111,7 +111,20 @@ public interface JDOSession {
      */
     public <T> T get(Class <T> c, Serializable identifier) throws SessionException, UnknownEntryException;
 
+    
+    /**
+     * This method returns true if the store contains the specified class.
+     * 
+     * @param c The class to identify
+     * @param identifier The idnetifier.
+     * @return TRUE if found, FALSE if not.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public boolean contains(Class c, Serializable identifier) 
+            throws SessionException, UnknownEntryException;
 
+    
     /**
      * This method is responsible for creating a new query that can be execute on the data store.
      *

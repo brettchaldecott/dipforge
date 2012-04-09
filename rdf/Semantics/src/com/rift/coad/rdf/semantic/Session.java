@@ -128,7 +128,20 @@ public interface Session {
      */
     public <T> T get(Class <T> c, Serializable identifier) throws SessionException, UnknownEntryException;
 
-
+    
+    /**
+     * This method returns the true if the object can be found.
+     * 
+     * @param c The class type to look for.
+     * @param identifier The identifier for the class.
+     * @return TRUE if it exists. FALSE if not.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public boolean contains(Class c, Serializable identifier)
+            throws SessionException, UnknownEntryException;
+    
+    
     /**
      * This method is responsible for creating a new query that can be execute on the data store.
      *
