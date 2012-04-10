@@ -57,6 +57,7 @@ import com.rift.coad.rdf.semantic.jdo.basic.sparql.BasicJDOSPARQLQuery;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.resource.BasicResource;
+import com.rift.coad.rdf.semantic.util.BeanCopy;
 
 /**
  * This object represents a basic session.
@@ -268,7 +269,53 @@ public class BasicSession implements Session {
                     ex.getMessage(),ex);
         }
     }
-
+    
+    
+    /**
+     * This method returns the disconnected object. This method always deep copies.
+     * 
+     * @param <T> The reference to the diconnected object
+     * @param c The object type to return.
+     * @param value The value.
+     * @return The result of the call
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public <T> T disconnect(Class<T> c, Object value) throws
+            SessionException, UnknownEntryException {
+        return disconnect(c, value, true);
+    }
+    
+    
+    /**
+     * This method returns a disconnected object. It will deep copy the object
+     * told to.
+     * 
+     * @param <T> The type of object to return.
+     * @param c The type.
+     * @param value The value
+     * @param deapCopy If TRUE deep copy.
+     * @return The reference to the disconnected object.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public <T> T disconnect(Class<T> c, Object value, boolean deepCopy) throws
+            SessionException, UnknownEntryException {
+        try {
+            if (!c.isInstance(value)) {
+                throw new SessionException("The types do not match");
+            }
+            return BeanCopy.copy(c, value);
+        } catch (Exception ex) {
+            log.error(
+                    "Failed to disconnect the rdf object and return a copy : " +
+                    ex.getMessage(),ex);
+            throw new SessionException(
+                    "Failed to disconnect the rdf object and return a copy : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
     
     /**
      * This returns true if the object can be found.

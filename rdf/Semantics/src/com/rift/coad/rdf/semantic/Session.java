@@ -127,7 +127,37 @@ public interface Session {
      * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
      */
     public <T> T get(Class <T> c, Serializable identifier) throws SessionException, UnknownEntryException;
-
+    
+    
+    /**
+     * This method returns the disconnected object. This method always deep copies.
+     * 
+     * @param <T> The reference to the diconnected object
+     * @param c The object type to return.
+     * @param value The value.
+     * @return The result of the call
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public <T> T disconnect(Class<T> c, Object value) throws
+            SessionException, UnknownEntryException;
+    
+    
+    /**
+     * This method returns a disconnected object. It will deep copy the object
+     * told to.
+     * 
+     * @param <T> The type of object to return.
+     * @param c The type.
+     * @param value The value
+     * @param deapCopy If TRUE deep copy.
+     * @return The reference to the disconnected object.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public <T> T disconnect(Class<T> c, Object value, boolean deepCopy) throws
+            SessionException, UnknownEntryException;
+    
     
     /**
      * This method returns the true if the object can be found.
