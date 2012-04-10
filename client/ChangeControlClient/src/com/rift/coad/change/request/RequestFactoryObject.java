@@ -26,8 +26,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 
-import com.rift.coad.change.rdf.objmapping.change.Request;
-
 /**
  * This interface defines the methods that manage an individual request instance.
  *

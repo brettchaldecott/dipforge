@@ -22,14 +22,13 @@
 package com.rift.coad.change.request.action;
 
 // java import
+import com.rift.coad.change.request.RequestEvent;
+import com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 
 // coadunation imports
-import com.rift.coad.change.rdf.objmapping.change.action.ActionStack;
-import com.rift.coad.change.rdf.objmapping.change.action.StackEvent;
-import com.rift.coad.rdf.objmapping.base.DataType;
 
 /**
  * This interfaces supplies access to a running action definition.
@@ -105,7 +104,7 @@ public interface ActionInstance extends Remote {
      * @throws com.rift.coad.change.request.action.ActionException
      * @throws java.rmi.RemoteException
      */
-    public StackEvent getLastEvent() throws ActionException, RemoteException;
+    public RequestEvent getLastEvent() throws ActionException, RemoteException;
 
     
     /**
@@ -115,7 +114,7 @@ public interface ActionInstance extends Remote {
      * @throws com.rift.coad.change.request.action.ActionException
      * @throws java.rmi.RemoteException
      */
-    public ActionStack getStack() throws ActionException, RemoteException;
+    public ProcessorMemoryManager getStack() throws ActionException, RemoteException;
 
 
     /**
@@ -125,7 +124,7 @@ public interface ActionInstance extends Remote {
      * @throws com.rift.coad.change.request.action.ActionException
      * @throws java.rmi.RemoteException
      */
-    public void setStack(ActionStack stack) throws ActionException, RemoteException;
+    public void setStack(ProcessorMemoryManager stack) throws ActionException, RemoteException;
 
 
     /**
@@ -144,7 +143,7 @@ public interface ActionInstance extends Remote {
      * @throws com.rift.coad.change.request.action.ActionException
      * @throws java.rmi.RemoteException
      */
-    public void execute(DataType result) throws ActionException, RemoteException;
+    public void execute(String result) throws ActionException, RemoteException;
 
 
     /**

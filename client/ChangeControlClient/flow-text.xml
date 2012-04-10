@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : flow-text.xml
+    Created on : 13 December 2011, 9:26 AM
+    Author     : brett
+    Description:
+        And example of the xml flow definition
+-->
+
+<FlowDefinition action="name">
+    <action name="test"/>
+    <type name="test" datatype="url"/>
+    <dependancies name="testname" datatype="url"/>
+    
+    <Block>
+        <variable name="testvar1" datatype="url" value="1"/>
+        <variable name="testvar2" datatype="url" value="1"/>
+        <assign source="testvar1" target="testvar2"/>
+        
+    </Block>
+</FlowDefinition>

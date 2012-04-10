@@ -26,11 +26,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-// change imports
-import com.rift.coad.change.rdf.objmapping.change.ActionDefinition;
-import com.rift.coad.change.rdf.objmapping.change.ActionInfo;
-
-
 /**
  * This method is called to change the manager daemon.
  * 
@@ -45,7 +40,7 @@ public interface ChangeManagerDaemon extends Remote {
      * @throws com.rift.coad.change.ChangeException
      * @throws java.rmi.RemoteException
      */
-    public void addAction(ActionInfo action) throws ChangeException, RemoteException;
+    public void addAction(List<ActionInfo> action) throws ChangeException, RemoteException;
 
 
     /**
@@ -55,7 +50,7 @@ public interface ChangeManagerDaemon extends Remote {
      * @throws com.rift.coad.change.ChangeException
      * @throws java.rmi.RemoteException
      */
-    public void updateAction(ActionInfo action) throws ChangeException, RemoteException;
+    public void updateAction(List<ActionInfo> action) throws ChangeException, RemoteException;
 
 
     /**
@@ -65,71 +60,36 @@ public interface ChangeManagerDaemon extends Remote {
      * @throws com.rift.coad.change.ChangeException
      * @throws java.rmi.RemoteException
      */
-    public List<ActionInfo> listActions() throws ChangeException, RemoteException;
-
-
-    /**
-     * This method removes the specified action name.
-     *
-     * @param name The name of the action to remove.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
-     */
-    public void removeAction(String name) throws ChangeException, RemoteException;
-
-
-    /**
-     * This method lists the action definitions for the given object id.
-     *
-     * @param objectId The id of the object to return the list for.
-     * @return The list of action definitions.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
-     */
-    public List<String> listActionDefinitions(String objectId) throws ChangeException, RemoteException;
+    public List<ActionInfo> listActions(String project,String type) 
+            throws ChangeException, RemoteException;
 
     
     /**
-     * This method adds an action definition.
-     *
-     * @param definition The action definition.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
-     */
-    public void addActionDefinition(ActionDefinition definition) throws ChangeException, RemoteException;
-
-
-    /**
-     * This method removes the updated action definition.
-     *
-     * @param definition The definition.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
-     */
-    public void updateActionDefinition(ActionDefinition definition) throws ChangeException, RemoteException;
-
-
-    /**
-     * This method returns the action definition for the supplied object id and action.
-     *
-     * @param objectId The id of the object.
-     * @param action The name of the action.
-     * @return The action definition.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
-     */
-    public ActionDefinition getActionDefinition(String objectId, String action) throws ChangeException, RemoteException;
-
-    /**
-     * This method removes the actions associated with the given object id.
-     *
-     * @param objectId The object id to remove the association from.
+     * This method gets the action
+     * 
+     * @param project The project the action is attached to.
+     * @param type The type the action is running on.
      * @param action The action.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
+     * @return The action information.
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public void removeActionDefinition(String objectId, String action) throws ChangeException, RemoteException;
-
-
-
+    public ActionInfo getAction(String project, String type, String action)
+            throws ChangeException, RemoteException;
+    
+    /**
+     * This method removes the action identified by the information.
+     * 
+     * @param project The reference to the project.
+     * @param type The type of action.
+     * @param action The action
+     * @throws ChangeException
+     * @throws RemoteException 
+     */
+    public void removeAction(String project, String type, String action)
+            throws ChangeException, RemoteException;
+    
+    
+    
+    
 }

@@ -22,13 +22,11 @@
 package com.rift.coad.change.request.action;
 
 // java imports
+import com.rift.coad.change.request.Request;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-
-// rdf imports
-import com.rift.coad.change.rdf.objmapping.change.Request;
 
 
 /**

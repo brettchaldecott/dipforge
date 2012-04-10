@@ -23,7 +23,6 @@
 // package path
 package com.rift.coad.change.request;
 
-import com.rift.coad.change.rdf.objmapping.change.Request;
 import java.rmi.RemoteException;
 
 /**
@@ -39,8 +38,8 @@ public interface CreateRequestHandler extends java.rmi.Remote {
      * @throws com.rift.coad.change.request.RequestException
      * @throws java.rmi.RemoteException
      */
-    public void createRequest(Request request) throws RequestException,
-            RemoteException;
+    public void createRequest(Request request) throws
+            RequestException, RemoteException;
 
 
     /**
@@ -51,5 +50,6 @@ public interface CreateRequestHandler extends java.rmi.Remote {
      * @throws RequestBrokerException
      * @throws java.rmi.RemoteException
      */
-    public Request getRequest(String id) throws RequestException, RemoteException;
+    public Request getRequest(String id) throws
+            RequestException, RemoteException;
 }

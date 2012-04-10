@@ -27,7 +27,6 @@ import java.rmi.RemoteException;
 
 
 // the request
-import com.rift.coad.change.rdf.objmapping.change.Request;
 import java.util.List;
 
 
