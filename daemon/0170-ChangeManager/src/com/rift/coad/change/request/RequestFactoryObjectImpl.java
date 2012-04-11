@@ -24,28 +24,25 @@ package com.rift.coad.change.request;
 
 
 // the request information
-import com.rift.coad.audit.client.rdf.AuditLogger;
+import com.rift.coad.audit.client.AuditLogger;
 import com.rift.coad.change.ChangeManagerDaemonImpl;
-import com.rift.coad.change.rdf.objmapping.change.Request;
 
 // import log4j
-import com.rift.coad.change.rdf.objmapping.change.RequestConstants;
-import com.rift.coad.change.rdf.objmapping.change.RequestEvent;
-import com.rift.coad.change.rdf.objmapping.change.SystemActionTypes;
 import com.rift.coad.change.request.action.ActionHandler;
 import com.rift.coad.change.request.action.ActionHandlerAsync;
-import com.rift.coad.change.request.rdf.MasterRequest;
+import com.rift.coad.change.rdf.MasterRequestRDF;
+import com.rift.coad.change.rdf.RequestEventRDF;
+import com.rift.coad.change.rdf.RequestRDF;
 import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import com.rift.coad.lib.Resource;
 import com.rift.coad.lib.ResourceIndex;
+import com.rift.coad.lib.common.CopyObject;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
-import org.apache.log4j.Logger;
-
-// change log imports
 import com.rift.coad.util.change.Change;
 import com.rift.coad.util.change.ChangeException;
 import com.rift.coad.util.change.ChangeLog;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -53,7 +50,8 @@ import com.rift.coad.util.change.ChangeLog;
  *
  * @author brett chaldecott
  */
-public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIndex,Resource {
+public class RequestFactoryObjectImpl implements RequestFactoryObject,
+        ResourceIndex,Resource {
 
     /**
      * The enum defining the type of action to perform on the object.
@@ -71,14 +69,14 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
     public static class RequestChangeEntry implements Change {
 
         private TYPE changeType;
-        private MasterRequest request;
+        private MasterRequestRDF request;
 
         
-        public RequestChangeEntry(TYPE changeType, MasterRequest request)
+        public RequestChangeEntry(TYPE changeType, MasterRequestRDF request)
                 throws RequestException {
             try {
                 this.changeType = changeType;
-                this.request = (MasterRequest)request.clone();
+                this.request = CopyObject.copy(MasterRequestRDF.class, request);
             } catch (Exception ex) {
                 log.error("Failed to instanciate the change entry : " +
                         ex.getMessage(),ex);
@@ -116,7 +114,7 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
             RequestFactoryObjectImpl.class);
 
     // private member variable
-    private MasterRequest request;
+    private MasterRequestRDF request;
 
 
     /**
@@ -125,11 +123,11 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
      * @param request The request information.
      *
      */
-    public RequestFactoryObjectImpl(Request request) throws RequestException {
-        this.request = new MasterRequest(request);
+    public RequestFactoryObjectImpl(RequestRDF request) throws RequestException {
         try {
+            this.request = new MasterRequestRDF(request);
             if (request.getAction().equals(SystemActionTypes.BATCH)) {
-                for (Request child : request.getChildren()) {
+                for (RequestRDF child : request.getChildren()) {
                     initRequest(child);
                 }
             } else {
@@ -152,7 +150,7 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
      *
      * @param request The reference to the master request
      */
-    public RequestFactoryObjectImpl(MasterRequest request) {
+    public RequestFactoryObjectImpl(MasterRequestRDF request) {
         this.request = request;
     }
 
@@ -176,7 +174,7 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
      * @throws com.rift.coad.change.request.RequestException
      */
     public Request getInfo() throws RequestException {
-        return request.getRequest();
+        return request.getRequest().toRequest();
     }
 
 
@@ -187,11 +185,10 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
      * @throws com.rift.coad.change.request.RequestException
      */
     public void update(Request request) throws RequestException {
-        this.request.setRequest(request);
+        this.request.setRequest(new RequestRDF(request));
         try {
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.UPDATE,this.request));
-            auditLog.create("Request [%s] updated", this.getId()).
-                    addData(this.request.getRequest()).complete();
+            auditLog.complete("Request [%s] updated", this.getId());
         } catch (RequestException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -240,7 +237,7 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
                     complete = true;
                 } else {
                     boolean allComplete = true;
-                    for (Request child : this.request.getRequest().getChildren()) {
+                    for (RequestRDF child : this.request.getRequest().getChildren()) {
                         if (!isComplete(child)) {
                             allComplete = false;
                             break;
@@ -254,8 +251,8 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
                 complete = isComplete(this.request.getRequest());
             }
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.UPDATE,this.request));
-            auditLog.create("Request [%s] sub request [%s] status [%s] updated",
-                    this.getId(),requestId,status).complete();
+            auditLog.complete("Request [%s] sub request [%s] status [%s] updated",
+                    this.getId(),requestId,status);
             if (complete) {
                 return RequestConstants.COMPLETE;
             }
@@ -279,20 +276,21 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
      * @param message The message.
      * @throws RequestException
      */
-    private boolean setStatus(Request request,
+    private boolean setStatus(RequestRDF request,
             String requestId, String status, String message) throws RequestException {
         if (request.getId().equals(requestId)) {
-            request.addEvent(new RequestEvent(status,message));
+            request.addEvent(new RequestEventRDF(
+                    new RequestEvent(status,message)));
             request.setStatus(status);
             if (request.getChildren() != null) {
-                for (Request child : request.getChildren()) {
+                for (RequestRDF child : request.getChildren()) {
                     initRequest(child);
                 }
             }
             return true;
         }
         if (request.getChildren() != null) {
-            for (Request subRequest : request.getChildren()) {
+            for (RequestRDF subRequest : request.getChildren()) {
                 if (setStatus(subRequest,requestId,status,message)) {
                     return true;
                 }
@@ -335,13 +333,13 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
      *
      * @param The request to invoke.
      */
-    private void initRequest(Request request) throws RequestException {
+    private void initRequest(RequestRDF request) throws RequestException {
         try {
             if (request.getStatus().equals(RequestConstants.UNPROCESSED)) {
                 ActionHandlerAsync handler = (ActionHandlerAsync)RPCMessageClient.
                         createOneWay("change/request/RequestFactoryDaemon", ActionHandler.class,
                     ActionHandlerAsync.class, "change/request/action/ActionHandler");
-                Request duplicate = (Request)request.clone();
+                Request duplicate = (Request)request.toRequest();
                 duplicate.setChildren(null);
                 handler.invokeAction(this.request.getId(), duplicate);
                 request.setStatus(RequestConstants.RUNNING);
@@ -359,12 +357,12 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,ResourceIn
      *
      * @return TRUE if the sub requests are all complete.
      */
-    private boolean isComplete(Request request) {
+    private boolean isComplete(RequestRDF request) {
         if (!request.getStatus().equals(RequestConstants.COMPLETE)) {
             return false;
         }
         if (request.getChildren() != null) {
-            for (Request child : request.getChildren()) {
+            for (RequestRDF child : request.getChildren()) {
                 if (!isComplete(child)) {
                     return false;
                 }

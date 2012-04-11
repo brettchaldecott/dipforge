@@ -25,10 +25,10 @@ package com.rift.coad.change.request;
 // java imports
 
 // apache imports
-import com.rift.coad.change.rdf.objmapping.change.Request;
+import com.rift.coad.change.rdf.RequestRDF;
 import com.rift.coad.rdf.semantic.RDFFormats;
 import com.rift.coad.rdf.semantic.Session;
-import com.rift.coad.rdf.semantic.config.Basic;
+import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
 import java.rmi.RemoteException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -96,12 +96,12 @@ public class RequestManager implements RequestManagerMBean {
      */
     public void initRequestFromXML(String id, String xml) throws RequestException {
         try {
-            Session session = Basic.initSessionManager().getSession();
+            Session session = XMLSemanticUtil.getSession();
             session.persist(xml);
             RequestFactoryDaemon daemon = (RequestFactoryDaemon)ConnectionManager.getInstance().
                     getConnection(RequestFactoryDaemon.class, 
                     "java:comp/env/bean/change/request/RequestFactoryDaemon");
-            daemon.createRequest(session.get(Request.class, Request.class.getName(), id));
+            daemon.createRequest(session.get(RequestRDF.class, id).toRequest());
         } catch (Exception ex) {
             log.error("Failed to init a request : " + ex.getMessage(),ex);
             throw new RequestException
@@ -122,9 +122,9 @@ public class RequestManager implements RequestManagerMBean {
             RequestFactoryDaemon daemon = (RequestFactoryDaemon)ConnectionManager.getInstance().
                     getConnection(RequestFactoryDaemon.class,
                     "java:comp/env/bean/change/request/RequestFactoryDaemon");
-            Session session = Basic.initSessionManager().getSession();
-            session.persist(daemon.getRequest(id));
-            return session.dump(RDFFormats.XML_ABBREV);
+            Session session = XMLSemanticUtil.getSession();
+            session.persist(new RequestRDF(daemon.getRequest(id).getInfo()));
+            return session.dumpXML();
         } catch (Exception ex) {
             log.error("Failed to retrieve a request : " + ex.getMessage(),ex);
             throw new RequestException

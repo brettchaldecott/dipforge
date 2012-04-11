@@ -20,19 +20,12 @@
  */
 
 // package import
-package com.rift.coad.change.request.rdf;
+package com.rift.coad.change.rdf;
 
-
-// java imports
-// semantic imports
-import thewebsemantic.Namespace;
-import thewebsemantic.RdfType;
-import thewebsemantic.Identifier;
-import thewebsemantic.RdfProperty;
-
-// coadunation imports
-import com.rift.coad.change.rdf.objmapping.change.Request;
-import com.rift.coad.rdf.objmapping.base.DataType;
+import com.rift.coad.rdf.semantic.annotation.LocalName;
+import com.rift.coad.rdf.semantic.annotation.Namespace;
+import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import java.io.Serializable;
 
 
 /**
@@ -40,19 +33,19 @@ import com.rift.coad.rdf.objmapping.base.DataType;
  *
  * @author brett
  */
-@Namespace("http://www.coadunation.net/schema/rdf/1.0/requestmisc#")
-@RdfType("MasterRequest")
-public class MasterRequest extends DataType {
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/change.master#")
+@LocalName("MasterRequest")
+public class MasterRequestRDF implements Serializable {
 
     // private member variables
     private String id;
-    private Request request;
+    private RequestRDF request;
 
     
     /**
      * This method
      */
-    public MasterRequest() {
+    public MasterRequestRDF() {
     }
 
 
@@ -61,20 +54,9 @@ public class MasterRequest extends DataType {
      *
      * @param request The request that identifies this object.
      */
-    public MasterRequest(Request request) {
+    public MasterRequestRDF(RequestRDF request) {
         this.id = request.getId();
         this.request = request;
-    }
-
-
-    /**
-     * This method returns the id of the request object.
-     *
-     * @return The id of the request object.
-     */
-    @Override
-    public String getObjId() {
-        return id;
     }
 
 
@@ -83,8 +65,8 @@ public class MasterRequest extends DataType {
      *
      * @return The string containing the master request id.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestmisc#MasterRequestId")
-    @Identifier()
+    @com.rift.coad.rdf.semantic.annotation.Identifier()
+    @PropertyLocalName("id")
     public String getId() {
         return id;
     }
@@ -95,7 +77,7 @@ public class MasterRequest extends DataType {
      *
      * @param id The new id of the master request.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestmisc#MasterRequestId")
+    @PropertyLocalName("id")
     public void setId(String id) {
         this.id = id;
     }
@@ -106,8 +88,8 @@ public class MasterRequest extends DataType {
      *
      * @return The request id.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestmisc#MasterRequestRequest")
-    public Request getRequest() {
+    @PropertyLocalName("Request")
+    public RequestRDF getRequest() {
         return request;
     }
 
@@ -117,8 +99,8 @@ public class MasterRequest extends DataType {
      *
      * @param request The request reference.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestmisc#MasterRequestRequest")
-    public void setRequest(Request request) {
+    @PropertyLocalName("Request")
+    public void setRequest(RequestRDF request) {
         this.request = request;
     }
 
@@ -136,7 +118,7 @@ public class MasterRequest extends DataType {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final MasterRequest other = (MasterRequest) obj;
+        final MasterRequestRDF other = (MasterRequestRDF) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }

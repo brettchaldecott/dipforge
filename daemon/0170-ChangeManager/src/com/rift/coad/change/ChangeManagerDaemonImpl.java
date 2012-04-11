@@ -23,6 +23,9 @@
 package com.rift.coad.change;
 
 // java imports
+import com.rift.coad.audit.client.AuditLogger;
+import com.rift.coad.change.rdf.ActionInfoRDF;
+import com.rift.coad.rdf.semantic.Resource;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -30,12 +33,10 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 // change manager imports
-import com.rift.coad.change.rdf.objmapping.change.ActionDefinition;
-import com.rift.coad.change.rdf.objmapping.change.ActionInfo;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
-import com.rift.coad.audit.client.rdf.AuditLogger;
+import java.rmi.RemoteException;
 
 
 /**
@@ -58,218 +59,217 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
 
 
     /**
-     * This method is responsible for adding an action.
-     *
-     * @param action The action to add.
-     * @throws com.rift.coad.change.ChangeException
+     * This method adds the action
+     * @param action
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public void addAction(ActionInfo action) throws ChangeException {
+    public void addAction(List<ActionInfo> actions)
+            throws ChangeException, RemoteException {
         try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            session.persist(action);
-            auditLog.create("Added a new action [%s]",action.toString()).addData(action).complete();
+            String project = "";
+            for (ActionInfo action : actions) {
+                Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+                session.persist(new ActionInfoRDF(action));
+                project = action.getProject();
+            }
+            auditLog.complete("Added [%ld] actions to project [%s]",
+                    "" + actions.size(),project);
         } catch (Exception ex) {
-            log.error("Failed to add the action : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to add the action: " + ex.getMessage(), ex);
-        }
-    }
-
-
-    /**
-     * This method updates the specified action.
-     *
-     * @param action The update action.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public void updateAction(ActionInfo action) throws ChangeException {
-        try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            session.persist(action);
-            auditLog.create("Update an action [%s]",action.toString()).addData(action).complete();
-        } catch (Exception ex) {
-            log.error("Failed to update the action : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to update the action: " + ex.getMessage(), ex);
+            log.error("Failed to add the actions : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to add the actions : " + 
+                    ex.getMessage(), ex);
         }
     }
     
-
+    
     /**
-     * This method returns a list of actions.
-     *
-     * @return The list of actions.
-     * @throws com.rift.coad.change.ChangeException
+     * This method is responsible for updating the existing action.
+     * 
+     * @param action The action list to add.
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public List<ActionInfo> listActions() throws ChangeException {
+    public void updateAction(List<ActionInfo> actions)
+            throws ChangeException, RemoteException {
         try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/change#ActionInfo> . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/change#Name> ?Name . } " +
-                    "ORDER BY ?Name").execute();
-            List<ActionInfo> result = new ArrayList<ActionInfo>();
-            for (SPARQLResultRow entry : entries) {
-                System.out.println("Looping through the results");
-                result.add(entry.get(0).cast(ActionInfo.class));
+            String project = "";
+            for (ActionInfo action : actions) {
+                Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+                ActionInfoRDF actionInfo = new ActionInfoRDF(action);
+                if (session.contains(ActionInfoRDF.class, actionInfo.getId())) {
+                        session.remove(
+                                session.get(ActionInfoRDF.class, actionInfo.getId()));
+                }
+                session.persist(new ActionInfoRDF(action));
+                project = action.getProject();
             }
-            return result;
-            
+            auditLog.complete("Updated [%ld] actions to project [%s]",
+                    "" + actions.size(),project);
         } catch (Exception ex) {
-            log.error("Failed to add the action : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to add the action: " + ex.getMessage(), ex);
-        }
-    }
-
-
-    /**
-     * This method removes the action information.
-     *
-     * @param name The name of the action to remove.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public void removeAction(String name) throws ChangeException {
-        try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/change#ActionInfo> . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/change#Name> ?Name . " +
-                    "FILTER (?Name = ${Name}) } " +
-                    "ORDER BY ?Name").setString("Name", name).execute();
-            for (SPARQLResultRow entry : entries) {
-                System.out.println("Looping through the results");
-                session.remove(entry.get(0).cast(ActionInfo.class));
-            }
-            auditLog.create("Failed to remove the action [%s]",name).complete();
-        } catch (Exception ex) {
-            log.error("Failed to remove the action : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to remove the action: " +
+            log.error("Failed to add the actions : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to add the actions : " + 
                     ex.getMessage(), ex);
         }
     }
 
-
+    
     /**
-     * This method lists the action definitions.
-     *
-     * @param objectId The id of the object to list action definitions actions.
-     * @return The list of strings defining the actions bound to the action definitions.
-     * @throws com.rift.coad.change.ChangeException
+     * This method lists the actions.
+     * 
+     * @param project The project to which the action list is attached.
+     * @param type The type of action.
+     * @return The list of actions
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public List<String> listActionDefinitions(String objectId) throws ChangeException {
+    public List<ActionInfo> listActions(String project, String type)
+            throws ChangeException, RemoteException {
         try {
             Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+            StringBuilder sparqlFilter = new StringBuilder();
+            String sep = "";
+            if (project != null && project.length() > 0) {
+                sparqlFilter.append(" ?Project = \"").
+                        append(project).append("\" ");
+                sep = "&&";
+            }
+            if (type != null && type.length() > 0) {
+                sparqlFilter.append(sep).append(" ?Type = \"").
+                        append(project).append("\" ");
+                sep = "&&";
+            }
             List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery("SELECT ?s ?ActionInfo WHERE { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/change#ActionDefinition> . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/change#DefinitionActionInfo> ?ActionInfo . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/change#DefinitionDataTypeId> ?ObjectId . " +
-                    "FILTER (?ObjectId = ${ObjectId}) } ").setString("ObjectId", objectId).execute();
-            List<String> result = new ArrayList<String>();
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#ActionInfoRDF> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . } " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type . } " +
+                    "FILTER (" + sparqlFilter.toString() + ") ORDER BY ?Type").execute();
+            List<ActionInfo> result = new ArrayList<ActionInfo>();
             for (SPARQLResultRow entry : entries) {
                 System.out.println("Looping through the results");
-                result.add(entry.get(1).getResource().get(ActionInfo.class).getName());
+                result.add(entry.get(ActionInfoRDF.class,0).toAction());
             }
             return result;
-
         } catch (Exception ex) {
-            log.error("Failed to get the action definition list for object id : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to get the action definition list for object id : " + ex.getMessage(), ex);
+            log.error("Failed to add the action : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to add the action: " + ex.getMessage(), ex);
         }
     }
 
-
+    
     /**
-     * This method adds an action definition.
-     *
-     * @param definition The action definition.
-     * @throws com.rift.coad.change.ChangeException
+     * The action information.
+     *  
+     * @param project The project information.
+     * @param type The type information.
+     * @param action The action information.
+     * @return This method retrieves the action information
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public void addActionDefinition(ActionDefinition definition) throws ChangeException {
-        System.err.println("The beginning of the action definition");
+    public ActionInfo getAction(String project, String type, String action)
+            throws ChangeException, RemoteException {
         try {
             Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            session.persist(definition);
-            auditLog.create("Add an action definition [%s]",definition.toString()).
-                    addData(definition).complete();
-        } catch (Exception ex) {
-            log.error("Failed to update the action definition : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to update the action definition : " + ex.getMessage(), ex);
-        }
-    }
-
-
-    /**
-     * This method updates the action definition
-     * @param definition
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public void updateActionDefinition(ActionDefinition definition) throws ChangeException {
-        try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            session.persist(definition);
-            auditLog.create("Update an action definition [%s].",definition.toString()).
-                    addData(definition).complete();
-        } catch (Exception ex) {
-            log.error("Failed to update the action definition : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to update the action definition : " + ex.getMessage(), ex);
-        }
-    }
-
-
-    /**
-     * This method returns the action definition identified by the object id and the action.
-     *
-     * @param objectId The object id.
-     * @param action The action.
-     * @return The reference to the retrieved action definition or null.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public ActionDefinition getActionDefinition(String objectId, String action) throws ChangeException {
-        try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+            StringBuilder sparqlFilter = new StringBuilder();
+            String sep = "";
+            if (project != null && project.length() > 0) {
+                sparqlFilter.append(" ?Project = \"").
+                        append(project).append("\" ");
+                sep = "&&";
+            } else {
+                throw new ChangeException("Must provide a project name.");
+            }
+            if (action != null && action.length() > 0) {
+                sparqlFilter.append(sep).append(" ?Type = \"").
+                        append(type).append("\" ");
+                sep = "&&";
+            } else {
+                throw new ChangeException("Must provide a type name.");
+            }
+            if (type != null && type.length() > 0) {
+                sparqlFilter.append(sep).append(" ?Action = \"").
+                        append(action).append("\" ");
+                sep = "&&";
+            } else {
+                throw new ChangeException("Must provide an action name.");
+            }
             List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery("SELECT ?s { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/change#ActionDefinition> . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/change#DefinitionActionInfo> ?ActionInfo . " +
-                    "?s <http://www.coadunation.net/schema/rdf/1.0/change#DefinitionDataTypeId> ?ObjectId . " +
-                    "FILTER (?ObjectId = ${ObjectId}) } ")
-                    .setString("ObjectId", objectId).execute();
-            // this is a very crude way of handling the finding of objects, and should be
-            // handled by a join.
-            for (SPARQLResultRow entry : entries) {
-                System.out.println("Looping through the results");
-                ActionDefinition actionDefinition = entry.get(0).cast(ActionDefinition.class);
-                if (actionDefinition.getActionInfo().getName().equals(action)) {
-                    return actionDefinition;
-                }
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#ActionInfoRDF> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type .  " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Action> ?Action . } " +
+                    "FILTER (" + sparqlFilter.toString() + ") ORDER BY ?Type").execute();
+            if (entries.size() == 0) {
+                throw new ChangeException("No entries found matching [" + project +
+                        "][" + type + "][" + action + "].");
             }
-            return null;
-
+            return entries.get(0).get(ActionInfoRDF.class,0).toAction();
+        } catch (ChangeException ex) {
+            throw ex;
         } catch (Exception ex) {
-            log.error("Failed to get the action definition list for object id : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to get the action definition list for object id : " + ex.getMessage(), ex);
+            log.error("Failed to add the action : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to add the action: " + ex.getMessage(), ex);
         }
     }
 
-
+    
     /**
-     * Failed to remove the action definition.
-     * @param objectId The id of the object
-     * @param action
-     * @throws com.rift.coad.change.ChangeException
+     * This method removes the action identified by the information.
+     * 
+     * @param project The project information.
+     * @param type The type information.
+     * @param action The action information.
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public void removeActionDefinition(String objectId, String action) throws ChangeException {
+    public void removeAction(String project, String type, String action)
+            throws ChangeException, RemoteException {
         try {
             Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            ActionDefinition definition = getActionDefinition(objectId, action);
-            if (definition != null) {
-                session.remove(definition);
+            StringBuilder sparqlFilter = new StringBuilder();
+            String sep = "";
+            if (project != null && project.length() > 0) {
+                sparqlFilter.append(" ?Project = \"").
+                        append(project).append("\" ");
+                sep = "&&";
+            } else {
+                throw new ChangeException("Must provide a project name.");
             }
-            auditLog.create("Remove an attached action objectId [%s] acton [%s].",objectId,action).complete();
+            if (action != null && action.length() > 0) {
+                sparqlFilter.append(sep).append(" ?Type = \"").
+                        append(type).append("\" ");
+                sep = "&&";
+            } else {
+                throw new ChangeException("Must provide a type name.");
+            }
+            if (type != null && type.length() > 0) {
+                sparqlFilter.append(sep).append(" ?Action = \"").
+                        append(action).append("\" ");
+                sep = "&&";
+            } else {
+                throw new ChangeException("Must provide an action name.");
+            }
+            List<SPARQLResultRow> entries = session.
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#ActionInfoRDF> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type .  " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Action> ?Action . } " +
+                    "FILTER (" + sparqlFilter.toString() + ") ORDER BY ?Type").execute();
+            if (entries.size() == 0) {
+                throw new ChangeException("No entries found matching [" + project +
+                        "][" + type + "][" + action + "].");
+            }
+            session.remove(entries.get(0).get(ActionInfoRDF.class,0).toAction());
+        } catch (ChangeException ex) {
+            throw ex;
         } catch (Exception ex) {
-            log.error("Failed to remove the action definition list for object id : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to remove the action definition list for object id : " + ex.getMessage(), ex);
+            log.error("Failed to remove the action : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to remove the action: " + 
+                    ex.getMessage(), ex);
         }
     }
 

@@ -23,7 +23,7 @@
 package com.rift.coad.change;
 
 // java imports
-import com.rift.coad.audit.client.rdf.AuditLogger;
+import com.rift.coad.audit.client.AuditLogger;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ArrayList;
@@ -32,12 +32,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 // coaduantion imports
-import com.rift.coad.change.rdf.objmapping.change.ActionInfo;
-import com.rift.coad.change.rdf.objmapping.change.ActionDefinition;
-import com.rift.coad.rdf.semantic.RDFFormats;
 import com.rift.coad.rdf.semantic.Session;
-import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
-import com.rift.coad.rdf.semantic.config.Basic;
 import com.rift.coad.util.connection.ConnectionManager;
 
 
@@ -89,168 +84,146 @@ public class ChangeManager implements ChangeManagerMBean {
         return "Change Manager";
     }
 
-
-    /**
-     * This method adds an action to the system.
-     *
-     * @param name The name of the action.
-     * @param description The description of the action.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public void addAction(String name, String description) throws ChangeException {
-        try {
-            ChangeManagerDaemon daemon = (ChangeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(ChangeManagerDaemon.class, "java:comp/env/bean/change/ChangeManagerDaemon");
-            daemon.addAction(new ActionInfo(name,description));
-
-        } catch (Exception ex) {
-            log.error("Failed to add a new action : " + ex.getMessage(),ex);
-            throw new ChangeException
-                ("Failed to add a new action : " + ex.getMessage(),ex);
-        }
-    }
     
-
     /**
-     * This method is called to list actions.
+     * This method is called to add an action to the change manager.
      * 
-     * @return
-     * @throws com.rift.coad.change.ChangeException
+     * @param action The action to add
+     * @param project The project to add the action for.
+     * @param type The type of action.
+     * @param file The file
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public List<String> listActions() throws ChangeException {
+    public void addAction(
+            String action,
+            String project,
+            String type,
+            String file)
+            throws ChangeException, RemoteException {
         try {
-            ChangeManagerDaemon daemon = (ChangeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(ChangeManagerDaemon.class, "java:comp/env/bean/change/ChangeManagerDaemon");
-            List<ActionInfo> actionInfoList = daemon.listActions();
-            List<String> result = new ArrayList<String>();
-            for (int index = 0; index <  actionInfoList.size(); index++) {
-                ActionInfo action = actionInfoList.get(index);
-                result.add(action.getName());
-            }
-            return result;
+            ChangeManagerDaemon daemon = 
+                    (ChangeManagerDaemon)ConnectionManager.getInstance().
+                    getConnection(ChangeManagerDaemon.class,
+                    "java:comp/env/bean/change/ChangeManagerDaemon");
+            List<ActionInfo> actions = new ArrayList<ActionInfo>();
+            actions.add(new ActionInfo(action, project, type, file));
+            daemon.addAction(actions);
         } catch (Exception ex) {
-            log.error("Failed to list the actions : " + ex.getMessage(),ex);
-            throw new ChangeException
-                ("Failed to list the actions : " + ex.getMessage(),ex);
+            throw new ChangeException("Failed to add the action : " + 
+                    ex.getMessage(),ex);
         }
     }
 
-
-    /**
-     * This method is responsible for removing the specified action entry.
-     *
-     * @param name The name of the action to remove.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public void removeAction(String name) throws ChangeException {
-        try {
-            ChangeManagerDaemon daemon = (ChangeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(ChangeManagerDaemon.class, "java:comp/env/bean/change/ChangeManagerDaemon");
-            daemon.removeAction(name);
-        } catch (Exception ex) {
-            log.error("Failed to remove the specified action : " + ex.getMessage(),ex);
-            throw new ChangeException
-                ("Failed to remove the specified action : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method returns a list of named action definition for the given object id.
-     *
-     * @param objectId The id of the object to return the action definition list for.
-     * @return This method returns a list of action definitions.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public List<String> listActionDefinitions(String objectId) throws ChangeException {
-        try {
-            ChangeManagerDaemon daemon = (ChangeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(ChangeManagerDaemon.class, "java:comp/env/bean/change/ChangeManagerDaemon");
-            return daemon.listActionDefinitions(objectId);
-        } catch (Exception ex) {
-            log.error("List the action definitions : " + ex.getMessage(),ex);
-            throw new ChangeException
-                ("List the action definitions : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * Failed to add the action definition in xml.
-     *
-     * @param definition The definition of the action.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public void addActionDefinitionFromXML(String definition) throws ChangeException {
-        try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            session.persist(definition);
-            auditLog.create("Added an action from an XML definition").complete();
-        } catch (Exception ex) {
-            log.error("Failed to add the definition from xml : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to add the definition from xml : " + ex.getMessage(), ex);
-        }
-    }
     
-
     /**
-     * This method is used to update the action definition.
-     *
-     * @param definition The XML containing the action definition.
-     * @throws com.rift.coad.change.ChangeException
+     * This method updates the action.
+     * 
+     * @param action The action to update.
+     * @param project The project the action belongs to.
+     * @param type The type of action.
+     * @param file The file that the action is implemented in.
+     * @throws ChangeException
+     * @throws RemoteException 
      */
-    public void updateActionDefinitionFromXML(String definition) throws ChangeException {
+    public void updateAction(
+            String action, String project, 
+            String type, String file)
+            throws ChangeException, RemoteException {
         try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-            session.persist(definition);
-            auditLog.create("Update an action from an XML definition").complete();
+            ChangeManagerDaemon daemon = 
+                    (ChangeManagerDaemon)ConnectionManager.getInstance().
+                    getConnection(ChangeManagerDaemon.class,
+                    "java:comp/env/bean/change/ChangeManagerDaemon");
+            List<ActionInfo> actions = new ArrayList<ActionInfo>();
+            actions.add(new ActionInfo(action, project, type, file));
+            daemon.updateAction(actions);
         } catch (Exception ex) {
-            log.error("Failed to update the definition from xml : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to update the definition from xml : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to update the action : " + 
+                    ex.getMessage(),ex);
+        }
+    }
+
+    
+    /**
+     * This method lists the actions.
+     * 
+     * @param project The project information.
+     * @param type The type information.
+     * @return The list of actions
+     * @throws ChangeException
+     * @throws RemoteException 
+     */
+    public List<String> listActions(
+            String project, String type)
+            throws ChangeException, RemoteException {
+        try {
+            ChangeManagerDaemon daemon = 
+                    (ChangeManagerDaemon)ConnectionManager.getInstance().
+                    getConnection(ChangeManagerDaemon.class,
+                    "java:comp/env/bean/change/ChangeManagerDaemon");
+            List<ActionInfo> actionInfo = daemon.listActions(project, type);
+            List<String> actionList = new ArrayList<String>();
+            for (ActionInfo action : actionInfo) {
+                actionList.add(action.getAction());
+            }
+            return actionList;
+        } catch (Exception ex) {
+            throw new ChangeException("Failed to list the actions : " + 
+                    ex.getMessage(),ex);
+        }
+    }
+
+    
+    /**
+     * This method returns the action for the specified information.
+     * 
+     * @param project The project the action is a part of.
+     * @param type The type of action.
+     * @param action The action.
+     * @return The action information.
+     * @throws ChangeException
+     * @throws RemoteException 
+     */
+    public ActionInfo getAction(String project, String type, String action)
+            throws ChangeException, RemoteException {
+        try {
+            ChangeManagerDaemon daemon = 
+                    (ChangeManagerDaemon)ConnectionManager.getInstance().
+                    getConnection(ChangeManagerDaemon.class,
+                    "java:comp/env/bean/change/ChangeManagerDaemon");
+            return daemon.getAction(project, type, action);
+        } catch (Exception ex) {
+            throw new ChangeException("Failed to get the action : " + 
+                    ex.getMessage(),ex);
+        }
+    }
+
+    
+    /**
+     * This method removes the action.
+     * 
+     * @param project The project information.
+     * @param type The type of project.
+     * @param action The action.
+     * @throws ChangeException
+     * @throws RemoteException 
+     */
+    public void removeAction(
+            String project, String type, String action)
+            throws ChangeException, RemoteException {
+        try {
+            ChangeManagerDaemon daemon = 
+                    (ChangeManagerDaemon)ConnectionManager.getInstance().
+                    getConnection(ChangeManagerDaemon.class,
+                    "java:comp/env/bean/change/ChangeManagerDaemon");
+            daemon.removeAction(project, type, action);
+        } catch (Exception ex) {
+            throw new ChangeException("Failed to remove the action : " + 
+                    ex.getMessage(),ex);
         }
     }
 
 
-    /**
-     * This method returns an xml definition of the objects.
-     * @param objectId The id of the object.
-     * @param action The action name.
-     * @return The string containing the XML definition.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public String getActionDefinitionAsXML(String objectId, String action) throws ChangeException {
-        try {
-            ChangeManagerDaemon daemon = (ChangeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(ChangeManagerDaemon.class, "java:comp/env/bean/change/ChangeManagerDaemon");
-            ActionDefinition definition = daemon.getActionDefinition(objectId,action);
-            Session result = Basic.initSessionManager().getSession();
-            result.persist(definition);
-            return result.dump(RDFFormats.XML_ABBREV);
-        } catch (Exception ex) {
-            log.error("Failed to get the XML definition for the : " + ex.getMessage(),ex);
-            throw new ChangeException
-                ("Failed to get the XML definition for the : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method removes the specified action definition.
-     *
-     * @param objectId The id of the object.
-     * @param action The action to remove.
-     * @throws com.rift.coad.change.ChangeException
-     */
-    public void removeActionDefinition(String objectId, String action) throws ChangeException {
-        try {
-            ChangeManagerDaemon daemon = (ChangeManagerDaemon)ConnectionManager.getInstance().
-                    getConnection(ChangeManagerDaemon.class, "java:comp/env/bean/change/ChangeManagerDaemon");
-            daemon.removeActionDefinition(objectId, action);
-        } catch (Exception ex) {
-            log.error("Failed to remove the XML definition : " + ex.getMessage(),ex);
-            throw new ChangeException
-                ("Failed to remove the XML definition : " + ex.getMessage(),ex);
-        }
-    }
 
 }

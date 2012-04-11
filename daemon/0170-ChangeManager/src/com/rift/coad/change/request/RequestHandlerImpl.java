@@ -23,7 +23,6 @@
 package com.rift.coad.change.request;
 
 // java imports
-import com.rift.coad.change.rdf.objmapping.change.RequestConstants;
 import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.rmi.RemoteException;

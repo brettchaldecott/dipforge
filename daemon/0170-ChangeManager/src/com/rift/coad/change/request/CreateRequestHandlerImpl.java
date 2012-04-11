@@ -26,7 +26,6 @@ import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 // coadunation import
-import com.rift.coad.change.rdf.objmapping.change.Request;
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.deployment.DeploymentMonitor;

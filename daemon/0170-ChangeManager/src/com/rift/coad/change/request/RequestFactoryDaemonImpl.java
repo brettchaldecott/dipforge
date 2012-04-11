@@ -25,6 +25,7 @@ package com.rift.coad.change.request;
 // java imports
 
 // log4j imports
+import com.rift.coad.audit.client.AuditLogger;
 import java.rmi.RemoteException;
 import org.apache.log4j.Logger;
 
@@ -33,12 +34,11 @@ import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.transaction.CoadunationHashMap;
 
 // change request
-import com.rift.coad.change.rdf.objmapping.change.Request;
 import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
-import com.rift.coad.audit.client.rdf.AuditLogger;
 import com.rift.coad.change.ChangeManagerDaemonImpl;
-import com.rift.coad.change.request.rdf.MasterRequest;
+import com.rift.coad.change.rdf.MasterRequestRDF;
+import com.rift.coad.change.rdf.RequestRDF;
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
@@ -91,10 +91,10 @@ public class RequestFactoryDaemonImpl implements RequestFactoryDaemon, BeanRunna
      * @throws com.rift.coad.change.request.RequestException
      */
     public RequestFactoryObject createRequest(Request request) throws RequestException {
-        RequestFactoryObjectImpl factoryObject = new RequestFactoryObjectImpl(request);
+        RequestFactoryObjectImpl factoryObject = new RequestFactoryObjectImpl(
+                new RequestRDF(request));
         entries.put(factoryObject.getId(), factoryObject);
-        auditLog.create("Create request [%s]", request.getId()).
-                setCorrelationId(request.getId()).addData(request).complete();
+        auditLog.complete("Create request [%s]", request.getId());
         return factoryObject;
         
     }
@@ -129,8 +129,7 @@ public class RequestFactoryDaemonImpl implements RequestFactoryDaemon, BeanRunna
             throw new RequestException("The request [" +id +"] does not exist");
         }
         instance.remove();
-        auditLog.create("Removed request [%s]", instance.getId()).
-                setCorrelationId(instance.getId()).complete();
+        auditLog.complete("Removed request [%s]", instance.getId());
     }
 
 
@@ -235,11 +234,15 @@ public class RequestFactoryDaemonImpl implements RequestFactoryDaemon, BeanRunna
             Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/requestmisc#MasterRequest> } ")
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.master#MasterRequest> } ")
                     .execute();
             for (SPARQLResultRow entry : entries) {
-                MasterRequest request = entry.get(0).cast(MasterRequest.class);
-                this.entries.put(request.getId(),new RequestFactoryObjectImpl(request));
+                MasterRequestRDF request = entry.get(MasterRequestRDF.class,0);
+                // Disconnect the request from the session. This results in an
+                // object to persists across multiple sessions and it is a
+                // deap copy of the proxy object that is its source.
+                this.entries.put(request.getId(),new RequestFactoryObjectImpl(
+                        session.disconnect(MasterRequestRDF.class, request)));
             }
         } catch (Exception ex) {
             log.error("Failed to load the requests from the RDF store : " + ex.getMessage(),ex);
