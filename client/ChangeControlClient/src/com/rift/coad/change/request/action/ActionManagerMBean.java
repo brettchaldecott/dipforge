@@ -74,8 +74,8 @@ public interface ActionManagerMBean extends Remote {
     @Version(number="1.0")
     @Result(description="The string containing the description of this type manager implementation.")
     public String getDescription() throws RemoteException;
-
-
+    
+    
     /**
      * This method is responsible for creating a new action instance using the supplied XML.
      *
@@ -94,57 +94,6 @@ public interface ActionManagerMBean extends Remote {
             description="The id of the action instance in the xml to spawn.")String id,
             @ParamInfo(name="XML",
             description="The contents of the action.")String xml) throws ActionException, RemoteException;
-
-
-    /**
-     * This method retrieves the action as xml.
-     *
-     * @param id The id of the action to retrieve.
-     * @return The XML encapsulating the action information.
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
-     */
-    @MethodInfo(description="Returns the XML definition for the action.")
-    @Version(number="1.0")
-    @Result(description="The string containing the XML definition for the action.")
-    public String getActionAsXML(
-            @ParamInfo(name="id",
-            description="The id of the action instance to retrieve.")String id)
-            throws ActionException, RemoteException;
-
-    
-    /**
-     * This method retrieves the action as xml.
-     *
-     * @param id The id of the action to retrieve.
-     * @return The XML encapsulating the action information.
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
-     */
-    @MethodInfo(description="Returns the XML definition for the action.")
-    @Version(number="1.0")
-    @Result(description="The string containing the XML definition for the action.")
-    public String getActionAsXMLByRequestId(
-            @ParamInfo(name="id",
-            description="The id of the request that identifies the action instance to retrieve.")String id)
-            throws ActionException, RemoteException;
-
-    /**
-     * This method is responsible for updating the action from XML.
-     *
-     * @param id The id of the action.
-     * @param xml The xml definition for the action.
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
-     */
-    @MethodInfo(description="Returns the XML definition for the action.")
-    @Version(number="1.0")
-    public void updateActionFromXML(
-            @ParamInfo(name="id",
-            description="The id of the action to update.")String id,
-            @ParamInfo(name="XML",
-            description="The contents of the action.")String xml)
-            throws ActionException, RemoteException;
 
 
     /**

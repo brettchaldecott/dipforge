@@ -19,7 +19,7 @@
  * ActionConstants.java
  */
 
-package com.rift.coad.change.rdf.objmapping.change.action;
+package com.rift.coad.change;
 
 /**
  * This class defines the constants used by the
@@ -27,6 +27,12 @@ package com.rift.coad.change.rdf.objmapping.change.action;
  * @author brett chaldecott
  */
 public class ActionConstants {
+    
+    /**
+     * The init method.
+     */
+    public final static String INIT = "INIT";
+    
     /**
      * This status means that the action instance is currently running.
      */

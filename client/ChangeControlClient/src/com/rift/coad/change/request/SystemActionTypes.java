@@ -1,6 +1,6 @@
 /*
  * ChangeControlRDF: The rdf information for the change control system.
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2012  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  * SystemActionTypes.java
  */
 
-package com.rift.coad.change.rdf.objmapping.change;
+package com.rift.coad.change.request;
 
 /**
  * This object defines the action types that are key words to the system.
@@ -27,5 +27,8 @@ package com.rift.coad.change.rdf.objmapping.change;
  * @author brett chaldecott
  */
 public class SystemActionTypes {
+    /**
+     * If the request is a batch of requests.
+     */
     public final static String BATCH = "BATCH";
 }

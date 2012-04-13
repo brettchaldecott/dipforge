@@ -28,8 +28,7 @@ import java.util.Arrays;
 // random guid
 import com.rift.coad.lib.common.RandomGuid;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The request information.
@@ -41,15 +40,14 @@ public class Request implements Serializable {
     // private member variables
     private String id;
     private String project;
-    private String dataType;
+    private RequestData data;
     private String action;
-    private String data;
-    private Map<String,String> dependencies = new HashMap<String,String>();
-    private Request[] children;
+    private List<RequestData> dependencies = new ArrayList<RequestData>();
+    private List<Request> children = new ArrayList<Request>();
     private String status = RequestConstants.UNPROCESSED;
     private Date start;
     private Date complete;
-    private RequestEvent[] events;
+    private List<RequestEvent> events = new ArrayList<RequestEvent>();
     
     
     /**
@@ -80,6 +78,46 @@ public class Request implements Serializable {
 
     
     /**
+     * This method sets all internal member variables.
+     * 
+     * @param id
+     * @param project
+     * @param data
+     * @param action
+     * @param start
+     * @param complete
+     * @param events 
+     */
+    public Request(String id, String project, RequestData data, String action, 
+            Date start, Date complete, List<RequestEvent> events) {
+        this.id = id;
+        this.project = project;
+        this.data = data;
+        this.action = action;
+        this.start = start;
+        this.complete = complete;
+        this.events = events;
+    }
+    
+    
+    public Request(String id, String project, RequestData data, String action, 
+            List<RequestData> dependencies, List<Request> children, 
+            String status, Date start, Date complete, List<RequestEvent> events) {
+        this.id = id;
+        this.project = project;
+        this.data = data;
+        this.action = action;
+        this.dependencies = dependencies;
+        this.children = children;
+        this.status = status;
+        this.start = start;
+        this.complete = complete;
+        this.events = events;
+    }
+    
+    
+    
+    /**
      * This id identifies the request id.
      *
      * @return The id of this object.
@@ -99,26 +137,6 @@ public class Request implements Serializable {
     }
 
 
-    /**
-     * This is the data type information.
-     * 
-     * @return The type information
-     */
-    public String getDataType() {
-        return dataType;
-    }
-
-    
-    /**
-     * This method sets the type information
-     * 
-     * @param dataType The data type information.
-     */
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
-    }
-
-    
     /**
      * This method retrieves the project information.
      * 
@@ -164,7 +182,7 @@ public class Request implements Serializable {
      * 
      * @return The data used for this request.
      */
-    public String getData() {
+    public RequestData getData() {
         return data;
     }
 
@@ -173,7 +191,7 @@ public class Request implements Serializable {
      * This method sets the data.
      * @param data 
      */
-    public void setData(String data) {
+    public void setData(RequestData data) {
         this.data = data;
     }
     
@@ -183,7 +201,7 @@ public class Request implements Serializable {
      * 
      * @return The list of dependancies
      */
-    public Map<String, String> getDependencies() {
+    public List<RequestData> getDependencies() {
         return dependencies;
     }
 
@@ -193,7 +211,7 @@ public class Request implements Serializable {
      * 
      * @param dependancies The list of dependencies.
      */
-    public void setDependencies(Map<String, String> dependencies) {
+    public void setDependencies(List<RequestData> dependencies) {
         this.dependencies = dependencies;
     }
 
@@ -203,7 +221,7 @@ public class Request implements Serializable {
      *
      * @return The request information.
      */
-    public Request[] getChildren() {
+    public List<Request> getChildren() {
         return children;
     }
 
@@ -213,7 +231,7 @@ public class Request implements Serializable {
      *
      * @param children The list of children.
      */
-    public void setChildren(Request[] children) {
+    public void setChildren(List<Request> children) {
         this.children = children;
     }
 
@@ -284,7 +302,7 @@ public class Request implements Serializable {
      *
      * @return The list of events bound to a request.
      */
-    public RequestEvent[] getEvents() {
+    public List<RequestEvent> getEvents() {
         return events;
     }
 
@@ -294,7 +312,7 @@ public class Request implements Serializable {
      *
      * @param events The array of events.
      */
-    public void setEvents(RequestEvent[] events) {
+    public void setEvents(List<RequestEvent> events) {
         this.events = events;
     }
 
@@ -305,17 +323,7 @@ public class Request implements Serializable {
      * @param event The event to add to the list.
      */
     public void addEvent(RequestEvent event) {
-        if (this.events == null) {
-            this.events = new RequestEvent[1];
-            this.events[0] = event;
-            return;
-        }
-        RequestEvent[] events = new RequestEvent[this.events.length + 1];
-        for (int index = 0; index < this.events.length; index++) {
-            events[index] = this.events[index];
-        }
-        events[this.events.length] = event;
-        this.events = events;
+        this.events.add(event);
     }
 
     
