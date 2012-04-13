@@ -22,19 +22,18 @@
 package com.rift.coad.change.request.action;
 
 // java imports
+import com.rift.coad.change.ActionConstants;
+import com.rift.coad.change.request.Request;
+import com.rift.coad.change.request.RequestConstants;
 import java.rmi.RemoteException;
 
 // log4j import
 import org.apache.log4j.Logger;
 
 // request object
-import com.rift.coad.change.rdf.objmapping.change.Request;
-import com.rift.coad.change.rdf.objmapping.change.RequestConstants;
-import com.rift.coad.change.rdf.objmapping.change.action.ActionConstants;
 import com.rift.coad.change.request.RequestHandler;
 import com.rift.coad.change.request.RequestHandlerAsync;
 import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
-import com.rift.coad.rdf.objmapping.base.DataType;
 import com.rift.coad.util.connection.ConnectionManager;
 
 
@@ -120,7 +119,7 @@ public class ActionHandlerImpl implements ActionHandler {
                     getConnection(ActionFactoryManager.class,
                     "java:comp/env/bean/change/request/action/ActionFactoryManager");
             ActionInstance instance = daemon.getActionInstance(correllationId);
-            instance.execute((DataType)result);
+            instance.execute((String)result);
             handleCompletion(daemon,instance);
         } catch (Exception ex) {
             log.error("Failed to handle the invokation : " + ex.getMessage(),ex);

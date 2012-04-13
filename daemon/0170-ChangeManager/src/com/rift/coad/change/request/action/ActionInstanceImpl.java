@@ -34,35 +34,20 @@ import org.apache.log4j.Logger;
 
 
 // action import
-import com.rift.coad.change.rdf.objmapping.change.action.ActionStack;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
 import com.rift.coad.util.change.Change;
-import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.change.ChangeManagerDaemonImpl;
-import com.rift.coad.change.rdf.objmapping.change.ActionDefinition;
-import com.rift.coad.change.rdf.objmapping.change.ActionTaskDefinition;
-import com.rift.coad.change.rdf.objmapping.change.Request;
-import com.rift.coad.change.rdf.objmapping.change.action.ActionConstants;
-import com.rift.coad.change.rdf.objmapping.change.action.StackEntry;
-import com.rift.coad.change.rdf.objmapping.change.action.StackEvent;
-import com.rift.coad.change.rdf.objmapping.change.task.Assign;
-import com.rift.coad.change.rdf.objmapping.change.task.Block;
-import com.rift.coad.change.rdf.objmapping.change.task.Call;
-import com.rift.coad.change.rdf.objmapping.change.task.ConcurrentBlock;
-import com.rift.coad.change.rdf.objmapping.change.task.EmbeddedBlock;
-import com.rift.coad.change.rdf.objmapping.change.task.exception.Catch;
-import com.rift.coad.change.rdf.objmapping.change.task.exception.Try;
-import com.rift.coad.change.rdf.objmapping.change.task.logic.ElseIf;
-import com.rift.coad.change.rdf.objmapping.change.task.logic.If;
-import com.rift.coad.change.rdf.objmapping.change.task.logic.Switch;
-import com.rift.coad.change.rdf.objmapping.change.task.loop.ForEach;
-import com.rift.coad.change.rdf.objmapping.change.task.loop.ForLoop;
-import com.rift.coad.change.rdf.objmapping.change.task.loop.WhileLoop;
-import com.rift.coad.change.request.rdf.TestTask;
+import com.rift.coad.change.rdf.ActionInfoRDF;
+import com.rift.coad.change.rdf.ActionInstanceInfoRDF;
+import com.rift.coad.change.rdf.RequestRDF;
+import com.rift.coad.change.request.Request;
+import com.rift.coad.change.request.RequestEvent;
+import com.rift.coad.change.request.RequestFactoryObjectImpl;
 import com.rift.coad.lib.Resource;
 import com.rift.coad.lib.ResourceIndex;
-import com.rift.coad.rdf.objmapping.base.DataType;
+import com.rift.coad.lib.common.CopyObject;
+import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +59,7 @@ import java.util.List;
  * @author brett chaldecott
  */
 public class ActionInstanceImpl implements ActionInstance,ResourceIndex,Resource {
+
 
     /**
      * The enum defining the type of action to perform on the object.
@@ -102,7 +88,7 @@ public class ActionInstanceImpl implements ActionInstance,ResourceIndex,Resource
     public static class ActionChange implements Change {
 
         private TYPE changeType;
-        private ActionStack stack;
+        private ActionInstanceInfoRDF action;
 
         /**
          * This constructor creates a new change using the supplied parameters.
@@ -111,10 +97,10 @@ public class ActionInstanceImpl implements ActionInstance,ResourceIndex,Resource
          * @param stack The stack containing the current state of this action.
          * @throws com.rift.coad.change.request.action.ActionException
          */
-        public ActionChange(TYPE changeType, ActionStack stack) throws ActionException {
+        public ActionChange(TYPE changeType, ActionInstanceInfoRDF action) throws ActionException {
             try {
                 
-                this.stack = (ActionStack) stack.clone();
+                this.action = CopyObject.copy(ActionInstanceInfoRDF.class, action);
                 this.changeType = changeType;
             } catch (Exception ex) {
                 log.error("Failed to instanciate the change : " + ex.getMessage(), ex);
@@ -130,16 +116,12 @@ public class ActionInstanceImpl implements ActionInstance,ResourceIndex,Resource
         public void applyChanges() throws com.rift.coad.util.change.ChangeException {
             try {
                 Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
-                log.debug("###### apply the stack changes : " + this.stack.getEvents().length);
-                for (StackEvent entry : this.stack.getEvents()) {
-                    log.debug("########### event : " + entry);
-                }
                 if ((changeType == TYPE.ADD) || (changeType == TYPE.UPDATE)) {
-                    log.debug("###### persist the stack : " + stack.getId());
-                    session.persist(this.stack);
+                    log.debug("###### persist the stack : " + action.getId());
+                    session.persist(this.action);
                 } else {
-                    log.debug("###### remove the stack : " + stack.getId());
-                    session.remove(this.stack);
+                    log.debug("###### remove the stack : " + action.getId());
+                    session.remove(this.action);
                 }
             } catch (Exception ex) {
                 log.error("Failed to apply the changes : " + ex.getMessage(), ex);
@@ -151,56 +133,38 @@ public class ActionInstanceImpl implements ActionInstance,ResourceIndex,Resource
     private static Logger log = Logger.getLogger(ActionInstanceImpl.class);
 
     // private member variables
-    private com.rift.coad.change.rdf.objmapping.change.task.exception.ChangeException currentException;
-    private DataType currentResult;
-    private ActionStack action = null;
+    private ActionInstanceInfoRDF action = null;
 
     /**
      * The constructor sets the action information.
      */
-    public ActionInstanceImpl(ActionStack action) {
+    public ActionInstanceImpl(ActionInstanceInfoRDF action) {
         this.action = action;
     }
 
     /**
-     *
-     * @param request
+     * This constructor sets up a new action instance request.
+     * 
+     * @param request The reference to the request.
      * @throws com.rift.coad.change.request.action.ActionException
      */
     public ActionInstanceImpl(String masterRequestId, Request request) throws ActionException {
         try {
-            ChangeManagerDaemon daemon = (ChangeManagerDaemon) ConnectionManager.getInstance().
-                    getConnection(ChangeManagerDaemon.class, "java:comp/env/bean/change/ChangeManagerDaemon");
-            ActionDefinition definition = daemon.getActionDefinition(request.getData().getIdForDataType(), request.getAction());
-            if (definition == null) {
-                log.error("The action [" + request.getAction() + "] on object [" + request.getData().getIdForDataType()
-                        + "] does not exist");
-                throw new ActionException("The action [" + request.getAction() + "] on object [" + request.getData().getIdForDataType()
-                        + "] does not exist");
-            }
-            List<DataType> variables = new ArrayList<DataType>();
-            if (request.getDependancies() != null) {
-                for (int index = 0; index < request.getDependancies().length; index++) {
-                    variables.add((DataType) request.getDependancies()[index].clone());
-                }
-            }
-            variables.add(request.getData());
-            // copy the local variables for the parent of this flow.
-            if (definition.getParent() instanceof Block) {
-                DataType[] scopeVariables = copyData(Block.class.cast(definition.getParent()).getParameters());
-                for (DataType scopeVariable : scopeVariables) {
-                    variables.add(scopeVariable);
-                }
-            }
-            this.action = new ActionStack(masterRequestId, definition, request.getId(),
-                    new StackEntry(variables.toArray(new DataType[0]), definition.getParent()));
-            addStackEvent(this.action.getStack().getBlock(), ACTION_STATUS.ACTION_RUNNING);
-            ChangeLog.getInstance().addChange(new ActionChange(TYPE.ADD, this.action));
-        } catch (ActionException ex) {
-            throw ex;
+            ChangeManagerDaemon daemon = 
+                    (ChangeManagerDaemon)ConnectionManager.getInstance().
+                    getConnection(ChangeManagerDaemon.class,
+                    "java:comp/env/bean/change/ChangeManagerDaemon");
+            action = new ActionInstanceInfoRDF(new ActionInfoRDF(
+                    daemon.getAction(request.getProject(), 
+                    request.getData().getDataType(), request.getAction())),
+                    new RequestRDF(request), masterRequestId);
+            ChangeLog.getInstance().addChange(new ActionInstanceImpl.ActionChange(TYPE.UPDATE, action));
         } catch (Exception ex) {
-            log.error("Failed to instanciate the action instance : " + ex.getMessage(), ex);
-            throw new ActionException("Failed to instanciate the action instance : " + ex.getMessage(), ex);
+            log.error("Failed to instanciate the action instance : " + 
+                    ex.getMessage(), ex);
+            throw new ActionException(
+                    "Failed to instanciate the action instance : " + 
+                    ex.getMessage(), ex);
         }
     }
 
@@ -214,546 +178,140 @@ public class ActionInstanceImpl implements ActionInstance,ResourceIndex,Resource
         return action.getId();
     }
 
+    
     /**
-     * This method returns the id of the request.
-     *
-     * @return The id of the request.
-     * @throws com.rift.coad.change.request.action.ActionException
+     * This method returns the request information
+     * 
+     * @return The string containing the request id
+     * @throws ActionException
+     * @throws RemoteException 
      */
-    public String getRequestId() throws ActionException {
-        return action.getRequestId();
+    public String getRequestId() throws ActionException, RemoteException {
+        return action.getRequest().getId();
     }
-
 
     /**
      * This method returns the master request id.
-     *
-     * @return The string containing the master request id.
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
+     * 
+     * @return The string containing the id of the master request.
+     * @throws ActionException
+     * @throws RemoteException 
      */
-    public String getMasterRequestId() throws ActionException {
+    public String getMasterRequestId() throws ActionException, RemoteException {
         return action.getMasterRequestId();
     }
 
+    
     /**
-     * This method returns the name of the action being managed by this instance.
-     *
-     * @return The string containing the action to be managed by this object.
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public String getAction() throws ActionException {
-        return action.getAction().getActionInfo().getName();
-    }
-
-    /**
-     * This method returns the data type that this action is being performed on.
-     *
-     * @return This method returns the id of the data type.
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
-     */
-    public String getDataTypeId() throws ActionException {
-        return action.getAction().getDataTypeId();
-    }
-
-    /**
-     * This method returns the current status of this action stack
-     * @return
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public String getStatus() throws ActionException {
-        log.debug("Current status length is : " + action.getEvents().length);
-        if (action.getEvents().length == 0) {
-            throw new ActionException("The action instance is not properly configured " +
-                    "and does not contain any stack events");
-        }
-        
-        return action.getEvents()[action.getEvents().length - 1].getStatus();
-    }
-
-    /**
-     * This method returns the last event that occurred on this intance.
-     *
-     * @return The last action event.
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
-     */
-    public StackEvent getLastEvent() throws ActionException {
-        if (action.getEvents().length == 0) {
-            throw new ActionException("The action instance is not properly configured " +
-                    "and does not contain any stack events");
-        }
-        return action.getEvents()[action.getEvents().length - 1];
-    }
-
-    /**
-     * This method returns the action stack.
-     *
-     * @return The action stack
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public ActionStack getStack() throws ActionException {
-        return action;
-    }
-
-
-    /**
-     * This method is responsible for updating the stack
-     * @param stack
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public void setStack(ActionStack stack) throws ActionException {
-        try {
-            this.action = stack;
-            ChangeLog.getInstance().addChange(new ActionChange(TYPE.UPDATE, this.action));
-        } catch (Exception ex) {
-            log.error("Failed to set the action stack for this instance : " + ex.getMessage(), ex);
-            throw new ActionException("Failed to set the action stack for this instance : " + ex.getMessage(), ex);
-        }
-    }
-
-
-    /**
-     * This method is responsible for removing this action.
+     * This method returns the action string.
      * 
-     * @throws com.rift.coad.change.request.action.ActionException
+     * @return The string containing the action name
+     * @throws ActionException
+     * @throws RemoteException 
      */
-    public void remove() throws ActionException {
-        try {
-            ChangeLog.getInstance().addChange(new ActionChange(TYPE.DELETE, this.action));
-        } catch (Exception ex) {
-            log.error("Failed to delete the action stack for this instance : " + ex.getMessage(), ex);
-            throw new ActionException("Failed to delete the action stack for this instance : " + ex.getMessage(), ex);
-        }
-    }
-
-
-    /**
-     * This method is called to execute the action instance.
-     *
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
-     */
-    public synchronized void execute() throws ActionException {
-        try {
-            // this method executies the current stack.
-            execute(action.getStack());
-        } catch (Exception ex) {
-            try {
-                addStackEvent(action.getStack().getBlock(), ACTION_STATUS.ACTION_ERROR, ex.getMessage());
-            } catch (Exception ex2) {
-                // ignore
-            }
-            log.error("Failed to excute : " + ex.getMessage(), ex);
-        } finally {
-            try {
-                ChangeLog.getInstance().addChange(new ActionChange(TYPE.UPDATE, this.action));
-            } catch (ChangeException ex) {
-                log.error("Failed to update the change log because : " + ex.getMessage(),ex);
-            }
-        }
-    }
-
-    /**
-     * This method is called to execute the action instance updating the data type passed in.
-     *
-     * @param result The result of the external call.
-     * @throws com.rift.coad.change.request.action.ActionException
-     * @throws java.rmi.RemoteException
-     */
-    public synchronized void execute(DataType result) throws ActionException {
-        try {
-            currentResult = result;
-
-            // this method executies the current stack.
-            execute(action.getStack());
-        } catch (Exception ex) {
-            try {
-                addStackEvent(action.getStack().getBlock(), ACTION_STATUS.ACTION_ERROR, ex.getMessage());
-            } catch (Exception ex2) {
-                // ignore
-            }
-            log.error("Failed to excute : " + ex.getMessage(), ex);
-        } finally {
-            try {
-                ChangeLog.getInstance().addChange(new ActionChange(TYPE.UPDATE, this.action));
-            } catch (ChangeException ex) {
-                log.error("Failed to update the change log because : " + ex.getMessage(),ex);
-            }
-        }
-    }
-
-    /**
-     * This method is used to execute the action after an exception has occurred.
-     *
-     * @param ex The exception that has occurred.
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public synchronized void execute(Exception ex) throws ActionException {
-        try {
-            if (ex instanceof com.rift.coad.change.rdf.objmapping.change.task.exception.ChangeException) {
-                currentException =
-                        (com.rift.coad.change.rdf.objmapping.change.task.exception.ChangeException) ex;
-            } else {
-                currentException = new com.rift.coad.change.rdf.objmapping.change.task.exception.ChangeException(ex);
-            }
-
-            // this method executies the current stack.
-            execute(action.getStack());
-        } catch (Exception e) {
-            log.error("Failed to excute : " + ex.getMessage(), ex);
-        } finally {
-            try {
-                ChangeLog.getInstance().addChange(new ActionChange(TYPE.UPDATE, this.action));
-            } catch (ChangeException e) {
-                log.error("Failed to update the change log because : " + e.getMessage(),e);
-            }
-        }
+    public String getAction() throws ActionException, RemoteException {
+        return action.getActionInfo().getAction();
     }
 
     
     /**
-     * This executes the current action instance requests, and is synchronized
+     * This method gets the data type id.
+     * 
+     * @return This method returns the data type id
+     * @throws ActionException
+     * @throws RemoteException 
      */
-    protected synchronized boolean execute(StackEntry stack) throws Exception {
-        if (stack == null) {
-            return true;
-        }
-
-        while (true) {
-            System.out.println("Inside the while loop");
-            if (stack.getChild() != null) {
-                try {
-                    if (!execute(stack.getChild())) {
-                        return false;
-                    }
-                } catch (com.rift.coad.change.rdf.objmapping.change.task.exception.ChangeException ex) {
-                    this.currentException = ex;
-                    log.error("Sub block threw an exception : " + ex.getMessage(), ex);
-                } catch (Exception ex) {
-                    log.error("Sub block threw an exception : " + ex.getMessage(), ex);
-                    this.currentException = new com.rift.coad.change.rdf.objmapping.change.task.exception.ChangeException(ex);
-                }
-                stack.setChild(null);
-            }
-
-            // deal with exceptions here
-            if (handleException(stack)) {
-                continue;
-            }
-
-            // deal with results here
-            handleResult(stack);
-            
-            if (stack.getCurrentTask() == null) {
-                break;
-            }
-
-            // TODO: evaluate using a spring object factory for this section, as it would
-            // enable configuration of operator rather than a hard coded if statement.
-            
-            // operations
-            if (stack.getCurrentTask() instanceof Assign) {
-                new AssignHandler(this, stack, (Assign) stack.getCurrentTask()).execute();
-            } else if (stack.getCurrentTask() instanceof Switch) {
-                new SwitchHandler(this, stack, (Switch) stack.getCurrentTask()).execute();
-                stack.setCurrentTask(stack.getCurrentTask().getNext());
-                continue;
-            } else if (stack.getCurrentTask() instanceof If) {
-                new IfHandler(this, stack, (If) stack.getCurrentTask()).execute();
-                continue;
-            } else if (stack.getCurrentTask() instanceof ForEach) {
-                // check if there are any more task to process under the for each.
-                if (null == new ForEachHandler(this, stack, (ForEach) stack.getCurrentTask()).execute()) {
-                    addComplete(stack);
-                    return true;
-                }
-                continue;
-            } else if (stack.getCurrentTask() instanceof ForLoop) {
-                if (null == new ForHandler(this,stack,(ForLoop)stack.getCurrentTask()).execute()) {
-                    addComplete(stack);
-                    return true;
-                }
-                continue;
-            } else if (stack.getCurrentTask() instanceof WhileLoop) {
-                if (null == new WhileLoopHandler(this,stack,(WhileLoop)stack.getCurrentTask()).execute()) {
-                    addComplete(stack);
-                    return true;
-                }
-                continue;
-            } else if (stack.getCurrentTask() instanceof ConcurrentBlock) {
-                // TODO: Implement the
-            } else if (stack.getCurrentTask() instanceof Call) {
-                CallHandler handler = new CallHandler(this,stack,(Call)stack.getCurrentTask());
-                if (!handler.handleCallEnd(action)) {
-                    handler.execute();
-                    return false;
-                }
-            } else if (isBlock(stack.getCurrentTask())) {
-                // create the block for the current entry
-                StackEntry child = createStack(stack, stack.getCurrentTask());
-                child.setCurrentTask(Block.class.cast(stack.getCurrentTask()).getChild());
-                stack.setChild(child);
-                stack.setCurrentTask(stack.getCurrentTask().getNext());
-                continue;
-            } else if (stack.getCurrentTask() instanceof TestTask) {
-                // this section is for testing
-                TestTask task = (TestTask)stack.getCurrentTask();
-                if (!task.getTest().execute(stack)) {
-                    return false;
-                }
-            }
-
-
-            stack.setCurrentTask(stack.getCurrentTask().getNext());
-            
-        }
-        addComplete(stack);
-        return true;
-    }
-    
-
-    /**
-     * This method is called to handle the exception
-     */
-    protected boolean handleException(StackEntry stack) throws Exception {
-        if (this.currentException == null) {
-            return false;
-        }
-        if (!(stack.getBlock() instanceof Try)) {
-            System.out.println("This is not a try block");
-            addStackEvent(stack.getBlock(), ACTION_STATUS.ACTION_ERROR, currentException.getExceptionMessage());
-            throw this.currentException;
-        }
-        addStackEvent(stack.getBlock(), ACTION_STATUS.ACTION_ERROR, currentException.getExceptionMessage());
-        for (Catch catchBlock : ((Try) stack.getBlock()).getCatches()) {
-            System.out.println("Loop through the catches [" +
-                    catchBlock.getExceptionName() + "][" +
-                    this.currentException.getExceptionType() + "]");
-            if (catchBlock.getExceptionName().equals(this.currentException.getExceptionType())) {
-                System.out.println("Handle the exception");
-                currentException = null;
-                createStack(stack, catchBlock);
-                return true;
-            }
-        }
-        System.out.println("Re-throw the exception from bottom");
-        throw currentException;
+    public String getDataType() throws ActionException, RemoteException {
+        return action.getActionInfo().getType();
     }
 
     
     /**
-     * This method handles a result.
-     *
-     * @param stack The stack result.
-     * @throws java.lang.Exception
+     * This method returns the status.
+     * 
+     * @return The status of this action instance
+     * @throws ActionException
+     * @throws RemoteException 
      */
-    protected boolean handleResult(StackEntry stack) throws Exception {
-        if (this.currentResult == null) {
-            log.info("No result to be handled");
-            return true;
-        }
-
-        log.info("The stack variables : " + stack.getVariables().length);
-        for (int index = 0; index < stack.getVariables().length; index++) {
-            if (stack.getCurrentTask() instanceof Call && 
-                    (((Call)stack.getCurrentTask()).getResult() != null)) {
-                Call call = (Call)stack.getCurrentTask();
-                if (stack.getVariables()[index].getDataName().equals(call.getResult())) {
-                    log.info("Set the result based on a call [" + call.getResult() +
-                            "]for a returned variable : " + this.currentResult.toString());
-                    this.currentResult.setDataName(call.getResult());
-                    stack.getVariables()[index] = this.currentResult;
-                    this.currentResult = null;
-                    return true;
-                }
-            } else {
-                if (stack.getVariables()[index].getDataName().equals(this.currentResult.getDataName())) {
-                    log.info("Set the result based on equal data names [" + this.currentResult.getDataName() +
-                            "]for a returned variable : " + this.currentResult.toString());
-                    stack.getVariables()[index] = this.currentResult;
-                    this.currentResult = null;
-                    return true;
-                }
-            }
-        }
-
-        if ((stack.getParent() != null) && handleResult(stack.getParent())) {
-            return true;
-        }
-        log.info("Variables not found to set");
-        return false;
+    public String getStatus() throws ActionException, RemoteException {
+        return this.action.getStatus();
     }
 
     
     /**
-     * This method sets the
-     * @param parent
-     * @param task
+     * This method gets the last event.
+     * 
+     * @return The last request event.
+     * @throws ActionException
+     * @throws RemoteException 
+     */
+    public RequestEvent getLastEvent() throws ActionException, RemoteException {
+        if (this.action.getRequest().getEvents().size() == 0) {
+            throw new ActionException("There are no events for this request");
+        }
+        return this.action.getRequest().getEvents().get(
+                this.action.getRequest().getEvents().size() -1).toRequestEvent();
+    }
+
+    
+    /**
+     * This method returns the memory
      * @return
-     * @throws java.lang.Exception
+     * @throws ActionException
+     * @throws RemoteException 
      */
-    protected StackEntry createStack(StackEntry parent, ActionTaskDefinition task) throws Exception {
-        addStackEvent(task, ACTION_STATUS.ACTION_RUNNING);
-        StackEntry child = new StackEntry(new DataType[]{}, task, parent);
-        parent.setChild(child);
-        setScopeVariables(child, task);
-        return child;
+    public com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager getStack() throws ActionException, RemoteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    public void setStack(com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager stack) throws ActionException, RemoteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void execute() throws ActionException, RemoteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void execute(String result) throws ActionException, RemoteException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void execute(Exception ex) throws ActionException, RemoteException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     
     /**
-     * This method returns true if this task is a block requiring a new scope.
-     *
-     * @param task The task to execute.
-     * @return TRUE if this is a block, FALSE if not.
-     */
-    protected boolean isBlock(ActionTaskDefinition task) {
-        if (task instanceof Block) {
-            return true;
-        } else if (task instanceof ConcurrentBlock) {
-            return true;
-        } else if (task instanceof Try) {
-            return true;
-        } else if (task instanceof Catch) {
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * This method is responsible for setting the scope of the variables.
-     *
-     * @param child The child stack.
-     * @param task The task.
-     * @throws java.lang.Exception
-     */
-    protected void setScopeVariables(StackEntry child, ActionTaskDefinition task) throws Exception {
-        if (task instanceof Block) {
-            child.setVariables(copyData(Block.class.cast(task).getParameters()));
-        } else if (task instanceof ConcurrentBlock) {
-            child.setVariables(copyData(ConcurrentBlock.class.cast(task).getParameters()));
-        }
-    }
-
-
-    /**
-     * This method is responsible for 
-     * @param data The data to copy
-     * @return The resultant data
-     * @throws java.lang.Exception
-     */
-    protected DataType[] copyData(DataType[] data) throws Exception {
-        if (data == null) {
-            return null;
-        }
-        DataType[] result = new DataType[data.length];
-        for (int index = 0; index < data.length; index++) {
-            result[index] = (DataType) data[index].clone();
-        }
-        return result;
-    }
-
-
-    /**
-     * This method returns the primary key attached to this object.
-     *
-     * @return The object that contains the primary key information.
+     * 
+     * @return 
      */
     public Object getPrimaryKey() {
-        return action.getId();
+        return this.action.getId();
     }
 
-
+    
     /**
-     * This method returns the name of this resource for grouping in the cache.
-     *
-     * @return The string containing the resource name.
+     * This method returns the resource name
+     * 
+     * @return The name of the resource.
      */
     public String getResourceName() {
-        return this.getClass().getName();
+        return this.action.toString();
     }
 
-
+    
     /**
-     * This method is responsible for releasing the resource information.
+     * This method is called to release the resource
      */
     public void releaseResource() {
+        // do nothing
+    }
+    
+    /**
+     * This method is called to remove the action
+     */
+    public void remove() {
         
-    }
-
-
-    /**
-     *
-     * @param task The task that this stack event is tied to.
-     * @param statusFlag The status of this event.
-     * @throws Exception The exception.
-     */
-    protected void addStackEvent(ActionTaskDefinition task, ACTION_STATUS statusFlag)
-        throws Exception {
-        addStackEvent(task,statusFlag,null);
-    }
-
-
-    /**
-     * This method is called to add a new stack event tied to a specific task.
-     *
-     * @param task The name of the task event.
-     * @param status The status string for the task event.
-     */
-    protected void addStackEvent(ActionTaskDefinition task, ACTION_STATUS statusFlag, String message)
-        throws Exception {
-        String user = "Unknown";
-        try {
-            user = com.rift.coad.lib.security.SessionManager.getInstance().getSession().getUser().getName();
-        } catch (Exception ex) {
-            log.info("Failed to get the user information : " + ex.getMessage(),ex);
-        }
-        Date start = null;
-        Date complete = null;
-        String status = null;
-        switch (statusFlag) {
-            case ACTION_RUNNING:
-                start = new Date();
-                status = ActionConstants.RUNNING;
-                break;
-            case ACTION_ERROR:
-                start = new Date();
-                status = ActionConstants.ERROR;
-                break;
-            case ACTION_COMPLETE:
-                complete = new Date();
-                status = ActionConstants.COMPLETE;
-                break;
-            case ACTION_FINISHED:
-                complete = new Date();
-                status = ActionConstants.FINISHED;
-                break;
-            default:
-                log.error("Unrecognised action :" + statusFlag.toString());
-                throw new ActionException("Unrecognised action :" + statusFlag.toString());
-        }
-
-        StackEvent event = new StackEvent(start, complete, task, status, user);
-        if (message != null) {
-            event.setMessage(message);
-        }
-        action.addEvent(event);
-
-    }
-
-
-    /**
-     * This method is called to add the stack entry
-     *
-     * @param stack The current stack value.
-     */
-    protected void addComplete(StackEntry stack) throws Exception {
-        addStackEvent(stack.getBlock(), ACTION_STATUS.ACTION_COMPLETE);
-        if (stack.getParent() == null) {
-            addStackEvent(stack.getBlock(), ACTION_STATUS.ACTION_FINISHED);
-        }
     }
 }

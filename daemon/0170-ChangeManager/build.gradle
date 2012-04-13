@@ -1,0 +1,109 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="0170-ChangeManager"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+configurations {
+    compile
+    releaseJars
+}
+
+dependencies {
+    compile(ivyDependencies('compile'))
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationCommon')
+    compile project(':libs:CoadunationUtil')
+    compile project(':libs:LeviathanScriptEngine')
+    compile project(':client:ChangeControlClient')
+    compile project(':client:AuditTrail')
+    compile project(':client:MessageServiceClient')
+    compile project(':client:ServiceBrokerClient')
+    compile project(':client:DataMapperClient')
+    compile project(':rdf:CommonTypes')
+    compile project(':rdf:CoadunationSemantics')
+    compile project(':rdf:Semantics')
+    compile project(':rdf:SchemaUtils')
+    releaseJars(ivyDependencies('compile'))
+    releaseJars project(':client:AuditTrail')
+    releaseJars project(':client:ServiceBrokerClient')
+    releaseJars project(':client:ChangeControlClient')
+    releaseJars project(':libs:LeviathanScriptEngine')
+    releaseJars project(':rdf:CommonTypes')
+    releaseJars project(':rdf:CoadunationSemantics')
+    releaseJars project(':rdf:Semantics')
+    releaseJars project(':rdf:SchemaUtils')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+
+task createDir << {
+    ant.mkdir(dir: 'build/classes/main')
+}
+
+task copyToJars(type: Copy) {
+    into "build/classes/main"
+    from configurations.releaseJars
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
+processResources.dependsOn {
+    [createDir,copyToJars]
+}
+
+task copyJars << {
+    ant.mkdir(dir: '../../sbin')
+    ant.copy(todir: '../../sbin/', file: "build/" + archivesBaseName + "-" + version + ".jar") 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives, copyJars]
+}
+release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
+

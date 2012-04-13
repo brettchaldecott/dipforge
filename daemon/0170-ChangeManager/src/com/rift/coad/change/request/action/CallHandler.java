@@ -23,31 +23,24 @@
 package com.rift.coad.change.request.action;
 
 // java imports
-import com.rift.coad.change.rdf.objmapping.change.ActionTaskDefinition;
-import com.rift.coad.change.rdf.objmapping.change.action.ActionConstants;
-import com.rift.coad.change.rdf.objmapping.change.action.ActionStack;
 import java.util.ArrayList;
 import java.util.List;
 
 // coadunation imports
-import com.rift.coad.change.rdf.objmapping.change.action.StackEntry;
-import com.rift.coad.change.rdf.objmapping.change.action.StackEvent;
-import com.rift.coad.change.rdf.objmapping.change.task.Call;
 import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import com.rift.coad.datamapper.DataMapper;
 import com.rift.coad.datamapper.DataMapperAsync;
-import com.rift.coad.rdf.objmapping.base.DataType;
 
 /**
  * The implementation of the call handler
  *
  * @author brett chaldecott
  */
-public class CallHandler implements OperatorHandler {
+public class CallHandler {
     // private member variables
     private ActionInstanceImpl instance;
-    private StackEntry stack;
-    private Call task;
+    //private StackEntry stack;
+    //private Call task;
 
     
     /**
@@ -57,10 +50,10 @@ public class CallHandler implements OperatorHandler {
      * @param stack The stack value.
      * @param task The task.
      */
-    public CallHandler(ActionInstanceImpl instance, StackEntry stack, Call task) {
+    public CallHandler(ActionInstanceImpl instance) {
         this.instance = instance;
-        this.stack = stack;
-        this.task = task;
+        //this.stack = stack;
+        //this.task = task;
     }
 
     /**
@@ -69,7 +62,7 @@ public class CallHandler implements OperatorHandler {
      * @param actionStack The stack
      * @return TRUE if handled, FALSE if not.
      */
-    public boolean handleCallEnd(ActionStack actionStack) throws Exception {
+    /*public boolean handleCallEnd(ActionStack actionStack) throws Exception {
         StackEvent[] events = actionStack.getEvents();
         if ((events == null) || (events.length == 0)) {
             return false;
@@ -82,7 +75,7 @@ public class CallHandler implements OperatorHandler {
             return true;
         }
         return false;
-    }
+    }*/
 
     /**
      * This method executes the operatorion.
@@ -90,7 +83,7 @@ public class CallHandler implements OperatorHandler {
      * @return The reference to the updated stack.
      * @throws java.lang.Exception
      */
-    public StackEntry execute() throws Exception {
+    /*public StackEntry execute() throws Exception {
         DataMapperAsync handler = null;
         if (task.getJndi() != null) {
             handler = (DataMapperAsync)RPCMessageClient.create(
@@ -121,7 +114,7 @@ public class CallHandler implements OperatorHandler {
                 task.getDataMapperMethod().getName(), parameters);
         instance.addStackEvent(task, ActionInstanceImpl.ACTION_STATUS.ACTION_RUNNING);
         return null;
-    }
+    }*/
 
 
 

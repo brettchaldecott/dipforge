@@ -24,11 +24,10 @@
 package com.rift.coad.change.request.action;
 
 // java imports
-import com.rift.coad.change.rdf.objmapping.change.Request;
-import com.rift.coad.change.rdf.objmapping.change.action.ActionStack;
+import com.rift.coad.change.rdf.RequestRDF;
 import com.rift.coad.rdf.semantic.RDFFormats;
 import com.rift.coad.rdf.semantic.Session;
-import com.rift.coad.rdf.semantic.config.Basic;
+import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -93,88 +92,17 @@ public class ActionManager implements ActionManagerMBean {
      */
     public void initActionFromXML(String masterRequestId, String id, String xml) throws ActionException {
         try {
-            Session session = Basic.initSessionManager().getSession();
+            Session session = XMLSemanticUtil.getSession();
             session.persist(xml);
             ActionFactoryManager daemon = (ActionFactoryManager)ConnectionManager.getInstance().
                     getConnection(ActionFactoryManager.class,
                     "java:comp/env/bean/change/request/action/ActionFactoryManager");
             daemon.createActionInstance(masterRequestId, 
-                    session.get(Request.class, Request.class.getName(), id));
+                    session.get(RequestRDF.class, id).toRequest());
         } catch (Exception ex) {
             log.error("Failed to get an action : " + ex.getMessage(),ex);
             throw new ActionException
                 ("Failed to get an action : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method returns the action instance as xml identified by the id.
-     * @param id The id of the action.
-     * @return The XML containing action stack.
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public String getActionAsXML(String id) throws ActionException {
-        try {
-            ActionFactoryManager daemon = (ActionFactoryManager)ConnectionManager.getInstance().
-                    getConnection(ActionFactoryManager.class,
-                    "java:comp/env/bean/change/request/action/ActionFactoryManager");
-            Session session = Basic.initSessionManager().getSession();
-            session.persist(daemon.getActionInstance(id).getStack());
-            return session.dump(RDFFormats.XML_ABBREV);
-        } catch (Exception ex) {
-            log.error("Failed to get an action : " + ex.getMessage(),ex);
-            throw new ActionException
-                ("Failed to get an action : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method is responsible for returning the XML for the action identified by the
-     * request.
-     *
-     * @param id The id of the request.
-     * @return The string containing the XML for the request.
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public String getActionAsXMLByRequestId(String id) throws ActionException {
-        try {
-            ActionFactoryManager daemon = (ActionFactoryManager)ConnectionManager.getInstance().
-                    getConnection(ActionFactoryManager.class,
-                    "java:comp/env/bean/change/request/action/ActionFactoryManager");
-            Session session = Basic.initSessionManager().getSession();
-            String actionId = daemon.getActionIdForRequestId(id);
-            session.persist(daemon.getActionInstance(actionId).getStack());
-            return session.dump(RDFFormats.XML_ABBREV);
-        } catch (Exception ex) {
-            log.error("Failed to get an action by request id : " + ex.getMessage(),ex);
-            throw new ActionException
-                ("Failed to get an action by request id : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method is responsible for updating the Action identified in the XML.
-     *
-     * @param id The id of the action to update.
-     * @param xml The XML containing the updated action.
-     * @throws com.rift.coad.change.request.action.ActionException
-     */
-    public void updateActionFromXML(String id, String xml) throws ActionException {
-        try {
-            Session session = Basic.initSessionManager().getSession();
-            session.persist(xml);
-            ActionFactoryManager daemon = (ActionFactoryManager)ConnectionManager.getInstance().
-                    getConnection(ActionFactoryManager.class,
-                    "java:comp/env/bean/change/request/action/ActionFactoryManager");
-            ActionInstance instance = daemon.getActionInstance(id);
-            instance.setStack(session.get(ActionStack.class, ActionStack.class.getName(), id));
-        } catch (Exception ex) {
-            log.error("Failed to update an action : " + ex.getMessage(),ex);
-            throw new ActionException
-                ("Failed to update an action : " + ex.getMessage(),ex);
         }
     }
 

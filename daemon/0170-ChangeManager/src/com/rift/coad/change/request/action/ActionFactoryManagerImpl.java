@@ -22,7 +22,7 @@
 package com.rift.coad.change.request.action;
 
 // java imports
-import com.rift.coad.audit.client.rdf.AuditLogger;
+import com.rift.coad.audit.client.AuditLogger;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,9 +36,11 @@ import org.apache.log4j.Logger;
 
 // coadunation import
 import com.rift.coad.change.ChangeManagerDaemonImpl;
-import com.rift.coad.change.rdf.objmapping.change.Request;
-import com.rift.coad.change.rdf.objmapping.change.action.ActionStack;
+import com.rift.coad.change.rdf.ActionInstanceInfoRDF;
+import com.rift.coad.change.request.Request;
 import com.rift.coad.lib.bean.BeanRunnable;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
@@ -46,6 +48,10 @@ import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
 import com.rift.coad.util.transaction.CoadunationHashMap;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
+import com.rift.dipforge.ls.engine.LeviathanConfig;
+import com.rift.dipforge.ls.engine.LeviathanConstants;
+import com.rift.dipforge.ls.engine.LeviathanEngine;
+import java.rmi.RemoteException;
 
 
 /**
@@ -53,7 +59,8 @@ import com.rift.coad.util.transaction.UserTransactionWrapper;
  *
  * @author brett chaldecott
  */
-public class ActionFactoryManagerImpl implements ActionFactoryManager, BeanRunnable {
+public class ActionFactoryManagerImpl implements
+        ActionFactoryManager, BeanRunnable {
 
     // class singletons
     private static Logger log = Logger.getLogger(ActionFactoryManagerImpl.class);
@@ -71,13 +78,21 @@ public class ActionFactoryManagerImpl implements ActionFactoryManager, BeanRunna
 
     // state monitor
     private ThreadStateMonitor state = new ThreadStateMonitor();
-
+    private String storeDirectory;
 
     /**
      * The default constructor for the action factory manager.
      */
     public ActionFactoryManagerImpl() throws ActionException {
-        
+        try {
+            Configuration config = ConfigurationFactory.getInstance().getConfig(
+                    this.getClass());
+            storeDirectory = config.getString(LeviathanConstants.STORAGE_PATH);
+        } catch (Exception ex) {
+            throw new ActionException(
+                    "Failed to instanciate the new action factory : " +
+                    ex.getMessage(),ex);
+        }
     }
 
 
@@ -139,8 +154,8 @@ public class ActionFactoryManagerImpl implements ActionFactoryManager, BeanRunna
             ActionInstanceImpl instance = new ActionInstanceImpl(masterRequestId,request);
             this.entries.put(instance.getId(),instance);
             this.requests.put(instance.getRequestId(),instance);
-            auditLog.create("Add a new action instance for master request [%s] sub request [%s] instance id [%s]",
-                    masterRequestId,request.getId(), instance.getId()).setCorrelationId(masterRequestId).info();
+            auditLog.complete("Add a new action instance for master request [%s] sub request [%s] instance id [%s]",
+                    masterRequestId,request.getId(), instance.getId());
             return instance;
         } catch (Exception ex) {
             log.error("Failed to create the action instance : " + ex.getMessage(),ex);
@@ -193,7 +208,7 @@ public class ActionFactoryManagerImpl implements ActionFactoryManager, BeanRunna
      * @param id The id of the action to remove.
      * @throws com.rift.coad.change.request.action.ActionException
      */
-    public void removeActionInstance(String id) throws ActionException {
+    public void removeActionInstance(String id) throws ActionException, RemoteException {
         if (!this.entries.containsKey(id)) {
             log.info("The action instance [" +id +"]does not exist cannot remove");
             throw new ActionException
@@ -202,8 +217,7 @@ public class ActionFactoryManagerImpl implements ActionFactoryManager, BeanRunna
         ActionInstanceImpl instance = (ActionInstanceImpl)entries.remove(id);
         requests.remove(instance.getRequestId());
         instance.remove();
-        auditLog.create("Remove action instance [%s]",id).
-                setCorrelationId(instance.getMasterRequestId()).info();
+        auditLog.complete("Remove action instance [%s]",id);
     }
 
 
@@ -218,13 +232,15 @@ public class ActionFactoryManagerImpl implements ActionFactoryManager, BeanRunna
             Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://www.coadunation.net/schema/rdf/1.0/change#ActionStack> } ")
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.actioninstance#ActionInstanceInfoRDF> } ")
                     .execute();
             for (SPARQLResultRow entry : entries) {
-                ActionStack stack = entry.get(0).cast(ActionStack.class);
-                ActionInstanceImpl instance = new ActionInstanceImpl(stack);
-                this.entries.put(stack.getId(),instance);
-                this.requests.put(stack.getRequestId(),instance);
+                ActionInstanceInfoRDF actionInstance = 
+                        entry.get(ActionInstanceInfoRDF.class,0);
+                ActionInstanceImpl instance = new ActionInstanceImpl(
+                        session.disconnect(ActionInstanceInfoRDF.class, actionInstance));
+                this.entries.put(actionInstance.getId(),instance);
+                this.requests.put(actionInstance.getRequest().getId(),instance);
             }
             utw.commit();
         } catch (Exception ex) {
@@ -244,28 +260,41 @@ public class ActionFactoryManagerImpl implements ActionFactoryManager, BeanRunna
     public void process() {
         // wait for the deployment process to stop.
         DeploymentMonitor.getInstance().waitUntilInitDeployComplete();
-
-        while (!state.isTerminated()) {
-            try {
-                loadActions();
-                break;
-            } catch (Exception ex) {
-                log.error("Failed to load the actions for the action factory : " +
-                        ex.getMessage());
+        
+        // init the leviathan engine
+        try {
+            LeviathanConfig config = LeviathanConfig.createConfig();
+            config.getProperties().setProperty(LeviathanConstants.STORAGE_PATH, 
+                    storeDirectory);
+            
+            LeviathanEngine instance = LeviathanEngine.buildEngine(config);
+            
+            
+            
+            while (!state.isTerminated()) {
                 try {
-                    Thread.sleep(60 * 1000);
-                } catch (InterruptedException ex1) {
-                    log.error("Failed to sleep");
+                    loadActions();
+                    break;
+                } catch (Exception ex) {
+                    log.error("Failed to load the actions for the action factory : " +
+                            ex.getMessage());
+                    try {
+                        Thread.sleep(60 * 1000);
+                    } catch (InterruptedException ex1) {
+                        log.error("Failed to sleep");
+                    }
                 }
             }
+
+            while(!state.isTerminated()) {
+
+                // wait indefinitly
+                state.monitor();
+            }
+        } catch (Exception ex) {
+            log.error("Failed to process because : " + ex.getMessage(),ex);
         }
 
-        while(!state.isTerminated()) {
-
-            // wait indefinitly
-            state.monitor();
-        }
-        
     }
 
 
