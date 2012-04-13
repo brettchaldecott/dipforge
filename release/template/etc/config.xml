@@ -720,6 +720,11 @@
             @dipforge_home@/var/requestmanager
         </entry>
     </object>
+    <object name="com.rift.coad.change.request.action.ActionFactoryManagerImpl">
+        <entry key="storage_path" type="string">
+            @dipforge_home@/var/flow/tmp
+        </entry>
+    </object>
     <!-- Change Manager configuration -->
     <!-- Data Mapper configuration -->
     <object name="com.rift.coad.datamapperbroker.DataMapperBrokerDaemonImpl">
