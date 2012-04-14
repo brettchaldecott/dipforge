@@ -142,7 +142,7 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
                     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#ActionInfoRDF> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . } " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . " +
                     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type . } " +
                     "FILTER (" + sparqlFilter.toString() + ") ORDER BY ?Type").execute();
             List<ActionInfo> result = new ArrayList<ActionInfo>();
