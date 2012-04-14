@@ -33,7 +33,7 @@ sourceSets {
 }
 
 war {
-    classPath = getClasspath().filter({file -> file.name.contains("classes") ||
+    def classPath = getClasspath().filter({file -> file.name.contains("classes") ||
         file.name.contains("commons-httpclient") || file.name.contains("commons-digester") ||
         file.name.contains("commons-codec") || file.name.contains("commons-beanutils") ||
         file.name.contains("commons-logging")}) 

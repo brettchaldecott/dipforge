@@ -18,8 +18,8 @@ configurations {
 dependencies {
     compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar', transitive: true
     compile group: 'gwm', name: 'gwm', version: '1.0', ext: 'jar', transitive: true
-    compile project(':libs:CoadunationLib') {transitive = true}
-    compile project(':libs:CoadunationAnnotations') {transitive = true}
+    compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationAnnotations')
     compile project(':utils:CoadunationUtil')
     compile project(':client:DesktopServerClient')
     compile project(':client:EventServerClient')
@@ -70,7 +70,7 @@ task gwtCompile << {
 war.dependsOn gwtCompile
 
 war {
-    classPath = getClasspath().filter({file -> file.name.contains("classes") ||
+    def classPath = getClasspath().filter({file -> file.name.contains("classes") ||
         file.name.contains("gwt-servlet") ||
         file.name.contains("gwm") ||
         file.name.contains("CoadunationUtil") ||

@@ -18,8 +18,8 @@ configurations {
 
 dependencies {
     compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar', transitive: true
-    compile project(':libs:CoadunationLib') {transitive = true}
-    compile project(':libs:CoadunationAnnotations') {transitive = true}
+    compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationAnnotations')
     compile project(':utils:CoadunationUtil')
     compile group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
     compile group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
@@ -72,7 +72,7 @@ war.dependsOn gwtCompile
 jar.enabled = true
 
 war {
-    classPath = getClasspath().filter({file -> file.name.contains("DipforgeAdmin") || file.name.contains("classes") || file.name.contains("gwt-servlet")}) 
+    def classPath = getClasspath().filter({file -> file.name.contains("DipforgeAdmin") || file.name.contains("classes") || file.name.contains("gwt-servlet")}) 
     setClasspath(classPath)
     classpath 'build/classes/main/'
     from 'web'

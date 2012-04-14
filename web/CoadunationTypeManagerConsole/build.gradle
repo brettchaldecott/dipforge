@@ -73,7 +73,7 @@ task gwtCompile << {
 war.dependsOn gwtCompile
 
 war {
-    classPath = getClasspath().filter({file -> file.name.contains("classes") ||
+    def classPath = getClasspath().filter({file -> file.name.contains("classes") ||
         file.name.contains("gwt-servlet") ||
         file.name.contains("gwm") ||
         file.name.contains("CoadunationUtil") ||

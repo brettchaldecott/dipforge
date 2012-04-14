@@ -3,12 +3,12 @@ apply plugin: 'announce'
 
 import org.apache.tools.ant.filters.ReplaceTokens
 
-libsDirName="."
-version="1.0.1"
-sourceCompatibility=1.6
-targetCompatibility=1.6
-javaHome = getJavaHomeVar()
-dipforgeHome = "${projectDir}/dipforge/".toString()
+//libsDirName="."
+project.ext.version="1.0.1"
+//sourceCompatibility=1.6
+//targetCompatibility=1.6
+project.ext.javaHome = getJavaHomeVar()
+project.ext.dipforgeHome = "${projectDir}/dipforge/".toString()
 
 
 dependsOn(':libs:CoadunationBase')
@@ -118,25 +118,25 @@ task copyToRDFClient(type: Copy) {
 task copyToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseDaemon
-    include "**/0*" + version + ".jar"
-    include "**/1*" + version + ".jar"
+    include "**/0*" + project.ext.version + ".jar"
+    include "**/1*" + project.ext.version + ".jar"
 }
 
 task copyWarToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseWeb
-    include "**/*" + version + ".war"
+    include "**/*" + project.ext.version + ".war"
 }
 
 task copyEarToDaemon(type: Copy) {
     into "dipforge/deploy/"
     from configurations.releaseEAR
-    include "**/*" + version + ".ear"
+    include "**/*" + project.ext.version + ".ear"
 }
 
 release.doLast {
     ant.unzip(
-        src: "$projectDir/../web/SchemaStore/build/SchemaStore-${version}.war" , 
+        src: "$projectDir/../web/SchemaStore/build/SchemaStore-${project.ext.version}.war" , 
         dest: "$projectDir/dipforge/var/tomcat/webapps/schema")
     ant {
         mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationCommon")
@@ -251,7 +251,7 @@ release.doLast {
 task copyToTools(type: Copy) {
     into "dipforge/tools/"
     from configurations.releaseTools
-    include "**/*CommandLine*" + version + ".jar"
+    include "**/*CommandLine*" + project.ext.version + ".jar"
 }
 
 task copyBinTemplate(type: Copy) {
@@ -260,7 +260,7 @@ task copyBinTemplate(type: Copy) {
     include 'run.bat'
     include 'run.sh'
     fileMode=0755
-    filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version, hostname: InetAddress.getLocalHost().getHostName(), java_home: javaHome] )
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version, hostname: InetAddress.getLocalHost().getHostName(), java_home: project.ext.javaHome] )
 }
 
 task copyEtcTemplate(type: Copy) {
@@ -269,7 +269,7 @@ task copyEtcTemplate(type: Copy) {
     include 'config.xml'
     include 'log4j.properties'
     include 'server.policy'
-    filter(ReplaceTokens, tokens:[dipforge_home: dipforgeHome, dipforge_version: version,java_home: javaHome, hostname: InetAddress.getLocalHost().getHostName()] )
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName()] )
 }
 
 task copySemanticTemplate(type: Copy) {
@@ -380,16 +380,16 @@ dependencies {
     // compile
     
     // release boot strap file
-    releaseSbin project(':libs:CoadunationBase') {transitive = true}
+    releaseSbin project(':libs:CoadunationBase')
     
     // release libraries
-    releaseLibs project(':libs:CoadunationClient') {transitive = true}
-    releaseClients project(':libs:CoadunationClient') {transitive = true}
-    releaseLibs project(':libs:CoadunationSecurity') {transitive = true}
-    releaseLibs project(':libs:CoadunationHibernate') {transitive = true}
-    releaseLibs project(':libs:CoadunationUtil') {transitive = true}
-    releaseLibs project(':auth:CoadunationRDBAuth') {transitive = true}
-    releaseLibs project(':libs:CoadunationLib') {transitive = true}
+    releaseLibs project(':libs:CoadunationClient')
+    releaseClients project(':libs:CoadunationClient')
+    releaseLibs project(':libs:CoadunationSecurity')
+    releaseLibs project(':libs:CoadunationHibernate')
+    releaseLibs project(':libs:CoadunationUtil')
+    releaseLibs project(':auth:CoadunationRDBAuth')
+    releaseLibs project(':libs:CoadunationLib')
     releaseLibs group: 'backport-util-concurrent', name: 'backport-util-concurrent', version: '3.1', ext: 'jar'
     releaseLibs group: 'org.hibernate', name: 'hibernate-c3p0', version: '3.5.1-Final', ext: 'jar'
     releaseLibs group: 'commons-cli', name: 'commons-cli', version: '1.0', ext: 'jar'
@@ -449,24 +449,24 @@ dependencies {
     releaseRDFClients project(':rdf:CommonTypes')
     
     // copy to tools
-    releaseTools project(':cli:DeploymentDaemonCommandLineTool') {transitive = true}
-    releaseTools project(':cli:MessageServiceCommandLineTool') {transitive = true}
-    releaseTools project(':cli:ServiceBrokerCommandLineTool') {transitive = true}
-    releaseTools project(':cli:TimerCommandLineTool') {transitive = true}
+    releaseTools project(':cli:DeploymentDaemonCommandLineTool')
+    releaseTools project(':cli:MessageServiceCommandLineTool')
+    releaseTools project(':cli:ServiceBrokerCommandLineTool')
+    releaseTools project(':cli:TimerCommandLineTool')
 
     // release daemons
-    releaseDaemon project(':daemon:0005-DNSServer') {transitive = false}
-    releaseDaemon project(':daemon:0010-HsqlDBEngineDaemon') {transitive = false}
-    releaseDaemon project(':daemon:0020-RDBUserManager') {transitive = false}
-    releaseDaemon project(':daemon:0040-ServiceBroker') {transitive = false}
-    releaseDaemon project(':daemon:0040-MessageService') {transitive = false}
-    releaseDaemon project(':daemon:0045-EmailServer') {transitive = false}
-    releaseDaemon project(':daemon:0050-DesktopServer') {transitive = false}
-    releaseDaemon project(':daemon:0050-EventServer') {transitive = false}
-    releaseDaemon project(':daemon:0050-Timer') {transitive = false}
-    releaseDaemon project(':daemon:0060-Tomcat') {transitive = false}
-    releaseDaemon project(':daemon:0101-DeploymentDaemon') {transitive = false}
-    releaseDaemon project(':daemon:0102-RSSReader') {transitive = false}
+    releaseDaemon project(':daemon:0005-DNSServer')
+    releaseDaemon project(':daemon:0010-HsqlDBEngineDaemon')
+    releaseDaemon project(':daemon:0020-RDBUserManager')
+    releaseDaemon project(':daemon:0040-ServiceBroker')
+    releaseDaemon project(':daemon:0040-MessageService')
+    releaseDaemon project(':daemon:0045-EmailServer')
+    releaseDaemon project(':daemon:0050-DesktopServer')
+    releaseDaemon project(':daemon:0050-EventServer')
+    releaseDaemon project(':daemon:0050-Timer')
+    releaseDaemon project(':daemon:0060-Tomcat')
+    releaseDaemon project(':daemon:0101-DeploymentDaemon')
+    releaseDaemon project(':daemon:0102-RSSReader')
     releaseDaemon project(':daemon:0100-AuditTrailServer')
     releaseDaemon project(':daemon:0140-GroovyDaemon')
     releaseDaemon project(':daemon:0150-CoadunationTypeManager')
