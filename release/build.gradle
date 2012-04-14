@@ -519,6 +519,7 @@ dependencies {
     // rdf targets
     releaseRDFTypeTargets project(':daemon:0100-AuditTrailServer')
     releaseRDFTypeTargets project(':daemon:0170-ChangeManager')
+    releaseRDFTypeTargets project(':client:ChangeControlClient')
     releaseRDFTypeTargets project(':rdf:CommonTypes')
 }
 
