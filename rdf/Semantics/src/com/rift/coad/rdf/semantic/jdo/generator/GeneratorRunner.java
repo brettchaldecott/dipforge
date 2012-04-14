@@ -70,6 +70,7 @@ public class GeneratorRunner {
             out.write(session.dumpXML().getBytes());
             out.close();
         } catch (Exception ex) {
+            ex.printStackTrace(System.err);
             log.error("The failed because : " + ex.getMessage(),ex);
             System.exit(1);
         }
