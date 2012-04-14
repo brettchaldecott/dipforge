@@ -36,7 +36,7 @@ import java.io.Serializable;
  *
  * @author brett chaldecott
  */
-@Namespace("http://www.coadunation.net/schema/rdf/1.0/change.event#")
+@Namespace("http://www.coadunation.net/schema/rdf/1.0/change.event")
 @LocalName("RequestEventRDF")
 public class RequestEventRDF implements Serializable {
 

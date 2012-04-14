@@ -42,7 +42,7 @@ import java.util.*;
  *
  * @author brett chaldecott
  */
-@Namespace("http://www.coadunation.net/schema/rdf/1.0/change.request#")
+@Namespace("http://www.coadunation.net/schema/rdf/1.0/change.request")
 @LocalName("RequestRDF")
 public class RequestRDF implements Serializable {
 

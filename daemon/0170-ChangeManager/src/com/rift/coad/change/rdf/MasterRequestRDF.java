@@ -33,7 +33,7 @@ import java.io.Serializable;
  *
  * @author brett
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/change.master#")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/change.master")
 @LocalName("MasterRequest")
 public class MasterRequestRDF implements Serializable {
 
