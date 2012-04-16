@@ -11,68 +11,41 @@ project.ext.javaHome = getJavaHomeVar()
 project.ext.dipforgeHome = "${projectDir}/dipforge/".toString()
 
 
-dependsOn(':libs:CoadunationBase')
-dependsOn(':libs:CoadunationAnnotations')
-dependsOn(':libs:CoadunationClient')
-dependsOn(':libs:CoadunationSecurity')
-dependsOn(':libs:CoadunationCommon')
-dependsOn(':libs:CoadunationLib')
-dependsOn(':libs:CoadunationHibernate')
-dependsOn(':auth:CoadunationRDBAuth')
-dependsOn(':client:DeploymentDaemonClient')
-dependsOn(':client:DesktopServerClient')
-dependsOn(':client:DNSServerClient')
-dependsOn(':client:MessageServiceClient')
-dependsOn(':libs:CoadunationUtil')
-dependsOn(':client:EmailServerClient')
-dependsOn(':client:EventServerClient')
-dependsOn(':client:HsqlDBEngineClient')
-dependsOn(':client:RDBUserManagerClient')
-dependsOn(':client:RSSReaderClient')
-dependsOn(':client:ServiceBrokerClient')
-dependsOn(':client:TimerClient')
-dependsOn(':client:TomcatClient')
-dependsOn(':cli:DeploymentDaemonCommandLineTool')
-dependsOn(':cli:MessageServiceCommandLineTool')
-dependsOn(':cli:ServiceBrokerCommandLineTool')
-dependsOn(':cli:TimerCommandLineTool')
-dependsOn(':utils:CoadunationUtil')
-dependsOn(':daemon:0005-DNSServer')
-dependsOn(':daemon:0010-HsqlDBEngineDaemon')
-dependsOn(':daemon:0020-RDBUserManager')
-dependsOn(':daemon:0040-MessageService')
-dependsOn(':daemon:0040-ServiceBroker')
-dependsOn(':daemon:0045-EmailServer')
-dependsOn(':daemon:0050-DesktopServer')
-dependsOn(':daemon:0050-EventServer')
-dependsOn(':daemon:0050-Timer')
-dependsOn(':daemon:0060-Tomcat')
-dependsOn(':daemon:0101-DeploymentDaemon')
-dependsOn(':daemon:0102-RSSReader')
-dependsOn(':web:CoadunationAdmin')
-//dependsOn(':web:CoadunationDesktop')
-dependsOn(':web:FileManager')
-dependsOn(':rdf:SchemaUtils')
-dependsOn(':web:SchemaStore')
-dependsOn(':rdf:Semantics')
-dependsOn(':rdf:CoadunationSemantics')
-dependsOn(':rdf:CommonTypes')
-dependsOn(':client:AuditTrail')
-dependsOn(':daemon:0100-AuditTrailServer')
-dependsOn(':daemon:0150-CoadunationTypeManager')
-dependsOn(':daemon:0170-ChangeManager')
-dependsOn(':web:lib:CoadunationGWTLibrary')
-dependsOn(':web:lib:WebLibs')
-dependsOn(':web:lib:AuditTrailGWT')
-//dependsOn(':web:AuditTrailConsole')
-dependsOn(':libs:GroovyServletBootStrap')
-dependsOn(':libs:GroovyLib')
-dependsOn(':client:GroovyDaemonClient')
-dependsOn(':daemon:0140-GroovyDaemon')
-dependsOn(':client:DataMapperBroker')
-dependsOn(':daemon:0160-DataMapperBroker')
-dependsOn(':client:ProjectClient')
-dependsOn(':daemon:0200-ProjectManager')
+task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
+	":libs:CoadunationAnnotations:build",":libs:CoadunationClient:build",
+	":libs:CoadunationSecurity:build",":libs:CoadunationCommon:build",
+	":libs:CoadunationLib:build",":libs:CoadunationHibernate:build",
+	":auth:CoadunationRDBAuth:build",":client:DeploymentDaemonClient:build",
+	":client:DesktopServerClient:build",":client:DNSServerClient:build",
+	":client:MessageServiceClient:build",":libs:CoadunationUtil:build",
+	":client:EmailServerClient:build",":client:EventServerClient:build",
+	":client:HsqlDBEngineClient:build",":client:RDBUserManagerClient:build",
+	":client:RSSReaderClient:build",":client:ServiceBrokerClient:build",
+	":client:ServiceBrokerClient:build",":client:TimerClient:build",
+	":client:TomcatClient:build",":cli:DeploymentDaemonCommandLineTool:build",
+	":cli:MessageServiceCommandLineTool:build",":cli:ServiceBrokerCommandLineTool:build",
+	":cli:TimerCommandLineTool:build",
+	":utils:CoadunationUtil:build",":daemon:0005-DNSServer:build",
+	":daemon:0010-HsqlDBEngineDaemon:build",":daemon:0020-RDBUserManager:build",
+	":daemon:0040-MessageService:build",":daemon:0045-EmailServer:build",
+	":daemon:0050-DesktopServer:build",":daemon:0050-EventServer:build",
+	":daemon:0050-Timer:build", ":daemon:0060-Tomcat:build",
+	":daemon:0101-DeploymentDaemon:build",":daemon:0102-RSSReader:build",
+	":web:CoadunationAdmin:build",":web:FileManager:build",
+	":rdf:SchemaUtils:build", ":web:SchemaStore:build",
+	":rdf:Semantics:build",":rdf:CoadunationSemantics:build",
+	":rdf:CommonTypes:build",":client:AuditTrail:build",
+	":daemon:0100-AuditTrailServer:build",":daemon:0150-CoadunationTypeManager:build",
+	":daemon:0170-ChangeManager:build", ":web:lib:CoadunationGWTLibrary:build",
+	":web:lib:WebLibs:build", ":web:lib:AuditTrailGWT:build",
+	":libs:GroovyServletBootStrap:build",":libs:GroovyLib:build",
+	":client:GroovyDaemonClient:build", ":daemon:0140-GroovyDaemon:build",
+	":client:DataMapperBroker:build", ":daemon:0160-DataMapperBroker:build",
+	":client:ProjectClient:build",":daemon:0200-ProjectManager:build"]) << {
+
+}
+
+
 
 configurations {
     releaseSbin
@@ -524,7 +497,7 @@ dependencies {
 }
 
 
-task build(dependsOn:[copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat,copySemanticTemplate,copyToGroovyLib]) {
+task build(dependsOn:[dependancyTask,copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat,copySemanticTemplate,copyToGroovyLib]) {
 }
 
 release.dependsOn build

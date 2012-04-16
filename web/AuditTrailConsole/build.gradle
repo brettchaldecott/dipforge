@@ -43,19 +43,19 @@ sourceSets {
     }
 }
 
-gwtBuildDir = "$projectDir/build/js"
-gwtOutDir = "$projectDir/build/out"
-gwtGenDir = "$projectDir/build/gen"
+project.ext.gwtBuildDir = "$projectDir/build/js"
+project.ext.gwtOutDir = "$projectDir/build/out"
+project.ext.gwtGenDir = "$projectDir/build/gen"
 
 task gwtCompile << {
-  created = (new File(gwtBuildDir)).mkdirs()
-  created = (new File(gwtGenDir)).mkdirs()
-  created = (new File(gwtOutDir)).mkdirs()
+  created = (new File(project.ext.gwtBuildDir)).mkdirs()
+  created = (new File(project.ext.gwtGenDir)).mkdirs()
+  created = (new File(project.ext.gwtOutDir)).mkdirs()
   ant.java(classname:'com.google.gwt.dev.Compiler',
               failOnError: 'true',
               fork: 'true') {
     jvmarg(value: '-Xmx184M')
-    arg(line: '-war ' + gwtOutDir)
+    arg(line: '-war ' + project.ext.gwtOutDir)
     arg(line: '-logLevel INFO')
     arg(line: '-style PRETTY')
 //    arg(line: '-treeLogger')
@@ -79,7 +79,7 @@ war {
     setClasspath(classPath)
     classpath 'build/classes/main/'
     from 'web'
-    from gwtOutDir
+    from project.ext.gwtOutDir
 }
 
 release.dependsOn build
