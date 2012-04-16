@@ -58,6 +58,12 @@ try {
             suffix: 'json',
             editor: mimeTypeMapper.getEditor('json'),
             mode: mimeTypeMapper.getMode('json')
+        ],
+        [
+            name: 'lwf',
+            suffix: 'lwf',
+            editor: mimeTypeMapper.getEditor('leviathan'),
+            mode: mimeTypeMapper.getMode('lwf')
         ]/*,
         [
             name: 'java',

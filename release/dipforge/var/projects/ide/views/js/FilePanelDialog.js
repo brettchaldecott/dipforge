@@ -8,18 +8,6 @@
  * Create a new Feed Info
  * @param {Object} config The config object
  */
-
-
-/**
- * @class FeedViewer.FeedInfo
- * @extends Ext.tab.Panel
- *
- * A container class for showing a series of feed details
- * 
- * @constructor
- * Create a new Feed Info
- * @param {Object} config The config object
- */
 Ext.define('com.dipforge.IDE.FilePanelDialog', {
     
     extend: 'Ext.window.Window',
@@ -161,6 +149,38 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
     												            path: completePath,
     												            project_dir: false,
     												            editor: "ace-project-services", 
+    												            mode: typeFieldRecord.get('mode'),
+    												  			iconCls: 'file',
+    												  			newFile: true,
+    												  			text: fileName + "." + fileType
+    														});
+                                                    } else if (completePath.indexOf("/config/types") == 0
+                                                        && typeFieldRecord.get('mode') == "ace/mode/xml") {
+         	                                    		treeNode = Ext.create('File',{
+    		    												id: 'P:' + projectName + ":" + completePath,
+    												            project: projectName,
+    												            file: fileName + "." + fileType,
+    												            user: projectName,
+    												            leaf: true,
+    												            path: completePath,
+    												            project_dir: false,
+    												            editor: "ace-project-types", 
+    												            mode: typeFieldRecord.get('mode'),
+    												  			iconCls: 'file',
+    												  			newFile: true,
+    												  			text: fileName + "." + fileType
+    														});
+                                                    } else if (completePath.indexOf("/config/methods") == 0
+                                                        && typeFieldRecord.get('mode') == "ace/mode/xml") {
+                                                 		treeNode = Ext.create('File',{
+    		    												id: 'P:' + projectName + ":" + completePath,
+    												            project: projectName,
+    												            file: fileName + "." + fileType,
+    												            user: projectName,
+    												            leaf: true,
+    												            path: completePath,
+    												            project_dir: false,
+    												            editor: "ace-project-methods", 
     												            mode: typeFieldRecord.get('mode'),
     												  			iconCls: 'file',
     												  			newFile: true,

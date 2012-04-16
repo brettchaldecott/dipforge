@@ -63,10 +63,12 @@ try {
 			        def pos = fileName.lastIndexOf(".")
 			        def fileSuffix = "text"
 			        // types file
-			        if (file.getPath().equals("/config/project_types.xml")) {
+			        if (file.getPath().equals("/config/project_types.xml") ||
+                    file.getPath().startsWith("/config/types")) {
 			        	editor = "ace-project-types"
 			        	mode = mimeTypeMapper.getMode("xml")
-			        } else if (file.getPath().equals("/config/project_methods.xml")) {
+			        } else if (file.getPath().equals("/config/project_methods.xml") ||
+                        file.getPath().startsWith("/config/methods")) {
     		        	editor = "ace-project-methods"
 			        	mode = mimeTypeMapper.getMode("xml")
 			        } else if (file.getPath().startsWith("/services/")) {
