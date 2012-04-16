@@ -345,7 +345,7 @@
            @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
-           audit=backwards,change,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker,dipforgeweb=backwards
+           audit=backwards,change=backwards,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker,dipforgeweb=backwards
         </entry>
     </object>
     <object name="com.rift.coad.daemon.timer.TimerImpl">

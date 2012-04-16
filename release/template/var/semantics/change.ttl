@@ -8,7 +8,7 @@
      sdb:driver         "org.hsqldb.jdbcDriver" ;
      sdb:sdbUser        "sa" ;
      sdb:sdbPassword    "" ;
-     sdb:jdbcURL        "jdbc:hsqldb:hsql://@hostname@/change" ;
+     sdb:jdbcURL        "jdbc:hsqldb:hsql://@hostname@/change;sql.enforce_strict_size=false" ;
      .
 
 [] rdf:type sdb:Store ;
