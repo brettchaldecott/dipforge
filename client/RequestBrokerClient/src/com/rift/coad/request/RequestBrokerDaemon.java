@@ -24,12 +24,11 @@
 package com.rift.coad.request;
 
 // java imports
+import com.rift.coad.change.request.Request;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 // coadunation imports
-import com.rift.coad.change.rdf.objmapping.change.Request;
-import com.rift.coad.request.rdf.RequestInfo;
 import java.util.List;
 
 /**
