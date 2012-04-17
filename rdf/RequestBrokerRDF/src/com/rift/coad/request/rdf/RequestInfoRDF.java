@@ -23,25 +23,21 @@
 package com.rift.coad.request.rdf;
 
 // coadunation imports
-import com.rift.coad.lib.common.RandomGuid;
+import com.rift.coad.rdf.semantic.annotation.Identifier;
+import com.rift.coad.rdf.semantic.annotation.LocalName;
+import com.rift.coad.rdf.semantic.annotation.Namespace;
+import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import java.io.Serializable;
 
-// semantic imports
-import thewebsemantic.Identifier;
-import thewebsemantic.Namespace;
-import thewebsemantic.RdfProperty;
-import thewebsemantic.RdfType;
-
-// type import
-import com.rift.coad.rdf.objmapping.base.DataType;
 
 /**
  * The request information object.
  *
  * @author brett chaldecott
  */
-@Namespace("http://www.coadunation.net/schema/rdf/1.0/requestbroker#")
-@RdfType("RequestInfo")
-public class RequestInfo extends DataType {
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/request")
+@LocalName("RequestInfoRDF")
+public class RequestInfoRDF implements Serializable {
 
     // private member variable
     private String id;
@@ -52,32 +48,10 @@ public class RequestInfo extends DataType {
     /**
      * The default constructor
      */
-    public RequestInfo() {
-        try {
-            id = RandomGuid.getInstance().getGuid();
-        } catch (Exception ex) {
-            // ignore
-        }
+    public RequestInfoRDF() {
     }
-
-
-    /**
-     * This constructor sets up the request id and jndi reference.
-     *
-     * @param requestId
-     * @param jndi
-     */
-    public RequestInfo(String requestId, String jndi) {
-        try {
-            id = RandomGuid.getInstance().getGuid();
-        } catch (Exception ex) {
-            // ignore
-        }
-        this.requestId = requestId;
-        this.jndi = jndi;
-    }
-
-
+    
+    
     /**
      * This constructor sets the id, the request id, and the jndi reference.
      *
@@ -85,21 +59,10 @@ public class RequestInfo extends DataType {
      * @param requestId
      * @param jndi
      */
-    public RequestInfo(String id, String requestId, String jndi) {
+    public RequestInfoRDF(String id, String requestId, String jndi) {
         this.id = id;
         this.requestId = requestId;
         this.jndi = jndi;
-    }
-
-
-    /**
-     * This method returns the id of the object.
-     *
-     * @return
-     */
-    @Override
-    public String getObjId() {
-        return id;
     }
 
 
@@ -108,8 +71,8 @@ public class RequestInfo extends DataType {
      *
      * @return The id of the request info
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestbroker#RequestInfoId")
     @Identifier()
+    @PropertyLocalName("id")
     public String getId() {
         return id;
     }
@@ -120,7 +83,7 @@ public class RequestInfo extends DataType {
      *
      * @param id The string containing the id for the request info.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestbroker#RequestInfoId")
+    @PropertyLocalName("id")
     public void setId(String id) {
         this.id = id;
     }
@@ -131,7 +94,7 @@ public class RequestInfo extends DataType {
      *
      * @return The string containing the jndi reference.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestbroker#JndiReference")
+    @PropertyLocalName("jndi")
     public String getJndi() {
         return jndi;
     }
@@ -142,7 +105,7 @@ public class RequestInfo extends DataType {
      *
      * @param jndi The string containing the name for the jndi reference.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestbroker#JndiReference")
+    @PropertyLocalName("jndi")
     public void setJndi(String jndi) {
         this.jndi = jndi;
     }
@@ -153,7 +116,7 @@ public class RequestInfo extends DataType {
      * 
      * @return This method returns the request id.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestbroker#ChangeRequestId")
+    @PropertyLocalName("requestId")
     public String getRequestId() {
         return requestId;
     }
@@ -163,7 +126,7 @@ public class RequestInfo extends DataType {
      * This method sets the request if for the request mapping.
      * @param requestId
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/requestbroker#ChangeRequestId")
+    @PropertyLocalName("requestId")
     public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
@@ -183,7 +146,7 @@ public class RequestInfo extends DataType {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RequestInfo other = (RequestInfo) obj;
+        final RequestInfoRDF other = (RequestInfoRDF) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }
@@ -203,8 +166,17 @@ public class RequestInfo extends DataType {
         return hash;
     }
 
-
-
     
+    /**
+     * This method returns the string value of this object.
+     * 
+     * @return The string containing the request information.
+     */
+    @Override
+    public String toString() {
+        return "RequestInfo{" + "id=" + id + ", requestId=" + requestId + 
+                ", jndi=" + jndi + '}';
+    }
+
 
 }
