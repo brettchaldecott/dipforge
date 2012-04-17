@@ -38,6 +38,7 @@ dependencies {
     releaseJars project(':client:ServiceBrokerClient')
     releaseJars project(':client:ChangeControlClient')
     releaseJars project(':libs:LeviathanScriptEngine')
+    releaseJars project(':rdf:ChangeControlRDF')
     releaseJars project(':rdf:CommonTypes')
     releaseJars project(':rdf:CoadunationSemantics')
     releaseJars project(':rdf:Semantics')
