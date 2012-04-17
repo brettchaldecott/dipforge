@@ -155,6 +155,16 @@ public class RequestInfoRDF implements Serializable {
     public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
+    
+    
+    /**
+     * This method returns the request information object.
+     * 
+     * @return The request information object.
+     */
+    public RequestInfo toRequestInfo() {
+        return new RequestInfo(id,requestId,jndi);
+    }
 
 
     /**
