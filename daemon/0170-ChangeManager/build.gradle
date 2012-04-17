@@ -28,6 +28,7 @@ dependencies {
     compile project(':client:MessageServiceClient')
     compile project(':client:ServiceBrokerClient')
     compile project(':client:DataMapperClient')
+    compile project(':rdf:ChangeControlRDF')
     compile project(':rdf:CommonTypes')
     compile project(':rdf:CoadunationSemantics')
     compile project(':rdf:Semantics')
