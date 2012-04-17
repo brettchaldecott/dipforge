@@ -22,6 +22,7 @@ task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
 	":client:HsqlDBEngineClient:build",":client:RDBUserManagerClient:build",
 	":client:RSSReaderClient:build",":client:ServiceBrokerClient:build",
 	":client:ServiceBrokerClient:build",":client:TimerClient:build",
+	":client:ChangeControlClient:build",":client:RequestBrokerClient:build",
 	":client:TomcatClient:build",":cli:DeploymentDaemonCommandLineTool:build",
 	":cli:MessageServiceCommandLineTool:build",":cli:ServiceBrokerCommandLineTool:build",
 	":cli:TimerCommandLineTool:build",
@@ -35,8 +36,10 @@ task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
 	":rdf:SchemaUtils:build", ":web:SchemaStore:build",
 	":rdf:Semantics:build",":rdf:CoadunationSemantics:build",
 	":rdf:CommonTypes:build",":client:AuditTrail:build",
+	":rdf:ChangeControlRDF:build",":rdf:RequestBrokerRDF:build",
 	":daemon:0100-AuditTrailServer:build",":daemon:0150-CoadunationTypeManager:build",
 	":daemon:0170-ChangeManager:build", ":web:lib:CoadunationGWTLibrary:build",
+	":daemon:0180-RequestBroker:build",
 	":web:lib:WebLibs:build", ":web:lib:AuditTrailGWT:build",
 	":libs:GroovyServletBootStrap:build",":libs:GroovyLib:build",
 	":client:GroovyDaemonClient:build", ":daemon:0140-GroovyDaemon:build",
@@ -217,6 +220,9 @@ release.doLast {
         java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
             classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
             args: "generator ${projectDir}/dipforge/var/semantics/types/ChangeControl.xml com.rift.coad.change.rdf.ActionInfoRDF com.rift.coad.change.rdf.ActionInstanceInfoRDF com.rift.coad.change.rdf.MasterRequestRDF com.rift.coad.change.rdf.RequestDataRDF com.rift.coad.change.rdf.RequestEventRDF com.rift.coad.change.rdf.RequestRDF")
+        java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
+            classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
+            args: "generator ${projectDir}/dipforge/var/semantics/types/ChangeControl.xml com.rift.coad.request.rdf.RequestInfoRDF")
     }
     //announce("Release complete", "notify-send")
 }
@@ -412,6 +418,7 @@ dependencies {
     releaseClients project(':client:TomcatClient')
     releaseClients project(':client:CoadunationTypeManager')
     releaseClients project(':client:ChangeControlClient')
+    releaseClients project(':client:RequestBrokerClient')
     releaseClients project(':client:DataMapperBroker')
     releaseClients project(':client:ProjectClient')
     
@@ -445,6 +452,7 @@ dependencies {
     releaseDaemon project(':daemon:0150-CoadunationTypeManager')
     releaseDaemon project(':daemon:0160-DataMapperBroker')
     releaseDaemon project(':daemon:0170-ChangeManager')
+    releaseDaemon project(':daemon:0180-RequestBroker')
     releaseDaemon project(':daemon:0200-ProjectManager')
     
     // release web
@@ -466,6 +474,7 @@ dependencies {
     releaseGroovyLib project(':client:CoadunationTypeManager')
     releaseGroovyLib project(':client:GroovyDaemonClient')
     releaseGroovyLib project(':client:ChangeControlClient')
+    releaseGroovyLib project(':client:RequestBrokerClient')
     releaseGroovyLib "asm:asm:3.2"
     releaseGroovyLib "antlr:antlr:2.7.7"
     releaseGroovyLib "asm:asm-commons:3.2"
@@ -491,8 +500,9 @@ dependencies {
 
     // rdf targets
     releaseRDFTypeTargets project(':daemon:0100-AuditTrailServer')
-    releaseRDFTypeTargets project(':daemon:0170-ChangeManager')
     releaseRDFTypeTargets project(':client:ChangeControlClient')
+    releaseRDFTypeTargets project(':rdf:ChangeControlRDF')
+    releaseRDFTypeTargets project(':rdf:RequestBrokerRDF')
     releaseRDFTypeTargets project(':rdf:CommonTypes')
 }
 

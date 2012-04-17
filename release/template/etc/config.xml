@@ -345,7 +345,7 @@
            @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
-           audit=backwards,change=backwards,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker,dipforgeweb=backwards
+           audit=backwards,change=backwards,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker=backwards,dipforgeweb=backwards
         </entry>
     </object>
     <object name="com.rift.coad.daemon.timer.TimerImpl">
@@ -822,10 +822,19 @@
     <!-- Jython Mapping Manager configuration -->
     <!-- Request Broker Configuration -->
     <object name="com.rift.coad.request.RequestBrokerDaemonImpl">
-        <entry key="rdf_config_url" type="string">
-            http://@hostname@:8080/RDFTypeSource/Query?
+        <entry key="rdf_query_url" type="string">
+            http://@hostname@:8080/schema/rdf?list=true
         </entry>
-        <entry key="sdb_config_file" type="string">
+        <entry key="persistance_manager" type="string">
+           com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceManager
+        </entry>
+        <entry key="ontology_manager" type="string">
+           com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
+        </entry>
+        <entry key="jena_store_type" type="string">
+           sdb
+        </entry>
+        <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/request_broker.ttl
         </entry>
         <entry key="changelog_username" type="string">
