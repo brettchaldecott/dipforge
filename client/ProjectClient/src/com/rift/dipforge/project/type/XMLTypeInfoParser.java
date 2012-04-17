@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * FileDTO.java
+ * XMLTypeInfoParser.java
  */
 
 package com.rift.dipforge.project.type;
@@ -60,7 +60,6 @@ public class XMLTypeInfoParser {
         public final static String NAME = "name";
         public final static String VALUE = "value";
         public final static String DATATYPE = "datatype";
-
 
         // boolean flags
         private boolean inTypes = false;

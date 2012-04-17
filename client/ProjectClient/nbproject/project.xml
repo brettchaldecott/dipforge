@@ -19,15 +19,23 @@
             </test-roots>
         </data>
         <ivyConfiguration xmlns="http://code.google.com/p/ivybeans/ns/ivy-module/1">
-            <descriptorFile>ivy.xml</descriptorFile>
             <configurationMapping>
                 <scope confs="compile" name="COMPILE"/>
+                <scope confs="" name="PROCESSOR"/>
                 <scope confs="compile,runtime" name="RUNTIME"/>
                 <scope confs="compile,compile-test" name="COMPILE_TEST"/>
                 <scope confs="compile,compile-test,runtime,runtime-test" name="RUNTIME_TEST"/>
             </configurationMapping>
         </ivyConfiguration>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>ChangeControlClient</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
             <reference>
                 <foreign-project>CoadunationTypeManager</foreign-project>
                 <artifact-type>jar</artifact-type>
