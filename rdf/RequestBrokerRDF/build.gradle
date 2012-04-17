@@ -17,6 +17,7 @@ configurations {
 
 dependencies {
     compile project(':client:ChangeControlClient')
+    compile project(':client:RequestBrokerClient')
     compile project(':rdf:Semantics')
     compile project(':libs:CoadunationCommon')
     compile(ivyDependencies('compile'))

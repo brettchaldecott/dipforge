@@ -27,6 +27,7 @@ import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import com.rift.coad.request.RequestInfo;
 import java.io.Serializable;
 
 
@@ -49,6 +50,30 @@ public class RequestInfoRDF implements Serializable {
      * The default constructor
      */
     public RequestInfoRDF() {
+    }
+    
+    
+    /**
+     * This constructor sets the request information.
+     * 
+     * @param info The request information.
+     */
+    public RequestInfoRDF(RequestInfo info) {
+         this.id = info.getId();
+         this.jndi = info.getJndi();
+         this.requestId = info.getRequestId();
+    }
+    
+    /**
+     * This constructor sets up the request info RDF
+     * 
+     * @param id The id of the request.
+     * @param requestId The request id.
+     */
+    public RequestInfoRDF(String id, String requestId) {
+        this.id = id;
+        this.requestId = requestId;
+        this.jndi = jndi;
     }
     
     
