@@ -19,31 +19,26 @@
  * RequestEvent.java
  */
 
-package com.rift.coad.change.rdf.objmapping.change;
+package com.rift.coad.change.rdf;
 
 // java imports
+import com.rift.coad.change.request.RequestEvent;
 import java.util.Date;
 
-
-// the semantic imports
-import thewebsemantic.Namespace;
-import thewebsemantic.RdfType;
-
-//
-import com.rift.coad.rdf.objmapping.base.DataType;
-
 import com.rift.coad.lib.common.RandomGuid;
-import thewebsemantic.Identifier;
-import thewebsemantic.RdfProperty;
+import com.rift.coad.rdf.semantic.annotation.LocalName;
+import com.rift.coad.rdf.semantic.annotation.Namespace;
+import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import java.io.Serializable;
 
 /**
  * This object represents a request event.
  *
  * @author brett chaldecott
  */
-@Namespace("http://www.coadunation.net/schema/rdf/1.0/change#")
-@RdfType("RequestEvent")
-public class RequestEvent extends DataType {
+@Namespace("http://www.coadunation.net/schema/rdf/1.0/change.event")
+@LocalName("RequestEventRDF")
+public class RequestEventRDF implements Serializable {
 
     // private member variables
     private String id;
@@ -51,61 +46,23 @@ public class RequestEvent extends DataType {
     private String status;
     private String message;
 
+    
+    /**
+     * The request event information
+     */
+    public RequestEventRDF() {
+    }
+    
+    
+
     /**
      * The default constructor
      */
-    public RequestEvent() {
-        try {
-            id = RandomGuid.getInstance().getGuid();
-        } catch (Exception ex) {
-            // ignore
-        }
-        occurrence = new Date();
-    }
-
-
-    /**
-     * This constructor sets the values pertinant to a new event.
-     *
-     * @param status The status of the message.
-     * @param message The message describing this event.
-     */
-    public RequestEvent(String status, String message) {
-        try {
-            id = RandomGuid.getInstance().getGuid();
-        } catch (Exception ex) {
-            // ignore
-        }
-        occurrence = new Date();
-        this.status = status;
-        this.message = message;
-    }
-
-
-    /**
-     * This constructor sets all private member variables.
-     *
-     * @param id The id of the request.
-     * @param occurrence The date of the occurence of this event.
-     * @param status The status that caused the event.
-     * @param message The message describing this event.
-     */
-    public RequestEvent(String id, Date occurrence, String status, String message) {
-        this.id = id;
-        this.occurrence = occurrence;
-        this.status = status;
-        this.message = message;
-    }
-
-
-    /**
-     * This method returns the id of the object.
-     *
-     * @return This method returns the object id.
-     */
-    @Override
-    public String getObjId() {
-        return id;
+    public RequestEventRDF(RequestEvent event) {
+        this.id = event.getId();
+        this.occurrence = event.getOccurrence();
+        this.status = event.getStatus();
+        this.message = event.getMessage();
     }
 
 
@@ -114,8 +71,8 @@ public class RequestEvent extends DataType {
      *
      * @return The id of the request event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventId")
-    @Identifier()
+    @com.rift.coad.rdf.semantic.annotation.Identifier()
+    @PropertyLocalName("id")
     public String getId() {
         return id;
     }
@@ -126,7 +83,7 @@ public class RequestEvent extends DataType {
      * 
      * @param id The id of the request event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventId")
+    @PropertyLocalName("id")
     public void setId(String id) {
         this.id = id;
     }
@@ -137,7 +94,7 @@ public class RequestEvent extends DataType {
      *
      * @return The message describing this event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventMessage")
+    @PropertyLocalName("Message")
     public String getMessage() {
         return message;
     }
@@ -148,7 +105,7 @@ public class RequestEvent extends DataType {
      *
      * @param message The string containing the message for the event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventMessage")
+    @PropertyLocalName("Message")
     public void setMessage(String message) {
         this.message = message;
     }
@@ -159,7 +116,7 @@ public class RequestEvent extends DataType {
      *
      * @return The object containing the date of the occurrence of the event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventOccurence")
+    @PropertyLocalName("RequestEventOccurence")
     public Date getOccurrence() {
         return occurrence;
     }
@@ -170,7 +127,7 @@ public class RequestEvent extends DataType {
      *
      * @param occurrence The object containing the occurence of the event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventOccurence")
+    @PropertyLocalName("RequestEventOccurence")
     public void setOccurrence(Date occurrence) {
         this.occurrence = occurrence;
     }
@@ -181,7 +138,7 @@ public class RequestEvent extends DataType {
      *
      * @return The string containing the status of the event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventStatus")
+    @PropertyLocalName("RequestEventStatus")
     public String getStatus() {
         return status;
     }
@@ -192,12 +149,22 @@ public class RequestEvent extends DataType {
      *
      * @param status The status of the event.
      */
-    @RdfProperty("http://www.coadunation.net/schema/rdf/1.0/change#RequestEventStatus")
+    @PropertyLocalName("RequestEventStatus")
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    
+    /**
+     * This method converts the event to a request.
+     * 
+     * @return The request.
+     */
+    public RequestEvent toRequestEvent() {
+        return new RequestEvent(id, occurrence, status, message);
+    }
 
-
+    
     /**
      * The equals operator.
      *
@@ -212,7 +179,7 @@ public class RequestEvent extends DataType {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RequestEvent other = (RequestEvent) obj;
+        final RequestEventRDF other = (RequestEventRDF) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }

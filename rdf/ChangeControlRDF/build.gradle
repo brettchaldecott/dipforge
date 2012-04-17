@@ -1,0 +1,71 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="ChangeControlRDF"
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+
+configurations {
+    compile
+}
+
+dependencies {
+    compile project(':client:ChangeControlClient')
+    compile project(':rdf:Semantics')
+    compile project(':libs:CoadunationCommon')
+    compile(ivyDependencies('compile'))
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src'
+        }
+        resources {
+            srcDir './src'
+        }
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
+build.dependsOn {
+    [jar, uploadArchives]
+}
+
+release.dependsOn build
+
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
+
