@@ -22,38 +22,33 @@
 package com.rift.coad.request;
 
 // java import
+import com.rift.coad.audit.client.AuditLogger;
+import com.rift.coad.change.request.*;
+import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
+import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.Set;
 
-// log4j import
-import org.apache.log4j.Logger;
 
 // coadunation import
-import com.rift.coad.audit.client.rdf.AuditLogger;
-import com.rift.coad.change.rdf.objmapping.change.Request;
-import com.rift.coad.change.request.CreateRequestHandler;
-import com.rift.coad.change.request.CreateRequestHandlerAsync;
-import com.rift.coad.change.request.RequestFactoryDaemon;
-import com.rift.coad.change.request.ServiceConstants;
-import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
-import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import com.rift.coad.lib.bean.BeanRunnable;
+import com.rift.coad.lib.common.CopyObject;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
-import com.rift.coad.request.rdf.RequestInfo;
+import com.rift.coad.request.rdf.RequestInfoRDF;
 import com.rift.coad.util.change.Change;
-import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.change.ChangeException;
+import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.connection.ConnectionManager;
-import com.rift.coad.util.transaction.CoadunationHashMap;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 /**
  * This object is responsible for managing the request 
@@ -81,14 +76,14 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
     public static class RequestChangeEntry implements Change {
 
         private TYPE changeType;
-        private RequestInfo request;
+        private RequestInfoRDF request;
 
 
-        public RequestChangeEntry(TYPE changeType, RequestInfo request)
+        public RequestChangeEntry(TYPE changeType, RequestInfoRDF request)
                 throws RequestBrokerException {
             try {
                 this.changeType = changeType;
-                this.request = (RequestInfo)request.clone();
+                this.request = CopyObject.copy(RequestInfoRDF.class,request);
             } catch (Exception ex) {
                 log.error("Failed to instanciate the change entry : " +
                         ex.getMessage(),ex);
@@ -160,11 +155,10 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                     createOneWay("request/RequestBrokerDaemon", CreateRequestHandler.class,
                     CreateRequestHandlerAsync.class, jndi);
             handler.createRequest(request);
-            RequestInfo info = new RequestInfo(request.getId(), jndi);
+            RequestInfoRDF info = new RequestInfoRDF(request.getId(), jndi);
             entries.put(request.getId(), info);
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.ADD,info));
-            auditLog.create("Created a request id [%s] on jndi [%s]",request.getId(),jndi).
-                    addData(info).setCorrelationId(request.getId()).complete();
+            auditLog.complete("Created a request id [%s] on jndi [%s]",request.getId(),jndi);
 
         } catch (Exception ex) {
             log.error("Failed to create a request : " + ex.getMessage(),ex);
@@ -261,14 +255,13 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                 log.info("Attempt to retrieve a request that does not exist");
                 return;
             }
-            RequestInfo info = (RequestInfo)entries.get(id);
+            RequestInfoRDF info = (RequestInfoRDF)entries.get(id);
             RequestFactoryDaemon daemon = (RequestFactoryDaemon)ConnectionManager.getInstance().
                     getConnection(RequestFactoryDaemon.class, info.getJndi());
             daemon.removeRequest(id);
             entries.remove(id);
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.DELETE,info));
-            auditLog.create("The request id [%s] is complete.",id).
-                    addData(info).setCorrelationId(id).complete();
+            auditLog.complete("The request id [%s] is complete.",id);
         } catch (RequestBrokerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -292,11 +285,10 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                 log.info("Attempt to retrieve a request that does not exist");
                 return;
             }
-            RequestInfo info = (RequestInfo)entries.get(id);
+            RequestInfoRDF info = (RequestInfoRDF)entries.get(id);
             entries.remove(id);
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.DELETE,info));
-            auditLog.create("The request id [%s] is complete.",id).
-                    addData(info).setCorrelationId(id).complete();
+            auditLog.complete("The request id [%s] is complete.",id);
         } catch (RequestBrokerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -382,7 +374,7 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                     .execute();
             List<String> result = new ArrayList<String>();
             for (SPARQLResultRow entry : entries) {
-                RequestInfo info = entry.get(0).cast(RequestInfo.class);
+                RequestInfoRDF info = entry.get(RequestInfoRDF.class,0);
                 this.entries.put(info.getRequestId(), info);
             }
             utw.commit();

@@ -22,7 +22,7 @@
 package com.rift.coad.request;
 
 // java imports
-import com.rift.coad.audit.client.rdf.AuditLogger;
+import com.rift.coad.audit.client.AuditLogger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
-import com.rift.coad.request.rdf.RequestInfo;
+import com.rift.coad.request.rdf.RequestInfoRDF;
 
 /**
  * This object is the implementation of the request call back handler.

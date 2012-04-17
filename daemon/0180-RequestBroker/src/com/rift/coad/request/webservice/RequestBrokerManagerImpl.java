@@ -23,6 +23,7 @@
 package com.rift.coad.request.webservice;
 
 // java imports
+import com.rift.coad.change.rdf.RequestRDF;
 import java.util.List;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -31,10 +32,9 @@ import java.io.PrintStream;
 import org.apache.log4j.Logger;
 
 // coadunation imports
-import com.rift.coad.change.rdf.objmapping.change.Request;
 import com.rift.coad.rdf.semantic.RDFFormats;
 import com.rift.coad.rdf.semantic.Session;
-import com.rift.coad.rdf.semantic.config.Basic;
+import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
 import com.rift.coad.request.RequestBrokerDaemon;
 import com.rift.coad.util.connection.ConnectionManager;
 
@@ -64,12 +64,12 @@ public class RequestBrokerManagerImpl implements RequestBrokerManager {
     public void createRequestFromXML(String requestId, String xmlRequest)
             throws RequestBrokerException {
         try {
-            Session session = Basic.initSessionManager().getSession();
+            Session session = XMLSemanticUtil.getSession();
             session.persist(xmlRequest);
             RequestBrokerDaemon daemon = (RequestBrokerDaemon)ConnectionManager.getInstance().
                     getConnection(RequestBrokerDaemon.class,
                     "java:comp/env/bean/request/RequestBrokerDaemon");
-            daemon.createRequest(session.get(Request.class, Request.class.getName(), requestId));
+            daemon.createRequest(session.get(RequestRDF.class, requestId).toRequest());
         } catch (Exception ex) {
             log.error("Failed to create a request : " + ex.getMessage(),ex);
             throw throwRequestBrokerException
@@ -106,12 +106,12 @@ public class RequestBrokerManagerImpl implements RequestBrokerManager {
      */
     public String getRequestAsXML(String id) throws RequestBrokerException {
         try {
-            Session session = Basic.initSessionManager().getSession();
+            Session session = XMLSemanticUtil.getSession();
             RequestBrokerDaemon daemon = (RequestBrokerDaemon)ConnectionManager.getInstance().
                     getConnection(RequestBrokerDaemon.class,
                     "java:comp/env/bean/request/RequestBrokerDaemon");
-            session.persist(daemon.getRequest(id));
-            return session.dump(RDFFormats.XML_ABBREV);
+            session.persist(new RequestRDF(daemon.getRequest(id)));
+            return session.dumpXML();
         } catch (Exception ex) {
             log.error("Failed to get a request : " + ex.getMessage(),ex);
             throw throwRequestBrokerException
@@ -129,12 +129,12 @@ public class RequestBrokerManagerImpl implements RequestBrokerManager {
      */
     public String getRequestInfoAsXML(String id) throws RequestBrokerException {
         try {
-            Session session = Basic.initSessionManager().getSession();
+            Session session = XMLSemanticUtil.getSession();
             RequestBrokerDaemon daemon = (RequestBrokerDaemon)ConnectionManager.getInstance().
                     getConnection(RequestBrokerDaemon.class,
                     "java:comp/env/bean/request/RequestBrokerDaemon");
             session.persist(daemon.getRequestInfo(id));
-            return session.dump(RDFFormats.XML_ABBREV);
+            return session.dumpXML();
         } catch (Exception ex) {
             log.error("Failed to get the request information : " + ex.getMessage(),ex);
             throw throwRequestBrokerException
