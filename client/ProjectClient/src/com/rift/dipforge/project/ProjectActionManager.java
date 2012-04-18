@@ -16,26 +16,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * ProjectTypeManager.java
+ * ProjectActionManager.java
  */
 package com.rift.dipforge.project;
 
+// imports
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * This interface defines the methods for the project method manager.
+ * This interface defines the methods to interact with the project action manager
  * 
  * @author brett chaldecott
  */
-public interface ProjectMethodManager extends Remote {
-    
+public interface ProjectActionManager extends Remote {
     
     /**
-     * This method is called to publishes the types to the type manager.
-     *
+     * This method is called to publish the action.
+     * 
+     * @param content The content of the action.
      * @throws ProjectException
-     * @throws RemoteException
+     * @throws RemoteException 
      */
-    public void publishMethods(String content) throws ProjectException, RemoteException;
+    public void publishActions(String content) throws ProjectException, 
+            RemoteException;
 }

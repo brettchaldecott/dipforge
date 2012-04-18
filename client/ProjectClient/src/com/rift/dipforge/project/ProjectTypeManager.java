@@ -33,32 +33,10 @@ public interface ProjectTypeManager extends Remote {
 
 
     /**
-     * This method retrieves the project types encapsulated in a string.
-     *
-     * @param project The name of the project to retrieve the types for.
-     * @return The string containing the types.
-     * @throws ProjectException
-     * @throws RemoteException
-     */
-    public String getProjectTypes(String project) throws ProjectException, RemoteException;
-
-
-    /**
-     * This method sets the project types information.
-     *
-     * @param project The project information.
-     * @param xml The xml containing the project information.
-     * @throws ProjectException
-     * @throws RemoteException
-     */
-    public void setProjectTypes(String project, String xml) throws ProjectException, RemoteException;
-
-
-    /**
      * This method is called to publishes the types to the type manager.
      *
      * @throws ProjectException
      * @throws RemoteException
      */
-    public void publishTypes(String project) throws ProjectException, RemoteException;
+    public void publishTypes(String content) throws ProjectException, RemoteException;
 }
