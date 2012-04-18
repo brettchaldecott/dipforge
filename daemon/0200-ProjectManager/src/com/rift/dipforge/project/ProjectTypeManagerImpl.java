@@ -55,66 +55,18 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
         
         
     }
-
-
-    /**
-     * This method returns the project types information.
-     * 
-     * @param project The project to get the information for
-     * @return
-     * @throws ProjectException
-     * @throws RemoteException
-     */
-    public String getProjectTypes(String project) throws ProjectException {
-        try {
-            ProjectBean projectBean =
-                    ProjectFactory.getInstance().getProject(project);
-            return projectBean.getFile(Constants.CONFIG_DIRECTORY + 
-                    Constants.PROJECT_TYPES);
-        } catch (Exception ex) {
-            log.error("Failed to retrieve the types file : " + ex.getMessage(),ex);
-            throw new ProjectException
-                    ("Failed to retrieve the types file : " + ex.getMessage(),ex);
-        }
-    }
-
-
-    /**
-     * This method sets the project types.
-     * 
-     * @param project The string containing the project name.
-     * @param xml The string containing the xml.
-     * @throws ProjectException
-     * @throws RemoteException
-     */
-    public void setProjectTypes(String project, String xml) throws ProjectException {
-        try {
-            new XMLTypeInfoParser(xml);
-            ProjectBean projectBean =
-                    ProjectFactory.getInstance().getProject(project);
-            projectBean.updateFile(Constants.CONFIG_DIRECTORY + 
-                    Constants.PROJECT_TYPES, xml);
-        } catch (Exception ex) {
-            log.error("Failed to set the types file : " + ex.getMessage(),ex);
-            throw new ProjectException
-                    ("Failed to set the types file : " + ex.getMessage(),ex);
-        }
-    }
-
-
+    
+    
     /**
      * This method publishes types.
      *
      * @param project The name of the project
      * @throws ProjectException
      */
-    public void publishTypes(String project) throws ProjectException {
+    public void publishTypes(String content) throws ProjectException {
         try {
-            ProjectBean projectBean =
-                    ProjectFactory.getInstance().getProject(project);
             XMLTypeInfoParser parser = new XMLTypeInfoParser(
-                    projectBean.getFile(Constants.CONFIG_DIRECTORY + 
-                    Constants.PROJECT_TYPES));
+                    content);
             List<ResourceDefinition> resources = parser.getTypes();
             TypeManagerDaemon daemon = (TypeManagerDaemon)
                     ConnectionManager.getInstance().getConnection(TypeManagerDaemon.class,

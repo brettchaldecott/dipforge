@@ -12,6 +12,15 @@
     <description>The project manager</description>
     <beans>
         <bean>
+            <interface>com.rift.dipforge.project.ProjectActionManager</interface>
+            <class>com.rift.dipforge.project.ProjectActionManagerImpl</class>
+            <bindName>project/ActionManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
             <interface>com.rift.dipforge.project.ProjectTypeManager</interface>
             <class>com.rift.dipforge.project.ProjectTypeManagerImpl</class>
             <bindName>project/TypeManager</bindName>

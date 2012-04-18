@@ -27,6 +27,7 @@ dependencies {
     compile project(':client:CoadunationTypeManager')
     compile project(':client:ServiceBrokerClient')
     compile project(':client:MessageServiceClient')
+    compile project(':client:ChangeControlClient')
     compile project(':rdf:CommonTypes')
     compile project(':libs:ProjectUtils')
     releaseJars project(':client:ProjectClient')
@@ -37,6 +38,7 @@ dependencies {
     releaseJars project(':rdf:CommonTypes')
     releaseJars project(':libs:ProjectUtils')
     releaseJars project(':client:DataMapperBroker')
+    releaseJars project(':client:ChangeControlClient')
 }
 
 sourceSets {

@@ -50,65 +50,20 @@ public class ProjectMethodManagerImpl implements ProjectMethodManager {
 
     
     /**
-     * This method returns the xml defintion for the methods.
-     * 
-     * @param project The name of the project to retrieve the method definition for.
-     * @return The string containing the xml definition for the method mapping.
-     * @throws ProjectException
-     */
-    public String getProjectMethods(String project) throws ProjectException {
-        try {
-            ProjectBean projectBean =
-                    ProjectFactory.getInstance().getProject(project);
-            return projectBean.getFile(Constants.CONFIG_DIRECTORY + 
-                    Constants.PROJECT_METHODS);
-        } catch (Exception ex) {
-            log.error("Failed to retrieve the methods file : " + ex.getMessage(),ex);
-            throw new ProjectException
-                    ("Failed to retrieve the methods file : " + ex.getMessage(),ex);
-        }
-    }
-
-    
-    /**
-     * This method sets the project method mappings.
-     * 
-     * @param project The string containing the project name.
-     * @param xml The xml for the project.
-     * @throws ProjectException 
-     */
-    public void setProjectMethods(String project, String xml) throws ProjectException {
-        try {
-            ProjectBean projectBean =
-                    ProjectFactory.getInstance().getProject(project);
-            projectBean.updateFile(Constants.CONFIG_DIRECTORY + 
-                    Constants.PROJECT_METHODS,xml);
-        } catch (Exception ex) {
-            log.error("Failed to update the methods file : " + ex.getMessage(),ex);
-            throw new ProjectException
-                    ("Failed to update the methods file : " + ex.getMessage(),ex);
-        }
-    }
-
-    
-    /**
      * This method is responsible for publishing the methods.
      * 
      * @param project The string containing name of the project to publish the methods for.
      * @throws ProjectException
      */
-    public void publishMethods(String project) throws ProjectException {
+    public void publishMethods(String content) throws ProjectException {
         try {
             XMLMethodMappingParser parser = new XMLMethodMappingParser(
-                    this.getProjectMethods(project));
-            
+                    content);
             DataMapperBrokerUtil brokerUtil = new DataMapperBrokerUtil();
             for (String jndi : parser.getJNDIList()) {
                 List<MethodMapping> methods = parser.getMethodMapping(jndi);
                 brokerUtil.register(methods);
             }
-        } catch (ProjectException ex) {
-            throw ex;
         } catch (Exception ex) {
             log.error("Failed to publish the methods : " + ex.getMessage(),ex);
             throw new ProjectException
