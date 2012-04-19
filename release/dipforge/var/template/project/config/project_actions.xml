@@ -1,0 +1,16 @@
+<!--
+    Document   : project_types.xml
+    Created on : %date
+    Author     : %author
+    Description:
+        The types within the [%project] project
+-->
+
+<actions project="%project">
+
+    <!--
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf"/>
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf"/>
+    -->
+
+</actions>

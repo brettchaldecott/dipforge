@@ -23,6 +23,8 @@ class MimeTypeMapper {
             return "ace/mode/json";
         } else if (suffix.equals('java')) {
             return "ace/mode/java";
+        } else if (suffix.equals('lwf')) {
+            return "ace/mode/leviathan";
         } else if (suffix.equals('png') || suffix.equals('jpeg') || suffix.equals('png')
             || suffix.equals('ico') || suffix.equals('gif')) {
             return "image";
@@ -45,6 +47,8 @@ class MimeTypeMapper {
         } else if (suffix.equals('json')) {
             return "ace";
         } else if (suffix.equals('java')) {
+            return "ace";
+        } else if (suffix.equals('lwf')) {
             return "ace";
         } else if (suffix.equals('png') || suffix.equals('jpeg') || suffix.equals('png')
             || suffix.equals('ico') || suffix.equals('gif')) {

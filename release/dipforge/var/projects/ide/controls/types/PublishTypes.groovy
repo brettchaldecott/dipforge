@@ -8,6 +8,7 @@ package projects;
 
 import com.rift.coad.util.connection.ConnectionManager
 import com.rift.dipforge.project.ProjectManager
+import com.rift.dipforge.project.ProjectFileManager
 import com.rift.dipforge.project.ProjectTypeManager
 import java.util.Date
 import files.mimes.MimeTypeMapper
@@ -22,8 +23,11 @@ def log = Logger.getLogger("types.PublishTypes");
 try {
 	log.info("parameters[" + params + "]")
     def daemon = ConnectionManager.getInstance().getConnection(
+    		ProjectFileManager.class,"project/FileManager")
+	daemon.updateFile(params.project,params.path,params.content)
+    daemon = ConnectionManager.getInstance().getConnection(
 			ProjectTypeManager.class,"project/TypeManager")
-	daemon.publishTypes(params.project)
+	daemon.publishTypes(params.content)
 } catch (Exception ex) {
     log.error("Failed to publish the project types : " + ex.getMessage());
     throw ex;

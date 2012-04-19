@@ -1,6 +1,6 @@
 /*
- * ide: The ide project
- * Copyright (C) Thu Nov 17 20:52:17 SAST 2011 owner 
+ * ide: The 
+ * Copyright (C) Wed Apr 18 11:13:17 SAST 2012 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,16 +16,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * PublishMethods.groovy
- * @author Brett Chaldecott
+ * PublishActions.groovy
+ * @author admin
  */
 
-package methods
+package actions
 
 import com.rift.coad.util.connection.ConnectionManager
 import com.rift.dipforge.project.ProjectManager
 import com.rift.dipforge.project.ProjectFileManager
-import com.rift.dipforge.project.ProjectMethodManager
+import com.rift.dipforge.project.ProjectActionManager
 import java.util.Date
 import files.mimes.MimeTypeMapper
     
@@ -34,22 +34,20 @@ import org.apache.log4j.Logger;
 
 def tree = []
 def builder = new JsonBuilder()
-def log = Logger.getLogger("types.PublishMethods");
+def log = Logger.getLogger("actions.PublishActions");
 
 try {
-	log.info("parameters[" + params + "]")
+    log.info("parameters[" + params + "]")
     def daemon = ConnectionManager.getInstance().getConnection(
     		ProjectFileManager.class,"project/FileManager")
 	daemon.updateFile(params.project,params.path,params.content)
     daemon = ConnectionManager.getInstance().getConnection(
-			ProjectMethodManager.class,"project/MethodManager")
-	daemon.publishMethods(params.content)
+			ProjectActionManager.class,"project/ActionManager")
+	daemon.publishActions(params.content)
 } catch (Exception ex) {
-    log.error("Failed to publish the project methods : " + ex.getMessage());
+    log.error("Failed to actions the project methods : " + ex.getMessage());
     throw ex;
 }
 
 builder([success:true])
 println builder.toString()
-
-
