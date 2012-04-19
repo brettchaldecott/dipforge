@@ -92,7 +92,7 @@ public class AuditLogger {
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void complete(String format, String... args) {
+    public void complete(String format, Object... args) {
         log(source, LogEntry.Status.COMPLETE,String.format(format, (Object[])args));
     }
 
@@ -103,7 +103,7 @@ public class AuditLogger {
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void info(String format, String... args) {
+    public void info(String format, Object... args) {
         log(source, LogEntry.Status.INFO,String.format(format, (Object[])args));
     }
 
@@ -114,7 +114,7 @@ public class AuditLogger {
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void failure(String format, String... args) {
+    public void failure(String format, Object... args) {
         log(source, LogEntry.Status.FAILURE, String.format(format, (Object[])args));
     }
 
@@ -125,7 +125,7 @@ public class AuditLogger {
      * @param format The format of the request information.
      * @param args The arguments to log agents this entry.
      */
-    public void critical(String format, String... args) {
+    public void critical(String format, Object... args) {
         log(source, LogEntry.Status.CRITICAL_FAILURE,
                 String.format(format, (Object[])args));
     }
