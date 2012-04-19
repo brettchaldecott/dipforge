@@ -26,6 +26,9 @@ package com.dipforge.semantic
 import groovy.json.*;
 import org.apache.log4j.Logger;
 import java.net.URI;
+import com.rift.coad.rdf.semantic.Session;
+import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
+import com.rift.dipforge.rdf.store.RDFConfig;
 
 
 /**
@@ -52,7 +55,7 @@ class RDF {
             def classDef = ontology.getClass(new URI(type))
             def typeBuilder = new RDFTypeBuilder(classDef)
             
-            return typeBuiler.getTypeInstance()
+            return typeBuilder.getTypeInstance()
         } catch (Exception ex) {
             log.error("Failed to create the type because : " + ex.getMessage(),ex);
             throw ex;

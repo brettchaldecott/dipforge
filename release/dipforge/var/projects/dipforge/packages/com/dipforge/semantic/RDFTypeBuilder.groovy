@@ -136,7 +136,7 @@ class RDFTypeBuilder {
             
             // add the getter and the setter
             typeInstance."set${upperPropertyName}" = {_local_variable->
-                "${propertyName}" = _local_variable
+                typeInstance."${propertyName}" = _local_variable
             }
         }
     }
