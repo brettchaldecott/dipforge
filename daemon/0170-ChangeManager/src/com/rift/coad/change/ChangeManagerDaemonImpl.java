@@ -68,13 +68,13 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             throws ChangeException, RemoteException {
         try {
             String project = "";
+            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
             for (ActionInfo action : actions) {
-                Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
                 session.persist(new ActionInfoRDF(action));
                 project = action.getProject();
             }
-            auditLog.complete("Added [%ld] actions to project [%s]",
-                    "" + actions.size(),project);
+            auditLog.complete("Added [%d] actions to project [%s]",
+                    actions.size(),project);
         } catch (Exception ex) {
             log.error("Failed to add the actions : " + ex.getMessage(), ex);
             throw new ChangeException("Failed to add the actions : " + 
@@ -94,8 +94,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             throws ChangeException, RemoteException {
         try {
             String project = "";
+            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
             for (ActionInfo action : actions) {
-                Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
                 ActionInfoRDF actionInfo = new ActionInfoRDF(action);
                 if (session.contains(ActionInfoRDF.class, actionInfo.getId())) {
                         session.remove(
@@ -104,8 +104,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
                 session.persist(new ActionInfoRDF(action));
                 project = action.getProject();
             }
-            auditLog.complete("Updated [%ld] actions to project [%s]",
-                    "" + actions.size(),project);
+            auditLog.complete("Updated [%d] actions to project [%s]",
+                    actions.size(),project);
         } catch (Exception ex) {
             log.error("Failed to add the actions : " + ex.getMessage(), ex);
             throw new ChangeException("Failed to add the actions : " + 
