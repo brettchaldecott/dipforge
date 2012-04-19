@@ -14,6 +14,8 @@
         <dependency org="com.hp.hpl.jena" name="arq" rev="2.8.7" />
         <dependency org="com.hp.hpl.jena" name="arq-extra" rev="2.6.0" />
         <dependency org="com.hp.hpl.jena" name="sdb" rev="1.3.4" />
+        <dependency org="com.hp.hpl.jena" name="iri" rev="0.8" />
+        <dependency org="com.ibm.icu" name="icu4j" rev="3.4.4" />
         <dependency org="commons-logging" name="commons-logging" rev="1.0.4" />
         <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8"/>
         <dependency org="cglib" name="cglib" rev="2.1_3"/>
