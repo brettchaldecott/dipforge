@@ -29,6 +29,7 @@ import com.hp.hpl.jena.sdb.util.StoreUtils;
 
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
+import com.rift.coad.rdf.semantic.persistance.jena.JenaEscaperFactory;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
 import java.util.Properties;
 import org.apache.log4j.Logger;
@@ -60,6 +61,8 @@ public class JenaSDBModelFactory implements JenaStore {
                 store.getTableFormatter().create();
             }
             dataStore = SDBFactory.connectDefaultModel(store);
+            JenaEscaperFactory.getInstance().setEscaper(dataStore, 
+                    new JenaSDBEscaper());
         } catch (PersistanceException ex) {
             throw ex;
         } catch (Throwable ex) {

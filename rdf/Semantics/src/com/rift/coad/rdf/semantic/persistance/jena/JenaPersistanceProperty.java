@@ -50,7 +50,7 @@ public class JenaPersistanceProperty implements PersistanceProperty {
     private Resource resource;
     private Property property;
     private Statement statement;
-
+    
     
     /**
      * The constructor used to create a property.
@@ -414,12 +414,14 @@ public class JenaPersistanceProperty implements PersistanceProperty {
      */
     public void setValue(String stringValue) throws PersistanceException {
         try {
+            String escapedString = JenaEscaperFactory.getInstance().getEscaper(
+                    this.jenaModel).escape(stringValue);
             if (statement == null && resource != null) {
                 statement = resource.addLiteral(property, 
-                        jenaModel.createTypedLiteral(stringValue))
+                        jenaModel.createTypedLiteral(escapedString))
                         .getProperty(property);
             } else {
-                statement.changeObject(stringValue);
+                statement.changeObject(escapedString);
             }
         } catch (Exception ex) {
             log.error("Failed to set the value : " +
