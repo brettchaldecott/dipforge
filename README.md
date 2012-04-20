@@ -3,8 +3,7 @@ The Dipforge project
 
 This project is released under LGPL and was orgininaly called Coadunation. It
 is currently going through a very serious code rework in order to improve its
-design. A re-release is tentatively scheduled for the end of the forth 
-quarter of 2011.
+design. A release is scheuled for the 27 April 2012.
 
 This project is still under serious development and will now build the full
 application server and present a very simple management desktop once started.
@@ -13,7 +12,7 @@ and when that is complete the project will officially release the entire
 application server as an innitial alphar release.
 
 The build process requires gradle, and at the time of writing the latest 
-version of gradle was 1.0-milestone-5. The build process has not been tested
+version of gradle was gradle-1.0-rc-1. The build process has not been tested
 with a later version.
 
 To build the application server follow the following steps:
@@ -23,7 +22,6 @@ To build the application server follow the following steps:
     bash# cd dipforge  
     bash# gradle release  
     bash# cd release/dipforge/bin  
-    bash# chown a+r run.sh  
     bash# sudo ./run.sh  
 
 I have not tested the build process on windows. It will be the same but the
