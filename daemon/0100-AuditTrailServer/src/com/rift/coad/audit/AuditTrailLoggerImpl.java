@@ -35,16 +35,17 @@ import org.apache.log4j.Logger;
 import java.rmi.RemoteException;
 
 // coadunation imports
+import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
-import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
-import com.rift.coad.rdf.semantic.session.UnknownEntryException;
 import com.rift.coad.rdf.types.network.Host;
 import com.rift.coad.rdf.types.network.Service;
 import com.rift.coad.rdf.types.operation.User;
+import com.rift.coad.util.change.Change;
+import com.rift.coad.util.change.ChangeException;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,37 @@ import java.util.List;
  * @author brett chaldecott
  */
 public class AuditTrailLoggerImpl implements AuditTrailLogger, BeanRunnable {
+    
+    public static class AuditTrailLogChange implements Change {
+        
+        // private member variables
+        private LogEntryDAO entry;
 
+        /**
+         * The constructor that sets up the audit trail change
+         */
+        public AuditTrailLogChange(LogEntryDAO entry) {
+            this.entry = entry;
+        }
+        
+        
+        /**
+         * This method applies the change
+         * 
+         * @throws ChangeException 
+         */
+        public void applyChanges() throws ChangeException {
+            try {
+                Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
+                session.persist(entry);
+            } catch (Exception ex) {
+                log.error("Failed to commit the change to the log because : " + 
+                        ex.getMessage(),ex);
+            }
+        }
+        
+    }
+    
     // private member variables
     private static Logger log = Logger.getLogger(AuditTrailLoggerImpl.class);
 
@@ -82,11 +113,11 @@ public class AuditTrailLoggerImpl implements AuditTrailLogger, BeanRunnable {
      */
     public void logEvent(LogEntry entry) throws RemoteException {
         try {
-            Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
-            session.persist(new LogEntryDAO(entry.getId(), new Host(entry.getHostname()),
-                    new Service(entry.getSource()), new User(entry.getUser()),
-                    entry.getTime(), entry.getStatus(), entry.getCorrelationId(), entry.getExternalId(),
-                    entry.getRequest()));
+            ChangeLog.getInstance().addChange(new AuditTrailLogChange(
+                    new LogEntryDAO(entry.getId(), new Host(entry.getHostname()),
+                        new Service(entry.getSource()), new User(entry.getUser()),
+                        entry.getTime(), entry.getStatus(), entry.getCorrelationId(), entry.getExternalId(),
+                        entry.getRequest())));
         } catch (Exception ex) {
             log.error("Failed to persist the log event : " + ex.getMessage(),ex);
             throw new RemoteException(
@@ -114,6 +145,12 @@ public class AuditTrailLoggerImpl implements AuditTrailLogger, BeanRunnable {
                 }
             }
         }
+        
+        try {
+            ChangeLog.init(AuditTrailLoggerImpl.class);
+        } catch (Exception ex) {
+            log.error("Failed to start the request factory : " + ex.getMessage(),ex);
+        }
 
         // register the audit trail logger with the service broker
         try {
@@ -129,13 +166,20 @@ public class AuditTrailLoggerImpl implements AuditTrailLogger, BeanRunnable {
 
         // wait for shut down
         while (!monitor.isTerminated()) {
+            try {
+                ChangeLog.getInstance().start();
+            } catch (Exception ex) {
+                log.error("Failed to process : " + ex.getMessage(),ex);
+            }
             monitor.monitor();
         }
+        
         // close down the semantic util
         try {
             SemanticUtil.closeInstance(AuditTrailLoggerImpl.class);
         } catch (Exception ex) {
-            log.error("Failed to shut down the audit trail logger.");
+            log.error("Failed to shut down the audit trail logger : " + 
+                    ex.getMessage(),ex);
         }
     }
 
@@ -145,6 +189,12 @@ public class AuditTrailLoggerImpl implements AuditTrailLogger, BeanRunnable {
      */
     public void terminate() {
         monitor.terminate(true);
+        try {
+            ChangeLog.terminate();
+        } catch (Exception ex) {
+            log.error("Failed to terminate the change log : " + ex.getMessage(),
+                    ex);
+        }
     }
 
 }
