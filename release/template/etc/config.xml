@@ -686,6 +686,12 @@
     </object>
     <!-- Audit trail configuration -->
     <object name="com.rift.coad.audit.AuditTrailLoggerImpl">
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            @dipforge_home@/var/audittrail
+        </entry>
         <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/schema/rdf?list=true
         </entry>
