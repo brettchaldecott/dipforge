@@ -183,8 +183,8 @@ public class HsqlServerWrapper {
         try {
             server = new Server();
             properties = new HsqlProperties();
-            properties.setProperty(ServerConstants.SC_KEY_ADDRESS, this.hostname);
-            properties.setProperty(ServerConstants.SC_KEY_PORT, new Long(this.startPort).toString());
+            properties.setProperty("server.address", this.hostname);
+            properties.setProperty("server.port", new Long(this.startPort).toString());
             properties.setProperty("sql.enforce_strict_size", false);
             properties.setProperty("sql.enforce_size", false);
             server.setSilent(this.silent);
@@ -192,6 +192,7 @@ public class HsqlServerWrapper {
             server.setTls(this.tls);
             server.setNoSystemExit(true);
             server.setRestartOnShutdown(true);
+            server.setDaemon(true);
 
         } catch (Exception ex) {
             throw new HsqlDBEngineException("Failed to instanciate a server : " + ex.getMessage(), ex);
