@@ -3,7 +3,7 @@
     <title>Dipforge Documentation</title>
 </head>
 <FRAMESET rows="40px,*" title="" border="1">
-<FRAME src="navigation.gsp" name="navigation" id="navigation" title="Documentation Navigation">
+<FRAME src="navigation.gsp" name="navigation" id="navigation" title="Documentation Navigation" scrolling="no">
 <FRAME src="content.gsp" name="content" id="content" title="Content Documentation" scrolling="yes">
 <NOFRAMES>
 <H2>
