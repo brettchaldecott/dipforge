@@ -90,6 +90,7 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
         DeploymentMonitor.getInstance().waitUntilInitDeployComplete();
         while (!monitor.isTerminated()) {
             try {
+                log.info("Load the semantic util for [" + RDFConfig.class.getName() + "]");
                 SemanticUtil.getInstance(RDFConfig.class);
                 break;
             } catch (Exception ex) {
