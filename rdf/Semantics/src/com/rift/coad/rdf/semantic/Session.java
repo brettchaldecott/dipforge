@@ -130,6 +130,19 @@ public interface Session {
     
     
     /**
+     * This method is called to create the resource identified by the string.
+     * 
+     * @param <T> The identifier.
+     * @param c The class that will be created.
+     * @param identifier The identifier of the class.
+     * @return The reference to the instance.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public <T> T create(Class <T> c, Serializable identifier) throws SessionException, UnknownEntryException;
+    
+    
+    /**
      * This method returns the disconnected object. This method always deep copies.
      * 
      * @param <T> The reference to the diconnected object

@@ -110,7 +110,21 @@ public interface JDOSession {
      * @throws com.rift.coad.rdf.semantic.session.UnknownEntryException
      */
     public <T> T get(Class <T> c, Serializable identifier) throws SessionException, UnknownEntryException;
-
+    
+    
+    /**
+     * This method creates the object.
+     * 
+     * @param <T> The reference to the object.
+     * @param c The class.
+     * @param identifier The identifier.
+     * @return The object.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public <T> T create(Class <T> c, Serializable identifier)
+            throws SessionException, UnknownEntryException;
+    
     
     /**
      * This method returns true if the store contains the specified class.

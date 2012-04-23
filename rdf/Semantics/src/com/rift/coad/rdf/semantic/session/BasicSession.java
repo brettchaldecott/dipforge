@@ -271,6 +271,31 @@ public class BasicSession implements Session {
     }
     
     
+    
+    
+    /**
+     * This method is called to create the resource identified by the string.
+     * 
+     * @param <T> The identifier.
+     * @param c The class that will be created.
+     * @param identifier The identifier of the class.
+     * @return The reference to the instance.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public <T> T create(Class <T> c, Serializable identifier) throws
+            SessionException, UnknownEntryException {
+        try {
+            return jdoSession.create(c,identifier);
+        } catch (Exception ex) {
+            log.error("Failed to remove the rdf : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to remove the rdf : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    
     /**
      * This method returns the disconnected object. This method always deep copies.
      * 
