@@ -1,5 +1,14 @@
 <!--
-Date: Thu Apr 19 15:33:56 SAST 2012
-File: project_actions.xml
-Author: admin
+    Document   : project_types.xml
+    Created on : Thu Apr 19 15:34:36 SAST 2012
+    Author     : brett chaldecott
+    Description:
+        The types within the [test] project
 -->
+
+<actions project="test">
+
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf"/>
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf"/>
+    
+</actions>

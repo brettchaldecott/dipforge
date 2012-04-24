@@ -880,17 +880,6 @@
             /GroovyWeb
         </entry>
     </object>
-    <!-- Groovy Manager configuration -->
-    <!-- Groovy Web Configuration -->
-    <object name="com.rift.coad.web.rdf.RDFConfigure">
-        <entry key="rdf_config_url" type="string">
-            http://@hostname@:8080/RDFTypeSource/Query?
-        </entry>
-        <entry key="sdb_config_file" type="string">
-            @dipforge_home@/var/semantics/control_panel.ttl
-        </entry>
-    </object>
-    <!-- End of Groovy Web configuration -->
     <!-- Document Management Configuration -->
     <object name="com.rift.coad.office.server.documents.DocumentManagerImpl">
         <entry key="document_base" type="string">

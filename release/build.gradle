@@ -135,6 +135,14 @@ release.doLast {
         copy(todir: "dipforge/var/projects/documentation/views/Semantics"){
             fileset(dir: "../rdf/Semantics/build/docs/javadoc") {}
         }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationSemantics")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationSemantics"){
+            fileset(dir: "../rdf/CoadunationSemantics/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/SchemaUtils")
+        copy(todir: "dipforge/var/projects/documentation/views/SchemaUtils"){
+            fileset(dir: "../rdf/SchemaUtils/build/docs/javadoc") {}
+        }
         mkdir(dir:"dipforge/var/projects/documentation/views/AuditTrail")
         copy(todir: "dipforge/var/projects/documentation/views/AuditTrail"){
             fileset(dir: "../client/AuditTrail/build/docs/javadoc") {}
@@ -349,8 +357,11 @@ clean {
             fileset(dir: "dipforge/var/projects/documentation/views"){
                 exclude(name: "**/images")
                 exclude(name: "**/index.gsp")
+                exclude(name: "**/content.gsp")
+                exclude(name: "**/navigation.gsp")
                 exclude(name: "**/project.properties")
                 exclude(name: "**/dipForgeLogo_small.png")
+                exclude(name: "**/home.jpg")
             }
         }
         delete {
