@@ -91,15 +91,13 @@ public class XMLTypeInfoParser {
                 if (qName.compareToIgnoreCase(TYPES) == 0) {
                     inTypes = true;
                     project = (String)attributes.getValue(PROJECT);
-                } else if (inTypes && qName.compareToIgnoreCase(NAMESPACE) == 0) {
-                    namespace = (String)attributes.getValue(VALUE);
                 } else if (inTypes && qName.compareToIgnoreCase(TYPE) == 0) {
                     inType = true;
-                    resource = new ResourceDefinition(namespace, (String)attributes.getValue(NAME));
+                    resource = new ResourceDefinition((String)attributes.getValue(NAMESPACE), (String)attributes.getValue(NAME));
                     types.add(resource);
                 } else if (inType && qName.compareToIgnoreCase(PROPERTY) == 0) {
                     String name = (String)attributes.getValue(NAME);
-                    RDFDataType types = new RDFDataType(namespace,
+                    RDFDataType types = new RDFDataType(resource.getNamespace(),
                             (String)attributes.getValue(NAME),
                             (String)attributes.getValue(DATATYPE));
                     resource.addProperty(name, types);
@@ -143,7 +141,6 @@ public class XMLTypeInfoParser {
 
     // private member variables
     private String project;
-    private String namespace;
     private String xml;
     private List<ResourceDefinition> types = new ArrayList<ResourceDefinition>();
 
@@ -166,16 +163,6 @@ public class XMLTypeInfoParser {
     }
 
     
-    /**
-     * This method returns the namespace.
-     * 
-     * @return The string containing the namespace.
-     */
-    public String getNamespace() {
-        return namespace;
-    }
-
-
     /**
      * This method returns the project name.
      *

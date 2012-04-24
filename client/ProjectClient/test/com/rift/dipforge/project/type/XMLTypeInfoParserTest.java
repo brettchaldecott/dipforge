@@ -41,18 +41,6 @@ public class XMLTypeInfoParserTest {
     }
 
     /**
-     * Test of getNamespace method, of class XMLTypeInfoParser.
-     */
-    @Test
-    public void testGetNamespace() throws Exception {
-        System.out.println("getNamespace");
-        XMLTypeInfoParser instance = new XMLTypeInfoParser(readTestFile());
-        String expResult = "http://dipforge.sourceforge.net/test";
-        String result = instance.getNamespace();
-        assertEquals(expResult, result);
-    }
-
-    /**
      * Test of getProject method, of class XMLTypeInfoParser.
      */
     @Test
