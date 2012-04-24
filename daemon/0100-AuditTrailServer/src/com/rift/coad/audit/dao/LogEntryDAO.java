@@ -107,7 +107,7 @@ public class LogEntryDAO implements Serializable {
      * @return The string containing the audit id.
      */
     @Identifier()
-    @PropertyLocalName("ID")
+    @PropertyLocalName("id")
     public String getId() {
         return id;
     }
@@ -118,7 +118,7 @@ public class LogEntryDAO implements Serializable {
      *
      * @param id The string containing the id of the log entry.
      */
-    @PropertyLocalName("ID")
+    @PropertyLocalName("id")
     public void setId(String id) {
         this.id = id;
     }
