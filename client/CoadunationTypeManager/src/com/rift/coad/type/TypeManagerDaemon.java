@@ -71,44 +71,47 @@ public interface TypeManagerDaemon extends Remote {
     /**
      * This method returns the type information.
      *
+     * @param project The name of the project.
+     * @param uriStr The type identifier.
      * @return The resource base object.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public ResourceDefinition getType(String uri) throws TypeManagerException, RemoteException;
+    public ResourceDefinition getType(String project, String uriStr) throws TypeManagerException, RemoteException;
 
 
     /**
      * This method returns the resources types identified by the
      *
-     * @param uri The uri that identifies the type.
+     * @param projects The list of project to export.
      * @return The list of types.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public List<RDFDataType> listTypes(String[] uri) throws TypeManagerException, RemoteException;
+    public List<RDFDataType> listTypes(String[] projects) throws TypeManagerException, RemoteException;
 
 
 
     /**
      * This method adds the adds XML defined type to the store.
      *
+     * @param project The project to export.
      * @param xml The string containing the XML information.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public void importTypes(String namespace,String xml) throws TypeManagerException, RemoteException;
+    public void importTypes(String project,String xml) throws TypeManagerException, RemoteException;
 
 
     /**
      * The export method for the types
      *
      * @return The string containing the export.
-     * @param The namespace to export.
+     * @param project The project to export
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public String exportTypes(String namespace) throws TypeManagerException, RemoteException;
+    public String exportTypes(String project) throws TypeManagerException, RemoteException;
 
 
     /**

@@ -33,6 +33,7 @@ import java.util.Map;
 public class ResourceDefinition implements Serializable {
 
     // private member variables
+    private String project;
     private String namespace;
     private String localname;
     private Map<String,RDFDataType> properties;
@@ -51,7 +52,8 @@ public class ResourceDefinition implements Serializable {
      * @param namespace The name space information.
      * @param localname The local name.
      */
-    public ResourceDefinition(String namespace, String localname) {
+    public ResourceDefinition(String project, String namespace, String localname) {
+        this.project = project;
         this.namespace = namespace;
         this.localname = localname;
         this.properties = new HashMap<String,RDFDataType>();
@@ -65,12 +67,35 @@ public class ResourceDefinition implements Serializable {
      * @param localname The local name.
      * @param properties The properties.
      */
-    public ResourceDefinition(String namespace, String localname, Map<String, RDFDataType> properties) {
+    public ResourceDefinition(String project, String namespace, 
+            String localname, Map<String, RDFDataType> properties) {
+        this.project = project;
         this.namespace = namespace;
         this.localname = localname;
         this.properties = properties;
     }
 
+    
+    /**
+     * This method retrieves the project information.
+     * 
+     * @return The project name.
+     */
+    public String getProject() {
+        return project;
+    }
+
+    
+    /**
+     * This method sets the project.
+     * @param project 
+     */
+    public void setProject(String project) {
+        this.project = project;
+    }
+    
+    
+    
 
     /**
      * The localname.

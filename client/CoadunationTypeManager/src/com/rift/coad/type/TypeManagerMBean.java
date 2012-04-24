@@ -79,6 +79,7 @@ public interface TypeManagerMBean extends Remote {
     /**
      * This method adds the adds XML defined type to the store.
      *
+     * @param project The name of the project.
      * @param xml The string containing the XML information.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
@@ -86,8 +87,8 @@ public interface TypeManagerMBean extends Remote {
     @MethodInfo(description="This method adds a new type from the xml supplied")
     @Version(number="1.0")
     public void importTypes(
-            @ParamInfo(name="namespace",
-            description="The namespace containing the new type.")String namespace,
+            @ParamInfo(name="project",
+            description="The project containing the new type.")String project,
             @ParamInfo(name="xml",
             description="The xml containing the new type.")String xml) throws TypeManagerException, RemoteException;
 
@@ -96,29 +97,30 @@ public interface TypeManagerMBean extends Remote {
      * The export method for the types
      *
      * @return The string containing the export.
-     * @param The namespace to export.
+     * @param project The project to export the types for.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
     @MethodInfo(description="This method exports the types for the namespace.")
     @Version(number="1.0")
     @Result(description="The xml containing the type information.")
-    public String exportTypes(@ParamInfo(name="namespace",
-            description="The namespace containing the types.")String namespace) throws TypeManagerException, RemoteException;
+    public String exportTypes(@ParamInfo(name="project",
+            description="The project containing the types.")String project)
+            throws TypeManagerException, RemoteException;
 
 
     /**
-     * This method is called to drop the given name space.
+     * This method is called to drop the types for a particular identifiers.
      *
-     * @param namespace The name space to drop.
+     * @param project The project to drop types for.
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
     @MethodInfo(description="This method updates a type from the xml supplied")
     @Version(number="1.0")
     public void dropTypes(
-            @ParamInfo(name="namespace",
-            description="The namespace to drop.")String namespace)
+            @ParamInfo(name="project",
+            description="The project to drop.")String project)
             throws TypeManagerException, RemoteException;
 
 }
