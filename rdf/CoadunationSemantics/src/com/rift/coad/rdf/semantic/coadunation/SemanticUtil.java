@@ -102,11 +102,13 @@ public class SemanticUtil implements XAResource {
             Properties properties = new Properties();
             StringBuffer ontologyListBuffer = new StringBuffer();
             String sep = "";
+            log.info("Begin process of loading config for [" + configId.getName() + "]");
             if (coadConfig.containsKey(RDF_QUERY_URL)) {
                 List<URL> urls = 
                         new XMLListParser(new URL(coadConfig.getString(RDF_QUERY_URL))).getURLs();
                 for (URL url : urls) {
-                    log.info("URL for ontology : " + url.toString());
+                    log.info("[" + configId.getName() 
+                            + "]URL for ontology : " + url.toString());
                     ontologyListBuffer.append(sep).append(url.toString());
                     sep = ",";
                 }
