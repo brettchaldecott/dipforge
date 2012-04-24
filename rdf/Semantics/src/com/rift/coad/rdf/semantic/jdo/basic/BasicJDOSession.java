@@ -249,10 +249,19 @@ public class BasicJDOSession implements JDOSession {
      */
     public <T> T get(Class<T> c, Serializable identifier) throws SessionException, UnknownEntryException {
         try {
-            URI resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            URI resourceUri = null;
+            if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
+                resourceUri = (URI)identifier;
+            } else if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
+                throw new SessionException("If requesting a resource must provide a URI as an identifier");
+            } else {
+                resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            }
             return BasicJDOProxyFactory.createJDOProxy(c,
                     persistanceSession, persistanceSession.getResource(resourceUri),
                     ontologySession);
+        } catch (SessionException ex) {
+            throw ex;
         } catch (Exception ex) {
             log.error("Failed to get the resource identified by the RDF XML : " +
                     ex.getMessage(),ex);
@@ -275,7 +284,14 @@ public class BasicJDOSession implements JDOSession {
     public <T> T create(Class <T> c, Serializable identifier)
             throws SessionException, UnknownEntryException {
         try {
-            URI resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            URI resourceUri = null;
+            if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
+                resourceUri = (URI)identifier;
+            } else if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
+                throw new SessionException("If creating a resource must provide a URI as an identifier");
+            } else {
+                resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            }
             return BasicJDOProxyFactory.createJDOProxy(c,
                     persistanceSession, persistanceSession.createResource(resourceUri),
                     ontologySession);
@@ -301,7 +317,15 @@ public class BasicJDOSession implements JDOSession {
     public boolean contains(Class c, Serializable identifier)
             throws SessionException, UnknownEntryException {
         try {
-            URI resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            
+            URI resourceUri = null;
+            if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
+                resourceUri = (URI)identifier;
+            } else if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
+                throw new SessionException("If checking for a resource must provide a URI as an identifier");
+            } else {
+                resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
+            }
             return persistanceSession.hasResource(resourceUri);
         } catch (Exception ex) {
             log.error("Failed to check for the resource identified by the class type and identifer : " +

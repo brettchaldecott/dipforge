@@ -13,10 +13,12 @@ targetCompatibility=1.6
 
 configurations {
     compile
+    testCompile
 }
 
 dependencies {
     compile(ivyDependencies('compile'))
+    testCompile group: 'junit', name: 'junit', version: '4.10', ext: 'jar'
 }
 
 sourceSets {
@@ -26,6 +28,16 @@ sourceSets {
         }
         resources {
             srcDir './src'
+        }
+    }
+    test {
+        java {
+            srcDir './src'
+            srcDir './test'
+        }
+        resources {
+            srcDir './src'
+            srcDir './test'
         }
     }
 }
