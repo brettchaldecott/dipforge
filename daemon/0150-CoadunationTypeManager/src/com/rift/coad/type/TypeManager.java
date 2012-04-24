@@ -89,11 +89,11 @@ public class TypeManager implements TypeManagerMBean {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public void importTypes(String namespace,String xml) throws TypeManagerException, RemoteException {
+    public void importTypes(String project,String xml) throws TypeManagerException, RemoteException {
         try {
             ((TypeManagerDaemon)ConnectionManager.getInstance().
                     getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).
-                    importTypes(namespace, xml);
+                    importTypes(project, xml);
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -112,11 +112,11 @@ public class TypeManager implements TypeManagerMBean {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public String exportTypes(String namespace) throws TypeManagerException, RemoteException {
+    public String exportTypes(String project) throws TypeManagerException, RemoteException {
         try {
             return ((TypeManagerDaemon)ConnectionManager.getInstance().
                     getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).
-                    exportTypes(namespace);
+                    exportTypes(project);
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -134,11 +134,11 @@ public class TypeManager implements TypeManagerMBean {
      * @throws com.rift.coad.type.TypeManagerException
      * @throws java.rmi.RemoteException
      */
-    public void dropTypes(String namespace) throws TypeManagerException, RemoteException {
+    public void dropTypes(String project) throws TypeManagerException, RemoteException {
         try {
             ((TypeManagerDaemon)ConnectionManager.getInstance().
                     getConnection(TypeManagerDaemon.class, "type/ManagementDaemon")).
-                    dropTypes(namespace);
+                    dropTypes(project);
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {

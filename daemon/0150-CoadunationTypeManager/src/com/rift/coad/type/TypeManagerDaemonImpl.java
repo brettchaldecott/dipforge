@@ -109,7 +109,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      */
     public void addType(ResourceDefinition resource) throws TypeManagerException {
         try {
-            OntologySession session = this.getSession(resource.getNamespace());
+            OntologySession session = this.getSession(resource.getProject());
             URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
             OntologyClass ontologyClass = session.createClass(uri);
 
@@ -137,7 +137,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                 }
                 ontologyClass.addProperty(property);
             }
-            this.persist(session,resource.getNamespace());
+            this.persist(session,resource.getProject());
             auditLog.complete("Add new type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
@@ -158,7 +158,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
     public void updateType(ResourceDefinition resource) throws TypeManagerException {
         URI uri = null; 
         try {
-            OntologySession session = this.getSession(resource.getNamespace());
+            OntologySession session = this.getSession(resource.getProject());
             uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
             log.info("Add the property [" + uri + "]");
             if (session.hasClass(uri)) {
@@ -190,7 +190,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                 }
                 ontologyClass.addProperty(property);
             }
-            this.persist(session,resource.getNamespace());
+            this.persist(session,resource.getProject());
             auditLog.complete("Updated a type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
@@ -210,10 +210,10 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      */
     public void deleteType(ResourceDefinition resource) throws TypeManagerException {
         try {
-            OntologySession session = this.getSession(resource.getNamespace());
+            OntologySession session = this.getSession(resource.getProject());
             URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
             session.removeClass(uri);
-            this.persist(session,resource.getNamespace());
+            this.persist(session,resource.getProject());
             auditLog.complete("Remove type %s",resource.toString());
         } catch (TypeManagerException ex) {
             throw ex;
@@ -233,7 +233,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @return The base resource to retrieve.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    public ResourceDefinition getType(String uriStr) throws TypeManagerException {
+    public ResourceDefinition getType(String project, String uriStr) throws TypeManagerException {
         try {
             RDFURIHelper helper = new RDFURIHelper(uriStr);
             OntologySession session = this.getSession(helper.getNamespace());
@@ -268,11 +268,11 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @return The list of resources
      * @throws com.rift.coad.type.TypeManagerException
      */
-    public List<RDFDataType> listTypes(String[] namespaces) throws TypeManagerException {
+    public List<RDFDataType> listTypes(String[] projects) throws TypeManagerException {
         try {
             List<RDFDataType> types = new ArrayList<RDFDataType>();
-            for (String namespace: namespaces) {
-                OntologySession session = this.getSession(namespace);
+            for (String project: projects) {
+                OntologySession session = this.getSession(project);
                 List<OntologyClass> ontClasses = session.listClasses();
                 for (OntologyClass ontClass : ontClasses ) {
                     OntologyProperty property = session.getProperty(ontClass.getURI());
@@ -299,12 +299,12 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @return The active session.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    private OntologySession getSession(String namespace) throws TypeManagerException {
+    private OntologySession getSession(String project) throws TypeManagerException {
         try {
             Properties properties = new Properties();
             properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                     "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
-            File ontologyFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            File ontologyFile = new File(this.schemaDir,project + ".xml");
             if (ontologyFile.isFile()) {
                 FileInputStream in = new FileInputStream(ontologyFile);
                 byte[] buffer = new byte[(int)ontologyFile.length()];
@@ -329,9 +329,9 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @param session The session to persist.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    private void persist(OntologySession ontologySession,String namespace) throws TypeManagerException {
+    private void persist(OntologySession ontologySession,String project) throws TypeManagerException {
         try {
-            persist(namespace, ontologySession.dumpXML());
+            persist(project, ontologySession.dumpXML());
         } catch (TypeManagerException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -349,9 +349,9 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @param contents The contents to persist.
      * @throws com.rift.coad.type.TypeManagerException
      */
-    private void persist(String namespace, String contents) throws TypeManagerException {
+    private void persist(String project, String contents) throws TypeManagerException {
         try {
-            File outFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            File outFile = new File(this.schemaDir,project + ".xml");
             String path = outFile.getPath();
             File outDir = new File(path.substring(0,path.lastIndexOf("/")));
             outDir.mkdirs();
@@ -372,9 +372,9 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @return The string containing the ontology
      * @throws TypeManagerException
      */
-    private String loadOntology(String namespace) throws TypeManagerException {
+    private String loadOntology(String project) throws TypeManagerException {
         try {
-            File ontFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            File ontFile = new File(this.schemaDir,project + ".xml");
             if (ontFile.isFile()) {
                 byte[] buffer = new byte[(int)ontFile.length()];
                 FileInputStream in = new FileInputStream(ontFile);
@@ -389,23 +389,8 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                     ("Attempt to load the ontology : " + ex.getMessage(),ex);
         }
     }
-
-
-    /**
-     * The stripped namespace.
-     *
-     * @param namespace The name space.
-     * @return The string containing the stripped value.
-     */
-    private String stripNamespace(String namespace) {
-        String result = namespace.trim();
-        if (result.startsWith("http://")) {
-            result = result.substring("http://".length());
-        }
-        return result.substring(result.indexOf("/"));
-    }
-
-
+    
+    
     /**
      * This method is called to import a given file
      *
@@ -432,13 +417,13 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
     /**
      * The export of the types.
      *
-     * @param namespace The namespace to export.
+     * @param project The project to export.
      * @return The string containing the export.
      * @throws TypeManagerException
      */
-    public String exportTypes(String namespace) throws TypeManagerException {
+    public String exportTypes(String project) throws TypeManagerException {
         try {
-            return loadOntology(namespace);
+            return loadOntology(project);
         } catch (TypeManagerException ex) {
             log.error("Failed to export the types : " +
                     ex.getMessage(),ex);
@@ -458,9 +443,9 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
      * @param namespace The namespace to drop.
      * @throws TypeManagerException
      */
-    public void dropTypes(String namespace) throws TypeManagerException {
+    public void dropTypes(String project) throws TypeManagerException {
         try {
-            File ontFile = new File(this.schemaDir,this.stripNamespace(namespace) + ".xml");
+            File ontFile = new File(this.schemaDir,project + ".xml");
             if (ontFile.isFile()) {
                 ontFile.delete();
             } else {
