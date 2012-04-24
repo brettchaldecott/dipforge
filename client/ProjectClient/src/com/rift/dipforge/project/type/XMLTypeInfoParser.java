@@ -93,7 +93,9 @@ public class XMLTypeInfoParser {
                     project = (String)attributes.getValue(PROJECT);
                 } else if (inTypes && qName.compareToIgnoreCase(TYPE) == 0) {
                     inType = true;
-                    resource = new ResourceDefinition((String)attributes.getValue(NAMESPACE), (String)attributes.getValue(NAME));
+                    resource = new ResourceDefinition(project,
+                            (String)attributes.getValue(NAMESPACE),
+                            (String)attributes.getValue(NAME));
                     types.add(resource);
                 } else if (inType && qName.compareToIgnoreCase(PROPERTY) == 0) {
                     String name = (String)attributes.getValue(NAME);
