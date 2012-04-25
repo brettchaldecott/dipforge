@@ -30,6 +30,7 @@ import java.io.OutputStream;
 
 // coaduntion imports
 import com.rift.coad.rdf.semantic.session.UnknownEntryException;
+import java.net.URI;
 
 /**
  * This object represents a session object.
@@ -139,7 +140,7 @@ public interface Session {
      * @throws SessionException
      * @throws UnknownEntryException 
      */
-    public <T> T create(Class <T> c, Serializable identifier) throws SessionException, UnknownEntryException;
+    public Resource createResource(URI typeURI, URI itentifier) throws SessionException, UnknownEntryException;
     
     
     /**

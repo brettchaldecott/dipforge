@@ -185,7 +185,8 @@ public class JenaOntologySession implements OntologySession {
      * @throws OntologyException
      */
     public OntologyClass getClass(URI uri) throws OntologyException {
-        OntClass ontClass = jenaOntModel.getOntClass(uri.toString());
+        OntClass ontClass = 
+                jenaOntModel.getOntClass(uri.toString());
         if (ontClass == null) {
             throw new OntologyException(
                     "The ontology does not contains the uri : " + uri.toString());

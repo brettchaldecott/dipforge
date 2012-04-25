@@ -30,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.net.URI;
 
 // log4j imports
 import org.apache.log4j.Logger;
@@ -42,14 +43,10 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 //import thewebsemantic.Sparql;
 import static com.hp.hpl.jena.graph.Node.ANY;
 import static com.hp.hpl.jena.graph.Node.createURI;
+import com.rift.coad.rdf.semantic.*;
 
 // coadunation imports
 import com.rift.coad.rdf.semantic.basic.*;
-import com.rift.coad.rdf.semantic.Query;
-import com.rift.coad.rdf.semantic.SPARQLQuery;
-import com.rift.coad.rdf.semantic.Session;
-import com.rift.coad.rdf.semantic.SessionException;
-import com.rift.coad.rdf.semantic.Transaction;
 import com.rift.coad.rdf.semantic.annotation.helpers.NamespaceHelper;
 import com.rift.coad.rdf.semantic.annotation.helpers.LocalNameHelper;
 import com.rift.coad.rdf.semantic.jdo.JDOSession;
@@ -58,6 +55,7 @@ import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.resource.BasicResource;
 import com.rift.coad.rdf.semantic.util.BeanCopy;
+import java.net.URI;
 
 /**
  * This object represents a basic session.
@@ -276,21 +274,20 @@ public class BasicSession implements Session {
     /**
      * This method is called to create the resource identified by the string.
      * 
-     * @param <T> The identifier.
-     * @param c The class that will be created.
+     * @param typeURI The type uri
      * @param identifier The identifier of the class.
      * @return The reference to the instance.
      * @throws SessionException
      * @throws UnknownEntryException 
      */
-    public <T> T create(Class <T> c, Serializable identifier) throws
-            SessionException, UnknownEntryException {
+    public Resource createResource(URI typeURI, URI itentifier) 
+            throws SessionException, UnknownEntryException {
         try {
-            return jdoSession.create(c,identifier);
+            return jdoSession.createResource(typeURI,itentifier);
         } catch (Exception ex) {
-            log.error("Failed to remove the rdf : " +
+            log.error("Failed to create the resource : " +
                     ex.getMessage(),ex);
-            throw new SessionException("Failed to remove the rdf : " +
+            throw new SessionException("Failed to create the resource: " +
                     ex.getMessage(),ex);
         }
     }

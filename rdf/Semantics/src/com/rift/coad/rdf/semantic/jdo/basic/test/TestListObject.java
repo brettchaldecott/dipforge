@@ -32,7 +32,7 @@ import java.util.Calendar;
  *
  * @author brett chaldecott
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/test")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/testlistobject")
 @LocalName("TestListObject")
 public class TestListObject {
 

@@ -22,6 +22,7 @@
 package com.rift.coad.rdf.semantic.ontology.jena;
 
 import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.rift.coad.rdf.semantic.ontology.OntologyConstants;
 import com.rift.coad.rdf.semantic.ontology.OntologyException;

@@ -152,7 +152,8 @@ public class JenaOntologyClass implements OntologyClass {
      */
     public OntologyProperty getProperty(URI uri) throws OntologyException {
         try {
-            ExtendedIterator<OntProperty> iterator = jenaOntologyClass.listDeclaredProperties();
+            ExtendedIterator<OntProperty> iterator = 
+                    jenaOntologyClass.listDeclaredProperties(true);
             while (iterator.hasNext()) {
                 OntProperty ontProperty = iterator.next();
                 if (ontProperty.getURI().equals(uri.toString())) {
@@ -178,7 +179,8 @@ public class JenaOntologyClass implements OntologyClass {
      */
     public List<OntologyProperty> listProperties() throws OntologyException {
         try {
-            ExtendedIterator<OntProperty> iterator = jenaOntologyClass.listDeclaredProperties();
+            ExtendedIterator<OntProperty> iterator = 
+                    jenaOntologyClass.listDeclaredProperties(true);
             List<OntologyProperty> properties = new ArrayList<OntologyProperty>();
             while (iterator.hasNext()) {
                 OntProperty ontProperty = iterator.next();

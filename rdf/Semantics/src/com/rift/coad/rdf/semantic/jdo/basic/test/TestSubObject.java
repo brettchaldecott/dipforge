@@ -32,7 +32,7 @@ import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
  *
  * @author brett chaldecott
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/test")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/testsubobject")
 @LocalName("TestSubObject")
 public class TestSubObject {
 

@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author brettc
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/test")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/testbaseobject")
 @LocalName("TestObject")
 public class TestBaseObject {
 

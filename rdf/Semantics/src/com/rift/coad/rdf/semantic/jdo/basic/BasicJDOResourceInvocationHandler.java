@@ -18,7 +18,6 @@
  *
  * BasicJDOResourceInvocationHandler.java
  */
-
 // package path
 package com.rift.coad.rdf.semantic.jdo.basic;
 
@@ -29,16 +28,16 @@ import com.rift.coad.rdf.semantic.jdo.obj.MethodInfo;
 import com.rift.coad.rdf.semantic.ontology.OntologyClass;
 import com.rift.coad.rdf.semantic.ontology.OntologyProperty;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
-import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
-import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
-import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
-import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.persistance.*;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
+import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
 import com.rift.coad.rdf.semantic.util.RDFURIHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import net.sf.cglib.proxy.InvocationHandler;
 import org.apache.log4j.Logger;
@@ -52,23 +51,19 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
 
     // class constants
     private final static String GET_URI = "getURI";
-    private final static String GET  = "get";
+    private final static String GET = "get";
     private final static String ADD_PROPERTY = "addProperty";
+    private final static String SET_PROPERTY = "setProperty";
     private final static String GET_PROPERTY = "getProperty";
     private final static String REMOVE_PROPERTY = "removeProperty";
     private final static String REMOVE_PROPERTY_RESOURCE = "removePropertyResource";
-
     // class singletons
     private static Logger log = Logger.getLogger(BasicJDOInvocationHandler.class);
-
-
-
     // private member variables
     private PersistanceSession persistanceSession;
     private PersistanceResource resource;
     private OntologySession ontologySession;
     private OntologyClass ontologyClass;
-
 
     /**
      * This constructor sets up the invocation handler.
@@ -85,18 +80,16 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
 
         // retrieve the ontology class
         try {
-            PersistanceIdentifier typeIdentifier = PersistanceIdentifier.
-                    getInstance(RDFConstants.SYNTAX_NAMESPACE, RDFConstants.TYPE_LOCALNAME);
+            PersistanceIdentifier typeIdentifier = PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE, RDFConstants.TYPE_LOCALNAME);
             ontologyClass = ontologySession.getClass(
                     resource.getProperty(typeIdentifier).getValueAsResource().getURI());
         } catch (Exception ex) {
-            log.error("Failed to retrieve the resource type information : " +
-                    ex.getMessage(),ex);
-            throw new BasicJDOException("Failed to retrieve the resource type information : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to retrieve the resource type information : "
+                    + ex.getMessage(), ex);
+            throw new BasicJDOException("Failed to retrieve the resource type information : "
+                    + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method invokes the method
@@ -108,7 +101,7 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
      * @throws InvocationTargetException
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return invoke(method,args);
+        return invoke(method, args);
     }
 
     public Object invoke(Method info, Object[] args) throws
@@ -119,6 +112,8 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
             return get(args);
         } else if (info.getName().equals(ADD_PROPERTY)) {
             return addProperty(args);
+        } else if (info.getName().equals(SET_PROPERTY)) {
+            return setProperty(args);
         } else if (info.getName().equals(GET_PROPERTY)) {
             return getProperty(args);
         } else if (info.getName().equals(REMOVE_PROPERTY)) {
@@ -130,8 +125,6 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         return null;
     }
 
-
-
     /**
      * This method returns the URI of this object.
      *
@@ -142,16 +135,16 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         try {
             return resource.getURI();
         } catch (Exception ex) {
-            log.error("Failed to get the uri because : " +
-                    ex.getMessage(),ex);
-            throw new ResourceException("Failed to get the uri because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to get the uri because : "
+                    + ex.getMessage(), ex);
+            throw new ResourceException("Failed to get the uri because : "
+                    + ex.getMessage(), ex);
         }
     }
 
-
     /**
-     * This method returns the object instance identifed by the type information.
+     * This method returns the object instance identifed by the type
+     * information.
      *
      * @param <T> The type information for this call.
      * @param t The type to perform the cast to.
@@ -160,16 +153,15 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
      */
     private Object get(Object[] args) throws ResourceException {
         try {
-            return BasicJDOProxyFactory.createJDOProxy((Class)args[0],
+            return BasicJDOProxyFactory.createJDOProxy((Class) args[0],
                     persistanceSession, resource, ontologySession);
         } catch (Exception ex) {
-            log.error("Failed to get the uri because : " +
-                    ex.getMessage(),ex);
-            throw new ResourceException("Failed to get the uri because : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to get the uri because : "
+                    + ex.getMessage(), ex);
+            throw new ResourceException("Failed to get the uri because : "
+                    + ex.getMessage(), ex);
         }
     }
-    
 
     /**
      * The method adds properties to the resource.
@@ -181,22 +173,110 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
      */
     private Object addProperty(Object[] args) throws ResourceException {
         try {
-            BasicJDOPersistanceHandler handler = new BasicJDOPersistanceHandler(
-                    args[1],persistanceSession, ontologySession);
-            PersistanceResource propertyResource = handler.persist();
-            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            RDFURIHelper uriHelper = new RDFURIHelper((String) args[0]);
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                     uriHelper.getNamespace(), uriHelper.getLocalName());
-            this.resource.createProperty(identifier).setValue(propertyResource);
-            return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
-                    persistanceSession, propertyResource, ontologySession);
+
+            if (ClassTypeInfo.isBasicType(args[1].getClass())) {
+                PersistanceProperty property =
+                        this.resource.createProperty(identifier);
+                setBasicProperty(property, args[1]);
+                return args[1];
+            } else {
+                BasicJDOPersistanceHandler handler = new BasicJDOPersistanceHandler(
+                        args[1], persistanceSession, ontologySession);
+                PersistanceResource propertyResource = handler.persist();
+                this.resource.createProperty(identifier).setValue(propertyResource);
+                return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
+                        persistanceSession, propertyResource, ontologySession);
+            }
+        } catch (ResourceException ex) {
+            throw ex;
         } catch (Exception ex) {
-            log.error("Failed to persist the object : " + ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to persist the object : " + ex.getMessage(),ex);
+            log.error("Failed to persist the object : " + ex.getMessage(), ex);
+            throw new ResourceException("Failed to persist the object : " + 
+                    ex.getMessage(), ex);
         }
     }
 
+    
+    /**
+     * The method adds properties to the resource.
+     *
+     * @param url The url for the property.
+     * @param value The value to add.
+     * @return The resource.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    private Object setProperty(Object[] args) throws ResourceException {
+        try {
+            RDFURIHelper uriHelper = new RDFURIHelper((String) args[0]);
+            PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                    uriHelper.getNamespace(), uriHelper.getLocalName());
+
+            if (ClassTypeInfo.isBasicType(args[1].getClass())) {
+                PersistanceProperty property =
+                        this.resource.getProperty(identifier);
+                setBasicProperty(property, args[1]);
+                return args[1];
+            } else {
+                BasicJDOPersistanceHandler handler = new BasicJDOPersistanceHandler(
+                        args[1], persistanceSession, ontologySession);
+                PersistanceResource propertyResource = handler.persist();
+                this.resource.getProperty(identifier).setValue(propertyResource);
+                return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
+                        persistanceSession, propertyResource, ontologySession);
+            }
+        } catch (ResourceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to persist the object : " + ex.getMessage(), ex);
+            throw new ResourceException("Failed to persist the object : " + 
+                    ex.getMessage(), ex);
+        }
+    }
+    
+    
+    /**
+     * This method sets the property value to the object supplied.
+     *
+     * @param property The property value.
+     * @param value The value
+     * @throws ResourceException
+     */
+    private void setBasicProperty(PersistanceProperty property, Object value)
+            throws ResourceException, PersistanceException {
+        if (value instanceof String) {
+            property.setValue(value.toString());
+        } else if (value instanceof Date) {
+            Date dateValue = (Date) value;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateValue);
+            property.setValue(calendar);
+        } else if (value instanceof Calendar) {
+            property.setValue((Calendar) value);
+        } else if (value instanceof Integer) {
+            property.setValue((long) (Integer) value);
+        } else if (value.getClass().equals(int.class)) {
+            property.setValue(long.class.cast(value));
+        } else if (value instanceof Long) {
+            property.setValue(Long.class.cast(value));
+        } else if (value.getClass().equals(long.class)) {
+            property.setValue(long.class.cast(value));
+        } else if (value instanceof Double) {
+            property.setValue(Double.class.cast(value));
+        } else if (value.getClass().equals(double.class)) {
+            property.setValue(double.class.cast(value));
+        } else if (value instanceof Float) {
+            property.setValue(Float.class.cast(value));
+        } else if (value.getClass().equals(float.class)) {
+            property.setValue(float.class.cast(value));
+        } else {
+            throw new ResourceException("Unsupported type ["
+                    + value.getClass().getName() + "]");
+        }
+    }
+    
 
     /**
      * The method adds properties to the resource.
@@ -208,20 +288,17 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
      */
     public Object getProperty(Object[] args) throws ResourceException {
         try {
-            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            RDFURIHelper uriHelper = new RDFURIHelper((String) args[0]);
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                     uriHelper.getNamespace(), uriHelper.getLocalName());
             return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
                     persistanceSession, this.resource.getProperty(identifier).
                     getValueAsResource(), ontologySession);
         } catch (Exception ex) {
-            log.error("Failed to get the property : " + ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to get the property : " + ex.getMessage(),ex);
+            log.error("Failed to get the property : " + ex.getMessage(), ex);
+            throw new ResourceException("Failed to get the property : " + ex.getMessage(), ex);
         }
     }
-
-
 
     /**
      * This method removes the property.
@@ -233,18 +310,16 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
      */
     public Object removeProperty(Object[] args) throws ResourceException {
         try {
-            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            RDFURIHelper uriHelper = new RDFURIHelper((String) args[0]);
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                     uriHelper.getNamespace(), uriHelper.getLocalName());
             this.resource.removeProperty(identifier);
             return null;
         } catch (Exception ex) {
-            log.error("Failed to remove the property : " + ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to remove the property : " + ex.getMessage(),ex);
+            log.error("Failed to remove the property : " + ex.getMessage(), ex);
+            throw new ResourceException("Failed to remove the property : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method is called to remove the property from the resource.
@@ -253,26 +328,25 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
      * @param resource The resource name
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
-    public Object removePropertyResource(Object[] args)  throws ResourceException {
+    public Object removePropertyResource(Object[] args) throws ResourceException {
         try {
-            RDFURIHelper uriHelper = new RDFURIHelper((String)args[0]);
+            RDFURIHelper uriHelper = new RDFURIHelper((String) args[0]);
             PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
                     uriHelper.getNamespace(), uriHelper.getLocalName());
             PersistanceResource persisanceResource =
                     persistanceSession.getResource(
                     Resource.class.cast(args[1]).getURI());
-            this.resource.removeProperty(identifier,persisanceResource);
+            this.resource.removeProperty(identifier, persisanceResource);
             return null;
         } catch (Exception ex) {
-            log.error("Failed to remove the property : " + ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to remove the property : " + ex.getMessage(),ex);
+            log.error("Failed to remove the property : " + ex.getMessage(), ex);
+            throw new ResourceException("Failed to remove the property : " + ex.getMessage(), ex);
         }
     }
 
-
     /**
      * This method lists properties.
+     *
      * @return The list of resources.
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
@@ -280,10 +354,9 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         try {
             List<PersistanceProperty> resourceProperties = resource.listProperties();
             List resultList = new ArrayList();
-            
+
             for (PersistanceProperty resourceProperty : resourceProperties) {
-                OntologyProperty ontologyProperty  = ontologyClass.
-                        getProperty(resourceProperty.getURI());
+                OntologyProperty ontologyProperty = ontologyClass.getProperty(resourceProperty.getURI());
                 String typeName = ontologyProperty.getLocalname();
                 if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_STRING)) {
                     resultList.add(resourceProperty.getValueAsString());
@@ -307,8 +380,8 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
                     resultList.add(resourceProperty.getValueAsCalendar());
                 } else {
                     resultList.add(BasicJDOProxyFactory.createJDOProxy(Resource.class,
-                        persistanceSession, resourceProperty.getValueAsResource(),
-                        ontologySession));
+                            persistanceSession, resourceProperty.getValueAsResource(),
+                            ontologySession));
                 }
             }
 
@@ -316,17 +389,16 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         } catch (ResourceException ex) {
             throw ex;
         } catch (Exception ex) {
-            log.error("Failed to retrieve the list or properties : " +
-                    ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to retrieve the list or properties : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to retrieve the list or properties : "
+                    + ex.getMessage(), ex);
+            throw new ResourceException("Failed to retrieve the list or properties : "
+                    + ex.getMessage(), ex);
         }
     }
 
-
     /**
      * This method lists properties.
+     *
      * @param url The url of the property to retrieve.
      * @return The list of resources.
      * @throws com.rift.coad.rdf.semantic.ResourceException
@@ -334,15 +406,13 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
     public List listProperties(String url) throws ResourceException {
         try {
             RDFURIHelper helper = new RDFURIHelper(url);
-            PersistanceIdentifier listIdentifier = PersistanceIdentifier.
-                    getInstance(helper.getNamespace(), helper.getLocalName());
-            List<PersistanceProperty> resourceProperties = 
+            PersistanceIdentifier listIdentifier = PersistanceIdentifier.getInstance(helper.getNamespace(), helper.getLocalName());
+            List<PersistanceProperty> resourceProperties =
                     resource.listProperties(listIdentifier);
             List resultList = new ArrayList();
 
             for (PersistanceProperty resourceProperty : resourceProperties) {
-                OntologyProperty ontologyProperty  = ontologyClass.
-                        getProperty(resourceProperty.getURI());
+                OntologyProperty ontologyProperty = ontologyClass.getProperty(resourceProperty.getURI());
                 String typeName = ontologyProperty.getLocalname();
                 if (typeName.equalsIgnoreCase(XSDDataDictionary.XSD_STRING)) {
                     resultList.add(resourceProperty.getValueAsString());
@@ -366,8 +436,8 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
                     resultList.add(resourceProperty.getValueAsCalendar());
                 } else {
                     resultList.add(BasicJDOProxyFactory.createJDOProxy(Resource.class,
-                        persistanceSession, resourceProperty.getValueAsResource(),
-                        ontologySession));
+                            persistanceSession, resourceProperty.getValueAsResource(),
+                            ontologySession));
                 }
             }
 
@@ -375,11 +445,10 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         } catch (ResourceException ex) {
             throw ex;
         } catch (Exception ex) {
-            log.error("Failed to retrieve the list or properties : " +
-                    ex.getMessage(),ex);
-            throw new ResourceException
-                    ("Failed to retrieve the list or properties : " +
-                    ex.getMessage(),ex);
+            log.error("Failed to retrieve the list or properties : "
+                    + ex.getMessage(), ex);
+            throw new ResourceException("Failed to retrieve the list or properties : "
+                    + ex.getMessage(), ex);
         }
     }
 }

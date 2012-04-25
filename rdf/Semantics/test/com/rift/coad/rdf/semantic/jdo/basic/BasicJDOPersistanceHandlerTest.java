@@ -112,14 +112,14 @@ public class BasicJDOPersistanceHandlerTest {
             persistanceSession, ontologySession);
         PersistanceResource result = instance.persist();
         System.out.println("RDF XML [" + persistanceSession.dumpXML() + "]");
-        assertEquals(result.getURI().toString(), "http://dipforge.sourceforge.net/schema/rdf/1.0/test#TestObject/testbase1");
+        assertEquals(result.getURI().toString(), "http://dipforge.sourceforge.net/schema/rdf/1.0/testbaseobject#TestObject/testbase1");
 
         TestBaseObject baseObject2 = new TestBaseObject("testbase2", 2, subObject);
         instance = new BasicJDOPersistanceHandler(baseObject2,
             persistanceSession, ontologySession);
         result = instance.persist();
         System.out.println("RDF XML [" + persistanceSession.dumpXML() + "]");
-        assertEquals(result.getURI().toString(), "http://dipforge.sourceforge.net/schema/rdf/1.0/test#TestObject/testbase2");
+        assertEquals(result.getURI().toString(), "http://dipforge.sourceforge.net/schema/rdf/1.0/testbaseobject#TestObject/testbase2");
 
     }
 

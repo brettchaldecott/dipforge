@@ -182,6 +182,9 @@ public class JenaOntologySessionTest extends TestCase {
         System.out.println("getClass");
         URI uri = new URI("http://www.test.com/testing/1.0.1/test#my");
         URI classUri = new URI("http://www.test.com/testing/1.0.1/test#myClass");
+        URI uri2 = new URI("http://www.test.com/testing/1.0.1/test2#my");
+        URI classUri2 = new URI("http://www.test.com/testing/1.0.1/test2#myClass");
+        
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
@@ -195,14 +198,27 @@ public class JenaOntologySessionTest extends TestCase {
                 (JenaOntologyManager)OntologyManagerFactory.init(properties);
         JenaOntologySession instance = (JenaOntologySession)ontologyManager.getSession();
         OntologyProperty createdResult = instance.createProperty(uri);
+        OntologyProperty createdResult2 = instance.createProperty(uri2);
         OntologyClass result = instance.createClass(classUri);
+        OntologyClass result2 = instance.createClass(classUri2);
         assertEquals(classUri.toString(), result.getURI().toString());
         createdResult.setType(XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_STRING));
         result.addProperty(createdResult);
+        result2.addProperty(createdResult2);
         OntologyClass expResult = instance.getClass(classUri);
         assertEquals(expResult.getURI().toString(), result.getURI().toString());
         System.out.println(instance.dumpXML());
         List<OntologyProperty> listProperty = expResult.listProperties();
+        System.out.println(listProperty);
+        assertEquals(1, listProperty.size());
+
+    
+        properties.put(OntologyConstants.ONTOLOGY_CONTENTS, instance.dumpXML());
+        ontologyManager =
+                (JenaOntologyManager)OntologyManagerFactory.init(properties);
+        instance = (JenaOntologySession)ontologyManager.getSession();
+        expResult = instance.getClass(classUri);
+        listProperty = expResult.listProperties();
         System.out.println(listProperty);
         assertEquals(1, listProperty.size());
     }

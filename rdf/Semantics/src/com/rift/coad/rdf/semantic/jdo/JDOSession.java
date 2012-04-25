@@ -6,6 +6,7 @@
 package com.rift.coad.rdf.semantic.jdo;
 
 import com.rift.coad.rdf.semantic.Query;
+import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.SPARQLQuery;
 import com.rift.coad.rdf.semantic.SessionException;
 import com.rift.coad.rdf.semantic.session.UnknownEntryException;
@@ -122,7 +123,7 @@ public interface JDOSession {
      * @throws SessionException
      * @throws UnknownEntryException 
      */
-    public <T> T create(Class <T> c, Serializable identifier)
+    public Resource createResource(URI typeURI, URI itentifier) 
             throws SessionException, UnknownEntryException;
     
     

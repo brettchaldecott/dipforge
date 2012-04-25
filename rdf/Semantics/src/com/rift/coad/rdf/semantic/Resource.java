@@ -62,6 +62,17 @@ public interface Resource {
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
     public <T> T addProperty(String url, T value) throws ResourceException;
+    
+    
+    /**
+     * The method sets properties to the resource.
+     *
+     * @param url The url for the property.
+     * @param value The value to set.
+     * @return The resource.
+     * @throws com.rift.coad.rdf.semantic.ResourceException
+     */
+    public <T> T setProperty(String url, T value) throws ResourceException;
 
     
     /**

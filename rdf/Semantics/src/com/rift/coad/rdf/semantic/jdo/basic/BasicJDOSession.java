@@ -281,19 +281,15 @@ public class BasicJDOSession implements JDOSession {
      * @throws SessionException
      * @throws UnknownEntryException 
      */
-    public <T> T create(Class <T> c, Serializable identifier)
+    public Resource createResource(URI typeURI, URI identifer) 
             throws SessionException, UnknownEntryException {
         try {
-            URI resourceUri = null;
-            if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
-                resourceUri = (URI)identifier;
-            } else if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
-                throw new SessionException("If creating a resource must provide a URI as an identifier");
-            } else {
-                resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
-            }
-            return BasicJDOProxyFactory.createJDOProxy(c,
-                    persistanceSession, persistanceSession.createResource(resourceUri),
+            PersistanceResource typeResource = 
+                    persistanceSession.createResource(typeURI);
+            PersistanceResource resource = persistanceSession.createResource(
+                    identifer,typeResource);
+            return BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                    persistanceSession, resource,
                     ontologySession);
         } catch (Exception ex) {
             log.error("Failed to create the resource : " +

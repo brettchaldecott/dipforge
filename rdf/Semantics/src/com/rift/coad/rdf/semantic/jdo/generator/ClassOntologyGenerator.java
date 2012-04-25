@@ -130,6 +130,7 @@ public class ClassOntologyGenerator {
                         !types.contains(returnType)) {
                     processType(returnType);
                 }
+                result.addProperty(property);
             }
         } catch (Exception ex) {
             throw new GeneratorException("Failed to generate the ontology  for ["
