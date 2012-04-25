@@ -66,13 +66,13 @@ public class AuditTrailServerImpl implements AuditTrailServer {
             Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Host> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?Hostname . } " +
-                    "ORDER BY ?Hostname").execute();
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#Host> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#id> ?id . } " +
+                    "ORDER BY ?id").execute();
             List<String> result = new ArrayList<String>();
             for (SPARQLResultRow entry : entries) {
                 System.out.println("Looping through the results");
-                result.add(entry.get(Host.class, 0).getName());
+                result.add(entry.get(Host.class, 0).getId());
             }
             return result;
         } catch (Exception ex) {
@@ -95,13 +95,13 @@ public class AuditTrailServerImpl implements AuditTrailServer {
             Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Service> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?ServiceName. } " +
-                    "ORDER BY ?ServiceName").execute();
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#Service> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#id> ?id . } " +
+                    "ORDER BY ?id").execute();
             List<String> result = new ArrayList<String>();
             for (SPARQLResultRow entry : entries) {
                 try {
-                    result.add(entry.get(Service.class,0).getName());
+                    result.add(entry.get(Service.class,0).getId());
                 } catch(Exception ex) {
                     log.error("Failed to find an entry : " + ex.getMessage(),ex);
                     // ignore
@@ -130,10 +130,10 @@ public class AuditTrailServerImpl implements AuditTrailServer {
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#CorrelationId> ?CorrelationId . ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#ExternalId> ?ExternalId . ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Host> ?Host . ").
-                    append("?Host <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?Hostname . ").
+                    append("?Host <http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#id> ?Hostname . ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Status> ?Status . ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Service> ?Service . ").
-                    append("?Service <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network#Name> ?Source . ").
+                    append("?Service <http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#id> ?Source . ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#User> ?User .  ").
                     append("?User <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Operation#Name> ?UserName .  ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Time> ?Time . ");
@@ -189,8 +189,8 @@ public class AuditTrailServerImpl implements AuditTrailServer {
             List<LogEntry> result = new ArrayList<LogEntry>();
             for (SPARQLResultRow row : entries) {
                 LogEntryDAO dao = row.get(LogEntryDAO.class, 0);
-                result.add(new LogEntry(dao.getId(), dao.getHost().getName(),dao.getService().getName(),
-                        dao.getUser().getName(), dao.getTime(), dao.getStatus(),dao.getCorrelationId(),
+                result.add(new LogEntry(dao.getId(), dao.getHost().getId(),dao.getService().getId(),
+                        dao.getUser().getId(), dao.getTime(), dao.getStatus(),dao.getCorrelationId(),
                         dao.getExternalId(),dao.getRequest()));
             }
             return result;
