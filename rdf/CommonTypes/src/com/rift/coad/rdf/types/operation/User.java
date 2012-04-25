@@ -31,12 +31,12 @@ import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
  *
  * @author brett chaldecott
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/Operation")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser")
 @LocalName("User")
 public class User {
 
     // private member variables
-    private String name;
+    private String id;
     private String description;
 
     /**
@@ -50,8 +50,8 @@ public class User {
      * 
      * @param name The name
      */
-    public User(String name) {
-        this.name = name;
+    public User(String id) {
+        this.id = id;
     }
 
 
@@ -63,8 +63,8 @@ public class User {
      * @param name
      * @param description
      */
-    public User(String name, String description) {
-        this.name = name;
+    public User(String id, String description) {
+        this.id = id;
         this.description = description;
     }
 
@@ -92,14 +92,14 @@ public class User {
 
 
     /**
-     * This method gets the name of the user.
+     * This method sets the id of user which is the username
      *
      * @return The name of the user.
      */
     @Identifier()
-    @PropertyLocalName("Name")
-    public String getName() {
-        return name;
+    @PropertyLocalName("id")
+    public String getId() {
+        return id;
     }
 
 
@@ -108,9 +108,9 @@ public class User {
      * 
      * @param name This method sets the name.
      */
-    @PropertyLocalName("Name")
-    public void setName(String name) {
-        this.name = name;
+    @PropertyLocalName("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
 
@@ -129,7 +129,7 @@ public class User {
             return false;
         }
         final User other = (User) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }
         return true;
@@ -144,7 +144,7 @@ public class User {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
@@ -156,7 +156,7 @@ public class User {
      */
     @Override
     public String toString() {
-        return "User{" + "name=" + name + "description=" + description + '}';
+        return "User{" + "id=" + id + "description=" + description + '}';
     }
 
 

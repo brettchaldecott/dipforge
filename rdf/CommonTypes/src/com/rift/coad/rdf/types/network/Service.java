@@ -33,12 +33,12 @@ import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
  *
  * @author brett chaldecott
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService")
 @LocalName("Service")
 public class Service {
 
     // private member variables
-    private String name;
+    private String id;
     private String description;
 
 
@@ -50,12 +50,12 @@ public class Service {
 
 
     /**
-     * This method sets the service name.
+     * This method sets the service id.
      *
-     * @param name The name of the service.
+     * @param id The id of the service.
      */
-    public Service(String name) {
-        this.name = name;
+    public Service(String id) {
+        this.id = id;
     }
 
 
@@ -64,11 +64,11 @@ public class Service {
     /**
      * This constructor sets up all the internal values.
      *
-     * @param name The name of the service.
+     * @param id The id of the service
      * @param description The description of the service.
      */
-    public Service(String name, String description) {
-        this.name = name;
+    public Service(String id, String description) {
+        this.id = id;
         this.description = description;
     }
 
@@ -101,20 +101,20 @@ public class Service {
      * @return The string containing the name of the service.
      */
     @Identifier()
-    @PropertyLocalName("Name")
-    public String getName() {
-        return name;
+    @PropertyLocalName("id")
+    public String getId() {
+        return id;
     }
 
 
     /**
-     * The setter for the name of the service.
+     * The setter for the id of the service.
      *
      * @param name The name of the service.
      */
-    @PropertyLocalName("Name")
-    public void setName(String name) {
-        this.name = name;
+    @PropertyLocalName("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
 
@@ -133,7 +133,7 @@ public class Service {
             return false;
         }
         final Service other = (Service) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }
         if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
@@ -151,7 +151,7 @@ public class Service {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 59 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 59 * hash + (this.id != null ? this.id.hashCode() : 0);
         hash = 59 * hash + (this.description != null ? this.description.hashCode() : 0);
         return hash;
     }
@@ -164,7 +164,7 @@ public class Service {
      */
     @Override
     public String toString() {
-        return "Service{" + "name=" + name + "description=" + description + '}';
+        return "Service{" + "id=" + id + "description=" + description + '}';
     }
 
 

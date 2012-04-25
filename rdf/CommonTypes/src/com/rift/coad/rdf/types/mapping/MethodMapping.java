@@ -39,7 +39,7 @@ import java.util.List;
  * 
  * @author brett chaldecott
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod")
 @LocalName("MethodMapping")
 public class MethodMapping implements Serializable {
     

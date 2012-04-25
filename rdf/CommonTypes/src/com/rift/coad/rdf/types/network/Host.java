@@ -33,12 +33,12 @@ import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
  *
  * @author brett chaldecott
  */
-@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/Network")
+@Namespace("http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost")
 @LocalName("Host")
 public class Host {
 
     // private member variables
-    private String name;
+    private String id;
     private String description;
 
     
@@ -53,8 +53,8 @@ public class Host {
      * 
      * @param name The host name.
      */
-    public Host(String name) {
-        this.name = name;
+    public Host(String id) {
+        this.id = id;
     }
 
 
@@ -64,8 +64,8 @@ public class Host {
      * @param name The name of the host.
      * @param description The description of the host.
      */
-    public Host(String name, String description) {
-        this.name = name;
+    public Host(String id, String description) {
+        this.id = id;
         this.description = description;
     }
 
@@ -94,14 +94,14 @@ public class Host {
 
 
     /**
-     * The getter for the name.
+     * The getter for the id of host.
      *
      * @return The of the host.
      */
     @Identifier()
-    @PropertyLocalName("Name")
-    public String getName() {
-        return name;
+    @PropertyLocalName("id")
+    public String getId() {
+        return id;
     }
 
 
@@ -110,9 +110,9 @@ public class Host {
      *
      * @param name The name to set.
      */
-    @PropertyLocalName("Name")
-    public void setName(String name) {
-        this.name = name;
+    @PropertyLocalName("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
 
@@ -131,7 +131,7 @@ public class Host {
             return false;
         }
         final Host other = (Host) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }
         if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
@@ -149,7 +149,7 @@ public class Host {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
         hash = 67 * hash + (this.description != null ? this.description.hashCode() : 0);
         return hash;
     }
@@ -161,7 +161,7 @@ public class Host {
      */
     @Override
     public String toString() {
-        return "Host{" + "name=" + name + "description=" + description + '}';
+        return "Host{" + "id=" + id + "description=" + description + '}';
     }
 
 
