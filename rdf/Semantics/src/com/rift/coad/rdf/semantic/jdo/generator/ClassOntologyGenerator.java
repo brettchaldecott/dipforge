@@ -118,6 +118,7 @@ public class ClassOntologyGenerator {
                     property = session.getProperty(methodIdentifier.toURI());
                 } else {
                     property = session.createProperty(methodIdentifier.toURI());
+                    result.addProperty(property);
                 }
                 Class returnType = methodInfo.getMethodRef().getReturnType();
                 if (returnType.equals(Resource.class) ||
@@ -130,7 +131,6 @@ public class ClassOntologyGenerator {
                         !types.contains(returnType)) {
                     processType(returnType);
                 }
-                result.addProperty(property);
             }
         } catch (Exception ex) {
             throw new GeneratorException("Failed to generate the ontology  for ["
