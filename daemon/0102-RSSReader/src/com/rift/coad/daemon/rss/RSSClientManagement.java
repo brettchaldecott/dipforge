@@ -53,6 +53,7 @@ import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import java.math.BigInteger;
 
 /**
  * This object is responsible for managing the rss client.
@@ -224,7 +225,7 @@ public class RSSClientManagement implements RSSClientManagementMBean, BeanRunnab
             transaction.begin();
             Session session = HibernateUtil.getInstance(RSSClientManagement.class).getSession();
             List result = session.createSQLQuery("SELECT count(*) FROM RSSDBFeed").list();
-            if (((Integer)result.get(0)).intValue() != 0) {
+            if (((BigInteger)result.get(0)).intValue() != 0) {
                 return;
             }
             RSSXMLConfigHelper rssXMLConfig = new RSSXMLConfigHelper(config.getString(FEED_CONFIG));
