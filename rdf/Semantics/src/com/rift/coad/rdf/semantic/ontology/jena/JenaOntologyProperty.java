@@ -18,7 +18,6 @@
  *
  * JenaOntologyProperty.java
  */
-
 package com.rift.coad.rdf.semantic.ontology.jena;
 
 import com.hp.hpl.jena.ontology.OntClass;
@@ -46,10 +45,8 @@ public class JenaOntologyProperty implements OntologyProperty {
 
     // class static member variables
     private static Logger log = Logger.getLogger(JenaOntologyProperty.class);
-
     // private member variables
     private OntProperty jenaOntProperty;
-
 
     /**
      * This constructor sets the ontology property information.
@@ -59,8 +56,6 @@ public class JenaOntologyProperty implements OntologyProperty {
     public JenaOntologyProperty(OntProperty jenaOntProperty) {
         this.jenaOntProperty = jenaOntProperty;
     }
-
-
 
     /**
      * This method returns the URI of the property.
@@ -73,11 +68,9 @@ public class JenaOntologyProperty implements OntologyProperty {
             return new URI(jenaOntProperty.getURI());
         } catch (Exception ex) {
             log.error("Failed to retrieve the uri : " + ex.getMessage(), ex);
-            throw new SemanticException
-                    ("Failed to retrieve the uri : " + ex.getMessage(), ex);
+            throw new SemanticException("Failed to retrieve the uri : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method returns the name space.
@@ -89,12 +82,10 @@ public class JenaOntologyProperty implements OntologyProperty {
         try {
             return jenaOntProperty.getNameSpace();
         } catch (Exception ex) {
-            log.error("The name space could not be retrieved : " + ex.getMessage(),ex);
-            throw new OntologyException
-                    ("The name space could not be retrieved : " + ex.getMessage(),ex);
+            log.error("The name space could not be retrieved : " + ex.getMessage(), ex);
+            throw new OntologyException("The name space could not be retrieved : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method returns the local name.
@@ -106,12 +97,10 @@ public class JenaOntologyProperty implements OntologyProperty {
         try {
             return jenaOntProperty.getLocalName();
         } catch (Exception ex) {
-            log.error("The local name could not be retrieved : " + ex.getMessage(),ex);
-            throw new OntologyException
-                    ("The local name could not be retrieved : " + ex.getMessage(),ex);
+            log.error("The local name could not be retrieved : " + ex.getMessage(), ex);
+            throw new OntologyException("The local name could not be retrieved : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method adds a sub property.
@@ -125,16 +114,14 @@ public class JenaOntologyProperty implements OntologyProperty {
                     + "JenaProperty and cannot therefore be made a sub property");
         }
         try {
-            JenaOntologyProperty jenaOntologyProperty = (JenaOntologyProperty)property;
+            JenaOntologyProperty jenaOntologyProperty = (JenaOntologyProperty) property;
             jenaOntProperty.addSubProperty(jenaOntologyProperty.getJenaOntProperty());
-            
+
         } catch (Exception ex) {
-            log.error("The add the sub property : " + ex.getMessage(),ex);
-            throw new OntologyException
-                    ("The add the sub property : " + ex.getMessage(),ex);
+            log.error("The add the sub property : " + ex.getMessage(), ex);
+            throw new OntologyException("The add the sub property : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method adds a sub property.
@@ -148,17 +135,14 @@ public class JenaOntologyProperty implements OntologyProperty {
                     + "JenaProperty and cannot therefore be made a sub property");
         }
         try {
-            JenaOntologyProperty jenaOntologyProperty = (JenaOntologyProperty)property;
+            JenaOntologyProperty jenaOntologyProperty = (JenaOntologyProperty) property;
             jenaOntProperty.removeSubProperty(jenaOntologyProperty.getJenaOntProperty());
 
         } catch (Exception ex) {
-            log.error("Failed to remove the sub property : " + ex.getMessage(),ex);
-            throw new OntologyException
-                    ("Failed to the sub property : " + ex.getMessage(),ex);
+            log.error("Failed to remove the sub property : " + ex.getMessage(), ex);
+            throw new OntologyException("Failed to the sub property : " + ex.getMessage(), ex);
         }
     }
-
-    
 
     /**
      * This method retrieves the jena ontology property.
@@ -169,10 +153,9 @@ public class JenaOntologyProperty implements OntologyProperty {
         return jenaOntProperty;
     }
 
-
     /**
      * This method sets the type label for this property.
-     * 
+     *
      * @param type This method sets the type label
      * @throws OntologyException
      */
@@ -180,11 +163,10 @@ public class JenaOntologyProperty implements OntologyProperty {
         try {
             jenaOntProperty.addRDFType(jenaOntProperty.getModel().getResource(type.getURI().toString()));
         } catch (Exception ex) {
-            log.error("Failed to set the type : " + ex.getMessage(),ex);
-            throw new OntologyException("Failed to set the type : " + ex.getMessage(),ex);
+            log.error("Failed to set the type : " + ex.getMessage(), ex);
+            throw new OntologyException("Failed to set the type : " + ex.getMessage(), ex);
         }
     }
-
 
     /**
      * This method returns the type label
@@ -198,26 +180,28 @@ public class JenaOntologyProperty implements OntologyProperty {
             while (iterator.hasNext()) {
                 Resource resource = iterator.next();
                 String uri = resource.getURI();
-                if (uri.equals(OntologyConstants.DATA_TYPE_PROPERTY_URI) ||
-                        uri.equals(OntologyConstants.ONTOLOGY_LOCATION_URIS) ||
-                        uri.equals(OntologyConstants.PROPERTY_NS_URI)) {
+                if (uri.equals(OntologyConstants.DATA_TYPE_PROPERTY_URI)
+                        || uri.equals(OntologyConstants.ONTOLOGY_LOCATION_URIS)
+                        || uri.equals(OntologyConstants.PROPERTY_NS_URI)) {
                     continue;
                 }
-                DataType type = XSDDataDictionary.getTypeByURI(uri);
-                if (type != null) {
-                    return type;
-                }
-                OntClass ontClass = jenaOntProperty.getOntModel().getOntClass(uri);
-                if (jenaOntProperty.getOntModel().contains(ontClass,null)) {
-                    return new JenaOntologyClass(ontClass);
+                if (XSDDataDictionary.isBasicTypeByURI(uri)) {
+                    DataType type = XSDDataDictionary.getTypeByURI(uri);
+                    if (type != null) {
+                        return type;
+                    }
+                } else {
+                    OntClass ontClass = jenaOntProperty.getOntModel().getOntClass(uri);
+                    if (jenaOntProperty.getOntModel().contains(ontClass, null)) {
+                        return new JenaOntologyClass(ontClass);
+                    }
                 }
             }
             // label or type could not be found.
             return null;
         } catch (Exception ex) {
-            log.error("Failed to set the type : " + ex.getMessage(),ex);
-            throw new OntologyException("Failed to set the type : " + ex.getMessage(),ex);
+            log.error("Failed to set the type : " + ex.getMessage(), ex);
+            throw new OntologyException("Failed to set the type : " + ex.getMessage(), ex);
         }
     }
-    
 }

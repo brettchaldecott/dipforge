@@ -103,7 +103,17 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         return invoke(method, args);
     }
-
+    
+    
+    /**
+     * The invoke method.
+     * 
+     * @param info The method to invoke
+     * @param args The arguments for the method.
+     * @return The result object
+     * @throws Throwable
+     * @throws InvocationTargetException 
+     */
     public Object invoke(Method info, Object[] args) throws
             Throwable, InvocationTargetException {
         if (info.getName().equals(GET_URI)) {
@@ -187,8 +197,13 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
                         args[1], persistanceSession, ontologySession);
                 PersistanceResource propertyResource = handler.persist();
                 this.resource.createProperty(identifier).setValue(propertyResource);
-                return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
-                        persistanceSession, propertyResource, ontologySession);
+                if (args[1] instanceof Resource) {
+                    return BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                            persistanceSession, propertyResource, ontologySession);
+                } else {
+                    return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
+                            persistanceSession, propertyResource, ontologySession);
+                }
             }
         } catch (ResourceException ex) {
             throw ex;
@@ -224,8 +239,13 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
                         args[1], persistanceSession, ontologySession);
                 PersistanceResource propertyResource = handler.persist();
                 this.resource.getProperty(identifier).setValue(propertyResource);
-                return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
-                        persistanceSession, propertyResource, ontologySession);
+                if (args[1] instanceof Resource) {
+                    return BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                            persistanceSession, propertyResource, ontologySession);
+                } else {
+                    return BasicJDOProxyFactory.createJDOProxy(args[1].getClass(),
+                            persistanceSession, propertyResource, ontologySession);
+                }
             }
         } catch (ResourceException ex) {
             throw ex;

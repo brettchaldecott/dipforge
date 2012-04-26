@@ -49,12 +49,16 @@ public class BasicJDOProxyFactory {
      * @return The result.
      * @throws BasicJDOException
      */
-    public static <T> T createJDOProxy(Class type, PersistanceSession persistanceSession ,
+    public static <T> T createJDOProxy(Class typeRef, PersistanceSession persistanceSession ,
             PersistanceResource resource, OntologySession ontologySession)
             throws BasicJDOException {
         try {
+            Class type = typeRef;
+            if (Enhancer.isEnhanced(typeRef)) {
+                type = typeRef.getSuperclass();
+            } 
             T result;
-            if (type.equals(Resource.class)) {
+            if (Resource.class.isAssignableFrom(type)) {
                 BasicJDOResourceInvocationHandler handler = new
                     BasicJDOResourceInvocationHandler(persistanceSession,resource,
                     ontologySession);
@@ -69,7 +73,8 @@ public class BasicJDOProxyFactory {
             }
             return result;
         } catch (Exception ex) {
-            throw new BasicJDOException("Failed to create the JDO proxy : " +
+            throw new BasicJDOException("Failed to create the JDO proxy [" + 
+                    typeRef.getName() + "] :" +
                     ex.getMessage(),ex);
         }
     }
