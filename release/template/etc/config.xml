@@ -966,7 +966,7 @@
         </entry>
     </object>
     <object name="com.rift.dipforge.rdf.store.RDFConfig">
-        <entry key="rdf_config_url" type="string">
+        <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/schema/rdf?list=true
         </entry>
         <entry key="persistance_manager" type="string">
@@ -1010,7 +1010,7 @@
     </object>
     <!-- XML semantic utility configuration -->
     <object name="com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil">
-        <entry key="rdf_config_url" type="string">
+        <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/schema/rdf?list=true
         </entry>
         <entry key="persistance_manager" type="string">

@@ -51,11 +51,71 @@ class RDF {
     static def create(String type) {
         try {
             Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
+            return create(session,type);
+        } catch (Exception ex) {
+            log.error("Failed to create the type because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param type The URI of the type.
+     */
+    static def create(Session session, String type) {
+        try {
             def ontology = session.getOntologySession()
             def classDef = ontology.getClass(new URI(type))
-            def typeBuilder = new RDFTypeBuilder(classDef)
+            def typeBuilder = new RDFTypeBuilder(classDef,session)
             
             return typeBuilder.getTypeInstance()
+        } catch (Exception ex) {
+            log.error("Failed to create the type because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param type The URI of the type.
+     */
+    static def get(String type, String id) {
+        try {
+            Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
+            def result = create(session,type);
+            
+            return result
+        } catch (Exception ex) {
+            log.error("Failed to create the type because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param xml The xml to extract the type from
+     * @param type The URI of the type.
+     * @param id The id of the 
+     */
+    static def get(String xml, String type, String id) {
+        try {
+            Session session = XMLSemanticUtil.getSession()
+            session.persist(xml)
+            def result = create(session,type);
+            
+            return result
         } catch (Exception ex) {
             log.error("Failed to create the type because : " + ex.getMessage(),ex);
             throw ex;

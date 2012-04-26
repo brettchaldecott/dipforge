@@ -24,19 +24,29 @@ package com.dipforge.semantic
 
 import java.net.URI;
 import java.util.Date;
+import com.rift.coad.rdf.semantic.Resource;
+import com.rift.coad.rdf.semantic.Session;
+import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
+import org.apache.log4j.Logger;
+import com.rift.coad.lib.common.RandomGuid;
 
 class RDFTypeBuilder {
     
     def typeInstance
+    def classDef
+    Session session
+    def log
     
     
     /**
      * The constructor of the RDF type builder.
      */
-    public RDFTypeBuilder(def classDef) {
+    public RDFTypeBuilder(def classDef, Session session) {
+        log = Logger.getLogger("com.dipforge.semantic.RDFTypeBuilder");
         typeInstance = new Expando()
         this.classDef = classDef
+        this.session = session
         createStandardMethods(classDef)
         createTypeMethods(classDef)
     }
@@ -47,6 +57,44 @@ class RDFTypeBuilder {
      */
     public def getTypeInstance() {
         return typeInstance
+    }
+    
+    /**
+     * This method returns the string value of the class
+     */
+    public String toXML() {
+        Session session = XMLSemanticUtil.getSession()
+        processResource(session)
+        return session.dumpXML();
+    }
+    
+    
+    /**
+     * This method process the properties
+     */
+    private Resource processResource(Session session) {
+        def id = typeInstance.getId();
+        if (id == null) {
+            throw new SemanticException("Must specify an id");
+        }
+        URI uri = new URI(classDef.getURI().toString() + '/' + id);
+        Resource resource = session.createResource(classDef.getURI(),uri)
+        def classProperties = classDef.listProperties()
+        for (classProperty in classProperties) {
+            def propertyName = classProperty.getLocalname()
+            if (XSDDataDictionary.isBasicTypeByURI(classProperty.getType().getURI().toString())) {
+                if (typeInstance."${propertyName}" == null) {
+                    continue;
+                }
+                log.info("URI [" + classProperty.getURI().toString() + "][" + 
+                    typeInstance."${propertyName}" + "]")
+                resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+            } else {
+                resource.addProperty(classProperty.getURI().toString(),
+                    (Resource)typeInstance."${propertyName}".builder.processResource(session))
+            }
+        }
+        return resource
     }
     
     
@@ -60,6 +108,11 @@ class RDFTypeBuilder {
         typeInstance.classDef = classDef
         
         
+        // add the getter and the setter
+        typeInstance."toXML" = {_local_variable->
+            return typeInstance.builder.toXML()
+        }
+        
         
     }
     
@@ -71,67 +124,68 @@ class RDFTypeBuilder {
      */
     private void createTypeMethods(def classDef) {
         def classProperties = classDef.listProperties()
-        
+        boolean hasId = false;
         for (classProperty in classProperties) {
             def propertyName = classProperty.getLocalname()
+            log.info("Property [" + classProperty.getURI() + "]")
+            if (propertyName.equalsIgnoreCase("id")) {
+                hasId = true;
+            }
             def upperPropertyName = propertyName.substring(0,1).toUpperCase() + 
                 propertyName.substring(1)
-            if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            def propertyType = classProperty.getType().getURI().toString()
+            if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_BOOLEAN)))) {
+                    XSDDataDictionary.XSD_STRING).getURI().toString())) {
+                typeInstance."${propertyName}" = ""
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {
                 typeInstance."${propertyName}" = false
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_FLOAT)))) {
+                    XSDDataDictionary.XSD_FLOAT).getURI().toString())) {
                 typeInstance."${propertyName}" = 0.0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_DOUBLE)))) {
+                    XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
                 typeInstance."${propertyName}" = 0.0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } /*else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_DECIMAL)))) {
+                    XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
                 typeInstance."${propertyName}" = 0.0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } */else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_INTEGER)))) {
+                    XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
                 typeInstance."${propertyName}" = 0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_LONG)))) {
+                    XSDDataDictionary.XSD_LONG).getURI().toString())) {
                 typeInstance."${propertyName}" = 0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_INT)))) {
+                    XSDDataDictionary.XSD_INT).getURI().toString())) {
                 typeInstance."${propertyName}" = 0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_SHORT)))) {
+                    XSDDataDictionary.XSD_SHORT).getURI().toString())) {
                 typeInstance."${propertyName}" = 0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_BYTE)))) {
+                    XSDDataDictionary.XSD_BYTE).getURI().toString())) {
                 typeInstance."${propertyName}" = 0
-            } else if (propertyName.getType().equals(
-                XSDDataDictionary.getTypeByName(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_DATE)))) {
+                    XSDDataDictionary.XSD_DATE).getURI().toString())) {
                 typeInstance."${propertyName}" = new Date()
+            } else {
+                typeInstance."${propertyName}" = 
+                    RDF.create(classProperty.getType().getURI().toString())
             }
-            
             
             // add the getter and the setter
             typeInstance."get${upperPropertyName}" = {->
-                return "${propertyName}"
+                return typeInstance."${propertyName}"
             }
             
             // add the getter and the setter
@@ -139,6 +193,21 @@ class RDFTypeBuilder {
                 typeInstance."${propertyName}" = _local_variable
             }
         }
+        
+        if (!hasId) {
+            typeInstance."id" = RandomGuid.getInstance().getGuid()
+            // add the getter and the setter
+            typeInstance."getId" = {->
+                return typeInstance."id"
+            }
+            
+            // add the getter and the setter
+            typeInstance."setId" = {_local_variable->
+                typeInstance."id" = _local_variable
+            }
+        }
+        
+        
     }
 }
 
