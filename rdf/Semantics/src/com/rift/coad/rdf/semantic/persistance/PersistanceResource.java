@@ -23,6 +23,7 @@
 package com.rift.coad.rdf.semantic.persistance;
 
 import java.net.URI;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -39,7 +40,71 @@ public interface PersistanceResource {
      * @throws PersistanceException
      */
     public URI getURI() throws PersistanceException;
+    
+    
+    /**
+     * This method returns a boolean literal value for this property.
+     *
+     * @return This method returns the literal boolean value.
+     * @throws PersistanceException
+     */
+    public boolean getValueAsBoolean() throws PersistanceException;
 
+
+    /**
+     * This method returns the literal as long value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public long getValueAsLong() throws PersistanceException;
+
+    
+    /**
+     * This method retrieves the character information.
+     *
+     * @return The character value for this property.
+     * @throws PersistanceException
+     */
+    public char getValueAsCharacter() throws PersistanceException;
+
+
+    /**
+     * This method returns the value as double.
+     *
+     * @return This method returns the double value.
+     * @throws PersistanceException
+     */
+    public double getValueAsDouble() throws PersistanceException;
+
+
+    /**
+     * This method returns the float value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public float getValueAsFloat() throws PersistanceException;
+
+
+    /**
+     * This method method returns the value of the calendar.
+     *
+     * @return The reference to the calendar value.
+     * @throws PersistanceException
+     */
+    public Calendar getValueAsCalendar() throws PersistanceException;
+    
+
+    /**
+     * This method returns the float value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public String getValueAsString() throws PersistanceException;
+    
+    
     /**
      * The name space for the resource.
      *

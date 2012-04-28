@@ -33,6 +33,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
@@ -74,6 +75,86 @@ public class JenaPersistanceResource implements PersistanceResource {
             throw new PersistanceException("Failed to retrieve the uri : " + ex.getMessage(), ex);
         }
     }
+    
+    
+    /**
+     * This method returns a boolean literal value for this property.
+     *
+     * @return This method returns the literal boolean value.
+     * @throws PersistanceException
+     */
+    public boolean getValueAsBoolean() throws PersistanceException {
+        return resource.asLiteral().getBoolean();
+    }
+
+
+    /**
+     * This method returns the literal as long value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public long getValueAsLong() throws PersistanceException {
+        return resource.asLiteral().getLong();
+    }
+
+    
+    /**
+     * This method retrieves the character information.
+     *
+     * @return The character value for this property.
+     * @throws PersistanceException
+     */
+    public char getValueAsCharacter() throws PersistanceException {
+        return resource.asLiteral().getChar();
+    }
+
+
+    /**
+     * This method returns the value as double.
+     *
+     * @return This method returns the double value.
+     * @throws PersistanceException
+     */
+    public double getValueAsDouble() throws PersistanceException {
+        return resource.asLiteral().getDouble();
+    }
+
+
+    /**
+     * This method returns the float value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public float getValueAsFloat() throws PersistanceException {
+        return resource.asLiteral().getFloat();
+    }
+
+
+    /**
+     * This method method returns the value of the calendar.
+     *
+     * @return The reference to the calendar value.
+     * @throws PersistanceException
+     */
+    public Calendar getValueAsCalendar() throws PersistanceException {
+        com.hp.hpl.jena.datatypes.xsd.XSDDateTime dateTime =
+                (com.hp.hpl.jena.datatypes.xsd.XSDDateTime)resource.asLiteral().getValue();
+        return dateTime.asCalendar();
+    }
+    
+
+    /**
+     * This method returns the float value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public String getValueAsString() throws PersistanceException {
+        return resource.asLiteral().getString();
+    }
+    
 
     /**
      * The name space for the resource.

@@ -270,7 +270,7 @@ public class BasicResource implements com.rift.coad.rdf.semantic.Resource {
         }
     }
 
-    public <T> T getProperty(String url, Class<T> c) throws ResourceException {
+    public <T> T getProperty(Class<T> c, String url) throws ResourceException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

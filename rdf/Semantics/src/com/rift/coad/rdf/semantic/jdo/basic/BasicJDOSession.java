@@ -251,17 +251,19 @@ public class BasicJDOSession implements JDOSession {
         try {
             URI resourceUri = null;
             if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
-                resourceUri = (URI)identifier;
-            } else if (Resource.class.isAssignableFrom(c) && identifier instanceof URI) {
-                throw new SessionException("If requesting a resource must provide a URI as an identifier");
+                return BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                    persistanceSession, persistanceSession.getResource((URI)identifier),
+                    ontologySession);
+            } if (Resource.class.isAssignableFrom(c) && identifier instanceof String) {
+                return BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                    persistanceSession, persistanceSession.getResource(new URI(identifier.toString())),
+                    ontologySession);
             } else {
                 resourceUri = ClassURIBuilder.generateClassURI(c,identifier);
             }
             return BasicJDOProxyFactory.createJDOProxy(c,
                     persistanceSession, persistanceSession.getResource(resourceUri),
                     ontologySession);
-        } catch (SessionException ex) {
-            throw ex;
         } catch (Exception ex) {
             log.error("Failed to get the resource identified by the RDF XML : " +
                     ex.getMessage(),ex);

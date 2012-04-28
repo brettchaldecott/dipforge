@@ -83,7 +83,7 @@ public interface Resource {
      * @return The resource.
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */
-    public <T> T getProperty(String url, Class<T> c) throws ResourceException;
+    public <T> T getProperty(Class<T> c, String url) throws ResourceException;
 
 
     
