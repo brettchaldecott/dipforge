@@ -29,6 +29,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResultRow;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.types.DataType;
 import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,8 +77,76 @@ public class BasicJDOSPARQLResultRow implements SPARQLResultRow {
                     + "result set : " + ex.getMessage(),ex);
         }
     }
-
-
+    
+    
+    /**
+     * This method returns true if the object being referenced is a basic type.
+     * 
+     * @return This method returns true if this is a basic type.
+     * @param name The name of the column to retrieve the result for.
+     * @throws QueryException 
+     */
+    public boolean isBasicType(String name) throws QueryException {
+        try {
+            return resultRow.isBasicType(name);
+        } catch (PersistanceQueryException ex) {
+            throw new QueryException("Failed to check if this is a basic type "
+                    + ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns TRUE if the item is a basic type.
+     * 
+     * @param index The index of the item.
+     * @return TRUE if this is a basic type.
+     * @throws QueryException 
+     */
+    public boolean isBasicType(int index) throws QueryException {
+        try {
+            return resultRow.isBasicType(index);
+        } catch (PersistanceQueryException ex) {
+            throw new QueryException("Failed to check if this is a basic type "
+                    + ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method retrieves the URI of the object.
+     * 
+     * @param name The name of the column to retrieve the URI for.
+     * @return The data type information object.
+     * @throws QueryException 
+     */
+    public DataType getType(String name) throws QueryException {
+        try {
+            return resultRow.getType(name);
+        } catch (PersistanceQueryException ex) {
+            throw new QueryException("Failed to get the type information "
+                    + ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns the string containing the type uri.
+     * 
+     * @param index The index of the type.
+     * @return The reference to the type object
+     * @throws QueryException 
+     */
+    public DataType getType(int index) throws QueryException {
+        try {
+            return resultRow.getType(index);
+        } catch (PersistanceQueryException ex) {
+            throw new QueryException("Failed to get the type information "
+                    + ex.getMessage(),ex);
+        }
+    }
+    
+    
     /**
      * The names of the columns
      *

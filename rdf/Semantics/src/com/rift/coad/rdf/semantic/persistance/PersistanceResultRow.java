@@ -5,6 +5,9 @@
 
 package com.rift.coad.rdf.semantic.persistance;
 
+import com.rift.coad.rdf.semantic.QueryException;
+import com.rift.coad.rdf.semantic.types.DataType;
+
 /**
  * This method object contains the persistant result row information.
  *
@@ -28,6 +31,46 @@ public interface PersistanceResultRow {
     public String[] getColumns() throws PersistanceQueryException;
 
 
+    /**
+     * This method returns true if the object being referenced is a basic type.
+     * 
+     * @return This method returns true if this is a basic type.
+     * @param name The name of the column to retrieve the result for.
+     * @throws PersistanceQueryException 
+     */
+    public boolean isBasicType(String name) throws PersistanceQueryException;
+    
+    
+    /**
+     * This method returns TRUE if the item is a basic type.
+     * 
+     * @param index The index of the item.
+     * @return TRUE if this is a basic type.
+     * @throws PersistanceQueryException 
+     */
+    public boolean isBasicType(int index) throws PersistanceQueryException;
+    
+    
+    /**
+     * This method retrieves the URI of the object.
+     * 
+     * @param name The name of the column to retrieve the URI for.
+     * @return The data type information object.
+     * @throws PersistanceQueryException 
+     */
+    public DataType getType(String name) throws PersistanceQueryException;
+    
+    
+    /**
+     * This method returns the string containing the type uri.
+     * 
+     * @param index The index of the type.
+     * @return The reference to the type object
+     * @throws PersistanceQueryException 
+     */
+    public DataType getType(int index) throws PersistanceQueryException;
+    
+    
     /**
      * This method returns the first sparql result entry identified by the name.
      * If there are multiple entries attached to a name use the index method or getGroup

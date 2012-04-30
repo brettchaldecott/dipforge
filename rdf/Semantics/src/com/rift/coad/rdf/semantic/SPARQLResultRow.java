@@ -22,6 +22,8 @@
 // the package path
 package com.rift.coad.rdf.semantic;
 
+import com.rift.coad.rdf.semantic.types.DataType;
+
 /**
  * This interface represents an sql result set row.
  *
@@ -35,8 +37,48 @@ public interface SPARQLResultRow {
      * @throws com.rift.coad.rdf.semantic.QueryException
      */
     public int size() throws QueryException;
-
-
+    
+    
+    /**
+     * This method returns true if the object being referenced is a basic type.
+     * 
+     * @return This method returns true if this is a basic type.
+     * @param name The name of the column to retrieve the result for.
+     * @throws QueryException 
+     */
+    public boolean isBasicType(String name) throws QueryException;
+    
+    
+    /**
+     * This method returns TRUE if the item is a basic type.
+     * 
+     * @param index The index of the item.
+     * @return TRUE if this is a basic type.
+     * @throws QueryException 
+     */
+    public boolean isBasicType(int index) throws QueryException;
+    
+    
+    /**
+     * This method retrieves the URI of the object.
+     * 
+     * @param name The name of the column to retrieve the URI for.
+     * @return The data type information object.
+     * @throws QueryException 
+     */
+    public DataType getType(String name) throws QueryException;
+    
+    
+    /**
+     * This method returns the string containing the type uri.
+     * 
+     * @param index The index of the type.
+     * @return The reference to the type object
+     * @throws QueryException 
+     */
+    public DataType getType(int index) throws QueryException;
+    
+    
     /**
      * This method returns the names of the columns in this result row.
      * 
