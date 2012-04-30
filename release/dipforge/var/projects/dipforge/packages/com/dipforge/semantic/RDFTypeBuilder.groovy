@@ -116,6 +116,94 @@ class RDFTypeBuilder {
         
     }
     
+    /**
+     * This method populates the type methods.
+     * 
+     * @param resource The resource information.
+     */
+    public void populateType(Resource resource) {
+        def classProperties = classDef.listProperties()
+        boolean hasId = false;
+        log.debug("########################################");
+        for (property in resource.listProperties()) {
+            log.debug("Property [" + property + "]");
+        }
+        log.debug("########################################");
+        for (classProperty in classProperties) {
+            def propertyName = classProperty.getLocalname()
+            if (propertyName.equalsIgnoreCase("id")) {
+                hasId = true;
+            }
+            def propertyType = classProperty.getType().getURI().toString()
+            if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_STRING).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(String.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Boolean.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_FLOAT).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Float.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Double.class,
+                    classProperty.getURI().toString())
+            } /*else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Double.class,
+                    classProperty.getURI().toString())
+            } */else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Integer.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_LONG).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Long.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_INT).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Integer.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_SHORT).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Short.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_BYTE).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Byte.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Date.class,
+                    classProperty.getURI().toString())
+            } else {
+                typeInstance."${propertyName}".builder.populateType(
+                    resource.getProperty(Resource.class,
+                    classProperty.getURI().toString()));
+            }
+        }
+        // strip the uri
+        if (!hasId) {
+            def objectURI = classDef.getURI().toString();
+            typeInstance."id" = objectURI.substring(objectURI.lastIndexOf("/"));
+        }
+        
+    }
+    
     
     /**
      * This method creates the type methods.

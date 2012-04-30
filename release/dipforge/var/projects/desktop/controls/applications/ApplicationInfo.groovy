@@ -25,6 +25,11 @@ def menu = [
                 image: 'favicon.ico',                
                 title: 'Admin',
                 url: '/DipforgeAdmin/'
+            ],
+            [
+                image: 'favicon.ico',                
+                title: 'Tomcat',
+                url: '/manager/html'
             ]]
 
 builder(menu)
