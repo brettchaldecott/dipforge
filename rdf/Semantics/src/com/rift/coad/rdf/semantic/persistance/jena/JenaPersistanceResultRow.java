@@ -273,6 +273,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
         return mapEntries.get(name).get(t);
     }
 
+    
     /**
      * This method returns the entry identified by the index value.
      *
