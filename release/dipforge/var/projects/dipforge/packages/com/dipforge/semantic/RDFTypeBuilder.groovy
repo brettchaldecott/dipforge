@@ -37,6 +37,7 @@ class RDFTypeBuilder {
     def classDef
     Session session
     def log
+    def dataType
     
     
     /**

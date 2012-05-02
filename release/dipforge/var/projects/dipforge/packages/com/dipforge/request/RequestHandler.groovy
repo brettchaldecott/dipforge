@@ -22,6 +22,13 @@
 package com.dipforge.request
 
 
+// imports
+import com.rift.coad.lib.common.RandomGuid;
+import com.rift.coad.change.request.Request;
+import com.rift.coad.change.request.RequestData;
+import com.rift.coad.change.request.RequestEvent;
+
+
 /**
  * This object provides the access to the RDF layer.
  * 
@@ -29,14 +36,21 @@ package com.dipforge.request
  */
 class RequestHandler {
     
+    String project
     String action
     def data
     def dependancies
     
+    
     /**
      * The request wrapper constructor.
+     * 
+     * @param project The name of the project this request is being makde from.
+     * @param action The action that is being performed on this data
+     * @param data The data
      */
-    RequestHandler (String action, def data) {
+    RequestHandler (String project, String action, def data) {
+        this.project = project
         this.action = action
         this.data = data
         this.dependancies = []
@@ -45,11 +59,33 @@ class RequestHandler {
     
     /**
      * This constructor sets all the parameters.
+     * 
+     * @param project The name of the project
+     * @param action The name of the action.
+     * @param data The data object.
+     * @param dependancies The list of dependancies.
      */
-    RequestHandler (String action, def data, def dependancies) {
+    RequestHandler (String project, String action, def data, def dependancies) {
+        this.project = project
         this.action = action
         this.data = data;
         this.dependancies = dependancies;
+    }
+    
+    
+    /**
+     * This method returns a reference to the new request handler
+     */
+    public static RequestHandler getInstance(String project, String action, def data) {
+        return new RequestHandler (project, action, data)
+    }
+    
+    
+    /**
+     * This method returns a reference to the new request handler
+     */
+    public static RequestHandler getInstance(String project, String action, def data, def dependancies) {
+        return new RequestHandler (project, action, data, dependancies)
     }
     
     
@@ -59,6 +95,19 @@ class RequestHandler {
     def makeRequest() {
         RequestBrokerConnector connector = new RequestBrokerConnector();
         
-        
+        RequestData requestData = new RequestData(this.data.builder.classDef.getURI().toString(),
+                this.data.toXML(), data.builder.classDef.getLocalName())
+        Request request = new Request(RandomGuid.getInstance().getGuid(), 
+                project, requestData, action, new java.util.Date(), null,
+                new java.util.ArrayList<RequestEvent>())
+        if (dependancies.size() > 0) {
+            java.util.List<RequestData> dependancyList = new java.util.ArrayList<RequestData>();
+            for (dependance in dependancies) {
+                dependancyList.add(new RequestData(dependance.builder.classDef.getURI().toString(),
+                        dependance.toXML(), dependance.builder.classDef.getLocalName()))
+            }
+            requestData.setData(dependancyList)
+        }
+        connector.getBroker().createRequest(request) 
     }
 }
