@@ -21,13 +21,14 @@
 package com.rift.coad.change.request;
 
 import com.rift.coad.lib.common.RandomGuid;
+import java.io.Serializable;
 
 /**
  * The request data
  * 
  * @author brett chaldecott
  */
-public class RequestData {
+public class RequestData implements Serializable {
     
     // private member variables
     private String id;
