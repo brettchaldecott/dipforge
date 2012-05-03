@@ -57,6 +57,7 @@ public class CopyObject {
                 return null;
             }
             // assume a default constructor
+            System.out.println("Copy the class : " + type.getName());
             T result = type.newInstance();
 
             for (Method getter : value.getClass().getMethods()) {
@@ -64,6 +65,8 @@ public class CopyObject {
                     if (!getter.getName().matches("get[A-Za-z0-9-]*")) {
                         continue;
                     } else if (getter.getParameterTypes().length != 0) {
+                        continue;
+                    } else if (getter.getReturnType().equals(void.class)) {
                         continue;
                     }
                     Method setter = null;
@@ -85,7 +88,7 @@ public class CopyObject {
                     // check for basic type
                     if (!getter.getReturnType().isArray() && !getter.getReturnType().isAssignableFrom(Collection.class)
                             && !getter.getReturnType().isAssignableFrom(List.class)) {
-                        setter.invoke(result, new Object[]{copy(setter.getReturnType(),
+                        setter.invoke(result, new Object[]{copy(getter.getReturnType(),
                                     getter.invoke(value, new Object[]{}))});
                         continue;
                     } else if (getter.getReturnType().isArray()) {
