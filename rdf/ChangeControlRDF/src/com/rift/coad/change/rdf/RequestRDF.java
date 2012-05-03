@@ -114,15 +114,19 @@ public class RequestRDF implements Serializable {
             this.dependencies.add(new RequestDataRDF(requestData));
         } 
         this.children = new ArrayList<RequestRDF>();
-        for (Request child : request.getChildren()) {
-            this.children.add(new RequestRDF(child));
+        if (request.getChildren() != null) {
+            for (Request child : request.getChildren()) {
+                this.children.add(new RequestRDF(child));
+            }
         }
         this.status = request.getStatus();
         this.start = request.getStart();
         this.complete = request.getComplete();
         this.events = new ArrayList<RequestEventRDF>();
-        for (RequestEvent event: request.getEvents()) {
-            this.events.add(new RequestEventRDF(event));
+        if (request.getEvents() != null) {
+            for (RequestEvent event: request.getEvents()) {
+                this.events.add(new RequestEventRDF(event));
+            }
         }
     }
     

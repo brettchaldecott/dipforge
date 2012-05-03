@@ -87,6 +87,9 @@ public class ActionInstanceInfoRDF {
             // ignore
         }
         this.actionInfo = info;
+        this.request = request;
+        this.masterRequestId = masterRequestId;
+        this.status = ActionConstants.INIT;
     }
 
     
