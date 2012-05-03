@@ -107,8 +107,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             auditLog.complete("Updated [%d] actions to project [%s]",
                     actions.size(),project);
         } catch (Exception ex) {
-            log.error("Failed to add the actions : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to add the actions : " + 
+            log.error("Failed to update the actions : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to update the actions : " + 
                     ex.getMessage(), ex);
         }
     }
@@ -143,8 +143,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
                     createSPARQLQuery("SELECT ?s WHERE { " +
                     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#ActionInfoRDF> . " +
                     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type . } " +
-                    "FILTER (" + sparqlFilter.toString() + ") ORDER BY ?Type").execute();
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type . " +
+                    "FILTER (" + sparqlFilter.toString() + ") } ORDER BY ?Type").execute();
             List<ActionInfo> result = new ArrayList<ActionInfo>();
             for (SPARQLResultRow entry : entries) {
                 System.out.println("Looping through the results");
@@ -152,8 +152,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             }
             return result;
         } catch (Exception ex) {
-            log.error("Failed to add the action : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to add the action: " + ex.getMessage(), ex);
+            log.error("Failed to list the action : " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to list the action: " + ex.getMessage(), ex);
         }
     }
 
@@ -170,6 +170,7 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
      */
     public ActionInfo getAction(String project, String type, String action)
             throws ChangeException, RemoteException {
+        String filter = "";
         try {
             Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
             StringBuilder sparqlFilter = new StringBuilder();
@@ -195,13 +196,14 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             } else {
                 throw new ChangeException("Must provide an action name.");
             }
-            List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery("SELECT ?s WHERE { " +
+            filter = "SELECT ?s WHERE { " +
                     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#ActionInfoRDF> . " +
                     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . " +
                     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type .  " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Action> ?Action . } " +
-                    "FILTER (" + sparqlFilter.toString() + ") ORDER BY ?Type").execute();
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Action> ?Action . " +
+                    "FILTER (" + sparqlFilter.toString() + ") } ORDER BY ?Type";
+            List<SPARQLResultRow> entries = session.
+                    createSPARQLQuery(filter).execute();
             if (entries.size() == 0) {
                 throw new ChangeException("No entries found matching [" + project +
                         "][" + type + "][" + action + "].");
@@ -210,8 +212,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
         } catch (ChangeException ex) {
             throw ex;
         } catch (Exception ex) {
-            log.error("Failed to add the action : " + ex.getMessage(), ex);
-            throw new ChangeException("Failed to add the action: " + ex.getMessage(), ex);
+            log.error("Failed to get the action [" + filter + "]: " + ex.getMessage(), ex);
+            throw new ChangeException("Failed to get the action [" + filter + "]: " + ex.getMessage(), ex);
         }
     }
 
@@ -257,8 +259,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
                     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#ActionInfoRDF> . " +
                     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Project> ?Project . " +
                     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Type> ?Type .  " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Action> ?Action . } " +
-                    "FILTER (" + sparqlFilter.toString() + ") ORDER BY ?Type").execute();
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/change.action#Action> ?Action . " +
+                    "FILTER (" + sparqlFilter.toString() + ") } ORDER BY ?Type").execute();
             if (entries.size() == 0) {
                 throw new ChangeException("No entries found matching [" + project +
                         "][" + type + "][" + action + "].");
