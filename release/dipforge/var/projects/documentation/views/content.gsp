@@ -31,6 +31,14 @@
                 <td>The RDF Semantic Library</td>
         </tr>
         <tr>
+                <td><a href="CoadunationSemantics/index.html">Session Semantic Library</a></td>
+                <td>Session Semantic Library</td>
+        </tr>
+        <tr>
+                <td><a href="SchemaUtils/index.html">Schema Util Library</a></td>
+                <td>Schema Util Library</td>
+        </tr>
+        <tr>
                 <td colspan="2"><br/><b>The client library API</b><br/>&nbsp;</td>
         </tr>
         <tr>

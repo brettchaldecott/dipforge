@@ -36,7 +36,7 @@ test1.setId(RandomGuid.getInstance().getGuid())
 test1.setProperty1(params.name)
 test1.setProperty2(params.name)
 
-RequestHandler.getInstance("test", "test", test1).makeRequest()
+RequestHandler.getInstance("test", "test1", test1).makeRequest()
 
 
 PageManager.forward("index.gsp", request, response)
