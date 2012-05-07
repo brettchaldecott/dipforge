@@ -80,7 +80,7 @@ public class ActionInstanceInfoRDF {
      * @param info The reference to the action information RDF.
      */
     public ActionInstanceInfoRDF(ActionInfoRDF info, RequestRDF request, 
-            String masterRequestID) {
+            String masterRequestID, String flowId) {
         try {
             id = RandomGuid.getInstance().getGuid();
         } catch (Exception ex) {
@@ -90,6 +90,7 @@ public class ActionInstanceInfoRDF {
         this.request = request;
         this.masterRequestId = masterRequestId;
         this.status = ActionConstants.INIT;
+        this.flowId = flowId;
     }
 
     
