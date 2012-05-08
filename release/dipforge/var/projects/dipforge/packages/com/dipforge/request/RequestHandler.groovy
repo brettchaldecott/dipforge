@@ -95,7 +95,7 @@ class RequestHandler {
     def makeRequest() {
         RequestBrokerConnector connector = new RequestBrokerConnector();
         
-        RequestData requestData = new RequestData(this.data.builder.classDef.getURI().toString(),
+        RequestData requestData = new RequestData(this.data.getId(), this.data.builder.classDef.getURI().toString(),
                 this.data.toXML(), data.builder.classDef.getLocalName())
         Request request = new Request(RandomGuid.getInstance().getGuid(), 
                 project, requestData, action, new java.util.Date(), null,
@@ -103,7 +103,7 @@ class RequestHandler {
         if (dependancies.size() > 0) {
             java.util.List<RequestData> dependancyList = new java.util.ArrayList<RequestData>();
             for (dependance in dependancies) {
-                dependancyList.add(new RequestData(dependance.builder.classDef.getURI().toString(),
+                dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
                         dependance.toXML(), dependance.builder.classDef.getLocalName()))
             }
             requestData.setData(dependancyList)

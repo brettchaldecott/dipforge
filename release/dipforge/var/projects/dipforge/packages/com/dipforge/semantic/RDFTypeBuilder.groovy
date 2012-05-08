@@ -125,11 +125,6 @@ class RDFTypeBuilder {
     public void populateType(Resource resource) {
         def classProperties = classDef.listProperties()
         boolean hasId = false;
-        log.debug("########################################");
-        for (property in resource.listProperties()) {
-            log.debug("Property [" + property + "]");
-        }
-        log.debug("########################################");
         for (classProperty in classProperties) {
             def propertyName = classProperty.getLocalname()
             if (propertyName.equalsIgnoreCase("id")) {
