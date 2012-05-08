@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import com.rift.coad.change.ChangeManagerDaemonImpl;
 import com.rift.coad.change.rdf.ActionInstanceInfoRDF;
 import com.rift.coad.change.request.Request;
+import com.rift.coad.change.request.action.leviathan.LsRDFTypeManager;
 import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
@@ -87,7 +88,8 @@ public class ActionFactoryManagerImpl implements
         try {
             Configuration config = ConfigurationFactory.getInstance().getConfig(
                     this.getClass());
-            storeDirectory = config.getString(LeviathanConstants.STORAGE_PATH);
+            storeDirectory = config.getString(ActionConstants.LEVIATHAN_STORAGE_DIR);
+            
         } catch (Exception ex) {
             throw new ActionException(
                     "Failed to instanciate the new action factory : " +
@@ -258,19 +260,23 @@ public class ActionFactoryManagerImpl implements
      * Wait for the deployment to complete
      */
     public void process() {
+        try {
+            LeviathanConfig config = LeviathanConfig.createConfig();
+            config.getProperties().setProperty(LeviathanConstants.STORAGE_PATH, 
+                    storeDirectory);
+            config.addTypeManager(new LsRDFTypeManager());
+            LeviathanEngine instance = LeviathanEngine.buildEngine(config);
+            
+        } catch (Exception ex) {
+            log.error("Failed to initialize the leviathan environment because : "
+                    + ex.getMessage(),ex);
+        }
+        
         // wait for the deployment process to stop.
         DeploymentMonitor.getInstance().waitUntilInitDeployComplete();
         
         // init the leviathan engine
         try {
-            LeviathanConfig config = LeviathanConfig.createConfig();
-            config.getProperties().setProperty(LeviathanConstants.STORAGE_PATH, 
-                    storeDirectory);
-            
-            LeviathanEngine instance = LeviathanEngine.buildEngine(config);
-            
-            
-            
             while (!state.isTerminated()) {
                 try {
                     loadActions();
