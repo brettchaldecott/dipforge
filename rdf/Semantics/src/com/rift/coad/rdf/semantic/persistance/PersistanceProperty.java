@@ -22,6 +22,7 @@
 package com.rift.coad.rdf.semantic.persistance;
 
 import com.rift.coad.rdf.semantic.common.Property;
+import java.net.URI;
 import java.util.Calendar;
 
 /**
@@ -37,8 +38,26 @@ public interface PersistanceProperty extends Property {
      * @return URI name space for this resource.
      */
     public PersistanceIdentifier getPersistanceIdentifier();
-
-
+    
+    
+    /**
+     * This method returns true if this is a basic type.
+     * 
+     * @return TRUE if this is a basic type, FALSE if not.
+     * @throws PersistanceException 
+     */
+    public boolean isBasicType() throws PersistanceException;
+    
+    
+    /**
+     * This method returns the type uri information.
+     * 
+     * @return The type URI information.
+     * @throws PersistanceException 
+     */
+    public URI getTypeURI() throws PersistanceException;
+    
+    
     /**
      * This method sets the literal value.
      *

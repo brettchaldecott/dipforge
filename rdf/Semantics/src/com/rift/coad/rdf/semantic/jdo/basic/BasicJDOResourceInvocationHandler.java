@@ -456,52 +456,11 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
 
             for (PersistanceProperty resourceProperty : resourceProperties) {
                 // check for type uri
-                PersistanceIdentifier typeIdentifier = PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE,
-                        RDFConstants.TYPE_LOCALNAME);
-                if (resourceProperty.getURI().equals(typeIdentifier.toURI())) {
-                    resultList.add(ontologyClass.getURI().toString());
-                    continue;
-                }
-                OntologyProperty ontologyProperty = ontologyClass.getProperty(resourceProperty.getURI());
-                DataType typeName = ontologyProperty.getType();
-                if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_STRING).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsString());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_BOOLEAN).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsBoolean());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_FLOAT).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsFloat());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DOUBLE).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsDouble());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_INTEGER).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + new Long(resourceProperty.getValueAsLong()).intValue());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_LONG).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsLong());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_INT).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + new Long(resourceProperty.getValueAsLong()).intValue());
-                } else if ((XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_SHORT).getURI().equals(typeName.getURI()))
-                        || (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_BYTE).getURI().equals(typeName.getURI()))) {
-                    // type is currently not supported
-                    throw new ResourceException("Unsupported data type of byte");
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DATE).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsCalendar());
-                } else {
-                    resultList.add(BasicJDOProxyFactory.createJDOProxy(Resource.class,
-                            persistanceSession, resourceProperty.getValueAsResource(),
-                            ontologySession));
-                }
+                resultList.add(new BasicProperty(persistanceSession,ontologySession,
+                        resource,resourceProperty));
             }
 
             return resultList;
-        } catch (ResourceException ex) {
-            throw ex;
         } catch (Exception ex) {
             log.error("Failed to retrieve the list or properties : "
                     + ex.getMessage(), ex);
@@ -529,53 +488,10 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
 
             for (PersistanceProperty resourceProperty : resourceProperties) {
                 // check for type uri
-                PersistanceIdentifier typeIdentifier = PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE,
-                        RDFConstants.TYPE_LOCALNAME);
-                if (resourceProperty.getURI().equals(typeIdentifier.toURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + ontologyClass.getURI().toString());
-                    continue;
-                }
-                OntologyProperty ontologyProperty = ontologyClass.getProperty(resourceProperty.getURI());
-                DataType typeName = ontologyProperty.getType();
-                if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_STRING).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsString());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_BOOLEAN).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsBoolean());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_FLOAT).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsFloat());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DOUBLE).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsDouble());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_INTEGER).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + new Long(resourceProperty.getValueAsLong()).intValue());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_LONG).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsLong());
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_INT).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + new Long(resourceProperty.getValueAsLong()).intValue());
-                } else if ((XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_SHORT).getURI().equals(typeName.getURI()))
-                        || (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_BYTE).getURI().equals(typeName.getURI()))) {
-                    // type is currently not supported
-                    throw new ResourceException("Unsupported data type of byte");
-                } else if (XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DATE).getURI().equals(typeName.getURI())) {
-                    resultList.add(resourceProperty.getURI().toString() + ":"
-                            + resourceProperty.getValueAsCalendar());
-                } else {
-                    resultList.add(BasicJDOProxyFactory.createJDOProxy(Resource.class,
-                            persistanceSession, resourceProperty.getValueAsResource(),
-                            ontologySession));
-                }
+                resultList.add(new BasicProperty(persistanceSession,ontologySession,
+                        resource,resourceProperty));
             }
-
             return resultList;
-        } catch (ResourceException ex) {
-            throw ex;
         } catch (Exception ex) {
             log.error("Failed to retrieve the list or properties : "
                     + ex.getMessage(), ex);

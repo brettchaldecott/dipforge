@@ -25,6 +25,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
+import com.rift.coad.rdf.semantic.RDFConstants;
 import com.rift.coad.rdf.semantic.SemanticException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
@@ -110,9 +111,47 @@ public class JenaPersistanceProperty implements PersistanceProperty {
     public PersistanceIdentifier getPersistanceIdentifier() {
         Property property  = statement.getPredicate();
         return PersistanceIdentifier.getInstance(property.getNameSpace(),
-                property.getNameSpace());
+                property.getLocalName());
     }
-
+    
+    
+    /**
+     * This method returns true if this is a basic type.
+     * 
+     * @return TRUE if this is a basic type, FALSE if not.
+     * @throws PersistanceException 
+     */
+    public boolean isBasicType() throws PersistanceException {
+        return statement.getObject().isLiteral();
+    }
+    
+    
+    /**
+     * This method returns the type uri information.
+     * 
+     * @return The type URI information.
+     * @throws PersistanceException 
+     */
+    public URI getTypeURI() throws PersistanceException {
+        try {
+            if (property.isLiteral()) {
+                return new URI(property.asLiteral().getDatatypeURI());
+            }
+            PersistanceIdentifier typeIdentifier = PersistanceIdentifier.
+                        getInstance(RDFConstants.SYNTAX_NAMESPACE,
+                        RDFConstants.TYPE_LOCALNAME);
+            if (typeIdentifier.toURI().toString().equals(property.getURI())) {
+                return new URI(property.asResource().getURI());
+            }
+            return new URI(property.getURI());
+        } catch (Exception ex) {
+            throw new PersistanceException("Failed to retrieve the type uri : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    
+    
 
     /**
      * This method sets the literal value.

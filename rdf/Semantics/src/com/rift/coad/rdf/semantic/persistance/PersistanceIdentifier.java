@@ -43,6 +43,10 @@ public class PersistanceIdentifier {
      */
     private PersistanceIdentifier(String namespace, String localname) {
         this.namespace = namespace;
+        if (this.namespace.endsWith("#")) {
+            this.namespace = 
+                    this.namespace.substring(0,this.namespace.length() -1);
+        }
         this.localname = localname;
     }
 
