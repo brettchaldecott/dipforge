@@ -736,8 +736,13 @@
         </entry>
     </object>
     <object name="com.rift.coad.change.request.action.ActionFactoryManagerImpl">
-        <entry key="storage_path" type="string">
+        <entry key="leviathan_storage_dir" type="string">
             @dipforge_home@/var/flow/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.change.request.action.ActionInstanceImpl">
+        <entry key="project_base" type="string">
+            @dipforge_home@/var/projects/
         </entry>
     </object>
     <!-- Change Manager configuration -->
