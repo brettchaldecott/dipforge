@@ -7,10 +7,10 @@
         <conf name="compile-test"/>
         <conf name="runtime-test"/>
     </configurations>
-
+    
     <dependencies >
         <dependency org="log4j" name="log4j" rev="1.2.14"/>
-        <dependency org="jacorb" name="jacorb" rev="2.3.0jboss.patch5-brew"/>
+        <dependency org="org.jacorb" name="jacorb" rev="2.3.1"/>
         <dependency org="org.apache.httpcomponents" name="httpcore" rev="4.1-beta2"/>
         <dependency org="javax.transaction" name="jta" rev="1.1"/>
         <dependency org="axis" name="axis" rev="1.4"/>
@@ -26,5 +26,5 @@
         <dependency org="apache-avalon" name="avalon-framework" rev="4.1.5"/>
         <dependency org="wsdl4j" name="wsdl4j" rev="1.5.1"/>
     </dependencies>
-
+    
 </ivy-module>

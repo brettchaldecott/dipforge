@@ -33,11 +33,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import org.jacorb.config.Configuration;
+import org.jacorb.config.ConfigurationException;
 
 // apache imports
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.Logger;
+//import org.apache.avalon.framework.configuration.Configuration;
+//import org.apache.avalon.framework.configuration.ConfigurationException;
+//import org.apache.avalon.framework.logger.Logger;
 
 // JacORB imports
 import org.jacorb.imr.util.ImRManager;
