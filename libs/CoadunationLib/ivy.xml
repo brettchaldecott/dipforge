@@ -22,6 +22,7 @@
         </dependency>
         <dependency org="jotm" name="jotm_iiop_stubs" rev="2.0.10"/>
         <dependency org="org.objectweb.carol" name="carol" rev="2.2.10"/>
+        <dependency org="commons-logging" name="commons-logging" rev="1.0.4"/>
         <dependency org="org.objectweb.carol" name="carol-iiop-delegate" rev="2.2.10"/>
         <dependency org="apache-avalon" name="avalon-framework" rev="4.1.5"/>
         <dependency org="wsdl4j" name="wsdl4j" rev="1.5.1"/>
