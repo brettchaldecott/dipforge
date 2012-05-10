@@ -60,7 +60,8 @@ public class LsRDFTypeManager implements TypeManager {
         boolean result = annotation.getName().equalsIgnoreCase("rdf");
         if (result && annotation.getList().size() != 2) {
             throw new EngineException(
-                    "The annotation is corrupt and must provide two parameters [type,name]");
+                    "The annotation is corrupt and must provide two parameters [type,name] got [" +
+                    annotation.getList().size() + "]");
         }
         return result;
     }
@@ -157,7 +158,8 @@ public class LsRDFTypeManager implements TypeManager {
         String name = annotation.getList().get(1);
         if (!configParameters.containsKey(name)) {
             throw new EngineException("The configuration parameter to match the"
-                    + " annotation name [" + name + "]");
+                    + " annotation name [" + name + "][" + 
+                    configParameters.keySet().toString() + "]");
         }
         RequestData data = (RequestData)configParameters.get(name);
         if (!data.getDataType().equals(type)) {

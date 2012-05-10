@@ -99,9 +99,8 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
                 executeSet(session, entry, resource);
             } 
             
-            if (this.hasAssignment) {
-                executeGet(entry, resource);
-            }
+            executeGet(entry, resource);
+            pop();
         } catch (EngineException ex) {
             throw ex;
         } catch (Exception ex) {

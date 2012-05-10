@@ -96,6 +96,7 @@ public class LsRDFTypeMethodStackEntry extends ProcessStackEntry {
             } else {
                 executeSetter(session, entry, resource);
             }
+            pop();
         } catch (EngineException ex) {
             throw ex;
         } catch (Exception ex) {
