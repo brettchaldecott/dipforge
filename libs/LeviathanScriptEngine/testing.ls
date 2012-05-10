@@ -32,6 +32,13 @@ flow test {
         for (int test = 0; test < 2; test++) {
             out.println("for " + test);
         }
+
+        def list = ["bob","fred"]
+        out.println("list : " + list[0]);
+        
+        def map = ["key":"bob", "key1":"fred"]
+        out.println("map : " + map["key1"]);
+        
     }
     
     def helloWorld() {

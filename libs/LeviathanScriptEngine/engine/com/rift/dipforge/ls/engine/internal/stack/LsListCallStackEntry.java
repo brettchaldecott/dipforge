@@ -63,6 +63,7 @@ public class LsListCallStackEntry extends StatementStackEntry {
         this.lsArgument = this.getListArgument(callStatement);
         this.assignmentValue = assignmentValue;
         this.hasAssignment = hasAssignment;
+        getVariable(parent,callStatement);
     }
 
     /**
@@ -81,6 +82,7 @@ public class LsListCallStackEntry extends StatementStackEntry {
         this.lsArgument = this.getListArgument(callStatement);
         this.assignmentValue = assignmentValue;
         this.hasAssignment = hasAssignment;
+        getVariable(parent,callStatement);
     }
     
     
@@ -104,10 +106,12 @@ public class LsListCallStackEntry extends StatementStackEntry {
     private void getVariable(ProcessStackEntry parent,
             CallStatement callStatement) throws EngineException {
         String name = null;
-        String sep = "";
         for (CallStatement.CallStatementEntry entry : callStatement.getEntries()) {
-            name += sep + entry.getName();
-            sep = ".";
+            if (name == null) {
+                name = entry.getName();
+            } else {
+                name += "." + entry.getName();
+            }
         }
         Object variable = parent.getVariable(name);
         if (variable == null) {
@@ -169,8 +173,11 @@ public class LsListCallStackEntry extends StatementStackEntry {
                 listVar.set(key, this.assignmentValue);
             }
             this.result = listVar.get(key);
+        } else if (listVar == null ) {
+            throw new InvalidTypeException("Stack not instanciated properly ["
+                    + result.getClass().getName() + "]");
         } else {
-            throw new InvalidTypeException("Cannot access list or map with type of ["
+            throw new InvalidTypeException("Cannot access list with type of ["
                     + result.getClass().getName() + "]");
         }
     }
