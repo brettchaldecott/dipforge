@@ -28,6 +28,9 @@ import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
+import com.rift.coad.util.change.Change;
+import com.rift.coad.util.change.ChangeException;
+import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.connection.ConnectionManager;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -42,11 +45,55 @@ import org.apache.log4j.Logger;
 public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
 
     // class singletons.
-    private Logger log = Logger.getLogger(RDFStoreDaemonImpl.class);
+    public static Logger log = Logger.getLogger(RDFStoreDaemonImpl.class);
 
     // private member variables
     private ThreadStateMonitor monitor = new ThreadStateMonitor();
+    
+    public static class RDFStoreChange implements Change {
+        
+        private String action;
+        private String rdfXML;
 
+        /**
+         * The constructor that sets up the rdf store.
+         * 
+         * @param action The action to perform on the store.
+         * @param rdfXML The xml to persist.
+         */
+        public RDFStoreChange(String action, String rdfXML) {
+            this.action = action;
+            this.rdfXML = rdfXML;
+        }
+        
+        
+        
+        /**
+         * 
+         * @throws ChangeException 
+         */
+        public void applyChanges() throws ChangeException {
+            try {
+                Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
+                if (StoreActions.PERSIST.equals(action)) {
+                    session.persist(rdfXML);
+                    RDFStoreStatsManager.getInstance().incrementUpdate();
+                } else {
+                    session.remove(rdfXML);
+                    RDFStoreStatsManager.getInstance().incrementDelete();
+                }
+            } catch (Exception ex) {
+                log.error(
+                        "Failed to persist the RDF store change : " + 
+                        ex.getMessage(),ex);
+                throw new ChangeException
+                        ("Failed to persist the RDF store change : " + 
+                        ex.getMessage(),ex);
+            }
+        }
+        
+    }
+    
 
     /**
      * The default constructor for the store daemon.
@@ -66,19 +113,11 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
     public void persist(String action, String rdfXML) throws
             RDFStoreException, RemoteException {
         try {
-            Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
-            if (StoreActions.PERSIST.equals(action)) {
-                session.persist(rdfXML);
-                RDFStoreStatsManager.getInstance().incrementUpdate();
-            } else {
-                session.remove(rdfXML);
-                RDFStoreStatsManager.getInstance().incrementDelete();
-            }
+            ChangeLog.getInstance().addChange(new RDFStoreChange(action,rdfXML));
         } catch (Exception ex) {
-            log.error(
-                    "Failed to setup the RDF store daemon because : " + ex.getMessage(),ex);
-            throw new RemoteException
-                    ("Failed to setup the RDF store daemon because : " + ex.getMessage(),ex);
+            log.error("Failed to add the change : " + ex.getMessage(),ex);
+            throw new RemoteException(
+                    "Failed to add the change : " + ex.getMessage(),ex);
         }
     }
 
@@ -102,6 +141,12 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
                 }
             }
         }
+        
+        try {
+            ChangeLog.init(RDFStoreDaemonImpl.class);
+        } catch (Exception ex) {
+            log.error("Failed to start the request factory : " + ex.getMessage(),ex);
+        }
 
         // register the audit trail logger with the service broker
         try {
@@ -116,6 +161,11 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
         }
 
         while(!monitor.isTerminated()) {
+            try {
+                ChangeLog.getInstance().start();
+            } catch (Exception ex) {
+                log.error("Failed to process : " + ex.getMessage(),ex);
+            }
             monitor.monitor();
         }
         try {
@@ -131,6 +181,12 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
      */
     public void terminate() {
         monitor.terminate(true);
+        try {
+            ChangeLog.terminate();
+        } catch (Exception ex) {
+            log.error("Failed to terminate the change log : " + ex.getMessage(),
+                    ex);
+        }
     }
 
 }
