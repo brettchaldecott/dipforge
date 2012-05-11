@@ -22,6 +22,7 @@
 package com.rift.dipforge.rdf.store.master;
 
 import com.rift.coad.annotation.MethodInfo;
+import com.rift.coad.annotation.ParamInfo;
 import com.rift.coad.annotation.Result;
 import com.rift.coad.annotation.Version;
 import java.rmi.RemoteException;
@@ -30,7 +31,7 @@ import java.rmi.RemoteException;
  *
  * @author brettc
  */
-public interface RDFStoreMasterMBean {
+public interface MasterRDFStoreMBean {
 
     /**
      * This method returns the name of the tomcat daemon.
@@ -70,4 +71,21 @@ public interface RDFStoreMasterMBean {
     @Version(number="1.0")
     @Result(description="The string containing the version")
     public String getStats() throws RemoteException;
+    
+    
+    /**
+     * This method is called to persist the changes
+     * @param action
+     * @param rdfXML
+     * @throws MasterRDFStoreException
+     * @throws RemoteException 
+     */
+    @MethodInfo(description="Persist the XML RDF information in the store and propergate the change.")
+    @Version(number="1.0")
+    public void persist(
+            @ParamInfo(name="action",
+            description="The action being performed on the store.")String action,
+            @ParamInfo(name="rdfXML",
+            description="The information to persist.")String rdfXML) throws MasterRDFStoreException,
+            RemoteException;
 }
