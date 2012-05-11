@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : 
+    Author     : Brett Chaldecott
+    Description:
+        This is the configuration of the Master RDF store.
+-->
+
+<coadunation version="1" name="MasterRDFStore">
+    <jmxbeans>
+        <bean>
+            <interface>com.rift.dipforge.rdf.store.master.MasterRDFStoreMBean</interface>
+            <class>com.rift.dipforge.rdf.store.master.MasterRDFStore</class>
+            <objectName>com.rift.coad.daemon:type=MasterRDFStore</objectName>
+            <bindName>rdf/MasterStore</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemon</interface>
+            <class>com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl</class>
+            <bindName>rdf/MasterRDFStoreDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.type.subscriber.PublishSubscriber</interface>
+            <class>com.rift.dipforge.rdf.store.master.PublishSubscriberImpl</class>
+            <bindName>rdf/MasterPublishSubscriber</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>
