@@ -48,5 +48,6 @@ public interface RDFStoreDaemonAsync extends Remote {
      * @throws RDFStoreException
      * @throws RemoteException
      */
-    public void persist(StoreAction action, String rdfXML) throws RDFStoreException, RemoteException;
+    public void persist(String action, String rdfXML) throws RDFStoreException,
+            RemoteException;
 }
