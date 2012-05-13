@@ -40,7 +40,19 @@ public interface OntologyClass extends DataType {
      */
     public void addProperty(OntologyProperty property) throws OntologyException;
 
+    
+    /**
+     * This method adds a new property.
+     *
+     * @param property This method adds a new property to the ontology.
+     * @param setRange This variable states if a property should have a default
+     * range
+     * @throws OntologyException
+     */
+    public void addProperty(OntologyProperty property, boolean setRange)
+            throws OntologyException;
 
+    
     /**
      * This method return true if the property exists.
      *

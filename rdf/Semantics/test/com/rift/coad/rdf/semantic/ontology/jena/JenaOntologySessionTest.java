@@ -116,6 +116,8 @@ public class JenaOntologySessionTest extends TestCase {
         DataType type = result.getType();
         assertEquals(type.getURI().toString(),XSDDataDictionary.XSD_NAMESPACE +
                 "#" + XSDDataDictionary.XSD_STRING);
+        
+        assertEquals(result.hasRange(),false);
     }
 
 

@@ -104,6 +104,20 @@ public class JenaOntologyClass implements OntologyClass {
      * @throws OntologyException
      */
     public void addProperty(OntologyProperty property) throws OntologyException {
+        addProperty(property, true);
+    }
+    
+    
+    /**
+     * This method adds a new property.
+     *
+     * @param property This method adds a new property to the ontology.
+     * @param setRange This variable states if a property should have a default
+     * range
+     * @throws OntologyException
+     */
+    public void addProperty(OntologyProperty property, boolean setRange)
+            throws OntologyException {
         if (!(property instanceof JenaOntologyProperty)) {
             log.error("Incompatibal type expected [" +
                     JenaOntologyProperty.class.getName() + "] got [" +
@@ -116,13 +130,16 @@ public class JenaOntologyClass implements OntologyClass {
         try {
             JenaOntologyProperty ontologyProperty = (JenaOntologyProperty)property;
             ontologyProperty.getJenaOntProperty().addDomain(jenaOntologyClass);
+            if (setRange) {
+                ontologyProperty.getJenaOntProperty().setRange(jenaOntologyClass);
+            }
         } catch (Exception ex) {
             log.error("Failed to add the property : " + ex.getMessage(),ex);
             throw new OntologyException
                     ("Failed to add the property : " + ex.getMessage(),ex);
         }
     }
-
+    
 
     /**
      * This method return true if the property exists.
@@ -157,7 +174,8 @@ public class JenaOntologyClass implements OntologyClass {
             while (iterator.hasNext()) {
                 OntProperty ontProperty = iterator.next();
                 if (ontProperty.getURI().equals(uri.toString())) {
-                    return new JenaOntologyProperty(ontProperty);
+                    return new JenaOntologyProperty(this.jenaOntologyClass,
+                            ontProperty);
                 }
             }
             throw new OntologyException("The property [" + uri.toString() +
@@ -184,7 +202,8 @@ public class JenaOntologyClass implements OntologyClass {
             List<OntologyProperty> properties = new ArrayList<OntologyProperty>();
             while (iterator.hasNext()) {
                 OntProperty ontProperty = iterator.next();
-                properties.add(new JenaOntologyProperty(ontProperty));
+                properties.add(new JenaOntologyProperty(this.jenaOntologyClass,
+                        ontProperty));
             }
             return properties;
         } catch (Exception ex) {

@@ -72,6 +72,10 @@ public class SessionManagerBuilderTest {
         SessionManager result = SessionManagerBuilder.createManager(properties);
         Session session = result.getSession();
         
+        OntologyClass ontClass = session.getOntologySession().getClass(new URI("http://dipforge.sourceforge.net/schema/rdf/1.0/testsubobject#TestSubObject"));
+        OntologyProperty property = ontClass.getProperty(new URI("http://dipforge.sourceforge.net/schema/rdf/1.0/testsubobject#Name"));
+        assertEquals(property.hasRange(), true);
+        
         TestSubObject subObject = new TestSubObject("subobject1",1,2.2);
         TestBaseObject baseObject = new TestBaseObject("testbase1", 1, subObject);
         session.persist(subObject);

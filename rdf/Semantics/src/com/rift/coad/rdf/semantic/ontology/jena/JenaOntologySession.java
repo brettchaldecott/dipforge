@@ -89,7 +89,7 @@ public class JenaOntologySession implements OntologySession {
                     "The ontology already contains the property : " + uri.toString());
         }
         property = jenaOntModel.createOntProperty(uri.toString());
-        return new JenaOntologyProperty(property);
+        return new JenaOntologyProperty(null,property);
     }
 
 
@@ -106,7 +106,7 @@ public class JenaOntologySession implements OntologySession {
             throw new OntologyException(
                     "The ontology does not contain the uri : " + uri.toString());
         }
-        return new JenaOntologyProperty(property);
+        return new JenaOntologyProperty(null,property);
     }
 
 

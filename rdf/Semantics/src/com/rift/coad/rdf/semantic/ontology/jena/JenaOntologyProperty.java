@@ -47,14 +47,21 @@ public class JenaOntologyProperty implements OntologyProperty {
     private static Logger log = Logger.getLogger(JenaOntologyProperty.class);
     // private member variables
     private OntProperty jenaOntProperty;
+    private OntClass jenaOntClass;
 
     /**
      * This constructor sets the ontology property information.
      *
      * @param jenaOntProperty The jena ontology property.
      */
-    public JenaOntologyProperty(OntProperty jenaOntProperty) {
+    public JenaOntologyProperty(OntClass jenaOntClass,
+            OntProperty jenaOntProperty) {
         this.jenaOntProperty = jenaOntProperty;
+        if (jenaOntClass != null) {
+            this.jenaOntClass = jenaOntClass;
+        } else {
+            this.jenaOntClass = (OntClass)jenaOntProperty.getDomain();
+        }
     }
 
     /**
@@ -204,4 +211,47 @@ public class JenaOntologyProperty implements OntologyProperty {
             throw new OntologyException("Failed to set the type : " + ex.getMessage(), ex);
         }
     }
+
+    /**
+     * This method returns the range of this object.
+     * 
+     * @return
+     * @throws OntologyException 
+     */
+    public DataType getRange() throws OntologyException {
+        if (this.hasRange()) {
+            return new JenaOntologyClass(
+                    (OntClass)this.jenaOntProperty.getRange());
+        }
+        return null;
+    }
+
+    /**
+     * This method returns true if the 
+     * @return
+     * @throws OntologyException 
+     */
+    public boolean hasRange() throws OntologyException {
+        return this.jenaOntProperty.hasRange(this.jenaOntClass);
+    }
+
+    
+    /**
+     * This method sets the range on a given property.
+     * 
+     * @param range This method sets the range on a given property
+     * @throws OntologyException 
+     */
+    public void setRange(DataType range) throws OntologyException {
+        try {
+            this.jenaOntProperty.setRange(
+                    this.jenaOntProperty.getModel().getResource(
+                    range.getURI().toString()));
+        } catch (Exception ex) {
+            throw new OntologyException(
+                    "Failed to set the range on the property : "
+                    + ex.getMessage(),ex);
+        }
+    }
+    
 }

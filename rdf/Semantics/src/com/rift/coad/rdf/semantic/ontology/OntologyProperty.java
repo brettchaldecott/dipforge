@@ -85,4 +85,31 @@ public interface OntologyProperty extends Property {
      * @throws OntologyException
      */
     public DataType getType() throws OntologyException;
+    
+    
+    /**
+     * This method returns true if the ontology property has a range.
+     * 
+     * @return True if this object has a range
+     * @throws OntologyException 
+     */
+    public boolean hasRange() throws OntologyException;
+    
+    
+    /**
+     * This method gets the range information.
+     * 
+     * @return The reference to the range
+     * @throws OntologyException 
+     */
+    public DataType getRange() throws OntologyException;
+    
+    
+    /**
+     * This method sets the range information for the object.
+     * 
+     * @param range The range reference.
+     * @throws OntologyException 
+     */
+    public void setRange(DataType range) throws OntologyException;
 }
