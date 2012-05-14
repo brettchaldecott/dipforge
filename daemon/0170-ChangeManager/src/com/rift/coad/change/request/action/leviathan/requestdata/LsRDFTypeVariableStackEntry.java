@@ -47,7 +47,7 @@ import java.util.Map;
 public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
 
     private CallStatement callStatement;
-    private RequestData target;
+    private LsActionRDFProperty target;
     private Object assignmentValue;
     private boolean hasAssignment;
     
@@ -64,7 +64,7 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
             Object target, Object assignmentValue, boolean hasAssignment) {
         super(parent.getProcessorMemoryManager(), parent, variables);
         this.callStatement = callStatement;
-        this.target = (RequestData)target;
+        this.target = (LsActionRDFProperty)target;
         this.assignmentValue = assignmentValue;
         this.hasAssignment = hasAssignment;
     }
@@ -79,11 +79,10 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
     @Override
     public void execute() throws EngineException {
         try {
-            RequestData data = (RequestData)target;
+            LsActionRDFProperty data = (LsActionRDFProperty)target;
             Session session = XMLSemanticUtil.getSession();
-            session.persist(data.getData());
-            Resource resource = session.get(Resource.class, 
-                    data.getDataType() + "/" + data.getId());
+            session.persist(data.getData().getData());
+            Resource resource = session.get(Resource.class,data.getUri());
             
             // walk the resources
             resource = LsRDFTypeUtil.getResource(resource, 
@@ -180,10 +179,9 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
                                 resource.getProperty(Date.class, property.getURI().toString()));
                     } else {
                         String stringUri = resource.getURI().toString();
-                        String id = stringUri.substring(stringUri.lastIndexOf("/") + 1);
-                        this.getParent().setResult(new RequestData(
-                                id, ontologyClass.getURI().toString(),
-                                this.target.getData(), ontologyClass.getLocalName()));
+                        this.getParent().setResult(new LsActionRDFProperty(
+                                propertyName, stringUri, ontologyClass.getURI().toString(),
+                                this.target.getData()));
                     }
                     return;
                 }
@@ -224,7 +222,7 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
                                 new URI(dataParameter.getDataType() + "/" + 
                                 dataParameter.getId())));
                     }
-                    this.target.setData(session.dumpXML());
+                    this.target.getData().setData(session.dumpXML());
                     return;
                 }
             }

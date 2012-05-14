@@ -23,6 +23,7 @@
 package com.rift.coad.change.request.action.leviathan;
 
 import com.rift.coad.change.request.RequestData;
+import com.rift.coad.change.request.action.leviathan.requestdata.LsActionRDFProperty;
 import com.rift.coad.change.request.action.leviathan.requestdata.LsRDFTypeListStackEntry;
 import com.rift.coad.change.request.action.leviathan.requestdata.LsRDFTypeMethodStackEntry;
 import com.rift.coad.change.request.action.leviathan.requestdata.LsRDFTypeVariableStackEntry;
@@ -136,7 +137,7 @@ public class LsRDFTypeManager implements TypeManager {
      * @throws EngineException 
      */
     public boolean manageType(Object type) throws EngineException {
-        if (type instanceof RequestData) {
+        if (type instanceof LsActionRDFProperty) {
             return true;
         }
         return false;
@@ -161,11 +162,11 @@ public class LsRDFTypeManager implements TypeManager {
                     + " annotation name [" + name + "][" + 
                     configParameters.keySet().toString() + "]");
         }
-        RequestData data = (RequestData)configParameters.get(name);
-        if (!data.getDataType().equals(type)) {
+        LsActionRDFProperty data = (LsActionRDFProperty)configParameters.get(name);
+        if (!data.getDataTypeUri().equals(type)) {
             throw new EngineException("The configuration parameter to match the"
                     + " annotation name [" + name + "] does not match type expected [" +
-                    type + "] got [" + data.getDataType() + "]");
+                    type + "] got [" + data.getDataTypeUri() + "]");
         }
         envParameters.put(name, data);
     }

@@ -47,11 +47,14 @@ import com.rift.coad.change.request.RequestEvent;
 import com.rift.coad.change.request.RequestFactoryObjectImpl;
 import com.rift.coad.change.request.action.leviathan.LeviathanLog;
 import com.rift.coad.change.request.action.leviathan.LeviathanPrint;
+import com.rift.coad.change.request.action.leviathan.requestdata.LsActionRDFData;
+import com.rift.coad.change.request.action.leviathan.requestdata.LsActionRDFProperty;
 import com.rift.coad.lib.Resource;
 import com.rift.coad.lib.ResourceIndex;
 import com.rift.coad.lib.common.CopyObject;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
+import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
 import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.connection.ConnectionManager;
 import com.rift.dipforge.ls.engine.LeviathanConfig;
@@ -199,10 +202,21 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
             properties.put("out", new LeviathanPrint());
             properties.put("log", new LeviathanLog(actionInfo.getProject(),
                     actionInfo.getFile()));
-            properties.put(request.getData().getName(), request.getData());
+            Session session = XMLSemanticUtil.getSession();
+            LsActionRDFData rdfData = new LsActionRDFData();
+            session.persist(request.getData().getData());
+            properties.put(request.getData().getName(), 
+                    new LsActionRDFProperty(request.getData().getName(), 
+                    request.getData().getDataType() + "/" + request.getData().getId(),
+                    request.getData().getDataType(),rdfData));
             for (RequestData data: request.getDependencies()) {
-                properties.put(data.getName(), data);
+                session.persist(data.getData());
+                properties.put(data.getName(), 
+                    new LsActionRDFProperty(data.getName(), 
+                    data.getDataType() + "/" + data.getId(),
+                    data.getDataType(),rdfData));
             }
+            rdfData.setData(session.dumpXML());
             
             // instanciate the processor
             processor = LeviathanEngine.getInstance().
