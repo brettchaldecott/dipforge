@@ -33,6 +33,7 @@ public class RDFDataType implements Serializable {
     private String namespace;
     private String localName;
     private String typeUri = null;
+    private boolean range = true;
 
     /**
      * The default constructor.
@@ -124,6 +125,28 @@ public class RDFDataType implements Serializable {
     public void setTypeUri(String typeUri) {
         this.typeUri = typeUri;
     }
+
+    
+    /**
+     * This method returns true if this RDF data type has a default range of the class.
+     * 
+     * @return TRUE if this class has a range.
+     */
+    public boolean hasRange() {
+        return range;
+    }
+
+    
+    /**
+     * This method sets the range.
+     * 
+     * @param range 
+     */
+    public void setRange(boolean range) {
+        this.range = range;
+    }
+    
+    
     
 
     /**
