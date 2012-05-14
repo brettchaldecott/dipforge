@@ -131,11 +131,17 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                         property.setType(XSDDataDictionary.getTypeByURI(
                                 type.getTypeUri()));
                     } else {
-                        property.setType(session.getClass(
-                                new URI(type.getTypeUri())));
+                        URI typeURI = new URI(type.getTypeUri());
+                        if (session.hasClass(typeURI) || type.hasRange()) {
+                            property.setType(session.getClass(
+                                    typeURI));
+                        } else if (!type.hasRange()){
+                            property.setType(
+                                session.createClass(typeURI));
+                        }
                     }
                 }
-                ontologyClass.addProperty(property);
+                ontologyClass.addProperty(property,type.hasRange());
             }
             this.persist(session,resource.getProject());
             auditLog.complete("Add new type %s",resource.toString());
@@ -184,11 +190,17 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                         property.setType(XSDDataDictionary.getTypeByURI(
                                 type.getTypeUri()));
                     } else {
-                        property.setType(session.getClass(
-                                new URI(type.getTypeUri())));
+                        URI typeURI = new URI(type.getTypeUri());
+                        if (session.hasClass(typeURI) || type.hasRange()) {
+                            property.setType(session.getClass(
+                                    typeURI));
+                        } else if (!type.hasRange()){
+                            property.setType(
+                                session.createClass(typeURI));
+                        }
                     }
                 }
-                ontologyClass.addProperty(property);
+                ontologyClass.addProperty(property,type.hasRange());
             }
             this.persist(session,resource.getProject());
             auditLog.complete("Updated a type %s",resource.toString());
