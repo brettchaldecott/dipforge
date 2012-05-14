@@ -5,6 +5,7 @@
 
 package com.rift.dipforge.project.type;
 
+import com.rift.coad.type.dto.ResourceDefinition;
 import java.io.FileInputStream;
 import java.io.File;
 import java.util.List;
@@ -61,6 +62,10 @@ public class XMLTypeInfoParserTest {
         XMLTypeInfoParser instance = new XMLTypeInfoParser(readTestFile());
         List result = instance.getTypes();
         assertEquals(3, result.size());
+        List<ResourceDefinition> resources = instance.getTypes();
+        ResourceDefinition resource = resources.get(2);
+        assertEquals(true,resource.getProperties().get("property3").hasRange());
+        assertEquals(false,resource.getProperties().get("property6").hasRange());
     }
 
 

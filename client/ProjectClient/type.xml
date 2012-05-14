@@ -21,6 +21,6 @@
     <type name="type3" namespace="http://dipforge.sourceforge.net/test3">
         <property name="property3" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="property4" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link datatype="http://dipforge.sourceforge.net/test#type1"/>
+        <link name="property6" datatype="http://dipforge.sourceforge.net/test#type1"/>
     </type>
 </types>

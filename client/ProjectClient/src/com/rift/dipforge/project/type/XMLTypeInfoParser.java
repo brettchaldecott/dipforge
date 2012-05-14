@@ -103,6 +103,13 @@ public class XMLTypeInfoParser {
                             (String)attributes.getValue(NAME),
                             (String)attributes.getValue(DATATYPE));
                     resource.addProperty(name, types);
+                } else if (inType && qName.compareToIgnoreCase(LINK) == 0) {
+                    String name = (String)attributes.getValue(NAME);
+                    RDFDataType types = new RDFDataType(resource.getNamespace(),
+                            (String)attributes.getValue(NAME),
+                            (String)attributes.getValue(DATATYPE));
+                    types.setRange(false);
+                    resource.addProperty(name, types);
                 }
                 
             } catch (Exception ex) {
