@@ -91,8 +91,15 @@ class RDFTypeBuilder {
                     typeInstance."${propertyName}" + "]")
                 resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
             } else {
-                resource.addProperty(classProperty.getURI().toString(),
-                    (Resource)typeInstance."${propertyName}".builder.processResource(session))
+                if (classProperty.hasRange()) {
+                    resource.addProperty(classProperty.getURI().toString(),
+                        (Resource)typeInstance."${propertyName}".builder.processResource(session))
+                } else {
+                    resource.addProperty(classProperty.getURI().toString(),
+                        session.createResource(
+                            typeInstance."${propertyName}".builder.classDef.getURI(),
+                            typeInstance."${propertyName}".builder.classDef.getURI() + "/" + typeInstance."${propertyName}".getId()))
+                }
             }
         }
         return resource

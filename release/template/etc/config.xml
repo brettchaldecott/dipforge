@@ -227,6 +227,13 @@
             min=10,
             max=10
         </entry>
+        <entry key="db_source11" type="string">
+            jndi=masterrdfstore,
+            url=jdbc:hsqldb:hsql://@hostname@/masterrdfstore,
+            username=sa,
+            password=,
+            min=10,
+            max=10
     </object>
     <object name="com.rift.coad.lib.security.login.LoginManager">
         <entry key="session_timeout" type="long">
@@ -345,7 +352,7 @@
            @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
-           audit=backwards,change=backwards,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker=backwards,dipforgeweb=backwards
+           audit=backwards,change=backwards,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker=backwards,dipforgeweb=backwards,masterrdfstore=backwards
         </entry>
     </object>
     <object name="com.rift.coad.daemon.timer.TimerImpl">
@@ -970,6 +977,14 @@
             views
         </entry>
     </object>
+    <object name="com.rift.dipforge.rdf.store.RDFStoreDaemonImpl">
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            @dipforge_home@/var/rdfstore
+        </entry>
+    </object>
     <object name="com.rift.dipforge.rdf.store.RDFConfig">
         <entry key="rdf_query_url" type="string">
             http://@hostname@:8080/schema/rdf?list=true
@@ -985,6 +1000,29 @@
         </entry>
         <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/dipforge_web.ttl
+        </entry>
+    </object>
+    <object name="com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl">
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            @dipforge_home@/var/masterrdfstore
+        </entry>
+        <entry key="rdf_query_url" type="string">
+            http://@hostname@:8080/schema/rdf?list=true
+        </entry>
+        <entry key="persistance_manager" type="string">
+           com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceManager
+        </entry>
+        <entry key="ontology_manager" type="string">
+           com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
+        </entry>
+        <entry key="jena_store_type" type="string">
+           sdb
+        </entry>
+        <entry key="store_configuration_file" type="string">
+            @dipforge_home@/var/semantics/master_rdf_store.ttl
         </entry>
     </object>
     <!-- End of Dipforge Groovy Environment -->

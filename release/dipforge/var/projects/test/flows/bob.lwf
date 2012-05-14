@@ -25,11 +25,19 @@
  * This is the template for a flow
  */
 @java("out")
+@rdf("http://dipforge.sourceforge.net/test1#type1" "type1")
 flow bob {
    def out
-
+   def type1
 
    {
-       out.println("hello world example")
+       out.println("before : ##################################################")
+       out.println("hello world example 1 : " + type1.getProperty1())
+       out.println("hello world example 2 : " + type1.property2)
+       type1.setProperty1("man on moon")
+       type1.property2 = "bob is bill"
+       out.println("hello world example 3 : " + type1.getProperty1())
+       out.println("hello world example 4 : " + type1.property2)
+       out.println("after : ##################################################")
    }
 }

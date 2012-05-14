@@ -23,6 +23,7 @@ package com.dipforge.request
 
 
 // imports
+import org.apache.log4j.Logger;
 import com.rift.coad.lib.common.RandomGuid;
 import com.rift.coad.change.request.Request;
 import com.rift.coad.change.request.RequestData;
@@ -35,6 +36,9 @@ import com.rift.coad.change.request.RequestEvent;
  * @author brett chaldecott
  */
 class RequestHandler {
+    
+    // private member variables    
+    static def log = Logger.getLogger("com.dipforge.request.RequestHandler");
     
     String project
     String action
@@ -108,6 +112,19 @@ class RequestHandler {
             }
             requestData.setData(dependancyList)
         }
+        // this method loo
+        def classProperties = this.data.builder.classDef.listProperties()
+        for (classProperty in classProperties) {
+            if (classProperty.hasRange()) {
+                continue
+            }
+            java.util.List<RequestData> dependancyList = requestData.getData()
+            def propertyName = classProperty.getLocalname()
+            dependancyList.add(new RequestData(this.data."${propertyName}".getId(), this.data."${propertyName}".builder.classDef.getURI().toString(),
+                        this.data."${propertyName}".toXML(), propertyName))
+        }
+        
+        
         connector.getBroker().createRequest(request) 
     }
 }
