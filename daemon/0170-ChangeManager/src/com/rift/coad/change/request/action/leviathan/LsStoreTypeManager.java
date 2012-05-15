@@ -22,6 +22,9 @@
 
 package com.rift.coad.change.request.action.leviathan;
 
+import com.rift.coad.change.request.action.leviathan.requestdata.LsActionRDFProperty;
+import com.rift.coad.change.request.action.leviathan.store.LsStoreMethodStackEntry;
+import com.rift.coad.change.request.action.leviathan.store.LsStoreProperty;
 import com.rift.dipforge.ls.engine.EngineException;
 import com.rift.dipforge.ls.engine.TypeManager;
 import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
@@ -32,34 +35,123 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ * The implementation of the LsStoreTypeManager
  * 
  * @author brett chaldecott
  */
 public class LsStoreTypeManager implements TypeManager {
 
+    /**
+     * The default constructor of the ls store type manager
+     */
+    public LsStoreTypeManager() {
+    }
+    
+    
+    /**
+     * This method returns true if the annotation can be managed by this object.
+     * 
+     * @param annotation The reference to the annotation to process.
+     * @return returns TRUE if the annotation can be handled
+     * @throws EngineException 
+     */
     public boolean canHandleAnnotation(LsAnnotation annotation) throws EngineException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean result = annotation.getName().equalsIgnoreCase("store");
+        if (result && annotation.getList().size() != 1) {
+            throw new EngineException(
+                    "The annotation is corrupt and must provide one parameters [name] got [" +
+                    annotation.getList().size() + "]");
+        }
+        return result;
     }
 
+    
+    /**
+     * This method is called to process the annotation.
+     * 
+     * @param flow The reference to the flow.
+     * @param annotation The annotation
+     * @param configParameters The config parameters.
+     * @param envParameters The environment.
+     * @throws EngineException 
+     */
     public void processAnnotation(Workflow flow, LsAnnotation annotation, Map configParameters, Map envParameters) throws EngineException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String name = annotation.getList().get(0);
+        envParameters.put(name, new LsStoreProperty(name));
     }
 
+    
+    /**
+     * This method is called to determine if this type manager manages the given type.
+     * 
+     * @param type The type to perform the check on.
+     * @return TRUE if the type is managed by this object.
+     * @throws EngineException 
+     */
     public boolean manageType(Object type) throws EngineException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (type instanceof LsStoreProperty) {
+            return true;
+        }
+        return false;
     }
 
-    public ProcessStackEntry createStackEntryForMethod(ProcessStackEntry parent, Map variables, CallStatement callStatement, Object variable, List parameters) throws EngineException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+    /**
+     * This method creates a new stack entry for method
+     * @param parent
+     * @param variables
+     * @param callStatement
+     * @param variable
+     * @param parameters
+     * @return
+     * @throws EngineException 
+     */
+    public ProcessStackEntry createStackEntryForMethod(
+            ProcessStackEntry parent, Map variables, 
+            CallStatement callStatement, Object variable, List parameters)
+            throws EngineException {
+        return new LsStoreMethodStackEntry(parent,variables, callStatement, variable,
+            parameters);
     }
 
-    public ProcessStackEntry createStackEntryForList(ProcessStackEntry parent, Map variables, CallStatement callStatement, Object target, Object argument, Object assignmentValue, boolean hasAssignment) throws EngineException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+    /**
+     * This method is not supported by this type.
+     * 
+     * @param parent
+     * @param variables
+     * @param callStatement
+     * @param target
+     * @param argument
+     * @param assignmentValue
+     * @param hasAssignment
+     * @return
+     * @throws EngineException 
+     */
+    public ProcessStackEntry createStackEntryForList(ProcessStackEntry parent,
+            Map variables, CallStatement callStatement, Object target,
+            Object argument, Object assignmentValue, boolean hasAssignment)
+            throws EngineException {
+        throw new UnsupportedOperationException("Not supported.");
     }
 
-    public ProcessStackEntry createStackEntryForVariable(ProcessStackEntry parent, Map variables, CallStatement callStatement, Object target, Object assignmentValue, boolean hasAssignment) throws EngineException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+    /**
+     * THis method is not supported by this type.
+     * @param parent
+     * @param variables
+     * @param callStatement
+     * @param target
+     * @param assignmentValue
+     * @param hasAssignment
+     * @return
+     * @throws EngineException 
+     */
+    public ProcessStackEntry createStackEntryForVariable(
+            ProcessStackEntry parent, Map variables,
+            CallStatement callStatement, Object target,
+            Object assignmentValue, boolean hasAssignment) throws EngineException {
+        throw new UnsupportedOperationException("Not supported.");
     }
     
 }
