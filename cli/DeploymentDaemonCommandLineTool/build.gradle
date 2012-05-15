@@ -23,7 +23,7 @@ dependencies {
     releaseJars group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
     releaseJars group: 'avalon', name: 'avalon-logkit', version: '1.2', ext: 'jar'
     releaseJars group: 'avalon-framework', name: 'avalon-framework', version: '4.1.5', ext: 'jar'
-    releaseJars group: 'jacorb', name: 'jacorb', version: '2.3.0jboss.patch6-brew', ext: 'jar'
+    releaseJars group: 'org.jacorb', name: 'jacorb', version: '2.3.1', ext: 'jar'
     releaseJars project(':client:DeploymentDaemonClient')
     releaseJars project(':libs:CoadunationCommon')
     releaseJars project(':libs:CoadunationAnnotations')
