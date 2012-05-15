@@ -26,6 +26,7 @@
  */
 @java("out")
 @rdf("http://dipforge.sourceforge.net/test1#type1" "type1")
+@store("store")
 flow bob {
    def out
    def type1
@@ -39,5 +40,6 @@ flow bob {
        out.println("hello world example 3 : " + type1.getProperty1())
        out.println("hello world example 4 : " + type1.property2)
        out.println("after : ##################################################")
+       store.persist(type1)
    }
 }
