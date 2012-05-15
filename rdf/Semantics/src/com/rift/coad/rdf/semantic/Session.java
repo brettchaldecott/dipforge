@@ -131,6 +131,17 @@ public interface Session {
     
     
     /**
+     * This method is called t o create the resource identified by the URI
+     * 
+     * @param identifier The uri identifier
+     * @return The resource reference.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public Resource createResource(URI identifier) throws SessionException, UnknownEntryException;
+    
+    
+    /**
      * This method is called to create the resource identified by the string.
      * 
      * @param <T> The identifier.

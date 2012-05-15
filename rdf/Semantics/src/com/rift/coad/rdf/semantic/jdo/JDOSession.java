@@ -123,6 +123,20 @@ public interface JDOSession {
      * @throws SessionException
      * @throws UnknownEntryException 
      */
+    public Resource createResource(URI identifier) 
+            throws SessionException, UnknownEntryException;
+    
+    
+    /**
+     * This method creates the object.
+     * 
+     * @param <T> The reference to the object.
+     * @param c The class.
+     * @param identifier The identifier.
+     * @return The object.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
     public Resource createResource(URI typeURI, URI itentifier) 
             throws SessionException, UnknownEntryException;
     

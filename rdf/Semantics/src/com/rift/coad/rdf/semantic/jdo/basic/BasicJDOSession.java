@@ -283,6 +283,34 @@ public class BasicJDOSession implements JDOSession {
      * @throws SessionException
      * @throws UnknownEntryException 
      */
+    public Resource createResource(URI identifier) 
+            throws SessionException, UnknownEntryException {
+        try {
+            PersistanceResource resource = persistanceSession.createResource(
+                    identifier);
+            return BasicJDOProxyFactory.createJDOProxy(Resource.class,
+                    persistanceSession, resource,
+                    ontologySession);
+        } catch (Exception ex) {
+            log.error("Failed to create the resource : " +
+                    ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed create get the resource : " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method creates the object.
+     * 
+     * @param <T> The reference to the object.
+     * @param c The class.
+     * @param identifier The identifier.
+     * @return The object.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
     public Resource createResource(URI typeURI, URI identifer) 
             throws SessionException, UnknownEntryException {
         try {

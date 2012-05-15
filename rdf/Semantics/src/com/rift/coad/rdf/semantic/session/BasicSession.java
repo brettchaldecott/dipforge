@@ -272,6 +272,25 @@ public class BasicSession implements Session {
     
     
     /**
+     * This method is called t o create the resource identified by the URI
+     * 
+     * @param identifier The uri identifier
+     * @return The resource reference.
+     * @throws SessionException
+     * @throws UnknownEntryException 
+     */
+    public Resource createResource(URI identifier) throws SessionException, UnknownEntryException {
+        try {
+            return jdoSession.createResource(identifier);
+        } catch (Exception ex) {
+            log.error("Failed to create the resource : " +
+                    ex.getMessage(),ex);
+            throw new SessionException("Failed to create the resource: " +
+                    ex.getMessage(),ex);
+        }
+    }
+    
+    /**
      * This method is called to create the resource identified by the string.
      * 
      * @param typeURI The type uri

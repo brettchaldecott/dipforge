@@ -83,8 +83,11 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         // retrieve the ontology class
         try {
             PersistanceIdentifier typeIdentifier = PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE, RDFConstants.TYPE_LOCALNAME);
-            ontologyClass = ontologySession.getClass(
-                    resource.getProperty(typeIdentifier).getValueAsResource().getURI());
+            // assume a resource does not have a property to identify the type information.
+            if (resource.hasProperty(typeIdentifier)) {
+                ontologyClass = ontologySession.getClass(
+                        resource.getProperty(typeIdentifier).getValueAsResource().getURI());
+            }
         } catch (Exception ex) {
             log.error("Failed to retrieve the resource type information : "
                     + ex.getMessage(), ex);
