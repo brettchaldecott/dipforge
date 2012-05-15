@@ -38,6 +38,7 @@ task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
 	":rdf:CommonTypes:build",":client:AuditTrail:build",
 	":rdf:ChangeControlRDF:build",":rdf:RequestBrokerRDF:build",
 	":daemon:0100-AuditTrailServer:build",":daemon:0150-CoadunationTypeManager:build",
+	":daemon:0057-MasterRDFStore:build",
 	":daemon:0170-ChangeManager:build", ":web:lib:CoadunationGWTLibrary:build",
 	":daemon:0180-RequestBroker:build",
 	":web:lib:WebLibs:build", ":web:lib:AuditTrailGWT:build",
@@ -442,6 +443,8 @@ dependencies {
     releaseClients project(':client:RequestBrokerClient')
     releaseClients project(':client:DataMapperBroker')
     releaseClients project(':client:ProjectClient')
+    releaseClients project(':client:RDFStoreClient')
+    releaseClients project(':client:RDFMasterStoreClient')
     
     // release rdf libs
     releaseRDFClients project(':rdf:SchemaUtils')
@@ -465,6 +468,7 @@ dependencies {
     releaseDaemon project(':daemon:0050-DesktopServer')
     releaseDaemon project(':daemon:0050-EventServer')
     releaseDaemon project(':daemon:0050-Timer')
+    releaseDaemon project(':daemon:0057-MasterRDFStore')
     releaseDaemon project(':daemon:0060-Tomcat')
     releaseDaemon project(':daemon:0101-DeploymentDaemon')
     releaseDaemon project(':daemon:0102-RSSReader')

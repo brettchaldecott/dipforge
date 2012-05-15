@@ -234,6 +234,7 @@
             password=,
             min=10,
             max=10
+        </entry>
     </object>
     <object name="com.rift.coad.lib.security.login.LoginManager">
         <entry key="session_timeout" type="long">
