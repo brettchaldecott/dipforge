@@ -121,6 +121,19 @@ public class GroovyExecuter {
         }
     }
 
+    
+    /**
+     * This method returns the reference to the class loader used by this object
+     * 
+     * @return The reference to the class path loader setup for the object.
+     */
+    public ClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    
+    
+    
     /**
      * This method is called to execute a script on behalf of a servlet.
      *
