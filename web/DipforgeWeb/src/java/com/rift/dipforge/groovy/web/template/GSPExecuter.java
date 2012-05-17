@@ -20,6 +20,8 @@
  */
 package com.rift.dipforge.groovy.web.template;
 
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.dipforge.groovy.lib.ContextInfo;
 import com.rift.dipforge.groovy.lib.GroovyClassLoader;
 import com.rift.dipforge.groovy.lib.reflect.GroovyReflectionUtil;
@@ -28,11 +30,7 @@ import com.rift.dipforge.groovy.web.template.GSPEnvironmentException;
 import groovy.lang.Closure;
 import groovy.servlet.AbstractHttpServlet;
 import groovy.servlet.ServletBinding;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +51,12 @@ import org.apache.log4j.Logger;
  * @author brett chaldecott
  */
 public class GSPExecuter {
-
+    
+    // class constants
+    private final static String GSP_INIT = "gsp_init";
+    private final static String DEFAULT_GSP_INIT = "dipforge/views/init.gsp";
+    
+    
     /**
      * A simple cache template original copied from the groovy source but modified
      * to fit the dipforge requirements.
@@ -128,6 +131,7 @@ public class GSPExecuter {
     private String basePath;
     private String webDir;
     private String libDir;
+    private String initPath;
     private String[] subdirs;
     private String[] libsdir;
     private Object templateEngine;
@@ -143,14 +147,25 @@ public class GSPExecuter {
      */
     public GSPExecuter(ContextInfo context, String dipLibPath, String basePath, String webDir,
             String libDir, String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
-        this.context = context;
-        this.dipLibPath = dipLibPath;
-        this.basePath = basePath;
-        this.webDir = webDir;
-        this.libDir = libDir;
-        this.subdirs = subdirs;
-        this.libsdir = libsdir;
-        initTemplateEngineScriptEngine();
+        try {
+            Configuration config = ConfigurationFactory.getInstance().getConfig(
+                    GSPExecuter.class);
+            
+            this.context = context;
+            this.dipLibPath = dipLibPath;
+            this.basePath = basePath;
+            this.webDir = webDir;
+            this.libDir = libDir;
+            this.subdirs = subdirs;
+            this.libsdir = libsdir;
+            this.initPath = config.getString(GSP_INIT, DEFAULT_GSP_INIT);
+            initTemplateEngineScriptEngine();
+        } catch (GSPEnvironmentException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new GSPEnvironmentException("Failed to init the GSP executer : " +
+                    ex.getMessage(),ex);
+        }
     }
 
     /**
@@ -554,8 +569,27 @@ public class GSPExecuter {
                     return entry.getTemplate();
                 }
             }
-            Method createTemplateMethod = templateEngine.getClass().getMethod("createTemplate", Reader.class);
-            Object template = createTemplateMethod.invoke(templateEngine, new FileReader(templatePath));
+            // prepend the dipforge init script
+            File initTemplateFile = new File(this.basePath,this.initPath);
+            StringBuilder templateSource = new StringBuilder();
+            if (initTemplateFile.exists()) {
+                log.info("Read in the template file :" + initTemplateFile.getPath());
+                FileInputStream in = new FileInputStream(initTemplateFile);
+                byte[] buffer = new byte[(int)initTemplateFile.length()];
+                in.read(buffer);
+                templateSource.append(new String(buffer));
+            } else {
+                log.info("#### Template file [" + initTemplateFile.getPath() + 
+                        "] does not exist");
+            }
+            // read in the template
+            FileInputStream in = new FileInputStream(templatePath);
+            byte[] buffer = new byte[(int)templatePath.length()];
+            in.read(buffer);
+            templateSource.append(new String(buffer));
+            
+            Method createTemplateMethod = templateEngine.getClass().getMethod("createTemplate", String.class);
+            Object template = createTemplateMethod.invoke(templateEngine, templateSource.toString());
             this.templateCache.put(templatePath.getPath(), new TemplateCacheEntry(templatePath, template));
             return template;
         } catch (Exception ex) {

@@ -19,6 +19,7 @@
     <servlet>
         <servlet-name>WebGroovyServlet</servlet-name>
         <servlet-class>com.rift.dipforge.groovy.web.WebGroovyServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>MediaServlet</servlet-name>
