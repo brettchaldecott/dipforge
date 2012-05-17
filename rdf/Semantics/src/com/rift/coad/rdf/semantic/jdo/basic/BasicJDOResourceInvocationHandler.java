@@ -53,6 +53,7 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
     // class constants
     private final static String GET_URI = "getURI";
     private final static String GET = "get";
+    private final static String HAS_PROPERTY = "hasProperty";
     private final static String ADD_PROPERTY = "addProperty";
     private final static String SET_PROPERTY = "setProperty";
     private final static String GET_PROPERTY = "getProperty";
@@ -124,6 +125,8 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
             return getURI();
         } else if (info.getName().equals(GET)) {
             return get(args);
+        } else if (info.getName().equals(HAS_PROPERTY)) {
+            return hasProperty(args);
         } else if (info.getName().equals(ADD_PROPERTY)) {
             return addProperty(args);
         } else if (info.getName().equals(SET_PROPERTY)) {
@@ -210,6 +213,27 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         }
     }
 
+    
+    /**
+     * This method implements the dynamic call for the resource wrapper.
+     * 
+     * @param args The list of arguments.
+     * @return
+     * @throws ResourceException 
+     */
+    private Object hasProperty(Object[] args) throws ResourceException {
+        try {
+            RDFURIHelper uriHelper = new RDFURIHelper((String) args[0]);
+            PersistanceIdentifier identifier = PersistanceIdentifier.getInstance(
+                    uriHelper.getNamespace(), uriHelper.getLocalName());
+            return this.resource.hasProperty(identifier);
+        } catch (Exception ex) {
+            log.error("Failed to determine if the property exists : " + ex.getMessage(), ex);
+            throw new ResourceException("Failed to determine if the property exists : "
+                    + ex.getMessage(), ex);
+        }
+    }
+    
     /**
      * The method adds properties to the resource.
      *

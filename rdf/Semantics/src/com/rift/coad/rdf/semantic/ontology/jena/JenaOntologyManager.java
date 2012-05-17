@@ -53,7 +53,7 @@ public class JenaOntologyManager implements OntologyManager {
      */
     public JenaOntologyManager(Properties properties) throws OntologyException {
         try {
-            jenaOntModel = ModelFactory.createOntologyModel();
+            jenaOntModel = ModelFactory.createOntologyModel(OntModelSpec.RDFS_MEM_RDFS_INF);
             if (properties.containsKey(OntologyConstants.ONTOLOGY_CONTENTS)) {
                 String contents = properties.getProperty(OntologyConstants.ONTOLOGY_CONTENTS);
                 ByteArrayInputStream in = new ByteArrayInputStream(contents.getBytes());

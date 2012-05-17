@@ -41,7 +41,18 @@ public interface Resource {
      * @throws ResourceException
      */
     public URI getURI() throws ResourceException;
-
+    
+    
+    /**
+     * This method returns true if the resource has a specific property assigned to it.
+     * 
+     * @param url The url value.
+     * @return TRUE if found, FALSE if not.
+     * @throws ResourceException 
+     */
+    public boolean hasProperty(String url) throws ResourceException;
+    
+    
     /**
      * This method returns the object instance identifed by the type information.
      *
