@@ -45,6 +45,7 @@ public class MethodMapping implements Serializable {
     
     private String id;
     private String jndi;
+    private String service;
     private String project;
     private String className;
     private String methodName;
@@ -78,6 +79,26 @@ public class MethodMapping implements Serializable {
         this.generateHashId();
     }
     
+    /**
+     * The constructor that sets all internal values.
+     * 
+     * @param id The id of this method
+     * @param jndi The reference to the jndi object.
+     * @param project The project name.
+     * @param className The className path.
+     * @param typeParameters The type parameters
+     */
+    public MethodMapping(String jndi, String service, String project, 
+            String className, String methodName) throws TypesException {
+        this.jndi = jndi;
+        this.service = service;
+        this.project = project;
+        this.className = className;
+        this.methodName = methodName;
+        this.parameters = new ArrayList<ParameterMapping>();
+        this.generateHashId();
+    }
+    
     
     /**
      * The constructor that sets all internal values.
@@ -99,6 +120,27 @@ public class MethodMapping implements Serializable {
         this.generateHashId();
     }
 
+    
+    /**
+     * The constructor that sets all internal values.
+     * 
+     * @param jndi The reference to the jndi object.
+     * @param service The name of the service.
+     * @param project The project name.
+     * @param className The className path.
+     * @param parameters The parameter definitions
+     */
+    public MethodMapping(String jndi, String service, String project, 
+            String className, String methodName, List<ParameterMapping> parameters)
+        throws TypesException {
+        this.jndi = jndi;
+        this.service = service;
+        this.project = project;
+        this.className = className;
+        this.methodName = methodName;
+        this.parameters = parameters;
+        this.generateHashId();
+    }
     
     /**
      * This method returns the id of the method mapping.
@@ -144,6 +186,28 @@ public class MethodMapping implements Serializable {
         this.jndi = jndi;
     }
 
+    
+    /**
+     * The getter for the service.
+     * 
+     * @return The string containing the service name
+     */
+    @PropertyLocalName("Service")
+    public String getService() {
+        return service;
+    }
+
+    
+    /**
+     * The setter for the service.
+     * 
+     * @param service The string containing the service name
+     */
+    @PropertyLocalName("Service")
+    public void setService(String service) {
+        this.service = service;
+    }
+    
     
     /**
      * This method gets the project name
