@@ -168,6 +168,11 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
             log.info("Add the property [" + uri + "]");
             if (session.hasClass(uri)) {
+                OntologyClass ontologyClass = session.getClass(uri);
+                List<OntologyProperty> properties = ontologyClass.listProperties();
+                for (OntologyProperty property : properties) {
+                    session.removeProperty(property.getURI());
+                }
                 session.removeClass(uri);
             }
             OntologyClass ontologyClass = session.createClass(uri);
