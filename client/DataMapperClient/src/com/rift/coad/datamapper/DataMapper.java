@@ -23,6 +23,7 @@ package com.rift.coad.datamapper;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * This interface
@@ -34,11 +35,11 @@ public interface DataMapper extends Remote {
      * This method is responsible for executing the relevant method on the data mapper.
      *
      * @param methodId The id of the method.
-     * @param rdfXML XML containing the rdf structures to deserialize on the target.
+     * @param parameters The list of parameters used by this object.
      * @return The result serialized in RDF xml.
      * @throws DataMapperException
      * @throws RemoteException
      */
-    public String execute(String methodId, String rdfXML)
+    public String execute(String methodId, List<Object> parameters)
             throws DataMapperException, RemoteException;
 }
