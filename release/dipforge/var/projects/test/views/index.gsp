@@ -9,7 +9,7 @@ import com.dipforge.request.RequestHandler
 </head>
 <body>
 </head>
-    <body>
+<body>
     hello bob<br>
     <br>
     <b>The test request form</b><BR>
@@ -34,6 +34,6 @@ import com.dipforge.request.RequestHandler
         </tr>
     </table>
     </form>
-    </boby>
-</body>
+    <a href="list.groovy">list test result</a>
+</boby>
 </html>

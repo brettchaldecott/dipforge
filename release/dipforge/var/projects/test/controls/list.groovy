@@ -1,6 +1,6 @@
 /*
- * dipforge: the common library.
- * Copyright (C) Sat Apr 21 08:02:49 SAST 2012 owner 
+ * test: Description
+ * Copyright (C) Wed May 16 06:14:20 SAST 2012 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,27 +16,18 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * PageManager.groovy
+ * list.groovy
+ * @author brett chaldecott
  */
 
-package com.dipforge.utils
+import com.dipforge.utils.PageManager;
+import com.dipforge.semantic.RDF;
+import org.apache.log4j.Logger;
 
 
-/**
- * The page manager object
- * @author Brett Chaldecott
- */
-class PageManager {
-    
-    static def forward(page, req, res){
-        def dis = req.getRequestDispatcher(page);
-        dis.forward(req, res);
-    }
-    
-    
-    static def forwardWithResult(page, req, res, results){
-        def dis = req.getRequestDispatcher(page);
-        req.setAttribute("GROOVY_RESULT",results);
-        dis.forward(req, res);
-    }
-}
+def log = Logger.getLogger("test.index.groovy");
+
+def result = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/test1#type1> . }")
+
+PageManager.forwardWithResult("list.gsp", request, response, ["tests" : result])

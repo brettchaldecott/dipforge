@@ -31,11 +31,13 @@ import com.dipforge.request.RequestHandler;
 def log = Logger.getLogger("test.index.groovy");
 
 def test1 = RDF.create("http://dipforge.sourceforge.net/test1#type1")
-
+log.info("Set the values on : " + test1)
 test1.setId(RandomGuid.getInstance().getGuid())
 test1.setProperty1(params.name)
-test1.setProperty2(params.name)
+test1.setProperty2(params.description)
+//test1.setProperty3(params.description)
 
+log.info("Init the request : " + test1)
 RequestHandler.getInstance("test", "test1", test1).makeRequest()
 
 

@@ -138,6 +138,9 @@ class RDFTypeBuilder {
                 hasId = true;
             }
             def propertyType = classProperty.getType().getURI().toString()
+            if (!resource.hasProperty(classProperty.getURI().toString())) {
+                continue
+            }
             if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_STRING).getURI().toString())) {
