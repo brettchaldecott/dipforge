@@ -74,6 +74,31 @@ public interface DataMapperBrokerDaemon extends Remote {
 
     
     /**
+     * This method returns a list of 
+     * @param jndi
+     * @param project
+     * @param className
+     * @return
+     * @throws DataMapperBrokerException
+     * @throws RemoteException 
+     */
+    public List<MethodMapping> listMethods(String jndi,String project, 
+            String className) throws DataMapperBrokerException, RemoteException;
+    
+    /**
+     * This method returns a list of 
+     * @param service The service name
+     * @param project The project
+     * @param className The class name
+     * @return The list of methods.
+     * @throws DataMapperBrokerException
+     * @throws RemoteException 
+     */
+    public List<MethodMapping> listMethodsByService(String service,String project, 
+            String className) throws DataMapperBrokerException, RemoteException;
+    
+    
+    /**
      * This method returns a reference to the data mapper method.
      *
      * @param methodId The id of the method to retrieve.
