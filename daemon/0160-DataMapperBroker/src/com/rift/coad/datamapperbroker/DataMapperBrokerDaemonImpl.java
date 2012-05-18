@@ -31,6 +31,7 @@ import org.apache.log4j.Logger;
 
 // data mapper information
 import com.rift.coad.lib.bean.BeanRunnable;
+import com.rift.coad.lib.common.CopyObject;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.Resource;
@@ -40,9 +41,8 @@ import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
 import com.rift.coad.rdf.types.mapping.MethodMapping;
 import com.rift.coad.rdf.types.mapping.ParameterMapping;
 import com.rift.coad.util.connection.ConnectionManager;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.rmi.RemoteException;
+import java.util.*;
 
 /**
  * This object is responsible for brokering the daemon requests.
@@ -93,8 +93,25 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
                 }
             }
             // add the methods
+            Map<String,List<String>> serviceMap = new HashMap<String,List<String>>();
             for (MethodMapping method : methods) {
                 session.persist(method);
+                if (method.getService() != null) {
+                    List<String> services = serviceMap.get(method.getJndi());
+                    if (services == null) {
+                        services = new ArrayList<String>();
+                        serviceMap.put(method.getJndi(), services);
+                    }
+                    if (!services.contains(method.getService())) {
+                        services.add(method.getService());
+                    }
+                }
+            }
+            // register the services
+            ServiceBroker broker = (ServiceBroker)ConnectionManager.getInstance().
+                    getConnection(ServiceBroker.class, "ServiceBroker");
+            for (String key: serviceMap.keySet()) {
+                broker.registerService(key, serviceMap.get(key));
             }
         } catch (Exception ex) {
             log.error("Failed to register the methods : " + ex.getMessage(),ex);
@@ -150,7 +167,8 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
                     "FILTER (?JNDI = ${jndi}) }").setString("jndi", jndi).execute();
             List<MethodMapping> result = new ArrayList<MethodMapping>();
             for (SPARQLResultRow entry : entries) {
-                result.add(entry.get(MethodMapping.class,0));
+                result.add(CopyObject.copy(MethodMapping.class,
+                        entry.get(MethodMapping.class,0)));
             }
             return result;
         } catch (Exception ex) {
@@ -176,21 +194,7 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
             MethodMapping method = session.get(MethodMapping.class, methodId);
             
             // copy the method to a DTO version.
-            MethodMapping result = new MethodMapping();
-            result.setClassName(method.getClassName());
-            result.setId(method.getId());
-            result.setJndi(method.getJndi());
-            result.setMethodName(method.getMethodName());
-            result.setProject(method.getProject());
-            result.setVersion(method.getVersion());
-            for (ParameterMapping parameter: method.getParameters()) {
-                ParameterMapping newParameter = new ParameterMapping();
-                newParameter.setId(parameter.getId());
-                newParameter.setMethodId(parameter.getMethodId());
-                newParameter.setName(parameter.getName());
-                newParameter.setType(parameter.getType());
-            }
-            return result;
+            return CopyObject.copy(MethodMapping.class,method);
         } catch (Exception ex) {
             log.error("Failed to retrieve the method ["
                     + methodId + "] because : " + ex.getMessage(), ex);
@@ -199,7 +203,84 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
                     + methodId + "] because : " + ex.getMessage(), ex);
         }
     }
-
+    
+    
+    /**
+     * This method returns a list of methods.
+     * 
+     * @param jndi The jndi to search against.
+     * @param project The project name to search for.
+     * @param className The class name within the project to execute.
+     * @return The list of methods that match the parameters
+     * @throws DataMapperBrokerException
+     * @throws RemoteException 
+     */
+    public List<MethodMapping> listMethods(String jndi, String project, 
+            String className) throws DataMapperBrokerException, RemoteException {
+        try {
+            Session session = SemanticUtil.getInstance(DataMapperBrokerDaemonImpl.class).getSession();
+            List<SPARQLResultRow> entries = session.
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#JNDI> ?JNDI . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Project> ?Project . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#ClassName> ?ClassName . " +
+                    "FILTER (?JNDI = ${jndi} && ?Project = ${project} && ?ClassName = ${className}) }").
+                    setString("jndi", jndi).setString("project",project).
+                    setString("className",className).execute();
+            List<MethodMapping> result = new ArrayList<MethodMapping>();
+            for (SPARQLResultRow entry : entries) {
+                result.add(CopyObject.copy(MethodMapping.class,
+                        entry.get(MethodMapping.class,0)));
+            }
+            return result;
+        } catch (Exception ex) {
+            log.error("This method lists the methods identified by jndi reference ["
+                    + jndi + "]: " + ex.getMessage(), ex);
+            throw new DataMapperBrokerException(
+                    "This method lists the methods identified by jndi reference ["
+                    + jndi + "]: " + ex.getMessage(), ex);
+        }
+    }
+    
+    
+    /**
+     * This method returns the list of services.
+     * 
+     * @param service The service to perform the search against.
+     * @param project The project name.
+     * @param className The class name.
+     * @return The list of method mappings matching the criteria
+     * @throws DataMapperBrokerException
+     */
+    public List<MethodMapping> listMethodsByService(String service,
+            String project, String className) throws DataMapperBrokerException {
+        try {
+            Session session = SemanticUtil.getInstance(DataMapperBrokerDaemonImpl.class).getSession();
+            List<SPARQLResultRow> entries = session.
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Service> ?Service . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Project> ?Project . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#ClassName> ?ClassName . " +
+                    "FILTER (?Service = ${service} && ?Project = ${project} && ?ClassName = ${className}) }").
+                    setString("service", service).setString("project",project).
+                    setString("className",className).execute();
+            List<MethodMapping> result = new ArrayList<MethodMapping>();
+            for (SPARQLResultRow entry : entries) {
+                result.add(CopyObject.copy(MethodMapping.class,
+                        entry.get(MethodMapping.class,0)));
+            }
+            return result;
+        } catch (Exception ex) {
+            log.error("This method lists the methods identified by jndi reference ["
+                    + service + "]: " + ex.getMessage(), ex);
+            throw new DataMapperBrokerException(
+                    "This method lists the methods identified by jndi reference ["
+                    + service + "]: " + ex.getMessage(), ex);
+        }
+    }
+    
     
     /**
      * This method is called to process.
