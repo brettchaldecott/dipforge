@@ -9,7 +9,7 @@
 -->
 
 <mapping>
-    <jndi name="test/path">
+    <jndi name="test/path" service="test">
         <project name="test">
             <method class="com.test.name1" name="test1">
                 <parameter name="test1" type="xmltype"/>

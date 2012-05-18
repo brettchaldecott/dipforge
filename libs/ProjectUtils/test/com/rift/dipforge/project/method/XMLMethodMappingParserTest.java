@@ -4,6 +4,7 @@
  */
 package com.rift.dipforge.project.method;
 
+import com.rift.coad.rdf.types.mapping.MethodMapping;
 import java.io.FileInputStream;
 import java.io.File;
 import java.util.List;
@@ -61,8 +62,11 @@ public class XMLMethodMappingParserTest {
         String jndi = "";
         XMLMethodMappingParser instance = 
                 new XMLMethodMappingParser(readTestFile());
-        List result = instance.getMethodMapping("test/path");
+        List<MethodMapping> result = instance.getMethodMapping("test/path");
         assertEquals(4, result.size());
+        assertEquals(result.get(0).getService(),"test");
+        result = instance.getMethodMapping("test2/path");
+        assertEquals(result.get(0).getService(),null);
     }
     
     

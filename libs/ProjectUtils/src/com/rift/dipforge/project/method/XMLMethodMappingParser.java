@@ -61,6 +61,7 @@ public class XMLMethodMappingParser {
         private static final String PARAMETER_KEY = "parameter";
         
         public final static String NAME = "name";
+        public final static String SERVICE = "service";
         public final static String CLASS = "class";
         public final static String TYPE = "type";
         
@@ -73,6 +74,7 @@ public class XMLMethodMappingParser {
         private String projectName = "";
         private boolean inMethod = false;
         private String jndi = null;
+        private String service = null;
         private MethodMapping method = null;
         private List<MethodMapping> methods = null;
         
@@ -104,12 +106,13 @@ public class XMLMethodMappingParser {
                 } else if (inMapping && qName.compareToIgnoreCase(JNDI_KEY) == 0) {
                     inJNDI = true;
                     jndi = (String)attributes.getValue(NAME);
+                    service = attributes.getValue(SERVICE);
                     methods = new ArrayList<MethodMapping>();
                 } else if (inJNDI && qName.compareToIgnoreCase(PROJECT_KEY) == 0) {
                     inProject = true;
                     projectName = (String)attributes.getValue(NAME);
                 } else if (inProject && qName.compareToIgnoreCase(METHOD_KEY) == 0) {
-                    method = new MethodMapping(this.jndi, this.projectName,
+                    method = new MethodMapping(this.jndi, this.service, this.projectName,
                         (String)attributes.getValue(CLASS),
                         (String)attributes.getValue(NAME));
                     
