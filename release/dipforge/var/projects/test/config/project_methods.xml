@@ -9,40 +9,14 @@
 -->
 
 <mapping>
-    <jndi name="groovy/Daemon">
+    <jndi name="groovy/Daemon" service="test">
         <project name="test">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
+            <method class="test.TestClass" name="callTest1" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="message" type="http://www.w3.org/2001/XMLSchema#string"/>
             </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-            </method>
-        </project>
-        <project name="test">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
-            </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-            </method>
-        </project>
-    </jndi>
-    <jndi name="groovy/Daemon">
-        <project name="test">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
-            </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
+            <method class="test.TestClass" name="callTest2" type="http://dipforge.sourceforge.net/test1#type1">
+                <parameter name="message" type="http://www.w3.org/2001/XMLSchema#string"/>
+                <parameter name="data" type="http://dipforge.sourceforge.net/test1#type1"/>
             </method>
         </project>
     </jndi>

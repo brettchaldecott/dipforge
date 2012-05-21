@@ -27,10 +27,11 @@
 @java("out")
 @rdf("http://dipforge.sourceforge.net/test1#type1" "type1")
 @store("store")
+@service("test" "test" "test.TestClass" "test")
 flow bob {
    def out
    def type1
-
+   def test
    {
        out.println("before : ##################################################")
        out.println("hello world example 1 : " + type1.getProperty1())
@@ -41,5 +42,6 @@ flow bob {
        out.println("hello world example 4 : " + type1.property2)
        out.println("after : ##################################################")
        store.persist(type1)
+       test.callTest1("hello world")
    }
 }
