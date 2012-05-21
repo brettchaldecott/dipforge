@@ -84,8 +84,8 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
             for (String project : projects) {
                 List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Project> ?Project . " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Project> ?Project . " +
                     "FILTER (?Project = ${project}) }").setString("project", project).execute();
                 for (SPARQLResultRow entry : entries) {
                     Resource resource = entry.get(Resource.class, 0);
@@ -132,14 +132,14 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
         try {
             Session session = SemanticUtil.getInstance(DataMapperBrokerDaemonImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
-                    createSPARQLQuery("SELECT ?s ?Jndi WHERE { " +
-                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#JNDI> ?Jndi . } " +
-                    "GROUP BY ?Jndi ORDER BY ?Jndi").execute();
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping> . }").execute();
             List<String> result = new ArrayList<String>();
-            Set<String> resultSet = new HashSet<String>();
             for (SPARQLResultRow entry : entries) {
-                resultSet.add(entry.get(String.class, 1));
+                MethodMapping method = entry.get(MethodMapping.class, 0);
+                if (!result.contains(method.getJndi())) {
+                    result.add(method.getJndi());
+                }
             }
             return result;
         } catch (Exception ex) {
@@ -162,8 +162,8 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
             Session session = SemanticUtil.getInstance(DataMapperBrokerDaemonImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#JNDI> ?JNDI . " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#JNDI> ?JNDI . " +
                     "FILTER (?JNDI = ${jndi}) }").setString("jndi", jndi).execute();
             List<MethodMapping> result = new ArrayList<MethodMapping>();
             for (SPARQLResultRow entry : entries) {
@@ -221,10 +221,10 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
             Session session = SemanticUtil.getInstance(DataMapperBrokerDaemonImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#JNDI> ?JNDI . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Project> ?Project . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#ClassName> ?ClassName . " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#JNDI> ?JNDI . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Project> ?Project . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#ClassName> ?ClassName . " +
                     "FILTER (?JNDI = ${jndi} && ?Project = ${project} && ?ClassName = ${className}) }").
                     setString("jndi", jndi).setString("project",project).
                     setString("className",className).execute();
@@ -259,10 +259,10 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
             Session session = SemanticUtil.getInstance(DataMapperBrokerDaemonImpl.class).getSession();
             List<SPARQLResultRow> entries = session.
                     createSPARQLQuery("SELECT ?s WHERE { " +
-                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#MethodMapping> . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Service> ?Service . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#Project> ?Project . " +
-                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Mapping#ClassName> ?ClassName . " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Service> ?Service . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Project> ?Project . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#ClassName> ?ClassName . " +
                     "FILTER (?Service = ${service} && ?Project = ${project} && ?ClassName = ${className}) }").
                     setString("service", service).setString("project",project).
                     setString("className",className).execute();
