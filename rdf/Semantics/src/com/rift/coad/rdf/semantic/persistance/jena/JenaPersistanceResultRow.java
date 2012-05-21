@@ -217,7 +217,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @throws PersistanceQueryException
      */
     public boolean isBasicType(int index) throws PersistanceQueryException {
-        if (entries.size() < index || index < 0) {
+        if (entries.size() <= index || index < 0) {
             throw new PersistanceQueryException(
                     "The index is out of scope [" + index + "]");
         }
@@ -249,7 +249,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @throws QueryException
      */
     public DataType getType(int index) throws PersistanceQueryException {
-        if (entries.size() < index || index < 0) {
+        if (entries.size() <= index || index < 0) {
             throw new PersistanceQueryException(
                     "The index is out of scope [" + index + "]");
         }
@@ -282,7 +282,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @throws com.rift.coad.rdf.semantic.QueryException
      */
     public <T> T get(Class<T> t, int index) throws PersistanceQueryException {
-        if (entries.size() < index || index < 0) {
+        if (entries.size() <= index || index < 0) {
             throw new PersistanceQueryException(
                     "The index is out of scope [" + index + "]");
         }
