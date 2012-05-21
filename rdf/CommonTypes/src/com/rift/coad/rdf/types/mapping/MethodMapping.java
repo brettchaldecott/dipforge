@@ -50,6 +50,7 @@ public class MethodMapping implements Serializable {
     private String className;
     private String methodName;
     private String version;
+    private String returnType;
     private List<ParameterMapping> parameters;
     
     /**
@@ -86,15 +87,17 @@ public class MethodMapping implements Serializable {
      * @param jndi The reference to the jndi object.
      * @param project The project name.
      * @param className The className path.
-     * @param typeParameters The type parameters
+     * @param methodName The name of the method to execute
+     * @param returnType The type of the return
      */
     public MethodMapping(String jndi, String service, String project, 
-            String className, String methodName) throws TypesException {
+            String className, String methodName,String returnType) throws TypesException {
         this.jndi = jndi;
         this.service = service;
         this.project = project;
         this.className = className;
         this.methodName = methodName;
+        this.returnType = returnType;
         this.parameters = new ArrayList<ParameterMapping>();
         this.generateHashId();
     }
@@ -131,13 +134,15 @@ public class MethodMapping implements Serializable {
      * @param parameters The parameter definitions
      */
     public MethodMapping(String jndi, String service, String project, 
-            String className, String methodName, List<ParameterMapping> parameters)
+            String className, String methodName, String returnType,
+            List<ParameterMapping> parameters)
         throws TypesException {
         this.jndi = jndi;
         this.service = service;
         this.project = project;
         this.className = className;
         this.methodName = methodName;
+        this.returnType = returnType;
         this.parameters = parameters;
         this.generateHashId();
     }
@@ -295,6 +300,28 @@ public class MethodMapping implements Serializable {
     public void setVersion(String version) {
         this.version = version;
     }
+
+    
+    /**
+     * This method returns the return type information for this object.
+     * 
+     * @return The string containing the uri return type information.
+     */
+    @PropertyLocalName("ReturnType")
+    public String getReturnType() {
+        return returnType;
+    }
+
+    
+    /**
+     * This method sets the return type information for this object.
+     * 
+     * @param returnType The return type information for this object.
+     */
+    @PropertyLocalName("ReturnType")
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
+    }
     
     
     /**
@@ -406,4 +433,18 @@ public class MethodMapping implements Serializable {
                     ex.getMessage(),ex);
         }
     }
+
+    /**
+     * This method returns the string representation of the object.
+     * 
+     * @return This string containing the message information
+     */
+    @Override
+    public String toString() {
+        return "MethodMapping{" + "id=" + id + ", jndi=" + jndi + ", service=" + service + ", project=" + project + ", className=" + className + ", methodName=" + methodName + ", version=" + version + ", returnType=" + returnType + ", parameters=" + parameters + '}';
+    }
+    
+    
+    
+    
 }
