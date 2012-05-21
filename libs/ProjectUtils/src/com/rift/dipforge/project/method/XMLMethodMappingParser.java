@@ -113,8 +113,9 @@ public class XMLMethodMappingParser {
                     projectName = (String)attributes.getValue(NAME);
                 } else if (inProject && qName.compareToIgnoreCase(METHOD_KEY) == 0) {
                     method = new MethodMapping(this.jndi, this.service, this.projectName,
-                        (String)attributes.getValue(CLASS),
-                        (String)attributes.getValue(NAME));
+                            (String)attributes.getValue(CLASS),
+                            (String)attributes.getValue(NAME),
+                            (String)attributes.getValue(TYPE));
                     
                 } else if (method != null &&
                         qName.compareToIgnoreCase(PARAMETER_KEY) == 0) {

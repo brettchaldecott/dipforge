@@ -65,6 +65,8 @@ public class XMLMethodMappingParserTest {
         List<MethodMapping> result = instance.getMethodMapping("test/path");
         assertEquals(4, result.size());
         assertEquals(result.get(0).getService(),"test");
+        assertEquals(result.get(0).getReturnType(),"basic");
+        assertEquals(result.get(1).getReturnType(),"xmltype");
         result = instance.getMethodMapping("test2/path");
         assertEquals(result.get(0).getService(),null);
     }

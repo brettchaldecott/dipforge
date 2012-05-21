@@ -11,12 +11,12 @@
 <mapping>
     <jndi name="test/path" service="test">
         <project name="test">
-            <method class="com.test.name1" name="test1">
+            <method class="com.test.name1" name="test1" type="basic">
                 <parameter name="test1" type="xmltype"/>
                 <parameter name="test2" type="xmltype"/>
                 <parameter name="test3" type="xmltype"/>
             </method>
-            <method class="com.test.name1" name="test2">
+            <method class="com.test.name1" name="test2" type="xmltype">
                 <parameter name="test1" type="xmltype"/>
                 <parameter name="test2" type="xmltype"/>
             </method>
