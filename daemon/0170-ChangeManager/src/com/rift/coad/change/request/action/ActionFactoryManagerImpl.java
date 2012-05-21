@@ -39,6 +39,7 @@ import com.rift.coad.change.ChangeManagerDaemonImpl;
 import com.rift.coad.change.rdf.ActionInstanceInfoRDF;
 import com.rift.coad.change.request.Request;
 import com.rift.coad.change.request.action.leviathan.LsRDFTypeManager;
+import com.rift.coad.change.request.action.leviathan.LsRPCTypeManager;
 import com.rift.coad.change.request.action.leviathan.LsStoreTypeManager;
 import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.configuration.Configuration;
@@ -266,6 +267,7 @@ public class ActionFactoryManagerImpl implements
             config.getProperties().setProperty(LeviathanConstants.STORAGE_PATH, 
                     storeDirectory);
             config.addTypeManager(new LsRDFTypeManager());
+            config.addTypeManager(new LsRPCTypeManager());
             config.addTypeManager(new LsStoreTypeManager());
             LeviathanEngine instance = LeviathanEngine.buildEngine(config);
             

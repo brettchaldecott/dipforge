@@ -30,6 +30,9 @@ import java.io.Serializable;
  */
 public class LsActionRDFProperty implements Serializable {
     
+    // class constants
+    public final static String RDF_GLOBAL_PROPERTY = "rdf_global_property";
+    
     // private member variables
     private String name;
     private String uri;
@@ -117,7 +120,17 @@ public class LsActionRDFProperty implements Serializable {
     public void setUri(String uri) {
         this.uri = uri;
     }
-
+    
+    
+    /**
+     * This method returns the id of the property extracted from the uri.
+     * 
+     * @return The id of the entry
+     */
+    public String getId() {
+        return this.uri.substring(this.uri.lastIndexOf("/") + 1);
+    }
+    
     
     /**
      * This method retrieves the data type uri.

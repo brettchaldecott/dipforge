@@ -119,7 +119,7 @@ public class ActionHandlerImpl implements ActionHandler {
                     getConnection(ActionFactoryManager.class,
                     "java:comp/env/bean/change/request/action/ActionFactoryManager");
             ActionInstance instance = daemon.getActionInstance(correllationId);
-            instance.execute((String)result);
+            instance.execute(result);
             handleCompletion(daemon,instance);
         } catch (Exception ex) {
             log.error("Failed to handle the invokation : " + ex.getMessage(),ex);

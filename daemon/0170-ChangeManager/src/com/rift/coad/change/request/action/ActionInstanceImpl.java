@@ -40,6 +40,7 @@ import com.rift.coad.util.change.Change;
 import com.rift.coad.change.ChangeManagerDaemonImpl;
 import com.rift.coad.change.rdf.ActionInfoRDF;
 import com.rift.coad.change.rdf.ActionInstanceInfoRDF;
+import com.rift.coad.change.rdf.RequestEventRDF;
 import com.rift.coad.change.rdf.RequestRDF;
 import com.rift.coad.change.request.Request;
 import com.rift.coad.change.request.RequestData;
@@ -218,11 +219,15 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
             }
             rdfData.setData(session.dumpXML());
             
+            // set up a global rdf variable
+            properties.put(LsActionRDFProperty.RDF_GLOBAL_PROPERTY, rdfData);
+            
             // instanciate the processor
             processor = LeviathanEngine.getInstance().
                     initProcess(new String(buffer), properties);
             
-            action = new ActionInstanceInfoRDF(new ActionInfoRDF(
+            action = new ActionInstanceInfoRDF(processor.getProcessor().getGUID(),
+                    new ActionInfoRDF(
                     actionInfo), new RequestRDF(request), masterRequestId,
                     processor.getProcessor().getGUID());
             ChangeLog.getInstance().addChange(
@@ -351,7 +356,8 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
         try {
             processor.getProcessor().execute();
         } catch (Exception ex) {
-            
+            log.error("Failed to execute because : " + ex.getMessage(),ex);
+            addEvent("ERROR", "Failed to execute because : " + ex.getMessage());
         }
     }
 
@@ -362,17 +368,30 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
      * @throws ActionException
      * @throws RemoteException
      */
-    public void execute(String result) throws ActionException, RemoteException {
+    public void execute(Object result) throws ActionException, RemoteException {
+        try {
+            processor.getProcessor().resume(result);
+        } catch (Exception ex) {
+            log.error("Failed to execute because : " + ex.getMessage(),ex);
+            addEvent("ERROR", "Failed to execute because : " + ex.getMessage());
+        }
     }
 
+    
     /**
-     * The
+     * The execute method
      *
      * @param ex
      * @throws ActionException
      * @throws RemoteException
      */
-    public void execute(Exception ex) throws ActionException, RemoteException {
+    public void execute(Exception exception) throws ActionException, RemoteException {
+        try {
+            processor.getProcessor().resume(exception);
+        } catch (Exception ex) {
+            log.error("Failed to execute because : " + ex.getMessage(),ex);
+            addEvent("ERROR", "Failed to execute because : " + ex.getMessage());
+        }
     }
 
     /**
@@ -403,5 +422,21 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
      * This method is called to remove the action
      */
     public void remove() {
+    }
+    
+    
+    /**
+     * This method is called to add an event identified by the messsage
+     * @param message 
+     */
+    private void addEvent(String status, String message) {
+        try {
+            this.action.getRequest().getEvents().add(new RequestEventRDF(
+                    new RequestEvent(status, message)));
+            ChangeLog.getInstance().addChange(
+                    new ActionInstanceImpl.ActionChange(TYPE.UPDATE, action));
+        } catch (Exception ex) {
+            log.error("Failed to add the event");
+        }
     }
 }
