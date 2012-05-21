@@ -23,7 +23,16 @@ package com.rift.coad.groovy;
 
 import com.rift.coad.datamapper.DataMapper;
 import com.rift.coad.datamapper.DataMapperException;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
+import com.rift.coad.rdf.types.mapping.MethodMapping;
+import com.rift.coad.rdf.types.mapping.ParameterMapping;
+import com.rift.dipforge.groovy.lib.ContextInfo;
+import com.rift.dipforge.groovy.lib.GroovyEnvironmentManager;
+import com.rift.dipforge.groovy.lib.GroovyExecuter;
 import java.rmi.RemoteException;
+import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * This object implements the groovy data mapper functionality.
@@ -31,7 +40,40 @@ import java.rmi.RemoteException;
  * @author brett chaldecott
  */
 public class GroovyDataMapperImpl implements DataMapper {
+    
+    // class constants
+    private final static String EXECUTE_SCRIPT = "execute_script";
+    private final static String DEFAULT_EXECUTE_SCRIPT = "ExecuteScript.groovy";
+    
+    
+    // singleton member variables
+    private static Logger log = Logger.getLogger(GroovyDaemonImpl.class);
 
+    // private member variables
+    private String executeScript;
+    
+    /**
+     * The default constructor of the data mapper.
+     * 
+     * @exception DataMapperException
+     */
+    public GroovyDataMapperImpl() throws DataMapperException {
+        try {
+            Configuration config = ConfigurationFactory.getInstance().
+                    getConfig(GroovyDataMapperImpl.class);
+            executeScript = config.getString(EXECUTE_SCRIPT, 
+                    DEFAULT_EXECUTE_SCRIPT);
+        } catch (Exception ex) {
+            log.error("Failed to initialize the groovy data mapper : " +
+                    ex.getMessage(),ex);
+            throw new DataMapperException(
+                    "Failed to initialize the groovy data mapper : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+    
+    
     
     /**
      * This method is called to execute the groovy data mapper.
@@ -42,8 +84,22 @@ public class GroovyDataMapperImpl implements DataMapper {
      * @throws DataMapperException
      * @throws RemoteException 
      */
-    public String execute(String methodId, String rdfXML) throws DataMapperException, RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object execute(MethodMapping method,  List<Object> parameters) 
+            throws DataMapperException, RemoteException {
+        try {
+            GroovyExecuter executer = GroovyEnvironmentManager.getInstance().getExecuter(
+                    new ContextInfo(method.getProject()));
+            String[] parameterNames =  {"method","parameters"};
+            Object[] values = {method,parameters};
+            Object result = executer.executeScript(this.executeScript,
+                    parameterNames, values).toString();
+            return result;
+        } catch (Exception ex) {
+            log.error("Failed to execute the script : " + ex.getMessage() 
+                    + " forcing a retry" ,ex);
+            throw new RemoteException
+                    ("Failed to execute the script : " + ex.getMessage(),ex);
+        }
     }
     
 }

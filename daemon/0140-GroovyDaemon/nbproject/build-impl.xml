@@ -581,6 +581,13 @@ is divided into following sections:
         </propertyfile>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
+            <param location="${project.ChangeControlClient}" name="call.subproject"/>
+            <param location="${project.ChangeControlClient}/build.xml" name="call.script"/>
+            <param name="call.target" value="jar"/>
+            <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
+        </antcall>
+        <antcall target="-maybe-call-dep">
+            <param name="call.built.properties" value="${built-jar.properties}"/>
             <param location="${project.CoadunationLib}" name="call.subproject"/>
             <param location="${project.CoadunationLib}/build.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
@@ -590,6 +597,13 @@ is divided into following sections:
             <param name="call.built.properties" value="${built-jar.properties}"/>
             <param location="${project.CoadunationUtil}" name="call.subproject"/>
             <param location="${project.CoadunationUtil}/build.xml" name="call.script"/>
+            <param name="call.target" value="jar"/>
+            <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
+        </antcall>
+        <antcall target="-maybe-call-dep">
+            <param name="call.built.properties" value="${built-jar.properties}"/>
+            <param location="${project.CommonTypes}" name="call.subproject"/>
+            <param location="${project.CommonTypes}/build.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
             <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
         </antcall>
@@ -1104,6 +1118,13 @@ is divided into following sections:
         </propertyfile>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-clean.properties}"/>
+            <param location="${project.ChangeControlClient}" name="call.subproject"/>
+            <param location="${project.ChangeControlClient}/build.xml" name="call.script"/>
+            <param name="call.target" value="clean"/>
+            <param name="transfer.built-clean.properties" value="${built-clean.properties}"/>
+        </antcall>
+        <antcall target="-maybe-call-dep">
+            <param name="call.built.properties" value="${built-clean.properties}"/>
             <param location="${project.CoadunationLib}" name="call.subproject"/>
             <param location="${project.CoadunationLib}/build.xml" name="call.script"/>
             <param name="call.target" value="clean"/>
@@ -1113,6 +1134,13 @@ is divided into following sections:
             <param name="call.built.properties" value="${built-clean.properties}"/>
             <param location="${project.CoadunationUtil}" name="call.subproject"/>
             <param location="${project.CoadunationUtil}/build.xml" name="call.script"/>
+            <param name="call.target" value="clean"/>
+            <param name="transfer.built-clean.properties" value="${built-clean.properties}"/>
+        </antcall>
+        <antcall target="-maybe-call-dep">
+            <param name="call.built.properties" value="${built-clean.properties}"/>
+            <param location="${project.CommonTypes}" name="call.subproject"/>
+            <param location="${project.CommonTypes}/build.xml" name="call.script"/>
             <param name="call.target" value="clean"/>
             <param name="transfer.built-clean.properties" value="${built-clean.properties}"/>
         </antcall>
