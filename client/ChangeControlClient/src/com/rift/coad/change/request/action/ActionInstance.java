@@ -143,7 +143,7 @@ public interface ActionInstance extends Remote {
      * @throws com.rift.coad.change.request.action.ActionException
      * @throws java.rmi.RemoteException
      */
-    public void execute(String result) throws ActionException, RemoteException;
+    public void execute(Object result) throws ActionException, RemoteException;
 
 
     /**
