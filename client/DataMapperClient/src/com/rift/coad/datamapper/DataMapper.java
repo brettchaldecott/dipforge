@@ -21,6 +21,7 @@
 
 package com.rift.coad.datamapper;
 
+import com.rift.coad.rdf.types.mapping.MethodMapping;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -40,6 +41,6 @@ public interface DataMapper extends Remote {
      * @throws DataMapperException
      * @throws RemoteException
      */
-    public String execute(String methodId, List<Object> parameters)
+    public Object execute(MethodMapping method, List<Object> parameters)
             throws DataMapperException, RemoteException;
 }

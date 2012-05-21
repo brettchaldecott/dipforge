@@ -24,8 +24,10 @@
 package com.rift.coad.datamapper;
 
 // java imports
+import com.rift.coad.rdf.types.mapping.MethodMapping;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * This interface defines the async version of the data mapper interface.
@@ -41,5 +43,5 @@ public interface DataMapperAsync extends Remote {
      * @return The Message id.
      * @throws RemoteException
      */
-    public String execute(String methodId, String rdfXML) throws RemoteException;
+    public String execute(MethodMapping method, List<Object> parameters) throws RemoteException;
 }

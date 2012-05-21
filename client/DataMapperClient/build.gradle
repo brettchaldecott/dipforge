@@ -16,6 +16,8 @@ configurations {
 }
 
 dependencies {
+    compile project(':rdf:CommonTypes')
+    compile project(':libs:CoadunationAnnotations')
 }
 
 sourceSets {
