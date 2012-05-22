@@ -35,6 +35,10 @@ dependencies {
     releaseJars project(':client:TimerClient')
     releaseJars project(':client:GroovyDaemonClient')
     releaseJars project(':client:ChangeControlClient')
+    releaseJars project(':rdf:CoadunationSemantics')
+    releaseJars project(':libs:CoadunationUtil')
+    releaseJars project(':rdf:Semantics')
+    releaseJars project(':rdf:SchemaUtils')
 }
 
 sourceSets {

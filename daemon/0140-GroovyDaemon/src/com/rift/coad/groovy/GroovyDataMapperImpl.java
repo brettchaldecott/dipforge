@@ -92,7 +92,7 @@ public class GroovyDataMapperImpl implements DataMapper {
             String[] parameterNames =  {"method","parameters"};
             Object[] values = {method,parameters};
             Object result = executer.executeScript(this.executeScript,
-                    parameterNames, values).toString();
+                    parameterNames, values);
             return result;
         } catch (Exception ex) {
             log.error("Failed to execute the script : " + ex.getMessage() 
