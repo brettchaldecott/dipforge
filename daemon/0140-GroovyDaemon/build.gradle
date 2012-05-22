@@ -39,6 +39,7 @@ dependencies {
     releaseJars project(':libs:CoadunationUtil')
     releaseJars project(':rdf:Semantics')
     releaseJars project(':rdf:SchemaUtils')
+    releaseJars group: 'xerces', name: 'xercesImpl', version: '2.7.1', ext: 'jar'
 }
 
 sourceSets {
@@ -63,6 +64,12 @@ task copyToJars(type: Copy) {
     exclude "**/*servlet-api*"
     exclude "**/*groovy*"
     exclude "**/*log4j*"
+    exclude "**/*jta*"
+    exclude "**/*jotm*"
+    exclude "**/*CoadunationLib*"
+    exclude "**/*httpcore*"
+    exclude "**/*carol*"
+    exclude "**/*axis*"
 }
 
 jar {

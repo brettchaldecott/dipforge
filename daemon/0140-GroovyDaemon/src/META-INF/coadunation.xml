@@ -44,6 +44,7 @@
             <bindName>groovy/DataMapper</bindName>
             <role>daemon</role>
             <username>daemon</username>
+            <transaction>true</transaction>
         </bean>
     </beans>
 </coadunation>
