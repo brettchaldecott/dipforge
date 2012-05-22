@@ -78,7 +78,7 @@ public class TestBaseObject {
 
     
     @PropertyLocalName("ListObjects")
-    @CollectionTypeParameter("com.rift.coad.rdf.semantic.jdo.basic.test.TestListObject")
+    //@CollectionTypeParameter("com.rift.coad.rdf.semantic.jdo.basic.test.TestListObject")
     public List<TestListObject> getListObjects() {
         return listObjects;
     }

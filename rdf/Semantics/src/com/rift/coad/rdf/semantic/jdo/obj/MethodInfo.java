@@ -30,6 +30,9 @@ import com.rift.coad.rdf.semantic.types.DataType;
 import com.rift.coad.rdf.semantic.util.ClassTypeInfo;
 import com.rift.coad.rdf.semantic.util.RDFURIHelper;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 
 /**
  * This object is responsible for extracting the RDF information from a method.
@@ -116,10 +119,15 @@ public class MethodInfo {
                             (CollectionTypeParameter)AnnotationHelper.getAnnotation(
                             methodRef.getDeclaredAnnotations(),
                             CollectionTypeParameter.class);
-                    if (collectionTypeParameter == null) {
-                        parameterType = com.rift.coad.rdf.semantic.Resource.class;
-                    } else {
+                    if (collectionTypeParameter != null) {
                         parameterType = Class.forName(collectionTypeParameter.value());
+                    } else if (methodRef.getGenericReturnType() instanceof ParameterizedType) {
+                        // NOTE: this assumes that we are dealing with a single list type
+                        ParameterizedType genericReturnType = (ParameterizedType)methodRef.getGenericReturnType();
+                        Type[] types = genericReturnType.getActualTypeArguments();
+                        parameterType = ((Class)types[0]);
+                    } else {
+                        parameterType = com.rift.coad.rdf.semantic.Resource.class;
                     }
                 }
             }
