@@ -237,4 +237,18 @@ public class ParameterMapping implements Serializable {
                     ex.getMessage(),ex);
         }
     }
+
+    
+    /**
+     * This method returns the list of parameters.
+     * 
+     * @return The list of parameters.
+     */
+    @Override
+    public String toString() {
+        return "ParameterMapping{" + "id=" + id + ", methodId=" + methodId + ", name=" + name + ", type=" + type + '}';
+    }
+    
+    
+    
 }
