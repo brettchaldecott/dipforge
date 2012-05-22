@@ -9,7 +9,7 @@
 -->
 
 <mapping>
-    <jndi name="groovy/Daemon" service="test">
+    <jndi name="groovy/DataMapper" service="test">
         <project name="test">
             <method class="test.TestClass" name="callTest1" type="http://www.w3.org/2001/XMLSchema#string">
                 <parameter name="message" type="http://www.w3.org/2001/XMLSchema#string"/>

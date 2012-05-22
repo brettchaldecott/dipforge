@@ -21,31 +21,30 @@
  */
 
 // imports
-import com.dipforge.semantic.RDF;
+import com.dipforge.semantic.RDF_readonly;
 import com.rift.coad.change.request.RequestData;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
  
 def className = method.getClassName()
 def methodName = method.getMethodName()
 
-def classRef = "${className}".newInstance();
-
-def params = [:]
+def params = []
 for (int index = 0; index < parameters.size(); index++) {
     def param = parameters.get(index)
     def name = method.getParameters().get(index).getName()
     if (param instanceof RequestData) {
-        param = RDF.getFromXML(param.getData(), param.getDataType() + "/" + param.getId())
+        param = RDF_readonly.getFromXML(param.getData(), param.getDataType() + "/" + param.getId())
     }
-    params.put(name,param)
+    params.add(param)
 }
 
-def result = classRef."${methodName}"(params)
+def objectRef = this.class.classLoader.loadClass( className, true, false )?.newInstance()
+def result = objectRef."${methodName}"( *params )
 
-if (method.getReturnType() == null || 
-        XSDDataDictionary.isBasicTypeByURI(method.getReturnType())) {
-    return result
-} else {
-    return new RequestData(result.getId(), result.builder.classDef.getURI().toString(),
+if (!(method.getReturnType() == null || 
+        XSDDataDictionary.isBasicTypeByURI(method.getReturnType()))) {
+    result = new RequestData(result.getId(), result.builder.classDef.getURI().toString(),
                 result.toXML(), result.builder.classDef.getLocalName())
 }
+
+out = result

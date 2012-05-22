@@ -28,20 +28,23 @@
 @rdf("http://dipforge.sourceforge.net/test1#type1" "type1")
 @store("store")
 @service("test" "test" "test.TestClass" "test")
+@jndi("groovy/DataMapper" "test" "test.TestClass" "test2")
 flow bob {
    def out
    def type1
    def test
+   def test2
    {
        out.println("before : ##################################################")
        out.println("hello world example 1 : " + type1.getProperty1())
        out.println("hello world example 2 : " + type1.property2)
+       test.callTest1(type1.property2)
+       def type2 = test.callTest2(type1.property1,type1)
+       def type3 = test2.callTest2("type1.property1",type1)
        type1.setProperty1("man on moon")
-       type1.property2 = "bob is bill"
        out.println("hello world example 3 : " + type1.getProperty1())
        out.println("hello world example 4 : " + type1.property2)
        out.println("after : ##################################################")
        store.persist(type1)
-       test.callTest1("hello world")
    }
 }

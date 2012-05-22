@@ -33,7 +33,9 @@ class TestClass {
     
     
     def callTest2(def message, def data) {
-         
+         println message
+         println data.getProperty1()
+         return data
     }
     
 }
