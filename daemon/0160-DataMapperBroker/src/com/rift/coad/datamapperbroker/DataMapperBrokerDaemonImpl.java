@@ -167,7 +167,7 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
                     "FILTER (?JNDI = ${jndi}) }").setString("jndi", jndi).execute();
             List<MethodMapping> result = new ArrayList<MethodMapping>();
             for (SPARQLResultRow entry : entries) {
-                result.add(CopyObject.copy(MethodMapping.class,
+                result.add(copyMethodMapping(
                         entry.get(MethodMapping.class,0)));
             }
             return result;
@@ -194,7 +194,7 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
             MethodMapping method = session.get(MethodMapping.class, methodId);
             
             // copy the method to a DTO version.
-            return CopyObject.copy(MethodMapping.class,method);
+            return copyMethodMapping(method);
         } catch (Exception ex) {
             log.error("Failed to retrieve the method ["
                     + methodId + "] because : " + ex.getMessage(), ex);
@@ -230,7 +230,7 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
                     setString("className",className).execute();
             List<MethodMapping> result = new ArrayList<MethodMapping>();
             for (SPARQLResultRow entry : entries) {
-                result.add(CopyObject.copy(MethodMapping.class,
+                result.add(copyMethodMapping(
                         entry.get(MethodMapping.class,0)));
             }
             return result;
@@ -268,7 +268,7 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
                     setString("className",className).execute();
             List<MethodMapping> result = new ArrayList<MethodMapping>();
             for (SPARQLResultRow entry : entries) {
-                result.add(CopyObject.copy(MethodMapping.class,
+                result.add(copyMethodMapping(
                         entry.get(MethodMapping.class,0)));
             }
             return result;
@@ -331,6 +331,31 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
      */
     public void terminate() {
         monitor.terminate(true);
+    }
+    
+    
+    /**
+     * This method is used to copy the method mapping object.
+     * @param methodMapping
+     * @return 
+     */
+    private MethodMapping copyMethodMapping(MethodMapping method)
+        throws DataMapperBrokerException {
+        try {
+            MethodMapping result = CopyObject.copy(MethodMapping.class,method);
+            result.setParameters(new ArrayList<ParameterMapping>());
+            
+            List<ParameterMapping> parameters = method.getParameters();
+            for (ParameterMapping parameter : parameters) {
+                result.getParameters().add(
+                        CopyObject.copy(ParameterMapping.class,parameter));
+            }
+            
+            return result;
+        } catch (Exception ex) {
+            throw new DataMapperBrokerException(
+                    "Failed to copy the method because : " + ex.getMessage(),ex);
+        }
     }
 
 }
