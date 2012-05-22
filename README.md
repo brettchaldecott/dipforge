@@ -1,19 +1,15 @@
 The Dipforge project
 ====================
 
-This project is released under LGPL and was orgininaly called Coadunation. It
-is currently going through a very serious code rework in order to improve its
-design. A release is scheuled for the 27 April 2012.
+This project is released under LGPL and was orgininaly called Coadunation. It isa project that focuses on providing rapid enterprise development tools. Thus enabling the rapid development and deployment of enterprise level applciations.
 
-This project is still under serious development and will now build the full
-application server and present a very simple management desktop once started.
-The management desktop is the part under serious development at the moment
-and when that is complete the project will officially release the entire 
-application server as an innitial alphar release.
+In order to facilitate this it provides the following
+1. A web IDE
+2. A common type system that makes persistance transparent.
+3. A workflow system built around actions on the common types.
+4. An MVC web layer.
+5. A simple script environment for the development of end points.
 
-The build process requires gradle, and at the time of writing the latest 
-version of gradle was gradle-1.0-rc-1. The build process has not been tested
-with a later version.
 
 To build the application server follow the following steps:
 ----------------------------------------------------------
