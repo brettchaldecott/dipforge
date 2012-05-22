@@ -169,6 +169,12 @@ public class LsRDFTypeManager implements TypeManager {
                     type + "] got [" + data.getDataTypeUri() + "]");
         }
         envParameters.put(name, data);
+        
+        // setup the global rdf property information.
+        if (!envParameters.containsKey(LsActionRDFProperty.RDF_GLOBAL_PROPERTY)) {
+            envParameters.put(LsActionRDFProperty.RDF_GLOBAL_PROPERTY, 
+                    data.getData());
+        }
     }
     
 }
