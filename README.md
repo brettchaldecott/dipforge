@@ -4,11 +4,11 @@ The Dipforge project
 This project is released under LGPL and was orgininaly called Coadunation. It isa project that focuses on providing rapid enterprise development tools. Thus enabling the rapid development and deployment of enterprise level applciations.
 
 In order to facilitate this it provides the following
-1. A web IDE
-2. A common type system that makes persistance transparent.
-3. A workflow system built around actions on the common types.
-4. An MVC web layer.
-5. A simple script environment for the development of end points.
+    1. A web IDE
+    2. A common type system that makes persistance transparent.
+    3. A workflow system built around actions on the common types.
+    4. An MVC web layer.
+    5. A simple script environment for the development of end points.
 
 
 To build the application server follow the following steps:
