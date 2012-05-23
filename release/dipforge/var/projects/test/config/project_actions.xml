@@ -8,7 +8,7 @@
 
 <actions project="test">
 
-    <action name="test1" type="http://dipforge.sourceforge.net/test1#type1" file="/flows/bob.lwf"/>
-    <action name="test2" type="http://dipforge.sourceforge.net/test1#type1" file="/flows/test.lwf"/>
+    <action name="test1" type="http://dipforge.sourceforge.net/test1#type1" file="/flows/bob.lwf" role="test" />
+    <action name="test2" type="http://dipforge.sourceforge.net/test1#type1" file="/flows/test.lwf" role="test" />
     
 </actions>
