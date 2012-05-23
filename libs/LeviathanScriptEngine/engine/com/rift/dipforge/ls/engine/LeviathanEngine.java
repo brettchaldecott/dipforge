@@ -62,6 +62,9 @@ public class LeviathanEngine {
                         storageDirectory.getPath());
             }
             for (File file: storageDirectory.listFiles()) {
+                if (file.getName().startsWith(".")) {
+                    continue;
+                }
                 LeviathanProcessorManager manager = new LeviathanProcessorManager(file);
                 this.processors.put(manager.getProcessor().getGUID(), manager);
             }
