@@ -23,6 +23,7 @@
 package com.rift.coad.change.rdf;
 
 import com.rift.coad.change.ActionInfo;
+import com.rift.coad.change.ChangeException;
 import com.rift.coad.lib.common.IDGenerator;
 import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
@@ -45,6 +46,7 @@ public class ActionInfoRDF implements Serializable {
     private String project;
     private String type;
     private String file;
+    private String role;
 
     
     /**
@@ -63,6 +65,7 @@ public class ActionInfoRDF implements Serializable {
         this.file = action.getFile();
         this.project = action.getProject();
         this.type = action.getType();
+        this.role = action.getRole();
     }
 
     
@@ -74,11 +77,12 @@ public class ActionInfoRDF implements Serializable {
      * @param type The project type.
      * @param file The file name.
      */
-    public ActionInfoRDF(String action, String project, String type, String file) {
+    public ActionInfoRDF(String action, String project, String type, String file, String role) {
         this.action = action;
         this.project = project;
         this.type = type;
         this.file = file;
+        this.role = role;
     }
 
     
@@ -200,6 +204,28 @@ public class ActionInfoRDF implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+
+    
+    /**
+     * This method is called to retrieve the role information.
+     * 
+     * @return The reference to the role.
+     */
+    @PropertyLocalName("Role")
+    public String getRole() {
+        return role;
+    }
+
+    
+    /**
+     * This method sets the role information.
+     * 
+     * @param role The role.
+     */
+    @PropertyLocalName("Role")
+    public void setRole(String role) {
+        this.role = role;
+    }
     
     
     /**
@@ -207,8 +233,8 @@ public class ActionInfoRDF implements Serializable {
      * 
      * @return The action information.
      */
-    public ActionInfo toAction() {
-        return new ActionInfo(action, project, type, file);
+    public ActionInfo toAction() throws ChangeException {
+        return new ActionInfo(action, project, type, file,role);
     }
     
     
