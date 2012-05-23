@@ -36,6 +36,7 @@ public class ActionInfo implements Serializable {
     private String project;
     private String type;
     private String file;
+    private String role;
 
     
     /**
@@ -53,11 +54,17 @@ public class ActionInfo implements Serializable {
      * @param type The project type.
      * @param file The file name.
      */
-    public ActionInfo(String action, String project, String type, String file) {
+    public ActionInfo(String action, String project, String type, 
+            String file, String role) throws ChangeException {
+        if (action == null || project == null || type == null || file == null 
+                || role == null) {
+            throw new ChangeException("Must provide all the propertys to the action information object");
+        }
         this.action = action;
         this.project = project;
         this.type = type;
         this.file = file;
+        this.role = role;
     }
 
     
@@ -142,6 +149,28 @@ public class ActionInfo implements Serializable {
 
     
     /**
+     * This method retrieves the role information.
+     * 
+     * @return The string containing the role information.
+     */
+    public String getRole() {
+        return role;
+    }
+
+    
+    /**
+     * The string containing the role information.
+     * 
+     * @param role The string containing the role
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    
+    
+    
+    /**
      * This method returns the string value.
      * 
      * @return The string value.
@@ -149,7 +178,8 @@ public class ActionInfo implements Serializable {
     @Override
     public String toString() {
         return "ActionInfo{" + "action=" + action + ", project=" + 
-                project + ", type=" + type + ", file=" + file + '}';
+                project + ", type=" + type + ", file=" + file + 
+                ", role=" + role + '}';
     }
 
     

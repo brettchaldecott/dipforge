@@ -78,6 +78,7 @@ public interface ChangeManagerMBean extends Remote {
      * @param project The project name the action is getting added to.
      * @param type The type associated with the project.
      * @param file The file name
+     * @param role The role name
      * @throws ChangeException
      * @throws RemoteException 
      */
@@ -91,7 +92,9 @@ public interface ChangeManagerMBean extends Remote {
             @ParamInfo(name = "type",
             description = "The name of the type.") String type,
             @ParamInfo(name = "file",
-            description = "The name of the file.") String file)
+            description = "The name of the file.") String file,
+            @ParamInfo(name = "role",
+            description = "The name of the role.") String role)
             throws ChangeException, RemoteException;
     
     
@@ -102,6 +105,7 @@ public interface ChangeManagerMBean extends Remote {
      * @param project The project information.
      * @param type The type information.
      * @param file The file information.
+     * @param role The role information.
      * @throws ChangeException
      * @throws RemoteException 
      */
@@ -115,7 +119,9 @@ public interface ChangeManagerMBean extends Remote {
             @ParamInfo(name = "type",
             description = "The name of the type.") String type,
             @ParamInfo(name = "file",
-            description = "The name of the file.") String file)
+            description = "The name of the file.") String file,
+            @ParamInfo(name = "role",
+            description = "The name of the role.") String role)
             throws ChangeException, RemoteException;
 
     
