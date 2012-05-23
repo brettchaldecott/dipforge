@@ -42,6 +42,8 @@ import com.rift.coad.lib.thread.BasicThread;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.security.UserSession;
+import com.rift.coad.lib.security.user.UserStoreManagerAccessor;
 
 
 
@@ -51,6 +53,11 @@ import com.rift.coad.lib.configuration.Configuration;
  * @author Brett Chaldecott
  */
 public class TomcatDeployer extends BasicThread {
+    
+    // class constants
+    private final static String WEB_USERNAME = "web_default_username";
+    private final static String WEB_DEFAULT_USERNAME = "guest";
+    
     
     /**
      * This object contains  the deployment information for a given entry.
@@ -114,11 +121,16 @@ public class TomcatDeployer extends BasicThread {
     protected Logger log =
             Logger.getLogger(TomcatDeployer.class.getName());
     
+    // private static variables
+    private static UserSession session;
+    
+    
     // private member variables
     private ThreadStateMonitor state = null;
     private TomcatWrapper tomcatWrapper = null;
     private Map deployedEntries = new HashMap();
     private File deploymentDir = null;
+    private String defaultUserName;
     
     /**
      * Creates a new instance of TomcatDeployer
@@ -136,7 +148,7 @@ public class TomcatDeployer extends BasicThread {
             tomcatWrapper = new TomcatWrapper();
             
             // load the deployed entries
-            
+            defaultUserName = configuration.getString(WEB_USERNAME,WEB_DEFAULT_USERNAME);
             
         } catch (Exception ex) {
             log.error("Failed to initialize the configuration because : " + 
@@ -153,6 +165,15 @@ public class TomcatDeployer extends BasicThread {
      * replaces the traditional run method.
      */
     public void process() throws Exception {
+        
+        // retrieve the user permissions
+        try {
+            session = UserStoreManagerAccessor.getInstance().
+                    getUserStoreManager().getUserInfo(defaultUserName);
+        } catch (Exception ex) {
+            log.error("####### Failed to get web default username : " + ex.getMessage(),ex);
+        }
+        
         // load the the deployed entries
         log.info("Load the deployment information");
         Properties deploymentInfo = tomcatWrapper.getDeploymentMapping();
@@ -242,5 +263,16 @@ public class TomcatDeployer extends BasicThread {
         }
         log.info("Finished waiting for tomcat to shut down.");
     }
+
+    
+    /**
+     * This method returns the user session information.
+     */
+    public static UserSession getSession() {
+        return session;
+    }
+
+    
+    
     
 }

@@ -21,12 +21,12 @@
             <transaction>true</transaction>
             <thread>
                 <class>com.rift.coad.daemon.tomcat.TomcatDeployer</class>
-                <username>test</username>
+                <username>daemon</username>
                 <number>1</number>
             </thread>
             <thread>
                 <class>com.rift.coad.daemon.tomcat.ear.EARDeployer</class>
-                <username>test</username>
+                <username>daemon</username>
                 <number>1</number>
             </thread>
         </bean>

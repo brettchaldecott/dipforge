@@ -23,6 +23,10 @@
 package com.rift.coad.daemon.tomcat.security;
 
 // logging import
+import com.rift.coad.daemon.tomcat.Tomcat;
+import com.rift.coad.daemon.tomcat.TomcatDeployer;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
 import java.io.IOException;
 import java.security.Principal;
 import javax.servlet.ServletException;
@@ -47,7 +51,7 @@ import com.rift.coad.lib.security.SessionManager;
  * This valve is responsible for associating an active session with a user. In
  * coadunation.
  *
- * @author brett
+ * @author brett chaldecott
  */
 public class CoadunationValve extends ValveBase {
     
@@ -63,6 +67,7 @@ public class CoadunationValve extends ValveBase {
      * Creates a new instance of CoadunationValve
      */
     public CoadunationValve() {
+        
     }
     
     
@@ -94,6 +99,11 @@ public class CoadunationValve extends ValveBase {
         }
         if (userSession != null) {
             log.debug("The user session is for : " + userSession.getName());
+        } else {
+            // retrieve the default backend session information
+            userSession = TomcatDeployer.getSession();
+            log.debug("Using the default backend session : " + 
+                    (userSession != null ? userSession.getName() : "N\\A"));
         }
         interceptor.pushUser(userSession);
         try {

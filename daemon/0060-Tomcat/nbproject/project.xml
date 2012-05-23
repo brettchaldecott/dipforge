@@ -20,9 +20,9 @@
             </test-roots>
         </data>
         <ivyConfiguration xmlns="http://code.google.com/p/ivybeans/ns/ivy-module/1">
-            <descriptorFile>ivy.xml</descriptorFile>
             <configurationMapping>
                 <scope confs="compile" name="COMPILE"/>
+                <scope confs="" name="PROCESSOR"/>
                 <scope confs="compile,runtime" name="RUNTIME"/>
                 <scope confs="compile,compile-test" name="COMPILE_TEST"/>
                 <scope confs="compile,compile-test,runtime,runtime-test" name="RUNTIME_TEST"/>
@@ -30,31 +30,7 @@
         </ivyConfiguration>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
-                <foreign-project>CoadunationAnnotations</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
-                <target>jar</target>
-                <clean-target>clean</clean-target>
-                <id>jar</id>
-            </reference>
-            <reference>
-                <foreign-project>CoadunationClient</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
-                <target>jar</target>
-                <clean-target>clean</clean-target>
-                <id>jar</id>
-            </reference>
-            <reference>
                 <foreign-project>CoadunationClient-1</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
-                <target>jar</target>
-                <clean-target>clean</clean-target>
-                <id>jar</id>
-            </reference>
-            <reference>
-                <foreign-project>CoadunationCommon</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>
@@ -70,14 +46,6 @@
                 <id>jar</id>
             </reference>
             <reference>
-                <foreign-project>CoadunationLib</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
-                <target>jar</target>
-                <clean-target>clean</clean-target>
-                <id>jar</id>
-            </reference>
-            <reference>
                 <foreign-project>CoadunationLib-1</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
@@ -86,23 +54,7 @@
                 <id>jar</id>
             </reference>
             <reference>
-                <foreign-project>CoadunationSecurity</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
-                <target>jar</target>
-                <clean-target>clean</clean-target>
-                <id>jar</id>
-            </reference>
-            <reference>
                 <foreign-project>CoadunationSecurity-1</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
-                <target>jar</target>
-                <clean-target>clean</clean-target>
-                <id>jar</id>
-            </reference>
-            <reference>
-                <foreign-project>TomcatClient</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>
