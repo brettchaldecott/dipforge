@@ -19,39 +19,41 @@
  * RequestBrokerException.java
  */
 
+// package path
 package com.rift.coad.request;
 
 /**
- * The implementation of the request broker.
- *
+ * This exception is thrown if access is denied to a particular action.
+ * 
  * @author brett chaldecott
  */
-public class RequestBrokerException extends Exception implements java.io.Serializable {
+public class RequestBrokerAccessDenied extends Exception implements java.io.Serializable {
 
     /**
-     * Creates a new instance of <code>RequestBrokerException</code> without detail message.
+     * Creates a new instance of
+     * <code>RequestBrokerAccessDenied</code> without detail message.
      */
-    public RequestBrokerException() {
+    public RequestBrokerAccessDenied() {
     }
 
-
     /**
-     * Constructs an instance of <code>RequestBrokerException</code> with the specified detail message.
+     * Constructs an instance of
+     * <code>RequestBrokerAccessDenied</code> with the specified detail message.
      *
      * @param msg the detail message.
      */
-    public RequestBrokerException(String msg) {
+    public RequestBrokerAccessDenied(String msg) {
         super(msg);
     }
-
-
+    
+    
     /**
-     * Constructs an instance of <code>RequestBrokerException</code> with the specified detail message.
+     * Constructs an instance of
+     * <code>RequestBrokerAccessDenied</code> with the specified detail message.
      *
      * @param msg the detail message.
-     * @param cause The cause of the exception.
      */
-    public RequestBrokerException(String msg, Throwable cause) {
+    public RequestBrokerAccessDenied(String msg, Throwable cause) {
         super(msg,cause);
     }
 }

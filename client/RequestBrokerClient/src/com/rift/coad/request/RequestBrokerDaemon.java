@@ -45,9 +45,10 @@ public interface RequestBrokerDaemon extends Remote{
      * @param request The request to create.
      * @throws com.rift.coad.request.RequestBrokerException
      * @throws java.rmi.RemoteException
+     * @throws RequestBrokerAccessDenied
      */
     public void createRequest(Request request) throws RequestBrokerException,
-            RemoteException;
+            RequestBrokerAccessDenied, RemoteException;
 
 
     /**
