@@ -55,6 +55,7 @@ public class XMLActionInfoParser {
         private final static String NAME = "name";
         private final static String TYPE = "type";
         private final static String FILE = "file";
+        private final static String ROLE = "role";
         
         // private member variables
         private boolean inActions = false;
@@ -85,13 +86,21 @@ public class XMLActionInfoParser {
                     inActions = true;
                     project = (String)attributes.getValue(PROJECT);
                 } else if (inActions && qName.compareToIgnoreCase(ACTION) == 0) {
+                    if (attributes.getValue(NAME) == null || 
+                            (String)attributes.getValue(TYPE) == null ||
+                            (String)attributes.getValue(FILE) == null ||
+                            (String)attributes.getValue(ROLE) == null) {
+                        throw new SAXException("Must provide [name,type,file,role]");
+                    }
                     actions.add(new ActionInfo(
                             (String)attributes.getValue(NAME),
                             project,
                             (String)attributes.getValue(TYPE),
-                            (String)attributes.getValue(FILE)));
+                            (String)attributes.getValue(FILE),
+                            (String)attributes.getValue(ROLE)));
                 }
-                
+            } catch (SAXException ex) {
+                throw ex;
             } catch (Exception ex) {
                 log.error("Failed to process the start element : " 
                         + ex.getMessage(),ex);
