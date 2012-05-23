@@ -23,6 +23,8 @@ package com.rift.coad.request;
 
 // java import
 import com.rift.coad.audit.client.AuditLogger;
+import com.rift.coad.change.ActionInfo;
+import com.rift.coad.change.ChangeManagerDaemon;
 import com.rift.coad.change.request.*;
 import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
@@ -37,6 +39,8 @@ import java.util.Set;
 import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.common.CopyObject;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
+import com.rift.coad.lib.security.AuthorizationException;
+import com.rift.coad.lib.security.Validator;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
@@ -47,7 +51,7 @@ import com.rift.coad.util.change.ChangeException;
 import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.connection.ConnectionManager;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
-import java.util.ArrayList;
+import java.util.*;
 import org.apache.log4j.Logger;
 
 /**
@@ -139,9 +143,19 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
      *
      * @param request The request to create.
      * @throws com.rift.coad.request.RequestBrokerException
+     * @throws com.rift.coad.request.RequestBrokerAccessDenied
      */
-    public void createRequest(Request request) throws RequestBrokerException {
+    public void createRequest(Request request) throws RequestBrokerException, 
+            RequestBrokerAccessDenied {
         try {
+            // authenticate the request
+            ChangeManagerDaemon daemon =
+                    (ChangeManagerDaemon) ConnectionManager.getInstance().
+                    getConnection(ChangeManagerDaemon.class,
+                    "change/ChangeManagerDaemon");
+            authenticate(new HashSet<String>(), daemon, request);
+            
+            // make request
             ServiceBroker broker = (ServiceBroker)ConnectionManager.getInstance().
                     getConnection(ServiceBroker.class, "ServiceBroker");
             List services = new ArrayList();
@@ -159,15 +173,51 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
             entries.put(request.getId(), info);
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.ADD,info));
             auditLog.complete("Created a request id [%s] on jndi [%s]",request.getId(),jndi);
-
+        } catch (RequestBrokerAccessDenied ex) {
+            throw ex;
         } catch (Exception ex) {
             log.error("Failed to create a request : " + ex.getMessage(),ex);
             throw new RequestBrokerException
                     ("Failed to create a request : " + ex.getMessage());
         }
     }
+    
+    /**
+     * This method performs a check on the request and user to see if they can access the 
+     * action
+     * 
+     * @param checkedList The list of actions already checked. To prevent re-lookups.
+     * @param daemon The reference to the daemon
+     * @param request The requests.
+     * @throws RequestBrokerException
+     * @throws RequestBrokerAccessDenied 
+     */
+    private void authenticate(Set<String> checkedList, 
+            ChangeManagerDaemon daemon, Request request) throws RequestBrokerException, 
+            RequestBrokerAccessDenied {
+        try {
+            String compoundKey = request.getProject() + request.getData().getDataType() +
+                    request.getAction();
+            if (!checkedList.contains(compoundKey)) {
+                ActionInfo actionInfo = daemon.getAction(request.getProject(),
+                        request.getData().getDataType(), request.getAction());
+                Validator.validate(this.getClass(),actionInfo.getRole());
+                checkedList.add(compoundKey);
+            }
+            for (Request child : request.getChildren()) {
+                authenticate(checkedList, daemon, child);
+            }
+        } catch (AuthorizationException ex) {
+            throw new RequestBrokerAccessDenied("Access to the action [" + 
+                    request.getAction() + "] on [" + request.getData().getDataType() 
+                    + "] in [" + request.getProject() + "] denied.");
+        } catch (Exception ex) {
+            throw new RequestBrokerException("Validation checks failed because : " +
+                    ex.getMessage());
+        }
+    }
 
-
+    
     /**
      * This method returns the list of requests that are currently being processed.
      *
