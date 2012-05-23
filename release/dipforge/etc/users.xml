@@ -35,6 +35,10 @@
         <principal>email</principal>
         <principal>daemon</principal>
     </user>
+    <user name="guest" password="112233">
+        <principal>guest</principal>
+        <principal>daemon</principal>
+    </user>
     <user name="test" password="112233">
         <principal>guest</principal>
         <principal>daemon</principal>
