@@ -92,6 +92,7 @@ public class ChangeManager implements ChangeManagerMBean {
      * @param project The project to add the action for.
      * @param type The type of action.
      * @param file The file
+     * @param role The role
      * @throws ChangeException
      * @throws RemoteException 
      */
@@ -99,7 +100,8 @@ public class ChangeManager implements ChangeManagerMBean {
             String action,
             String project,
             String type,
-            String file)
+            String file,
+            String role)
             throws ChangeException, RemoteException {
         try {
             ChangeManagerDaemon daemon = 
@@ -107,7 +109,7 @@ public class ChangeManager implements ChangeManagerMBean {
                     getConnection(ChangeManagerDaemon.class,
                     "java:comp/env/bean/change/ChangeManagerDaemon");
             List<ActionInfo> actions = new ArrayList<ActionInfo>();
-            actions.add(new ActionInfo(action, project, type, file));
+            actions.add(new ActionInfo(action, project, type, file,role));
             daemon.addAction(actions);
         } catch (Exception ex) {
             throw new ChangeException("Failed to add the action : " + 
@@ -123,12 +125,13 @@ public class ChangeManager implements ChangeManagerMBean {
      * @param project The project the action belongs to.
      * @param type The type of action.
      * @param file The file that the action is implemented in.
+     * @param role The role that the caller must have access to.
      * @throws ChangeException
      * @throws RemoteException 
      */
     public void updateAction(
             String action, String project, 
-            String type, String file)
+            String type, String file,String role)
             throws ChangeException, RemoteException {
         try {
             ChangeManagerDaemon daemon = 
@@ -136,7 +139,7 @@ public class ChangeManager implements ChangeManagerMBean {
                     getConnection(ChangeManagerDaemon.class,
                     "java:comp/env/bean/change/ChangeManagerDaemon");
             List<ActionInfo> actions = new ArrayList<ActionInfo>();
-            actions.add(new ActionInfo(action, project, type, file));
+            actions.add(new ActionInfo(action, project, type, file,role));
             daemon.updateAction(actions);
         } catch (Exception ex) {
             throw new ChangeException("Failed to update the action : " + 
