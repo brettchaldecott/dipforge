@@ -8,32 +8,7 @@
         Purpose of the document follows.
 -->
 <FeedConfig>
-    <Desktop name="Desk 1">
-        <identifier name="overview"/>
-        <identifier name="news"/>
-        <identifier name="environment"/>        
-    </Desktop>
-    <Desktop name="Desk 2">
-        <identifier name="overview"/>
-        <identifier name="news"/>
-        <identifier name="environment"/>        
-    </Desktop>
-    <Desktop name="Desk 3">
-        <identifier name="overview"/>
-        <identifier name="news"/>
-        <identifier name="environment"/>        
-    </Desktop>
-    <Desktop name="Desk 4">
-        <identifier name="overview"/>
-        <identifier name="news"/>
-        <identifier name="environment"/>        
-    </Desktop>
-    <Desktop name="Desk 5">
-        <identifier name="overview"/>
-        <identifier name="news"/>
-        <identifier name="environment"/>        
-    </Desktop>
-    <Desktop name="Desk 6">
+    <Desktop name="Desk">
         <identifier name="overview"/>
         <identifier name="news"/>
         <identifier name="environment"/>        

@@ -26,9 +26,11 @@ Ext.define('FeedViewer.FeedPanel', {
                    layout: {
                        type: 'anchor'
                    },
-            	    items: [this.createView(),this.createLHSContainer(),this.createShortFeedContainer()]
+            	    items: [this.createView(),/*this.createLHSContainer(), */this.createShortFeedContainer()]
             	})]
         });
+        
+        
         this.addEvents(
             /**
              * @event feedselect Fired when a feed is selected
@@ -47,6 +49,17 @@ Ext.define('FeedViewer.FeedPanel', {
         );
         this.setIconCls("dipforge-icon");
         this.callParent(arguments);
+        //var task = Ext.TaskManager.start({
+        //     run: this.reloadFeeds,
+        //     interval: 1000
+        //});
+        var runner = new Ext.util.TaskRunner();
+         var task = runner.start({
+            scope: this,
+             run: this.reloadFeeds,
+             interval: 1000 * 60 * 5
+         });
+        
     },   
 
     // template method
@@ -59,8 +72,26 @@ Ext.define('FeedViewer.FeedPanel', {
                 	view.getSelectionModel().select(view.store.first());
             }
         });
+        var feeds = this.feeds;
+        feeds.getStore().load({
+            scope   : this.feeds.getStore(),
+            callback: function(records, operation, success) {
+                    //feeds.getSelectionModel().select(feeds.store.first());
+            }
+        });
+        
+        
     },
-
+    
+    reloadFeeds: function() {
+        var feeds = this.feeds;
+        feeds.getStore().load({
+            scope   : this.feeds.getStore(),
+            callback: function(records, operation, success) {
+                    //feeds.getSelectionModel().select(feeds.store.first());
+            }
+        });
+    },
 
     /**
      * This method creates the master container
@@ -79,16 +110,48 @@ Ext.define('FeedViewer.FeedPanel', {
     },
     
     /**
-     * This function creates the feed short cut bar
+     * Create the DataView to be used for the feed list.
+     * @private
+     * @return {Ext.view.View}
      */
-    createShortFeedContainer: function() {
-        this.shortCutFeedsContainer = Ext.create('widget.desktopfeedshortcutbar', {
-        		anchor: '100% 75%',
-            minWidth: 250
+    createShortFeedContainer: function(){
+        this.feeds = Ext.create('widget.dataview', {
+            store: Ext.create('Ext.data.Store', {
+                model: 'FeedShortCut',
+                proxy: {
+                    type: 'ajax',
+                    url : 'feeds/FeedShortCut.groovy',
+                    reader: {
+                        type: 'json',
+                        root: 'feeds'
+                    }
+                }
+            }),
+            selModel: {
+                mode: 'SINGLE',
+                listeners: {
+                    scope: this,
+                    selectionchange: this.onFeedsSelectionChange
+                }
+            },
+            listeners: {
+                scope: this,
+                contextmenu: this.onContextMenu
+            },
+            //height: 250,
+            width: 200,
+            anchor: '100% 45%',
+            trackOver: true,
+            autoScroll: true,
+            style: "padding-top:5px",
+            cls: 'feed-list',
+            itemSelector: '.feed-list-item',
+            overItemCls: 'feed-list-item-hover',
+            tpl: '<tpl for="."><div class="feed-list-item"><table border=0  cellpadding=0 cellspacing=0 valign="middle"><tr><td><b>{author}</b><br><b><i>{title}</i></b></td></tr><tr><td>{msg}</td></tr></table></div></tpl>'
         });
-		  return this.shortCutFeedsContainer;
+        return this.feeds;
     },
-
+    
 
     /**
      * Create the DataView to be used for the feed list.
@@ -112,7 +175,7 @@ Ext.define('FeedViewer.FeedPanel', {
                 mode: 'SINGLE',
                 listeners: {
                     scope: this,
-                    selectionchange: this.onSelectionChange
+                    selectionchange: this.onApplicationSelectionChange
                 }
             },
             listeners: {
@@ -121,7 +184,7 @@ Ext.define('FeedViewer.FeedPanel', {
             },
             //height: 250,
             width: 200,
-            anchor: '100% 20%',
+            anchor: '100% 55%',
             trackOver: true,
             autoScroll: true,
             style: "padding-top:5px",
@@ -133,12 +196,22 @@ Ext.define('FeedViewer.FeedPanel', {
         return this.view;
     },
 
+
     /**
      * Used when view selection changes so we can disable toolbar buttons.
      * @private
      */
-    onSelectionChange: function(){
-        var selected = this.getSelectedItem();
+    onApplicationSelectionChange: function(){
+        var selected = this.getApplicationSelectedItem();
+        this.loadFeed(selected);
+    },
+    
+    /**
+     * Used when view selection changes so we can disable toolbar buttons.
+     * @private
+     */
+    onFeedsSelectionChange: function(){
+        var selected = this.getFeedsSelectedItem();
         this.loadFeed(selected);
     },
     
@@ -172,8 +245,17 @@ Ext.define('FeedViewer.FeedPanel', {
      * @private
      * @return {Ext.data.Model} Returns the selected model. false if nothing is selected.
      */
-    getSelectedItem: function(){
+    getApplicationSelectedItem: function(){
         return this.view.getSelectionModel().getSelection()[0] || false;
+    },
+
+    /**
+     * Gets the currently selected record in the view.
+     * @private
+     * @return {Ext.data.Model} Returns the selected model. false if nothing is selected.
+     */
+    getFeedsSelectedItem: function(){
+        return this.feeds.getSelectionModel().getSelection()[0] || false;
     },
 
     /**

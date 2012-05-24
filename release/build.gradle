@@ -500,6 +500,7 @@ dependencies {
     releaseGroovyLib project(':client:GroovyDaemonClient')
     releaseGroovyLib project(':client:ChangeControlClient')
     releaseGroovyLib project(':client:RequestBrokerClient')
+    releaseGroovyLib project(':client:EventServerClient')
     releaseGroovyLib "asm:asm:3.2"
     releaseGroovyLib "antlr:antlr:2.7.7"
     releaseGroovyLib "asm:asm-commons:3.2"

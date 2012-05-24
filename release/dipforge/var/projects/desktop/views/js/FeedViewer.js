@@ -21,7 +21,7 @@ Ext.define('FeedViewer.App', {
         
         Ext.define('FeedShortCut', {
             extend: 'Ext.data.Model',
-            fields: ['image','author','msg','url']
+            fields: ['image','title','author','msg','url']
         });
 
         Ext.define('FeedItem', {

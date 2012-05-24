@@ -8,7 +8,7 @@ def builder = new JsonBuilder()
 def menu = [
              [
                 image: 'favicon.ico',
-                title: '<b>IDE</b>',
+                title: 'IDE',
                 url: '/ide/'
             ],
             [

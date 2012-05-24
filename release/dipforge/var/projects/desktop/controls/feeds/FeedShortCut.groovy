@@ -1,53 +1,39 @@
 package applications
 
 import groovy.json.*
+import com.rift.coad.util.connection.ConnectionManager
+import org.apache.log4j.Logger;
+import com.rift.coad.daemon.event.FeedServer
 
+def log = Logger.getLogger("files.FileList");
+def feeds = []
+try {
+    def daemon = ConnectionManager.getInstance().getConnection(
+    		FeedServer.class,"event/Server")
+    def events = daemon.getEvents("environment")
+    for (def event : events) {
+        feeds.add([
+                    image: 'favicon.ico',
+                    title: event.getName(),
+                    author: event.getApplication(),
+                    msg: event.getDescription(),
+                    url: event.getUrl()
+                ])
+    }
+    events = daemon.getEvents("news")
+    for (def event : events) {
+        feeds.add([
+                    image: 'favicon.ico',
+                    title: event.getName(),
+                    author: event.getApplication(),
+                    msg: event.getDescription(),
+                    url: event.getUrl()
+                ])
+    }
+} catch (Exception ex) {
+    log.error("Failed to retrieve the feed information : " + ex.getMessage(),ex)
+}
 def builder = new JsonBuilder()
-
-def feeds = [
-             [
-                image: 'favicon.ico',
-                author: 'test',
-                msg: 'there is news',
-                url: 'http://news.bbc.co.uk/'
-            ],
-            [
-                image: 'favicon.ico',
-                author: 'test',
-                msg: 'this is cnn',
-                url: 'http://www.cnn.com/'
-            ],
-            [
-                image: 'favicon.ico',
-                author: 'test',
-                msg: 'there is sky well I do not know',
-                url: 'http://www.sky.com/'
-            ],
-            [
-                image: 'favicon.ico',
-                author: 'test',
-                msg: 'there is sky well I do not know',
-                url: 'http://www.sky.com/'
-            ],
-            [
-                image: 'favicon.ico',
-                author: 'test',
-                msg: 'there is sky well I do not know',
-                url: 'http://www.sky.com/'
-            ],
-            [
-                image: 'favicon.ico',
-                author: 'test',
-                msg: 'there is sky well I do not know',
-                url: 'http://www.sky.com/'
-            ],
-            [
-                image: 'favicon.ico',
-                author: 'test',
-                msg: 'there is sky well I do not know',
-                url: 'http://www.sky.com/'
-            ]]
-
 builder(feeds)
 
 println builder.toString()

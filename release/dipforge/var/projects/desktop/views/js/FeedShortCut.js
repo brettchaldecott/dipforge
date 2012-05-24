@@ -21,7 +21,7 @@ Ext.define('Desktop.DesktopFeedShortCutBar', {
      * The function to init the component
      */
     initComponent: function(){
-    	  this.template = '<tpl for="."><div class="feed-list-item"><table border=0  cellpadding=0 cellspacing=0 valign="middle"><tr><td rowspan=2><image src="{image}" height=20 width=20/>&nbsp;</td><td><b>{author}</b></td></tr><tr><td>{msg}</td></tr></table></div></tpl>';
+    	  this.template = '<tpl for="."><div class="feed-list-item"><table border=0  cellpadding=0 cellspacing=0 valign="middle"><tr><td><b>{author}</b></td></tr><tr><td>{msg}</td></tr></table></div></tpl>';
     	  Ext.apply(this, {
     	  		items: this.createMasterContainer()});
         this.addEvents(
@@ -40,9 +40,8 @@ Ext.define('Desktop.DesktopFeedShortCutBar', {
     createMasterContainer: function() {
     	var masterContainer = Ext.create('Ext.container.Container', {
     		 layout:  'anchor',
-    		 items: [this.createFeedShortCut('feeds/UserFeedShortCut.groovy','100% 40%'),
-              //this.createSeperator(),
-              this.createFeedShortCut('feeds/FeedShortCut.groovy','100% 60%')]});
+    		 items: [this.createFeedShortCut('feeds/FeedShortCut.groovy','100% 70%'),
+              this.createFeedShortCut('feeds/UserFeedShortCut.groovy','100% 30%')]});
        return masterContainer;
     	},
     
