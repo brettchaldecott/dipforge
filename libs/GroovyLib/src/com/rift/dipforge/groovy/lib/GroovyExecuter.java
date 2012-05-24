@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,7 +60,9 @@ public class GroovyExecuter {
     private Object groovyScriptEngine;
     private GroovyClassLoader classLoader;
     private Map<String, File[]> directoryCache = new HashMap<String, File[]>();
-
+    private Semaphore available = new Semaphore(1, true);
+    private boolean initialized = false;
+    
     /**
      * The constructor of the groovy script engine.
      *
@@ -153,10 +156,19 @@ public class GroovyExecuter {
         ServletContext servletContext = servlet.getServletContext();
         ClassLoader current = Thread.currentThread().getContextClassLoader();
 
-
+        boolean aquiredLock = false;
         try {
             Thread.currentThread().setContextClassLoader(classLoader);
-
+            // this is a hack to work around the fact that the groovy
+            // environment does not appear to run multithreaded until
+            // it has executed once for a given environment.
+            synchronized(this) {
+                if (!initialized) {
+                    this.available.acquire();
+                    aquiredLock = true;
+                }
+            }
+            
             // Set it to HTML by default
             response.setContentType("text/html; charset=" + servlet.getEncoding());
 
@@ -177,7 +189,8 @@ public class GroovyExecuter {
             Method run = bootstrap.getClass().getMethod("run",
                     String.class, binding.getClass());
             run.invoke(bootstrap, scriptUri, binding);
-
+            initialized = true;
+            
             /*
              * Set reponse code 200.
              */
@@ -278,6 +291,10 @@ public class GroovyExecuter {
             runtimeException.printStackTrace(System.err);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
         } finally {
+            if (aquiredLock) {
+                this.available.release();
+            }
+            
             /*
              * Finally, flush the response buffer.
              */

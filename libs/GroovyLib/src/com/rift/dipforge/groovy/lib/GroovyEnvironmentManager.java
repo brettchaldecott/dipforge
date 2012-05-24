@@ -83,6 +83,9 @@ public class GroovyEnvironmentManager {
      */
     public static synchronized GroovyEnvironmentManager init(String dipLibPath, String basePath,
             String libDir, String[] subdirs, String[] libsdir) throws GroovyEnvironmentException {
+        if (singleton != null) {
+            return singleton;
+        }
         return singleton = new GroovyEnvironmentManager(dipLibPath,basePath,libDir,subdirs, libsdir);
     }
 
@@ -109,7 +112,7 @@ public class GroovyEnvironmentManager {
      * @return The reference to the environment executer.
      * @throws GroovyEnvironmentException
      */
-    public GroovyExecuter getExecuter(ContextInfo context) throws GroovyEnvironmentException {
+    public synchronized GroovyExecuter getExecuter(ContextInfo context) throws GroovyEnvironmentException {
         GroovyExecuter executer = executerMap.get(context);
         if (executer != null && !executer.checkForChanges()) {
             return executer;
