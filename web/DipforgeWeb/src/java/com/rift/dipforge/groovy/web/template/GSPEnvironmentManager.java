@@ -85,6 +85,9 @@ public class GSPEnvironmentManager {
      */
     public static synchronized GSPEnvironmentManager init(String dipLibPath, String basePath,
             String webDir, String libDir, String[] subdirs, String[] libsdir) throws GSPEnvironmentException {
+        if (singleton != null) {
+            return singleton;
+        }
         return singleton = new GSPEnvironmentManager(dipLibPath,basePath,webDir, libDir, subdirs, libsdir);
     }
 
@@ -111,7 +114,7 @@ public class GSPEnvironmentManager {
      * @return The reference to the environment executer.
      * @throws GSPEnvironmentException
      */
-    public GSPExecuter getExecuter(ContextInfo context) throws GSPEnvironmentException {
+    public synchronized GSPExecuter getExecuter(ContextInfo context) throws GSPEnvironmentException {
         GSPExecuter executer = executerMap.get(context);
         if (executer != null && !executer.checkForChanges()) {
             return executer;
