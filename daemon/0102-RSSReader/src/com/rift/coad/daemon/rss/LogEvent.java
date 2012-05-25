@@ -45,7 +45,7 @@ public class LogEvent {
     private final static String FEED_MANAGER_JNDI = "feed_manager_jndi";
     private final static String FEED_MANAGER_JNDI_DEFAULT = "event/Manager";
     private final static String RSS_MANAGER_ROLE = "rss_manager_role";
-    private final static String RSS_MANAGER_ROLE_DEFAULT = "desktop";
+    private final static String RSS_MANAGER_ROLE_DEFAULT = "guest";
     
     
     // private member variables
