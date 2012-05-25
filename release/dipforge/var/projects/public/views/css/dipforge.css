@@ -1,0 +1,111 @@
+/*
+    Date: Fri May 25 09:35:50 SAST 2012
+    File: dipforge.css
+    Author: admin
+*/
+
+
+
+body {
+  text-align: center;
+  margin-top:0px;
+  margin-bottom:0px;
+}
+
+
+#page_wrapper {
+  margin-left: auto; 
+  margin-right: auto;
+  width: 800px;
+  text-align: left;
+}
+
+
+#page_header {
+  height: 94px;
+  background: #515230 url('../images/Banner.jpg') top left no-repeat;
+}  
+
+
+#menu_bar {
+  height:25px;
+  border-bottom: 1px solid #a69373;
+}
+
+#navcontainer ul {
+    padding-left: 0;
+    margin-left: 0;
+    margin-top:5px;
+    background-color: transparent;
+    color: #000000;
+    float: left;
+    width: 100%;
+    font-family: verdana, helvetica, sans-serif;
+    font-size:12px;
+    font-weight:bold;
+}
+
+#navcontainer ul li {
+    display: inline; }
+
+#navcontainer ul li a {
+    padding: 0.2em 1em;
+    background-color: transparent;
+    /*color: #F3E7A9;*/
+    color: #a69373;
+    text-decoration: none;
+    float: left;
+    /*border-right: 1px solid #000000;*/
+}
+
+#navcontainer ul li a:hover {
+    background-color: transparent;
+    color: #b4281a;
+}
+
+.spacer {
+  margin:0px;padding:0px;height:10px;clear:both;
+}
+
+#left_side {
+  float: left;
+  width: 550px;
+}
+
+#left_side h3 {
+  margin:10px;
+  margin-right:15px;
+  font-family: verdana;
+  font-size:14px;
+  font-weight: bold;
+  line-height:18px;
+  color: #a69373;
+}
+  
+#left_side p {
+  margin:10px;
+  margin-right:15px;
+  font-family: verdana;
+  font-size:12px;
+  line-height:18px;
+  color: #333333;
+}
+
+
+#left_side ul li {
+  margin:10px;
+  margin-right:15px;
+  font-family: verdana;
+  font-size:12px;
+  line-height:18px;
+  color: #333333;
+}
+
+
+#right_side {
+  float:right;
+  width:250px;
+  background-color: #e3d3b7;
+  height:410px;
+}
+

@@ -25,7 +25,8 @@ class MimeTypeMapper {
             return "ace/mode/java";
         } else if (suffix.equals('lwf')) {
             return "ace/mode/leviathan";
-        } else if (suffix.equals('png') || suffix.equals('jpeg') || suffix.equals('png')
+        } else if (suffix.equals('png') || suffix.equals('jpg') || 
+            suffix.equals('jpeg') || suffix.equals('png')
             || suffix.equals('ico') || suffix.equals('gif')) {
             return "image";
         }
