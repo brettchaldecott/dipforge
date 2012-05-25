@@ -9,8 +9,8 @@
 <actions project="%project">
 
     <!--
-    <action name="test1" type="http://type.com/test" file="/flows/test.lwf"/>
-    <action name="test2" type="http://type.com/test" file="/flows/test.lwf"/>
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
     -->
 
 </actions>
