@@ -15,7 +15,7 @@
             <interface>com.rift.coad.daemon.event.FeedServer</interface>
             <class>com.rift.coad.daemon.event.FeedServerImpl</class>
             <bindName>event/Server</bindName>
-            <role>desktop</role>
+            <role>daemon</role>
             <transaction>true</transaction>
         </bean>
         <bean>
