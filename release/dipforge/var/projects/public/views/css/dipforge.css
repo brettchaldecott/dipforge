@@ -69,7 +69,7 @@ body {
 
 #left_side {
   float: left;
-  width: 550px;
+  width: 545px;
 }
 
 #left_side h3 {
@@ -104,7 +104,7 @@ body {
 
 #right_side {
   float:right;
-  width:250px;
+  width:255px;
   background-color: #e3d3b7;
   height:410px;
   font-family: verdana;

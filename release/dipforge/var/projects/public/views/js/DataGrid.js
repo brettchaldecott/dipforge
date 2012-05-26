@@ -64,7 +64,7 @@ Ext.onReady(function(){
         overItemCls: 'feed-list-item-hover',
         tpl: '<tpl for="."><div class="feed-list-item"><a href="{url}" target="_blank"><table border=0  cellpadding=0 cellspacing=0 valign="middle"><tr><td><b>{author}</b><br><b><i>{title}</i></b></td></tr><tr><td><p>{msg}</p></td></tr></table></a></div></tpl>',
         renderTo:'data-grid',
-        width: 250,
-        height: 400
+        width: 255,
+        height: 405
     });
 });
