@@ -321,6 +321,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             Properties properties = new Properties();
             properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                     "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+            properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
             File ontologyFile = new File(this.schemaDir,project + ".xml");
             if (ontologyFile.isFile()) {
                 FileInputStream in = new FileInputStream(ontologyFile);
