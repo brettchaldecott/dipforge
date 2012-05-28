@@ -21,6 +21,7 @@
 
 package com.rift.coad.rdf.semantic.ontology.jena;
 
+import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -53,7 +54,12 @@ public class JenaOntologyManager implements OntologyManager {
      */
     public JenaOntologyManager(Properties properties) throws OntologyException {
         try {
-            jenaOntModel = ModelFactory.createOntologyModel(OntModelSpec.RDFS_MEM_RDFS_INF);
+            // added caching to the ontology objects
+            OntDocumentManager mgr = new OntDocumentManager();
+            mgr.setCacheModels(true);
+            OntModelSpec spec = new OntModelSpec( OntModelSpec.RDFS_MEM );
+            spec.setDocumentManager(mgr);
+            jenaOntModel = ModelFactory.createOntologyModel(spec);
             if (properties.containsKey(OntologyConstants.ONTOLOGY_CONTENTS)) {
                 String contents = properties.getProperty(OntologyConstants.ONTOLOGY_CONTENTS);
                 ByteArrayInputStream in = new ByteArrayInputStream(contents.getBytes());
