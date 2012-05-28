@@ -23,6 +23,9 @@
 package com.rift.coad.rdf.semantic.ontology;
 
 import java.lang.reflect.Constructor;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -32,6 +35,100 @@ import java.util.Properties;
  */
 public class OntologyManagerFactory {
 
+    // private member variables
+    public static String IGNORE_CACHE = "ontology_ignore_cache";
+    public static String CACHE_TIMEOUT = "ontonogy_factory_timeout";
+    public static long DEFAULT_CACHE_TIMEOUT = 1000 * 5;
+    
+    
+    /**
+     * This object wrapps the factory
+     */
+    public static class FactoryCacheEntry {
+        private OntologyManager manager;
+        private Date creation = new Date();
+
+        public FactoryCacheEntry(OntologyManager manager) {
+            this.manager = manager;
+        }
+
+        public OntologyManager getManager() {
+            return manager;
+        }
+        
+        
+        /**
+         * This method returns true if the object is expired.
+         * @param timeout
+         * @return TRUE if expired
+         */
+        public boolean isExpired(long timeout) {
+            Date currentTime = new Date();
+            if ((currentTime.getTime() - timeout) > this.creation.getTime()) {
+                return true;
+            }
+            return false;
+        }
+        
+        
+    }
+    
+    
+    /**
+     * The factory cache manager.
+     */
+    public static class FactoryCache {
+        
+        // private member variables
+        private Map<Properties,FactoryCacheEntry> entries = new HashMap<Properties,FactoryCacheEntry>(); 
+        
+        /**
+         * The constructor
+         */
+        public FactoryCache() {
+            
+        }
+        
+        
+        /**
+         * This method attempts to get the ontology manager instance for the 
+         * properties
+         * @param properties The list of propeties
+         * @return 
+         */
+        public OntologyManager getOntologyManager(Properties properties) {
+            FactoryCacheEntry result = null;
+            if ((result = entries.get(properties)) != null) {
+                long timeout = DEFAULT_CACHE_TIMEOUT;
+                if (properties.containsKey(CACHE_TIMEOUT)) {
+                    timeout = Long.parseLong(properties.getProperty(CACHE_TIMEOUT));
+                }
+                if (!result.isExpired(timeout)) {
+                    return result.getManager();
+                }
+            }
+            return null;
+        }
+        
+        
+        /**
+         * This method puts a new ontology manager.
+         * 
+         * @param properties The properties to perform the lookup against in future
+         * @param manager The manager
+         */
+        public void putOntologyManager(Properties properties, OntologyManager manager) {
+            entries.put(properties, new FactoryCacheEntry(manager));
+        }
+    }
+    
+    private static FactoryCache factoryCache = null;
+    
+    static {
+        factoryCache = new FactoryCache();
+    }
+    
+    
     /**
      * This method returns the ontology manager information.
      *
@@ -42,6 +139,15 @@ public class OntologyManagerFactory {
     public static synchronized OntologyManager init(Properties properties)
             throws OntologyException {
         try {
+            OntologyManager managerInstance = null;
+            if (!properties.containsKey(IGNORE_CACHE)) {
+                System.out.println("Use the cached ontology manager.");
+                managerInstance = factoryCache.getOntologyManager(properties);
+                if (managerInstance != null) {
+                    return managerInstance;
+                }
+            }
+            
             // retrieve the manager class.
             String manager = properties.getProperty(
                     OntologyConstants.ONTOLOGY_MANAGER_CLASS);
@@ -50,10 +156,15 @@ public class OntologyManagerFactory {
                         OntologyConstants.ONTOLOGY_MANAGER_CLASS +
                         "] class name has not been supplied");
             }
+            
             Class managerClassRef = Class.forName(manager);
             Constructor constructor = managerClassRef.getConstructor(Properties.class);
-            OntologyManager managerInstance =
+            managerInstance =
                     (OntologyManager)constructor.newInstance(properties);
+            if (!properties.contains(IGNORE_CACHE)) {
+                factoryCache.putOntologyManager(properties, managerInstance);
+                
+            }
             return managerInstance;
         } catch (OntologyException ex) {
             throw ex;

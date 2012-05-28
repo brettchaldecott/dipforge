@@ -47,6 +47,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];
@@ -70,6 +71,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];
@@ -99,6 +101,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];
@@ -130,6 +133,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];
@@ -159,6 +163,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];
@@ -190,6 +195,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];
@@ -235,6 +241,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];
@@ -269,6 +276,7 @@ public class JenaOntologySessionTest extends TestCase {
         Properties properties = new Properties();
         properties.put(OntologyConstants.ONTOLOGY_MANAGER_CLASS,
                 "com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager");
+        properties.put(OntologyManagerFactory.IGNORE_CACHE,"true");
         File testFile = new File("./base.xml");
         FileInputStream in = new FileInputStream(testFile);
         byte[] buffer = new byte[(int)testFile.length()];

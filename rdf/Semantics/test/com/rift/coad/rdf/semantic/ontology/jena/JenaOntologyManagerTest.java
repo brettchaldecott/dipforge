@@ -70,6 +70,10 @@ public class JenaOntologyManagerTest extends TestCase {
         String expResult = "JenaOntologyManager";
         String result = instance.getName();
         assertEquals(expResult, result);
+        
+        JenaOntologyManager instance2 =
+                (JenaOntologyManager)OntologyManagerFactory.init(properties);
+        assertEquals(instance2, instance);
     }
 
 
