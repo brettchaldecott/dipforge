@@ -351,6 +351,7 @@ public class GSPExecuter {
         //ClassLoader current = Thread.currentThread().getContextClassLoader();
         ClassLoader current = this.getClass().getClassLoader();
         try {
+            directoryCache.clear();
             List<URL> paths = generateGroovyLibPath(libsdir);
             paths.addAll(generateGroovyLibPath(basePath + File.separator +
                     context.getPath() + File.separator + this.libDir));
@@ -465,7 +466,6 @@ public class GSPExecuter {
     private List<URL> generateGroovyLibPath(String[] libDirectories) throws GSPEnvironmentException {
         try {
             List<URL> paths = new ArrayList<URL>();
-            directoryCache.clear();
             for (String groovyLibPath : libDirectories) {
                 File[] files = new File(groovyLibPath).listFiles();
                 directoryCache.put(groovyLibPath, files);
