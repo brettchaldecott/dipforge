@@ -53,6 +53,7 @@ public class LogEvent {
     private static Logger log = Logger.getLogger(LogEvent.class);
     private String feedJNDI = null;
     private String role = null;
+    
     /**
      * The default constructor for the log event.
      */
