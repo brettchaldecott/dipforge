@@ -315,6 +315,7 @@ public class GroovyExecuter {
         //ClassLoader current = Thread.currentThread().getContextClassLoader();
         ClassLoader current = this.getClass().getClassLoader();
         try {
+            directoryCache.clear();
             List<URL> paths = generateGroovyLibPath(libsdir);
             paths.addAll(generateGroovyLibPath(basePath + File.separator +
                     context.getPath() + File.separator + this.libDir));
@@ -379,6 +380,7 @@ public class GroovyExecuter {
             File[] currentFiles = directory.listFiles();
             File[] oldFiles = directoryCache.get(path);
             if (oldFiles == null) {
+                log.info("The directory cache does not contain a reference  to [" + path + "].");
                 return true;
             }
             for (File currentFile : currentFiles) {
@@ -438,7 +440,6 @@ public class GroovyExecuter {
     private List<URL> generateGroovyLibPath(String[] libDirectories) throws GroovyEnvironmentException {
         try {
             List<URL> paths = new ArrayList<URL>();
-            directoryCache.clear();
             for (String groovyLibPath : libDirectories) {
                 File[] files = new File(groovyLibPath).listFiles();
                 directoryCache.put(groovyLibPath, files);
