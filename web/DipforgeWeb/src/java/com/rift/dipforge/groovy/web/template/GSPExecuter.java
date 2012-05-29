@@ -55,7 +55,8 @@ public class GSPExecuter {
     // class constants
     private final static String GSP_INIT = "gsp_init";
     private final static String DEFAULT_GSP_INIT = "dipforge/views/init.gsp";
-    
+    private final static String ENABLE_TEMPLATE_CACHE = "enable_template_cache";
+    private final static boolean DEFAULT_ENABLE_TEMPLATE_CACHE = false;
     
     /**
      * A simple cache template original copied from the groovy source but modified
@@ -123,6 +124,8 @@ public class GSPExecuter {
             return "Hit #" + hit + " since " + date;
         }
     }
+    
+    
     // class singletons
     private Logger log = Logger.getLogger(GSPExecuter.class);
     // private member variables
@@ -134,7 +137,9 @@ public class GSPExecuter {
     private String initPath;
     private String[] subdirs;
     private String[] libsdir;
+    private Object groovyShellRef;
     private Object templateEngine;
+    private boolean enableTemplateCache;
     private GroovyClassLoader classLoader;
     private Map<String, File[]> directoryCache = new HashMap<String, File[]>();
     private Map<String, TemplateCacheEntry> templateCache = new HashMap<String, TemplateCacheEntry>();
@@ -159,6 +164,8 @@ public class GSPExecuter {
             this.subdirs = subdirs;
             this.libsdir = libsdir;
             this.initPath = config.getString(GSP_INIT, DEFAULT_GSP_INIT);
+            this.enableTemplateCache = config.getBoolean(ENABLE_TEMPLATE_CACHE, 
+                    DEFAULT_ENABLE_TEMPLATE_CACHE);
             initTemplateEngineScriptEngine();
         } catch (GSPEnvironmentException ex) {
             throw ex;
@@ -361,12 +368,28 @@ public class GSPExecuter {
             log.info("Setup the groovy class loader up with the following path [" + paths.toString() + "]");
             classLoader = new GroovyClassLoader(paths.toArray(new URL[0]),
                     current);
-
+            
             classLoader.clearAssertionStatus();
             Thread.currentThread().setContextClassLoader(classLoader);
+            
+            // setup the groovy shell so that class dependancies will be recompiled if they change
+            Class groovyShell = classLoader.loadClass("groovy.lang.GroovyShell");
+            Constructor groovyShellConstructor = groovyShell.getConstructor();
+            groovyShellRef = groovyShellConstructor.newInstance();
+            Method method = groovyShellRef.getClass().getMethod("getClassLoader");
+            Object groovyClassLoader = method.invoke(groovyShellRef);
+            method = GroovyReflectionUtil.getMethod(groovyClassLoader, "setShouldRecompile", Boolean.class);
+            if (method != null) {
+                log.info("##### Set should recompile to true");
+                method.invoke(groovyClassLoader, new Boolean(true));
+            } else {
+                log.error("##### Failed to set the should recompile flag");
+            }
+            
+            // init the script environment
             Class ref = classLoader.loadClass("groovy.text.SimpleTemplateEngine");
-            Constructor constructor = ref.getConstructor();
-            templateEngine = constructor.newInstance();
+            Constructor constructor = ref.getConstructor(groovyShell);
+            templateEngine = constructor.newInstance(groovyShellRef);
 
 
         } catch (GSPEnvironmentException ex) {
@@ -563,7 +586,8 @@ public class GSPExecuter {
      */
     private Object getTemplate(File templatePath) throws GSPEnvironmentException {
         try {
-            if (this.templateCache.containsKey(templatePath.getPath())) {
+            if (enableTemplateCache && 
+                    this.templateCache.containsKey(templatePath.getPath())) {
                 TemplateCacheEntry entry = this.templateCache.get(templatePath.getPath());
                 if (entry.validate(templatePath)) {
                     return entry.getTemplate();
@@ -590,7 +614,9 @@ public class GSPExecuter {
             
             Method createTemplateMethod = templateEngine.getClass().getMethod("createTemplate", String.class);
             Object template = createTemplateMethod.invoke(templateEngine, templateSource.toString());
-            this.templateCache.put(templatePath.getPath(), new TemplateCacheEntry(templatePath, template));
+            if (this.enableTemplateCache) {
+                this.templateCache.put(templatePath.getPath(), new TemplateCacheEntry(templatePath, template));
+            }
             return template;
         } catch (Exception ex) {
             log.error("Failed to retrieve the template for the file ["
