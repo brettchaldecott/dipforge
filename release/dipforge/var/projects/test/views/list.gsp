@@ -26,9 +26,6 @@ import com.dipforge.semantic.RDF
         <td>
             property2
         </td>
-        <td>
-            property3
-        </td>
     </tr>
 <%
     params.tests.each { testdata ->
@@ -43,8 +40,6 @@ import com.dipforge.semantic.RDF
         </td>
         <td>
             <% print(data.getProperty2()) %>
-        </td>
-        <td>
         </td>
     </tr>
     <%}

@@ -35,11 +35,11 @@ class PageManager {
     
     
     static def forward(page, req, res){
-        log.info("Get the request dispatcher : " + new java.util.Date().getTime());
+        log.debug("Get the request dispatcher : " + new java.util.Date().getTime());
         def dis = req.getRequestDispatcher(page);
-        log.info("Forward to the dispatcher : " + new java.util.Date().getTime());
+        log.debug("Forward to the dispatcher : " + new java.util.Date().getTime());
         dis.forward(req, res);
-        log.info("After forwarding : " + new java.util.Date().getTime());
+        log.debug("After forwarding : " + new java.util.Date().getTime());
     }
     
     

@@ -50,11 +50,9 @@ class GSPInit {
      * This method is called to reprosess the list
      */
     static def reprocessList(def groovyResult) {
-        log.info("Call reprocess list")
         if (groovyResult instanceof java.util.List) {
             def result = []
             groovyResult.each{value ->
-                log.info("Loop entry is [" + value.getClass().getName() + "]");
                 if (value.getClass().getName().equals("groovy.util.Expando")) {
                     result.add(GSPInit.reprocessExpando(value))
                 } else if ((value instanceof java.util.List) ||
@@ -64,7 +62,6 @@ class GSPInit {
                     result.add(value)
                 }
             }
-            log.info("Reprocessed the list [" + groovyResult.getClass().getName() + "]");
             return result
         } else if (groovyResult instanceof java.util.Map){
             def result = [:]
@@ -78,10 +75,8 @@ class GSPInit {
                     result.put(key,value)
                 }
             }
-            log.info("Reprocessed the map [" + groovyResult.getClass().getName() + "]")
             return result;
         }
-        log.info("No reprocessing performed")
         return groovyResult
     }
     
@@ -90,7 +85,6 @@ class GSPInit {
      * This method is called to resproces an expando object.
      */
     static def reprocessExpando(def expandoValue) {
-        log.info("Reprocess the expando")
         def result = new Expando()
         expandoValue.getProperties().each {key,value ->
             if (!key.matches("(set|get)[A-Z][A-Za-z0-9-]*")) {
