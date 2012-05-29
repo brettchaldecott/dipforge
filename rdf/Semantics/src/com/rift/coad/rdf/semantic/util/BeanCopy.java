@@ -65,6 +65,8 @@ public class BeanCopy {
                         continue;
                     } else if (getter.getParameterTypes().length != 0) {
                         continue;
+                    } else if (getter.getReturnType().equals(void.class)) {
+                        continue;
                     }
                     Method setter = null;
                     Method targetGetter = type.getMethod(getter.getName());
