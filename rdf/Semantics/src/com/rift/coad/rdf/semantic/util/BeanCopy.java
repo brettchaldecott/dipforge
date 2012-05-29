@@ -57,6 +57,7 @@ public class BeanCopy {
                 return null;
             }
             // assume a default constructor
+            System.out.println("Copy the class : " + type.getName());
             T result = type.newInstance();
 
             for (Method getter : value.getClass().getMethods()) {
@@ -87,7 +88,7 @@ public class BeanCopy {
                     // check for basic type
                     if (!getter.getReturnType().isArray() && !getter.getReturnType().isAssignableFrom(Collection.class)
                             && !getter.getReturnType().isAssignableFrom(List.class)) {
-                        setter.invoke(result, new Object[]{copy(setter.getReturnType(),
+                        setter.invoke(result, new Object[]{copy(getter.getReturnType(),
                                     getter.invoke(value, new Object[]{}))});
                         continue;
                     } else if (getter.getReturnType().isArray()) {
