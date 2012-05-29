@@ -168,8 +168,8 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
             CreateRequestHandlerAsync handler = (CreateRequestHandlerAsync)RPCMessageClient.
                     createOneWay("request/RequestBrokerDaemon", CreateRequestHandler.class,
                     CreateRequestHandlerAsync.class, jndi);
-            handler.createRequest(request);
-            RequestInfoRDF info = new RequestInfoRDF(request.getId(), jndi);
+            String requestId = handler.createRequest(request);
+            RequestInfoRDF info = new RequestInfoRDF(request.getId(), requestId, jndi);
             entries.put(request.getId(), info);
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.ADD,info));
             auditLog.complete("Created a request id [%s] on jndi [%s]",request.getId(),jndi);
@@ -252,7 +252,7 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                 log.info("Attempt to retrieve a request that does not exist");
                 throw new RequestBrokerException("No such request exists");
             }
-            RequestInfo info = (RequestInfo)entries.get(id);
+            RequestInfo info = ((RequestInfoRDF)entries.get(id)).toRequestInfo();
             
             String jndi = info.getJndi();
             CreateRequestHandler daemon = (CreateRequestHandler)ConnectionManager.getInstance().
@@ -278,7 +278,7 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
     public RequestInfo getRequestInfo(String id) throws RequestBrokerException {
         try {
             log.info("Get the request info");
-            RequestInfo result = (RequestInfo)entries.get(id);
+            RequestInfo result = ((RequestInfoRDF)entries.get(id)).toRequestInfo();
             if (result == null) {
                 log.info("Attempt to retrieve a request that does not exist");
                 throw new RequestBrokerException("No such request exists");
