@@ -21,16 +21,25 @@
 
 package com.dipforge.utils
 
+import org.apache.log4j.Logger;
+
 
 /**
  * The page manager object
  * @author Brett Chaldecott
  */
 class PageManager {
+    // private member variables    
+    static def log = Logger.getLogger("com.dipforge.utils.PageManager");
+    
+    
     
     static def forward(page, req, res){
+        log.info("Get the request dispatcher : " + new java.util.Date().getTime());
         def dis = req.getRequestDispatcher(page);
+        log.info("Forward to the dispatcher : " + new java.util.Date().getTime());
         dis.forward(req, res);
+        log.info("After forwarding : " + new java.util.Date().getTime());
     }
     
     

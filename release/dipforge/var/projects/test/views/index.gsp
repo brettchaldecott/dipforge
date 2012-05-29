@@ -1,8 +1,3 @@
-<%
-import com.dipforge.semantic.RDF
-import com.dipforge.request.RequestHandler
-%>
-
 <html>
 <head>
 <title>Test application for Dipforge</title>

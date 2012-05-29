@@ -57,7 +57,8 @@ class RDF {
     static def create(String type) {
         try {
             Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
-            return create(session,type);
+            def instance = create(session,type);
+            return instance
         } catch (Exception ex) {
             log.error("Failed to create the type because : " + ex.getMessage(),ex);
             throw ex;
@@ -77,8 +78,8 @@ class RDF {
             def ontology = session.getOntologySession()
             def classDef = ontology.getClass(new URI(type))
             def typeBuilder = new RDFTypeBuilder(classDef,session)
-            
-            return typeBuilder.getTypeInstance()
+            def instance = typeBuilder.getTypeInstance()
+            return instance
         } catch (Exception ex) {
             log.error("Failed to create the type because : " + ex.getMessage(),ex);
             throw ex;

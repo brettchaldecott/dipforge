@@ -36,7 +36,7 @@ class RDFTypeBuilder {
     def typeInstance
     def classDef
     Session session
-    def log
+    static def log = Logger.getLogger("com.dipforge.semantic.RDFTypeBuilder"); 
     def dataType
     
     
@@ -44,7 +44,6 @@ class RDFTypeBuilder {
      * The constructor of the RDF type builder.
      */
     public RDFTypeBuilder(def classDef, Session session) {
-        log = Logger.getLogger("com.dipforge.semantic.RDFTypeBuilder");
         typeInstance = new Expando()
         this.classDef = classDef
         this.session = session
@@ -87,7 +86,7 @@ class RDFTypeBuilder {
                 if (typeInstance."${propertyName}" == null) {
                     continue;
                 }
-                log.info("URI [" + classProperty.getURI().toString() + "][" + 
+                log.debug("URI [" + classProperty.getURI().toString() + "][" + 
                     typeInstance."${propertyName}" + "]")
                 resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
             } else {
@@ -221,7 +220,7 @@ class RDFTypeBuilder {
         boolean hasId = false;
         for (classProperty in classProperties) {
             def propertyName = classProperty.getLocalname()
-            log.info("Property [" + classProperty.getURI() + "]")
+            log.debug("Property [" + classProperty.getURI() + "]")
             if (propertyName.equalsIgnoreCase("id")) {
                 hasId = true;
             }
@@ -286,6 +285,7 @@ class RDFTypeBuilder {
             typeInstance."set${upperPropertyName}" = {_local_variable->
                 typeInstance."${propertyName}" = _local_variable
             }
+            
         }
         
         if (!hasId) {
@@ -300,8 +300,6 @@ class RDFTypeBuilder {
                 typeInstance."id" = _local_variable
             }
         }
-        
-        
     }
 }
 
