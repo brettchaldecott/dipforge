@@ -73,7 +73,6 @@ public class RequestInfoRDF implements Serializable {
     public RequestInfoRDF(String id, String requestId) {
         this.id = id;
         this.requestId = requestId;
-        this.jndi = jndi;
     }
     
     
