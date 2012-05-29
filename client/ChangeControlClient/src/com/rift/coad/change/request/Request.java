@@ -327,6 +327,16 @@ public class Request implements Serializable {
     }
 
     
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public String toString() {
+        return "Request{" + "id=" + id + ", project=" + project + ", data=" + data + ", action=" + action + ", dependencies=" + dependencies + ", children=" + children + ", status=" + status + ", start=" + start + ", complete=" + complete + ", events=" + events + '}';
+    }
+
+    
     
     
 }
