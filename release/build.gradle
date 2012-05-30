@@ -239,7 +239,7 @@ release.doLast {
             args: "generator ${projectDir}/dipforge/var/semantics/types/ChangeControl.xml com.rift.coad.change.rdf.RequestDataRDF com.rift.coad.change.rdf.RequestEventRDF com.rift.coad.change.rdf.RequestRDF com.rift.coad.change.rdf.ActionInfoRDF com.rift.coad.change.rdf.ActionInstanceInfoRDF com.rift.coad.change.rdf.MasterRequestRDF")
         java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
             classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
-            args: "generator ${projectDir}/dipforge/var/semantics/types/Request.xml com.rift.coad.request.rdf.RequestInfoRDF")
+            args: "generator ${projectDir}/dipforge/var/semantics/types/Request.xml com.rift.coad.request.rdf.RequestActionInfoRDF com.rift.coad.request.rdf.RequestInfoRDF")
     }
     //announce("Release complete", "notify-send")
 }
