@@ -306,6 +306,7 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
      * @throws RemoteException
      */
     public String getStatus() throws ActionException, RemoteException {
+        log.info("#### Get the status value : " + this.action.getStatus());
         return this.action.getStatus();
     }
 
@@ -355,6 +356,7 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
     public void execute() throws ActionException, RemoteException {
         try {
             processor.getProcessor().execute();
+            handleStatus();
         } catch (Exception ex) {
             log.error("Failed to execute because : " + ex.getMessage(),ex);
             addEvent("ERROR", "Failed to execute because : " + ex.getMessage());
@@ -371,6 +373,7 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
     public void execute(Object result) throws ActionException, RemoteException {
         try {
             processor.getProcessor().resume(result);
+            handleStatus();
         } catch (Exception ex) {
             log.error("Failed to execute because : " + ex.getMessage(),ex);
             addEvent("ERROR", "Failed to execute because : " + ex.getMessage());
@@ -388,6 +391,7 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
     public void execute(Exception exception) throws ActionException, RemoteException {
         try {
             processor.getProcessor().resume(exception);
+            handleStatus();
         } catch (Exception ex) {
             log.error("Failed to execute because : " + ex.getMessage(),ex);
             addEvent("ERROR", "Failed to execute because : " + ex.getMessage());
@@ -422,6 +426,13 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
      * This method is called to remove the action
      */
     public void remove() {
+        try {
+            ChangeLog.getInstance().addChange(
+                    new ActionInstanceImpl.ActionChange(TYPE.DELETE, action));
+        } catch (Exception ex) {
+            log.error("Failed to remove the action instance : " + 
+                    ex.getMessage(),ex);
+        }
     }
     
     
@@ -437,6 +448,24 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
                     new ActionInstanceImpl.ActionChange(TYPE.UPDATE, action));
         } catch (Exception ex) {
             log.error("Failed to add the event");
+        }
+    }
+    
+    /**
+     * This method is called to set the status of this action
+     */
+    private void handleStatus() {
+        try {
+            log.info("########### current status is : " + processor.getProcessor().getStatus());
+            if (processor.getProcessor().getStatus() == 
+                    LeviathanConstants.Status.COMPLETED) {
+                this.action.setStatus(com.rift.coad.change.ActionConstants.FINISHED);
+                ChangeLog.getInstance().addChange(
+                    new ActionInstanceImpl.ActionChange(TYPE.UPDATE, action));
+            }
+        } catch (Exception ex) {
+            log.error("Failed to set the status : " + ex.getMessage());
+            addEvent("ERROR", "Failed to set the status : " + ex.getMessage());
         }
     }
 }
