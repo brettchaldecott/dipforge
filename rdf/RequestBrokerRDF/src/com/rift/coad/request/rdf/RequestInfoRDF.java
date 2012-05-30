@@ -27,8 +27,11 @@ import com.rift.coad.rdf.semantic.annotation.Identifier;
 import com.rift.coad.rdf.semantic.annotation.LocalName;
 import com.rift.coad.rdf.semantic.annotation.Namespace;
 import com.rift.coad.rdf.semantic.annotation.PropertyLocalName;
+import com.rift.coad.request.RequestActionInfo;
 import com.rift.coad.request.RequestInfo;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -44,6 +47,7 @@ public class RequestInfoRDF implements Serializable {
     private String id;
     private String requestId;
     private String jndi;
+    private List<RequestActionInfoRDF> actions;
 
 
     /**
@@ -62,6 +66,10 @@ public class RequestInfoRDF implements Serializable {
          this.id = info.getId();
          this.jndi = info.getJndi();
          this.requestId = info.getRequestId();
+         this.actions = new ArrayList<RequestActionInfoRDF>();
+         for (RequestActionInfo action: info.getActions()) {
+             actions.add(new RequestActionInfoRDF(action));
+         }
     }
     
     /**
@@ -154,6 +162,28 @@ public class RequestInfoRDF implements Serializable {
     public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
+
+    
+    /**
+     * This method returns the list of actions
+     * 
+     * @return The list of actions.
+     */
+    @PropertyLocalName("action")
+    public List<RequestActionInfoRDF> getActions() {
+        return actions;
+    }
+
+    
+    /**
+     * The setter for the list of actions.
+     * 
+     * @param actions The list of actions
+     */
+    @PropertyLocalName("action")
+    public void setActions(List<RequestActionInfoRDF> actions) {
+        this.actions = actions;
+    }
     
     
     /**
@@ -162,6 +192,10 @@ public class RequestInfoRDF implements Serializable {
      * @return The request information object.
      */
     public RequestInfo toRequestInfo() {
+        List<RequestActionInfo> actionsResult = new ArrayList<RequestActionInfo>();
+        for (RequestActionInfoRDF action: getActions()) {
+            actionsResult.add(action.toRequestActionInfo());
+        }
         return new RequestInfo(id,requestId,jndi);
     }
 
@@ -209,7 +243,7 @@ public class RequestInfoRDF implements Serializable {
     @Override
     public String toString() {
         return "RequestInfo{" + "id=" + id + ", requestId=" + requestId + 
-                ", jndi=" + jndi + '}';
+                ", jndi=" + jndi + ", actions=" + actions +'}';
     }
 
 
