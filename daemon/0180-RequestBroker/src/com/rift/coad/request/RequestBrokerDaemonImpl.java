@@ -45,6 +45,7 @@ import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
+import com.rift.coad.request.rdf.RequestActionInfoRDF;
 import com.rift.coad.request.rdf.RequestInfoRDF;
 import com.rift.coad.util.change.Change;
 import com.rift.coad.util.change.ChangeException;
@@ -88,6 +89,11 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
             try {
                 this.changeType = changeType;
                 this.request = CopyObject.copy(RequestInfoRDF.class,request);
+                this.request.setActions(new ArrayList<RequestActionInfoRDF>());
+                for (RequestActionInfoRDF action: request.getActions()) {
+                    this.request.getActions().add(
+                            CopyObject.copy(RequestActionInfoRDF.class,action));
+                }
             } catch (Exception ex) {
                 log.error("Failed to instanciate the change entry : " +
                         ex.getMessage(),ex);
@@ -155,6 +161,9 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                     "change/ChangeManagerDaemon");
             authenticate(new HashSet<String>(), daemon, request);
             
+            List<RequestActionInfoRDF> actions = new ArrayList<RequestActionInfoRDF>();
+            generateActionList(actions,request);
+            
             // make request
             ServiceBroker broker = (ServiceBroker)ConnectionManager.getInstance().
                     getConnection(ServiceBroker.class, "ServiceBroker");
@@ -170,6 +179,7 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                     CreateRequestHandlerAsync.class, jndi);
             String requestId = handler.createRequest(request);
             RequestInfoRDF info = new RequestInfoRDF(request.getId(), requestId, jndi);
+            info.setActions(actions);
             entries.put(request.getId(), info);
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.ADD,info));
             auditLog.complete("Created a request id [%s] on jndi [%s]",request.getId(),jndi);
@@ -216,7 +226,26 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
                     ex.getMessage());
         }
     }
-
+    
+    
+    /**
+     * This method retrieves the action list.
+     * 
+     * @param actions The list of actions.
+     * @param request The request to extract the information from.
+     * @throws RequestBrokerException 
+     */
+    private void generateActionList(List<RequestActionInfoRDF> actions, 
+            Request request) throws RequestBrokerException {
+        actions.add(new RequestActionInfoRDF(request.getId(),
+                request.getData().getDataType() + "/" + request.getData().getId(),
+                request.getProject(),request.getData().getDataType(),
+                request.getAction()));
+        for (Request child: request.getChildren()) {
+            generateActionList(actions, child);
+        }
+    }
+    
     
     /**
      * This method returns the list of requests that are currently being processed.
@@ -348,8 +377,69 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
         }
     }
 
+    
+    /**
+     * This method returns TRUE if the given target uri has a request attached to it.
+     * 
+     * @param targetUri The target uri.
+     * @return TRUE if found.
+     * @throws RequestBrokerException
+     */
+    public boolean hasRequestForTarget(String targetUri) throws RequestBrokerException{
+        try {
+            Session session = SemanticUtil.getInstance(RequestBrokerDaemonImpl.class).getSession();
+            List<SPARQLResultRow> entries = session.
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/requestactioninfo#RequestActionInfoRDF> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/requestactioninfo#targetUri> ?targetUri . " +
+                    "FILTER (?targetUri = ${targetUri}) }").setString("targetUri", targetUri).execute();
+            if (entries.size() > 0) {
+                return true;
+            }
+            return false;
+        } catch (Exception ex) {
+            log.error(
+                    "Failed check the RDF store for the specified target uri : "
+                    + ex.getMessage(),ex);
+            throw new RequestBrokerException
+                    ("Failed check the RDF store for the specified target uri : "
+                    + ex.getMessage(),ex);
+        }
+    }
 
-
+    
+    /**
+     * This method returns the list of requests associated with given target.
+     * 
+     * @param targetUri The target id.
+     * @return The list of requests
+     * @throws RequestBrokerException 
+     */
+    public List<String> listRequestsForTarget(String targetUri) throws RequestBrokerException {
+        try {
+            Session session = SemanticUtil.getInstance(RequestBrokerDaemonImpl.class).getSession();
+            List<SPARQLResultRow> entries = session.
+                    createSPARQLQuery("SELECT ?s WHERE { " +
+                    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/requestactioninfo#RequestActionInfoRDF> . " +
+                    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/requestactioninfo#targetUri> ?targetUri . " +
+                    "FILTER (?targetUri = ${targetUri}) }").setString("targetUri", targetUri).execute();
+            List<String> result = new ArrayList<String>();
+            for (SPARQLResultRow entry : entries) {
+                System.out.println("Looping through the results");
+                result.add(entry.get(RequestActionInfoRDF.class, 0).getId());
+            }
+            return result;
+        } catch (Exception ex) {
+            log.error(
+                    "Failed check the RDF store for the specified target uri : "
+                    + ex.getMessage(),ex);
+            throw new RequestBrokerException
+                    ("Failed check the RDF store for the specified target uri : "
+                    + ex.getMessage(),ex);
+        }
+    }
+    
+    
     /**
      * This method is called to process in the background.
      */
