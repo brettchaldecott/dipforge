@@ -101,4 +101,27 @@ public interface RequestBrokerDaemon extends Remote{
      * @throws java.rmi.RemoteException
      */
     public void removeRequestInfo(String id) throws RequestBrokerException, RemoteException;
+    
+    
+    
+    /**
+     * This method returns the list of requests for the given target uri.
+     * 
+     * @param targetUri The target uri.
+     * @return The target uri
+     * @throws RequestBrokerException
+     * @throws RemoteException 
+     */
+    public List<String> listRequestsForTarget(String targetUri) throws RequestBrokerException, RemoteException;
+    
+    
+    /**
+     * This method returns true if the given target uri has a request on it.
+     * 
+     * @param targetUri The uri to perform the request on.
+     * @return TRUE if there is a request for this uri.
+     * @throws RequestBrokerException
+     * @throws RemoteException 
+     */
+    public boolean hasRequestForTarget(String targetUri) throws RequestBrokerException, RemoteException;
 }

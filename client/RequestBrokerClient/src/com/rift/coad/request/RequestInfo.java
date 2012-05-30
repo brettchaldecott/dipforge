@@ -25,6 +25,7 @@ package com.rift.coad.request;
 // coadunation imports
 import com.rift.coad.lib.common.RandomGuid;
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -38,6 +39,7 @@ public class RequestInfo implements Serializable {
     private String id;
     private String requestId;
     private String jndi;
+    private List<RequestActionInfo> actions;
 
 
     /**
@@ -45,9 +47,10 @@ public class RequestInfo implements Serializable {
      */
     public RequestInfo() {
     }
+    
 
     /**
-     * This constructor sets the id, the request id, and the jndi reference.
+     * This constructor sets the id, the request id, the jndi reference.
      *
      * @param id The 
      * @param requestId
@@ -59,7 +62,23 @@ public class RequestInfo implements Serializable {
         this.jndi = jndi;
     }
 
-
+    
+    /**
+     * 
+     * @param id
+     * @param requestId
+     * @param jndi
+     * @param targetUri
+     * @param actions 
+     */
+    public RequestInfo(String id, String requestId, String jndi, List<RequestActionInfo> actions) {
+        this.id = id;
+        this.requestId = requestId;
+        this.jndi = jndi;
+        this.actions = actions;
+    }
+    
+    
     /**
      * This method returns the id of the request info.
      *
@@ -118,7 +137,26 @@ public class RequestInfo implements Serializable {
         this.requestId = requestId;
     }
 
+    
+    /**
+     * This method returns the list of actions associated with this request.
+     * 
+     * @return The list of actions.
+     */
+    public List<RequestActionInfo> getActions() {
+        return actions;
+    }
 
+    /**
+     * This method sets the list of actions associated with this request.
+     * 
+     * @param actions The list of actions associated with this requests.
+     */
+    public void setActions(List<RequestActionInfo> actions) {
+        this.actions = actions;
+    }
+    
+    
     /**
      * The equals method
      *
@@ -162,7 +200,7 @@ public class RequestInfo implements Serializable {
     @Override
     public String toString() {
         return "RequestInfo{" + "id=" + id + ", requestId=" + requestId + 
-                ", jndi=" + jndi + '}';
+                ", jndi=" + jndi + ", actions=" + actions +'}';
     }
 
 
