@@ -170,8 +170,15 @@ public class BasicJDOSession implements JDOSession {
      */
     public <T> T remove(T target) throws SessionException {
         try {
-            Resource resource = (Resource)target;
-            persistanceSession.removeResource(resource.getURI());
+            if (target instanceof Resource) {
+                Resource resource = (Resource)target;
+                persistanceSession.removeResource(resource.getURI());
+            } else {
+                ClassInfo classInfo = ClassInfo.interrogateClass(target.getClass());
+                URI resourceUri = ClassURIBuilder.generateClassURI(target.getClass(),
+                    classInfo.getIdMethod().getMethodRef().invoke(target).toString());
+                persistanceSession.removeResource(resourceUri);
+            }
             return target;
         } catch (Exception ex) {
             log.error("Failed to remove the : " + ex.getMessage(),ex);
