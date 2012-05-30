@@ -90,7 +90,7 @@ public class RequestActionInfoRDF implements Serializable {
      * 
      * @return The action
      */
-    @PropertyLocalName("id")
+    @PropertyLocalName("action")
     public String getAction() {
         return action;
     }
