@@ -313,7 +313,7 @@ class RDFTypeBuilder {
         }
         
         if (!hasId) {
-            typeInstance."id" = RandomGuid.getInstance().getGuid()
+            typeInstance."id" = ""
             // add the getter and the setter
             typeInstance."getId" = {->
                 return typeInstance."id"
@@ -324,6 +324,9 @@ class RDFTypeBuilder {
                 typeInstance."id" = _local_variable
             }
         }
+        
+        // generate a default id for properties
+        typeInstance."id" = RandomGuid.getInstance().getGuid()
     }
 }
 
