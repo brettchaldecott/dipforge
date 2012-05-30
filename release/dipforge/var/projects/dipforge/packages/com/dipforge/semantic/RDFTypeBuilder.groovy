@@ -90,14 +90,28 @@ class RDFTypeBuilder {
                     typeInstance."${propertyName}" + "]")
                 resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
             } else {
-                if (classProperty.hasRange()) {
-                    resource.addProperty(classProperty.getURI().toString(),
-                        (Resource)typeInstance."${propertyName}".builder.processResource(session))
+                if (typeInstance."${propertyName}" instanceof java.util.List) {
+                    for (def item : typeInstance."${propertyName}") {
+                        if (classProperty.hasRange()) {
+                            resource.addProperty(classProperty.getURI().toString(),
+                                item.builder.processResource(session))
+                        } else {
+                            resource.addProperty(classProperty.getURI().toString(),
+                                session.createResource(
+                                    item.builder.classDef.getURI(),
+                                    item.builder.classDef.getURI() + "/" + item.getId()))
+                        }
+                    }
                 } else {
-                    resource.addProperty(classProperty.getURI().toString(),
-                        session.createResource(
-                            typeInstance."${propertyName}".builder.classDef.getURI(),
-                            typeInstance."${propertyName}".builder.classDef.getURI() + "/" + typeInstance."${propertyName}".getId()))
+                    if (classProperty.hasRange()) {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            (Resource)typeInstance."${propertyName}".builder.processResource(session))
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            session.createResource(
+                                typeInstance."${propertyName}".builder.classDef.getURI(),
+                                typeInstance."${propertyName}".builder.classDef.getURI() + "/" + typeInstance."${propertyName}".getId()))
+                    }
                 }
             }
         }
@@ -196,9 +210,19 @@ class RDFTypeBuilder {
                 typeInstance."${propertyName}" = resource.getProperty(Date.class,
                     classProperty.getURI().toString())
             } else {
-                typeInstance."${propertyName}".builder.populateType(
-                    resource.getProperty(Resource.class,
-                    classProperty.getURI().toString()));
+                def properties = resource.listProperties(classProperty.getURI().toString())
+                if (properties.size() == 1) {
+                    typeInstance."${propertyName}".builder.populateType(
+                        resource.getProperty(Resource.class,
+                        classProperty.getURI().toString()));
+                } else if (properties.size() == 1) {
+                    typeInstance."${propertyName}" = []
+                    for (def prop : properties) {
+                        def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
+                        arrayInstance.builder.populateType(prop.get(Resource.class));
+                        typeInstance."${propertyName}".add(arrayInstance)
+                    }
+                }
             }
         }
         // strip the uri

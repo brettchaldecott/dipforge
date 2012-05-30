@@ -120,10 +120,16 @@ class RequestHandler {
             }
             java.util.List<RequestData> dependancyList = requestData.getData()
             def propertyName = classProperty.getLocalname()
-            dependancyList.add(new RequestData(this.data."${propertyName}".getId(), this.data."${propertyName}".builder.classDef.getURI().toString(),
-                        this.data."${propertyName}".toXML(), propertyName))
+            if (this.data."${propertyName}" instanceof java.util.List) {
+                for (def prop : this.data."${propertyName}") {
+                    dependancyList.add(new RequestData(prop.getId(), prop.builder.classDef.getURI().toString(),
+                            prop.toXML(), prop.getId()))
+                }
+            } else {
+                dependancyList.add(new RequestData(this.data."${propertyName}".getId(), this.data."${propertyName}".builder.classDef.getURI().toString(),
+                            this.data."${propertyName}".toXML(), propertyName))
+            }
         }
-        
         
         connector.getBroker().createRequest(request) 
     }
