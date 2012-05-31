@@ -48,7 +48,7 @@ public class LogQueryLookup {
         // which the host page was served.
         //
         ServiceDefTarget endpoint = (ServiceDefTarget) service;
-        String moduleRelativeURL = GWT.getModuleBaseURL() + "query/logquery";
+        String moduleRelativeURL = GWT.getHostPageBaseURL() + "query/logquery";
         endpoint.setServiceEntryPoint(moduleRelativeURL);
         return service;
     }

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/home/brett/Development/dipforge/dipforge/web/lib/AuditTrailGWT/src/com/rift/coad/audit/gwt/console/client/query/LogQuery.java</file>
+        <file>file:/home/brett/Development/dipforge/dipforge/web/lib/AuditTrailGWT/src/com/rift/coad/audit/gwt/console/client/query/LogQueryLookup.java</file>
+        <file>file:/home/brett/Development/dipforge/dipforge/web/lib/AuditTrailGWT/src/com/rift/coad/audit/gwt/console/server/query/LogQueryImpl.java</file>
+        <file>file:/home/brett/Development/dipforge/dipforge/web/lib/AuditTrailGWT/src/com/rift/coad/audit/gwt/console/client/query/dto/LogEntry.java</file>
+    </open-files>
 </project-private>
