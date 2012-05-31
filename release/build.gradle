@@ -42,6 +42,7 @@ task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
 	":daemon:0170-ChangeManager:build", ":web:lib:CoadunationGWTLibrary:build",
 	":daemon:0180-RequestBroker:build",
 	":web:lib:WebLibs:build", ":web:lib:AuditTrailGWT:build",
+	":web:AuditTrailConsole:release",
 	":libs:GroovyServletBootStrap:build",":libs:GroovyLib:build",
 	":client:GroovyDaemonClient:build", ":daemon:0140-GroovyDaemon:build",
 	":client:DataMapperBroker:build", ":daemon:0160-DataMapperBroker:build",
@@ -484,7 +485,7 @@ dependencies {
     releaseWeb project(':web:CoadunationAdmin')
 //    releaseWeb project(':web:CoadunationDesktop')
     releaseWeb project(':web:FileManager')
-//    releaseWeb project(':web:AuditTrailConsole')
+    releaseWeb project(':web:AuditTrailConsole')
 //    releaseWeb project(':web:CoadunationTypeManagerConsole')
     releaseWeb project(':web:DipforgeEntryPoint')
 
