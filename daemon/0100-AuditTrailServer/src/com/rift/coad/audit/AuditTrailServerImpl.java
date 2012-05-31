@@ -135,7 +135,7 @@ public class AuditTrailServerImpl implements AuditTrailServer {
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Service> ?Service . ").
                     append("?Service <http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#id> ?Source . ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#User> ?User .  ").
-                    append("?User <http://dipforge.sourceforge.net/schema/rdf/1.0/common/Operation#Name> ?UserName .  ").
+                    append("?User <http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#id> ?UserName .  ").
                     append("?s <http://dipforge.sourceforge.net/schema/rdf/1.0/common/AuditTrail#Time> ?Time . ");
 
             StringBuffer sparqlFilter = new StringBuffer();
@@ -182,7 +182,7 @@ public class AuditTrailServerImpl implements AuditTrailServer {
                 queryStr.append(" LIMIT 10");
             }
 
-            System.out.println(queryStr.toString());
+            log.debug(queryStr.toString());
 
             List<SPARQLResultRow> entries = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession().
                     createSPARQLQuery(queryStr.toString()).execute();
