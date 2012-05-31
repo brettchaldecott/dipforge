@@ -22,6 +22,7 @@ dependencies {
     compile project(':rdf:Semantics')
     compile project(':web:lib:CoadunationGWTLibrary')
     compile project(':web:lib:AuditTrailGWT')
+    compile project(':web:lib:WebLibs')
     compile project(':utils:CoadunationUtil')
     gwt group: 'com.google.gwt', name: 'gwt-user', version: '2.1.1'
     gwt group: 'com.google.gwt', name: 'gwt-dev', version: '2.1.1'
@@ -75,11 +76,16 @@ war {
         file.name.contains("smartgwt") ||
         file.name.contains("CoadunationUtil") ||
         file.name.contains("AuditTrail") ||
-        file.name.contains("Semantics")}) 
+        file.name.contains("Semantics") || 
+        file.name.contains("WebLibs")}) 
     setClasspath(classPath)
     classpath 'build/classes/main/'
     from 'web'
     from project.ext.gwtOutDir
+}
+
+artifacts {
+    runtime war
 }
 
 release.dependsOn build

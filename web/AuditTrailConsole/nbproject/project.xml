@@ -43,10 +43,9 @@
             </test-roots>
         </data>
         <ivyConfiguration xmlns="http://code.google.com/p/ivybeans/ns/ivy-module/1">
-            <descriptorFile>ivy.xml</descriptorFile>
-            <settingsFile>ivysettings.xml</settingsFile>
             <configurationMapping>
                 <scope confs="compile" name="COMPILE"/>
+                <scope confs="" name="PROCESSOR"/>
                 <scope confs="compile,runtime" name="RUNTIME"/>
                 <scope confs="compile,compile-test" name="COMPILE_TEST"/>
                 <scope confs="compile,compile-test,runtime,runtime-test" name="RUNTIME_TEST"/>
