@@ -66,21 +66,17 @@ public class Factory implements PanelFactory {
                 ListGridField hostname = new ListGridField("hostname", "Hostname", 70);
                 ListGridField source = new ListGridField("source", "Source", 70);
                 ListGridField user = new ListGridField("user", "User", 70);
-                ListGridField time = new ListGridField("time", "Time", 180);
+                ListGridField time = new ListGridField("time", "Time", 70);
                 ListGridField status = new ListGridField("status", "Status", 70);
-                ListGridField correlationId = new ListGridField("correlationId", "Correlation Id", 70);
-                ListGridField externalId = new ListGridField("externalId", "External Id", 70);
-                ListGridField request = new ListGridField("request", "Request", 220);
-                auditTrailGrid.setFields(hostname,source,user, time, status, correlationId, externalId, request);
+                ListGridField request = new ListGridField("request", "Request",4000);
+                auditTrailGrid.setFields(hostname,source,user, time, status, request);
             } else {
                 auditTrailGrid.setWidth(700);
                 ListGridField user = new ListGridField("user", "User", 70);
-                ListGridField time = new ListGridField("time", "Time", 180);
+                ListGridField time = new ListGridField("time", "Time", 70);
                 ListGridField status = new ListGridField("status", "Status", 70);
-                ListGridField correlationId = new ListGridField("correlationId", "Correlation Id", 70);
-                ListGridField externalId = new ListGridField("externalId", "External Id", 70);
-                ListGridField request = new ListGridField("request", "Request", 220);
-                auditTrailGrid.setFields(user, time, status, correlationId, externalId, request);
+                ListGridField request = new ListGridField("request", "Request",4000);
+                auditTrailGrid.setFields(user, time, status, request);
             }
             auditTrailGrid.setAutoFetchData(false);
             auditTrailGrid.setShowFilterEditor(false);
