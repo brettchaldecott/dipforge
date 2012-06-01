@@ -182,7 +182,8 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
             info.setActions(actions);
             entries.put(request.getId(), info);
             ChangeLog.getInstance().addChange(new RequestChangeEntry(TYPE.ADD,info));
-            auditLog.complete("Created a request id [%s] on jndi [%s]",request.getId(),jndi);
+            auditLog.complete("Created a request id [%s] on jndi [%s] [%s]",request.getId(),jndi,
+                    actions.toString());
         } catch (RequestBrokerAccessDenied ex) {
             throw ex;
         } catch (Exception ex) {
