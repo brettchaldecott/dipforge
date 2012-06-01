@@ -30,6 +30,11 @@ def menu = [
                 image: 'favicon.ico',                
                 title: 'Tomcat',
                 url: '/manager/html'
+            ],
+            [
+                image: 'favicon.ico',                
+                title: 'Audit Trail Console',
+                url: '/AuditTrailConsole'
             ]]
 
 builder(menu)
