@@ -158,8 +158,8 @@ public class ActionFactoryManagerImpl implements
             ActionInstanceImpl instance = new ActionInstanceImpl(masterRequestId,request);
             this.entries.put(instance.getId(),instance);
             this.requests.put(instance.getRequestId(),instance);
-            auditLog.complete("Add a new action instance for master request [%s] sub request [%s] instance id [%s]",
-                    masterRequestId,request.getId(), instance.getId());
+            auditLog.complete("Add a new action instance for master request [%s] sub request [%s] instance id [%s] project [%s] type [%s] action [%s]",
+                    masterRequestId,request.getId(), instance.getId(),request.getProject(), request.getData().getDataType(), request.getAction());
             return instance;
         } catch (Exception ex) {
             log.error("Failed to create the action instance : " + ex.getMessage(),ex);
