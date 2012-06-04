@@ -38,7 +38,7 @@ class PageManager {
         log.debug("Get the request dispatcher : " + new java.util.Date().getTime());
         def dis = req.getRequestDispatcher(page);
         log.debug("Forward to the dispatcher : " + new java.util.Date().getTime());
-        dis.forward(req, res);
+        dis.include(req, res);
         log.debug("After forwarding : " + new java.util.Date().getTime());
     }
     
@@ -46,6 +46,19 @@ class PageManager {
     static def forwardWithResult(page, req, res, results){
         def dis = req.getRequestDispatcher(page);
         req.setAttribute("GROOVY_RESULT",results);
-        dis.forward(req, res);
+        dis.include(req, res);
+    }
+    
+    
+    static def include(page, req, res) {
+        def dis = req.getRequestDispatcher(page);
+        dis.include(req, res);
+    }
+    
+    
+    static def includeWithResult(page, req, res, results){
+        def dis = req.getRequestDispatcher(page);
+        req.setAttribute("GROOVY_RESULT",results);
+        dis.include(req, res);
     }
 }

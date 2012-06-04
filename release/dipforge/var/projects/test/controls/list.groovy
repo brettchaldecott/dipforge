@@ -30,4 +30,4 @@ def log = Logger.getLogger("test.index.groovy");
 def result = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/test1#type1> . }")
 
-PageManager.forwardWithResult("list.gsp", request, response, ["tests" : result])
+PageManager.includeWithResult("list.gsp", request, response, ["tests" : result])

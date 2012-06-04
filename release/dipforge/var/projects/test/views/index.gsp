@@ -29,6 +29,7 @@
         </tr>
     </table>
     </form>
-    <a href="list.groovy">list test result</a>
+    <% PageManager.include("list.groovy", request, response) %>
+    
 </boby>
 </html>
