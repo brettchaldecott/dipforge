@@ -60,7 +60,6 @@ public class GroovyExecuter {
     private Object groovyScriptEngine;
     private GroovyClassLoader classLoader;
     private Map<String, File[]> directoryCache = new HashMap<String, File[]>();
-    private Semaphore available = new Semaphore(1, true);
     private boolean initialized = false;
     
     /**
@@ -78,6 +77,11 @@ public class GroovyExecuter {
         this.subdirs = subdirs;
         this.libsdir = libsdir;
         initGroovyScriptEngine();
+        try {
+            executeScript("com/dipforge/init/InitGroovy.groovy", new String[0], new Object[0]);
+        } catch (Exception ex) {
+            log.info("Failed to init the script [" + ex.getMessage() + "] not a fatal problem");
+        }
     }
 
     /**
@@ -159,15 +163,6 @@ public class GroovyExecuter {
         boolean aquiredLock = false;
         try {
             Thread.currentThread().setContextClassLoader(classLoader);
-            // this is a hack to work around the fact that the groovy
-            // environment does not appear to run multithreaded until
-            // it has executed once for a given environment.
-            synchronized(this) {
-                if (!initialized) {
-                    this.available.acquire();
-                    aquiredLock = true;
-                }
-            }
             
             // Set it to HTML by default
             response.setContentType("text/html; charset=" + servlet.getEncoding());
@@ -291,10 +286,6 @@ public class GroovyExecuter {
             runtimeException.printStackTrace(System.err);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
         } finally {
-            if (aquiredLock) {
-                this.available.release();
-            }
-            
             /*
              * Finally, flush the response buffer.
              */
