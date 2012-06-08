@@ -70,17 +70,30 @@ Ext.define('com.dipforge.IDE.Editor', {
      */
     createEditorPanel: function(){
         var editorpanel = Ext.create('Ext.panel.Panel', {
+            layout: {
+                        type: 'fit'
+                    },
             preventHeader: true,
             region: 'center',
             height: '100%',
             width: '100%',
-            border: '1',
-            html: '<p>Loading.....</p>'
+            border: '0'
         });
+        editorpanel.add(
+                Ext.create('Ext.panel.Panel', {
+                preventHeader: true,
+                region: 'center',
+                height: '100%',
+                width: '100%',
+                border: '0',
+                html: '<p>Loading ...... </p>'
+            }));
+        
 		var project = this.project
 		var path = this.path
 		var fileName = this.fileName
 		var mode = this.mode
+        var id = this.entryName
 		
 		if (this.editor == "ace-project-types") {
     		Ext.Ajax.request({
@@ -150,9 +163,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                         html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
-                        title: fileName,
+                        //title: fileName,
                         url: path,
-                        closable: true,
+                        //closable: true,
                         width: '100%',
                         height: '100%',
                         editor: null,
@@ -188,6 +201,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var JavaScriptMode = require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                     editor.resize();
+                    
                     editor.getSession().setUseSoftTabs(true);
                     editor.getSession().setTabSize(4);
                     
@@ -262,9 +276,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                         html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
-                        title: fileName,
+                        //title: fileName,
                         url: path,
-                        closable: true,
+                        //closable: true,
                         width: '100%',
                         height: '100%',
                         editor: null,
@@ -374,9 +388,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                         html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
-                        title: fileName,
+                        //title: fileName,
                         url: path,
-                        closable: true,
+                        //closable: true,
                         width: '100%',
                         height: '100%',
                         editor: null,
@@ -494,9 +508,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                         html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
-                        title: fileName,
+                        //title: fileName,
                         url: path,
-                        closable: true,
+                        //closable: true,
                         width: '100%',
                         height: '100%',
                         editor: null,
@@ -588,9 +602,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                         html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
-                        title: fileName,
+                        //title: fileName,
                         url: path,
-                        closable: true,
+                        //closable: true,
                         width: '100%',
                         height: '100%',
                         editor: null,

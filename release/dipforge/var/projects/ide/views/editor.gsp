@@ -4,7 +4,7 @@
 	
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dipforge</title>
-    <link rel="stylesheet" type="text/css" href="ext-js-4.0/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/resources/css/ext-all-gray.css">
     <link rel="stylesheet" type="text/css" href="css/Feed-Viewer.css">
     <link rel="stylesheet" type="text/css" href="css/TabScrollerMenu.css">
     <link rel="stylesheet" type="text/css" href="css/Editor.css">
@@ -27,7 +27,7 @@
     margin: 0;
 }
 </style>
-    <script type="text/javascript" src="ext-js-4.0/bootstrap.js"></script>
+    <script type="text/javascript" src="extjs-4.1.0/bootstrap.js"></script>
     <script type="text/javascript" src="js/States.js"></script>
     <script type="text/javascript" src="js/EditorPanel.js"></script>
     <script type="text/javascript" src="js/ProjectPanel.js"></script>
@@ -80,7 +80,9 @@
             	path: "<%= params.path %>",
             	fileName: "<%= params.fileName %>",
             	editor: "<%= params.editor %>",
-            	mode:  "<%= params.mode %>"});
+            	mode:  "<%= params.mode %>",
+                entryName: "ID:<%= params.project %>:<%= params.path %>"  
+            });
             
         });
     </script>

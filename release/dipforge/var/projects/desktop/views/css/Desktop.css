@@ -1,4 +1,8 @@
 
+.body {
+    background-image: url('../images/bg/seamless2.jpg');
+}
+
 .horizontal-seperator {
 	border-bottom-color: grey;
 	border-bottom-style:solid;

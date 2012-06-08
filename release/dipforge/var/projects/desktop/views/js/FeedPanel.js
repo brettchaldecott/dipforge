@@ -16,8 +16,8 @@ Ext.define('FeedViewer.FeedPanel', {
 
     //animCollapse: true,
     layout: 'fit',
-    title: 'Dipforge',
-    //titleCollapse: true,
+    //title: 'Dipforge',
+    titleCollapse: true,
 
     initComponent: function(){
         Ext.apply(this, {

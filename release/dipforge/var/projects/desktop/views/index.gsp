@@ -4,9 +4,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dipforge</title>
-    <link rel="stylesheet" type="text/css" href="ext-js-4.0/resources/css/ext-all.css">
+    <!--
+    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/resources/css/ext-all.css">
+    -->
+    <!--
+    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/resources/css/ext-neptune.css">
+    -->
+    <link rel="stylesheet" type="text/css" href="css/desktop-dipforge-extjs.css">
     <link rel="stylesheet" type="text/css" href="css/Feed-Viewer.css">
-    <link rel="stylesheet" type="text/css" href="css/TabScrollerMenu.css">
+    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/ux/css/TabScrollerMenu.css">
     <link rel="stylesheet" type="text/css" href="css/Desktop.css">
 <style type="text/css">
 .x-menu-item img.preview-right, .preview-right {
@@ -26,13 +32,13 @@
     margin: 0;
 }
 </style>
-    <script type="text/javascript" src="ext-js-4.0/bootstrap.js"></script>
+    <script type="text/javascript" src="extjs-4.1.0/bootstrap.js"></script>
     <script type="text/javascript" src="js/FeedInfo.js"></script>
     <script type="text/javascript" src="js/FeedPanel.js"></script>
     <script type="text/javascript" src="js/FeedViewer.js"></script>
     <script type="text/javascript" src="js/DesktopSearch.js"></script>
     <script type="text/javascript" src="js/FeedShortCut.js"></script>
-    <script type="text/javascript" src="ux/TabScrollerMenu.js"></script>
+    <script type="text/javascript" src="extjs-4.1.0/ux/TabScrollerMenu.js"></script>
     
     <script type="text/javascript">
         Ext.Loader.setConfig({enabled: true});

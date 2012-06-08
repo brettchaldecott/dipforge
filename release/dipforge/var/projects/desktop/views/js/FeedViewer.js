@@ -34,7 +34,7 @@ Ext.define('FeedViewer.App', {
         
         Ext.apply(this, {
             layout: 'border',
-            padding: 0,
+            padding: 5,
             items: [this.createFeedPanel(), this.createFeedInfo()]
         });
         this.callParent(arguments);
@@ -51,7 +51,7 @@ Ext.define('FeedViewer.App', {
             collapsible: false,
             width: 250,
             floatable: false,
-            split: false,
+            split: true,
             minWidth: 250,
             listeners: {
                 scope: this,

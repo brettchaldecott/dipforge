@@ -14,7 +14,7 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
     alias: 'widget.editorpanel',
     tabPosition: 'bottom',
     
-    maxTabWidth: 230,
+    //maxTabWidth: 230,
     border: false,
     plugins: [{
                 ptype: 'tabscrollermenu',

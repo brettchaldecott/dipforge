@@ -4,9 +4,9 @@
 	
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dipforge</title>
-    <link rel="stylesheet" type="text/css" href="ext-js-4.0/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/resources/css/ext-all-gray.css">
     <link rel="stylesheet" type="text/css" href="css/Feed-Viewer.css">
-    <link rel="stylesheet" type="text/css" href="css/TabScrollerMenu.css">
+    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/ux/css/TabScrollerMenu.css">
     <link rel="stylesheet" type="text/css" href="css/Editor.css">
     
 <style type="text/css">
@@ -27,7 +27,7 @@
     margin: 0;
 }
 </style>
-    <script type="text/javascript" src="ext-js-4.0/bootstrap.js"></script>
+    <script type="text/javascript" src="extjs-4.1.0/bootstrap.js"></script>
     <script type="text/javascript" src="js/States.js"></script>
     <script type="text/javascript" src="js/EditorPanel.js"></script>
     <script type="text/javascript" src="js/ProjectPanel.js"></script>
@@ -37,7 +37,7 @@
 	<script type="text/javascript" src="js/DeleteProjectDialog.js"></script>
 	<script type="text/javascript" src="js/CreateProjectDialog.js"></script>
 	<script type="text/javascript" src="js/RenameFileDialog.js"></script>
-	<script type="text/javascript" src="ux/TabScrollerMenu.js"></script>
+	<script type="text/javascript" src="extjs-4.1.0/ux/TabScrollerMenu.js"></script>
 	<script type="text/javascript" src="/ace-0.2.0/ace-uncompressed.js"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-javascript.js" charset="utf-8"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-c_cpp.js" charset="utf-8"></script>

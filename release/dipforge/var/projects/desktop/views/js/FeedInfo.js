@@ -13,17 +13,12 @@ Ext.define('FeedViewer.FeedInfo', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.feedinfo',
     
-    maxTabWidth: 230,
-    border: false,
-    plugins: [{
-                ptype: 'tabscrollermenu',
-                maxText  : 15,
-                pageSize : 5
-            }],
+    //maxTabWidth: 230,
+    border: 1,
     
     initComponent: function() {
         this.tabBar = {
-            border: true
+            border: 0
         };
         
         this.callParent();
@@ -38,10 +33,11 @@ Ext.define('FeedViewer.FeedInfo', {
         var active = this.getComponent(title);
         if (!active) {
             active = this.add(Ext.create('Ext.panel.Panel', {
-                html: "<iframe src=\"" + url + "\" width=\"100%\" height=\"100%\" frameborder=\"0\"/>",
+                html: "<iframe style='border-radius:5px' src=\"" + url + "\" width=\"100%\" height=\"100%\" frameborder=\"0\" border=\"0\" marginheight=\"0\" marginwidth=\"0\"/>",
                 itemId: title,
                 title: title,
                 url: url,
+                border: 0,
                 closable: true
             }));
         }

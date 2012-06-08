@@ -2,8 +2,7 @@
 <head>
     <title>Dipforge home page</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <script type="text/javascript" src="ext-js-4.0/bootstrap.js"></script>
-    <script type="text/javascript" src="ext-js-4.0/ext-all.js"></script>
+    <script type="text/javascript" src="extjs-4.1.0/bootstrap.js"></script>
     <script type="text/javascript" src="js/DataGrid.js"></script>
     <!--
     <link rel="stylesheet" type="text/css" href="ext-js-4.0/resources/css/ext-all.css" />
