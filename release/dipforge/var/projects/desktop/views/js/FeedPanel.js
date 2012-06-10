@@ -191,7 +191,7 @@ Ext.define('FeedViewer.FeedPanel', {
             cls: 'feed-list',
             itemSelector: '.feed-list-item',
             overItemCls: 'feed-list-item-hover',
-            tpl: '<tpl for="."><div class="feed-list-item"><table border=0 cellpadding=0 cellspacing=0 valign="middle"><tr><td><image src="{image}" height=20 width=20/>&nbsp;</td><td>{title}</td></tr></table></div></tpl>'
+            tpl: '<tpl for="."><div class="feed-list-item"><table border=0 cellpadding=0 cellspacing=0><tr><td style="height:20px; vertical-align:middle; padding-top:3px; padding-left:3px;"><image src="{image}" height=20 width=20/>&nbsp;</td><td style="vertical-align:middle">{title}</td></tr></table></div></tpl>'
         });
         return this.view;
     },

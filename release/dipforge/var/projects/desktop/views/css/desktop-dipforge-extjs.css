@@ -210,6 +210,8 @@ input, textarea, select {
 
 /* line 1, ../themes/stylesheets/ext4/default/core/_core.scss */
 .x-body {
+    background-image: url('../images/bg/seamless.jpg');
+  background-repeat: repeat;
   color: black;
   font-size: 12px;
   font-family: tahoma, arial, verdana, sans-serif; }
@@ -2508,7 +2510,7 @@ tr.x-container:before {
 
 /* line 639, ../themes/stylesheets/ext4/default/widgets/_button.scss */
 .x-btn-default-toolbar-large .x-btn-inner {
-  font-size: 11px;
+  font-size: 25px;
   font-weight: normal;
   font-family: tahoma, arial, verdana, sans-serif;
   color: #333333;
@@ -6606,7 +6608,9 @@ textarea.x-form-invalid-field {
 /* line 2, ../themes/stylesheets/ext4/default/widgets/_toolbar.scss */
 .x-toolbar {
   font-size: 11px;
-  border: 1px solid;
+  border-radius: 5px;
+  background-color: black !important;
+  border: 1px inset;
   padding: 2px 0 2px 2px; }
   /* line 9, ../themes/stylesheets/ext4/default/widgets/_toolbar.scss */
   .x-toolbar .x-form-item-label {
@@ -6694,13 +6698,13 @@ textarea.x-form-invalid-field {
 .x-toolbar-default {
   border-color: #d0d0d0;
   background-image: none;
-  background-color: #d8d8d8;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e6e6e6), color-stop(100%, #efefef));
-  background-image: -webkit-linear-gradient(top, #e6e6e6, #efefef);
-  background-image: -moz-linear-gradient(top, #e6e6e6, #efefef);
-  background-image: -o-linear-gradient(top, #e6e6e6, #efefef);
-  background-image: -ms-linear-gradient(top, #e6e6e6, #efefef);
-  background-image: linear-gradient(top, #e6e6e6, #efefef); }
+  /*background-color: black !important;*/
+  /*background-image: -webkit-gradient(linear, 0% 0%, 50% 100%, color-stop(10%, black), color-stop(90%, #e6e6e6));*/
+  background-image: -webkit-linear-gradient(left, black, #efefef);
+  background-image: -moz-linear-gradient(left, black, #efefef);
+  background-image: -o-linear-gradient(left, black, #efefef);
+  background-image: -ms-linear-gradient(left, black, #efefef);
+  background-image: linear-gradient(left, black, #efefef); }
 
 /* line 151, ../themes/stylesheets/ext4/default/widgets/_toolbar.scss */
 .x-nlg .x-toolbar-default {
@@ -7606,7 +7610,7 @@ textarea.x-form-invalid-field {
 /* line 71, ../themes/stylesheets/ext4/default/widgets/_tabbar.scss */
 .x-tab-bar {
   border-radius: 5px;
-  position: relative;
+  /*position: relative;
   background-color: transparent;
   background-image: none;
   background-color: #d2d2d2;
@@ -7615,7 +7619,7 @@ textarea.x-form-invalid-field {
   background-image: -moz-linear-gradient(top, #dfdede, #d2d2d2);
   background-image: -o-linear-gradient(top, #dfdede, #d2d2d2);
   background-image: -ms-linear-gradient(top, #dfdede, #d2d2d2);
-  background-image: linear-gradient(top, #dfdede, #d2d2d2);
+  background-image: linear-gradient(top, #dfdede, #d2d2d2);*/
   font-size: 11px; }
 
 /* line 78, ../themes/stylesheets/ext4/default/widgets/_tabbar.scss */
@@ -9087,8 +9091,8 @@ svg, vml {
 /* line 65, ../themes/stylesheets/ext4/default/layout/_layout.scss */
 .x-box-layout-ct,
 .x-border-layout-ct {
-  background-image: url('../extjs-4.1.0/../images/bg/seamless.jpg');
-  background-repeat: repeat;
+  /*background-image: url('../extjs-4.1.0/../images/bg/seamless.jpg');
+  background-repeat: repeat;*/
   overflow: hidden;
   zoom: 1; }
 

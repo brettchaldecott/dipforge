@@ -30,6 +30,7 @@
     </table>
     </form>
     <% PageManager.include("list.groovy", request, response) %>
+    <a href="list.groovy">list</a>
     
 </boby>
 </html>

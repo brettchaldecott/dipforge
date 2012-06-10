@@ -35,10 +35,55 @@ Ext.define('FeedViewer.App', {
         Ext.apply(this, {
             layout: 'border',
             padding: 5,
-            items: [this.createFeedPanel(), this.createFeedInfo()]
+            items: [this.createToolBar(), this.createFeedPanel(), this.createFeedInfo()]
         });
         this.callParent(arguments);
     },
+    
+    
+    /**
+     * This method is called to create a new tool bar
+     */
+    createToolBar: function() {
+        this.toolbar = Ext.create('Ext.toolbar.Toolbar', {
+            region: 'north',
+            width   : '100%',
+            height: 45,
+            //style: 'background-color: black !important;',
+            margin: '0 0 5px 0',
+            items: [
+                {
+                    // xtype: 'button', // default for Toolbars
+                    iconCls: 'dipforge-logo',
+                    scale: 'large',
+                    height: 40,
+                    width: 140,
+                    //padding: '0 0 0 0',
+                    url: 'http://dipforge.sourceforge.net/',
+                    text: 'dip<span style="color:#b4281a;">forge</span>'
+                },
+                // begin using the right-justified button container
+                '->'//, // same as { xtype: 'tbfill' }
+                //{
+                //    xtype    : 'textfield',
+                //    name     : 'field1',
+                //    emptyText: 'enter search term'
+                //},
+                // add a vertical separator bar between toolbar items
+                //'-', // same as {xtype: 'tbseparator'} to create Ext.toolbar.Separator
+                //'text 1', // same as {xtype: 'tbtext', text: 'text1'} to create Ext.toolbar.TextItem
+                //{ xtype: 'tbspacer' },// same as ' ' to create Ext.toolbar.Spacer
+                //'text 2',
+                //{ xtype: 'tbspacer', width: 50 }, // add a 50px space
+                //'text 3'
+            ]
+        });
+        
+        
+        return this.toolbar;
+    },
+    
+    
     
     /**
      * Create the list of fields to be shown on the left
@@ -52,7 +97,7 @@ Ext.define('FeedViewer.App', {
             width: 250,
             floatable: false,
             split: true,
-            minWidth: 250,
+            width: 250,
             listeners: {
                 scope: this,
                 feedselect: this.onFeedSelect
