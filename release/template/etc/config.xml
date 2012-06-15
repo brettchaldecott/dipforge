@@ -235,6 +235,14 @@
             min=10,
             max=10
         </entry>
+        <entry key="db_source12" type="string">
+            jndi=groovydaemon,
+            url=jdbc:hsqldb:hsql://@hostname@/groovydaemon,
+            username=sa,
+            password=,
+            min=10,
+            max=10
+        </entry>
     </object>
     <object name="com.rift.coad.lib.security.login.LoginManager">
         <entry key="session_timeout" type="long">
@@ -353,7 +361,7 @@
            @dipforge_home@/var/hsqldb
         </entry>
         <entry key="db_list" type="string">
-           audit=backwards,change=backwards,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker=backwards,dipforgeweb=backwards,masterrdfstore=backwards
+           audit=backwards,change=backwards,data_mapper_broker=backwards,script,revision,groovy,jython,requestbroker=backwards,dipforgeweb=backwards,masterrdfstore=backwards,groovydaemon=backwards
         </entry>
     </object>
     <object name="com.rift.coad.daemon.timer.TimerImpl">
@@ -826,6 +834,31 @@
         </entry>
         <entry key="sdb_config_file" type="string">
             @dipforge_home@/var/semantics/groovy_manager.ttl
+        </entry>
+    </object>
+    <object name="com.rift.coad.groovy.RDFStoreDaemonImpl">
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            @dipforge_home@/var/groovyrdfstore
+        </entry>
+    </object>
+    <object name="com.rift.coad.groovy.RDFConfig">
+        <entry key="rdf_query_url" type="string">
+            http://@hostname@:8080/schema/rdf?list=true
+        </entry>
+        <entry key="persistance_manager" type="string">
+           com.rift.coad.rdf.semantic.persistance.jena.JenaPersistanceManager
+        </entry>
+        <entry key="ontology_manager" type="string">
+           com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
+        </entry>
+        <entry key="jena_store_type" type="string">
+           sdb
+        </entry>
+        <entry key="store_configuration_file" type="string">
+            @dipforge_home@/var/semantics/groovy_daemon.ttl
         </entry>
     </object>
     <!-- Groovy Mapping Manager configuration -->
