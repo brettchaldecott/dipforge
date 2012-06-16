@@ -38,9 +38,9 @@ public class MasterRDFStoreStatsManager {
     // private member variables
     private Date startTime;
     private int numberUpdates = 0;
-    private Date lastUpdate = null;
+    private Date lastUpdate = new Date();
     private int numberDeletes = 0;
-    private Date lastDelete = null;
+    private Date lastDelete = new Date();
 
 
     /**
