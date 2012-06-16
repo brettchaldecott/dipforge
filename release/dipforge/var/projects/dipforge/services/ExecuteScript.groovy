@@ -21,7 +21,7 @@
  */
 
 // imports
-import com.dipforge.semantic.RDF_readonly;
+import com.dipforge.semantic.RDF;
 import com.rift.coad.change.request.RequestData;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
  
@@ -33,7 +33,7 @@ for (int index = 0; index < parameters.size(); index++) {
     def param = parameters.get(index)
     def name = method.getParameters().get(index).getName()
     if (param instanceof RequestData) {
-        param = RDF_readonly.getFromXML(param.getData(), param.getDataType() + "/" + param.getId())
+        param = RDF.getFromXML(param.getData(), param.getDataType() + "/" + param.getId())
     }
     params.add(param)
 }

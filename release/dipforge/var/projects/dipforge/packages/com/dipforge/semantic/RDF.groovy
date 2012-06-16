@@ -34,7 +34,6 @@ import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
 import com.rift.coad.rdf.semantic.ontology.OntologyClass;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
-import com.rift.dipforge.rdf.store.RDFConfig;
 
 
 /**
@@ -56,7 +55,13 @@ class RDF {
      */
     static def create(String type) {
         try {
-            Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
+            Class configClass = null
+            try {
+                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+            } catch (Exception ex) {
+                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+            }
+            Session session = SemanticUtil.getInstance(configClass).getSession();
             def instance = create(session,type);
             return instance
         } catch (Exception ex) {
@@ -96,7 +101,13 @@ class RDF {
      */
     static def getFromStore(String uri) {
         try {
-            Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
+            Class configClass = null
+            try {
+                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+            } catch (Exception ex) {
+                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+            }
+            Session session = SemanticUtil.getInstance(configClass).getSession();
             Resource resource = session.get(Resource.class,uri)
             PersistanceIdentifier typeIdentifier = 
                 PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE,
@@ -151,7 +162,13 @@ class RDF {
      */
     static def query(String query) {
         try {
-            Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
+            Class configClass = null
+            try {
+                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+            } catch (Exception ex) {
+                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+            }
+            Session session = SemanticUtil.getInstance(configClass).getSession();
             def records = session.createSPARQLQuery(query).execute()
             def result = []
             for (record in records) {
