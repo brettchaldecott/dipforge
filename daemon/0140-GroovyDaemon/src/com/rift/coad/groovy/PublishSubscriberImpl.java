@@ -18,7 +18,7 @@
  *
  * PublishSubscriberImpl.java
  */
-package com.rift.dipforge.rdf.store;
+package com.rift.coad.groovy;
 
 // imports
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
@@ -66,7 +66,7 @@ public class PublishSubscriberImpl implements PublishSubscriber, BeanRunnable  {
                     getConnection(ServiceBroker.class, "ServiceBroker");
             List<String> services = new ArrayList<String>();
             services.add(PublishSubscriber.SERVICE_NAME);
-            broker.registerService("rdf/PublishSubscriber", services);
+            broker.registerService("groovy/PublishSubscriber", services);
         } catch (Exception ex) {
             log.error("Failed to register the entries with the service broker : " +
                     ex.getMessage(),ex);

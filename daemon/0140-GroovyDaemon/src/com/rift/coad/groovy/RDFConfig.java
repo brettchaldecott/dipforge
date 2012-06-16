@@ -20,7 +20,7 @@
  */
 
 // package config
-package com.rift.dipforge.rdf.store;
+package com.rift.coad.groovy;
 
 /**
  * The boot strap configuration information.

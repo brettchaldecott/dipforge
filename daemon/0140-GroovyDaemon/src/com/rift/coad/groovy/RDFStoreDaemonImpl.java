@@ -19,7 +19,7 @@
  * RDFStoreDaemonImpl.java
  */
 
-package com.rift.dipforge.rdf.store;
+package com.rift.coad.groovy;
 
 // private member
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
@@ -32,6 +32,10 @@ import com.rift.coad.util.change.Change;
 import com.rift.coad.util.change.ChangeException;
 import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.connection.ConnectionManager;
+import com.rift.dipforge.rdf.store.Constants;
+import com.rift.dipforge.rdf.store.RDFStoreDaemon;
+import com.rift.dipforge.rdf.store.RDFStoreException;
+import com.rift.dipforge.rdf.store.StoreActions;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,7 +158,7 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
                     getConnection(ServiceBroker.class, "ServiceBroker");
             List<String> services = new ArrayList<String>();
             services.add(Constants.SERVICE);
-            broker.registerService("rdf/RDFStoreDaemon", services);
+            broker.registerService("groovy/RDFStoreDaemon", services);
         } catch (Exception ex) {
             log.error("Failed to register the entries with the service broker : " +
                     ex.getMessage(),ex);

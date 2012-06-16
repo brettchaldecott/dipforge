@@ -30,6 +30,9 @@ dependencies {
     compile project(':rdf:CoadunationSemantics')
     compile project(':rdf:Semantics')
     compile project(':rdf:SchemaUtils')
+    compile project(':client:RDFStoreClient')
+    compile project(':client:ServiceBrokerClient')
+    compile project(':client:CoadunationTypeManager')
     releaseJars project(':libs:GroovyLib')
     releaseJars project(':client:DataMapperClient')
     releaseJars project(':client:TimerClient')
@@ -39,6 +42,9 @@ dependencies {
     releaseJars project(':libs:CoadunationUtil')
     releaseJars project(':rdf:Semantics')
     releaseJars project(':rdf:SchemaUtils')
+    releaseJars project(':client:RDFStoreClient')
+    releaseJars project(':client:ServiceBrokerClient')
+    releaseJars project(':client:CoadunationTypeManager')
     releaseJars group: 'xerces', name: 'xercesImpl', version: '2.7.1', ext: 'jar'
 }
 

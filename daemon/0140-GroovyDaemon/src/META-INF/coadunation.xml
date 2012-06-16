@@ -46,5 +46,23 @@
             <username>daemon</username>
             <transaction>true</transaction>
         </bean>
+        <bean>
+            <interface>com.rift.dipforge.rdf.store.RDFStoreDaemon</interface>
+            <class>com.rift.coad.groovy.RDFStoreDaemonImpl</class>
+            <bindName>groovy/RDFStoreDaemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.type.subscriber.PublishSubscriber</interface>
+            <class>com.rift.coad.groovy.PublishSubscriberImpl</class>
+            <bindName>groovy/PublishSubscriber</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
     </beans>
 </coadunation>

@@ -46,6 +46,14 @@
                 <id>jar</id>
             </reference>
             <reference>
+                <foreign-project>CoadunationTypeManager</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
                 <foreign-project>CoadunationUtil</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
@@ -110,6 +118,14 @@
                 <id>jar</id>
             </reference>
             <reference>
+                <foreign-project>RDFStoreClient</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
                 <foreign-project>ScriptBroker</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
@@ -119,6 +135,14 @@
             </reference>
             <reference>
                 <foreign-project>Semantics</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
+                <foreign-project>ServiceBrokerClient</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>

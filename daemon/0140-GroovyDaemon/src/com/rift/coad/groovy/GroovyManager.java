@@ -112,10 +112,18 @@ public class GroovyManager implements GroovyManagerMBean {
      * @param xmlInput The xml input to use.
      * @return The results of the execution.
      * @throws GroovyDaemonException
-     * @throws RemoteException 
      */
-    public String executeMethod(String methodId, String xmlInput) throws GroovyDaemonException, RemoteException {
+    public String executeMethod(String methodId, String xmlInput) throws GroovyDaemonException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
+    /**
+     * This method returns the stats for the groovy manager.
+     * 
+     * @return The string containing the stats
+     * @throws GroovyDaemonException 
+     */
+    public String getStats() throws GroovyDaemonException {
+        return RDFStoreStatsManager.getInstance().getStats();
+    }
 }
