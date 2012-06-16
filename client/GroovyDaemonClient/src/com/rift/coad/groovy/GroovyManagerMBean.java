@@ -112,5 +112,17 @@ public interface GroovyManagerMBean extends Remote {
             @ParamInfo(name="methodId",description="The id of the method to execute.")String methodId,
             @ParamInfo(name="xmlParameters",description="Parameters in xml.")String xmlParameters)
             throws GroovyDaemonException, RemoteException;
-
+    
+    
+    /**
+     * This method returns the stats information for the store.
+     *
+     * @return The string containing the stats information for this store.
+     * @throws GroovyDaemonException
+     * @throws RemoteException
+     */
+    @MethodInfo(description="This method returns the version of this daemon.")
+    @Version(number="1.0")
+    @Result(description="The string containing the version")
+    public String getStats() throws GroovyDaemonException, RemoteException;
 }
