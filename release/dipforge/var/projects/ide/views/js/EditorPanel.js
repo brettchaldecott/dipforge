@@ -47,7 +47,7 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
         var active = this.getComponent(id);
         var self = this
         if (!active) {
-        	if (editor == "ace-project-actions" ||
+        	if (editor == "ace-project-actions" || editor == "ace-project-times" ||
                 editor == "ace-project-types" || editor == "ace-project-methods" || 
                 editor == "ace-project-services" || editor == "ace") {
                 active = this.add(Ext.create('Ext.panel.Panel', {

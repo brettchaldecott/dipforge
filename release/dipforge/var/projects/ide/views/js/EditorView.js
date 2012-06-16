@@ -160,7 +160,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -273,7 +273,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -385,7 +385,120 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
+                        itemId: id,
+                        id: id,
+                        //title: fileName,
+                        url: path,
+                        //closable: true,
+                        width: '100%',
+                        height: '100%',
+                        editor: null,
+                        project: project,
+                        path: path
+                    });
+					editorpanel.removeAll()
+                    editorpanel.add(editorPanelContent)                    
+                    
+                    var canon = require("pilot/canon");
+                    
+                    // Fake-Save, works from the editor and the command line.
+                    canon.addCommand({
+                        name: "save",
+                        bindKey: {
+                            win: "Ctrl-S",
+                            mac: "Command-S",
+                            sender: "editor"
+                        },
+                        exec: function() {
+                            Ext.Ajax.request({
+                                url: 'files/FileSave.groovy',
+                                params: {
+                                    project: project,
+                                    path: path,
+                                    content: editor.getSession().getValue()
+                            }})
+                        }
+                    });
+                    
+            
+                    var el = Ext.get("id|" + id)
+                    var editor = ace.edit(el.dom);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
+                    editor.resize();
+                    editor.getSession().setUseSoftTabs(true);
+                    editor.getSession().setTabSize(4);
+                    
+               }
+            });
+    		
+        }  else if (this.editor == "ace-project-times") {
+            Ext.Ajax.request({
+                url: 'files/FileRetriever.groovy',
+                params: {
+                    project: project,
+                    path: path
+                },
+                success: function(response){
+                    var fileInfo = Ext.decode(response.responseText);
+              		var editorPanelContent = Ext.create('Ext.panel.Panel', {
+              			border: '0',
+                  		preventHeader: true,
+            			tbar: [
+                            { xtype: 'button', text: 'Save',
+                                handler: function() {
+                                    Ext.Ajax.request({
+                                        url: 'files/FileSave.groovy',
+                                        params: {
+                                            project: project,
+                                            path: path,
+                                            content: editor.getSession().getValue()
+                                    }})
+                                }},
+                            { xtype: 'button', text: 'Publish',
+                                handler: function() {
+                                    Ext.Ajax.request({
+                                        url: 'timer/PublishTimes.groovy',
+                                        params: {
+                                            project: project,
+                                            path: path,
+                                            content: editor.getSession().getValue()
+                                        },
+                                        failure: function(response) {
+ 	                                    	Ext.Msg.show({
+											     title:"Failed to publish the project [" + project + "] methods",
+											     msg: response.responseText,
+											     autoScroll: true,
+											     buttons: Ext.Msg.CANCEL
+											});
+ 	                                    }
+                                    })
+                                }},
+                            { xtype: 'button', text: 'Find',
+                                handler: function() {
+                                    editor.find(Ext.getCmp("search:"+id).value,{
+                                        backwards: false,
+                                        wrap: true,
+                                        caseSensitive: false,
+                                        wholeWord: false,
+                                        regExp: false
+                                        });
+                                }},
+                            { xtype: 'textfield', id: "search:"+id, 
+                                itemId: "search:"+id, name: "search",
+                                emptyText: 'enter search term' },
+                            { xtype: 'tbtext', text: 'and' },
+                            { xtype: 'textfield', id: "replace:"+id, 
+                                itemId: "replace:"+id, name: "replace",
+                                emptyText: 'enter replace term' },
+                            { xtype: 'button', text: 'Replace',
+                                handler: function() {
+                                    editor.find(Ext.getCmp("search:"+id).value);
+                                    editor.replace(Ext.getCmp("replace:"+id).value);
+                                }}],
+                        layout: "fit",
+                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -505,7 +618,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -599,7 +712,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,

@@ -38,7 +38,7 @@
 	<script type="text/javascript" src="js/CreateProjectDialog.js"></script>
 	<script type="text/javascript" src="js/RenameFileDialog.js"></script>
 	<script type="text/javascript" src="ux/TabScrollerMenu.js"></script>
-	<script type="text/javascript" src="/ace-0.2.0/ace-uncompressed.js"></script>
+	<script type="text/javascript" src="/ace-0.2.0/ace.js"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-javascript.js" charset="utf-8"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-c_cpp.js" charset="utf-8"></script>
     <script type="text/javascript" src="/ace-0.2.0/mode-clojure.js" charset="utf-8"></script>

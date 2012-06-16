@@ -1,0 +1,16 @@
+<!--
+    Document   : project_types.xml
+    Created on : Mon May 28 10:15:57 SAST 2012
+    Author     : admin
+    Description:
+        The types within the [bss] project
+-->
+
+<actions project="bss">
+
+    <!--
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    -->
+
+</actions>

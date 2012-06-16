@@ -35,6 +35,11 @@ def menu = [
                 image: 'images/icon/Audit.png',                
                 title: 'Audit Trail Console',
                 url: '/AuditTrailConsole'
+            ],
+            [
+                image: 'images/icon/Organisation.png',                
+                title: 'Business',
+                url: '/desktop/bss/'
             ]]
 
 builder(menu)
