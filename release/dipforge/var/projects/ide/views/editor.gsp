@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="extjs-4.1.0/resources/css/ext-all-gray.css">
     <link rel="stylesheet" type="text/css" href="css/Feed-Viewer.css">
     <link rel="stylesheet" type="text/css" href="css/TabScrollerMenu.css">
-    <link rel="stylesheet" type="text/css" href="css/Editor.css">
+    <link rel="stylesheet" type="text/css" href="css/IDE.css">
     
 <style type="text/css">
 .x-menu-item img.preview-right, .preview-right {
@@ -58,21 +58,6 @@
     <script type="text/javascript" src="/ace-0.2.0/mode-leviathan.js" charset="utf-8"></script>
     
     <script type="text/javascript">
-        Ext.Loader.setConfig({enabled: true});
-        Ext.Loader.setPath('Ext.ux', 'ux/');
-        Ext.require([
-            'Ext.grid.*',
-            'Ext.data.*',
-            'Ext.util.*',
-            'Ext.Action',
-            'Ext.tab.*',
-            'Ext.button.*',
-            'Ext.form.*',
-            'Ext.layout.container.Card',
-            'Ext.layout.container.Border',
-            'Ext.ux.PreviewPlugin',
-            'Ext.ux.TabScrollerMenu'
-        ]);
         Ext.onReady(function(){
             //var app = new com.dipforge.IDE.App();
             var app = Ext.create("widget.EditorView",{

@@ -165,6 +165,38 @@
         <link name="organisationOffering" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
     </type>
     
+    <type name="Statement" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <property name="start" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="end" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="total" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+    </type>
+    
+    <type name="StatementEntry" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="statement" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+        <property name="date" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="offering" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+        <link name="offeringComponent" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+        <property name="value" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+    </type>
+    
+    <type name="Invoice" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <link name="statement" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+        <property name="date" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="total" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+    </type>
+    
+    <type name="InvoiceEntry" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="invoice" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+        <link name="statementEntry" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    </type>
+    
     
 </types>
 

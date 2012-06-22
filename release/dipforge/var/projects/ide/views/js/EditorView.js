@@ -77,6 +77,7 @@ Ext.define('com.dipforge.IDE.Editor', {
             region: 'center',
             height: '100%',
             width: '100%',
+            autoScroll: false,
             border: '0'
         });
         editorpanel.add(
@@ -106,7 +107,11 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
                         border: '0',
-              			preventHeader: true,
+                        autoScroll: false,
+              			layout: {
+                            type: 'fit'
+                        },
+                        preventHeader: true,
               			tbar: [
                             { xtype: 'button', text: 'Save',
                                 handler: function() {
@@ -160,7 +165,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -168,15 +173,26 @@ Ext.define('com.dipforge.IDE.Editor', {
                         //closable: true,
                         width: '100%',
                         height: '100%',
+                        autoScroll: false,
                         editor: null,
                         project: project,
                         path: path
                     });
                     
-                    var canon = require("pilot/canon");
+                    editorpanel.removeAll()
+                    editorpanel.add(editorPanelContent)
+                    
+                    var el = Ext.get("id|" + id)
+                    var editor = ace.edit("id|" + id);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
+                    editor.resize();
+                    
+                    editor.getSession().setUseSoftTabs(true);
+                    editor.getSession().setTabSize(4);
                     
                     // Fake-Save, works from the editor and the command line.
-                    canon.addCommand({
+                    editor.commands.addCommand({
                         name: "save",
                         bindKey: {
                             win: "Ctrl-S",
@@ -193,17 +209,6 @@ Ext.define('com.dipforge.IDE.Editor', {
                             }})
                         }
                     });
-                    editorpanel.removeAll()
-                    editorpanel.add(editorPanelContent)
-                    
-                    var el = Ext.get("id|" + id)
-                    var editor = ace.edit(el.dom);
-                    var JavaScriptMode = require(mode).Mode;
-                    editor.getSession().setMode(new JavaScriptMode());
-                    editor.resize();
-                    
-                    editor.getSession().setUseSoftTabs(true);
-                    editor.getSession().setTabSize(4);
                     
                }
             });
@@ -219,6 +224,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
                         border: '0',
+                  		layout: {
+                            type: 'fit'
+                        },
               			preventHeader: true,
               			tbar: [
                             { xtype: 'button', text: 'Save',
@@ -273,7 +281,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -281,15 +289,25 @@ Ext.define('com.dipforge.IDE.Editor', {
                         //closable: true,
                         width: '100%',
                         height: '100%',
+                        autoScroll: false,
                         editor: null,
                         project: project,
                         path: path
                     });
                     
-                    var canon = require("pilot/canon");
+                    editorpanel.removeAll()
+                    editorpanel.add(editorPanelContent)
+                    
+                    var el = Ext.get("id|" + id)
+                    var editor = ace.edit("id|" + id);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
+                    editor.resize();
+                    editor.getSession().setUseSoftTabs(true);
+                    editor.getSession().setTabSize(4);
                     
                     // Fake-Save, works from the editor and the command line.
-                    canon.addCommand({
+                    editor.commands.addCommand({
                         name: "save",
                         bindKey: {
                             win: "Ctrl-S",
@@ -306,16 +324,6 @@ Ext.define('com.dipforge.IDE.Editor', {
                             }})
                         }
                     });
-                    editorpanel.removeAll()
-                    editorpanel.add(editorPanelContent)
-                    
-                    var el = Ext.get("id|" + id)
-                    var editor = ace.edit(el.dom);
-                    var JavaScriptMode = require(mode).Mode;
-                    editor.getSession().setMode(new JavaScriptMode());
-                    editor.resize();
-                    editor.getSession().setUseSoftTabs(true);
-                    editor.getSession().setTabSize(4);
                     
                }
             });
@@ -331,6 +339,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
               			border: '0',
+                  		layout: {
+                            type: 'fit'
+                        },
                   		preventHeader: true,
             			tbar: [
                             { xtype: 'button', text: 'Save',
@@ -385,7 +396,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -393,6 +404,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                         //closable: true,
                         width: '100%',
                         height: '100%',
+                        autoScroll: false,
                         editor: null,
                         project: project,
                         path: path
@@ -400,10 +412,16 @@ Ext.define('com.dipforge.IDE.Editor', {
 					editorpanel.removeAll()
                     editorpanel.add(editorPanelContent)                    
                     
-                    var canon = require("pilot/canon");
+                    var el = Ext.get("id|" + id)
+                    var editor = ace.edit("id|" + id);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
+                    editor.resize();
+                    editor.getSession().setUseSoftTabs(true);
+                    editor.getSession().setTabSize(4);
                     
                     // Fake-Save, works from the editor and the command line.
-                    canon.addCommand({
+                    edidor.commands.addCommand({
                         name: "save",
                         bindKey: {
                             win: "Ctrl-S",
@@ -422,13 +440,6 @@ Ext.define('com.dipforge.IDE.Editor', {
                     });
                     
             
-                    var el = Ext.get("id|" + id)
-                    var editor = ace.edit(el.dom);
-                    var JavaScriptMode = require(mode).Mode;
-                    editor.getSession().setMode(new JavaScriptMode());
-                    editor.resize();
-                    editor.getSession().setUseSoftTabs(true);
-                    editor.getSession().setTabSize(4);
                     
                }
             });
@@ -444,6 +455,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
               			border: '0',
+                  		layout: {
+                            type: 'fit'
+                        },
                   		preventHeader: true,
             			tbar: [
                             { xtype: 'button', text: 'Save',
@@ -498,7 +512,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -506,6 +520,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                         //closable: true,
                         width: '100%',
                         height: '100%',
+                        autoScroll: false,
                         editor: null,
                         project: project,
                         path: path
@@ -513,10 +528,16 @@ Ext.define('com.dipforge.IDE.Editor', {
 					editorpanel.removeAll()
                     editorpanel.add(editorPanelContent)                    
                     
-                    var canon = require("pilot/canon");
+                    var el = Ext.get("id|" + id)
+                    var editor = ace.edit("id|" + id);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
+                    editor.resize();
+                    editor.getSession().setUseSoftTabs(true);
+                    editor.getSession().setTabSize(4);
                     
                     // Fake-Save, works from the editor and the command line.
-                    canon.addCommand({
+                    editor.commands.addCommand({
                         name: "save",
                         bindKey: {
                             win: "Ctrl-S",
@@ -535,13 +556,6 @@ Ext.define('com.dipforge.IDE.Editor', {
                     });
                     
             
-                    var el = Ext.get("id|" + id)
-                    var editor = ace.edit(el.dom);
-                    var JavaScriptMode = require(mode).Mode;
-                    editor.getSession().setMode(new JavaScriptMode());
-                    editor.resize();
-                    editor.getSession().setUseSoftTabs(true);
-                    editor.getSession().setTabSize(4);
                     
                }
             });
@@ -557,6 +571,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
               			border: '0',
+                  		layout: {
+                            type: 'fit'
+                        },
                   		preventHeader: true,
             			tbar: [
                             { xtype: 'button', text: 'Save',
@@ -618,7 +635,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -626,6 +643,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                         //closable: true,
                         width: '100%',
                         height: '100%',
+                        autoScroll: false,
                         editor: null,
                         project: project,
                         path: path
@@ -633,10 +651,15 @@ Ext.define('com.dipforge.IDE.Editor', {
 					editorpanel.removeAll()
                     editorpanel.add(editorPanelContent)                    
                     
-                    var canon = require("pilot/canon");
-                    
+                    var el = Ext.get("id|" + id)
+                    var editor = ace.edit("id|" + id);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
+                    editor.resize();
+                    editor.getSession().setUseSoftTabs(true);
+                    editor.getSession().setTabSize(4);
                     // Fake-Save, works from the editor and the command line.
-                    canon.addCommand({
+                    editor.commands.addCommand({
                         name: "save",
                         bindKey: {
                             win: "Ctrl-S",
@@ -655,13 +678,6 @@ Ext.define('com.dipforge.IDE.Editor', {
                     });
                     
             
-                    var el = Ext.get("id|" + id)
-                    var editor = ace.edit(el.dom);
-                    var JavaScriptMode = require(mode).Mode;
-                    editor.getSession().setMode(new JavaScriptMode());
-                    editor.resize();
-                    editor.getSession().setUseSoftTabs(true);
-                    editor.getSession().setTabSize(4);
                     
                }
             });
@@ -677,6 +693,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var fileInfo = Ext.decode(response.responseText);
               		var editorPanelContent = Ext.create('Ext.panel.Panel', {
               			border: '0',
+                  		layout: {
+                            type: 'fit'
+                        },
                   		preventHeader: true,
               			tbar: [
                             { xtype: 'button', text: 'Save',
@@ -712,7 +731,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                     editor.replace(Ext.getCmp("replace:"+id).value);
                                 }}],
                         layout: "fit",
-                        html: '<div id="id|' + id + '" style="height: 100%; width: 100%; position: relative;">' + fileInfo.contents + '</div>',
+                        html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
                         itemId: id,
                         id: id,
                         //title: fileName,
@@ -720,6 +739,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                         //closable: true,
                         width: '100%',
                         height: '100%',
+                        autoScroll: false,
                         editor: null,
                         project: project,
                         path: path
@@ -730,8 +750,12 @@ Ext.define('com.dipforge.IDE.Editor', {
                     
                     var canon = require("pilot/canon");
                     
+                    //var el = Ext.get("id|" + id)
+                    var editor = ace.edit("id|" + id);
+                    var JavaScriptMode = require(mode).Mode;
+                    editor.getSession().setMode(new JavaScriptMode());
                     // Fake-Save, works from the editor and the command line.
-                    canon.addCommand({
+                    editor.commands.addCommand({
                         name: "save",
                         bindKey: {
                             win: "Ctrl-S",
@@ -749,13 +773,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                         }
                     });
             
-                    var el = Ext.get("id|" + id)
-                    var editor = ace.edit(el.dom);
-                    var JavaScriptMode = require(mode).Mode;
-                    editor.getSession().setMode(new JavaScriptMode());
                     editor.resize();
-                    editor.getSession().setUseSoftTabs(true);
-                    editor.getSession().setTabSize(4);
+                    //editor.getSession().setUseSoftTabs(true);
+                    //editor.getSession().setTabSize(4);
 					                    
                }
             });

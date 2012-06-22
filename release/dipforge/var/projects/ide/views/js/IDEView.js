@@ -102,3 +102,4 @@ Ext.define('com.dipforge.IDE.App', {
 		this.editorpanel.removeEditor(project,path);
 	}
 });
+

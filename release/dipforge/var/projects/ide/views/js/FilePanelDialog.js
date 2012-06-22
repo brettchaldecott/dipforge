@@ -35,14 +35,10 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
      */
     createForm : function(record) {
     	var formPanel = Ext.create('Ext.form.Panel', {
-	        title: 'Simple Form',
 	        bodyPadding: 5,
 	        width: 350,
 	        preventHeader: true,
 
-	        
-	        // The form will submit an AJAX request to this URL when submitted
-	        url: 'save-form.php',
 	        
 	        // Fields will be arranged vertically, stretched to full width
 	        layout: 'anchor',
