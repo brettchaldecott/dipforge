@@ -180,7 +180,8 @@ Ext.define('FeedViewer.FeedPanel', {
             },
             listeners: {
                 scope: this,
-                contextmenu: this.onContextMenu
+                contextmenu: this.onContextMenu,
+                itemclick: this.onApplicationSelectionChange
             },
             //height: 250,
             width: 200,

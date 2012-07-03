@@ -38,8 +38,13 @@ def menu = [
             ],
             [
                 image: 'images/icon/Organisation.png',                
-                title: 'Business',
+                title: 'Administration',
                 url: '/desktop/bss/'
+            ],
+            [
+                image: 'images/icon/Admin.png',                
+                title: 'Shop',
+                url: '/shop/'
             ]]
 
 builder(menu)

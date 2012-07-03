@@ -1,0 +1,16 @@
+<!--
+    Document   : project_types.xml
+    Created on : Wed May 30 14:45:58 SAST 2012
+    Author     : admin
+    Description:
+        The types within the [oss] project
+-->
+
+<actions project="oss">
+
+    <!--
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    -->
+
+</actions>

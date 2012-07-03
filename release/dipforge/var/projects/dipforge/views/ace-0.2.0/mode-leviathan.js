@@ -1,15 +1,15 @@
-define('ace/mode/java', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/javascript', 'ace/tokenizer', 'ace/mode/java_highlight_rules'], function(require, exports, module) {
+define('ace/mode/leviathan', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/javascript', 'ace/tokenizer', 'ace/mode/java_highlight_rules'], function(require, exports, module) {
 
 
 var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
-var JavaHighlightRules = require("./java_highlight_rules").JavaHighlightRules;
+var LeviathanHighlightRules = require("./leviathan_highlight_rules").LeviathanHighlightRules;
 
 var Mode = function() {
     JavaScriptMode.call(this);
     
-    this.$tokenizer = new Tokenizer(new JavaHighlightRules().getRules());
+    this.$tokenizer = new Tokenizer(new LeviathanHighlightRules().getRules());
 };
 oop.inherits(Mode, JavaScriptMode);
 
@@ -1011,7 +1011,7 @@ var FoldMode = exports.FoldMode = function() {};
 }).call(FoldMode.prototype);
 
 });
-define('ace/mode/java_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/lib/lang', 'ace/mode/doc_comment_highlight_rules', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
+define('ace/mode/leviathan_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/lib/lang', 'ace/mode/doc_comment_highlight_rules', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
 
 
 var oop = require("../lib/oop");
@@ -1019,11 +1019,11 @@ var lang = require("../lib/lang");
 var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
-var JavaHighlightRules = function() {
+var LeviathanHighlightRules = function() {
 
     // taken from http://download.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html
     var keywords = lang.arrayToMap(
-    ("abstract|continue|for|new|switch|" +
+    ("flow|continue|for|switch|" +
     "assert|default|goto|package|synchronized|" +
     "boolean|do|if|private|this|" +
     "break|double|implements|protected|throw|" +
@@ -1151,7 +1151,7 @@ var JavaHighlightRules = function() {
         [ DocCommentHighlightRules.getEndRule("start") ]);
 };
 
-oop.inherits(JavaHighlightRules, TextHighlightRules);
+oop.inherits(LeviathanHighlightRules, TextHighlightRules);
 
-exports.JavaHighlightRules = JavaHighlightRules;
+exports.LeviathanHighlightRules = LeviathanHighlightRules;
 });

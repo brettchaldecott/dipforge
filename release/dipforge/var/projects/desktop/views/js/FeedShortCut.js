@@ -70,7 +70,8 @@ Ext.define('Desktop.DesktopFeedShortCutBar', {
                 mode: 'SINGLE',
                 listeners: {
                     scope: this,
-                    selectionchange: this.onSelectionChange
+                    //selectionchange: this.onSelectionChange
+                    itemclick: this.onSelectionChange
                 }
             },
             listeners: {

@@ -1,58 +1,142 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
-<head>
-    
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Dipforge BSS</title>
-    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/resources/css/ext-all-gray.css">
-    <link rel="stylesheet" type="text/css" href="css/Feed-Viewer.css">
-    <link rel="stylesheet" type="text/css" href="extjs-4.1.0/ux/css/TabScrollerMenu.css">
-    <link rel="stylesheet" type="text/css" href="css/BSS.css">
-    
-<style type="text/css">
-.x-menu-item img.preview-right, .preview-right {
-    background-image: url(images/preview-right.gif);
-}
-.x-menu-item img.preview-bottom, .preview-bottom {
-    background-image: url(images/preview-bottom.gif);
-}
-.x-menu-item img.preview-hide, .preview-hide {
-    background-image: url(images/preview-hide.gif);
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Dipforge Administration | Dipforge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dipforge Administration">
+    <meta name="author" content="Dipforge">
 
-#reading-menu .x-menu-item-checked {
-    border: 1px dotted #a3bae9 !important;
-    background: #DFE8F6;
-    padding: 0;
-    margin: 0;
-}
-</style>
-<script type="text/javascript" src="extjs-4.1.0/bootstrap.js"></script>
-<script type="text/javascript" src="js/BSSView.js"></script>
-<script type="text/javascript" src="js/LauncherView.js"></script>
-<script type="text/javascript" src="js/DataView.js"></script>
-<script type="text/javascript">
-        Ext.Loader.setConfig({enabled: true});
-        Ext.Loader.setPath('Ext.ux', 'ux/');
-        Ext.require([
-            'Ext.grid.*',
-            'Ext.data.*',
-            'Ext.util.*',
-            'Ext.Action',
-            'Ext.tab.*',
-            'Ext.button.*',
-            'Ext.form.*',
-            'Ext.layout.container.Card',
-            'Ext.layout.container.Border',
-            'Ext.ux.PreviewPlugin',
-            'Ext.ux.TabScrollerMenu'
-        ]);
-        Ext.onReady(function(){
-            var app = new com.dipforge.BSS.App();
-        });
-</script>
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="span12">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Management</a>
+          <div class="btn-group pull-right">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="icon-user"></i> Username
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Profile</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Sign Out</a></li>
+            </ul>
+          </div>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="pckg/">Package</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="span3">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          <li class="nav-header">Sidebar</li>
+          <li class="active"><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li class="nav-header">Sidebar</li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li class="nav-header">Sidebar</li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+        </ul>
+      </div><!--/.well -->
+    </div><!--/span-->
+    <div class="span9">
+      <div class="hero-unit">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+      </div>
+      <div class="row-fluid">
+        <div class="span4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+      </div><!--/row-->
+      <div class="row-fluid">
+        <div class="span4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+      </div><!--/row-->
+    </div><!--/span-->
+
+    <div class="span12">
+      <hr>
+      <footer>
+        <p>&copy; Company 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="jquery/jquery-1.7.2.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
     
-</head>
-<body> 
-</body>
+  </body>
 </html>

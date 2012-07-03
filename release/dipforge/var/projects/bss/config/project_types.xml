@@ -65,6 +65,8 @@
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
     </type>
     <type name="Vendor" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -85,6 +87,8 @@
         <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
         <property name="type" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="url" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
     </type>
     <type name="Package" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Package">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>

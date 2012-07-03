@@ -1,0 +1,16 @@
+<!--
+    Document   : project_types.xml
+    Created on : Thu May 31 11:00:47 SAST 2012
+    Author     : admin
+    Description:
+        The types within the [tools] project
+-->
+
+<actions project="tools">
+
+    <!--
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    -->
+
+</actions>
