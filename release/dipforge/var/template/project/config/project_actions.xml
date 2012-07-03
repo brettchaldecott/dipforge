@@ -3,7 +3,7 @@
     Created on : %date
     Author     : %author
     Description:
-        The types within the [%project] project
+        The actions within the [%project] project
 -->
 
 <actions project="%project">

@@ -23,6 +23,12 @@
         <principal>groovy_manager</principal>
         <principal>request_broker</principal>
         <principal>office_suite</principal>
+        <principal>package</principal>
+        <principal>package_manager</principal>
+        <principal>product</principal>
+        <principal>product_manager</principal>
+        <principal>category</principal>
+        <principal>category_manager</principal>
     </user>
     <user name="daemon" password="112233">
         <principal>daemon</principal>
