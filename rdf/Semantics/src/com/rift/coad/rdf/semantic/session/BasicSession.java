@@ -237,7 +237,7 @@ public class BasicSession implements Session {
      */
     public void remove(String rdf) throws SessionException {
         try {
-            jdoSession.remove(rdf);
+            jdoSession.removeRDF(rdf);
         } catch (Exception ex) {
             log.error("Failed to remove the rdf : " +
                     ex.getMessage(),ex);
