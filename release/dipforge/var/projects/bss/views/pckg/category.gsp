@@ -28,13 +28,13 @@
 
   <body>
 
-    <% PageManager.includeWithResult("Menu.groovy", request, response, ["menuItem" : "package"]) %>
+    <% PageManager.includeWithResult("Menu.groovy", request, response, ["menuItem" : "package","contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "category"]) %>
+    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "category","contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("category/List.groovy", request, response, [:]) %>
+    <% PageManager.includeWithResult("category/List.groovy", request, response, ["contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "footer"]) %>
+    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "footer","contextBase":"../"]) %>
     
     <script src="../js/pckg/Category.js"></script>
     

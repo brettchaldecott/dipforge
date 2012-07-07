@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Thu Jun 28 06:23:41 SAST 2012 owner 
+ * Copyright (C) Wed Jul 04 06:16:45 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,22 +16,25 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * List.groovy
- * @author brett chaldecott
+ * UpdateCategory.lwf
+ * @author admin
  */
 
-package pckg.category
 
-import com.dipforge.utils.PageManager;
-import com.dipforge.semantic.RDF;
-import org.apache.log4j.Logger;
+/**
+ * This is the flow used to update the category
+ */
+@java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" "Category")
+@store("store")
+flow UpdateCategory {
+   def out
+   def log
+   def Category
 
-
-def log = Logger.getLogger("pckg.category.List");
-
-def result = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category> . }")
-
-
-PageManager.includeWithResult("list.gsp", request, response, ["categories" : result])
-
+   {
+       store.persist(Category)
+       log.info("The category [" + Category.name + "] has been persisted")
+   }
+}

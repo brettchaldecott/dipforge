@@ -1,16 +1,16 @@
 <!--
     Document   : project_types.xml
     Created on : Mon May 28 10:15:57 SAST 2012
-    Author     : admin
+    Author     : brett chaldecott
     Description:
-        The types within the [bss] project
+        The actions within the [bss] project
 -->
 
 <actions project="bss">
 
-    <!--
-    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
-    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
-    -->
+    <action name="CreateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/CreateCategory.lwf" role="category_manager" />
+    <action name="UpdateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/UpdateCategory.lwf" role="category_manager" />
+    <action name="RemoveCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/RemoveCategory.lwf" role="category_manager" />
+    
 
 </actions>

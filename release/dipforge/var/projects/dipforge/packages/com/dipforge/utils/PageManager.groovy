@@ -45,7 +45,17 @@ class PageManager {
     
     static def forwardWithResult(page, req, res, results){
         def dis = req.getRequestDispatcher(page);
-        req.setAttribute("GROOVY_RESULT",results);
+        if (req.getAttribute("GROOVY_RESULT") != null) {
+            def tempResult = req.getAttribute("GROOVY_RESULT")
+            if (tempResult instanceof java.util.Map) {
+                tempResult.putAll(results)
+                req.setAttribute("GROOVY_RESULT",tempResult);
+            } else {
+                req.setAttribute("GROOVY_RESULT",results);
+            }
+        } else {
+            req.setAttribute("GROOVY_RESULT",results);
+        }
         dis.include(req, res);
     }
     
@@ -58,7 +68,17 @@ class PageManager {
     
     static def includeWithResult(page, req, res, results){
         def dis = req.getRequestDispatcher(page);
-        req.setAttribute("GROOVY_RESULT",results);
+        if (req.getAttribute("GROOVY_RESULT") != null) {
+            def tempResult = req.getAttribute("GROOVY_RESULT")
+            if (tempResult instanceof java.util.Map) {
+                tempResult.putAll(results)
+                req.setAttribute("GROOVY_RESULT",tempResult);
+            } else {
+                req.setAttribute("GROOVY_RESULT",results);
+            }
+        } else {
+            req.setAttribute("GROOVY_RESULT",results);
+        }
         dis.include(req, res);
     }
 }

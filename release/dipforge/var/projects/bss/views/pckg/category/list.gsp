@@ -5,102 +5,60 @@ Author: brett chaldecott
 -->
 
     <div class="span9">
-      <ul class="thumbnails">
+      <ul class="thumbnails" id="categoryThumbnails">
         <%
         params.categories.each { categories ->
             def category = categories[0]
             %>
-            <li class="span3">
-                <div class="thumbnail" rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="test" id="hoveroverbuttona">
-                    <img src="http://placehold.it/260x180" alt="">
+            <li class="span3" id="categoryThumbnailEntry${category.getId()}">
+                <div class="thumbnail" rel="popover" 
+                    data-content="ID: ${category.getId()}<br/>Name: ${category.getName()}<br/>Description: ${category.getDescription()}<br/>Thumbnail: ${category.getThumbnail()}<br/>Icon: ${category.getIcon()}<br/>"
+                    data-original-title="${category.getName()}" id="hoveroverimage${category.getId()}">
+                    <img src="${params.contextBase}${category.getThumbnail()}" alt="${category.getDescription()}">
                     <div class="caption">
-                        <h5>Thumbnail label</h5>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a href="#" class="btn btn-primary">Uninstall</a> <a href="#" class="btn">Info</a></p>
+                        <h5><img src="${params.contextBase}${category.getIcon()}" style="height:16px;width:16px;"/> ${category.getName()}</h5>
+                        <!--
+                        <div class="span3" style="margin-left:0px;">
+                            <div style="float: left;">
+                            </div>
+                            <div style="width:83%; margin-left: 20px;">
+                                <div class="progress progress-success" style="margin-bottom: 9px;">
+                                    <div class="bar" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        <p>${category.getDescription()}</p>
+                        <p><a href="javascript:removeCategory('${category.getId()}');" class="btn btn-primary">Remove</a> <a href="javascript:updateCategory('${category.getId()}');" class="btn">Update</a></p>
+                        <form id="existingCategoryForm${category.getId()}" name="existingCategoryForm${category.getId()}">
+                            <input type="hidden" name="existingCategoryId${category.getId()}" id="existingCategoryId${category.getId()}" value="${category.getId()}" />
+                            <input type="hidden" name="existingCategoryName${category.getId()}" id="existingCategoryName${category.getId()}" value="${category.getName()}" />
+                            <input type="hidden" name="existingCategoryDescription${category.getId()}" id="existingCategoryDescription${category.getId()}" value="${category.getDescription()}" />
+                            <input type="hidden" name="existingCategoryThumbnail${category.getId()}" id="existingCategoryThumbnail${category.getId()}" value="${category.getThumbnail()}" />
+                            <input type="hidden" name="existingCategoryIcon${category.getId()}" id="existingCategoryIcon${category.getId()}" value="${category.getIcon()}" />
+                        </form>
                     </div>
                 </div>
             </li>
-            <script type="text/javascript">
-            \${document}.ready(function() {
-                \$('#hoveroverbutton').popover({});
-                \$('#hoveroverbuttona').popover({});
-            });
-            </script>
-                    
+            
+        
         <% } %>
-
-        <!--
-        <li class="span3">
-            <div class="thumbnail" rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="test" id="hoveroverbuttona">
-                <img src="http://placehold.it/260x180" alt="">
-                <div class="caption">
-                    <h5>Thumbnail label</h5>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a href="#" class="btn btn-primary">Uninstall</a> <a href="#" class="btn">Info</a></p>
-                </div>
-            </div>
-        </li>
-        <li class="span3">
-            <div class="thumbnail">
-                <img src="http://placehold.it/260x180" alt="">
-                <div class="caption">
-                    <h5>Thumbnail label</h5>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a href="#" class="btn btn-primary">Uninstall</a> <a href="#" class="btn">Info</a></p>
-                </div>
-            </div>
-        </li>
-        <li class="span3">
-            <div class="thumbnail">
-                <img src="http://placehold.it/260x180" alt="">
-                <div class="caption">
-                    <h5>Thumbnail label</h5>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a href="#" class="btn btn-primary">Uninstall</a> <a href="#" class="btn">Info</a></p>
-                </div>
-            </div>
-        </li>
-        <li class="span3">
-              <div class="thumbnail">
-                <img src="http://placehold.it/260x180" alt="">
-                <div class="caption">
-                    <h5>Thumbnail label</h5>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a href="#" class="btn btn-primary">Uninstall</a> <a href="#" class="btn">Info</a></p>
-                </div>
-            </div>
-        </li>
-        <li class="span3">
-              <div class="thumbnail">
-                <img src="http://placehold.it/260x180" alt="">
-                <div class="caption">
-                    <h5>Thumbnail label</h5>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a href="#" class="btn btn-primary">Uninstall</a> <a href="#" class="btn">Info</a></p>
-                </div>
-            </div>
-        </li>
-        <li class="span3">
-            <div class="thumbnail">
-                <img src="http://placehold.it/260x180" alt="">
-                <div class="caption">
-                    <h5>Thumbnail label</h5>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    <p><a href="#" class="btn btn-primary">Uninstall</a> <a href="#" class="btn">Info</a></p>
-                </div>
-            </div>
-        </li> /span-->
       </ul><!--/row-->
     </div><!--/span-->
     
 <div class="modal hide" id="categoryModal">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">×</button>
-    <h3>Add Category</h3>
+    <div id="addCategoryTitle">
+        <h3>Add Category</h3>
+    </div>
+    <div id="updateCategoryTitle" style="display:none;">
+        <h3>Update Category</h3>
+    </div>
   </div>
   <div class="modal-body">
     <div id="modelForm">
-        <form class="form-horizontal" id="createCategoryForm">
+        <form class="form-horizontal" id="categoryForm">
           <fieldset>
             <div class="control-group">
               <label class="control-label" for="categoryId">Category ID</label>
@@ -141,23 +99,54 @@ Author: brett chaldecott
         </form>
         <div id="modelDataErrorResult" style="display:none;">
             <div class="alert fade in alert-error">
-            <strong>Failed to create category!</strong> <span id="modelDataErrorResultMsg"></span>
-          </div>
+                <span id="modelDataErrorResultMsg"></span>
+            </div>
         </div>
     </div>
     <div id="modelSuccessResult" style="display:none;">
         <div class="alert fade in alert-info">
-            <strong>Category created!</strong> <span id="modelSuccessResultMsg"></span>
-          </div>
+            <span id="modelSuccessResultMsg"></span>
+        </div>
     </div>
     <div id="modelRuntimeErrorResult" style="display:none;">
         <div class="alert fade in alert-error">
-            <strong>Runtime Error!</strong> <span id="modelRuntimeErrorResultMsg"></span>
-          </div>
+            <span id="modelRuntimeErrorResultMsg"></span>
+        </div>
     </div>
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Close</a>
-    <a href="#" class="btn btn-primary" id="addCategoryItem">Save changes</a>
+    <a href="#" class="btn" data-dismiss="modal" id="categoryCloseButton">Close</a>
+    <a href="#" class="btn btn-primary" id="addCategoryItem">Add Category</a>
+    <a href="#" class="btn btn-primary" id="updateCategoryItem" style="display:none;">Update Category</a>
   </div>
+</div>
+
+
+<div class="modal hide" id="removeModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Remove Category</h3>
+    </div>
+    <div class="modal-body">
+        <div id="removeModelMsg">
+            <p id="removeModelText"></p>
+            <form name="removeModalForm" id="removeModalForm">
+                <input type="hidden" name="removeModalFormId" id="removeModalFormId"/>
+            </form>
+        </div>
+        <div id="removeModelSuccessMsg">
+            <div class="alert fade in alert-info">
+                <span id="removeModelSuccessResultMsg"></span>
+            </div>
+        </div>
+        <div id="removeModelErrorMsg">
+            <div class="alert fade in alert-info">
+                <span id="removeModelErrorResultMsg"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" id="removeCategoryCloseButton">Close</a>
+        <a href="#" class="btn btn-primary" id="removeCategoryItem">Remove Category</a>
+    </div>
 </div>

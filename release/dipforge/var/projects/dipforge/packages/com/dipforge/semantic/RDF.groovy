@@ -109,11 +109,12 @@ class RDF {
             }
             Session session = SemanticUtil.getInstance(configClass).getSession();
             Resource resource = session.get(Resource.class,uri)
+            
             PersistanceIdentifier typeIdentifier = 
-                PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE,
-                RDFConstants.TYPE_LOCALNAME);
-            Resource typeResource = resource.get(Resource.class,
-                typeIdentifier.toURI().toString())
+                    PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE,
+                    RDFConstants.TYPE_LOCALNAME);
+            def typeResource = resource.getProperty(OntologyClass.class,
+                    typeIdentifier.toURI().toString());
             def result = create(session,typeResource.getURI().toString());
             result.builder.populateType(resource);
             return result

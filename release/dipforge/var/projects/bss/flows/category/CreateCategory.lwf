@@ -22,14 +22,19 @@
 
 
 /**
- * This is the template for a flow
+ * This is the flow used to create the category
  */
 @java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" "Category")
+@store("store")
 flow CreateCategory {
    def out
-
+   def log
+   def Category
 
    {
-       
+       store.persist(Category)
+       log.info("The category [" + Category.name + "] has been persisted")
    }
 }
