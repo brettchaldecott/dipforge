@@ -22,6 +22,7 @@
 package com.rift.coad.rdf.semantic.persistance.jena;
 
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
@@ -349,7 +350,9 @@ public class JenaPersistanceSession implements PersistanceSession {
     public void removeRDF(String rdf) throws PersistanceException {
         try {
             ByteArrayInputStream in = new ByteArrayInputStream(rdf.getBytes());
-            jenaModel.remove(jenaModel.read(in, null));
+            Model tempStore = ModelFactory.createDefaultModel();
+            tempStore.read(in, null);
+            jenaModel.remove(tempStore);
             in.close();
         } catch (Exception ex) {
             log.error("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
@@ -365,7 +368,9 @@ public class JenaPersistanceSession implements PersistanceSession {
      */
     public void removeRDF(InputStream in) throws PersistanceException {
         try {
-            jenaModel.remove(jenaModel.read(in, null));
+            Model tempStore = ModelFactory.createDefaultModel();
+            tempStore.read(in, null);
+            jenaModel.remove(tempStore);
         } catch (Exception ex) {
             log.error("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
             throw new PersistanceException("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
