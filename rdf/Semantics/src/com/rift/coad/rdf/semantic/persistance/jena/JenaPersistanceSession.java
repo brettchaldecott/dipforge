@@ -21,9 +21,7 @@
 // package scope
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.*;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQuery;
@@ -81,7 +79,9 @@ public class JenaPersistanceSession implements PersistanceSession {
      */
     public void persist(InputStream in) throws PersistanceException {
         try {
-            jenaModel.read(in, null);
+            Model tempStore = ModelFactory.createDefaultModel();
+            tempStore.read(in, null);
+            jenaModel.add(tempStore);
         } catch (Exception ex) {
             log.error("Failed to persist the stream : " + ex.getMessage(), ex);
             throw new PersistanceException("Failed to persist the stream : " + ex.getMessage(), ex);
@@ -96,8 +96,28 @@ public class JenaPersistanceSession implements PersistanceSession {
      */
     public void persist(String rdf) throws PersistanceException {
         try {
+            log.info("###### Persisting the RDF");
             ByteArrayInputStream in = new ByteArrayInputStream(rdf.getBytes());
-            jenaModel.read(in, null);
+            Model tempStore = ModelFactory.createDefaultModel();
+            tempStore.read(in, null);
+            for (ResIterator node = tempStore.listSubjects(); node.hasNext();) {
+                RDFNode rdfNode = node.next();
+                if (!rdfNode.isResource()) {
+                    continue;
+                }
+                log.info("####### The node value is [" + rdfNode.toString() + "]");
+                if (jenaModel.contains(rdfNode.asResource(),null)) {
+                    log.info("####### The resource [" + rdfNode.toString() +
+                            "] exists remove conflicting values");
+                    // remove conflicting values
+                    Resource resource = jenaModel.getResource(
+                            rdfNode.asResource().getURI());
+                    resource.removeProperties();
+                }
+                
+                
+            }
+            jenaModel.add(tempStore);
             in.close();
         } catch (Exception ex) {
             log.error("Failed to persist the stream : " + ex.getMessage(), ex);

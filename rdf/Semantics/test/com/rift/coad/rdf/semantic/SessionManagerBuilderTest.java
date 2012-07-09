@@ -100,5 +100,15 @@ public class SessionManagerBuilderTest {
         assertEquals("" + subObject.getDub(), "" + subObject2.getDub());
         assertEquals(subObject.getName(), subObject2.getName());
         assertEquals(subObject.getNumber(), subObject2.getNumber());
+        
+        
+        // rewrite the session
+        session.persist(session.dumpXML());
+        
+        subObject2 = session.get(TestSubObject.class, 1);
+        assertEquals("" + subObject.getDub(), "" + subObject2.getDub());
+        assertEquals(subObject.getName(), subObject2.getName());
+        assertEquals(subObject.getNumber(), subObject2.getNumber());
+        
     }
 }
