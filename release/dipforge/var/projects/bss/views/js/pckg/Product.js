@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Thu Jun 28 07:01:03 SAST 2012 owner
+ * Copyright (C) Sat Jul 07 07:50:18 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,44 +16,44 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Category.js
- * @author brett chaldecott
+ * Product.js
+ * @author admin
  */
 
 var modalAction = 0;
 
 /* initilize the page */
 $(document).ready(function() {
-    $('#addCategoryItem').click(function(event) {
+    $('#addProductItem').click(function(event) {
         event.preventDefault();
-        $('#categoryForm').submit();
+        $('#productForm').submit();
     });
     
-    $('#updateCategoryItem').click(function(event) {
+    $('#updateProductItem').click(function(event) {
         event.preventDefault();
-        $('#categoryForm').submit();
+        $('#productForm').submit();
     });
     
-    $('#removeCategoryItem').click(function(event) {
+    $('#removeProductItem').click(function(event) {
         event.preventDefault();
         $.ajax({
-                url: 'category/RemoveCategory.groovy?categoryId=' + $('#removeModalFormId').val(),
+                url: 'product/RemoveProduct.groovy?productId=' + $('#removeModalFormId').val(),
                 success: function(data) {
                     if (data == "success") {
                         // setup the message
                         $('#removeModelMsg').hide();
                         
                         $('#removeModelSuccessMsg').show();
-                        $('#removeModelSuccessResultMsg').text('Category removal [' + 
+                        $('#removeModelSuccessResultMsg').text('Product removal [' + 
                             $('#removeModalFormId').val() + '] submitted to system.');
                         $('#removeModelErrorMsg').hide();
                         
                         // setup the buttons
-                        $('#removeCategoryCloseButton').hide();
-                        $('#removeCategoryItem').hide();
+                        $('#removeProductCloseButton').hide();
+                        $('#removeProductItem').hide();
                         
                         // remove the thumbnail
-                        $('#categoryThumbnailEntry' + $('#removeModalFormId').val()).remove();
+                        $('#productThumbnailEntry' + $('#removeModalFormId').val()).remove();
                         
                         // delay and hide the modal
                         setTimeout(function () {
@@ -66,29 +66,29 @@ $(document).ready(function() {
                         
                         $('#removeModelSuccessMsg').hide();
                         $('#removeModelErrorMsg').show();
-                        $('#removeModelErrorResultMsg').html('Category [' + 
+                        $('#removeModelErrorResultMsg').html('Product [' + 
                             $('#removeModalFormId').val() + '] could not be removed : ' + data);
                         
                         // setup the buttons
-                        $('#removeCategoryCloseButton').show();
-                        $('#removeCategoryItem').hide();
+                        $('#removeProductCloseButton').show();
+                        $('#removeProductItem').hide();
                         
                     }
                 }
         });
     })
     
-    $("#categoryId").validate({
+    $("#productId").validate({
         expression: "if (VAL) return true; else return false;",
         message: "Must provide ID"
     });
     
-    $("#categoryName").validate({
+    $("#productName").validate({
         expression: "if (VAL) return true; else return false;",
         message: "Must provide name"
     });
     
-    $("#categoryDescription").validate({
+    $("#productDescription").validate({
         expression: "if (VAL) return true; else return false;",
         message: "Must provide description"
     });
@@ -103,7 +103,7 @@ $(document).ready(function() {
         message: "Must provide icon"
     });
     
-    $('#categoryForm').validated(function() {
+    $('#productForm').validated(function() {
         
         // hide all error messages
         $('#modelDataErrorResult').hide();
@@ -112,31 +112,31 @@ $(document).ready(function() {
         
         if (modalAction == 0) {
             $.ajax({
-                url: 'category/CreateCategory.groovy?' + $('#categoryForm').serialize(),
+                url: 'product/CreateProduct.groovy?' + $('#productForm').serialize(),
                 success: function(data) {
                     if (data == 'success') {
                         $('#modelRuntimeErrorResult').hide();
-                        $('#updateCategoryItem').hide();
-                        $('#addCategoryItem').hide()
-                        $('#categoryCloseButton').hide();
+                        $('#updateProductItem').hide();
+                        $('#addProductItem').hide()
+                        $('#productCloseButton').hide();
                         $('#modelForm').hide();
                         $('#modelSuccessResult').show();
-                        $('#modelSuccessResultMsg').text('Category add [' + 
-                            $('#categoryId').val() + '] submitted to system.');
+                        $('#modelSuccessResultMsg').text('Product add [' + 
+                            $('#productId').val() + '] submitted to system.');
                             
                         var html = [];
                         html.push(
-                            '<li class="span3" id="categoryThumbnailEntry',$('#categoryId').val(),'">',
+                            '<li class="span3" id="productThumbnailEntry',$('#productId').val(),'">',
                             generateThumbnail(),
                             '</li>');
-                        $("#categoryThumbnails").append(html.join(""));
+                        $("#productThumbnails").append(html.join(""));
                         
                         
                         $('[id^=hoveroverimage]').popover({"placement":"bottom"});
                         
                         // delay and hide the modal
                         setTimeout(function () {
-                            $('#categoryModal').modal('hide');    
+                            $('#productModal').modal('hide');    
                         }, 1500);
                         
                     } else {
@@ -154,28 +154,28 @@ $(document).ready(function() {
             });
         } else {
             $.ajax({
-                url: 'category/UpdateCategory.groovy?categoryId=' + $('#categoryId').val() + '&' + $('#categoryForm').serialize(),
+                url: 'product/UpdateProduct.groovy?productId=' + $('#productId').val() + '&' + $('#productForm').serialize(),
                 success: function(data) {
                     if (data == 'success') {
                         $('#modelRuntimeErrorResult').hide();
-                        $('#addCategoryItem').hide();
-                        $('#updateCategoryItem').hide();
-                        $('#categoryCloseButton').hide();
+                        $('#addProductItem').hide();
+                        $('#updateProductItem').hide();
+                        $('#productCloseButton').hide();
                         $('#modelForm').hide();
                         $('#modelSuccessResult').show();
-                        $('#modelSuccessResultMsg').text('Category update [' + 
-                            $('#categoryId').val() + '] submitted to system.');
+                        $('#modelSuccessResultMsg').text('Product update [' + 
+                            $('#productId').val() + '] submitted to system.');
                             
                         var html = [];
                         html.push(generateThumbnail());
-                        $("#categoryThumbnailEntry" + $('#categoryId').val()).html(html.join(""));
+                        $("#productThumbnailEntry" + $('#productId').val()).html(html.join(""));
                         
                         $('[id^=hoveroverimage]').popover({"placement":"bottom"});
                         
                         // delay and hide the modal
                         setTimeout(function () {
-                            $('#categoryModal').modal('hide');    
-                        }, 3000);
+                            $('#productModal').modal('hide');    
+                        }, 1500);
                         
                     } else {
                         $('#modelDataErrorResult').show();
@@ -193,23 +193,23 @@ $(document).ready(function() {
         }
     });
     
-    $('#categoryModal').on('hidden', function () {
+    $('#productModal').on('hidden', function () {
         
-        $('#categoryId').val('');
-        $('#categoryName').val('');
-        $('#categoryDescription').val('');
+        $('#productId').val('');
+        $('#productName').val('');
+        $('#productDescription').val('');
         $('#thumbnail').val('');
         $('#icon').val('');
-        $('#addCategoryItem').show();
-        $('#updateCategoryItem').hide();
-        $('#categoryCloseButton').show();
+        $('#addProductItem').show();
+        $('#updateProductItem').hide();
+        $('#productCloseButton').show();
         $('#modelForm').show();
         $('#modelDataErrorResult').hide();
         $('#modelSuccessResult').hide();
         $('#modelRuntimeErrorResult').hide();
-        $('#addCategoryTitle').show();
-        $('#updateCategoryTitle').hide();
-        $('#categoryId').removeAttr('disabled');
+        $('#addProductTitle').show();
+        $('#updateProductTitle').hide();
+        $('#productId').removeAttr('disabled');
         modalAction = 0;
     });
     
@@ -218,8 +218,8 @@ $(document).ready(function() {
         $('#removeModelMsg').show();
         $('#removeModelSuccessMsg').hide();
         $('#removeModelErrorMsg').hide();
-        $('#removeCategoryCloseButton').show();
-        $('#removeCategoryItem').show();
+        $('#removeProductCloseButton').show();
+        $('#removeProductItem').show();
         
         
     });
@@ -230,42 +230,42 @@ $(document).ready(function() {
 
 
 /**
- * This method is called to edit a category
+ * This method is called to edit a product
  */
-function updateCategory(categoryId) {
+function updateProduct(productId) {
     modalAction = 1;
     
-    $('#categoryId').val($('#existingCategoryId' + categoryId).val());
-    $('#categoryName').val($('#existingCategoryName' + categoryId).val());
-    $('#categoryDescription').val($('#existingCategoryDescription' + categoryId).val());
-    $('#thumbnail').val($('#existingCategoryThumbnail' + categoryId).val());
-    $('#icon').val($('#existingCategoryIcon' + categoryId).val());
+    $('#productId').val($('#existingProductId' + productId).val());
+    $('#productName').val($('#existingProductName' + productId).val());
+    $('#productDescription').val($('#existingProductDescription' + productId).val());
+    $('#thumbnail').val($('#existingProductThumbnail' + productId).val());
+    $('#icon').val($('#existingProductIcon' + productId).val());
     
-    $('#categoryId').attr('disabled','disabled'); 
-    $('#addCategoryTitle').hide();
-    $('#updateCategoryTitle').show();
-    $('#addCategoryItem').hide();
-    $('#updateCategoryItem').show();
-    $('#categoryModal').modal('show');
+    $('#productId').attr('disabled','disabled'); 
+    $('#addProductTitle').hide();
+    $('#updateProductTitle').show();
+    $('#addProductItem').hide();
+    $('#updateProductItem').show();
+    $('#productModal').modal('show');
 }
 
 
 /**
- * This function is called to remove the category
+ * This function is called to remove the product
  */
-function removeCategory(categoryId) {
-    $('#removeModalFormId').val(categoryId);
+function removeProduct(productId) {
+    $('#removeModalFormId').val(productId);
     
     // setup the message
     $('#removeModelMsg').show();
-    $('#removeModelText').html("Are you sure you want to remove the category [" + categoryId + "]");
+    $('#removeModelText').html("Are you sure you want to remove the product [" + productId + "]");
     
     $('#removeModelSuccessMsg').hide();
     $('#removeModelErrorMsg').hide();
     
     // setup the buttons
-    $('#removeCategoryCloseButton').show();
-    $('#removeCategoryItem').show();
+    $('#removeProductCloseButton').show();
+    $('#removeProductItem').show();
     
     // show the model
     $('#removeModal').modal('show');
@@ -277,26 +277,27 @@ function removeCategory(categoryId) {
 function generateThumbnail() {
     var html = [];
     html.push('<div class="thumbnail" rel="popover"',
-            ' data-content="ID: ',$('#categoryId').val(),
-            '<br/>Name: ',$('#categoryName').val(),
-            '<br/>Description: ',$('#categoryDescription').val(),
+            ' data-content="ID: ',$('#productId').val(),
+            '<br/>Name: ',$('#productName').val(),
+            '<br/>Description: ',$('#productDescription').val(),
             '<br/>Thumbnail: ',$('#thumbnail').val(),
             '<br/>Icon: ',$('#icon').val(),'<br/>"',
-            ' data-original-title="',$('#categoryName').val(),'" id="hoveroverimage',$('#categoryId').val(),'">',
-            '<img src="',$('#thumbnail').val(),'" alt="',$('#categoryDescription').val(),'">',
+            ' data-original-title="',$('#productName').val(),'" id="hoveroverimage',$('#productId').val(),'">',
+            '<img src="',$('#thumbnail').val(),'" alt="',$('#productDescription').val(),'">',
             '<div class="caption">',
-            '<h5>','<img src="',$('#icon').val(),'" style="height:16px;width:16px;"/> ',$('#categoryName').val(),'</h5>',
-            '<p>',$('#categoryDescription').val(),'</p>',
-            '<p><a href="javascript:removeCategory(\'',$('#categoryId').val(),'\');" class="btn btn-primary">Remove</a> <a href="javascript:updateCategory(\'',$('#categoryId').val(),'\');" class="btn">Update</a></p>',
-            '<form id="existingCategoryForm',$('#categoryId').val(),'">',
-            '<input type="hidden" name="existingCategoryId',$('#categoryId').val(),'" id="existingCategoryId',$('#categoryId').val(),'" value="',$('#categoryId').val(),'" />',
-            '<input type="hidden" name="existingCategoryName',$('#categoryId').val(),'" id="existingCategoryName',$('#categoryId').val(),'" value="',$('#categoryName').val(),'" />',
-            '<input type="hidden" name="existingCategoryDescription',$('#categoryId').val(),'" id="existingCategoryDescription',$('#categoryId').val(),'" value="',$('#categoryDescription').val(),'" />',
-            '<input type="hidden" name="existingCategoryThumbnail',$('#categoryId').val(),'" id="existingCategoryThumbnail',$('#categoryId').val(),'" value="',$('#thumbnail').val(),'" />',
-            '<input type="hidden" name="existingCategoryIcon',$('#categoryId').val(),'" id="existingCategoryIcon',$('#categoryId').val(),'" value="',$('#icon').val(),'" />',
+            '<h5>','<img src="',$('#icon').val(),'" style="height:16px;width:16px;"/> ',$('#productName').val(),'</h5>',
+            '<p>',$('#productDescription').val(),'</p>',
+            '<p><a href="javascript:removeProduct(\'',$('#productId').val(),'\');" class="btn btn-primary">Remove</a> <a href="javascript:updateProduct(\'',$('#productId').val(),'\');" class="btn">Update</a></p>',
+            '<form id="existingProductForm',$('#productId').val(),'">',
+            '<input type="hidden" name="existingProductId',$('#productId').val(),'" id="existingProductId',$('#productId').val(),'" value="',$('#productId').val(),'" />',
+            '<input type="hidden" name="existingProductName',$('#productId').val(),'" id="existingProductName',$('#productId').val(),'" value="',$('#productName').val(),'" />',
+            '<input type="hidden" name="existingProductDescription',$('#productId').val(),'" id="existingProductDescription',$('#productId').val(),'" value="',$('#productDescription').val(),'" />',
+            '<input type="hidden" name="existingProductThumbnail',$('#productId').val(),'" id="existingProductThumbnail',$('#productId').val(),'" value="',$('#thumbnail').val(),'" />',
+            '<input type="hidden" name="existingProductIcon',$('#productId').val(),'" id="existingProductIcon',$('#productId').val(),'" value="',$('#icon').val(),'" />',
             '</form>',
             '</div>',
             '</div>');
     
     return html.join("");
 }
+

@@ -17,17 +17,6 @@ Author: brett chaldecott
                     <img src="${params.contextBase}${category.getThumbnail()}" alt="${category.getDescription()}">
                     <div class="caption">
                         <h5><img src="${params.contextBase}${category.getIcon()}" style="height:16px;width:16px;"/> ${category.getName()}</h5>
-                        <!--
-                        <div class="span3" style="margin-left:0px;">
-                            <div style="float: left;">
-                            </div>
-                            <div style="width:83%; margin-left: 20px;">
-                                <div class="progress progress-success" style="margin-bottom: 9px;">
-                                    <div class="bar" style="width: 100%"></div>
-                                </div>
-                            </div>
-                        </div>
-                        -->
                         <p>${category.getDescription()}</p>
                         <p><a href="javascript:removeCategory('${category.getId()}');" class="btn btn-primary">Remove</a> <a href="javascript:updateCategory('${category.getId()}');" class="btn">Update</a></p>
                         <form id="existingCategoryForm${category.getId()}" name="existingCategoryForm${category.getId()}">

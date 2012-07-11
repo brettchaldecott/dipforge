@@ -15,6 +15,9 @@ Author: brett chaldecott
           if (request.isUserInRole("category_manager")) { %>
           <li class="${params.menuItem == "category" ? "active" : ""}"><a href="category.gsp"><i class="icon-list"></i>Category Configuration</a></li>
           <% }
+          if (request.isUserInRole("category_manager")) { %>
+          <li class="${params.menuItem == "vendor" ? "active" : ""}"><a href="vendor.gsp"><i class="icon-list"></i>Vendor Configuration</a></li>
+          <% }
           if (request.isUserInRole("product_manager")) { %>
           <li class="${params.menuItem == "product" ? "active" : ""}"><a href="product.gsp"><i class="icon-list"></i>Product Configuration</a></li>
           <% }
@@ -30,6 +33,9 @@ Author: brett chaldecott
           if (params.menuItem == "category") {%>
           <li class="nav-header">Category Management</li>
           <li><a data-toggle="modal" href="#categoryModal"><i class="icon-plus"></i>Add Category</a></li>
+          <% } else if (params.menuItem == "vendor") {%>
+          <li class="nav-header">Vendor Management</li>
+          <li><a data-toggle="modal" href="#vendorModal"><i class="icon-plus"></i>Add Vendor</a></li>
           <% } else if (params.menuItem == "product") {%>
           <li class="nav-header">Product Management</li>
           <li><a data-toggle="modal" href="#productModal"><i class="icon-plus"></i>Add Product</a></li>

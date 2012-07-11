@@ -151,6 +151,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         wholeWord: false,
                                         regExp: false
                                         });
+                                    editor.focus();
                                 }},
                             { xtype: 'textfield', id: "search:"+id, 
                                 itemId: "search:"+id, name: "search",
@@ -163,6 +164,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                 handler: function() {
                                     editor.find(Ext.getCmp("search:"+id).value);
                                     editor.replace(Ext.getCmp("replace:"+id).value);
+                                    editor.focus();
                                 }}],
                         layout: "fit",
                         html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
@@ -267,6 +269,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         wholeWord: false,
                                         regExp: false
                                         });
+                                    editor.focus();
                                 }},
                             { xtype: 'textfield', id: "search:"+id, 
                                 itemId: "search:"+id, name: "search",
@@ -279,6 +282,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                 handler: function() {
                                     editor.find(Ext.getCmp("search:"+id).value);
                                     editor.replace(Ext.getCmp("replace:"+id).value);
+                                    editor.focus();
                                 }}],
                         layout: "fit",
                         html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
@@ -382,6 +386,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         wholeWord: false,
                                         regExp: false
                                         });
+                                    editor.focus();
                                 }},
                             { xtype: 'textfield', id: "search:"+id, 
                                 itemId: "search:"+id, name: "search",
@@ -394,6 +399,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                 handler: function() {
                                     editor.find(Ext.getCmp("search:"+id).value);
                                     editor.replace(Ext.getCmp("replace:"+id).value);
+                                    editor.focus();
                                 }}],
                         layout: "fit",
                         html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
@@ -498,6 +504,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         wholeWord: false,
                                         regExp: false
                                         });
+                                    editor.focus();
                                 }},
                             { xtype: 'textfield', id: "search:"+id, 
                                 itemId: "search:"+id, name: "search",
@@ -510,6 +517,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                 handler: function() {
                                     editor.find(Ext.getCmp("search:"+id).value);
                                     editor.replace(Ext.getCmp("replace:"+id).value);
+                                    editor.focus();
                                 }}],
                         layout: "fit",
                         html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
@@ -621,6 +629,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         wholeWord: false,
                                         regExp: false
                                         });
+                                    editor.focus();
                                 }},
                             { xtype: 'textfield', id: "search:"+id, 
                                 itemId: "search:"+id, name: "search",
@@ -633,6 +642,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                 handler: function() {
                                     editor.find(Ext.getCmp("search:"+id).value);
                                     editor.replace(Ext.getCmp("replace:"+id).value);
+                                    editor.focus();
                                 }}],
                         layout: "fit",
                         html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',
@@ -717,6 +727,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         wholeWord: false,
                                         regExp: false
                                         });
+                                    editor.focus();
                                 }},
                             { xtype: 'textfield', id: "search:"+id, 
                                 itemId: "search:"+id, name: "search",
@@ -729,6 +740,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                 handler: function() {
                                     editor.find(Ext.getCmp("search:"+id).value);
                                     editor.replace(Ext.getCmp("replace:"+id).value);
+                                    editor.focus();
                                 }}],
                         layout: "fit",
                         html: '<div id="id|' + id + '" style="height:100%;width:100%;">' + fileInfo.contents + '</div>',

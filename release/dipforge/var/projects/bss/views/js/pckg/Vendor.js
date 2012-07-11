@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Thu Jun 28 07:01:03 SAST 2012 owner
+ * Copyright (C) Tue Jul 10 20:59:29 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Category.js
+ * Vendor.js
  * @author brett chaldecott
  */
 
@@ -24,36 +24,36 @@ var modalAction = 0;
 
 /* initilize the page */
 $(document).ready(function() {
-    $('#addCategoryItem').click(function(event) {
+    $('#addVendorItem').click(function(event) {
         event.preventDefault();
-        $('#categoryForm').submit();
+        $('#vendorForm').submit();
     });
     
-    $('#updateCategoryItem').click(function(event) {
+    $('#updateVendorItem').click(function(event) {
         event.preventDefault();
-        $('#categoryForm').submit();
+        $('#vendorForm').submit();
     });
     
-    $('#removeCategoryItem').click(function(event) {
+    $('#removeVendorItem').click(function(event) {
         event.preventDefault();
         $.ajax({
-                url: 'category/RemoveCategory.groovy?categoryId=' + $('#removeModalFormId').val(),
+                url: 'vendor/RemoveVendor.groovy?vendorId=' + $('#removeModalFormId').val(),
                 success: function(data) {
                     if (data == "success") {
                         // setup the message
                         $('#removeModelMsg').hide();
                         
                         $('#removeModelSuccessMsg').show();
-                        $('#removeModelSuccessResultMsg').text('Category removal [' + 
+                        $('#removeModelSuccessResultMsg').text('Vendor removal [' + 
                             $('#removeModalFormId').val() + '] submitted to system.');
                         $('#removeModelErrorMsg').hide();
                         
                         // setup the buttons
-                        $('#removeCategoryCloseButton').hide();
-                        $('#removeCategoryItem').hide();
+                        $('#removeVendorCloseButton').hide();
+                        $('#removeVendorItem').hide();
                         
                         // remove the thumbnail
-                        $('#categoryThumbnailEntry' + $('#removeModalFormId').val()).remove();
+                        $('#vendorThumbnailEntry' + $('#removeModalFormId').val()).remove();
                         
                         // delay and hide the modal
                         setTimeout(function () {
@@ -66,29 +66,29 @@ $(document).ready(function() {
                         
                         $('#removeModelSuccessMsg').hide();
                         $('#removeModelErrorMsg').show();
-                        $('#removeModelErrorResultMsg').html('Category [' + 
+                        $('#removeModelErrorResultMsg').html('Vendor [' + 
                             $('#removeModalFormId').val() + '] could not be removed : ' + data);
                         
                         // setup the buttons
-                        $('#removeCategoryCloseButton').show();
-                        $('#removeCategoryItem').hide();
+                        $('#removeVendorCloseButton').show();
+                        $('#removeVendorItem').hide();
                         
                     }
                 }
         });
     })
     
-    $("#categoryId").validate({
+    $("#vendorId").validate({
         expression: "if (VAL) return true; else return false;",
         message: "Must provide ID"
     });
     
-    $("#categoryName").validate({
+    $("#vendorName").validate({
         expression: "if (VAL) return true; else return false;",
         message: "Must provide name"
     });
     
-    $("#categoryDescription").validate({
+    $("#vendorDescription").validate({
         expression: "if (VAL) return true; else return false;",
         message: "Must provide description"
     });
@@ -103,7 +103,7 @@ $(document).ready(function() {
         message: "Must provide icon"
     });
     
-    $('#categoryForm').validated(function() {
+    $('#vendorForm').validated(function() {
         
         // hide all error messages
         $('#modelDataErrorResult').hide();
@@ -112,31 +112,31 @@ $(document).ready(function() {
         
         if (modalAction == 0) {
             $.ajax({
-                url: 'category/CreateCategory.groovy?' + $('#categoryForm').serialize(),
+                url: 'vendor/CreateVendor.groovy?' + $('#vendorForm').serialize(),
                 success: function(data) {
                     if (data == 'success') {
                         $('#modelRuntimeErrorResult').hide();
-                        $('#updateCategoryItem').hide();
-                        $('#addCategoryItem').hide()
-                        $('#categoryCloseButton').hide();
+                        $('#updateVendorItem').hide();
+                        $('#addVendorItem').hide()
+                        $('#vendorCloseButton').hide();
                         $('#modelForm').hide();
                         $('#modelSuccessResult').show();
-                        $('#modelSuccessResultMsg').text('Category add [' + 
-                            $('#categoryId').val() + '] submitted to system.');
+                        $('#modelSuccessResultMsg').text('Vendor add [' + 
+                            $('#vendorId').val() + '] submitted to system.');
                             
                         var html = [];
                         html.push(
-                            '<li class="span3" id="categoryThumbnailEntry',$('#categoryId').val(),'">',
+                            '<li class="span3" id="vendorThumbnailEntry',$('#vendorId').val(),'">',
                             generateThumbnail(),
                             '</li>');
-                        $("#categoryThumbnails").append(html.join(""));
+                        $("#vendorThumbnails").append(html.join(""));
                         
                         
                         $('[id^=hoveroverimage]').popover({"placement":"bottom"});
                         
                         // delay and hide the modal
                         setTimeout(function () {
-                            $('#categoryModal').modal('hide');    
+                            $('#vendorModal').modal('hide');    
                         }, 1500);
                         
                     } else {
@@ -154,28 +154,28 @@ $(document).ready(function() {
             });
         } else {
             $.ajax({
-                url: 'category/UpdateCategory.groovy?categoryId=' + $('#categoryId').val() + '&' + $('#categoryForm').serialize(),
+                url: 'vendor/UpdateVendor.groovy?vendorId=' + $('#vendorId').val() + '&' + $('#vendorForm').serialize(),
                 success: function(data) {
                     if (data == 'success') {
                         $('#modelRuntimeErrorResult').hide();
-                        $('#addCategoryItem').hide();
-                        $('#updateCategoryItem').hide();
-                        $('#categoryCloseButton').hide();
+                        $('#addVendorItem').hide();
+                        $('#updateVendorItem').hide();
+                        $('#vendorCloseButton').hide();
                         $('#modelForm').hide();
                         $('#modelSuccessResult').show();
-                        $('#modelSuccessResultMsg').text('Category update [' + 
-                            $('#categoryId').val() + '] submitted to system.');
+                        $('#modelSuccessResultMsg').text('Vendor update [' + 
+                            $('#vendorId').val() + '] submitted to system.');
                             
                         var html = [];
                         html.push(generateThumbnail());
-                        $("#categoryThumbnailEntry" + $('#categoryId').val()).html(html.join(""));
+                        $("#vendorThumbnailEntry" + $('#vendorId').val()).html(html.join(""));
                         
                         $('[id^=hoveroverimage]').popover({"placement":"bottom"});
                         
                         // delay and hide the modal
                         setTimeout(function () {
-                            $('#categoryModal').modal('hide');    
-                        }, 3000);
+                            $('#vendorModal').modal('hide');    
+                        }, 1500);
                         
                     } else {
                         $('#modelDataErrorResult').show();
@@ -193,23 +193,23 @@ $(document).ready(function() {
         }
     });
     
-    $('#categoryModal').on('hidden', function () {
+    $('#vendorModal').on('hidden', function () {
         
-        $('#categoryId').val('');
-        $('#categoryName').val('');
-        $('#categoryDescription').val('');
+        $('#vendorId').val('');
+        $('#vendorName').val('');
+        $('#vendorDescription').val('');
         $('#thumbnail').val('');
         $('#icon').val('');
-        $('#addCategoryItem').show();
-        $('#updateCategoryItem').hide();
-        $('#categoryCloseButton').show();
+        $('#addVendorItem').show();
+        $('#updateVendorItem').hide();
+        $('#vendorCloseButton').show();
         $('#modelForm').show();
         $('#modelDataErrorResult').hide();
         $('#modelSuccessResult').hide();
         $('#modelRuntimeErrorResult').hide();
-        $('#addCategoryTitle').show();
-        $('#updateCategoryTitle').hide();
-        $('#categoryId').removeAttr('disabled');
+        $('#addVendorTitle').show();
+        $('#updateVendorTitle').hide();
+        $('#vendorId').removeAttr('disabled');
         modalAction = 0;
     });
     
@@ -218,8 +218,8 @@ $(document).ready(function() {
         $('#removeModelMsg').show();
         $('#removeModelSuccessMsg').hide();
         $('#removeModelErrorMsg').hide();
-        $('#removeCategoryCloseButton').show();
-        $('#removeCategoryItem').show();
+        $('#removeVendorCloseButton').show();
+        $('#removeVendorItem').show();
         
         
     });
@@ -230,42 +230,42 @@ $(document).ready(function() {
 
 
 /**
- * This method is called to edit a category
+ * This method is called to edit a vendor
  */
-function updateCategory(categoryId) {
+function updateVendor(vendorId) {
     modalAction = 1;
     
-    $('#categoryId').val($('#existingCategoryId' + categoryId).val());
-    $('#categoryName').val($('#existingCategoryName' + categoryId).val());
-    $('#categoryDescription').val($('#existingCategoryDescription' + categoryId).val());
-    $('#thumbnail').val($('#existingCategoryThumbnail' + categoryId).val());
-    $('#icon').val($('#existingCategoryIcon' + categoryId).val());
+    $('#vendorId').val($('#existingVendorId' + vendorId).val());
+    $('#vendorName').val($('#existingVendorName' + vendorId).val());
+    $('#vendorDescription').val($('#existingVendorDescription' + vendorId).val());
+    $('#thumbnail').val($('#existingVendorThumbnail' + vendorId).val());
+    $('#icon').val($('#existingVendorIcon' + vendorId).val());
     
-    $('#categoryId').attr('disabled','disabled'); 
-    $('#addCategoryTitle').hide();
-    $('#updateCategoryTitle').show();
-    $('#addCategoryItem').hide();
-    $('#updateCategoryItem').show();
-    $('#categoryModal').modal('show');
+    $('#vendorId').attr('disabled','disabled'); 
+    $('#addVendorTitle').hide();
+    $('#updateVendorTitle').show();
+    $('#addVendorItem').hide();
+    $('#updateVendorItem').show();
+    $('#vendorModal').modal('show');
 }
 
 
 /**
- * This function is called to remove the category
+ * This function is called to remove the vendor
  */
-function removeCategory(categoryId) {
-    $('#removeModalFormId').val(categoryId);
+function removeVendor(vendorId) {
+    $('#removeModalFormId').val(vendorId);
     
     // setup the message
     $('#removeModelMsg').show();
-    $('#removeModelText').html("Are you sure you want to remove the category [" + categoryId + "]");
+    $('#removeModelText').html("Are you sure you want to remove the vendor [" + vendorId + "]");
     
     $('#removeModelSuccessMsg').hide();
     $('#removeModelErrorMsg').hide();
     
     // setup the buttons
-    $('#removeCategoryCloseButton').show();
-    $('#removeCategoryItem').show();
+    $('#removeVendorCloseButton').show();
+    $('#removeVendorItem').show();
     
     // show the model
     $('#removeModal').modal('show');
@@ -277,26 +277,27 @@ function removeCategory(categoryId) {
 function generateThumbnail() {
     var html = [];
     html.push('<div class="thumbnail" rel="popover"',
-            ' data-content="ID: ',$('#categoryId').val(),
-            '<br/>Name: ',$('#categoryName').val(),
-            '<br/>Description: ',$('#categoryDescription').val(),
+            ' data-content="ID: ',$('#vendorId').val(),
+            '<br/>Name: ',$('#vendorName').val(),
+            '<br/>Description: ',$('#vendorDescription').val(),
             '<br/>Thumbnail: ',$('#thumbnail').val(),
             '<br/>Icon: ',$('#icon').val(),'<br/>"',
-            ' data-original-title="',$('#categoryName').val(),'" id="hoveroverimage',$('#categoryId').val(),'">',
-            '<img src="',$('#thumbnail').val(),'" alt="',$('#categoryDescription').val(),'">',
+            ' data-original-title="',$('#vendorName').val(),'" id="hoveroverimage',$('#vendorId').val(),'">',
+            '<img src="',$('#thumbnail').val(),'" alt="',$('#vendorDescription').val(),'">',
             '<div class="caption">',
-            '<h5>','<img src="',$('#icon').val(),'" style="height:16px;width:16px;"/> ',$('#categoryName').val(),'</h5>',
-            '<p>',$('#categoryDescription').val(),'</p>',
-            '<p><a href="javascript:removeCategory(\'',$('#categoryId').val(),'\');" class="btn btn-primary">Remove</a> <a href="javascript:updateCategory(\'',$('#categoryId').val(),'\');" class="btn">Update</a></p>',
-            '<form id="existingCategoryForm',$('#categoryId').val(),'">',
-            '<input type="hidden" name="existingCategoryId',$('#categoryId').val(),'" id="existingCategoryId',$('#categoryId').val(),'" value="',$('#categoryId').val(),'" />',
-            '<input type="hidden" name="existingCategoryName',$('#categoryId').val(),'" id="existingCategoryName',$('#categoryId').val(),'" value="',$('#categoryName').val(),'" />',
-            '<input type="hidden" name="existingCategoryDescription',$('#categoryId').val(),'" id="existingCategoryDescription',$('#categoryId').val(),'" value="',$('#categoryDescription').val(),'" />',
-            '<input type="hidden" name="existingCategoryThumbnail',$('#categoryId').val(),'" id="existingCategoryThumbnail',$('#categoryId').val(),'" value="',$('#thumbnail').val(),'" />',
-            '<input type="hidden" name="existingCategoryIcon',$('#categoryId').val(),'" id="existingCategoryIcon',$('#categoryId').val(),'" value="',$('#icon').val(),'" />',
+            '<h5>','<img src="',$('#icon').val(),'" style="height:16px;width:16px;"/> ',$('#vendorName').val(),'</h5>',
+            '<p>',$('#vendorDescription').val(),'</p>',
+            '<p><a href="javascript:removeVendor(\'',$('#vendorId').val(),'\');" class="btn btn-primary">Remove</a> <a href="javascript:updateVendor(\'',$('#vendorId').val(),'\');" class="btn">Update</a></p>',
+            '<form id="existingVendorForm',$('#vendorId').val(),'">',
+            '<input type="hidden" name="existingVendorId',$('#vendorId').val(),'" id="existingVendorId',$('#vendorId').val(),'" value="',$('#vendorId').val(),'" />',
+            '<input type="hidden" name="existingVendorName',$('#vendorId').val(),'" id="existingVendorName',$('#vendorId').val(),'" value="',$('#vendorName').val(),'" />',
+            '<input type="hidden" name="existingVendorDescription',$('#vendorId').val(),'" id="existingVendorDescription',$('#vendorId').val(),'" value="',$('#vendorDescription').val(),'" />',
+            '<input type="hidden" name="existingVendorThumbnail',$('#vendorId').val(),'" id="existingVendorThumbnail',$('#vendorId').val(),'" value="',$('#thumbnail').val(),'" />',
+            '<input type="hidden" name="existingVendorIcon',$('#vendorId').val(),'" id="existingVendorIcon',$('#vendorId').val(),'" value="',$('#icon').val(),'" />',
             '</form>',
             '</div>',
             '</div>');
     
     return html.join("");
 }
+

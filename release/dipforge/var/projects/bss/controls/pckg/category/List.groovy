@@ -30,8 +30,11 @@ import org.apache.log4j.Logger;
 def log = Logger.getLogger("pckg.category.List");
 
 def result = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category> . }")
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category> . " +
+    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#name> ?name . } " +
+    "ORDER BY ?name ")
 
+log.info("query result " + result)
 
 PageManager.includeWithResult("list.gsp", request, response, ["categories" : result])
 

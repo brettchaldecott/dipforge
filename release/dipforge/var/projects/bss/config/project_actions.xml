@@ -8,9 +8,19 @@
 
 <actions project="bss">
 
+    <!-- Category actions and Flows -->
     <action name="CreateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/CreateCategory.lwf" role="category_manager" />
     <action name="UpdateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/UpdateCategory.lwf" role="category_manager" />
     <action name="RemoveCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/RemoveCategory.lwf" role="category_manager" />
     
-
+    <!-- Product actions and Flows -->
+    <action name="CreateVendor" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor" file="/flows/vendor/CreateVendor.lwf" role="category_manager" />
+    <action name="UpdateVendor" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor" file="/flows/vendor/UpdateVendor.lwf" role="category_manager" />
+    <action name="RemoveVendor" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor" file="/flows/vendor/RemoveVendor.lwf" role="category_manager" />
+    
+    <!-- Product actions and Flows -->
+    <action name="CreateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/Product/CreateProduct.lwf" role="product_manager" />
+    <action name="UpdateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/Product/UpdateProduct.lwf" role="product_manager" />
+    <action name="RemoveProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/Product/RemoveProduct.lwf" role="product_manager" />
+    
 </actions>

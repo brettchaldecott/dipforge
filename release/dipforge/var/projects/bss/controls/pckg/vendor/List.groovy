@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Wed Jun 27 05:43:23 SAST 2012 owner 
+ * Copyright (C) Tue Jul 10 20:45:12 SAST 2012 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,21 +20,23 @@
  * @author brett chaldecott
  */
 
-package pckg.product
+package pckg.vendor
+
+
 
 import com.dipforge.utils.PageManager;
 import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
 
-def log = Logger.getLogger("pckg.product.List");
+def log = Logger.getLogger("pckg.vendor.List");
 
 def result = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#name> ?name . } " +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor> . " +
+    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#name> ?name . } " +
     "ORDER BY ?name ")
 
 log.info("query result " + result)
 
-PageManager.includeWithResult("list.gsp", request, response, ["products" : result])
+PageManager.includeWithResult("list.gsp", request, response, ["vendors" : result])
 
