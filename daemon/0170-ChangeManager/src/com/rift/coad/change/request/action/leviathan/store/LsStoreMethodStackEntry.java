@@ -194,6 +194,11 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
 
                 // if this does not have a range just add the property.
                 String propertyURI = property.getURI().toString();
+                
+                if (!sourceResource.hasProperty(propertyURI)) {
+                    continue;
+                }
+                
                 if (!property.hasRange()) {
                     Resource sourceSubResource = sourceResource.getProperty(Resource.class,
                             propertyURI);
@@ -209,6 +214,7 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
                     }
                     continue;
                 }
+                
                 String propertyType = property.getType().getURI().toString();
                 if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
