@@ -23,8 +23,12 @@ Author: brett chaldecott
                             <input type="hidden" name="existingProductId${product.getId()}" id="existingProductId${product.getId()}" value="${product.getId()}" />
                             <input type="hidden" name="existingProductName${product.getId()}" id="existingProductName${product.getId()}" value="${product.getName()}" />
                             <input type="hidden" name="existingProductDescription${product.getId()}" id="existingProductDescription${product.getId()}" value="${product.getDescription()}" />
+                            <input type="hidden" name="existingProductDataType${product.getId()}" id="existingProductDataType${product.getId()}" value="${product.getDataType()}" />
+                            <input type="hidden" name="existingProductCategory${product.getId()}" id="existingProductCategory${product.getId()}" value="${product.getCategory().getId()}" />
+                            <input type="hidden" name="existingProductVendor${product.getId()}" id="existingProductVendor${product.getId()}" value="${product.getVendor().getId()}" />
                             <input type="hidden" name="existingProductThumbnail${product.getId()}" id="existingProductThumbnail${product.getId()}" value="${product.getThumbnail()}" />
-                            <input type="hidden" name="existingProductIcon${product.getId()}" id="existingProductIcon${product.getId()}" value="${product.getIcon()}" />
+                            <input type="hidden" name="existingDependency${product.getId()}" id="existingDependency${product.getId()}" value="${product.getDependency()}" />
+                            
                         </form>
                     </div>
                 </div>
@@ -68,6 +72,34 @@ Author: brett chaldecott
               <div class="controls">
                 <input type="text" class="input-large" id="productDescription" name="productDescription">
                 <p class="help-block">The id of the product.</p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="productDataType">Product data type</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="productDataType" name="productDataType">
+                <p class="help-block">The product data type.</p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="productCategory">Product category</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="productCategory" name="productCategory">
+                <p class="help-block">The product category.</p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="productVendor">Product vendor</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="productVendor" name="productVendor">
+                <p class="help-block">The product vendor.</p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="productDependency">Product dependency</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="productDependency" name="productDependency">
+                <p class="help-block">The product dependency.</p>
               </div>
             </div>
             <div class="control-group">

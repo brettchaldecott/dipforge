@@ -65,7 +65,7 @@ class RDF {
             def instance = create(session,type);
             return instance
         } catch (Exception ex) {
-            log.error("Failed to create the type because : " + ex.getMessage(),ex);
+            log.error("Failed to create the type [${type}] because : " + ex.getMessage(),ex);
             throw ex;
         }
     }
@@ -86,7 +86,7 @@ class RDF {
             def instance = typeBuilder.getTypeInstance()
             return instance
         } catch (Exception ex) {
-            log.error("Failed to create the type because : " + ex.getMessage(),ex);
+            log.error("Failed to create the type [${type}] because : " + ex.getMessage(),ex);
             throw ex;
         }
     }
@@ -171,9 +171,13 @@ class RDF {
             }
             Session session = SemanticUtil.getInstance(configClass).getSession();
             def records = session.createSPARQLQuery(query).execute()
+            log.info("The number of records is " + records.size())
+            
             def result = []
             for (record in records) {
                 def row = []
+                log.info("The number of columns " + record.size())
+            
                 for (int i = 0; i < record.size(); i++) {
                     def dataType = record.getType(i)
                     def dataTypeURI = dataType.getURI().toString()

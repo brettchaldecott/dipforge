@@ -110,7 +110,7 @@ class RequestHandler {
                 dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
                         dependance.toXML(), dependance.builder.classDef.getLocalName()))
             }
-            requestData.setData(dependancyList)
+            request.setDependencies(dependancyList)
         }
         // this method loo
         def classProperties = this.data.builder.classDef.listProperties()
@@ -118,8 +118,11 @@ class RequestHandler {
             if (classProperty.hasRange()) {
                 continue
             }
-            java.util.List<RequestData> dependancyList = requestData.getData()
+            java.util.List<RequestData> dependancyList = request.getDependencies()
             def propertyName = classProperty.getLocalname()
+            if (this.data."${propertyName}" == null) {
+                continue;
+            }
             if (this.data."${propertyName}" instanceof java.util.List) {
                 for (def prop : this.data."${propertyName}") {
                     dependancyList.add(new RequestData(prop.getId(), prop.builder.classDef.getURI().toString(),

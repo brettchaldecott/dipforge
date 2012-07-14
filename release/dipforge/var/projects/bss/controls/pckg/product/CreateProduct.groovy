@@ -40,8 +40,10 @@ def result = RDF.query("SELECT ?s WHERE {" +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#id> ?id . "+
     "FILTER (?id = \"${params.productId}\")}")
 if (result.size() == 0) {
+    log.info("Create a new instance of the product")
     def product = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product")
     
+    log.info("Set the values")
     product.setId(params.productId)
     product.setName(params.productName)
     product.setDescription(params.productDescription)
@@ -50,7 +52,6 @@ if (result.size() == 0) {
     
     log.info("##### Init the request : " + product.toXML())
     RequestHandler.getInstance("bss", "CreateProduct", product).makeRequest()
-    
     print "success"
 } else {
     print "Fail: Attempting to add a duplicate product identified by ID."

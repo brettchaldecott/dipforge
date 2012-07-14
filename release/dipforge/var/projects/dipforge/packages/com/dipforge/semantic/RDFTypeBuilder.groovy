@@ -82,10 +82,11 @@ class RDFTypeBuilder {
         def classProperties = classDef.listProperties()
         for (classProperty in classProperties) {
             def propertyName = classProperty.getLocalname()
+            if (typeInstance."${propertyName}" == null) {
+                continue;
+            }
+            
             if (XSDDataDictionary.isBasicTypeByURI(classProperty.getType().getURI().toString())) {
-                if (typeInstance."${propertyName}" == null) {
-                    continue;
-                }
                 log.debug("URI [" + classProperty.getURI().toString() + "][" + 
                     typeInstance."${propertyName}" + "]")
                 resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
@@ -296,8 +297,12 @@ class RDFTypeBuilder {
                     XSDDataDictionary.XSD_DATE).getURI().toString())) {
                 typeInstance."${propertyName}" = new Date()
             } else {
-                typeInstance."${propertyName}" = 
-                    RDF.create(classProperty.getType().getURI().toString())
+                if (classProperty.hasRange()) {
+                    typeInstance."${propertyName}" = 
+                        RDF.create(classProperty.getType().getURI().toString())
+                } else {
+                    typeInstance."${propertyName}" = null
+                }
             }
             
             // add the getter and the setter

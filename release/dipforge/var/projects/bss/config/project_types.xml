@@ -82,7 +82,7 @@
         <link name="vendor" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="dependancies" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+        <link name="dependency" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
         <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
     </type>

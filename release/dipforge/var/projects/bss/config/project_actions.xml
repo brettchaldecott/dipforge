@@ -19,8 +19,8 @@
     <action name="RemoveVendor" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor" file="/flows/vendor/RemoveVendor.lwf" role="category_manager" />
     
     <!-- Product actions and Flows -->
-    <action name="CreateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/Product/CreateProduct.lwf" role="product_manager" />
-    <action name="UpdateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/Product/UpdateProduct.lwf" role="product_manager" />
-    <action name="RemoveProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/Product/RemoveProduct.lwf" role="product_manager" />
+    <action name="CreateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/CreateProduct.lwf" role="product_manager" />
+    <action name="UpdateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/UpdateProduct.lwf" role="product_manager" />
+    <action name="RemoveProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/RemoveProduct.lwf" role="product_manager" />
     
 </actions>
