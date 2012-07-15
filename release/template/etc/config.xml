@@ -170,79 +170,79 @@
             url=jdbc:hsqldb:hsql://@hostname@/coadunation,
             username=sa,
             password=,
-            min=25,
-            max=25
+            min=10,
+            max=10
         </entry>
         <entry key="db_source2" type="string">
             jndi=audit,
             url=jdbc:hsqldb:hsql://@hostname@/audit,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=3,
+            max=3
         </entry>
         <entry key="db_source3" type="string">
             jndi=change,
             url=jdbc:hsqldb:hsql://@hostname@/change,
             username=sa,
             password=,
-            min=25,
-            max=25
+            min=5,
+            max=10
         </entry>
         <entry key="db_source4" type="string">
             jndi=data_mapper_broker,
             url=jdbc:hsqldb:hsql://@hostname@/data_mapper_broker,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=2,
+            max=7
         </entry>
         <entry key="db_source5" type="string">
             jndi=script,
             url=jdbc:hsqldb:hsql://@hostname@/script,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=2,
+            max=5
         </entry>
         <entry key="db_source6" type="string">
             jndi=revision,
             url=jdbc:hsqldb:hsql://@hostname@/revision,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=2,
+            max=2
         </entry>
         <entry key="db_source7" type="string">
             jndi=groovy,
             url=jdbc:hsqldb:hsql://@hostname@/groovy,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=2,
+            max=4
         </entry>
         <entry key="db_source8" type="string">
             jndi=jython,
             url=jdbc:hsqldb:hsql://@hostname@/jython,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=1,
+            max=3
         </entry>
         <entry key="db_source9" type="string">
             jndi=requestbroker,
             url=jdbc:hsqldb:hsql://@hostname@/requestbroker,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=2,
+            max=5
         </entry>
         <entry key="db_source10" type="string">
             jndi=dipforgeweb,
             url=jdbc:hsqldb:hsql://@hostname@/dipforgeweb,
             username=sa,
             password=,
-            min=10,
+            min=5,
             max=10
         </entry>
         <entry key="db_source11" type="string">
@@ -250,16 +250,16 @@
             url=jdbc:hsqldb:hsql://@hostname@/masterrdfstore,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=2,
+            max=7
         </entry>
         <entry key="db_source12" type="string">
             jndi=groovydaemon,
             url=jdbc:hsqldb:hsql://@hostname@/groovydaemon,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=2,
+            max=7
         </entry>
     </object>
     <object name="com.rift.coad.lib.security.login.LoginManager">
