@@ -86,7 +86,11 @@ public class JenaPersistanceSession implements PersistanceSession {
                 if (!rdfNode.isResource()) {
                     continue;
                 }
-                log.debug("####### The node value is [" + rdfNode.toString() + "]");
+                if (!(rdfNode.asResource().listProperties().toList().size() > 1)) {
+                    log.info("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
+                    continue;
+                }
+                log.info("####### The node value is [" + rdfNode.toString() + "]");
                 if (jenaModel.contains(rdfNode.asResource(),null)) {
                     log.debug("####### The resource [" + rdfNode.toString() +
                             "] exists remove conflicting values");
@@ -95,10 +99,9 @@ public class JenaPersistanceSession implements PersistanceSession {
                             rdfNode.asResource().getURI());
                     resource.removeProperties();
                 }
-                
-                
+                jenaModel.add(rdfNode.getModel());
             }
-            jenaModel.add(tempStore);
+            //jenaModel.add(tempStore);
             in.close();
         } catch (Exception ex) {
             log.error("Failed to persist the stream : " + ex.getMessage(), ex);
@@ -372,7 +375,28 @@ public class JenaPersistanceSession implements PersistanceSession {
             ByteArrayInputStream in = new ByteArrayInputStream(rdf.getBytes());
             Model tempStore = ModelFactory.createDefaultModel();
             tempStore.read(in, null);
-            jenaModel.remove(tempStore);
+            for (ResIterator node = tempStore.listSubjects(); node.hasNext();) {
+                RDFNode rdfNode = node.next();
+                if (!rdfNode.isResource()) {
+                    continue;
+                }
+                if (!(rdfNode.asResource().listProperties().toList().size() > 1)) {
+                    log.info("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
+                    continue;
+                }
+                log.info("####### The node value is [" + rdfNode.toString() + "]");
+                if (jenaModel.contains(rdfNode.asResource(),null)) {
+                    log.info("####### The resource [" + rdfNode.toString() +
+                            "] exists and will be removed");
+                    // remove conflicting values
+                    Resource resource = jenaModel.getResource(
+                            rdfNode.asResource().getURI());
+                    resource.removeProperties();
+                    //jenaModel.removeAll(resource, resource.listProperties(), rdfNode);
+                }
+            }
+            
+            //jenaModel.remove(tempStore);
             in.close();
         } catch (Exception ex) {
             log.error("Failed to remove the rdf from the store : " + ex.getMessage(), ex);

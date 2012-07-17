@@ -152,7 +152,11 @@ public class JenaPersistanceResource implements PersistanceResource {
      * @throws PersistanceException
      */
     public String getValueAsString() throws PersistanceException {
-        return resource.asLiteral().getString();
+        if (resource.isLiteral()) {
+            return resource.asLiteral().getString();
+        } else {
+            return resource.asResource().toString();
+        }
     }
     
 
