@@ -109,7 +109,7 @@ public class BasicProperty implements Property {
             if (this.property.getTypeURI().equals(typeIdentifier.toURI())
                     && type.equals(OntologyClass.class)) {
                 return (T)ontologySession.getClass(
-                        resource.getProperty(property.getPersistanceIdentifier()).getURI());
+                        property.getURI());
             } else if (this.property.getTypeURI().equals(typeIdentifier.toURI())
                     && !type.equals(OntologyClass.class)) {
                 throw new ResourceException(
@@ -117,34 +117,34 @@ public class BasicProperty implements Property {
             }
 
             if (type.equals(String.class)) {
-                return (T)resource.getProperty(property.getPersistanceIdentifier()).getValueAsString();
+                return (T)property.getValueAsString();
             } else if (type.equals(Date.class)) {
-                return (T)new Date(resource.getProperty(property.getPersistanceIdentifier()).getValueAsCalendar().getTimeInMillis());
+                return (T)new Date(property.getValueAsCalendar().getTimeInMillis());
             } else if (type.equals(Calendar.class)) {
-                return (T)resource.getProperty(property.getPersistanceIdentifier()).getValueAsCalendar();
+                return (T)property.getValueAsCalendar();
             } else if (type.equals(Integer.class)) {
-                return (T)(Long)resource.getProperty(property.getPersistanceIdentifier()).getValueAsLong();
+                return (T)(Long)property.getValueAsLong();
             } else if (type.equals(int.class)) {
-                return (T)(Integer)(int)resource.getProperty(property.getPersistanceIdentifier()).getValueAsLong();
+                return (T)(Integer)(int)property.getValueAsLong();
             } else if (type.equals(Long.class)) {
-                return (T)(Long) resource.getProperty(property.getPersistanceIdentifier()).getValueAsLong();
+                return (T)(Long) property.getValueAsLong();
             } else if (type.equals(long.class)) {
-                return (T)(Long) resource.getProperty(property.getPersistanceIdentifier()).getValueAsLong();
+                return (T)(Long) property.getValueAsLong();
             } else if (type.equals(Double.class)) {
-                return (T)(Double) resource.getProperty(property.getPersistanceIdentifier()).getValueAsDouble();
+                return (T)(Double) property.getValueAsDouble();
             } else if (type.equals(double.class)) {
-                return (T)(Double) resource.getProperty(property.getPersistanceIdentifier()).getValueAsDouble();
+                return (T)(Double) property.getValueAsDouble();
             } else if (type.equals(Float.class)) {
-                return (T)(Float) resource.getProperty(property.getPersistanceIdentifier()).getValueAsFloat();
+                return (T)(Float) property.getValueAsFloat();
             } else if (type.equals(float.class)) {
-                return (T)(Float) resource.getProperty(property.getPersistanceIdentifier()).getValueAsFloat();
+                return (T)(Float) property.getValueAsFloat();
             } else if (type.equals(boolean.class)) {
-                return (T)(Boolean) resource.getProperty(property.getPersistanceIdentifier()).getValueAsBoolean();
+                return (T)(Boolean) property.getValueAsBoolean();
             } else if (type.equals(Boolean.class)) {
-                return (T)(Boolean) resource.getProperty(property.getPersistanceIdentifier()).getValueAsBoolean();
+                return (T)(Boolean) property.getValueAsBoolean();
             } else {
                 return BasicJDOProxyFactory.createJDOProxy(type,
-                        persistanceSession, resource.getProperty(property.getPersistanceIdentifier()).getValueAsResource(),
+                        persistanceSession, property.getValueAsResource(),
                         ontologySession);
             }
         } catch (ResourceException ex) {
