@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * Product.js
- * @author admin
+ * @author brett chaldecott
  */
 
 var modalAction = 0;
@@ -103,6 +103,32 @@ $(document).ready(function() {
         message: "Must provide icon"
     });
     
+    $("#productDataType").validate({
+        expression: "if (VAL) return true; else return false;",
+        message: "Must provide type"
+    });
+    
+    $("#productCategory").validate({
+        expression: "if (VAL) return true; else return false;",
+        message: "Must select category"
+    });
+    
+    $("#productCategory").validate({
+        expression: "if (VAL) return true; else return false;",
+        message: "Must select category"
+    });
+    
+    
+    $("#productCategory").validate({
+        expression: "if (VAL) return true; else return false;",
+        message: "Must select category"
+    });
+    
+    $("#productVendor").validate({
+        expression: "if (VAL) return true; else return false;",
+        message: "Must provide vendor"
+    });
+    
     $('#productForm').validated(function() {
         
         // hide all error messages
@@ -131,6 +157,8 @@ $(document).ready(function() {
                             '</li>');
                         $("#productThumbnails").append(html.join(""));
                         
+                        $('#productDependency').append('<option value="' + $('#productId').val() + '">'
+                            + $('#productName').val() + '</option>');
                         
                         $('[id^=hoveroverimage]').popover({"placement":"bottom"});
                         
@@ -165,7 +193,7 @@ $(document).ready(function() {
                         $('#modelSuccessResult').show();
                         $('#modelSuccessResultMsg').text('Product update [' + 
                             $('#productId').val() + '] submitted to system.');
-                            
+                        
                         var html = [];
                         html.push(generateThumbnail());
                         $("#productThumbnailEntry" + $('#productId').val()).html(html.join(""));
@@ -200,6 +228,9 @@ $(document).ready(function() {
         $('#productDescription').val('');
         $('#thumbnail').val('');
         $('#icon').val('');
+        $('#productDataType').val('');
+        $('#productJavascriptConfigUrl').val('');
+        $('#productGroovyConfigUrl').val('');
         $('#addProductItem').show();
         $('#updateProductItem').hide();
         $('#productCloseButton').show();
@@ -238,6 +269,25 @@ function updateProduct(productId) {
     $('#productId').val($('#existingProductId' + productId).val());
     $('#productName').val($('#existingProductName' + productId).val());
     $('#productDescription').val($('#existingProductDescription' + productId).val());
+    $('#productDataType').val($('#existingProductDataType' + productId).val());
+    var configList = $('#existingProductConfigManager' + productId).val().split("|");
+    for (var index = 0; index < configList.length ; index++) {
+        var configEntry = configList[index].split(",");
+        $('#product' + configEntry[0] + 'ConfigUrl').val(configEntry[1]);
+    }
+    
+    $('select#productCategory option')
+        .each(function() { this.selected = (this.val == $('#existingProductCategory' + productId).val()); });
+    $('select#productVendor option')
+        .each(function() { this.selected = (this.val == $('#existingProductVendor' + productId).val()); });
+    var dependency = $('#existingDependency' + productId).val();
+    if (dependency !== null && dependency !== '') {
+        $('select#productDependency option')
+            .each(function() { this.selected = (this.val == dependency); });
+    } else {
+        $('select#productDependency option')
+            .each(function() { this.selected = false; });
+    }
     $('#thumbnail').val($('#existingProductThumbnail' + productId).val());
     $('#icon').val($('#existingProductIcon' + productId).val());
     
@@ -276,6 +326,9 @@ function removeProduct(productId) {
  */
 function generateThumbnail() {
     var html = [];
+    
+    var configValues = "Javascript," + $('#productJavascriptConfigUrl').val() + '|Groovy,' + $('#productGroovyConfigUrl').val();
+    
     html.push('<div class="thumbnail" rel="popover"',
             ' data-content="ID: ',$('#productId').val(),
             '<br/>Name: ',$('#productName').val(),
@@ -294,6 +347,11 @@ function generateThumbnail() {
             '<input type="hidden" name="existingProductDescription',$('#productId').val(),'" id="existingProductDescription',$('#productId').val(),'" value="',$('#productDescription').val(),'" />',
             '<input type="hidden" name="existingProductThumbnail',$('#productId').val(),'" id="existingProductThumbnail',$('#productId').val(),'" value="',$('#thumbnail').val(),'" />',
             '<input type="hidden" name="existingProductIcon',$('#productId').val(),'" id="existingProductIcon',$('#productId').val(),'" value="',$('#icon').val(),'" />',
+            '<input type="hidden" name="existingProductDataType',$('#productId').val(),'" id="existingProductDataType',$('#productId').val(),'" value="',$('#productDataType').val(),'" />',
+            '<input type="hidden" name="existingProductConfigManager',$('#productId').val(),'" id="existingProductConfigManager',$('#productId').val(),'" value="',configValues,'" />',
+            '<input type="hidden" name="existingProductCategory',$('#productId').val(),'" id="existingProductCategory',$('#productId').val(),'" value="',$('#productCategory').val(),'" />',
+            '<input type="hidden" name="existingProductVendor',$('#productId').val(),'" id="existingProductVendor',$('#productId').val(),'" value="',$('#productVendor').val(),'" />',
+            '<input type="hidden" name="existingDependency',$('#productId').val(),'" id="existingDependency',$('#productId').val(),'" value="',$('#productDependency').val(),'" />',
             '</form>',
             '</div>',
             '</div>');

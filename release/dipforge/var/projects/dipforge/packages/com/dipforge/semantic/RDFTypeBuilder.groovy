@@ -111,7 +111,7 @@ class RDFTypeBuilder {
                         resource.addProperty(classProperty.getURI().toString(),
                             session.createResource(
                                 typeInstance."${propertyName}".builder.classDef.getURI(),
-                                typeInstance."${propertyName}".builder.classDef.getURI() + "/" + typeInstance."${propertyName}".getId()))
+                                new URI(typeInstance."${propertyName}".builder.classDef.getURI().toString() + "/" + typeInstance."${propertyName}".getId())))
                     }
                 }
             }
@@ -212,11 +212,17 @@ class RDFTypeBuilder {
                     classProperty.getURI().toString())
             } else {
                 def properties = resource.listProperties(classProperty.getURI().toString())
+                log.debug("############### The number of properties retrieve from the store is : "
+                    + properties.size())
                 if (properties.size() == 1) {
+                    if (typeInstance."${propertyName}" == null) {
+                        typeInstance."${propertyName}" = 
+                            RDF.create(classProperty.getType().getURI().toString())
+                    }
                     typeInstance."${propertyName}".builder.populateType(
                         resource.getProperty(Resource.class,
                         classProperty.getURI().toString()));
-                } else if (properties.size() == 1) {
+                } else if (properties.size() > 1) {
                     typeInstance."${propertyName}" = []
                     for (def prop : properties) {
                         def arrayInstance = RDF.create(classProperty.getType().getURI().toString())

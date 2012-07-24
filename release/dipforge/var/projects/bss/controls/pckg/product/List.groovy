@@ -29,12 +29,31 @@ import org.apache.log4j.Logger;
 
 def log = Logger.getLogger("pckg.product.List");
 
-def result = RDF.query("SELECT ?s WHERE {" +
+def products = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + result)
+log.info("query result " + products)
+products.each { prods ->
+    def product = prods[0]
+    log.info("Product id is " + product.getCategory()?.getId());
+    log.info("Product configuration " + product.getConfigurationManager());
+}
 
-PageManager.includeWithResult("list.gsp", request, response, ["products" : result])
+def categories = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category> . " +
+    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#name> ?name . } " +
+    "ORDER BY ?name ")
+
+log.info("query result " + categories)
+
+def vendors = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor> . " +
+    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#name> ?name . } " +
+    "ORDER BY ?name ")
+
+log.info("query result " + vendors)
+
+PageManager.includeWithResult("list.gsp", request, response, ["products" : products, "categories": categories, "vendors": vendors])
 

@@ -75,6 +75,11 @@
         <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
     </type>
+    <type name="ProductConfigManager" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="url" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
     <type name="Product" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="dataType" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -85,18 +90,23 @@
         <link name="dependency" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
         <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="configurationManager" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
     </type>
-    <type name="Package" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Package">
+    <type name="ProductConfig" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="configurationManager" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+        <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+        <property name="data" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    <type name="Pckg" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <link name="target" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
-    </type>
-    <type name="PackageComponent" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/PackageComponent">
-        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
-        <property name="uri" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="package" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Package#Package"/>
+        <link name="pckgTarget" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+        <property name="products" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
     </type>
     <type name="Cost" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -118,7 +128,7 @@
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="Package" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Package#Package"/>
+        <link name="pckg" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#PaPckgckage"/>
         <property name="CostPlan" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CostPlan#CostPlan"/>
         <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
         <property name="status" datatype="http://www.w3.org/2001/XMLSchema#string"/>

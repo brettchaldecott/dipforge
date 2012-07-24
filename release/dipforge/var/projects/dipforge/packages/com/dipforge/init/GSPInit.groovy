@@ -90,7 +90,21 @@ class GSPInit {
             if (!key.matches("(set|get)[A-Z][A-Za-z0-9-]*")) {
                 def upperPropertyName = key.substring(0,1).toUpperCase() + 
                     key.substring(1)
-                result."${key}" = value
+                if (value.getClass().getName().equals("groovy.util.Expando")) {
+                    result."${key}" = reprocessExpando(value)
+                } else if (value.getClass().getName().equals("java.util.ArrayList")) {
+                    def list = []
+                    value.each { entry ->
+                        if (entry.getClass().getName().equals("groovy.util.Expando")) {
+                            list.add(reprocessExpando(entry))
+                        } else {
+                            list.add(entry)
+                        }
+                    }
+                    result."${key}" = list
+                } else {
+                    result."${key}" = value
+                }
                 
                 // add the getter and the setter
                 result."get${upperPropertyName}" = {->

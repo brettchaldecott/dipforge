@@ -23,4 +23,9 @@
     <action name="UpdateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/UpdateProduct.lwf" role="product_manager" />
     <action name="RemoveProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/RemoveProduct.lwf" role="product_manager" />
     
+    <!-- Pckg actions and Flows -->
+    <action name="CreatePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/CreatePckg.lwf" role="package_manager" />
+    <action name="UpdatePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/UpdatePckg.lwf" role="package_manager" />
+    <action name="RemovePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/RemovePckg.lwf" role="package_manager" />
+    
 </actions>

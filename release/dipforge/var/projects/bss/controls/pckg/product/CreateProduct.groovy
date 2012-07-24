@@ -43,10 +43,40 @@ if (result.size() == 0) {
     log.info("Create a new instance of the product")
     def product = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product")
     
+    def category = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category/${params.productCategory}")
+    def vendor = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor/${params.productVendor}")
+    
     log.info("Set the values")
     product.setId(params.productId)
     product.setName(params.productName)
     product.setDescription(params.productDescription)
+    product.setDataType(params.productDataType)
+    
+    // setup the configuration
+    def configuration = []
+    if (params.productJavascriptConfigUrl != null) {
+        def productConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager")
+        productConfig.setId("Javascript:" + params.productId)
+        productConfig.setName("Javascript")
+        productConfig.setUrl(params.productJavascriptConfigUrl)
+        configuration.add(productConfig)
+    }
+    
+    if (params.productGroovyConfigUrl != null) {
+        def productConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager")
+        productConfig.setId("Groovy:" + params.productId)
+        productConfig.setName("Groovy")
+        productConfig.setUrl(params.productGroovyConfigUrl)
+        configuration.add(productConfig)
+    }
+    product.setConfigurationManager(configuration)
+    
+    product.setCategory(category)
+    product.setVendor(vendor)
+    if (params.productDependency != null && params.productDependency != "") {
+        def dependency = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product/${params.productDependency}")
+        product.setDependency(dependency)
+    }
     product.setThumbnail(params.thumbnail)
     product.setIcon(params.icon)
     

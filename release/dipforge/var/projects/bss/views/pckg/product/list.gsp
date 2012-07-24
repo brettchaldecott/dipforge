@@ -24,11 +24,21 @@ Author: brett chaldecott
                             <input type="hidden" name="existingProductName${product.getId()}" id="existingProductName${product.getId()}" value="${product.getName()}" />
                             <input type="hidden" name="existingProductDescription${product.getId()}" id="existingProductDescription${product.getId()}" value="${product.getDescription()}" />
                             <input type="hidden" name="existingProductDataType${product.getId()}" id="existingProductDataType${product.getId()}" value="${product.getDataType()}" />
-                            <input type="hidden" name="existingProductCategory${product.getId()}" id="existingProductCategory${product.getId()}" value="${product.getCategory().getId()}" />
-                            <input type="hidden" name="existingProductVendor${product.getId()}" id="existingProductVendor${product.getId()}" value="${product.getVendor().getId()}" />
+                            <input type="hidden" name="existingProductCategory${product.getId()}" id="existingProductCategory${product.getId()}" value="${product.getCategory()?.getId()}" />
+                            <input type="hidden" name="existingProductVendor${product.getId()}" id="existingProductVendor${product.getId()}" value="${product.getVendor()?.getId()}" />
                             <input type="hidden" name="existingProductThumbnail${product.getId()}" id="existingProductThumbnail${product.getId()}" value="${product.getThumbnail()}" />
-                            <input type="hidden" name="existingDependency${product.getId()}" id="existingDependency${product.getId()}" value="${product.getDependency()}" />
+                            <input type="hidden" name="existingProductIcon${product.getId()}" id="existingProductIcon${product.getId()}" value="${product.getThumbnail()}" />
+                            <input type="hidden" name="existingDependency${product.getId()}" id="existingDependency${product.getId()}" value="${(product.getDependency() == null ? '' : product.getDependency().getId())}" />
                             
+                            <%
+                            def config = ""
+                            def sep = ""
+                            product.getConfigurationManager()?.each { manager ->
+                                config += sep + manager.getName() + "," + manager.getUrl()
+                                sep = "|"
+                            }
+                            %>
+                            <input type="hidden" name="existingProductConfigManager${product.getId()}" id="existingProductConfigManager${product.getId()}" value="${config}" />
                         </form>
                     </div>
                 </div>
@@ -54,51 +64,93 @@ Author: brett chaldecott
         <form class="form-horizontal" id="productForm">
           <fieldset>
             <div class="control-group">
-              <label class="control-label" for="productId">Product ID</label>
+              <label class="control-label" for="productId">ID</label>
               <div class="controls">
                 <input type="text" class="input-large" id="productId" name="productId">
                 <p class="help-block">The id of the new product</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="productName">Product name</label>
+              <label class="control-label" for="productName">Name</label>
               <div class="controls">
                 <input type="text" class="input-large" id="productName" name="productName">
                 <p class="help-block">The id of the product.</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="productDescription">Product description</label>
+              <label class="control-label" for="productDescription">Description</label>
               <div class="controls">
                 <input type="text" class="input-large" id="productDescription" name="productDescription">
                 <p class="help-block">The id of the product.</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="productDataType">Product data type</label>
+              <label class="control-label" for="productDataType">Data type</label>
               <div class="controls">
-                <input type="text" class="input-large" id="productDataType" name="productDataType">
+                <input type="text" class="input-large" id="productDataType" name="productDataType" />
                 <p class="help-block">The product data type.</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="productCategory">Product category</label>
+              <label class="control-label" for="productJavascriptConfigUrl">Javascript config</label>
               <div class="controls">
-                <input type="text" class="input-large" id="productCategory" name="productCategory">
+                <input type="text" class="input-large" id="productJavascriptConfigUrl" name="productJavascriptConfigUrl" />
+                <p class="help-block">The product javascript configuration url.</p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="productGroovyConfigUrl">Groovy config</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="productGroovyConfigUrl" name="productGroovyConfigUrl" />
+                <p class="help-block">The product groovy configuration url.</p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="productCategory">Category</label>
+              <div class="controls">
+                <select class="input-large" id="productCategory" name="productCategory">
+                    <%
+                    params.categories.each { categories ->
+                        def category = categories[0]
+                        %>
+                        <option value="${category.getId()}">${category.getName()}</option>
+                        <%
+                    }
+                    %>
+                </select>
                 <p class="help-block">The product category.</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="productVendor">Product vendor</label>
+              <label class="control-label" for="productVendor">Vendor</label>
               <div class="controls">
-                <input type="text" class="input-large" id="productVendor" name="productVendor">
+                <select class="input-large" id="productVendor" name="productVendor">
+                    <%
+                    params.vendors.each { vendors ->
+                        def vendor = vendors[0]
+                        %>
+                        <option value="${vendor.getId()}">${vendor.getName()}</option>
+                        <%
+                    }
+                    %>
+                </select>
                 <p class="help-block">The product vendor.</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="productDependency">Product dependency</label>
+              <label class="control-label" for="productDependency">Dependency</label>
               <div class="controls">
-                <input type="text" class="input-large" id="productDependency" name="productDependency">
+                <select class="input-large" id="productDependency" name="productDependency">
+                    <option value=""></option>
+                    <%
+                    params.products.each { products ->
+                        def product = products[0]
+                        %>
+                        <option value="${product.getId()}">${product.getName()}</option>
+                        <%
+                    }
+                    %>
+                </select>
                 <p class="help-block">The product dependency.</p>
               </div>
             </div>
