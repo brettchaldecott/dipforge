@@ -332,6 +332,17 @@ public class GroovyExecuter {
             } else {
                 log.error("Failed to set the should recompile flag");
             }
+            
+            // set recompile flags on configuration
+            Method configMethod = groovyScriptEngine.getClass().getMethod("getConfig");
+            Object configClassLoader = configMethod.invoke(groovyScriptEngine);
+            configMethod = GroovyReflectionUtil.getMethod(configClassLoader, "setRecompileGroovySource", boolean.class);
+            if (method != null) {
+                configMethod.invoke(configClassLoader, true);
+            } else {
+                log.error("Failed to set the should recompile flag");
+            }
+            
         } catch (GroovyEnvironmentException ex) {
             throw ex;
         } catch (Throwable ex) {
