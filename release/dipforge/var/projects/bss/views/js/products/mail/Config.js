@@ -50,7 +50,10 @@ var Mail = function() {
         });
     };
     this.populateValues = function(pckgId) {
-        
+        $('#mailQuota').val($('#existingPckgData' + pckgId + 'mail').val());
+    };
+    this.generateInput = function(pckgId) {
+        return '<input type="hidden" name="existingPckgData' + pckgId + 'mail" id="existingPckgData' + pckgId + 'mail" value="' + $('#mailQuota').val() + '" />';
     };
 };
 

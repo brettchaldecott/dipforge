@@ -348,6 +348,14 @@ function removePckg(pckgId) {
  */
 function generateThumbnail() {
     var html = [];
+    var pckgProducts = $('#pckgProducts').val().toString().split(",");
+    var productConfigData = [];
+    $.each(pckgProducts, function(i, productId) {
+        var configObj = productMap[productId];
+        productConfigData.push(configObj.generateInput($('#pckgId').val()));
+    });
+    
+    
     html.push('<div class="thumbnail" rel="popover"',
             ' data-content="ID: ',$('#pckgId').val(),
             '<br/>Name: ',$('#pckgName').val(),
@@ -366,10 +374,10 @@ function generateThumbnail() {
             '<input type="hidden" name="existingPckgDescription',$('#pckgId').val(),'" id="existingPckgDescription',$('#pckgId').val(),'" value="',$('#pckgDescription').val(),'" />',
             '<input type="hidden" name="existingPckgThumbnail',$('#pckgId').val(),'" id="existingPckgThumbnail',$('#pckgId').val(),'" value="',$('#thumbnail').val(),'" />',
             '<input type="hidden" name="existingPckgIcon',$('#pckgId').val(),'" id="existingPckgIcon',$('#pckgId').val(),'" value="',$('#icon').val(),'" />',
-            '<input type="hidden" name="existingPckgDataType',$('#pckgId').val(),'" id="existingPckgDataType',$('#pckgId').val(),'" value="',$('#pckgDataType').val(),'" />',
-            '<input type="hidden" name="existingPckgCategory',$('#pckgId').val(),'" id="existingPckgCategory',$('#pckgId').val(),'" value="',$('#pckgCategory').val(),'" />',
-            '<input type="hidden" name="existingPckgVendor',$('#pckgId').val(),'" id="existingPckgVendor',$('#pckgId').val(),'" value="',$('#pckgVendor').val(),'" />',
-            '<input type="hidden" name="existingDependency',$('#pckgId').val(),'" id="existingDependency',$('#pckgId').val(),'" value="',$('#pckgDependency').val(),'" />',
+            '<input type="hidden" name="existingPckgTarget',$('#pckgId').val(),'" id="existingPckgTarget',$('#pckgId').val(),'" value="',$('#pckgTarget').val(),'" />',
+            '<input type="hidden" name="existingPckgPckgTarget',$('#pckgId').val(),'" id="existingPckgPckgTarget',$('#pckgId').val(),'" value="',$('#pckgPckgTarget').val(),'" />',
+            '<input type="hidden" name="existingPckgProducts',$('#pckgId').val(),'" id="existingPckgProducts',$('#pckgId').val(),'" value="',$('#pckgProducts').val().toString(),'" />',
+            productConfigData.join(''),
             '</form>',
             '</div>',
             '</div>');

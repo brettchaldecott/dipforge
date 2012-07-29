@@ -50,7 +50,10 @@ var Web = function() {
         });
     };
     this.populateValues = function(pckgId) {
-        $('webQuota').val($('#existingPckgData' + pckgId + 'web').val());
+        $('#webQuota').val($('#existingPckgData' + pckgId + 'web').val());
+    };
+    this.generateInput = function(pckgId) {
+        return '<input type="hidden" name="existingPckgData' + pckgId + 'web" id="existingPckgData' + pckgId + 'web" value="' + $('#webQuota').val() + '" />';
     };
 };
 

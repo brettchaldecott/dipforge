@@ -49,6 +49,10 @@ var Domain = function() {
         });
     };
     this.populateValues = function(pckgId) {
-        $('tlds').val($('#existingPckgData' + pckgId + 'domain').val());
+        $('#tlds').val($('#existingPckgData' + pckgId + 'domain').val());
     };
+    this.generateInput = function(pckgId) {
+        return '<input type="hidden" name="existingPckgData' + pckgId + 'domain" id="existingPckgData' + pckgId + 'domain" value="' + $('#tlds').val() + '" />';
+    };
+    
 };
