@@ -30,6 +30,9 @@ Author: brett chaldecott
           if (request.isUserInRole("package_manager")) { %>
           <li class="${params.menuItem == "catalog" ? "active" : ""}"><a href="catalog.gsp"><i class="icon-gift"></i>Catalog Configuration</a></li>
           <% } 
+          if (request.isUserInRole("isp_manager")) { %>
+          <li class="${params.menuItem == "setup" ? "active" : ""}"><a href="setup.gsp"><i class="icon-play"></i>Setup</a></li>
+          <% } 
           if (params.menuItem == "category") {%>
           <li class="nav-header">Category Management</li>
           <li><a data-toggle="modal" href="#categoryModal"><i class="icon-plus"></i>Add Category</a></li>
@@ -45,6 +48,9 @@ Author: brett chaldecott
           <% } else if (params.menuItem == "offering") { %>
           <li class="nav-header">Offering Management</li>
           <li><a href="#"><i class="icon-plus"></i>Add Offering</a></li>
+          <% } else if (params.menuItem == "setup") { %>
+          <li class="nav-header">ISP Management</li>
+          <li><a data-toggle="modal" href="#setupModal"><i class="icon-play"></i>Setup</a></li>
           <% } %>
         </ul>
       </div><!--/.well -->

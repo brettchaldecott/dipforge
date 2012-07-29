@@ -1,6 +1,6 @@
 /*
- * bss: Description
- * Copyright (C) Wed Jun 27 05:43:23 SAST 2012 owner 
+ * bss: The list controller for the setup functionality
+ * Copyright (C) Wed Jul 25 06:29:11 SAST 2012 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,21 +20,13 @@
  * @author brett chaldecott
  */
 
-package pckg.pckg
+package pckg.setup
 
 import com.dipforge.utils.PageManager;
 import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
-
-def log = Logger.getLogger("pckg.pckg.List");
-
-def pckgs = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#name> ?name . } " +
-    "ORDER BY ?name ")
-
-log.info("query result " + pckgs)
+def log = Logger.getLogger("pckg.vendor.List");
 
 def products = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product> . " +
@@ -43,5 +35,19 @@ def products = RDF.query("SELECT ?s WHERE {" +
 
 log.info("query result " + products)
 
-PageManager.includeWithResult("list.gsp", request, response, ["pckgs" : pckgs, "products": products])
+def categories = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category> . " +
+    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#name> ?name . } " +
+    "ORDER BY ?name ")
+
+log.info("query result " + categories)
+
+def vendors = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor> . " +
+    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#name> ?name . } " +
+    "ORDER BY ?name ")
+
+log.info("query result " + vendors)
+
+PageManager.includeWithResult("list.gsp", request, response, ["products": products, "categories": categories, "vendors": vendors])
 

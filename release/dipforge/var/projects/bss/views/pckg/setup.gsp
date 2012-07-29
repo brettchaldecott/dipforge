@@ -19,6 +19,7 @@
       }
     </style>
     <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../chosen/chosen.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -30,12 +31,20 @@
 
     <% PageManager.includeWithResult("Menu.groovy", request, response, ["menuItem" : "package","contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "configuration","contextBase":"../"]) %>
+    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "setup","contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("pckg/List.groovy", request, response, ["contextBase":"../"]) %>
+    <% PageManager.includeWithResult("setup/List.groovy", request, response, ["contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "configuration","contextBase":"../"]) %>
+    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "setup","contextBase":"../"]) %>
     
+    <script src="../chosen/chosen.jquery.js"></script>
+    <script src="../js/pckg/Setup.js"></script>
+    
+    <script>
+        
+        
+        
+    </script>
     
   </body>
 </html>

@@ -31,11 +31,16 @@ Author: brett chaldecott
                             def products = ""
                             def sep = ""
                             pckg.getProducts()?.each {product ->
-                                products += sep + product.getId();
+                                def productId = product.getProduct().getId();
+                                products += sep + productId;
                                 sep = ","
+                                %>
+                                <input type="hidden" name="existingPckgData${pckg.getId()}${productId}" id="existingPckgData${pckg.getId()}${productId}" value="${product.getData()}" />
+                                <%
                             }
                             %>
                             <input type="hidden" name="existingPckgProducts${pckg.getId()}" id="existingPckgProducts${pckg.getId()}" value="${products}" />
+                            
                             
                         </form>
                     </div>
@@ -100,6 +105,7 @@ Author: brett chaldecott
               <label class="control-label" for="pckgTarget">Target</label>
               <div class="controls">
                 <select class="input-large" id="pckgTarget" name="pckgTarget">
+                    <option value="">None</option>
                     <%
                     params.products.each { products ->
                         def product = products[0]
@@ -116,6 +122,7 @@ Author: brett chaldecott
               <label class="control-label" for="pckgPckgTarget">Package Target</label>
               <div class="controls">
                 <select class="input-large" id="pckgPckgTarget" name="pckgPckgTarget">
+                    <option value="">None</option>
                     <%
                     params.pckgs.each { pckgs ->
                         def pckg = pckgs[0]
@@ -145,6 +152,9 @@ Author: brett chaldecott
               </div>
             </div>
         </fieldset>
+        <div id="productConfigDiv">
+            
+        </div>
         </form>
         <div id="modelDataErrorResult" style="display:none;">
             <div class="alert fade in alert-error">
@@ -200,5 +210,29 @@ Author: brett chaldecott
     </div>
 </div>
 
+<script type="text/javascript">
+var productMap = {};
+</script>
     
-    
+<!-- Le javascript
+================================================== -->
+<!-- Due to include structure Javascript placed at top of document -->
+<script src="../jquery/jquery-1.7.2.min.js"></script>
+<script src="../jquery/jquery.validate.js"></script>
+<script src="../bootstrap/js/bootstrap.js"></script>
+<script src="../utils/Tools.js"></script>
+<script src="../js/pckg/Pckg.js"></script>
+
+<!-- This is the package configuration utilities -->
+<%
+params.products.each { products ->
+    def product = products[0]
+    def config = ""
+    product.getConfigurationManager()?.each { manager ->
+        if (manager.getName() == "Javascript") {
+            %><script src="../${manager.getUrl()}"></script>
+<%
+            return;
+        }
+    }
+}%>

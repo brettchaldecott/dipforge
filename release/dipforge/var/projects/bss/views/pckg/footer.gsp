@@ -15,6 +15,9 @@ Author: Brett Chaldecott
     </div>    
     
     
+<%
+if (params.menuItem != "configuration") {%>
+      
     <!-- Le javascript
     ================================================== -->
     <!-- Due to include structure Javascript placed at top of document -->
@@ -22,7 +25,8 @@ Author: Brett Chaldecott
     <script src="../jquery/jquery.validate.js"></script>
     <script src="../bootstrap/js/bootstrap.js"></script>
     
-    
+    <%
+} %>
 
     
     

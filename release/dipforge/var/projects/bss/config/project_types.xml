@@ -94,7 +94,6 @@
     </type>
     <type name="ProductConfig" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="configurationManager" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
         <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
         <property name="data" datatype="http://www.w3.org/2001/XMLSchema#string"/>
     </type>

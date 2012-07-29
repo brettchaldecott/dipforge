@@ -12,7 +12,7 @@ Author: brett chaldecott
             %>
             <li class="span3" id="productThumbnailEntry${product.getId()}">
                 <div class="thumbnail" rel="popover" 
-                    data-content="ID: ${product.getId()}<br/>Name: ${product.getName()}<br/>Description: ${product.getDescription()}<br/>Thumbnail: ${product.getThumbnail()}<br/>Icon: ${product.getIcon()}<br/>"
+                    data-content="ID: ${product.getId()}<br/>Name: ${product.getName()}<br/>Description: ${product.getDescription()}<br/>Thumbnail: ${product.getThumbnail()}<br/>Icon: ${product.getIcon()}<br/>Data type: ${product.getDataType()}<br/>Category : ${product.getCategory()?.getName()}<br/>Vendor : ${product.getVendor()?.getName()}<br/>Dependency : ${(product.getDependency() == null ? '' : product.getDependency().getName())}<br/>"
                     data-original-title="${product.getName()}" id="hoveroverimage${product.getId()}">
                     <img src="${params.contextBase}${product.getThumbnail()}" alt="${product.getDescription()}">
                     <div class="caption">

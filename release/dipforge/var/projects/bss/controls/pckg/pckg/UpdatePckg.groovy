@@ -41,25 +41,48 @@ def result = RDF.query("SELECT ?s WHERE {" +
 if (result.size() >= 1) {
     def pckg = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg/${params.pckgId}")
     
-    def category = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category/${params.pckgCategory}")
-    def vendor = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor/${params.pckgVendor}")
-    
     log.info("Set the values")
+    pckg.setId(params.pckgId)
     pckg.setName(params.pckgName)
     pckg.setDescription(params.pckgDescription)
-    pckg.setDataType(params.pckgDataType)
-    pckg.setCategory(category)
-    pckg.setVendor(vendor)
-    if (params.pckgDependency != null && params.pckgDependency != "") {
-        def dependency = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg/${params.pckgDependency}")
-        pckg.setDependency(dependency)
-    }
     pckg.setThumbnail(params.thumbnail)
     pckg.setIcon(params.icon)
+    if (pckg.pckgTarget != null && pckg.pckgTarget != "" && pckg.pckgTarget != "null") {
+        def target = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product/${params.pckgTarget}")
+        if (target == null) {
+            print "Fail: the target ${params.pckgTarget} does not exist"
+            return;
+        }
+        pckg.setTarget(target)
+    }
+    if (pckg.pckgPckgTarget != null && pckg.pckgPckgTarget != "" && pckg.pckgPckgTarget != "null") {
+        def pckgTarget = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg/${params.pckgPckgTarget}")
+        if (target == null) {
+            print "Fail: the package target ${params.pckgPckgTarget} does not exist"
+            return;
+        }
+        pckg.setPckgTarget(pckgTarget)
+    }
     
-    log.info("######  Init the request : " + pckg.toXML())
-    RequestHandler.getInstance("bss", "UpdatePckg", pckg).makeRequest()
+    def products = []
+    params.pckgProducts?.each { productId ->
+        def product = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product/${productId}")
+        product.getConfigurationManager()?.each{ config ->
+            if (config.getName() == "Groovy") {
+                def configObject = this.class.classLoader.loadClass( config.getUrl(), true, false )?.newInstance()
+                def pckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+                pckgConfig.setId(productId + ":" + params.pckgId)
+                pckgConfig.setProduct(product)
+                pckgConfig.setData(configObject."generateData"(params))
+                products.add(pckgConfig)
+                return
+            }
+        }
+    }
+    pckg.setProducts(products)
     
+    log.info("##### Init the request : " + pckg.toXML())
+    RequestHandler.getInstance("bss", "CreatePckg", pckg).makeRequest()
     print "success"
 } else {
     print "Fail: No pckg [${params.pckgId}] found"

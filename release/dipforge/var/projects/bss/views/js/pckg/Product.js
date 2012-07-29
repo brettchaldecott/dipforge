@@ -277,13 +277,13 @@ function updateProduct(productId) {
     }
     
     $('select#productCategory option')
-        .each(function() { this.selected = (this.val == $('#existingProductCategory' + productId).val()); });
+        .each(function() { this.selected = (this.value == $('#existingProductCategory' + productId).val()); });
     $('select#productVendor option')
-        .each(function() { this.selected = (this.val == $('#existingProductVendor' + productId).val()); });
+        .each(function() { this.selected = (this.value == $('#existingProductVendor' + productId).val()); });
     var dependency = $('#existingDependency' + productId).val();
-    if (dependency !== null && dependency !== '') {
+    if (dependency) {
         $('select#productDependency option')
-            .each(function() { this.selected = (this.val == dependency); });
+            .each(function() { this.selected = (this.value == dependency); });
     } else {
         $('select#productDependency option')
             .each(function() { this.selected = false; });
