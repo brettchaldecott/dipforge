@@ -25,23 +25,40 @@ package pckg.pckg
 import com.dipforge.utils.PageManager;
 import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
+import java.util.Date;
 
-
-def log = Logger.getLogger("pckg.pckg.List");
+def start = new Date();
+def log = Logger.getLogger("com.dipforge.log.pckg.pckg.List");
 
 def pckgs = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + pckgs)
+// perform a pre-load of the 
+pckgs.each { ps ->
+    def pckg = ps[0]
+    log.debug("Pckg target " + pckg.getTarget());
+    log.debug("Pckg configuration " + pckg.getPckgTarget());
+    pckg.getProducts()?.each {product ->
+        product.getProduct()
+    }
+}
+
+
+def packageQuery = new Date();
+log.debug("query result " + pckgs)
 
 def products = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#name> ?name . } " +
     "ORDER BY ?name ")
-
-log.info("query result " + products)
+def productQuery = new Date();
+log.debug("query result " + products)
 
 PageManager.includeWithResult("list.gsp", request, response, ["pckgs" : pckgs, "products": products])
+def listPage = new Date();
 
+log.info("Package Query ${packageQuery.getTime() - start.getTime()}")
+log.info("Product Query ${productQuery.getTime() - packageQuery.getTime()}")
+log.info("List page ${listPage.getTime() - productQuery.getTime()}")

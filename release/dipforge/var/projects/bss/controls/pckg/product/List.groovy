@@ -27,18 +27,19 @@ import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
 
-def log = Logger.getLogger("pckg.product.List");
+def log = Logger.getLogger("com.dipforge.log.pckg.product.List");
 
 def products = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + products)
+log.debug("query result " + products)
 products.each { prods ->
     def product = prods[0]
-    log.info("Product id is " + product.getCategory()?.getId());
-    log.info("Product configuration " + product.getConfigurationManager());
+    log.debug("Product id is " + product.getCategory()?.getId());
+    log.debug("Product configuration " + product.getConfigurationManager());
+    log.debug("Product dependancy " + product.getDependency());
 }
 
 def categories = RDF.query("SELECT ?s WHERE {" +
@@ -46,14 +47,14 @@ def categories = RDF.query("SELECT ?s WHERE {" +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + categories)
+log.debug("query result " + categories)
 
 def vendors = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + vendors)
+log.debug("query result " + vendors)
 
 PageManager.includeWithResult("list.gsp", request, response, ["products" : products, "categories": categories, "vendors": vendors])
 

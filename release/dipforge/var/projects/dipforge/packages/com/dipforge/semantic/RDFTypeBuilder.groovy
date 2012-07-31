@@ -211,23 +211,40 @@ class RDFTypeBuilder {
                 typeInstance."${propertyName}" = resource.getProperty(Date.class,
                     classProperty.getURI().toString())
             } else {
-                def properties = resource.listProperties(classProperty.getURI().toString())
-                log.debug("############### The number of properties retrieve from the store is : "
-                    + properties.size())
-                if (properties.size() == 1) {
-                    if (typeInstance."${propertyName}" == null) {
-                        typeInstance."${propertyName}" = 
-                            RDF.create(classProperty.getType().getURI().toString())
+                if (classProperty.hasRange()) {
+                    def properties = resource.listProperties(classProperty.getURI().toString())
+                    log.debug("############### The number of properties retrieve from the store is : "
+                        + properties.size())
+                    if (properties.size() == 1) {
+                        if (typeInstance."${propertyName}" == null) {
+                            typeInstance."${propertyName}" = 
+                                RDF.create(classProperty.getType().getURI().toString())
+                        }
+                        typeInstance."${propertyName}".builder.populateType(
+                            resource.getProperty(Resource.class,
+                            classProperty.getURI().toString()));
+                    } else if (properties.size() > 1) {
+                        typeInstance."${propertyName}" = []
+                        for (def prop : properties) {
+                            def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
+                            arrayInstance.builder.populateType(prop.get(Resource.class));
+                            typeInstance."${propertyName}".add(arrayInstance)
+                        }
                     }
-                    typeInstance."${propertyName}".builder.populateType(
-                        resource.getProperty(Resource.class,
-                        classProperty.getURI().toString()));
-                } else if (properties.size() > 1) {
-                    typeInstance."${propertyName}" = []
-                    for (def prop : properties) {
-                        def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
-                        arrayInstance.builder.populateType(prop.get(Resource.class));
-                        typeInstance."${propertyName}".add(arrayInstance)
+                } else {
+                    def upperPropertyName = propertyName.substring(0,1).toUpperCase() + 
+                            propertyName.substring(1)
+                    
+                    typeInstance."${propertyName}classProperty" = classProperty;
+                    typeInstance."${propertyName}classResource" = resource;
+                    // add the getter and the setter
+                    typeInstance."get${upperPropertyName}" = {->
+                        if (typeInstance."${propertyName}" == null) {
+                            typeInstance.builder.onDemandPopulate(
+                                typeInstance."${propertyName}classResource", 
+                                typeInstance."${propertyName}classProperty")
+                        }
+                        return typeInstance."${propertyName}"
                     }
                 }
             }
@@ -240,6 +257,31 @@ class RDFTypeBuilder {
         
     }
     
+    /**
+     * This method is called on demand to populate an instance.
+     */
+    private void onDemandPopulate(Resource resource, def classProperty) {
+        log.info("############### The on demand load : "
+            + properties.size())
+        def propertyName = classProperty.getLocalname()
+        def properties = resource.listProperties(classProperty.getURI().toString())
+        if (properties.size() == 1) {
+            if (typeInstance."${propertyName}" == null) {
+                typeInstance."${propertyName}" = 
+                    RDF.create(classProperty.getType().getURI().toString())
+            }
+            typeInstance."${propertyName}".builder.populateType(
+                resource.getProperty(Resource.class,
+                classProperty.getURI().toString()));
+        } else if (properties.size() > 1) {
+            typeInstance."${propertyName}" = []
+            for (def prop : properties) {
+                def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
+                arrayInstance.builder.populateType(prop.get(Resource.class));
+                typeInstance."${propertyName}".add(arrayInstance)
+            }
+        }
+    }
     
     /**
      * This method creates the type methods.
@@ -339,6 +381,9 @@ class RDFTypeBuilder {
         // generate a default id for properties
         typeInstance."id" = RandomGuid.getInstance().getGuid()
     }
+    
+    
+    
 }
 
 

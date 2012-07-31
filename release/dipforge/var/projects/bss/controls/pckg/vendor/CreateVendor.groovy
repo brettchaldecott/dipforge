@@ -31,7 +31,7 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.vendor.CreateVendor");
+def log = Logger.getLogger("com.dipforge.log.pckg.vendor.CreateVendor");
 
 log.info("Parameters : " + params)
 

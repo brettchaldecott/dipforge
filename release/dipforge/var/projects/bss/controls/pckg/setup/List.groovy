@@ -26,28 +26,28 @@ import com.dipforge.utils.PageManager;
 import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
-def log = Logger.getLogger("pckg.vendor.List");
+def log = Logger.getLogger("com.dipforge.log.pckg.vendor.List");
 
 def products = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + products)
+log.debug("query result " + products)
 
 def categories = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + categories)
+log.debug("query result " + categories)
 
 def vendors = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + vendors)
+log.debug("query result " + vendors)
 
 PageManager.includeWithResult("list.gsp", request, response, ["products": products, "categories": categories, "vendors": vendors])
 

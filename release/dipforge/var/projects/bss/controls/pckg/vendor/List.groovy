@@ -29,14 +29,14 @@ import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
 
-def log = Logger.getLogger("pckg.vendor.List");
+def log = Logger.getLogger("com.dipforge.log.pckg.vendor.List");
 
 def result = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#name> ?name . } " +
     "ORDER BY ?name ")
 
-log.info("query result " + result)
+log.debug("query result " + result)
 
 PageManager.includeWithResult("list.gsp", request, response, ["vendors" : result])
 

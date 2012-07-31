@@ -29,9 +29,9 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.product.UpdateProduct");
+def log = Logger.getLogger("com.dipforge.log.pckg.product.UpdateProduct");
 
-log.info("Parameters : " + params)
+log.debug("Parameters : " + params)
 
 // perform a check for a duplicate
 def result = RDF.query("SELECT ?s WHERE {" +
@@ -44,7 +44,7 @@ if (result.size() >= 1) {
     def category = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category/${params.productCategory}")
     def vendor = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor/${params.productVendor}")
     
-    log.info("Set the values")
+    log.debug("Set the values")
     product.setName(params.productName)
     product.setDescription(params.productDescription)
     product.setDataType(params.productDataType)
@@ -77,7 +77,7 @@ if (result.size() >= 1) {
     product.setThumbnail(params.thumbnail)
     product.setIcon(params.icon)
     
-    log.info("######  Init the request : " + product.toXML())
+    log.debug("######  Init the request : " + product.toXML())
     RequestHandler.getInstance("bss", "UpdateProduct", product).makeRequest()
     
     print "success"

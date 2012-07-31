@@ -30,9 +30,9 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.product.CreateProduct");
+def log = Logger.getLogger("com.dipforge.log.pckg.product.CreateProduct");
 
-log.info("Parameters : " + params)
+log.debug("Parameters : " + params)
 
 // perform a check for a duplicate
 def result = RDF.query("SELECT ?s WHERE {" +
@@ -40,13 +40,13 @@ def result = RDF.query("SELECT ?s WHERE {" +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#id> ?id . "+
     "FILTER (?id = \"${params.productId}\")}")
 if (result.size() == 0) {
-    log.info("Create a new instance of the product")
+    log.debug("Create a new instance of the product")
     def product = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product")
     
     def category = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category/${params.productCategory}")
     def vendor = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor/${params.productVendor}")
     
-    log.info("Set the values")
+    log.debug("Set the values")
     product.setId(params.productId)
     product.setName(params.productName)
     product.setDescription(params.productDescription)
@@ -80,7 +80,7 @@ if (result.size() == 0) {
     product.setThumbnail(params.thumbnail)
     product.setIcon(params.icon)
     
-    log.info("##### Init the request : " + product.toXML())
+    log.debug("##### Init the request : " + product.toXML())
     RequestHandler.getInstance("bss", "CreateProduct", product).makeRequest()
     print "success"
 } else {

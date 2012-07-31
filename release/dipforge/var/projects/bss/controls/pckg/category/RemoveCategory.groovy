@@ -29,9 +29,9 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.category.RemoveCategory");
+def log = Logger.getLogger("com.dipforge.log.pckg.category.RemoveCategory");
 
-log.info("Parameters : " + params)
+log.debug("Parameters : " + params)
 
 // perform a check for a duplicate
 def result = RDF.query("SELECT ?s WHERE {" +
@@ -43,7 +43,7 @@ if (result.size() >= 1) {
     def category = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category/${params.categoryId}")
     
     
-    log.info("##### Init the request : " + category.toXML())
+    log.degug("##### Init the request : " + category.toXML())
     
     RequestHandler.getInstance("bss", "RemoveCategory", category).makeRequest()
     

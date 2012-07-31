@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 
 def tree = []
 def builder = new JsonBuilder()
-def log = Logger.getLogger("files.EntityManagementList");
+def log = Logger.getLogger("com.dipforge.log.files.EntityManagementList");
 
 log.info("Hello from entity type list : " + params)
 
@@ -57,6 +57,6 @@ if (params.node == "root") {
     
 }
 
-log.info("Tree " + tree)
+log.debug("Tree " + tree)
 builder(tree)
 println builder.toString()

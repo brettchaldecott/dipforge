@@ -29,7 +29,7 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.setup.Setup");
+def log = Logger.getLogger("com.dipforge.log.pckg.setup.Setup");
 
 // setup the domain category
 def domain = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category")

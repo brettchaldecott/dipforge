@@ -30,7 +30,7 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.category.CreateCategory");
+def log = Logger.getLogger("com.dipforge.log.pckg.category.CreateCategory");
 
 log.info("Parameters : " + params)
 
@@ -48,7 +48,7 @@ if (result.size() == 0) {
     category.setThumbnail(params.thumbnail)
     category.setIcon(params.icon)
     
-    log.info("##### Init the request : " + category.toXML())
+    log.debug("##### Init the request : " + category.toXML())
     RequestHandler.getInstance("bss", "CreateCategory", category).makeRequest()
     
     print "success"

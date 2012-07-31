@@ -31,9 +31,9 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.vendor.RemoveVendor");
+def log = Logger.getLogger("com.dipforge.log.pckg.vendor.RemoveVendor");
 
-log.info("Parameters : " + params)
+log.debug("Parameters : " + params)
 
 // perform a check for a duplicate
 def result = RDF.query("SELECT ?s WHERE {" +
@@ -41,10 +41,10 @@ def result = RDF.query("SELECT ?s WHERE {" +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#id> ?id . "+
     "FILTER (?id = \"${params.vendorId}\")}")
 if (result.size() >= 1) {
-    log.info("Before callign get from store")
+    log.debug("Before callign get from store")
     def vendor = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor/${params.vendorId}")
     
-    log.info("##### Init the request : " + vendor.toXML())
+    log.debug("##### Init the request : " + vendor.toXML())
     
     RequestHandler.getInstance("bss", "RemoveVendor", vendor).makeRequest()
     

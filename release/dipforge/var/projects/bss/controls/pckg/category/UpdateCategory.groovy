@@ -29,9 +29,9 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("pckg.category.UpdateCategory");
+def log = Logger.getLogger("com.dipforge.log.pckg.category.UpdateCategory");
 
-log.info("Parameters : " + params)
+log.debug("Parameters : " + params)
 
 // perform a check for a duplicate
 def result = RDF.query("SELECT ?s WHERE {" +
@@ -46,7 +46,7 @@ if (result.size() >= 1) {
     category.setThumbnail(params.thumbnail)
     category.setIcon(params.icon)
     
-    log.info("######  Init the request : " + category.toXML())
+    log.debug("######  Init the request : " + category.toXML())
     RequestHandler.getInstance("bss", "UpdateCategory", category).makeRequest()
     
     print "success"
