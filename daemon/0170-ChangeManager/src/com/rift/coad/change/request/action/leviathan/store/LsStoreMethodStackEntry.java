@@ -42,6 +42,7 @@ import com.rift.dipforge.rdf.store.master.StoreActions;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -228,7 +229,6 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
                         }
                         continue;
                     }
-
                     String propertyType = property.getType().getURI().toString();
                     if (propertyType.equals(
                             XSDDataDictionary.getTypeByName(
@@ -274,12 +274,17 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_BYTE).getURI().toString())) {
                         resultResource.addProperty(propertyURI,
-                                    propertyValue.get(Short.class));
+                                    propertyValue.get(Byte.class));
                     } else if (propertyType.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_DATE).getURI().toString())) {
                         resultResource.addProperty(propertyURI,
-                                    propertyValue.get(Short.class));
+                                    propertyValue.get(Date.class));
+                    } else if (propertyType.equals(
+                            XSDDataDictionary.getTypeByName(
+                            XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
+                        resultResource.addProperty(propertyURI,
+                                    propertyValue.get(Date.class));
                     } else {
                         log.info("#### add new resource " + 
                                 propertyValue.get(Resource.class).getURI().toString());

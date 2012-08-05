@@ -177,6 +177,11 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
                             XSDDataDictionary.XSD_DATE).getURI().toString())) {
                         this.getParent().setResult(
                                 resource.getProperty(Date.class, property.getURI().toString()));
+                    } else if (propertyType.equals(
+                            XSDDataDictionary.getTypeByName(
+                            XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
+                        this.getParent().setResult(
+                                resource.getProperty(Date.class, property.getURI().toString()));
                     } else {
                         String stringUri = resource.getURI().toString();
                         this.getParent().setResult(new LsActionRDFProperty(
