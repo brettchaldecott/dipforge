@@ -42,9 +42,10 @@ public class JavaRDFTypeMapping {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_FLOAT);
             } else if (javaType.equals(Byte.class) || javaType.equals(byte.class)) {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_BYTE);
-            } else if (Calendar.class.isAssignableFrom(javaType) || 
-                    Date.class.isAssignableFrom(javaType)) {
+            } else if (Calendar.class.isAssignableFrom(javaType)) {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DATE);
+            } else if (Date.class.isAssignableFrom(javaType)) {
+                return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DATE_TIME);
             }
             return new JDODataType(new NamespaceHelper(javaType).getNamespace(),
                     new LocalNameHelper(javaType).getLocalName());
