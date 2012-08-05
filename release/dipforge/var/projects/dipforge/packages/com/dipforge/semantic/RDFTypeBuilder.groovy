@@ -89,7 +89,99 @@ class RDFTypeBuilder {
             if (XSDDataDictionary.isBasicTypeByURI(classProperty.getType().getURI().toString())) {
                 log.debug("URI [" + classProperty.getURI().toString() + "][" + 
                     typeInstance."${propertyName}" + "]")
-                resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                def propertyType = classProperty.getType().getURI().toString();
+                if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_STRING).getURI().toString())) {
+                    resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof Boolean || 
+                        typeInstance."${propertyName}".getClass().equals(boolean.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Boolean.parseBoolean(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_FLOAT).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof Float || 
+                        typeInstance."${propertyName}".getClass().equals(float.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Float.parseFloat(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof Double || 
+                        typeInstance."${propertyName}".getClass().equals(double.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Double.parseDouble(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof Integer || 
+                        typeInstance."${propertyName}".getClass().equals(int.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Integer.parseInt(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_LONG).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof Long || 
+                        typeInstance."${propertyName}".getClass().equals(long.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Long.parseLong(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_INT).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof Integer || 
+                        typeInstance."${propertyName}".getClass().equals(int.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Integer.parseInt(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_SHORT).getURI().toString())) {
+                    if ((typeInstance."${propertyName}" instanceof Short) || 
+                        typeInstance."${propertyName}".getClass().equals(short.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Short.parseShort(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_BYTE).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof Byte) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            Byte.parseByte(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                    resource.addProperty(classProperty.getURI().toString(),(Date)typeInstance."${propertyName}")
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
+                    resource.addProperty(classProperty.getURI().toString(),(Date)typeInstance."${propertyName}")
+                }
             } else {
                 if (typeInstance."${propertyName}" instanceof java.util.List) {
                     for (def item : typeInstance."${propertyName}") {
@@ -208,6 +300,11 @@ class RDFTypeBuilder {
             } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                typeInstance."${propertyName}" = resource.getProperty(Date.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
                 typeInstance."${propertyName}" = resource.getProperty(Date.class,
                     classProperty.getURI().toString())
             } else {
@@ -343,6 +440,10 @@ class RDFTypeBuilder {
             } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                typeInstance."${propertyName}" = new Date()
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
                 typeInstance."${propertyName}" = new Date()
             } else {
                 if (classProperty.hasRange()) {

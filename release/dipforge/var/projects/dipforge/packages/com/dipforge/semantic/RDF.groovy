@@ -226,6 +226,10 @@ class RDF {
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_DATE).getURI().toString())) {
                         row.add(record.get(Date.class,i))
+                    } else if (dataTypeURI.equals(
+                            XSDDataDictionary.getTypeByName(
+                            XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
+                        row.add(record.get(Date.class,i))
                     } else {
                         def rdfResult = create(session,record.getType(i).getURI().toString());
                         Resource resource = record.get(Resource.class,i)
@@ -304,6 +308,10 @@ class RDF {
                     } else if (dataTypeURI.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                        row.add(record.get(Date.class,i))
+                    } else if (dataTypeURI.equals(
+                            XSDDataDictionary.getTypeByName(
+                            XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
                         row.add(record.get(Date.class,i))
                     } else {
                         def rdfResult = create(session,record.getType(i).getURI().toString());

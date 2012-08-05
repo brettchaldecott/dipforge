@@ -28,4 +28,9 @@
     <action name="UpdatePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/UpdatePckg.lwf" role="package_manager" />
     <action name="RemovePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/RemovePckg.lwf" role="package_manager" />
     
+    <!-- Pckg actions and Flows -->
+    <action name="CreateOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/CreateOffering.lwf" role="package_manager" />
+    <action name="UpdateOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/UpdateOffering.lwf" role="package_manager" />
+    <action name="RemoveOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/RemoveOffering.lwf" role="package_manager" />
+    
 </actions>

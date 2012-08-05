@@ -47,7 +47,7 @@ Author: brett chaldecott
           <li><a data-toggle="modal" href="#pckgModal"><i class="icon-plus"></i>Add Package</a></li>
           <% } else if (params.menuItem == "offering") { %>
           <li class="nav-header">Offering Management</li>
-          <li><a href="#"><i class="icon-plus"></i>Add Offering</a></li>
+          <li><a data-toggle="modal" href="#offeringModal"><i class="icon-plus"></i>Add Offering</a></li>
           <% } else if (params.menuItem == "setup") { %>
           <li class="nav-header">ISP Management</li>
           <li><a data-toggle="modal" href="#setupModal"><i class="icon-play"></i>Setup</a></li>
