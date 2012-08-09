@@ -48,6 +48,7 @@ if (result.size() >= 1) {
     offering.setThumbnail(params.thumbnail)
     offering.setIcon(params.icon)
     offering.setPckg(RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg/${params.offeringPackage}"))
+    offering.setCatalog(RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry/${params.offeringCatalog}"))
     
     // setup costing
     def costs = []
@@ -75,8 +76,8 @@ if (result.size() >= 1) {
     offering.setCreated(new java.util.Date());
     offering.setStatus("active");
     
-    log.info("##### Init the request : " + offering.toXML())
-    log.info("##### Package xml : " + offering.getPckg().toXML())
+    log.debug("##### Init the request : " + offering.toXML())
+    log.debug("##### Package xml : " + offering.getPckg().toXML())
     RequestHandler.getInstance("bss", "UpdateOffering", offering).makeRequest()
     print "success"
 } else {

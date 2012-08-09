@@ -44,8 +44,7 @@ import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 class RDF {
     // private member variables    
     static def log = Logger.getLogger("com.dipforge.semantic.RDF");
-    
-    
+        
     /**
      * This method is responsible for creating a new type object identified by
      * the uri.

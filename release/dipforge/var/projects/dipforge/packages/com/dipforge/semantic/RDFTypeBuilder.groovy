@@ -192,7 +192,8 @@ class RDFTypeBuilder {
                             resource.addProperty(classProperty.getURI().toString(),
                                 session.createResource(
                                     item.builder.classDef.getURI(),
-                                    item.builder.classDef.getURI() + "/" + item.getId()))
+                                    new URI(item.builder.classDef.getURI().toString() + "/" + item.getId())))
+                            
                         }
                     }
                 } else {

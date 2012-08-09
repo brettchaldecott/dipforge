@@ -33,7 +33,11 @@ $(document).ready(function() {
             success: function(data) {
                 $('#setupModelMsg').hide();
                 $('#setupModelSuccessMsg').show();
-                $('#setupModelErrorMsg').hide();      
+                $('#setupModelErrorMsg').hide();    
+                $('#setupSubmit').hide();
+                $('#setupCloseButton').hide();
+                
+                
                 
                 // delay and hide the modal
                 setTimeout(function () {
@@ -46,6 +50,11 @@ $(document).ready(function() {
                 $('#setupModelErrorMsg').show();
             }
         })
+    });
+    
+    $('#setupModal').on('hidden', function () {
+        $('#setupSubmit').show();
+        $('#setupCloseButton').show();
     });
 });
 

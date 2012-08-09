@@ -26,6 +26,7 @@ Author: brett chaldecott
                             <input type="hidden" name="existingOfferingThumbnail${offering.getId()}" id="existingOfferingThumbnail${offering.getId()}" value="${offering.getThumbnail()}" />
                             <input type="hidden" name="existingOfferingIcon${offering.getId()}" id="existingOfferingIcon${offering.getId()}" value="${offering.getThumbnail()}" />
                             <input type="hidden" name="existingofferingPackage${offering.getId()}" id="existingofferingPackage${offering.getId()}" value="${offering.getPckg().getId()}" />
+                            <input type="hidden" name="existingofferingCatalog${offering.getId()}" id="existingofferingCatalog${offering.getId()}" value="${offering.getCatalog()?.getId()}" />
                             <input type="hidden" name="existingCreated${offering.getId()}" id="existingCreated${offering.getId()}" value="${offering.getCreated()}" />
                             <%
                             def costs = ""
@@ -98,8 +99,8 @@ Author: brett chaldecott
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="offeringPackage">Package</label>
-              <div class="controls">
+                <label class="control-label" for="offeringPackage">Package</label>
+                <div class="controls">
                 <select class="input-large" id="offeringPackage" name="offeringPackage">
                     <%
                     params.pckgs.each { pckgs ->
@@ -111,16 +112,28 @@ Author: brett chaldecott
                     %>
                 </select>
                 <p class="help-block">The offering package.</p>
-              </div>
+                </div>
             </div>
-            
+            <div class="control-group">
+                <label class="control-label" for="offeringCatalog">Catalog</label>
+                <div class="controls">
+                <select class="input-large" id="offeringCatalog" name="offeringCatalog">
+                    <%
+                    params.catalogEntries.each { entry ->
+                        walkCatalog(entry.getName(), entry);
+                    }
+                    %>
+                </select>
+                <p class="help-block">The offering package.</p>
+                </div>
+            </div>
             <table class="table">
                 <thead>
                   <tr>
                     <th></th>
                     <th>Line Item</th>
                     <th>Type</th>
-                    <th>0,000.00</th>
+                    <th>cents</th>
                   </tr>
                 </thead>
                 <tbody id="costEntry">
@@ -210,5 +223,14 @@ Author: brett chaldecott
     </div>
 </div>
 
-    
+<%
+def walkCatalog(def path, def entry) {
+    %>
+    <option value="${entry.getId()}">${path}</option>
+    <%
+    entry.getChildren()?.each { child ->
+        walkCatalog(path + "/" + child.getName(), child)
+    }
+}
+%>    
     

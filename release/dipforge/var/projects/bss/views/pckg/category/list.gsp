@@ -60,14 +60,14 @@ Author: brett chaldecott
               <label class="control-label" for="categoryName">Category name</label>
               <div class="controls">
                 <input type="text" class="input-large" id="categoryName" name="categoryName">
-                <p class="help-block">The id of the category.</p>
+                <p class="help-block">The name of the category.</p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="categoryDescription">Category description</label>
               <div class="controls">
                 <input type="text" class="input-large" id="categoryDescription" name="categoryDescription">
-                <p class="help-block">The id of the category.</p>
+                <p class="help-block">The description of the category.</p>
               </div>
             </div>
             <div class="control-group">

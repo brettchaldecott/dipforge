@@ -158,3 +158,9 @@ mailProduct.setDependency(domainProduct)
 log.info("##### Init the request : " + mailProduct.toXML())
 RequestHandler.getInstance("bss", "CreateProduct", mailProduct).makeRequest()
 
+// setup the catalog
+def catalog = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog")
+catalog.setId('home')
+catalog.setName('Home')
+catalog.setDescription('Home Catalog')
+RequestHandler.getInstance("bss", "CreateCatalog", catalog).makeRequest()

@@ -281,7 +281,8 @@ function updateOffering(offeringId) {
     $('#icon').val($('#existingOfferingIcon' + offeringId).val());
     $('select#offeringPackage option')
         .each(function() { this.selected = (this.value == $('#existingofferingPackage' + offeringId).val()); });
-    
+    $('select#offeringCatalog option')
+        .each(function() { this.selected = (this.value == $('#existingofferingCatalog' + offeringId).val()); });
     var costTable = [];
     if ($('#existingOfferingCosts' + offeringId).val() !== null && $('#existingOfferingCosts' + offeringId).val() !== "") {
         var costConfigList = $('#existingOfferingCosts' + offeringId).val().split("||");
@@ -377,6 +378,7 @@ function generateThumbnail() {
             '<input type="hidden" name="existingOfferingThumbnail',$('#offeringId').val(),'" id="existingOfferingThumbnail',$('#offeringId').val(),'" value="',$('#thumbnail').val(),'" />',
             '<input type="hidden" name="existingOfferingIcon',$('#offeringId').val(),'" id="existingOfferingIcon',$('#offeringId').val(),'" value="',$('#icon').val(),'" />',
             '<input type="hidden" name="existingofferingPackage',$('#offeringId').val(),'" id="existingofferingPackage',$('#offeringId').val(),'" value="',$('#offeringPackage').val(),'" />',
+            '<input type="hidden" name="existingofferingCatalog',$('#offeringId').val(),'" id="existingofferingCatalog',$('#offeringId').val(),'" value="',$('#offeringCatalog').val(),'" />',
             '<input type="hidden" name="existingOfferingCosts',$('#offeringId').val(),'" id="existingOfferingCosts',$('#offeringId').val(),'" value="',costValues,'" />',
             '</form>',
             '</div>',
@@ -410,7 +412,7 @@ function generateNewRecord() {
         '<option value="annually">Annually</option>',
         '</select>',
         '</td>',
-        '<td><input type="text" class="input-small" id="costValue" name="costValue" placeholder="0,000.00"></td>',
+        '<td><input type="text" class="input-small" id="costValue" name="costValue" placeholder="cents"></td>',
         '</tr>');
     return rowEntry.join('');
 }

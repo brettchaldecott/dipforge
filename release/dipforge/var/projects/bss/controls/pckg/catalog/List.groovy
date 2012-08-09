@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Wed Jun 27 05:43:23 SAST 2012 owner 
+ * Copyright (C) Mon Aug 06 06:39:11 SAST 2012 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,50 +20,27 @@
  * @author brett chaldecott
  */
 
-package pckg.offering
+package pckg.catalog
 
 import com.dipforge.utils.PageManager;
 import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
-
-def log = Logger.getLogger("com.dipforge.log.pckg.offering.List");
-
-def offerings = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name> ?name . } " +
-    "ORDER BY ?name ")
-
-log.debug("query result " + offerings)
-offerings.each { prods ->
-    def offering = prods[0]
-    log.debug("Offering configuration " + offering.getCosts());
-    log.info("Offering package" + offering.getPckg());
-    log.info("Offering catalog" + offering.getCatalog());
-}
-
-def pckgs = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#name> ?name . } " +
-    "ORDER BY ?name ")
-
-log.debug("query result " + pckgs)
+def log = Logger.getLogger("com.dipforge.log.pckg.catalog.List");
 
 // this code is designed to use a small catalog.
 // it needs to be optimsed for larger catalogs
-def catalog = RDF.query("SELECT ?s WHERE {" +
+def result = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog> . } ")
 
-def catalogEntries = []
-if (catalog.size() != 0) {
-    catalog[0][0].getEntries()?.each { entry ->
+if (result.size() == 0) {
+    PageManager.includeWithResult("list.gsp", request, response, [])
+} else {
+    result[0][0].getEntries()?.each { entry ->
         walkCatalogEntry(entry)
-        catalogEntries.add(entry)
     }
+    PageManager.includeWithResult("list.gsp", request, response, ["catalog" : result[0][0]])
 }
-
-
-PageManager.includeWithResult("list.gsp", request, response, ["offerings" : offerings, "pckgs": pckgs, "catalogEntries": catalogEntries])
 
 /**
  * This method walks the catalog

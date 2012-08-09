@@ -1,5 +1,5 @@
 /*
- * bss: Description
+ * bss: the bss functionality
  * Copyright (C) Thu Jun 28 20:19:31 SAST 2012 owner 
  *
  * This library is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ import com.dipforge.request.RequestHandler;
 
 def log = Logger.getLogger("com.dipforge.log.pckg.offering.CreateOffering");
 
-log.info("Parameters : " + params)
+log.debug("Parameters : " + params)
 
 // perform a check for a duplicate
 def result = RDF.query("SELECT ?s WHERE {" +
@@ -40,7 +40,7 @@ def result = RDF.query("SELECT ?s WHERE {" +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#id> ?id . "+
     "FILTER (?id = \"${params.offeringId}\")}")
 if (result.size() == 0) {
-    log.info("Create a new instance of the offering")
+    log.debug("Create a new instance of the offering")
     def offering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
     
     log.debug("Set the values")
@@ -50,6 +50,7 @@ if (result.size() == 0) {
     offering.setThumbnail(params.thumbnail)
     offering.setIcon(params.icon)
     offering.setPckg(RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg/${params.offeringPackage}"))
+    offering.setCatalog(RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry/${params.offeringCatalog}"))
     
     // setup costing
     def costs = []
@@ -78,8 +79,8 @@ if (result.size() == 0) {
     offering.setCreated(new java.util.Date());
     offering.setStatus("active");
     
-    log.info("##### Init the request : " + offering.toXML())
-    log.info("##### Package xml : " + offering.getPckg().toXML())
+    log.debug("##### Init the request : " + offering.toXML())
+    log.debug("##### Package xml : " + offering.getPckg().toXML())
     RequestHandler.getInstance("bss", "CreateOffering", offering).makeRequest()
     print "success"
 } else {

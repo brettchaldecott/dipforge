@@ -25,11 +25,11 @@ Author: brett chaldecott
           <li class="${params.menuItem == "configuration" ? "active" : ""}"><a href="configuration.gsp"><i class="icon-briefcase"></i>Package Configuration</a></li>
           <% }
           if (request.isUserInRole("package_manager")) { %>
-          <li class="${params.menuItem == "offering" ? "active" : ""}"><a href="offering.gsp"><i class="icon-tags"></i>Offering Configuration</a></li>
-          <% }
-          if (request.isUserInRole("package_manager")) { %>
           <li class="${params.menuItem == "catalog" ? "active" : ""}"><a href="catalog.gsp"><i class="icon-gift"></i>Catalog Configuration</a></li>
           <% } 
+          if (request.isUserInRole("package_manager")) { %>
+          <li class="${params.menuItem == "offering" ? "active" : ""}"><a href="offering.gsp"><i class="icon-tags"></i>Offering Configuration</a></li>
+          <% }
           if (request.isUserInRole("isp_manager")) { %>
           <li class="${params.menuItem == "setup" ? "active" : ""}"><a href="setup.gsp"><i class="icon-play"></i>Setup</a></li>
           <% } 

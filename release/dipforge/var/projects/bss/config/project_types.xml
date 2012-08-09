@@ -61,6 +61,8 @@
         <link name="person" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
         <link name="customer" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
     </type>
+    
+    <!-- The category type information -->
     <type name="Category" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -68,6 +70,8 @@
         <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
     </type>
+    
+    <!-- The vendor type information -->
     <type name="Vendor" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -75,6 +79,8 @@
         <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
     </type>
+    
+    <!-- The product type information -->
     <type name="ProductConfigManager" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -92,6 +98,8 @@
         <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="configurationManager" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
     </type>
+    
+    <!-- The package type information -->
     <type name="ProductConfig" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
@@ -107,6 +115,26 @@
         <link name="pckgTarget" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
         <property name="products" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
     </type>
+    
+    <!-- The catalog type information -->
+    <type name="CatalogEntry" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="catalogId" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="children" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    </type>
+    <type name="Catalog" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <link name="entries" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    </type>
+    
+    <!-- The offering type information -->
     <type name="Cost" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="lineItem" datatype="http://www.w3.org/2001/XMLSchema#string"/>
@@ -121,33 +149,11 @@
         <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <link name="pckg" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+        <link name="catalog" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
         <property name="costs" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
         <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
         <property name="status" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-    </type>
-    
-    <type name="Catalog" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog">
-        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
-    </type>
-    
-    <type name="CatalogEntry" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry">
-        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="category" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
-        <link name="catalog" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
-        <link name="parent" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
-    </type>
-    
-    <type name="CatalogOffering" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogOffering">
-        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <link name="catalogEntry" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogeEntry#CatalogeEntry"/>
-        <link name="offering" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
     </type>
     
     <type name="OrganisationOffering" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering">

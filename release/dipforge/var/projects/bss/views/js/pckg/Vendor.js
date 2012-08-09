@@ -174,7 +174,7 @@ $(document).ready(function() {
                         
                         // delay and hide the modal
                         setTimeout(function () {
-                            $('#vendorModal').modal('hide');    
+                            $('#vendorModal').modal('hide');
                         }, 1500);
                         
                     } else {

@@ -33,4 +33,12 @@
     <action name="UpdateOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/UpdateOffering.lwf" role="package_manager" />
     <action name="RemoveOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/RemoveOffering.lwf" role="package_manager" />
     
+    <!-- Catalog actions and Flows -->
+    <action name="CreateCatalog" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog" file="/flows/catalog/CreateCatalog.lwf" role="package_manager" />
+    <action name="UpdateCatalog" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog" file="/flows/catalog/UpdateCatalog.lwf" role="package_manager" />
+    <action name="CreateCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/CreateCatalogEntry.lwf" role="package_manager" />
+    <action name="UpdateCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/UpdateCatalogEntry.lwf" role="package_manager" />
+    <action name="RemoveCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/RemoveCatalogEntry.lwf" role="package_manager" />
+    
+    
 </actions>

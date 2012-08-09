@@ -30,11 +30,14 @@
 
     <% PageManager.includeWithResult("Menu.groovy", request, response, ["menuItem" : "package"]) %>
     
-    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "catalog"]) %>
+    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "catalog","contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("Installed.groovy", request, response, [:]) %>
+    <% PageManager.includeWithResult("catalog/List.groovy", request, response, ["contextBase":"../"]) %>
     
-    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "catalog"]) %>
+    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "catalog","contextBase":"../"]) %>
+    
+    <script src="../utils/Tools.js"></script>
+    <script src="../js/pckg/Catalog.js"></script>
     
   </body>
 </html>
