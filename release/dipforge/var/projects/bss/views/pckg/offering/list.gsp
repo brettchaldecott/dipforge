@@ -225,6 +225,12 @@ Author: brett chaldecott
 
 <%
 def walkCatalog(def path, def entry) {
+    // TODO: this is very lazy. It is done so that when a catalog entry is deleted
+    // a black node does not appear in the list. Should perform a search during deletion
+    // and updated the referencing entries.
+    if (entry.getName() == null || entry.getName() == "") {
+        return
+    }
     %>
     <option value="${entry.getId()}">${path}</option>
     <%

@@ -10,7 +10,7 @@ Author: brett chaldecott
 
 <div class="span9">
     <ul class="breadcrumb" id="catalog">
-    <div>
+    <div id="catIdhome">
       <li>
         <a href="javascript:addEntry(['Home'],'home');"><i class="icon-plus"></i></a><i class="icon-minus"></i> Home <span class="divider">/</span>
       </li>
@@ -27,22 +27,36 @@ if (params.catalog != null) {
 
 <%
 def buildCatalog(def path, def entry) {
+    
+    // TODO: this is very lazy. It is done so that when a catalog entry is deleted
+    // a black node does not appear in the list. Should perform a search during deletion
+    // and updated the referencing entries.
+    if (entry.getName() == null || entry.getName() == "") {
+        return
+    }
+    
     def jsonArray = "["
     def sep = ""
     path.each { pathEntry ->
         jsonArray += sep + "'" + pathEntry + "'";
         sep = ",";
     }
-    
     jsonArray += sep + "'" + entry.getName() + "']"
     %>
     <div id="catId${entry.getId()}">
       <li>
-         <a href="javascript:addEntry(${jsonArray},'${entry.getId()}');"><i class="icon-plus"></i></a><a href="javascript:removeEntry(${jsonArray},'${entry.getId()}');"><i class="icon-minus"></i></a> <% 
+         <a href="javascript:addEntry(${jsonArray},'${entry.getId()}');"><i class="icon-plus"></i></a><a href="javascript:removeEntry(${jsonArray},'${entry.getId()}');"><i class="icon-minus"></i></a><a href="javascript:updateEntry(${jsonArray},'${entry.getId()}');"><% 
     path.each { val ->
          %> ${val} <span class="divider">/</span> <%
-    } %> ${entry.getName()} </li>
+    } %> ${entry.getName()} </li></a>
     </div>
+    <form style="display:none;" id="existingCatalogForm${entry.getId()}" name="existingCatalogForm${entry.getId()}">
+        <input type="hidden" name="existingCatalogEntryId${entry.getId()}" id="existingCatalogEntryId${entry.getId()}" value="${entry.getId()}" />
+        <input type="hidden" name="existingCatalogEntryName${entry.getId()}" id="existingCatalogEntryName${entry.getId()}" value="${entry.getName()}" />
+        <input type="hidden" name="existingCatalogEntryDescription${entry.getId()}" id="existingCatalogEntryDescription${entry.getId()}" value="${entry.getDescription()}" />
+        <input type="hidden" name="existingCatalogEntryThumbnail${entry.getId()}" id="existingCatalogEntryThumbnail${entry.getId()}" value="${entry.getThumbnail()}" />
+        <input type="hidden" name="existingCatalogEntryIcon${entry.getId()}" id="existingCatalogEntryIcon${entry.getId()}" value="${entry.getThumbnail()}" />
+    </form>
     <%
     def subPath = []
     subPath.addAll(path);
@@ -155,7 +169,7 @@ def buildCatalog(def path, def entry) {
             </div>
         </div>
         <div id="removeModelErrorMsg">
-            <div class="alert fade in alert-info">
+            <div class="alert fade in alert-error">
                 <span id="removeModelErrorResultMsg"></span>
             </div>
         </div>

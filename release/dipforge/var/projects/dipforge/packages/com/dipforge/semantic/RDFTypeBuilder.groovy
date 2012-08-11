@@ -83,7 +83,16 @@ class RDFTypeBuilder {
         for (classProperty in classProperties) {
             def propertyName = classProperty.getLocalname()
             if (typeInstance."${propertyName}" == null) {
-                continue;
+                if (typeInstance?."${propertyName}classProperty" != null) {
+                    typeInstance.builder.onDemandPopulate(
+                                typeInstance."${propertyName}classResource", 
+                                typeInstance."${propertyName}classProperty");
+                    if (typeInstance."${propertyName}" == null) {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
             }
             
             if (XSDDataDictionary.isBasicTypeByURI(classProperty.getType().getURI().toString())) {

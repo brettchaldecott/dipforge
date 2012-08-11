@@ -38,7 +38,7 @@ try {
     log.info("Setup the values")
     catalogEntry.setId(params.catalogEntryId)
     catalogEntry.setName(params.catalogEntryName)
-    catalogEntry.setDescription(params.categoryEntryDescription)
+    catalogEntry.setDescription(params.catalogEntryDescription)
     catalogEntry.setThumbnail(params.thumbnail)
     catalogEntry.setIcon(params.icon)
     
