@@ -40,6 +40,7 @@ products.each { prods ->
     log.debug("Product id is " + product.getCategory()?.getId());
     log.debug("Product configuration " + product.getConfigurationManager());
     log.debug("Product dependancy " + product.getDependency());
+    log.debug("Product vendor " + product.getVendor());
 }
 
 def categories = RDF.query("SELECT ?s WHERE {" +

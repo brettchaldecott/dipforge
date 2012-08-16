@@ -1,5 +1,5 @@
 <!--
-Date: Tue Jun 26 19:16:04 SAST 2012
+Date: Thu Aug 16 07:20:57 SAST 2012
 File: menu.gsp
 Author: admin
 -->
@@ -23,8 +23,8 @@ Author: admin
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="../">Home</a></li>
-              <li class="${params.menuItem == "package" ? "active" : ""}" ><a href="#">Package</a></li>
-              <li><a href="../billing/">Billing</a></li>
+              <li><a href="../pckg/">Package</a></li>
+              <li class="${params.menuItem == "billing" ? "active" : ""}" ><a href="#">Billing</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
