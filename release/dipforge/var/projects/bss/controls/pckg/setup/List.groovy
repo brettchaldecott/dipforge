@@ -28,6 +28,25 @@ import org.apache.log4j.Logger;
 
 def log = Logger.getLogger("com.dipforge.log.pckg.vendor.List");
 
+def offerings = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering> . }")
+
+def catalog = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog> . } ")
+
+if (catalog.size() == 0) {
+    catalog = null
+} else {
+    catalog[0][0].getEntries()?.each { entry ->
+    }
+    catalog = catalog[0][0]
+}
+
+def packages = RDF.query("SELECT ?s WHERE {" +
+    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg> . } ")
+
+log.debug("query result " + packages)
+
 def products = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product> . " +
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#name> ?name . } " +
@@ -49,5 +68,5 @@ def vendors = RDF.query("SELECT ?s WHERE {" +
 
 log.debug("query result " + vendors)
 
-PageManager.includeWithResult("list.gsp", request, response, ["products": products, "categories": categories, "vendors": vendors])
+PageManager.includeWithResult("list.gsp", request, response, ["offerings": offerings, "catalog": catalog, "packages" : packages, "products": products, "categories": categories, "vendors": vendors])
 

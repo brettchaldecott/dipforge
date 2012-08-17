@@ -244,9 +244,26 @@ mailProduct.setDependency(domainProduct)
 log.info("##### Init the request : " + mailProduct.toXML())
 RequestHandler.getInstance("bss", "CreateProduct", mailProduct).makeRequest()
 
-// setup the catalog
+
+// setup the basic catalog
+def catalogEntry = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry")
+    
+log.info("Setup the values")
+catalogEntry.setId("base")
+catalogEntry.setName("Base")
+catalogEntry.setDescription("Base Catalog")
+catalogEntry.setThumbnail("image/catalog/base.png")
+catalogEntry.setIcon("image/catalog/base-icon.png")
+
+log.info("##### Init the request : " + catalogEntry.toXML())
+RequestHandler.getInstance("bss", "CreateCatalogEntry", catalogEntry).makeRequest()
+
 def catalog = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog")
 catalog.setId('home')
 catalog.setName('Home')
 catalog.setDescription('Home Catalog')
+catalog.setEntries([catalogEntry]);
+
+log.info("##### Init the request : " + catalog.toXML())
 RequestHandler.getInstance("bss", "CreateCatalog", catalog).makeRequest()
+

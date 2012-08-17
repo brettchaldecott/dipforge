@@ -15,9 +15,7 @@ Author: admin
           <div class="btn-group pull-right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-user"></i>${request.getRemoteUser()}<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Sign Out</a></li>
+              <li><a href="../index.gsp">Profile</a></li>
             </ul>
           </div>
           <div class="nav-collapse">
