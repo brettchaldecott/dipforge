@@ -31,25 +31,35 @@ $(document).ready(function() {
         $.ajax({
             url: 'setup/Setup.groovy',
             success: function(data) {
-                $('#setupModelMsg').hide();
-                $('#setupModelSuccessMsg').show();
-                $('#setupModelErrorMsg').hide();    
-                $('#setupSubmit').hide();
-                $('#setupCloseButton').hide();
-                
-                
-                
-                // delay and hide the modal
-                setTimeout(function () {
-                    $('#setupModal').modal('hide');    
-                }, 1500);
+                if (data === "success") {
+                    $('#setupModelMsg').hide();
+                    $('#setupModelSuccessMsg').show();
+                    $('#setupModelErrorMsg').hide();    
+                    $('#setupSubmit').hide();
+                    $('#setupCloseButton').hide();
+                    
+                    
+                    
+                    // delay and hide the modal
+                    setTimeout(function () {
+                        // this is a a hack to work around not re-working the page contents using
+                        // javascript which would be a lot more effecient.
+                        window.location.reload();
+                    }, 5000);
+                } else {
+                    $('#setupModelMsg').hide();
+                    $('#setupModelSuccessMsg').hide();
+                    $('#setupModelErrorResultMsg').html(data);
+                    $('#setupModelErrorMsg').show();
+                }
             },
             error: function(data) {
                 $('#setupModelMsg').hide();
                 $('#setupModelSuccessMsg').hide();
+                $('#setupModelErrorResultMsg').html('Failed to submit a request setup the default portfolio configuration');
                 $('#setupModelErrorMsg').show();
             }
-        })
+        });
     });
     
     $('#setupModal').on('hidden', function () {

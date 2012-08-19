@@ -4,27 +4,43 @@ File: users.gsp
 Author: admin
 -->
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Dipforge Administration | Dipforge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dipforge Administration">
+    <meta name="author" content="Dipforge">
 
- <div class="span12">
-    
-      <hr>
-    
-      <footer>
-        <p>&copy; Rift IT 2012</p>
-      </footer>
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
-    </div>    
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <% PageManager.includeWithResult("Menu.groovy", request, response, ["menuItem" : "home"]) %>
     
+    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "users"]) %>
     
-<%
-if (params.menuItem != "configuration") {%>
-      
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Due to include structure Javascript placed at top of document -->
-    <script src="../jquery/jquery-1.7.2.min.js"></script>
-    <script src="../jquery/jquery.validate.js"></script>
-    <script src="../bootstrap/js/bootstrap.js"></script>
+    <% PageManager.includeWithResult("UserManagement.groovy", request, response, [:]) %>
     
-    <%
-} %>
+    <% PageManager.includeWithResult("Footer.groovy", request, response, [:]) %>
+    
+  </body>
+</html>
