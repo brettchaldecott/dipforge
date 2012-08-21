@@ -8,6 +8,11 @@
 
 <actions project="bss">
 
+    <!-- Organisation actions and Flows -->
+    <action name="CreateOrganisation" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation" file="/flows/organisation/CreateOrganisation.lwf" role="organisation" />
+    <action name="UpdateOrganisation" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation" file="/flows/organisation/UpdateOrganisation.lwf" role="organisation" />
+    <action name="RemoveOrganisation" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation" file="/flows/organisation/RemoveOrganisation.lwf" role="organisation" />
+    
     <!-- Category actions and Flows -->
     <action name="CreateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/CreateCategory.lwf" role="category_manager" />
     <action name="UpdateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/UpdateCategory.lwf" role="category_manager" />

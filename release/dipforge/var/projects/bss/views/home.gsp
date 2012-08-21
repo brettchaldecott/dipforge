@@ -14,7 +14,7 @@ if (username.equals("admin")) {
 %>
 
 <div class="span9">
-    <form class="well form-horizontal" name="myProfile" id="myProfile">
+    <form class="hero-unit form-horizontal" name="myProfile" id="myProfile">
         <fieldset>
             <legend>Profile</legend>
             <div class="control-group">

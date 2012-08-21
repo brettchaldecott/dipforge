@@ -5,7 +5,7 @@ Author: admin
 -->
 
 <div class="span9">
-    <div class="well">
+    <div class="hero-unit">
     <legend>Users</legend>
         <table class="table">
         <thead>

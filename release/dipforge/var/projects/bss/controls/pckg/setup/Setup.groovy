@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * Setup.groovy
- * @author admin
+ * @author brett chaldecott
  */
 
 package pckg.setup
@@ -32,6 +32,17 @@ import com.dipforge.request.RequestHandler;
 def log = Logger.getLogger("com.dipforge.log.pckg.setup.Setup");
 
 try {
+    
+    def organisation = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation")
+    organisation.setId("base")
+    organisation.setName("Base")
+    organisation.setDescription("Base Organisastion")
+    organisation.setCode("base")
+    organisation.setRole("base")
+    organisation.setCreated(new java.util.Date())
+    organisation.setModified(new java.util.Date())
+    RequestHandler.getInstance("bss", "CreateOrganisation", organisation).makeRequest()
+    
     // setup the base category
     def base = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category")
     base.setId('base')
@@ -278,14 +289,26 @@ try {
     RequestHandler.getInstance("bss", "CreatePckg", userPckg).makeRequest()
     
     // setup the basic catalog
+    def userCatalogEntry = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry")
+    
+    log.info("Setup the values")
+    userCatalogEntry.setId("user-base")
+    userCatalogEntry.setName("User Base")
+    userCatalogEntry.setDescription("User Base Catalog")
+    userCatalogEntry.setThumbnail("image/catalog/base.png")
+    userCatalogEntry.setIcon("image/catalog/base-icon.png")
+    
+    log.info("##### Init the request : " + userCatalogEntry.toXML())
+    RequestHandler.getInstance("bss", "CreateCatalogEntry", userCatalogEntry).makeRequest()
+    
     def catalogEntry = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry")
-        
     log.info("Setup the values")
     catalogEntry.setId("base")
     catalogEntry.setName("Base")
     catalogEntry.setDescription("Base Catalog")
     catalogEntry.setThumbnail("image/catalog/base.png")
     catalogEntry.setIcon("image/catalog/base-icon.png")
+    catalogEntry.setChildren([userCatalogEntry])
     
     log.info("##### Init the request : " + catalogEntry.toXML())
     RequestHandler.getInstance("bss", "CreateCatalogEntry", catalogEntry).makeRequest()
@@ -295,6 +318,7 @@ try {
     catalog.setName('Home')
     catalog.setDescription('Home Catalog')
     catalog.setEntries([catalogEntry]);
+    catalog.setOrganisation(organisation);
     
     log.info("##### Init the request : " + catalog.toXML())
     RequestHandler.getInstance("bss", "CreateCatalog", catalog).makeRequest()
@@ -307,7 +331,7 @@ try {
     userOffering.setThumbnail('image/offering/user.png')
     userOffering.setIcon('image/offering/user-icon.png')
     userOffering.setPckg(userPckg)
-    userOffering.setCatalog(catalogEntry)
+    userOffering.setCatalog(userCatalogEntry)
     userOffering.setCreated(new java.util.Date());
     userOffering.setStatus("active");
     log.debug("##### Package xml : " + userOffering.getPckg().toXML())
