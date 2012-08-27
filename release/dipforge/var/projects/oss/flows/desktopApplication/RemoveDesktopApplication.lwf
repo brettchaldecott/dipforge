@@ -1,0 +1,44 @@
+/*
+ * oss: Description
+ * Copyright (C) Sat Aug 25 08:15:14 SAST 2012 owner
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * RemoveDesktopApplication.lwf
+ * @author admin
+ */
+
+
+/**
+ * This is the template for a flow
+ */
+@java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" "DesktopApplication")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" "User")
+@service("oss" "oss" "com.dipforge.user.RemoveUserPrincipal" "endPoint")
+@store("store")
+flow RemoveDesktopApplication {
+    def out
+    def log
+    def DesktopApplication
+    def User
+    def endPoint
+    {
+        endPoint.removePrincipal(User,DesktopApplication.principal)
+        store.remove(DesktopApplication)
+        log.info("The desktop [" + DesktopApplication.name + "] has been removed")
+    }
+}

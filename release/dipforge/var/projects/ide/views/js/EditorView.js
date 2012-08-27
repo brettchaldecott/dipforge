@@ -427,7 +427,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editor.getSession().setTabSize(4);
                     
                     // Fake-Save, works from the editor and the command line.
-                    edidor.commands.addCommand({
+                    editor.commands.addCommand({
                         name: "save",
                         bindKey: {
                             win: "Ctrl-S",
@@ -444,8 +444,6 @@ Ext.define('com.dipforge.IDE.Editor', {
                             }})
                         }
                     });
-                    
-            
                     
                }
             });

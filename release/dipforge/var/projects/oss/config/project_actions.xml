@@ -8,9 +8,19 @@
 
 <actions project="oss">
 
-    <!--
-    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
-    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
-    -->
-
+    <!-- User actions and Flows -->
+    <action name="CreateUser" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" file="/flows/user/CreateUser.lwf" role="daemon" />
+    <action name="UpdateUser" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" file="/flows/user/UpdateUser.lwf" role="daemon" />
+    <action name="RemoveUser" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" file="/flows/user/RemoveUser.lwf" role="daemon" />
+    
+    <!-- Desktop actions and Flows -->
+    <action name="CreateDesktop" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop#Desktop" file="/flows/desktop/CreateDesktop.lwf" role="daemon" />
+    <action name="UpdateDesktop" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop#Desktop" file="/flows/desktop/UpdateDesktop.lwf" role="daemon" />
+    <action name="RemoveDesktop" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop#Desktop" file="/flows/desktop/RemoveDesktop.lwf" role="daemon" />
+    
+    <!-- Desktop Applciation actions and flows -->
+    <action name="CreateDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/user/CreateDesktopApplication.lwf" role="daemon" />
+    <action name="UpdateDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/user/UpdateDesktopApplication.lwf" role="daemon" />
+    <action name="RemoveDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/user/RemoveDesktopApplication.lwf" role="daemon" />
+    
 </actions>

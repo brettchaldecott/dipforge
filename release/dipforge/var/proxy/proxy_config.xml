@@ -2,11 +2,43 @@
 <config>
         <server className="net.sf.j2ep.servers.BaseServer"
                 domainName="localhost:8080"
+                path="/AuditTrailConsole"
+                isRewriting="true">
+                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
+                <rule className="net.sf.j2ep.rules.DirectoryRule"
+		directory="/desktop/AuditTrailConsole" />
+        </server>
+        <server className="net.sf.j2ep.servers.BaseServer"
+                domainName="localhost:8080"
+                path="/manager"
+                isRewriting="true">
+                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
+                <rule className="net.sf.j2ep.rules.DirectoryRule"
+		directory="/desktop/manager" />
+        </server>
+        <server className="net.sf.j2ep.servers.BaseServer"
+                domainName="localhost:8080"
+                path="/DipforgeAdmin"
+                isRewriting="true">
+                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
+                <rule className="net.sf.j2ep.rules.DirectoryRule"
+		directory="/desktop/DipforgeAdmin" />
+        </server>
+        <server className="net.sf.j2ep.servers.BaseServer"
+                domainName="localhost:8080"
+                path="/FileManager"
+                isRewriting="true">
+                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
+                <rule className="net.sf.j2ep.rules.DirectoryRule"
+		directory="/desktop/FileManager" />
+        </server>
+        <server className="net.sf.j2ep.servers.BaseServer"
+                domainName="localhost:8080"
                 path="/DipforgeWeb/documentation"
                 isRewriting="true">
                 <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
                 <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/documentation" />
+		directory="/desktop/documentation" />
         </server>
         <server className="net.sf.j2ep.servers.BaseServer"
                 domainName="localhost:8080"
@@ -14,7 +46,7 @@
                 isRewriting="true">
                 <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
                 <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/ide" />
+		directory="/desktop/ide" />
         </server>
         <server className="net.sf.j2ep.servers.BaseServer"
                 domainName="localhost:8080"

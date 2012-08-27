@@ -1,6 +1,6 @@
 /*
- * bss: Description
- * Copyright (C) Sat Aug 18 12:06:58 SAST 2012 owner 
+ * oss: Description
+ * Copyright (C) Thu Aug 23 07:45:50 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,21 +16,29 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Config.groovy
+ * RemoveUser.lwf
  * @author brett chaldecott
  */
 
-package products.user
 
 /**
- * The configuration object
+ * The flow for removing a user.
  */
-class Config {
-    
-    /**
-     * This method generates the data
-     */
-    def generateData(params) {
-        return params.principals;
-    }
+@java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" "User")
+@service("oss" "oss" "com.dipforge.user.RemoveUser" "endPoint")
+@store("store")
+flow RemoveUser {
+   def out
+   def log
+   def User
+   def endPoint
+
+
+   {
+       service.removeTheUser(User)
+       store.remove(User)
+       log.info("Removed the [" + User.username + "]")
+   }
 }

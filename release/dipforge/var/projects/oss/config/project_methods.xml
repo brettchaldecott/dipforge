@@ -9,44 +9,26 @@
 -->
 
 <mapping>
-    <!-- example mappings 
-    <jndi name="groovy/Daemon" service="name">
+    <jndi name="groovy/DataMapper" service="oss">
         <project name="oss">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
+            <method class="com.dipforge.user.CreateUser" name="createNewUser" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
             </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
+            <method class="com.dipforge.user.UpdateUser" name="updateTheUser" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
             </method>
-        </project>
-        <project name="oss">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
+            <method class="com.dipforge.user.RemoveUser" name="removeTheUser" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
             </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
+            <method class="com.dipforge.user.AddUserPrincipal" name="addNewPrincipal" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+                <parameter name="principal" type="http://www.w3.org/2001/XMLSchema#string"/>
+            </method>
+            <method class="com.dipforge.user.RemoveUserPrincipal" name="removePrincipal" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+                <parameter name="principal" type="http://www.w3.org/2001/XMLSchema#string"/>
             </method>
         </project>
     </jndi>
-    <jndi name="groovy/Daemon">
-        <project name="oss">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
-            </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-            </method>
-        </project>
-    </jndi>
-    -->
 </mapping>
 

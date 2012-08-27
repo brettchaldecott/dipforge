@@ -35,22 +35,22 @@ var User = function() {
         var html = [];
         html.push("<h3>User</h3>",
             '<div class="control-group">',
-            '<label class="control-label" for="principles">Principles</label>',
+            '<label class="control-label" for="principals">Principals</label>',
             '<div class="controls">',
-            '<input type="text" class="input-large" id="principles" name="principles" value="" placeholder="value,value,value,....">',
-            '<p class="help-block">A comma seperated list of user principles.</p>',
+            '<input type="text" class="input-large" id="principals" name="principals" value="" placeholder="value,value,value,....">',
+            '<p class="help-block">A comma seperated list of user principals.</p>',
             '</div>',
             '</div>');
         return html.join('');
     };
     this.setupHooks = function() {
-        $("#principles").validate({
+        $("#principals").validate({
             expression: "if (VAL) return true; else return false;",
-            message: "Must provide list of principles"
+            message: "Must provide list of principals"
         });
     };
     this.populateValues = function(pckgId) {
-        $('#principles').val($('#existingPckgData' + pckgId + 'user').val());
+        $('#principals').val($('#existingPckgData' + pckgId + 'user').val());
     };
     this.generateInput = function(pckgId) {
         return '<input type="hidden" name="existingPckgData' + pckgId + 'user" id="existingPckgData' + pckgId + 'user" value="' + $('#principles').val() + '" />';

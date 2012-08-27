@@ -52,7 +52,7 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
                 editor == "ace-project-services" || editor == "ace") {
                 active = this.add(Ext.create('Ext.panel.Panel', {
                     layout: "fit",
-                    html: '<iframe src="/ide/editor.gsp?project=' + project + '&path=' + path + '&fileName=' + fileName + '&editor=' + editor + '&mode=' + mode + '" width="100%" height="100%" frameborder=\"0\" scrolling="no" marginheight="0" marginwidth="0"/>',
+                    html: '<iframe src="editor.gsp?project=' + project + '&path=' + path + '&fileName=' + fileName + '&editor=' + editor + '&mode=' + mode + '" width="100%" height="100%" frameborder=\"0\" scrolling="no" marginheight="0" marginwidth="0"/>',
                     itemId: id,
                     id: id,
                     title: fileName,

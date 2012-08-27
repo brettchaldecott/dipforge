@@ -1,6 +1,6 @@
 /*
- * bss: Description
- * Copyright (C) Sat Aug 18 12:06:58 SAST 2012 owner 
+ * oss: Description
+ * Copyright (C) Thu Aug 23 07:45:40 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,21 +16,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Config.groovy
+ * CreateUser.lwf
  * @author brett chaldecott
  */
 
-package products.user
 
 /**
- * The configuration object
+ * This is the template for a flow
  */
-class Config {
-    
-    /**
-     * This method generates the data
-     */
-    def generateData(params) {
-        return params.principals;
-    }
+@java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" "User")
+@service("oss" "oss" "com.dipforge.user.CreateUser" "endPoint")
+@store("store")
+flow CreateUser {
+   def out
+   def log
+   def User
+   def endPoint
+
+   {
+       service.createNewUser(User)
+       store.persist(User)
+       log.info("Created the [" + User.username + "]")
+   }
 }
