@@ -11,30 +11,23 @@ Author: admin
         <thead>
           <tr>
             <th>&nbsp;</th>
-            <th>First Name</th>
-            <th>Last Name</th>
             <th>Username</th>
+            <th>Email</th>
+            <th>Principals</th>
           </tr>
         </thead>
         <tbody>
+        <%
+        params.users.each { users ->
+            def user = users[0]
+            %>
           <tr>
-            <td><i class="icon-minus-sign"></i></td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>mdo</td>
+            <td><a href="javascript:;"><i class="icon-minus-sign"></i></a></td>
+            <td>${user.getUsername()}</td>
+            <td>${user.getEmail()}</td>
+            <td>${user.getPrincipals()}</td>
           </tr>
-          <tr>
-            <td><i class="icon-minus-sign"></i></td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>fat</td>
-          </tr>
-          <tr>
-            <td><a data-toggle="modal" href="#userModal"><i class="icon-minus-sign"></i></a></td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>twitter</td>
-          </tr>
+        <% } %>
           <tr>
             <td><a data-toggle="modal" href="#userModal"><i class="icon-plus-sign"></a></i></td>
             <td>&nbsp;</td>

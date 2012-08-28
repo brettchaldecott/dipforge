@@ -274,7 +274,7 @@ try {
     userPckgProducts.add(userPckgConfig)
     def userDesktopPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     userDesktopPckgConfig.setId("desktop:base-user-package")
-    userDesktopPckgConfig.setProduct(applicationProduct)
+    userDesktopPckgConfig.setProduct(desktopProduct)
     userDesktopPckgConfig.setData("Dipforge")
     userPckgProducts.add(userDesktopPckgConfig)
     def userApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")

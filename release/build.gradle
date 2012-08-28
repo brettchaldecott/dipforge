@@ -501,6 +501,7 @@ dependencies {
     releaseGroovyLib project(':client:GroovyDaemonClient')
     releaseGroovyLib project(':client:ChangeControlClient')
     releaseGroovyLib project(':client:RequestBrokerClient')
+    releaseGroovyLib project(':client:RDBUserManagerClient')
     releaseGroovyLib project(':client:EventServerClient')
     releaseGroovyLib project(':client:AuditTrail')
     releaseGroovyLib "asm:asm:3.2"
