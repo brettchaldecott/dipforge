@@ -40,6 +40,7 @@
         <property name="username" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="email" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="password" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="userType" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="principals" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
         <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>

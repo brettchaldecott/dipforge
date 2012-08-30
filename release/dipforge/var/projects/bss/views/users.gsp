@@ -42,5 +42,7 @@ Author: admin
     
     <% PageManager.includeWithResult("Footer.groovy", request, response, [:]) %>
     
+    <script src="js/User.js"></script>
+    
   </body>
 </html>

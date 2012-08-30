@@ -13,21 +13,29 @@ Author: admin
             <th>&nbsp;</th>
             <th>Username</th>
             <th>Email</th>
-            <th>Principals</th>
+            <th>User Type</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="userRecords">
         <%
         params.users.each { users ->
             def user = users[0]
             %>
-          <tr>
-            <td><a href="javascript:;"><i class="icon-minus-sign"></i></a></td>
-            <td>${user.getUsername()}</td>
-            <td>${user.getEmail()}</td>
-            <td>${user.getPrincipals()}</td>
+          <tr id="tr${user.getId()}">
+            <td><a href="javascript:showRemoveUser('${user.getId()}');"><i class="icon-minus-sign"></i></a></td>
+            <td><a href="javascript:showUpdateUser('${user.getId()}');">${user.getUsername()}</a></td>
+            <td><a href="javascript:showUpdateUser('${user.getId()}');">${user.getEmail()}</a></td>
+            <td><a href="javascript:showUpdateUser('${user.getId()}');">${user.getUserType()}</a></td>
+            <form id="userData${user.getId()}" style="display:none;">
+                <input type="hidden" id="userData${user.getId()}userId" name="userData${user.getId()}userId" value="${user.getId()}" />
+                <input type="hidden" id="userData${user.getId()}username" name="userData${user.getId()}username" value="${user.getUsername()}" />
+                <input type="hidden" id="userData${user.getId()}email" name="userData${user.getId()}email" value="${user.getEmail()}" />
+                <input type="hidden" id="userData${user.getId()}userType" name="userData${user.getId()}userType" value="${user.getUserType()}" />
+            </form>
           </tr>
         <% } %>
+        </tbody>
+        <tbody>
           <tr>
             <td><a data-toggle="modal" href="#userModal"><i class="icon-plus-sign"></a></i></td>
             <td>&nbsp;</td>
@@ -62,9 +70,9 @@ Author: admin
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="userName">User name</label>
+              <label class="control-label" for="username">User name</label>
               <div class="controls">
-                <input type="text" class="input-large" id="userName" name="userName" placeholder="username">
+                <input type="text" class="input-large" id="username" name="username" placeholder="username">
                 <p class="help-block">The username.</p>
               </div>
             </div>
@@ -83,9 +91,9 @@ Author: admin
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="baseUserType">User Type</label>
+              <label class="control-label" for="userType">User Type</label>
               <div class="controls">
-                <select class="input-large" id="baseUserType" name="baseUserType">
+                <select class="input-large" id="userType" name="userType">
                     <option value="base-user">Base</option>
                 </select>
                 <p class="help-block">The base user type.</p>
