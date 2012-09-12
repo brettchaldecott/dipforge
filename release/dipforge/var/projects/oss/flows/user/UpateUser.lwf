@@ -37,7 +37,7 @@ flow UpateUser {
     
     
     {
-        service.updateTheUser(User)
+        endPoint.updateTheUser(User)
         store.persist(User)
        log.info("Updated the [" + User.username + "]")
     }

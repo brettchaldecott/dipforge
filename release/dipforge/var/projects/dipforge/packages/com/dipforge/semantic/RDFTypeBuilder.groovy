@@ -96,13 +96,13 @@ class RDFTypeBuilder {
             }
             
             if (XSDDataDictionary.isBasicTypeByURI(classProperty.getType().getURI().toString())) {
-                log.debug("URI [" + classProperty.getURI().toString() + "][" + 
+                log.info("#### URI [" + classProperty.getURI().toString() + "][" + 
                     typeInstance."${propertyName}" + "]")
                 def propertyType = classProperty.getType().getURI().toString();
                 if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
                         XSDDataDictionary.XSD_STRING).getURI().toString())) {
-                    resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}".toString())
                 } else if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
                         XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {

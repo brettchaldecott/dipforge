@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Sat Aug 18 08:14:06 SAST 2012 owner 
+ * Copyright (C) Tue Sep 11 07:11:10 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,22 +16,26 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Users.groovy
+ * UpdateOrganisationOfferingComponent.lwf
  * @author brett chaldecott
  */
 
-import com.dipforge.utils.PageManager;
-import org.apache.log4j.Logger;
-import com.dipforge.semantic.RDF;
 
 
-def log = Logger.getLogger("com.dipforge.log.pckg.user.management");
-
-def result = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#username> ?username . } " +
-    "ORDER BY ?username ")
-
-log.debug("query result " + result)
-
-PageManager.includeWithResult("user-management.gsp", request, response , ["users" : result])
+/**
+ * The definition of the organsation offering component update flow
+ */
+@java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent" "OrganisationOfferingComponent")
+@store("store")
+flow UpdateOrganisationOfferingComponent {
+    def out
+    def log
+    def OrganisationOfferingComponent
+    
+    {
+        store.persist(OrganisationOfferingComponent)
+        log.info("The organisation offering component [" + OrganisationOfferingComponent.id + "] has been persisted")
+    }
+}

@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Sat Aug 18 08:14:06 SAST 2012 owner 
+ * Copyright (C) Tue Sep 04 06:49:35 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,22 +16,20 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Users.groovy
- * @author brett chaldecott
+ * RemoveOrganisationOffering.lwf
+ * @author admin
  */
 
-import com.dipforge.utils.PageManager;
-import org.apache.log4j.Logger;
-import com.dipforge.semantic.RDF;
+
+/**
+ * This is the template for a flow
+ */
+@java("out")
+flow RemoveOrganisationOffering {
+   def out
 
 
-def log = Logger.getLogger("com.dipforge.log.pckg.user.management");
-
-def result = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#username> ?username . } " +
-    "ORDER BY ?username ")
-
-log.debug("query result " + result)
-
-PageManager.includeWithResult("user-management.gsp", request, response , ["users" : result])
+   {
+       out.println("hello world example")
+   }
+}

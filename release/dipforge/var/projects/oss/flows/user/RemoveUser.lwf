@@ -37,7 +37,7 @@ flow RemoveUser {
 
 
    {
-       service.removeTheUser(User)
+       endPoint.removeTheUser(User)
        store.remove(User)
        log.info("Removed the [" + User.username + "]")
    }

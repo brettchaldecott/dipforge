@@ -33,7 +33,7 @@
     <action name="UpdatePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/UpdatePckg.lwf" role="package_manager" />
     <action name="RemovePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/RemovePckg.lwf" role="package_manager" />
     
-    <!-- Pckg actions and Flows -->
+    <!-- Offering actions and Flows -->
     <action name="CreateOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/CreateOffering.lwf" role="package_manager" />
     <action name="UpdateOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/UpdateOffering.lwf" role="package_manager" />
     <action name="RemoveOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/RemoveOffering.lwf" role="package_manager" />
@@ -44,6 +44,16 @@
     <action name="CreateCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/CreateCatalogEntry.lwf" role="package_manager" />
     <action name="UpdateCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/UpdateCatalogEntry.lwf" role="package_manager" />
     <action name="RemoveCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/RemoveCatalogEntry.lwf" role="package_manager" />
+    
+    <!-- Organisastion Offering actions and Flows -->
+    <action name="CreateOrganisationOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering" file="/flows/organisationOffering/CreateOrganisationOffering.lwf" role="organisation" />
+    <action name="UpdateOrganisationOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering" file="/flows/organisationOffering/UpdateOrganisationOffering.lwf" role="organisation" />
+    <action name="RemoveOrganisationOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering" file="/flows/organisationOffering/RemoveOrganisationOffering.lwf" role="organisation" />
+    
+    <!-- Organisastion Offering actions and Flows -->
+    <action name="CreateOrganisationOfferingComponent" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent" file="/flows/organisationOfferingComponent/CreateOrganisationOfferingComponent.lwf" role="organisation" />
+    <action name="UpdateOrganisationOfferingComponent" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent" file="/flows/organisationOfferingComponent/UpdateOrganisationOfferingComponent.lwf" role="organisation" />
+    <action name="RemoveOrganisationOfferingComponent" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent" file="/flows/organisationOfferingComponent/RemoveOrganisationOfferingComponent.lwf" role="organisation" />
     
     
 </actions>

@@ -36,8 +36,8 @@ flow CreateUser {
    def endPoint
 
    {
-       service.createNewUser(User)
+       endPoint.createNewUser(User)
        store.persist(User)
-       log.info("Created the [" + User.username + "]")
+       log.info("Created the user [" + User.username + "]")
    }
 }

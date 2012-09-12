@@ -258,8 +258,38 @@ try {
     
     
     // setup a package
-    def userPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
+    def guestUserPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
         
+    log.debug("Set the values")
+    guestUserPckg.setId('base-guest-pckg')
+    guestUserPckg.setName('Base Guest Packge')
+    guestUserPckg.setDescription('Base Guest Packge')
+    guestUserPckg.setThumbnail('image/pckg/user.png')
+    guestUserPckg.setIcon('image/pckg/user-icon.png')
+    def guestUserPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    def guestUserPckgProducts = []
+    guestUserPckgConfig.setId("user:base-guest-package")
+    guestUserPckgConfig.setProduct(userProduct)
+    guestUserPckgConfig.setData("guest")
+    guestUserPckgProducts.add(guestUserPckgConfig)
+    def guestUserDesktopPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    guestUserDesktopPckgConfig.setId("desktop:base-guest-package")
+    guestUserDesktopPckgConfig.setProduct(desktopProduct)
+    guestUserDesktopPckgConfig.setData("Dipforge")
+    guestUserDesktopPckgConfig.add(guestUserDesktopPckgConfig)
+    def guestUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    guestUserApplicationPckgConfig.setId("application:base-guest-package")
+    guestUserApplicationPckgConfig.setProduct(applicationProduct)
+    guestUserApplicationPckgConfig.setData("[name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png]")
+    guestUserPckgProducts.add(guestUserApplicationPckgConfig)
+    
+    guestUserPckg.setProducts(guestUserPckgProducts)
+    
+    log.debug("##### Init the request : " + guestUserPckg.toXML())
+    RequestHandler.getInstance("bss", "CreatePckg", guestUserPckg).makeRequest()
+    
+    def userPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
+    
     log.debug("Set the values")
     userPckg.setId('base-user-pckg')
     userPckg.setName('Base User Packge')
@@ -270,7 +300,7 @@ try {
     def userPckgProducts = []
     userPckgConfig.setId("user:base-user-package")
     userPckgConfig.setProduct(userProduct)
-    userPckgConfig.setData("Daemon")
+    userPckgConfig.setData("user")
     userPckgProducts.add(userPckgConfig)
     def userDesktopPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     userDesktopPckgConfig.setId("desktop:base-user-package")
@@ -287,6 +317,67 @@ try {
     
     log.debug("##### Init the request : " + userPckg.toXML())
     RequestHandler.getInstance("bss", "CreatePckg", userPckg).makeRequest()
+    
+    def techUserPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
+    
+    log.debug("Set the values")
+    techUserPckg.setId('base-tech-user-pckg')
+    techUserPckg.setName('Base Technical User Packge')
+    techUserPckg.setDescription('Base Technical User Packge')
+    techUserPckg.setThumbnail('image/pckg/user.png')
+    techUserPckg.setIcon('image/pckg/user-icon.png')
+    def techUserPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    def techUserPckgProducts = []
+    techUserPckgConfig.setId("user:base-tech-user-package")
+    techUserPckgConfig.setProduct(userProduct)
+    techUserPckgConfig.setData("technical")
+    techUserPckgProducts.add(techUserPckgConfig)
+    def techUserDesktopPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    techUserDesktopPckgConfig.setId("desktop:base-tech-user-package")
+    techUserDesktopPckgConfig.setProduct(desktopProduct)
+    techUserDesktopPckgConfig.setData("Dipforge")
+    techUserPckgProducts.add(techUserDesktopPckgConfig)
+    def techUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    techUserApplicationPckgConfig.setId("application:base-tech-user-package")
+    techUserApplicationPckgConfig.setProduct(applicationProduct)
+    techUserApplicationPckgConfig.setData("[name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png]")
+    techUserPckgProducts.add(techUserApplicationPckgConfig)
+    
+    techUserPckg.setProducts(techUserPckgProducts)
+    
+    log.debug("##### Init the request : " + techUserPckg.toXML())
+    RequestHandler.getInstance("bss", "CreatePckg", techUserPckg).makeRequest()
+    
+    def adminUserPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
+    
+    log.debug("Set the values")
+    adminUserPckg.setId('base-admin-user-pckg')
+    adminUserPckg.setName('Base Admin User Packge')
+    adminUserPckg.setDescription('Base Admin User Packge')
+    adminUserPckg.setThumbnail('image/pckg/user.png')
+    adminUserPckg.setIcon('image/pckg/user-icon.png')
+    def adminUserPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    def adminUserPckgProducts = []
+    adminUserPckgConfig.setId("user:base-admin-user-package")
+    adminUserPckgConfig.setProduct(userProduct)
+    adminUserPckgConfig.setData("admin")
+    adminUserPckgProducts.add(adminUserPckgConfig)
+    def adminUserDesktopPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    adminUserDesktopPckgConfig.setId("desktop:base-admin-user-package")
+    adminUserDesktopPckgConfig.setProduct(desktopProduct)
+    adminUserDesktopPckgConfig.setData("Dipforge")
+    adminUserPckgProducts.add(adminUserDesktopPckgConfig)
+    def adminUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    adminUserApplicationPckgConfig.setId("application:base-admin-user-package")
+    adminUserApplicationPckgConfig.setProduct(applicationProduct)
+    adminUserApplicationPckgConfig.setData("[name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png]")
+    adminUserPckgProducts.add(adminUserApplicationPckgConfig)
+    
+    adminUserPckg.setProducts(adminUserPckgProducts)
+    
+    log.debug("##### Init the request : " + adminUserPckg.toXML())
+    RequestHandler.getInstance("bss", "CreatePckg", adminUserPckg).makeRequest()
+    
     
     // setup the basic catalog
     def userCatalogEntry = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry")
@@ -323,6 +414,20 @@ try {
     log.info("##### Init the request : " + catalog.toXML())
     RequestHandler.getInstance("bss", "CreateCatalog", catalog).makeRequest()
     
+    def guestUserOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
+    
+    guestUserOffering.setId('base-guest-offering')
+    guestUserOffering.setName('Base Guest')
+    guestUserOffering.setDescription('Base Guest Offering')
+    guestUserOffering.setThumbnail('image/offering/user.png')
+    userOffering.setIcon('image/offering/user-icon.png')
+    guestUserOffering.setPckg(guestUserPckg)
+    guestUserOffering.setCatalog(userCatalogEntry)
+    guestUserOffering.setCreated(new java.util.Date());
+    guestUserOffering.setStatus("active");
+    log.debug("##### Package xml : " + guestUserOffering.getPckg().toXML())
+    RequestHandler.getInstance("bss", "CreateOffering", guestUserOffering).makeRequest()
+    
     def userOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
     
     userOffering.setId('base-user-offering')
@@ -336,6 +441,34 @@ try {
     userOffering.setStatus("active");
     log.debug("##### Package xml : " + userOffering.getPckg().toXML())
     RequestHandler.getInstance("bss", "CreateOffering", userOffering).makeRequest()
+    
+    def techUserOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
+    
+    techUserOffering.setId('base-tech-user-offering')
+    techUserOffering.setName('Base Technical User')
+    techUserOffering.setDescription('Base Technical User Offering')
+    techUserOffering.setThumbnail('image/offering/user.png')
+    techUserOffering.setIcon('image/offering/user-icon.png')
+    techUserOffering.setPckg(techUserPckg)
+    techUserOffering.setCatalog(userCatalogEntry)
+    techUserOffering.setCreated(new java.util.Date());
+    techUserOffering.setStatus("active");
+    log.debug("##### Package xml : " + techUserOffering.getPckg().toXML())
+    RequestHandler.getInstance("bss", "CreateOffering", techUserOffering).makeRequest()
+    
+    def adminUserOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
+    
+    adminUserOffering.setId('base-admin-user-offering')
+    adminUserOffering.setName('Base Admin User')
+    adminUserOffering.setDescription('Base Admin User Offering')
+    adminUserOffering.setThumbnail('image/offering/user.png')
+    adminUserOffering.setIcon('image/offering/user-icon.png')
+    adminUserOffering.setPckg(adminUserPckg)
+    adminUserOffering.setCatalog(userCatalogEntry)
+    adminUserOffering.setCreated(new java.util.Date());
+    adminUserOffering.setStatus("active");
+    log.debug("##### Package xml : " + adminUserOffering.getPckg().toXML())
+    RequestHandler.getInstance("bss", "CreateOffering", adminUserOffering).makeRequest()
     
     print "success"
 } catch (Exception ex) {

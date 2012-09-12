@@ -158,8 +158,6 @@
     
     <type name="OrganisationOffering" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering">
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
-        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <link name="offering" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
         <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
         <property name="installed" datatype="http://www.w3.org/2001/XMLSchema#date"/>
