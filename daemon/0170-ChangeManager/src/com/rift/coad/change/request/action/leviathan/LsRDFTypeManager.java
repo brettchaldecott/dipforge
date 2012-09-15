@@ -160,7 +160,7 @@ public class LsRDFTypeManager implements TypeManager {
         if (!configParameters.containsKey(name)) {
             throw new EngineException("The configuration parameter to match the"
                     + " annotation name [" + name + "][" + 
-                    configParameters.keySet().toString() + "]");
+                    configParameters.keySet().toString() + "] does not exist.");
         }
         LsActionRDFProperty data = (LsActionRDFProperty)configParameters.get(name);
         if (!data.getDataTypeUri().equals(type)) {
