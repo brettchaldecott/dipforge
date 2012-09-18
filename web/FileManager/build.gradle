@@ -36,7 +36,7 @@ dependencies {
     compile group: 'commons-net', name: 'commons-net', version: '1.4.1', ext: 'jar', transitive: true
     compile group: 'appbase', name: 'appbase', version: '1.0', ext: 'jar', transitive: true
     compile group: 'org.apache.tomcat', name: 'servlet-api', version: '6.0.29', ext: 'jar'
-    compile group: 'apache-taglibs', name: 'standard', version: '1.1.2', ext: 'jar'
+    compile group: 'taglibs', name: 'standard', version: '1.1.2', ext: 'jar'
     compile project(':libs:CoadunationLib')
     compile project(':libs:CoadunationAnnotations')
     compile project(':utils:CoadunationUtil')
