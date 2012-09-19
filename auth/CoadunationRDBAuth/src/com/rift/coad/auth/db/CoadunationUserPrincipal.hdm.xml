@@ -36,7 +36,7 @@
             not-null="true"
             cascade="none"
         >
-            <column name="user" />
+            <column name="user_column" />
         </many-to-one>
 
         <!-- bi-directional many-to-one association to the Coadunation Principal -->

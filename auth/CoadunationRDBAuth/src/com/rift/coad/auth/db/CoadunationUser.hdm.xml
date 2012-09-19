@@ -43,7 +43,7 @@
             
         >
             <key>
-                <column name="user" />
+                <column name="user_column" />
             </key>
             
             <one-to-many 
