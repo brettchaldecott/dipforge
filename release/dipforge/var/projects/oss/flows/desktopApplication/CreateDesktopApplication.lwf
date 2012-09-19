@@ -27,17 +27,17 @@
 @java("out")
 @java("log")
 @rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" "DesktopApplication")
-@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" "User")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" "user")
 @service("oss" "oss" "com.dipforge.user.AddUserPrincipal" "endPoint")
 @store("store")
 flow CreateDesktopApplication {
     def out
     def log
     def DesktopApplication
-    def User
+    def user
     def endPoint
     {
-        endPoint.addNewPrincipal(User,DesktopApplication.principal)
+        endPoint.addNewPrincipal(user,DesktopApplication.principal)
         store.persist(DesktopApplication)
         log.info("The desktop [" + DesktopApplication.name + "] has been removed")
     }

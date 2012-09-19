@@ -44,10 +44,10 @@
             com.rift.coad.auth.RDBRoleHandler
         </entry>
         <entry key="principals" type="string">
-            admin,special,guest,daemon,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager
+            admin,special,guest,daemon,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager,isp_manager,base,organisation
         </entry>
         <entry key="roles" type="string">
-            admin,special,guest,daemon,test,accessor,sudo,manager,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager
+            admin,special,guest,daemon,test,accessor,sudo,manager,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager,isp_manager,base,organisation
         </entry>
         <entry key="admin" type="string">
             admin
@@ -123,6 +123,15 @@
         </entry>
         <entry key="category_manager" type="string">
             category_manager
+        </entry>
+        <entry key="isp_manager" type="string">
+            isp_manager
+        </entry>
+        <entry key="base" type="string">
+            base
+        </entry>
+        <entry key="organisation" type="string">
+            organisation
         </entry>
     </object>
     <object name="com.rift.coad.lib.security.user.xml.XMLUserParser">

@@ -47,8 +47,6 @@ if (result.size() >= 1) {
     def offeringUtil = new OfferingUtil(offering)
     def organisation = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation/base")
     
-    
-    
     def organisationOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering")
     organisationOffering.setId("base-${params.userId}")
     organisationOffering.setOffering(offering)
@@ -83,6 +81,60 @@ if (result.size() >= 1) {
     
     userRequest.createChild('bss', 'CreateOrganisationOfferingComponent', userOrganisationOffering)
     
+    def desktop = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop#Desktop");
+    
+    desktop.setId(params.userId)
+    def desktopConfig = offeringUtil.getProductConfig("desktop")
+    desktop.setName(desktopConfig.getData())
+    desktop.setCreated(new java.util.Date())
+    desktop.setModified(new java.util.Date())
+    desktop.setUser(user)
+    
+    def desktopRequest = userRequest.createChild('oss', 'CreateDesktop', desktop)
+    
+    def desktopOrganisationOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent")
+    def desktopProduct = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product/desktop")
+    desktopOrganisationOffering.setId("desktop-${params.userId}")
+    desktopOrganisationOffering.setProduct(desktopProduct)
+    desktopOrganisationOffering.setUri("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop#Desktop/${params.userId}")
+    desktopOrganisationOffering.setOrganisationOffering(organisationOffering)
+    
+    desktopRequest.createChild('bss', 'CreateOrganisationOfferingComponent', desktopOrganisationOffering)
+    
+    // create the applications
+    def applicationConfig = offeringUtil.getProductConfig("application")
+    def appList = applicationConfig.getData().split(":")
+    def applicationProduct = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product/application")
+    appList.each { appEntry ->
+        def desktopApplication = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication");
+        
+        def appInfo = processAppEntry(log, appEntry)
+        def appName = appInfo["name"]
+        desktopApplication.setId("application-${params.userId}-${appName}")
+        desktopApplication.setName(appName)
+        desktopApplication.setUrl(appInfo["url"])
+        desktopApplication.setPrincipal(appInfo["principle"])
+        desktopApplication.setThumbnail(appInfo["thumbnail"])
+        desktopApplication.setIcon(appInfo["icon"])
+        desktopApplication.setCreated(new java.util.Date())
+        desktopApplication.setModified(new java.util.Date())
+        desktopApplication.setDesktop(desktop)
+        desktopApplication.setUser(user)
+        
+        def applicationRequest = 
+            desktopRequest.createChild('oss', 'CreateDesktopApplication', desktopApplication)
+            
+        
+        def applicationOrganisationOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent")
+        applicationOrganisationOffering.setId("application-${params.userId}-${appName}")
+        applicationOrganisationOffering.setProduct(applicationProduct)
+        applicationOrganisationOffering.setUri("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication/application-${params.userId}-${appName}")
+        applicationOrganisationOffering.setOrganisationOffering(organisationOffering)
+        
+        applicationRequest.createChild('bss', 'CreateOrganisationOfferingComponent', applicationOrganisationOffering)
+        
+    }
+    
     request.makeRequest()
     
     print "success"
@@ -92,3 +144,17 @@ if (result.size() >= 1) {
 }
 
 
+def processAppEntry(def log, def appEntry) {
+    log.info("Entry : " + appEntry)
+    def result = [:]
+    def appEntryValues = appEntry.split(",")
+    
+    appEntryValues.each {value ->
+        log.info("Value is : " + value)
+        def keyValue = value.split("=")
+        if (keyValue.length == 2) {
+            result[keyValue[0]] = keyValue[1]
+        }
+    }
+    return result
+}

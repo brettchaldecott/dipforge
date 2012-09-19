@@ -29,6 +29,10 @@
         <principal>product_manager</principal>
         <principal>category</principal>
         <principal>category_manager</principal>
+        <principal>isp_manager</principal>
+        <principal>organisation</principal>
+        <principal>base</principal>
+        <principal>organisation</principal>
     </user>
     <user name="daemon" password="112233">
         <principal>daemon</principal>

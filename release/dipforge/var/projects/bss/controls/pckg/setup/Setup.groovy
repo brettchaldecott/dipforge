@@ -276,11 +276,11 @@ try {
     guestUserDesktopPckgConfig.setId("desktop:base-guest-package")
     guestUserDesktopPckgConfig.setProduct(desktopProduct)
     guestUserDesktopPckgConfig.setData("Dipforge")
-    guestUserDesktopPckgConfig.add(guestUserDesktopPckgConfig)
+    guestUserPckgProducts.add(guestUserDesktopPckgConfig)
     def guestUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     guestUserApplicationPckgConfig.setId("application:base-guest-package")
     guestUserApplicationPckgConfig.setProduct(applicationProduct)
-    guestUserApplicationPckgConfig.setData("[name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png]")
+    guestUserApplicationPckgConfig.setData("name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png")
     guestUserPckgProducts.add(guestUserApplicationPckgConfig)
     
     guestUserPckg.setProducts(guestUserPckgProducts)
@@ -310,7 +310,7 @@ try {
     def userApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     userApplicationPckgConfig.setId("application:base-user-package")
     userApplicationPckgConfig.setProduct(applicationProduct)
-    userApplicationPckgConfig.setData("[name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png]")
+    userApplicationPckgConfig.setData("name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png")
     userPckgProducts.add(userApplicationPckgConfig)
     
     userPckg.setProducts(userPckgProducts)
@@ -340,7 +340,7 @@ try {
     def techUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     techUserApplicationPckgConfig.setId("application:base-tech-user-package")
     techUserApplicationPckgConfig.setProduct(applicationProduct)
-    techUserApplicationPckgConfig.setData("[name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png]")
+    techUserApplicationPckgConfig.setData("name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png")
     techUserPckgProducts.add(techUserApplicationPckgConfig)
     
     techUserPckg.setProducts(techUserPckgProducts)
@@ -370,7 +370,7 @@ try {
     def adminUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     adminUserApplicationPckgConfig.setId("application:base-admin-user-package")
     adminUserApplicationPckgConfig.setProduct(applicationProduct)
-    adminUserApplicationPckgConfig.setData("[name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png]")
+    adminUserApplicationPckgConfig.setData("name=ide,principle=ide,url=/desktop/ide/,thumbnail=images/apps/ide.png,icon=images/apps/ide.png")
     adminUserPckgProducts.add(adminUserApplicationPckgConfig)
     
     adminUserPckg.setProducts(adminUserPckgProducts)
@@ -420,7 +420,7 @@ try {
     guestUserOffering.setName('Base Guest')
     guestUserOffering.setDescription('Base Guest Offering')
     guestUserOffering.setThumbnail('image/offering/user.png')
-    userOffering.setIcon('image/offering/user-icon.png')
+    guestUserOffering.setIcon('image/offering/user-icon.png')
     guestUserOffering.setPckg(guestUserPckg)
     guestUserOffering.setCatalog(userCatalogEntry)
     guestUserOffering.setCreated(new java.util.Date());

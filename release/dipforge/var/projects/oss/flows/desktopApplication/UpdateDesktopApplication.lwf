@@ -27,13 +27,13 @@
 @java("out")
 @java("log")
 @rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" "DesktopApplication")
-@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" "User")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User" "user")
 @store("store")
 flow UpdateDesktopApplication {
     def out
     def log
     def DesktopApplication
-    def User
+    def user
     {
         
         store.persist(DesktopApplication)

@@ -58,6 +58,8 @@
         <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="url" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="principal" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
         <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>

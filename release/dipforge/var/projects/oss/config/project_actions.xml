@@ -19,8 +19,8 @@
     <action name="RemoveDesktop" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop#Desktop" file="/flows/desktop/RemoveDesktop.lwf" role="daemon" />
     
     <!-- Desktop Applciation actions and flows -->
-    <action name="CreateDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/user/CreateDesktopApplication.lwf" role="daemon" />
-    <action name="UpdateDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/user/UpdateDesktopApplication.lwf" role="daemon" />
-    <action name="RemoveDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/user/RemoveDesktopApplication.lwf" role="daemon" />
+    <action name="CreateDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/desktopApplication/CreateDesktopApplication.lwf" role="daemon" />
+    <action name="UpdateDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/desktopApplication/UpdateDesktopApplication.lwf" role="daemon" />
+    <action name="RemoveDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/desktopApplication/RemoveDesktopApplication.lwf" role="daemon" />
     
 </actions>

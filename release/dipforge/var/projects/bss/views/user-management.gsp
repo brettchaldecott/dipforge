@@ -94,7 +94,10 @@ Author: admin
               <label class="control-label" for="userType">User Type</label>
               <div class="controls">
                 <select class="input-large" id="userType" name="userType">
+                    <option value="base-guest-offering">Guest</option>
                     <option value="base-user-offering">Base</option>
+                    <option value="base-tech-user-offering">Technical</option>
+                    <option value="base-admin-user-offering">Admin</option>
                 </select>
                 <p class="help-block">The base user type.</p>
               </div>
