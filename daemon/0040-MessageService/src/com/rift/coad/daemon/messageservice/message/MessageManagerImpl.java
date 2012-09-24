@@ -159,7 +159,7 @@ public class MessageManagerImpl implements MessageManager {
                 message.setNextProcess(new Timestamp(
                         ((MessageImpl)newMessage).getNextProcessDate().getTime()));
                 message.setMessageState(newMessage.getState());
-                session.persist(message);
+                message = (com.rift.coad.daemon.messageservice.db.Message)session.get(com.rift.coad.daemon.messageservice.db.Message.class,session.save(message));
                 
                 if (newMessage instanceof RPCMessage) {
                     RPCMessage rpcMessage = (RPCMessage)newMessage;
@@ -177,14 +177,24 @@ public class MessageManagerImpl implements MessageManager {
                                 ((RPCMessageImpl)rpcMessage).getResultBytes().
                                 clone());
                     }
-                    session.persist(rpcBody);
+                    try {
+                        session.persist(rpcBody);
+                    } catch (Exception ex) {
+                        log.info("Failed to add the rpc body : " + 
+                                ex.getMessage(),ex);
+                    }
                 } else if (newMessage instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage)newMessage;
                     MessageTxtBody txtBody = new MessageTxtBody();
                     txtBody.setMessage(message);
                     txtBody.setMessageId(message.getId());
                     txtBody.setBody(textMessage.getTextBody());
-                    session.persist(txtBody);
+                    try {
+                        session.persist(txtBody);
+                    } catch (Exception ex) {
+                        log.info("Failed to add the text body : " + 
+                                ex.getMessage(),ex);
+                    }
                 } else {
                     log.error("The message type [" + newMessage.getClass().getName()
                     + "] is not recognised.");
@@ -200,7 +210,12 @@ public class MessageManagerImpl implements MessageManager {
                         MessageService messageServices = new MessageService();
                         messageServices.setMessage(message);
                         messageServices.setService(services[index]);
-                        session.persist(messageServices);
+                        try {
+                            session.persist(messageServices);
+                        } catch (Exception ex) {
+                            log.info("Failed to log the message service : " + 
+                                    ex.getMessage(),ex);
+                        }
                     }
                 }
                 
@@ -233,7 +248,12 @@ public class MessageManagerImpl implements MessageManager {
                     } else if (value instanceof byte[]) {
                         property.setObjectValue((byte[])value);
                     }
-                    session.persist(property);
+                    try {
+                        session.persist(property);
+                    } catch (Exception ex) {
+                        log.info("Failed to save the property : " + 
+                                ex.getMessage(),ex);
+                    }
                 }
                 
                 // the message information
@@ -247,7 +267,12 @@ public class MessageManagerImpl implements MessageManager {
                     String principalStr = (String)iter.next();
                     //log.info("Add principal : " + principalStr);
                     principal.setPrincipalValue(principalStr);
-                    session.persist(principal);
+                    try {
+                        session.persist(principal);
+                    } catch (Exception ex) {
+                        log.info("Failed to save the principal : " + 
+                                ex.getMessage(),ex);
+                    }
                 }
                 List errors = newMessage.getErrors();
                 for (Iterator iter = errors.iterator(); iter.hasNext();) {
@@ -262,13 +287,18 @@ public class MessageManagerImpl implements MessageManager {
                             messageError.getErrorDate().getTime()));
                     dbMessageError.setErrorLevel(messageError.getLevel());
                     dbMessageError.setMsg(messageError.getMSG());
-                    session.persist(dbMessageError);
+                    try {
+                        session.persist(dbMessageError);
+                    } catch (Exception ex) {
+                        log.info("Failed to log the message : " + 
+                                ex.getMessage(),ex);
+                    }
                 }
                 
             } catch (Exception ex) {
                 log.error("Failed to apply the changes : " + ex.getMessage(),ex);
-                throw new ChangeException(
-                        "Failed to apply the changes : " + ex.getMessage(),ex);
+                //throw new ChangeException(
+                //        "Failed to apply the changes : " + ex.getMessage(),ex);
             }
             
         }
@@ -320,8 +350,9 @@ public class MessageManagerImpl implements MessageManager {
                 message.setMessageQueue(messageQueue);
             } catch (Exception ex) {
                 log.error("Failed to apply the changes : " + ex.getMessage(),ex);
-                throw new ChangeException(
-                        "Failed to apply the changes : " + ex.getMessage(),ex);
+                // ignore failed application
+                //throw new ChangeException(
+                //        "Failed to apply the changes : " + ex.getMessage(),ex);
             }
         }
     }
@@ -347,9 +378,9 @@ public class MessageManagerImpl implements MessageManager {
             } catch (Exception ex) {
                 log.error("Failed to clone the updated message : " +
                         ex.getMessage(),ex);
-                throw new MessageServiceException(
-                        "Failed to clone the updated message : " +
-                        ex.getMessage(),ex);
+                //throw new MessageServiceException(
+                //        "Failed to clone the updated message : " +
+                //        ex.getMessage(),ex);
             }
         }
         
@@ -505,14 +536,13 @@ public class MessageManagerImpl implements MessageManager {
                             "] is not recognised.");
                 }
                 
-            } catch (ChangeException ex) {
-                throw ex;
             } catch (Exception ex) {
                 log.error("Failed to update the message because : " +
                         ex.getMessage(),ex);
-                throw new ChangeException(
-                        "Failed to update the message because : " +
-                        ex.getMessage(),ex);
+                // ignore failed application
+                //throw new ChangeException(
+                //        "Failed to update the message because : " +
+                //        ex.getMessage(),ex);
             }
         }
     }
@@ -572,9 +602,10 @@ public class MessageManagerImpl implements MessageManager {
             } catch (Exception ex) {
                 log.error("Failed to failed to remove the message from the db : " +
                         ex.getMessage(),ex);
-                throw new ChangeException(
-                        "Failed to failed to remove the message from the db : " +
-                        ex.getMessage(),ex);
+                // ignore failed application
+                //throw new ChangeException(
+                //        "Failed to failed to remove the message from the db : " +
+                //        ex.getMessage(),ex);
             }
         }
     }
