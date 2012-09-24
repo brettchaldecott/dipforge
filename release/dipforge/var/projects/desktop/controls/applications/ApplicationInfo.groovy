@@ -16,7 +16,7 @@ def result = RDF.query("SELECT ?d WHERE {" +
     "FILTER (?username = '${request.getRemoteUser()}')} " +
     "ORDER BY ?username ")
     
-log.info("#########################   query result " + result)
+log.debug("#########################   query result " + result)
 
 def builder = new JsonBuilder()
 
@@ -78,7 +78,7 @@ if (result.size() != 1) {
             "FILTER (?id = '${desktop.getId()}')} " +
             "ORDER BY ?appName ")
     
-    log.info("#########################  application query result " + applicationResults)
+    log.debug("#########################  application query result " + applicationResults)
     
     def menu = []
     

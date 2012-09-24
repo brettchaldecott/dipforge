@@ -31,6 +31,9 @@ class RemoveUserPrincipal {
      */
     def removePrincipal(def User, def principal) {
         try {
+            if (principal == "none") {
+                return "success"
+            }
             RDBUserManagementMBean manageDaemon = (RDBUserManagementMBean)ConnectionManager.getInstance().
                     getConnection(RDBUserManagementMBean.class,"user/RDBUserManagement");
             List users = manageDaemon.listUsers()

@@ -96,7 +96,9 @@ Author: admin
                 <select class="input-large" id="userType" name="userType">
                     <option value="base-guest-offering">Guest</option>
                     <option value="base-user-offering">Base</option>
+                    <!-- No real need for a technical user at present.
                     <option value="base-tech-user-offering">Technical</option>
+                    -->
                     <option value="base-admin-user-offering">Admin</option>
                 </select>
                 <p class="help-block">The base user type.</p>

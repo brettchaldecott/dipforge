@@ -110,7 +110,8 @@ if (result.size() >= 1) {
         
         def appInfo = processAppEntry(log, appEntry)
         def appName = appInfo["name"]
-        desktopApplication.setId("application-${params.userId}-${appName}")
+        def appStripName = stripSpace(appName)
+        desktopApplication.setId("application-${params.userId}-${appStripName}")
         desktopApplication.setName(appName)
         desktopApplication.setUrl(appInfo["url"])
         desktopApplication.setPrincipal(appInfo["principle"])
@@ -126,7 +127,7 @@ if (result.size() >= 1) {
             
         
         def applicationOrganisationOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent")
-        applicationOrganisationOffering.setId("application-${params.userId}-${appName}")
+        applicationOrganisationOffering.setId("application-${params.userId}-${appStripName}")
         applicationOrganisationOffering.setProduct(applicationProduct)
         applicationOrganisationOffering.setUri("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication/application-${params.userId}-${appName}")
         applicationOrganisationOffering.setOrganisationOffering(organisationOffering)
@@ -158,3 +159,9 @@ def processAppEntry(def log, def appEntry) {
     }
     return result
 }
+
+
+def stripSpace(def appName) {
+    return appName.toString().replace(" ","");
+}
+
