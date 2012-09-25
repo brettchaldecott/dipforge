@@ -57,12 +57,12 @@ if (result.size() != 1) {
                     image: 'images/icon/Organisation.png',                
                     title: 'Administration',
                     url: '/desktop/bss/'
-                ],
+                ]/*,
                 [
                     image: 'images/icon/Admin.png',                
                     title: 'Shop',
                     url: '/shop/'
-                ]]
+                ]*/]
     
     builder(menu)
 } else {
