@@ -2,3 +2,39 @@ html * {
     margin: 0;
     padding: 0;
 }
+
+.project {
+    background-image:url('../images/project.png') !important;
+}
+
+.config {
+    background-image:url('../images/config.png') !important;
+}
+
+.controls {
+    background-image:url('../images/controls.png') !important;
+}
+
+.controls {
+    background-image:url('../images/controls.png') !important;
+}
+
+.flows {
+    background-image:url('../images/flows.png') !important;
+}
+
+.lib {
+    background-image:url('../images/lib.png') !important;
+}
+
+.packages {
+    background-image:url('../images/packages.png') !important;
+}
+
+.services {
+    background-image:url('../images/services.png') !important;
+}
+
+.views {
+    background-image:url('../images/views.png') !important;
+}

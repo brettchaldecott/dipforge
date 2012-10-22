@@ -56,14 +56,14 @@ try {
 			    def mode = "directory"
 			    def editor = "directory"
 			    def fileName = file.getName() 
-			    if (file.getType() == 1) {
+			    iconCls = 'file'
+    		    if (file.getType() == 1) {
 				    log.info("This is a file and leaf node")			
 			        leafNode = true
-			        iconCls = 'file'
 			        def pos = fileName.lastIndexOf(".")
 			        def fileSuffix = "text"
 			        // types file
-			        if (file.getPath().equals("/config/project_types.xml") ||
+                    if (file.getPath().equals("/config/project_types.xml") ||
                     file.getPath().startsWith("/config/types")) {
 			        	editor = "ace-project-types"
 			        	mode = mimeTypeMapper.getMode("xml")
@@ -96,7 +96,24 @@ try {
 			    } else if (file.getType() == 0) {
 				    log.info("This is a directory")
 				    leafNode = false
-			        iconCls = 'directory'
+                    if (file.getPath().equals("/config")) {
+                        iconCls = 'config'
+                    } else if (file.getPath().equals("/controls")) {
+                        iconCls = 'controls'
+                    } else if (file.getPath().equals("/flows")) {
+                        iconCls = 'flows'
+                    } else if (file.getPath().equals("/lib")) {
+                        iconCls = 'lib'
+                    } else if (file.getPath().equals("/packages")) {
+                        iconCls = 'packages'
+                    } else if (file.getPath().equals("/services")) {
+                        iconCls = 'services'
+                    } else if (file.getPath().equals("/views")) {
+                        iconCls = 'views'
+                    }
+                    
+                                        
+                    
 			    }
 		        tree += [
 		            [
