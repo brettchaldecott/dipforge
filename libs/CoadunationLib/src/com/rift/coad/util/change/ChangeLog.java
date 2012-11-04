@@ -200,7 +200,7 @@ public class ChangeLog implements XAResource {
         public void terminate() {
             state.terminate(true);
             synchronized(this) {
-                notify();
+                notifyAll();
             }
         }
         
@@ -261,7 +261,7 @@ public class ChangeLog implements XAResource {
     private final static String DATA_FILE = "changelog.dmp";
     
     // the logger reference
-    protected Logger log =
+    protected static Logger log =
             Logger.getLogger(ChangeLog.class.getName());
     
     // class singleton
@@ -345,16 +345,21 @@ public class ChangeLog implements XAResource {
     public static void terminate() throws
             ChangeException {
         ChangeLog changeLog = null;
+        log.info("Begin of terminate");
         synchronized(singletons) {
+            log.info("Get change log");
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             changeLog = (ChangeLog)singletons.get(loader);
             if (changeLog == null) {
                 throw new ChangeException(
                         "The change log has not been instanciated.");
             }
+            log.info("Remove change log");
             singletons.remove(loader);
         }
+        log.info("Terminate change log");
         changeLog.terminateChangeLog();
+        log.info("Change log terminated");
         
     }
     
@@ -363,10 +368,25 @@ public class ChangeLog implements XAResource {
      */
     protected void terminateChangeLog() {
         try {
+            log.info("Set state and call terminate");
             state.terminate(false);
+            log.info("Call terminate on processor");
             processor.terminate();
-            processor.join();
+            log.info("Wait for processor");
+            try {
+                processor.join(60 * 1000);
+                if (processor.isAlive()) {
+                    log.info("Thread is still alive attempting to interrupt");
+                    processor.interrupt();
+                    log.info("Waiting for thread to shut down.");
+                    processor.join(30 * 1000);
+                }
+            } catch (Exception ex) {
+              // ignore
+            }
+            log.info("Store data");
             storeData();
+            log.info("Data stored");
         } catch (Exception ex) {
             log.error("Failed to terminate the change log object : " +
                     ex.getMessage(),ex);
@@ -554,8 +574,9 @@ public class ChangeLog implements XAResource {
         } catch (Exception ex) {
             log.error("Failed to load the data : " +
                     ex.getMessage(),ex);
-            throw new ChangeException("Failed to load the data : " +
-                    ex.getMessage(),ex);
+            // If the data does not load, ignore it.
+            //throw new ChangeException("Failed to load the data : " +
+            //        ex.getMessage(),ex);
         }
     }
     
