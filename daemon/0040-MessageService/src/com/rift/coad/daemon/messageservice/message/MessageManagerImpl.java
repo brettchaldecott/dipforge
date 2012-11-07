@@ -251,7 +251,13 @@ public class MessageManagerImpl implements MessageManager {
                     try {
                         session.persist(property);
                     } catch (Exception ex) {
-                        log.info("Failed to save the property : " + 
+                        log.info("Failed to save the property [" + 
+                                property.getName().length() 
+                                + ":" +
+                                (property.getStringValue() != null ? property.getStringValue().length() : 0 )  
+                                + ":" +
+                                (property.getObjectValue() != null ? property.getObjectValue().length : 0 ) 
+                                + "] : " + 
                                 ex.getMessage(),ex);
                     }
                 }
