@@ -534,14 +534,16 @@ public class JenaPersistanceProperty implements PersistanceProperty {
             throws PersistanceException {
         try {
             if (statement == null || resource != null) {
-                throw new PersistanceException("The property [" +
-                        property.getURI() + "]has not been set.");
+                //throw new PersistanceException("The property [" +
+                //        property.getURI() + "]has not been set.");
+                // assuming a null value.
+                return null;
             } else {
                 return new JenaPersistanceResource(jenaModel,
                         statement.getResource());
             }
-        } catch (PersistanceException ex) {
-            throw ex;
+        //} catch (PersistanceException ex) {
+        //    throw ex;
         } catch (Exception ex) {
             log.error("Failed to get the value : " +
                     ex.getMessage(),ex);
