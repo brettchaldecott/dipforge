@@ -233,9 +233,14 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
             } else if (ClassTypeInfo.isCollection(classType)) {
                 result = getCollectionObject(info, resource,identifier, classType);
             } else {
-                result = BasicJDOProxyFactory.createJDOProxy(classType,
-                        persistanceSession, resource.getProperty(identifier).
-                        getValueAsResource(), ontologySession);
+                PersistanceResource resourceValue = resource.getProperty(identifier).
+                        getValueAsResource();
+                if (resourceValue != null) {
+                    result = BasicJDOProxyFactory.createJDOProxy(classType,
+                            persistanceSession, resourceValue, ontologySession);
+                } else {
+                    return null;
+                } 
             }
             checkMap.put(methodName, result);
             MethodProxy setProxy = proxy.find(obj.getClass(),
