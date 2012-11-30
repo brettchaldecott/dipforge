@@ -150,6 +150,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
     private Model jenaModel;
     private QuerySolution solution;
     private int size;
+    private List<String> columns = new ArrayList<String>();
     private List<JenaPersistanceRowEntry> entries =
             new ArrayList<JenaPersistanceRowEntry>();
     private Map<String, JenaPersistanceRowEntry> mapEntries =
@@ -166,6 +167,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
         Iterator<String> iter = solution.varNames();
         while (iter.hasNext()) {
             String name = iter.next();
+            columns.add(name);
             size++;
             JenaPersistanceRowEntry entry =
                     new JenaPersistanceRowEntry(solution.get(name));
@@ -191,7 +193,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @throws com.rift.coad.rdf.semantic.QueryException
      */
     public String[] getColumns() throws PersistanceQueryException {
-        return this.mapEntries.keySet().toArray(new String[0]);
+        return columns.toArray(new String[0]);
     }
 
     /**
