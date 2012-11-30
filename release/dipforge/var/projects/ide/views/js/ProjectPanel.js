@@ -24,8 +24,8 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
             items: [
             	Ext.create('Ext.container.Container', {
                     layout: {
-                       type: 'anchor'},
-            	    items: [this.createProjectView()]
+                       type: 'fit'},
+            	    items: [this.createListTabs()]
             	    })]
         });
         
@@ -43,7 +43,14 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
              * @param {String} id The id of the node to remove
              * @param {String} url The url of the feed
              */
-            'deletefile'
+            'deletefile',
+            /**
+             * @event toolselect Fired when a tool is selected
+             * @param {toolselect} this
+             * @param {String} tool The tool of the feed
+             * @param {String} url The url of the tool
+             */
+            'toolselect'
             
         );
         this.createContextMenu();
@@ -53,6 +60,17 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     // template method
     afterRender: function(){
         this.callParent(arguments);
+    },
+    
+    createListTabs: function() {
+        this.tabPanel = Ext.create('Ext.tab.Panel', {
+            enableTabScroll: true,
+            tabPosition: 'top',
+            border: false,
+            layout: "fit",
+            items: [this.createProjectView(),this.createToolView()]
+        });
+        return this.tabPanel;
     },
     
     /**
@@ -65,7 +83,8 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     	this.tree = Ext.create('Ext.tree.Panel', {
             //title: 'Core Team Projects',
             preventHeader: true,
-            anchor: '100% 100%',
+            title: "Projects",
+            //anchor: '100% 100%',
             collapsible: false,
             useArrows: true,
             rootVisible: false,
@@ -82,6 +101,7 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
             //the 'columns' property is now 'headers'
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
+                hideTitle: true,
                 text: 'Projects',
                 flex: 2,
                 sortable: true,
@@ -106,6 +126,46 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
     	return this.tree;
     },
     
+    
+    /**
+     * Create the DataView to be used for the feed list.
+     * @private
+     * @return {Ext.view.View}
+     */
+    createToolView: function(){
+        //Ext.ux.tree.TreeGrid is no longer a Ux. You can simply use a tree.TreePanel
+        this.tools = Ext.create('Ext.tree.Panel', {
+            preventHeader: true,
+            title: "Tools",
+            //anchor: '100% 100%',
+            collapsible: false,
+            useArrows: true,
+            rootVisible: false,
+            store: Ext.create('Ext.data.TreeStore', {
+            	model: 'File',
+            	autoLoad: true,
+            	proxy: {
+                	type: 'ajax',
+                	//the store will get the content from the .json file
+                	url: 'tools/ToolList.groovy'
+            		}
+    			}),
+            singleExpand: false,
+            //the 'columns' property is now 'headers'
+            columns: [{
+                xtype: 'treecolumn', //this is so we know which column will show the tree
+                hideTitle: true,
+                text: 'Tools',
+                flex: 2,
+                sortable: true,
+                dataIndex: 'file'
+            }],
+            listeners: {
+            	scope: this,
+                selectionchange: this.onToolSelectionChange
+                }});
+    	return this.tools;
+    },
     
     createContextMenu: function() {
     	this.mnuContext = new Ext.menu.Menu({
@@ -187,6 +247,19 @@ Ext.define('com.dipforge.IDE.ProjectPanel', {
         	this.fireEvent('fileselect', this, record.get('project'), 
         		record.get('file'), record.get('path'), record.get('editor'), record.get('mode'));
         }
+    },
+    
+    
+    /**
+     * Used when view selection changes so we can disable toolbar buttons.
+     * @private
+     */
+    onToolSelectionChange: function(model,records){
+    	var record = records[0]
+        if (record.get('leaf')) {
+            this.fireEvent('toolselect', this, record.get('project'), 
+    		    record.get('file'), record.get('path'), record.get('editor'), record.get('mode'));
+    	}
     },
     
     

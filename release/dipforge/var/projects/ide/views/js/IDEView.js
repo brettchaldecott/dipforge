@@ -66,7 +66,8 @@ Ext.define('com.dipforge.IDE.App', {
             listeners: {
                 scope: this,
                 fileselect: this.onFileSelect,
-                deletefile: this.onDeleteFile
+                deletefile: this.onDeleteFile,
+                toolselect: this.onToolSelect
             }
         });
         return this.projectPanel;
@@ -85,6 +86,14 @@ Ext.define('com.dipforge.IDE.App', {
         });
         return this.editorpanel;
     },
+	
+    /**
+     * This method is called to handle the on select event
+	 */
+	onToolSelect: function(panel,project,fileName,path,editor,mode) {
+		//alert("why now, hello world : " + path);
+		this.editorpanel.addTool(project,fileName, path,editor,mode);
+	},
 	
 	
 	/**

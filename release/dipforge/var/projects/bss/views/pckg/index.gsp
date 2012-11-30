@@ -30,7 +30,7 @@
 
     <% PageManager.includeWithResult("Menu.groovy", request, response, ["menuItem" : "package"]) %>
     
-    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "user"]) %>
+    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "package"]) %>
     
     <% PageManager.includeWithResult("Installed.groovy", request, response, [:]) %>
     

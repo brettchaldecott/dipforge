@@ -83,6 +83,37 @@ Ext.define('com.dipforge.IDE.EditorPanel', {
     
     
     /**
+     * Add a new tool
+     * @param {String} project The name of the project
+     * @param {String} fileName The file name of the project
+     * @param {String} path The path of the file
+     * @param {String} editor The type of editor
+     * @param {mode} The mode of the editor
+     */
+    addTool: function(project, fileName, path, editor, mode){
+        var id = path
+        var active = this.getComponent(id);
+        var self = this
+        if (!active) {
+            active = this.add(Ext.create('Ext.panel.Panel', {
+                layout: "fit",
+                html: '<iframe src="'+ path + '" width="100%" height="100%" frameborder=\"0\" scrolling="no" marginheight="0" marginwidth="0"/>',
+                itemId: id,
+                id: id,
+                title: fileName,
+                url: path,
+                closable: true,
+                width: '100%',
+                height: '100%'
+            }));
+            this.setActiveTab(active);
+        } else {
+            this.setActiveTab(active);
+        }
+    },
+    
+    
+    /**
      * Remove an editor
      * @param {String} project The name of the project
      * @param {String} path The path of the file

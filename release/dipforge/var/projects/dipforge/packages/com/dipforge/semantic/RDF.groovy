@@ -252,6 +252,107 @@ class RDF {
      * @return The results of the query.
      * @param The query string.
      */
+    static def queryWithColumns(String query) {
+        try {
+            Class configClass = null
+            try {
+                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+            } catch (Exception ex) {
+                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+            }
+            Session session = SemanticUtil.getInstance(configClass).getSession();
+            def records = session.createSPARQLQuery(query).execute()
+            log.debug("The number of records is " + records.size())
+            
+            def result = []
+            if (records.size() > 0) {
+                def firstRecord = records.get(0)
+                def columnName = []
+                for (column in firstRecord.getColumns()) {
+                    columnName.add(column)
+                }
+                result.add(columnName)
+                
+                for (record in records) {
+                    def row = []
+                    log.debug("The number of columns " + record.size())
+                
+                    for (int i = 0; i < record.size(); i++) {
+                        def dataType = record.getType(i)
+                        def dataTypeURI = dataType.getURI().toString()
+                        if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_STRING).getURI().toString())) {
+                            row.add(record.get(String.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {
+                            row.add(record.get(Boolean.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_FLOAT).getURI().toString())) {
+                            row.add(record.get(Float.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
+                            row.add(record.get(Double.class,i))
+                        } /*else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                            typeInstance."${propertyName}" = resource.getProperty(Double.class,
+                                classProperty.getURI().toString())
+                        } */else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
+                            row.add(record.get(Integer.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_LONG).getURI().toString())) {
+                            row.add(record.get(Long.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_INT).getURI().toString())) {
+                            row.add(record.get(Integer.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_SHORT).getURI().toString())) {
+                            row.add(record.get(Short.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_BYTE).getURI().toString())) {
+                            row.add(record.get(Byte.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                            row.add(record.get(Date.class,i))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
+                            row.add(record.get(Date.class,i))
+                        } else {
+                            def rdfResult = create(session,record.getType(i).getURI().toString());
+                            Resource resource = record.get(Resource.class,i)
+                            rdfResult.builder.populateType(resource);
+                            row.add(rdfResult)
+                        }
+                    }
+                    result.add(row)
+                }
+            }
+            return result
+        } catch (Exception ex) {
+            log.error("Failed to perform the query because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method executes a query and returns the results of that query.
+     * 
+     * @return The results of the query.
+     * @param The query string.
+     */
     static def queryXML(String xml, String query) {
         try {
             Session session = XMLSemanticUtil.getSession()
