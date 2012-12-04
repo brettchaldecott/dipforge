@@ -13,9 +13,10 @@ Author: brett chaldecott
           </a>
           <a class="brand" href="../">Management</a>
           <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-user"></i>${request.getRemoteUser()}<span class="caret"></span></a>
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-shopping-cart"></i>Checkout<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="index.gsp">Profile</a></li>
+                <li><a href="checkout.gsp"><i class="icon-shopping-cart"></i>&nbsp;Checkout</a></li>
+                <li><a href="index.gsp"><i class="icon-user"></i>&nbsp;Profile</a></li>
             </ul>
           </div>
           <div class="nav-collapse">

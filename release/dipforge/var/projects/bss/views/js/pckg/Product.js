@@ -256,7 +256,7 @@ $(document).ready(function() {
     });
     
     
-    $('[id^=hoveroverimage]').popover({"placement":"bottom"});
+    $('[id^=hoveroverimage]').popover({"placement":"bottom","trigger":"hover","html":"true"});
 });
 
 
