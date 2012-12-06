@@ -22,6 +22,34 @@
 
 import com.dipforge.utils.PageManager;
 import org.apache.log4j.Logger;
+import com.dipforge.semantic.RDF;
+
+def log = Logger.getLogger("com.dipforge.log.manage.shopping.List");
+
+def values = request.getAttribute("GROOVY_RESULT")
+
+if (values != null && values instanceof java.util.Map && values.menuItem == "shopping") {
+    def result = RDF.query("SELECT ?s WHERE {" +
+        "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog> . } ")
+    if (result.size() != 0) {
+        result[0][0].getEntries()?.each { entry ->
+            walkCatalogEntry(entry)
+        }
+    }
+    log.info("With include with result")
+    PageManager.includeWithResult("sidebar.gsp", request, response, ["catalog": result[0][0]])
+} else {
+    PageManager.include("sidebar.gsp", request, response)
+}
 
 
-PageManager.include("sidebar.gsp", request, response)
+
+
+/**
+ * This method walks the catalog
+ */
+def walkCatalogEntry(def entry) {
+    entry.getChildren()?.each { child ->
+        walkCatalogEntry(child)
+    }
+}

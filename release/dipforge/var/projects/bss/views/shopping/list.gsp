@@ -3,6 +3,7 @@ Date: Wed Jun 27 05:43:54 SAST 2012
 File: list.gsp
 Author: brett chaldecott
 -->
+<% import java.text.DecimalFormat %>
 
     <div class="span9">
       <ul class="thumbnails" id="offeringThumbnails">
@@ -18,6 +19,30 @@ Author: brett chaldecott
                     <div class="caption">
                         <h5><img src="${params.contextBase}${offering.getIcon()}" style="height:16px;width:16px;"/> ${offering.getName()}</h5>
                         <p>${offering.getDescription()}</p>
+                        <%
+                            def costs = ""
+                            def sep = ""
+                            def setupCost = 0.0
+                            def monthlyCost = 0.0
+                            def format = new DecimalFormat("#,##0.00")
+                            offering.getCosts()?.each { cost ->
+                                if (cost.getType() != null && cost.getType() != "") {
+                                    costs += sep + cost.getId() + ",," + cost.getLineItem() + ",," + cost.getType() + ",," + cost.getAmount()
+                                    sep = "||"
+                                    if (cost.getType() == "setup") {
+                                        setupCost += cost.getAmount()
+                                    } else if (cost.getType() == "monthly") {
+                                        monthlyCost += cost.getAmount()
+                                    } 
+                                    
+                                }
+                            }
+                            setupCost = setupCost / 100
+                            monthlyCost = monthlyCost / 100
+                            
+                        %>
+                        <p><b>Setup</b> ${format.format(setupCost)}</p>
+                        <p><b>Monthly</b> ${format.format(monthlyCost)}</p>
                         <p><a href="javascript:addOffering('${offering.getId()}');" class="btn btn-primary"><i class="icon-shopping-cart"></i>Add</a></p>
                         <form id="offeringForm${offering.getId()}" name="offeringForm${offering.getId()}">
                             <input type="hidden" name="offeringId${offering.getId()}" id="offeringId${offering.getId()}" value="${offering.getId()}" />
@@ -25,19 +50,7 @@ Author: brett chaldecott
                             <input type="hidden" name="offeringDescription${offering.getId()}" id="offeringDescription${offering.getId()}" value="${offering.getDescription()}" />
                             <input type="hidden" name="offeringThumbnail${offering.getId()}" id="offeringThumbnail${offering.getId()}" value="${offering.getThumbnail()}" />
                             <input type="hidden" name="offeringIcon${offering.getId()}" id="offeringIcon${offering.getId()}" value="${offering.getThumbnail()}" />
-                            <input type="hidden" name="offeringPackage${offering.getId()}" id="offeringPackage${offering.getId()}" value="${offering.getPckg().getId()}" />
-                            <input type="hidden" name="offeringCatalog${offering.getId()}" id="offeringCatalog${offering.getId()}" value="${offering.getCatalog()?.getId()}" />
                             <input type="hidden" name="offeringCreated${offering.getId()}" id="offeringCreated${offering.getId()}" value="${offering.getCreated()}" />
-                            <%
-                            def costs = ""
-                            def sep = ""
-                            offering.getCosts()?.each { cost ->
-                                if (cost.getType() != null && cost.getType() != "") {
-                                    costs += sep + cost.getId() + ",," + cost.getLineItem() + ",," + cost.getType() + ",," + cost.getAmount()
-                                    sep = "||"
-                                }
-                            }
-                            %>
                             <input type="hidden" name="offeringCosts${offering.getId()}" id="offeringCosts${offering.getId()}" value="${costs}" />
                         </form>
                     </div>
@@ -97,35 +110,6 @@ Author: brett chaldecott
                 <input type="text" class="input-large" id="icon" name="icon">
                 <p class="help-block">Icon URL or server path.</p>
               </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="offeringPackage">Package</label>
-                <div class="controls">
-                <select class="input-large" id="offeringPackage" name="offeringPackage">
-                    <%
-                    params.pckgs.each { pckgs ->
-                        def pckg = pckgs[0]
-                        %>
-                        <option value="${pckg.getId()}">${pckg.getName()}</option>
-                        <%
-                    }
-                    %>
-                </select>
-                <p class="help-block">The offering package.</p>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="offeringCatalog">Catalog</label>
-                <div class="controls">
-                <select class="input-large" id="offeringCatalog" name="offeringCatalog">
-                    <%
-                    params.catalogEntries.each { entry ->
-                        walkCatalog(entry.getName(), entry);
-                    }
-                    %>
-                </select>
-                <p class="help-block">The offering package.</p>
-                </div>
             </div>
             <table class="table">
                 <thead>

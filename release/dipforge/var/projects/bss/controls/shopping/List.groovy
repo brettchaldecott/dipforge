@@ -29,25 +29,30 @@ import org.apache.log4j.Logger;
 
 def log = Logger.getLogger("com.dipforge.log.pckg.offering.List");
 
-def offerings = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name> ?name . } " +
-    "ORDER BY ?name ")
+def offerings = []
+log.info("########################################### The shopping list parameters : " + params)
+if (params.catalogId != null) {
+    offerings = RDF.query("SELECT ?s WHERE {" +
+        "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering> .  " +
+        "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name> ?name . " +
+        "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#catalog> ?catalog ." +
+        "?catalog <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#id> ?catalogId . " +
+        "FILTER(?catalogId = '${params.catalogId}') } " +
+        "ORDER BY ?name ")
+} else {
+    offerings = RDF.query("SELECT ?s WHERE {" +
+        "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering> . " +
+        "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name> ?name . } " +
+        "ORDER BY ?name ")
+}
 
 log.debug("query result " + offerings)
 offerings.each { prods ->
     def offering = prods[0]
     log.debug("Offering configuration " + offering.getCosts());
-    log.info("Offering package" + offering.getPckg());
-    log.info("Offering catalog" + offering.getCatalog());
+    //log.info("Offering package" + offering.getPckg());
+    //log.debug("Offering catalog" + offering.getCatalog());
 }
-
-def pckgs = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg> . " +
-    "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#name> ?name . } " +
-    "ORDER BY ?name ")
-
-log.debug("query result " + pckgs)
 
 // this code is designed to use a small catalog.
 // it needs to be optimsed for larger catalogs
@@ -63,7 +68,7 @@ if (catalog.size() != 0) {
 }
 
 
-PageManager.includeWithResult("list.gsp", request, response, ["offerings" : offerings, "pckgs": pckgs, "catalogEntries": catalogEntries])
+PageManager.includeWithResult("list.gsp", request, response, ["offerings" : offerings, "catalogEntries": catalogEntries])
 
 /**
  * This method walks the catalog
