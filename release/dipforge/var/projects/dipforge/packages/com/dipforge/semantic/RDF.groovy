@@ -442,20 +442,8 @@ class RDF {
                 row.each { item ->
                     if (item instanceof Expando) {
                         variables.each { var ->
-                            def methodName = "get" + 
-                                var.substring(0,1).toUpperCase() + 
-                                var.substring(1)
-                            if (item.getProperty(methodName) != null) {
-                                try {
-                                    //log.info("###################### properties ${item.getProperties()}")
-                                    //log.info("###################### execute method ${methodName}")
-                                    // invoke the method programatically
-                                    item.invokeMethod(methodName,null)
-                                } catch (Exception ex) {
-                                    log.error("Failed to deap copy " + methodName + ": " + ex.getMessage(),ex);
-                                    // ignore
-                                }
-                            }
+                            def names = var.toString().split("[.]")
+                            deapCopyCallMethods(item, names)
                         }
                     }
                 }
@@ -463,6 +451,30 @@ class RDF {
         } catch (Exception ex) {
             log.error("Failed to perform a deap copy : " + ex.getMessage(),ex);
             throw ex;
+        }
+    }
+    
+    
+    static def deapCopyCallMethods(def data, def variablePath) {
+        if (variablePath.size() == 0) {
+            return null
+        }
+        def name = variablePath[0]
+        def methodName = "get" + 
+            name.substring(0,1).toUpperCase() + 
+            name.substring(1)
+        data.each { item -> 
+            if (item.getProperty(methodName) != null) {
+                try {
+                    def subData = item.invokeMethod(methodName,null)
+                    if (variablePath.size() > 1) {
+                        callMethods(subData,variablePath[1..(variablePath.size()-1)])
+                    }
+                } catch (Exception ex) {
+                    log.error("Failed to deap copy " + methodName + ": " + ex.getMessage(),ex);
+                    // ignore
+                }
+            }
         }
     }
 }
