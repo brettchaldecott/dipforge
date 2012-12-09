@@ -428,4 +428,38 @@ class RDF {
             throw ex;
         }
     }
+    
+    
+    /**
+     * This is a means to deap copy the information required by the frontend GSP page by pre-loading the links
+     * 
+     * @param data The data to initialize with deap copys
+     * @param variables The list of variables on the data to deap copy.
+     */
+    static def deapCopy(def data, def variables) {
+        try {
+            data.each { row ->
+                row.each { item ->
+                    if (item instanceof Expando) {
+                        variables.each { var ->
+                            def methodName = "get" + 
+                                var.substring(0,1).toUpperCase() + 
+                                var.substring(1)
+                            if (item.getProperty(methodName) != null) {
+                                try {
+                                    item."${methodName}()"
+                                } catch (Exception ex) {
+                                    log.error("Failed to deap copy " + methodName + ": " + ex.getMessage(),ex);
+                                    // ignore
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            log.error("Failed to perform a deap copy : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
 }
