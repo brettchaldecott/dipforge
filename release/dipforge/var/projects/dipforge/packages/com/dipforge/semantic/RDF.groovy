@@ -447,7 +447,10 @@ class RDF {
                                 var.substring(1)
                             if (item.getProperty(methodName) != null) {
                                 try {
-                                    item."${methodName}()"
+                                    //log.info("###################### properties ${item.getProperties()}")
+                                    //log.info("###################### execute method ${methodName}")
+                                    // invoke the method programatically
+                                    item.invokeMethod(methodName,null)
                                 } catch (Exception ex) {
                                     log.error("Failed to deap copy " + methodName + ": " + ex.getMessage(),ex);
                                     // ignore
