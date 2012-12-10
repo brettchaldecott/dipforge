@@ -463,12 +463,16 @@ class RDF {
         def methodName = "get" + 
             name.substring(0,1).toUpperCase() + 
             name.substring(1)
+        if (!(data instanceof java.util.ArrayList)) {
+            data = [data]
+        }
         data.each { item -> 
             if (item.getProperty(methodName) != null) {
+                log.debug("#####################Found the method : " + methodName);
                 try {
                     def subData = item.invokeMethod(methodName,null)
                     if (variablePath.size() > 1) {
-                        callMethods(subData,variablePath[1..(variablePath.size()-1)])
+                        deapCopyCallMethods(subData,variablePath[1..(variablePath.size()-1)])
                     }
                 } catch (Exception ex) {
                     log.error("Failed to deap copy " + methodName + ": " + ex.getMessage(),ex);
