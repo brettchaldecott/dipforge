@@ -110,7 +110,7 @@ public class WebGroovyServlet extends DipforgeServlet {
             GroovyExecuter executer = GroovyEnvironmentManager.getInstance().getExecuter(new ContextInfo(request));
             executer.executeServletScript(request, response, this);
         } catch (GroovyEnvironmentException ex) {
-            log.error("Failed to execute the call because : " + ex.getMessage(),ex);
+            log.error("Failed to execute the call because : " + ex.getMessage());
         }
     }
 

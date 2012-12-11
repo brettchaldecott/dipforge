@@ -116,11 +116,11 @@ public class GroovyExecuter {
             return run.invoke(groovyScriptEngine, script, binding);
         } catch (InvocationTargetException invocationException) {
             Throwable ex = invocationException.getTargetException();
-            log.error("Failed to execute the groovy script : " + ex.getMessage(), ex);
-            throw new GroovyEnvironmentException("Failed to execute the groovy script : " + ex.getMessage());
+            log.error("Failed to execute the groovy script : " + ex.getMessage());
+            throw new GroovyEnvironmentException("Failed to execute the groovy script : " + ex.getMessage(),ex);
 
         } catch (Throwable ex) {
-            log.error("Failed to execute the groovy script : " + ex.getMessage(), ex);
+            log.error("Failed to execute the groovy script : " + ex.getMessage());
             throw new GroovyEnvironmentException("Failed to execute the groovy script : " + ex.getMessage());
         } finally {
             // reset the class loader
