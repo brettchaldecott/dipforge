@@ -66,6 +66,14 @@ if (result.size() >= 1) {
         productConfig.setUrl(params.productGroovyConfigUrl)
         configuration.add(productConfig)
     }
+    
+    if (params.productInstallConfigUrl != null) {
+        def productConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager")
+        productConfig.setId("Install:" + params.productId)
+        productConfig.setName("Install")
+        productConfig.setUrl(params.productInstallConfigUrl)
+        configuration.add(productConfig)
+    }
     product.setConfigurationManager(configuration)
     
     product.setCategory(category)

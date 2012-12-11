@@ -62,16 +62,16 @@ class UpdateUser {
                     "desktop", "dns", "email", "groovy_manager", "guest", "request_broker", 
                     "script_manager", "special", "type_manager","office_suite", "package",
                     "package_manager","product","product_manager","category","category_manager",
-                    "isp_manager","organisation","base","organisation"];
+                    "isp_manager","organisation","base","organisation"].toArray(new String[0]);
             } else if (User.getPrincipals().equals("technical")) {
                 principals =["audit_trail", "change", "daemon", "data_mapper_broker",
                     "desktop", "dns", "email", "groovy_manager", "guest", "request_broker", 
-                    "script_manager", "special", "type_manager","office_suite"];
+                    "script_manager", "special", "type_manager","office_suite"].toArray(new String[0]);
             } else if (User.getPrincipals().equals("user")) {
                 principals = ["audit_trail", "daemon", 
-                    "desktop", "guest", "office_suite"];
+                    "desktop", "guest", "office_suite"].toArray(new String[0]);
             } else if (User.getPrincipals().equals("guest")) {
-                principals =["desktop", "guest"];
+                principals =["desktop", "guest"].toArray(new String[0]);
             } else {
                 principals = User.getPrincipals().split(",")
             }

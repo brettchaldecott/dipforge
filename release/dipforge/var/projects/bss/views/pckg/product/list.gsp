@@ -106,6 +106,13 @@ Author: brett chaldecott
               </div>
             </div>
             <div class="control-group">
+              <label class="control-label" for="productInstallConfigUrl">Install Javascript config</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="productInstallConfigUrl" name="productInstallConfigUrl" />
+                <p class="help-block">The install javascript configuration url.</p>
+              </div>
+            </div>
+            <div class="control-group">
               <label class="control-label" for="productCategory">Category</label>
               <div class="controls">
                 <select class="input-large" id="productCategory" name="productCategory">

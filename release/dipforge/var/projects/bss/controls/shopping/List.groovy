@@ -27,10 +27,10 @@ import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
 
-def log = Logger.getLogger("com.dipforge.log.pckg.offering.List");
+def log = Logger.getLogger("com.dipforge.log.shopping.List");
 
 def offerings = []
-log.info("########################################### The shopping list parameters : " + params)
+log.debug("########################################### The shopping list parameters : " + params)
 if (params.catalogId != null) {
     offerings = RDF.query("SELECT ?s WHERE {" +
         "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering> .  " +
@@ -47,34 +47,16 @@ if (params.catalogId != null) {
 }
 
 log.debug("query result " + offerings)
-offerings.each { prods ->
-    def offering = prods[0]
-    log.debug("Offering configuration " + offering.getCosts());
-    //log.info("Offering package" + offering.getPckg());
+//offerings.each { prods ->
+//    def offering = prods[0]
+    // perform the deep copies of the objects
+//    log.debug("Offering configuration " + offering.getCosts());
+//    log.debug("Offering package" + offering.getPckg());
     //log.debug("Offering catalog" + offering.getCatalog());
-}
+//}
 
-// this code is designed to use a small catalog.
-// it needs to be optimsed for larger catalogs
-def catalog = RDF.query("SELECT ?s WHERE {" +
-    "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog> . } ")
-
-def catalogEntries = []
-if (catalog.size() != 0) {
-    catalog[0][0].getEntries()?.each { entry ->
-        walkCatalogEntry(entry)
-        catalogEntries.add(entry)
-    }
-}
+RDF.deapCopy(offerings, ["pckg.products.product"])
 
 
-PageManager.includeWithResult("list.gsp", request, response, ["offerings" : offerings, "catalogEntries": catalogEntries])
+PageManager.includeWithResult("list.gsp", request, response, ["offerings" : offerings])
 
-/**
- * This method walks the catalog
- */
-def walkCatalogEntry(def entry) {
-    entry.getChildren()?.each { child ->
-        walkCatalogEntry(child)
-    }
-}

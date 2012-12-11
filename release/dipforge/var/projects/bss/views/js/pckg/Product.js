@@ -231,6 +231,7 @@ $(document).ready(function() {
         $('#productDataType').val('');
         $('#productJavascriptConfigUrl').val('');
         $('#productGroovyConfigUrl').val('');
+        $('#productInstallConfigUrl').val('');
         $('#addProductItem').show();
         $('#updateProductItem').hide();
         $('#productCloseButton').show();
@@ -327,7 +328,7 @@ function removeProduct(productId) {
 function generateThumbnail() {
     var html = [];
     
-    var configValues = "Javascript," + $('#productJavascriptConfigUrl').val() + '|Groovy,' + $('#productGroovyConfigUrl').val();
+    var configValues = "Javascript," + $('#productJavascriptConfigUrl').val() + '|Groovy,' + $('#productGroovyConfigUrl').val()+ '|Install,' + $('#productInstallConfigUrl').val();
     
     html.push('<div class="thumbnail" rel="popover"',
             ' data-content="ID: ',$('#productId').val(),
