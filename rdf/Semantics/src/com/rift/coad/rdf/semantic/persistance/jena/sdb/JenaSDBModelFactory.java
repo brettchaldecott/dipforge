@@ -27,6 +27,9 @@ import com.hp.hpl.jena.sdb.Store;
 import com.hp.hpl.jena.sdb.store.SDBStoreWrapper;
 import com.hp.hpl.jena.sdb.util.StoreUtils;
 
+import java.lang.management.ManagementFactory;
+import javax.management.ObjectName;
+
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaEscaperFactory;
@@ -57,6 +60,32 @@ public class JenaSDBModelFactory implements JenaStore {
             }
             // read in the SDB data information
             store = SDBFactory.connectStore(sdbConfigPath);
+
+            // This is a nasty work around to remove mbeans to prevent
+            // clashes on mbean services
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+            } catch (Exception ex) {
+                // ignore
+            }
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=Context"));
+            } catch (Exception ex) {
+                // ignore
+            }
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=Engine"));
+            } catch (Exception ex) {
+                // ignore
+            }
+
+
             if (!StoreUtils.isFormatted(store)) {
                 store.getTableFormatter().create();
             }
