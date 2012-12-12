@@ -52,6 +52,35 @@ public class JenaSDBModelFactory implements JenaStore {
 
     private JenaSDBModelFactory(Properties prop) throws PersistanceException {
         try {
+            // synchronize on the log
+            synchronized(ManagementFactory.getPlatformMBeanServer()) {
+            // This is a nasty work around to remove mbeans to prevent
+            // clashes on mbean services
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+            } catch (Exception ex) {
+                // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
+            }
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=Context"));
+            } catch (Exception ex) {
+                // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
+            }
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=Engine"));
+            } catch (Exception ex) {
+                // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
+            }
+
             String sdbConfigPath = prop.getProperty(PersistanceConstants.STORE_CONFIGURATION_FILE);
             if (sdbConfigPath == null) {
                 throw new PersistanceException("The configuration file [" +
@@ -69,6 +98,7 @@ public class JenaSDBModelFactory implements JenaStore {
                     "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
             } catch (Exception ex) {
                 // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
             }
             try {
                 ManagementFactory.getPlatformMBeanServer().
@@ -76,6 +106,7 @@ public class JenaSDBModelFactory implements JenaStore {
                     "com.hp.hpl.jena.sparql.system:type=Context"));
             } catch (Exception ex) {
                 // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
             }
             try {
                 ManagementFactory.getPlatformMBeanServer().
@@ -83,6 +114,7 @@ public class JenaSDBModelFactory implements JenaStore {
                     "com.hp.hpl.jena.sparql.system:type=Engine"));
             } catch (Exception ex) {
                 // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
             }
 
 
@@ -92,6 +124,34 @@ public class JenaSDBModelFactory implements JenaStore {
             dataStore = SDBFactory.connectDefaultModel(store);
             JenaEscaperFactory.getInstance().setEscaper(dataStore, 
                     new JenaSDBEscaper());
+
+            // This is a nasty work around to remove mbeans to prevent
+            // clashes on mbean services
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+            } catch (Exception ex) {
+                // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
+            }
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=Context"));
+            } catch (Exception ex) {
+                // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
+            }
+            try {
+                ManagementFactory.getPlatformMBeanServer().
+                    unregisterMBean(new ObjectName(
+                    "com.hp.hpl.jena.sparql.system:type=Engine"));
+            } catch (Exception ex) {
+                // ignore
+                log.error("Failed to remove reference : " +ex.getMessage());
+            }
+            }
         } catch (PersistanceException ex) {
             throw ex;
         } catch (Throwable ex) {
