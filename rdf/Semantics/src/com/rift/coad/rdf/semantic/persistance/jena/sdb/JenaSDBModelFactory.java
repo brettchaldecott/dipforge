@@ -52,7 +52,8 @@ public class JenaSDBModelFactory implements JenaStore {
 
     private JenaSDBModelFactory(Properties prop) throws PersistanceException {
         try {
-            // synchronize on the log
+            // synchronize on the MBeanServer to solve the race condition
+            // between the various threads
             synchronized(ManagementFactory.getPlatformMBeanServer()) {
             // This is a nasty work around to remove mbeans to prevent
             // clashes on mbean services
