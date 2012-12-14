@@ -86,7 +86,7 @@ public class FeedManagerImpl implements FeedManager, BeanRunnable {
      * @throws java.rmi.RemoteException
      * @throws com.rift.coad.daemon.event.EventException
      */
-    public void registerEvent(FeedEvent event) throws RemoteException, EventException {
+    public synchronized void registerEvent(FeedEvent event) throws RemoteException, EventException {
         try {
             Session session = HibernateUtil.getInstance(FeedManagerImpl.class).getSession();
             DBFeedEvent dbEvent = new DBFeedEvent(event.getName(), event.getExternalId(), 
