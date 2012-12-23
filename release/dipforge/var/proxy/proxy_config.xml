@@ -69,5 +69,13 @@
                 path="/DipforgeWeb/public"
                 isRewriting="true">
                 <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
+                <rule className="net.sf.j2ep.rules.DirectoryRule"
+		directory="/public" />
+        </server>
+        <server className="net.sf.j2ep.servers.BaseServer"
+                domainName="localhost:8080"
+                path="/DipforgeWeb/public"
+                isRewriting="true">
+                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
         </server>
 </config>
