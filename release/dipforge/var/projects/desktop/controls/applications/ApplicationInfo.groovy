@@ -26,37 +26,37 @@ if (result.size() != 1) {
                  [
                     image: 'images/icon/IDE.png',
                     title: 'IDE',
-                    url: '/desktop/ide/'
+                    url: '/DipforgeWeb/ide/'
                 ],
                 [
                     image: 'images/icon/Documents.png',                
                     title: 'Documentation',
-                    url: '/desktop/documentation/'
+                    url: '/DipforgeWeb/documentation/'
                 ],
                 [
                     image: 'images/icon/FileManager.png',                
                     title: 'File Manager',
-                    url: '/desktop/FileManager/path/'
+                    url: '/FileManager/path/'
                 ],
                 [
                     image: 'images/icon/Admin.png',                
                     title: 'Admin',
-                    url: '/desktop/DipforgeAdmin/'
+                    url: '/DipforgeAdmin/'
                 ],
                 [
                     image: 'images/icon/Admin.png',                
                     title: 'Tomcat',
-                    url: '/desktop/manager/html'
+                    url: '/manager/html'
                 ],
                 [
                     image: 'images/icon/Audit.png',                
                     title: 'Audit Trail Console',
-                    url: '/desktop/AuditTrailConsole/'
+                    url: '/AuditTrailConsole/'
                 ],
                 [
                     image: 'images/icon/Organisation.png',                
                     title: 'Administration',
-                    url: '/desktop/bss/'
+                    url: '/DipforgeWeb/bss/'
                 ]/*,
                 [
                     image: 'images/icon/Admin.png',                
