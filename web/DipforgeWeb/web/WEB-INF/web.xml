@@ -91,6 +91,7 @@
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.htm</welcome-file>
         <welcome-file>index.groovy</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <security-constraint>
         <display-name>public</display-name>
@@ -113,9 +114,19 @@
             <role-name>desktop</role-name>
         </auth-constraint>
     </security-constraint>
+    <!--
     <login-config>
         <auth-method>BASIC</auth-method>
         <realm-name>Dipforge Web</realm-name>
+    </login-config>
+    -->
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>Dipforge Web</realm-name>
+        <form-login-config>
+            <form-login-page>/public/login.gsp</form-login-page>
+            <form-error-page>/public/fail_login.gsp</form-error-page>
+        </form-login-config>
     </login-config>
     <security-role>
         <description>Desktop access</description>

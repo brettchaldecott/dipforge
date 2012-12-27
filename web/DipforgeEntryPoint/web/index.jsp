@@ -1,9 +1,16 @@
 <%-- 
     Document   : index
-    Created on : 19 May 2011, 3:43:34 AM
+    Created on : 27 Apr 2011, 5:29:41 PM
     Author     : brettc
 --%>
 
+<%
+response.setStatus(301);
+response.setHeader( "Location", "/DipforgeWeb/public/" );
+response.setHeader( "Connection", "close" );
+%> 
+
+<%--
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,3 +24,4 @@
         <h1>Hello World!</h1>
     </body>
 </html>
+--%>
