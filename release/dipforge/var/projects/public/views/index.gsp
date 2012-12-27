@@ -17,7 +17,7 @@
 
             <div id="navcontainer">
                 <ul id="navlist">
-                    <li id="active"><a href="/desktop/" id="current">desktop</a></li>
+                    <li id="active"><a href="/DipforgeWeb/desktop/" id="current">desktop</a></li>
                     <li><a href="/DipforgeWeb/test/index.groovy">example</a></li>
                     <li><a href="https://github.com/brettchaldecott/dipforge">github</a></li>
                     <li><a href="http://dipforge.sourceforge.net">sourceforge</a></li>
