@@ -16,7 +16,7 @@ Author: admin
     
     
 <%
-if (params.menuItem != "configuration") {%>
+if (params.menuItem != "configuration" && params.menuItem != "shopping") {%>
       
     <!-- Le javascript
     ================================================== -->

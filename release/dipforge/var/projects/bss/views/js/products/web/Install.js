@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Sat Aug 18 11:28:45 SAST 2012 owner
+ * Copyright (C) Tue Dec 18 19:03:09 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,44 +16,42 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Config.js
+ * Install.js
  * @author brett chaldecott
  */
 
 /* initilize the page */
 $(document).ready(function() {
-    productMap.desktop = new Desktop();
+    productMap.web = new Web();
 });
 
 
-var Desktop = function() {
+var Web = function() {
     if (!this) {
-        return new Desktop();
+        return new Web();
     }
     this.createDiv = function() {
         var html = [];
-        html.push("<h3>Desktop</h3>",
+        html.push("<h3>Web</h3>",
             '<div class="control-group">',
-            '<label class="control-label" for="desktopName">Name</label>',
+            '<label class="control-label" for="webQuota">Web quota</label>',
             '<div class="controls">',
-            '<input type="text" class="input-large" id="desktopName" name="desktopName" value="Dipforge">',
-            '<p class="help-block">The name of the desktop.</p>',
+            '<input type="text" class="input-large" id="webQuota" name="webQuota" disabled="true">',
+            '<p class="help-block">The size of the web quota in GIGS.</p>',
             '</div>',
             '</div>');
         return html.join('');
     };
     this.setupHooks = function() {
-        $("#desktopName").validate({
+        $("#webQuota").validate({
             expression: "if (VAL) return true; else return false;",
-            message: "Must the name of the desktop"
+            message: "Must provide quota"
         });
     };
-    this.populateValues = function(pckgId) {
-        $('#desktopName').val($('#existingPckgData' + pckgId + 'desktop').val());
+    this.populateValues = function(offeringId) {
+        $('#webQuota').val($('#existingOfferingData' + offeringId + 'web').val());
     };
-    this.generateInput = function(pckgId) {
-        return '<input type="hidden" name="existingPckgData' + pckgId + 'desktop" id="existingPckgData' + pckgId + 'desktop" value="' + $('#desktopName').val() + '" />';
-    };
-    
 };
+
+
 

@@ -37,12 +37,15 @@ if (params.catalogId != null) {
         "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name> ?name . " +
         "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#catalog> ?catalog ." +
         "?catalog <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#id> ?catalogId . " +
-        "FILTER(?catalogId = '${params.catalogId}') } " +
+        "FILTER(?catalogId = '${params.catalogId}' && ?catalogId != 'base' && ?catalogId != 'user-base') } " +
         "ORDER BY ?name ")
 } else {
     offerings = RDF.query("SELECT ?s WHERE {" +
         "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering> . " +
-        "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name> ?name . } " +
+        "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name> ?name . " +
+        "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#catalog> ?catalog ." +
+        "?catalog <http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#id> ?catalogId . " +
+        "FILTER(?catalogId != 'base' && ?catalogId != 'user-base') } " +
         "ORDER BY ?name ")
 }
 

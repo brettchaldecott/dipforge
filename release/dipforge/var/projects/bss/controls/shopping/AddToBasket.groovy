@@ -22,3 +22,31 @@
 
 package shopping
 
+import com.dipforge.semantic.RDF;
+import org.apache.log4j.Logger;
+
+
+def log = Logger.getLogger("com.dipforge.log.shopping.List");
+
+log.info("########################################### From the add to basket : " + params)
+
+def shoppingCart = [:]
+if (session.getAttribute("shopping-cart") != null) {
+    shoppingCart = session.getAttribute("shopping-cart")
+}
+log.info("####################################### shopping cart : "+ shoppingCart)
+
+shoppingCart[params.installedOfferingId] = params
+session.setAttribute("shopping-cart",shoppingCart)
+
+log.info("####################################### shopping cart : "+ shoppingCart)
+if (session.getAttribute("shopping-cart") != null) {
+    shoppingCart = session.getAttribute("shopping-cart")
+    log.info("####################################### shopping cart : "+ shoppingCart)
+}
+if (session.isNew()) {
+    log.info("####################################### Session not initialized properly")
+}
+log.info("####################################### session id : "+ session.getId())
+
+print "success"

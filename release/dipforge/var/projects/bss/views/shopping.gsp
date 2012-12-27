@@ -40,7 +40,7 @@ Author: admin
     
     <% PageManager.includeWithResult("shopping/List.groovy", request, response, [:]) %>
     
-    <% PageManager.includeWithResult("Footer.groovy", request, response, [:]) %>
+    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "shopping"]) %>
     
     <script src="chosen/chosen.jquery.js"></script>
     <script src="utils/Tools.js"></script>

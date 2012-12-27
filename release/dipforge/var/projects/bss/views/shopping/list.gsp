@@ -8,13 +8,9 @@ Author: brett chaldecott
     <div class="span9">
       <ul class="thumbnails" id="offeringThumbnails">
         <%
+        def importScripts = []
         params.offerings.each { offerings ->
             def offering = offerings[0]
-            offering.getPckg().getProducts().each { productConfig ->
-                productConfig.getProduct().getConfigurationManager().each { config ->
-                    
-                }
-            }
             %>
             <li class="span3" id="offeringThumbnailEntry${offering.getId()}">
                 <div class="thumbnail" rel="popover" 
@@ -49,11 +45,34 @@ Author: brett chaldecott
                         <p><b>Setup</b> ${format.format(setupCost)}</p>
                         <p><b>Monthly</b> ${format.format(monthlyCost)}</p>
                         <p><a href="javascript:addOffering('${offering.getId()}');" class="btn btn-primary"><i class="icon-shopping-cart"></i>Add</a></p>
-                        <form id="offeringForm${offering.getId()}" name="offeringForm${offering.getId()}">
-                            <input type="hidden" name="offeringId${offering.getId()}" id="offeringId${offering.getId()}" value="${offering.getId()}" />
-                            <input type="hidden" name="offeringName${offering.getId()}" id="offeringName${offering.getId()}" value="${offering.getName()}" />
-                            <input type="hidden" name="offeringDescription${offering.getId()}" id="offeringDescription${offering.getId()}" value="${offering.getDescription()}" />
-                            <input type="hidden" name="offeringCosts${offering.getId()}" id="offeringCosts${offering.getId()}" value="${costs}" />
+                        <form id="offeringForm${offering.getId()}" name="existingOfferingForm${offering.getId()}">
+                            <input type="hidden" name="existingOfferingId${offering.getId()}" id="existingOfferingId${offering.getId()}" value="${offering.getId()}" />
+                            <input type="hidden" name="existingOfferingName${offering.getId()}" id="existingOfferingName${offering.getId()}" value="${offering.getName()}" />
+                            <input type="hidden" name="existingOfferingDescription${offering.getId()}" id="existingOfferingDescription${offering.getId()}" value="${offering.getDescription()}" />
+                            <input type="hidden" name="existingOfferingCosts${offering.getId()}" id="existingOfferingCosts${offering.getId()}" value="${costs}" />
+                            <input type="hidden" name="existingOfferingThumbnail${offering.getId()}" id="existingOfferingThumbnail${offering.getId()}" value="${params.contextBase}${offering.getThumbnail()}" />
+                            <input type="hidden" name="existingOfferingSetup${offering.getId()}" id="existingOfferingSetup${offering.getId()}" value="${format.format(setupCost)}" />
+                            <input type="hidden" name="existingOfferingMonthly${offering.getId()}" id="existingOfferingMonthly${offering.getId()}" value="${format.format(monthlyCost)}" />
+                            <%
+                            def products = ""
+                            def packageSep = ""
+                            offering.getPckg().getProducts().each { productConfig ->
+                                productConfig.getProduct().getConfigurationManager().each { config ->
+                                    if (config.getName() == "Install") {
+                                        if (!importScripts.contains(config.getUrl())) {
+                                            importScripts.add("bss/" + config.getUrl())
+                                        }
+                                    }
+                                }
+                                def productId = productConfig.getProduct().getId();
+                                products += packageSep + productId;
+                                packageSep = ","
+                                %>
+                                <input type="hidden" name="existingOfferingData${offering.getId()}${productId}" id="existingOfferingData${offering.getId()}${productId}" value="${productConfig.getData()}" />
+                                <%
+                            }
+                            %>
+                            <input type="hidden" name="existingOfferingProducts${offering.getId()}" id="existingOfferingProducts${offering.getId()}" value="${products}" />
                         </form>
                     </div>
                 </div>
@@ -69,28 +88,28 @@ Author: brett chaldecott
     <button type="button" class="close" data-dismiss="modal">×</button>
     <div id="addOfferingTitle">
         <h3>Purchase</h3>
-        
     </div>
   </div>
   <div class="modal-body">
+        <p id="offeringImage"></p>
         <p id="offeringName">Name</p>
         <p id="offeringDescription">Description</p>
         <p id="offeringSetupCost">0.00</p>
         <p id="offeringMonthlyCost">0.00</p>        
-  </div>
-  <div class="modal-body">
         <p><h4>Configuration</h4></p>
     <div id="modelForm">
         <form class="form-horizontal" id="configurationForm">
           <fieldset>
-            <input type="hidden" id="installedOfferingId" name="installedOfferingId">
             <input type="hidden" id="offeringId" name="offeringId">
-            <div class="control-group">
-              <label class="control-label" for="domain">Domain</label>
-              <div class="controls">
-                <input type="text" class="input-large" id="domain" name="offeringId">
-                <p class="help-block">Domain</p>
-              </div>
+            <input type="hidden" id="installedOfferingId" name="installedOfferingId">
+            <div id="offeringConfig">
+                <div class="control-group">
+                  <label class="control-label" for="domain">Domain</label>
+                  <div class="controls">
+                    <input type="text" class="input-large" id="domain" name="offeringId">
+                    <p class="help-block">Domain</p>
+                  </div>
+                </div>
             </div>
           </fieldset>
         </form>
@@ -118,3 +137,22 @@ Author: brett chaldecott
     <a href="#" class="btn btn-primary" id="purchaseOffering"><i class="icon-shopping-cart"></i>Purchase</a>
   </div>
 </div>
+
+<script type="text/javascript">
+var productMap = {};
+</script>
+
+<!-- Le javascript
+================================================== -->
+<!-- Due to include structure Javascript placed at top of document -->
+<script src="jquery/jquery-1.7.2.min.js"></script>
+<script src="jquery/jquery.validate.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+
+
+<!-- This is the package configuration utilities -->
+<%
+importScripts.each { importScript ->
+    %><script src="../${importScript}"></script>
+<%
+}%>

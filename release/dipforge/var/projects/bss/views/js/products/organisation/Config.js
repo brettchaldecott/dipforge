@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Sat Aug 18 11:28:45 SAST 2012 owner
+ * Copyright (C) Thu Dec 13 05:29:22 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,40 +20,34 @@
  * @author brett chaldecott
  */
 
+
 /* initilize the page */
 $(document).ready(function() {
-    productMap.desktop = new Desktop();
+    productMap.organisation = new Organisation();
 });
 
 
-var Desktop = function() {
+var Organisation = function() {
     if (!this) {
-        return new Desktop();
+        return new User();
     }
     this.createDiv = function() {
         var html = [];
-        html.push("<h3>Desktop</h3>",
-            '<div class="control-group">',
-            '<label class="control-label" for="desktopName">Name</label>',
-            '<div class="controls">',
-            '<input type="text" class="input-large" id="desktopName" name="desktopName" value="Dipforge">',
-            '<p class="help-block">The name of the desktop.</p>',
-            '</div>',
-            '</div>');
+        html.push("<h3>User</h3>");
         return html.join('');
     };
     this.setupHooks = function() {
-        $("#desktopName").validate({
+        $("#principals").validate({
             expression: "if (VAL) return true; else return false;",
-            message: "Must the name of the desktop"
+            message: "Must provide list of principals"
         });
     };
     this.populateValues = function(pckgId) {
-        $('#desktopName').val($('#existingPckgData' + pckgId + 'desktop').val());
+        
     };
     this.generateInput = function(pckgId) {
-        return '<input type="hidden" name="existingPckgData' + pckgId + 'desktop" id="existingPckgData' + pckgId + 'desktop" value="' + $('#desktopName').val() + '" />';
+        return '';
     };
-    
 };
+
 

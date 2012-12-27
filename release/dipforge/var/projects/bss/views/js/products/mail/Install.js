@@ -1,6 +1,6 @@
 /*
- * bss: Description
- * Copyright (C) Sat Aug 18 11:28:45 SAST 2012 owner
+ * bss: The BSS functionality
+ * Copyright (C) Tue Dec 18 18:59:49 SAST 2012 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,44 +16,40 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Config.js
+ * Install.js
  * @author brett chaldecott
  */
 
 /* initilize the page */
 $(document).ready(function() {
-    productMap.desktop = new Desktop();
+    productMap.mail = new Mail();
 });
 
 
-var Desktop = function() {
+var Mail = function() {
     if (!this) {
-        return new Desktop();
+        return new Mail();
     }
     this.createDiv = function() {
         var html = [];
-        html.push("<h3>Desktop</h3>",
+        html.push("<h3>Mail</h3>",
             '<div class="control-group">',
-            '<label class="control-label" for="desktopName">Name</label>',
+            '<label class="control-label" for="mailQuota">Mail quota</label>',
             '<div class="controls">',
-            '<input type="text" class="input-large" id="desktopName" name="desktopName" value="Dipforge">',
-            '<p class="help-block">The name of the desktop.</p>',
+            '<input type="text" class="input-large" id="mailQuota" name="mailQuota" disabled="true">',
+            '<p class="help-block">The size of the mail quota in GIGS.</p>',
             '</div>',
             '</div>');
         return html.join('');
     };
     this.setupHooks = function() {
-        $("#desktopName").validate({
+        $("#mailQuota").validate({
             expression: "if (VAL) return true; else return false;",
-            message: "Must the name of the desktop"
+            message: "Must provide quota"
         });
     };
-    this.populateValues = function(pckgId) {
-        $('#desktopName').val($('#existingPckgData' + pckgId + 'desktop').val());
+    this.populateValues = function(offeringId) {
+        $('#mailQuota').val($('#existingOfferingData' + offeringId + 'mail').val());
     };
-    this.generateInput = function(pckgId) {
-        return '<input type="hidden" name="existingPckgData' + pckgId + 'desktop" id="existingPckgData' + pckgId + 'desktop" value="' + $('#desktopName').val() + '" />';
-    };
-    
 };
 

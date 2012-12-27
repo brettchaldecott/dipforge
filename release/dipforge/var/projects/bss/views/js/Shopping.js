@@ -24,35 +24,6 @@ var emailRegex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4}
 
 $(document).ready(function() {
     
-    $('#addItem').click(function (event) {
-        event.preventDefault();
-        $('#userForm').submit();
-    });
-    
-    $("#userId").validate({
-        expression: "if (VAL) return true; else return false;",
-        message: "Must provide ID"
-    });
-    
-    $("#username").validate({
-        expression: "if (VAL) return true; else return false;",
-        message: "Must provide username"
-    });
-    
-    $("#email").validate({
-        expression: "if (emailRegex.test(VAL)) return true; else return false;",
-        message: "Must provide valid email"
-    });
-    
-    $("#password").validate({
-        expression: "if (VAL) return true; else return false;",
-        message: "Must provide password"
-    });
-    
-    $('#userForm').validated(function() {
-        addUser();
-    });
-    
     $('#offeringModal').on('hidden', function () {
         
         $('#userId').val('');
@@ -74,13 +45,61 @@ $(document).ready(function() {
 });
 
 
-function addOffering() {
+function addOffering(offeringId) {
+    var guid = new GUID();
+    
+    $('#offeringId').val($('#existingOfferingId' + offeringId).val());
+    $('#installedOfferingId').val(guid.getValue());
+    
+    
+    // setup up model display values
+    $('#offeringName').empty();
+    $('#offeringName').append($('#existingOfferingName' + offeringId).val());
+    $('#offeringDescription').empty();
+    $('#offeringDescription').append($('#existingOfferingDescription' + offeringId).val());
+    $('#offeringImage').empty();
+    $('#offeringImage').append('<img src="'+ $('#existingOfferingThumbnail' + offeringId).val() + '"/>');
+    $('#offeringSetupCost').empty();
+    $('#offeringSetupCost').append($('#existingOfferingSetup' + offeringId).val());
+    $('#offeringMonthlyCost').empty();
+    $('#offeringMonthlyCost').append($('#existingOfferingMonthly' + offeringId).val());
+    
+    var pckgProducts = $('#existingOfferingProducts' + offeringId).val().split(",");
+    $('#offeringConfig').empty();
+    $.each(pckgProducts, function(i, productId) {
+        var divId = productId + "div";
+        var configObj = productMap[productId];
+        var divHtml = '<div id="' + divId + '">' + configObj.createDiv() + "</div>";
+        $('#offeringConfig').append(divHtml);
+        configObj.setupHooks();
+        configObj.populateValues(offeringId);
+    });
+    
+    $('#purchaseOffering').click(function (event) {
+        event.preventDefault();
+        $('#configurationForm').submit();
+    });
+    
+    $('#configurationForm').validated(function() {
+        addToCart();
+    });
+    
+    // setup the buttons
+    $('#purchaseOffering').show();
+    $('#configurationForm').show();
+    
+    $('#modelDataErrorResult').hide();
+    $('#modelSuccessResult').hide();
+    $('#modelRuntimeErrorResult').hide();
     
     $('#offeringModal').modal('show');
     
-    /*$.ajax({
-        url: 'user/CreateUser.groovy',
-        data: $('#userForm').serialize(),
+}
+
+function addToCart() {
+    $.ajax({
+        url: 'shopping/AddToBasket.groovy',
+        data: $('#configurationForm').serialize(),
         success: function(data) {
             if (data == "success") {
                 // setup the message
@@ -88,21 +107,16 @@ function addOffering() {
                 $('#modelRuntimeErrorResult').hide();
                 
                 $('#modelSuccessResult').show();
-                $('#modelSuccessResultMsg').text('Added the user [' + 
-                    $('#username').val() + '] submitted to system.');
+                $('#modelSuccessResultMsg').text('Added to basket.');
                 
                 // setup the buttons
-                $('#userCloseButton').hide();
-                $('#addUserItem').hide();
-                $('#updateUserItem').hide();
-                $('#userForm').hide();
-                
-                $('#userRecords').append(generateUserHTML());
+                $('#purchaseOffering').hide();
+                $('#configurationForm').hide();
                 
                 // delay and hide the modal
                 setTimeout(function () {
-                    $('#userModal').modal('hide');    
-                }, 1500);
+                    $('#offeringModal').modal('hide');    
+                }, 1000);
                 
             } else {
                 // setup the message
@@ -119,40 +133,8 @@ function addOffering() {
             $('#modelDataErrorResult').hide();
             
             $('#modelRuntimeErrorResult').show();
-            $('#modelRuntimeErrorResultMsg').html("Failed to add the user");
+            $('#modelRuntimeErrorResultMsg').html("Failed to add to the basket.");
         }
-    });*/
+    });
 }
-
-function showUpdateUser(userId) {
-    
-}
-
-function showRemoveUser(userId) {
-    
-}
-
-function generateUserHTML() {
-    // generate a new html section
-    var pathValue = [];
-    var jsonPath = "[";
-    var sep = "";
-    
-    var tableRow = [];
-    tableRow.push('<tr id="tr',$('#userId').val(),'">',
-            '<td><a href="javascript:showRemoveUser(\'',$('#userId').val(),'\');"><i class="icon-minus-sign"></i></a></td>',
-            '<td><a href="javascript:showUpdateUser(\'',$('#userId').val(),'\');">',$('#username').val(),'</a></td>',
-            '<td><a href="javascript:showUpdateUser(\'',$('#userId').val(),'\');">',$('#email').val(),'</a></td>',
-            '<td><a href="javascript:showUpdateUser(\'',$('#userId').val(),'\');">',$('#userType').val(),'</a></td>',
-            '<form id="userData',$('#userId').val(),'" style="display:none;">',
-            '<input type="hidden" id="userData',$('#userId').val(),'userId" name="userData',$('#userId').val(),'userId" value="',$('#userId').val(),'" />',
-            '<input type="hidden" id="userData',$('#userId').val(),'username" name="userData',$('#userId').val(),'username" value="',$('#username').val(),'" />',
-            '<input type="hidden" id="userData',$('#userId').val(),'email" name="userData',$('#userId').val(),'email" value="',$('#email').val(),'" />',
-            '<input type="hidden" id="userData',$('#userId').val(),'userType" name="userData',$('#userId').val(),'userType" value="',$('#userType').val(),'" />',
-            '</form>',
-            '</tr>');
-    
-    return tableRow.join('');
-}
-
 

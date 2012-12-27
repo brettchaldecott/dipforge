@@ -83,6 +83,16 @@ try {
     log.info("##### Init the request : " + mail.toXML())
     RequestHandler.getInstance("bss", "CreateCategory", mail).makeRequest()
     
+    // setup the organisation category
+    def organisationCategory = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category")
+    organisationCategory.setId('organisation')
+    organisationCategory.setName('Organisation')
+    organisationCategory.setDescription('Organisation related products')
+    organisationCategory.setThumbnail('image/category/base.png')
+    organisationCategory.setIcon('image/category/base-icon.png')
+    log.info("##### Init the request : " + organisationCategory.toXML())
+    RequestHandler.getInstance("bss", "CreateCategory", organisationCategory).makeRequest()
+    
     // setup the rift it vendor
     def dipforge = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor")
     dipforge.setId('Dipforge')
@@ -286,6 +296,35 @@ try {
     log.info("##### Init the request : " + mailProduct.toXML())
     RequestHandler.getInstance("bss", "CreateProduct", mailProduct).makeRequest()
     
+    // organisation product
+    def organisationProduct = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product")
+    organisationProduct.setId('organisation')
+    organisationProduct.setName('Organisation Product')
+    organisationProduct.setDescription('Organisation Base Product')
+    organisationProduct.setDataType('http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation')
+    def organisationProductJsConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager")
+    organisationProductJsConfig.setId("Javascript:organisation")
+    organisationProductJsConfig.setName("Javascript")
+    organisationProductJsConfig.setUrl("js/products/organisation/Config.js")
+    def organisationConfiguration = []
+    organisationConfiguration.add(organisationProductJsConfig)
+    def organisationProductGroovySetup = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager")
+    organisationProductGroovySetup.setId("Groovy:organisation")
+    organisationProductGroovySetup.setName("Groovy")
+    organisationProductGroovySetup.setUrl("products.organisation.Config")
+    organisationConfiguration.add(organisationProductGroovySetup)
+    def organisationProductInstallSetup = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager")
+    organisationProductInstallSetup.setId("Install:organisation")
+    organisationProductInstallSetup.setName("Install")
+    organisationProductInstallSetup.setUrl("js/products/organisation/Install.js")
+    organisationConfiguration.add(organisationProductInstallSetup)
+    organisationProduct.setConfigurationManager(organisationConfiguration)
+    organisationProduct.setCategory(organisationCategory)
+    organisationProduct.setVendor(dipforge)
+    organisationProduct.setThumbnail('image/product/base.png')
+    organisationProduct.setIcon('image/product/base-icon.png')
+    log.info("##### Init the request : " + organisationProduct.toXML())
+    RequestHandler.getInstance("bss", "CreateProduct", organisationProduct).makeRequest()
     
     // setup a package
     def guestUserPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
@@ -408,6 +447,87 @@ try {
     log.debug("##### Init the request : " + adminUserPckg.toXML())
     RequestHandler.getInstance("bss", "CreatePckg", adminUserPckg).makeRequest()
     
+    // the organisation base package
+    // it includes an intial user, and the applications and desktop rights for that user
+    def organisationUserPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
+    
+    log.debug("Set the values")
+    organisationUserPckg.setId('base-organisation-with-user-pckg')
+    organisationUserPckg.setName('Base Organisation with User Packge')
+    organisationUserPckg.setDescription('Base Organisation with User Packge')
+    organisationUserPckg.setThumbnail('image/pckg/base.png')
+    organisationUserPckg.setIcon('image/pckg/base-icon.png')
+    def organisationUserOrganisationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    def organisationUserPckgProducts = []
+    organisationUserOrganisationPckgConfig.setId("organisation:base-organisation-with-user-package")
+    organisationUserOrganisationPckgConfig.setProduct(organisationProduct)
+    organisationUserOrganisationPckgConfig.setData("")
+    organisationUserPckgProducts.add(organisationUserOrganisationPckgConfig)
+    def organisationUserPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    organisationUserPckgConfig.setId("user:base-organisation-with-user-package")
+    organisationUserPckgConfig.setProduct(userProduct)
+    organisationUserPckgConfig.setData("user")
+    organisationUserPckgProducts.add(organisationUserPckgConfig)
+    def organisationUserDesktopPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    organisationUserDesktopPckgConfig.setId("desktop:base-organisation-with-user-package")
+    organisationUserDesktopPckgConfig.setProduct(desktopProduct)
+    organisationUserDesktopPckgConfig.setData("Dipforge")
+    organisationUserPckgProducts.add(organisationUserDesktopPckgConfig)
+    def organisationUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    organisationUserApplicationPckgConfig.setId("application:base-organisation-with-user-package")
+    organisationUserApplicationPckgConfig.setProduct(applicationProduct)
+    organisationUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/desktop/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/desktop/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/desktop/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/desktop/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png")
+    organisationUserPckgProducts.add(organisationUserApplicationPckgConfig)
+    
+    organisationUserPckg.setProducts(organisationUserPckgProducts)
+    
+    log.debug("##### Init the request : " + organisationUserPckg.toXML())
+    RequestHandler.getInstance("bss", "CreatePckg", organisationUserPckg).makeRequest()
+    
+    // the domain package
+    def basicDomainPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
+    
+    log.debug("Set the values")
+    basicDomainPckg.setId('basic-domain-pckg')
+    basicDomainPckg.setName('Basic Domain')
+    basicDomainPckg.setDescription('Basic Domain Packge')
+    basicDomainPckg.setThumbnail('image/pckg/domain.png')
+    basicDomainPckg.setIcon('image/pckg/domain-icon.png')
+    def basicDomainPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    def basicDomainPckgProducts = []
+    basicDomainPckgConfig.setId("domain:basic-domain-package")
+    basicDomainPckgConfig.setProduct(domainProduct)
+    basicDomainPckgConfig.setData("com,org,net,co.za")
+    basicDomainPckgProducts.add(basicDomainPckgConfig)
+    
+    basicDomainPckg.setProducts(basicDomainPckgProducts)
+    log.debug("##### Init the request : " + basicDomainPckg.toXML())
+    RequestHandler.getInstance("bss", "CreatePckg", basicDomainPckg).makeRequest()
+    
+    // the domain package
+    def basicMailDomainPckg = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg")
+    
+    log.debug("Set the values")
+    basicMailDomainPckg.setId('basic-mail-domain-pckg')
+    basicMailDomainPckg.setName('Basic Mail Domain')
+    basicMailDomainPckg.setDescription('Basic Domain Packge')
+    basicMailDomainPckg.setThumbnail('image/pckg/mail.png')
+    basicMailDomainPckg.setIcon('image/pckg/mail-icon.png')
+    def basicMailDomainPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    def basicMailDomainPckgProducts = []
+    basicMailDomainPckgConfig.setId("domain:basic-mail-domain-package")
+    basicMailDomainPckgConfig.setProduct(domainProduct)
+    basicMailDomainPckgConfig.setData("com,org,net,co.za")
+    basicMailDomainPckgProducts.add(basicMailDomainPckgConfig)
+    def basicMailDomainMailPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+    basicMailDomainMailPckgConfig.setId("mail:basic-mail-domain-package")
+    basicMailDomainMailPckgConfig.setProduct(mailProduct)
+    basicMailDomainMailPckgConfig.setData("5")
+    basicMailDomainPckgProducts.add(basicMailDomainMailPckgConfig)
+    
+    basicMailDomainPckg.setProducts(basicMailDomainPckgProducts)
+    log.debug("##### Init the request : " + basicMailDomainPckg.toXML())
+    RequestHandler.getInstance("bss", "CreatePckg", basicMailDomainPckg).makeRequest()
     
     // setup the basic catalog
     def userCatalogEntry = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry")
@@ -434,11 +554,34 @@ try {
     log.info("##### Init the request : " + catalogEntry.toXML())
     RequestHandler.getInstance("bss", "CreateCatalogEntry", catalogEntry).makeRequest()
     
+    def domainCatalogEntry = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry")
+    log.info("Setup the values")
+    domainCatalogEntry.setId("domain")
+    domainCatalogEntry.setName("Domain")
+    domainCatalogEntry.setDescription("Domain Catalog")
+    domainCatalogEntry.setThumbnail("image/catalog/base.png")
+    domainCatalogEntry.setIcon("image/catalog/base-icon.png")
+    
+    log.info("##### Init the request : " + domainCatalogEntry.toXML())
+    RequestHandler.getInstance("bss", "CreateCatalogEntry", domainCatalogEntry).makeRequest()
+    
+    def mailCatalogEntry = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry")
+    log.info("Setup the values")
+    mailCatalogEntry.setId("mail")
+    mailCatalogEntry.setName("Mail")
+    mailCatalogEntry.setDescription("Mail Catalog")
+    mailCatalogEntry.setThumbnail("image/catalog/mail.png")
+    mailCatalogEntry.setIcon("image/catalog/mail-icon.png")
+    
+    log.info("##### Init the request : " + mailCatalogEntry.toXML())
+    RequestHandler.getInstance("bss", "CreateCatalogEntry", mailCatalogEntry).makeRequest()
+    
+    
     def catalog = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog")
     catalog.setId('home')
     catalog.setName('Home')
     catalog.setDescription('Home Catalog')
-    catalog.setEntries([catalogEntry]);
+    catalog.setEntries([catalogEntry,domainCatalogEntry,mailCatalogEntry]);
     catalog.setOrganisation(organisation);
     
     log.info("##### Init the request : " + catalog.toXML())
@@ -499,6 +642,80 @@ try {
     adminUserOffering.setStatus("active");
     log.debug("##### Package xml : " + adminUserOffering.getPckg().toXML())
     RequestHandler.getInstance("bss", "CreateOffering", adminUserOffering).makeRequest()
+    
+    def organisationUserOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
+    
+    organisationUserOffering.setId('base-organisation-with-user-offering')
+    organisationUserOffering.setName('Base Organisation with User')
+    organisationUserOffering.setDescription('Base Organisation with User Offering')
+    organisationUserOffering.setThumbnail('image/offering/base.png')
+    organisationUserOffering.setIcon('image/offering/base-icon.png')
+    organisationUserOffering.setPckg(organisationUserPckg)
+    organisationUserOffering.setCatalog(catalogEntry)
+    organisationUserOffering.setCreated(new java.util.Date());
+    organisationUserOffering.setStatus("active");
+    log.debug("##### Package xml : " + organisationUserOffering.getPckg().toXML())
+    RequestHandler.getInstance("bss", "CreateOffering", organisationUserOffering).makeRequest()
+    
+    // the basic domain
+    def basicDomainOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
+    
+    basicDomainOffering.setId('basic-domain-offering')
+    basicDomainOffering.setName('Basic Domain')
+    basicDomainOffering.setDescription('Basic Domain Offering')
+    basicDomainOffering.setThumbnail('image/offering/domain.png')
+    basicDomainOffering.setIcon('image/offering/domain-icon.png')
+    basicDomainOffering.setPckg(basicDomainPckg)
+    basicDomainOffering.setCatalog(domainCatalogEntry)
+    basicDomainOffering.setCreated(new java.util.Date());
+    basicDomainOffering.setStatus("active");
+    def basicDomainOfferingCosts = []
+    def basicDomainOfferingSetupCost = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost")
+    basicDomainOfferingSetupCost.setId('basic-domain-offering-setup')
+    basicDomainOfferingSetupCost.setLineItem('setup')
+    basicDomainOfferingSetupCost.setType('setup')
+    basicDomainOfferingSetupCost.setAmount(1000)
+    basicDomainOfferingCosts.add(basicDomainOfferingSetupCost)
+    def basicDomainOfferingMonthlyCost = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost")
+    basicDomainOfferingMonthlyCost.setId('basic-domain-offering-monthly')
+    basicDomainOfferingMonthlyCost.setLineItem('monthly')
+    basicDomainOfferingMonthlyCost.setType('monthly')
+    basicDomainOfferingMonthlyCost.setAmount(1000)
+    basicDomainOfferingCosts.add(basicDomainOfferingMonthlyCost)
+    
+    basicDomainOffering.setCosts(basicDomainOfferingCosts)
+    log.debug("##### Package xml : " + basicDomainOffering.getPckg().toXML())
+    RequestHandler.getInstance("bss", "CreateOffering", basicDomainOffering).makeRequest()
+    
+    // the basic domain
+    def basicMailDomainOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering")
+    
+    basicMailDomainOffering.setId('basic-mail-domain-offering')
+    basicMailDomainOffering.setName('Basic Mail Domain')
+    basicMailDomainOffering.setDescription('Basic Mail Domain Offering')
+    basicMailDomainOffering.setThumbnail('image/offering/mail.png')
+    basicMailDomainOffering.setIcon('image/offering/mail-icon.png')
+    basicMailDomainOffering.setPckg(basicMailDomainPckg)
+    basicMailDomainOffering.setCatalog(mailCatalogEntry)
+    basicMailDomainOffering.setCreated(new java.util.Date());
+    basicMailDomainOffering.setStatus("active");
+    def basicMailDomainOfferingCosts = []
+    def basicMailDomainOfferingSetupCost = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost")
+    basicMailDomainOfferingSetupCost.setId('basic-mail-domain-offering-setup')
+    basicMailDomainOfferingSetupCost.setLineItem('setup')
+    basicMailDomainOfferingSetupCost.setType('setup')
+    basicMailDomainOfferingSetupCost.setAmount(1000)
+    basicMailDomainOfferingCosts.add(basicMailDomainOfferingSetupCost)
+    def basicMailDomainOfferingMonthlyCost = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost")
+    basicMailDomainOfferingMonthlyCost.setId('basic-mail-domain-offering-monthly')
+    basicMailDomainOfferingMonthlyCost.setLineItem('monthly')
+    basicMailDomainOfferingMonthlyCost.setType('monthly')
+    basicMailDomainOfferingMonthlyCost.setAmount(1000)
+    basicMailDomainOfferingCosts.add(basicMailDomainOfferingMonthlyCost)
+    
+    basicMailDomainOffering.setCosts(basicMailDomainOfferingCosts)
+    log.debug("##### Package xml : " + basicMailDomainOffering.getPckg().toXML())
+    RequestHandler.getInstance("bss", "CreateOffering", basicMailDomainOffering).makeRequest()
     
     print "success"
 } catch (Exception ex) {
