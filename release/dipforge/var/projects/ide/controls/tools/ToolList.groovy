@@ -34,7 +34,7 @@ def tree = [
             id: "T:Tools:sparql",
             project: "Tools",
             file: "sparql console",
-            path: "/desktop/ide/sparql.gsp",
+            path: "sparql.gsp",
             user: "admin",
             leaf: true,
   		    iconCls: 'file',
