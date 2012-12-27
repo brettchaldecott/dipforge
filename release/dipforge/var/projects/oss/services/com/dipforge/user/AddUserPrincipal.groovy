@@ -87,7 +87,7 @@ class AddUserPrincipal {
                 return "success"
             }
             userPrincipals.add(principal)
-            manageDaemon.updateUserPrincipal(User.getUsername(),userPrincipals);
+            manageDaemon.updateUserPrincipal(User.getUsername(),userPrincipals.toArray(new String[0]));
             
         } catch (Exception ex) {
             log.error("Failed to remove the user principal : ${ex.getMessage()}",ex)
