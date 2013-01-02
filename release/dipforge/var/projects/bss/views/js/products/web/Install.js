@@ -51,6 +51,9 @@ var Web = function() {
     this.populateValues = function(offeringId) {
         $('#webQuota').val($('#existingOfferingData' + offeringId + 'web').val());
     };
+    this.populateConfiguredValues = function(offeringId) {
+        // do nothing as this is all setup in populate values
+    };
 };
 
 

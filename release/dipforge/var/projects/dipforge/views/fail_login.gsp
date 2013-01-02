@@ -1,6 +1,6 @@
 <!--
 Date: Mon Dec 31 06:05:25 SAST 2012
-File: login.gsp
+File: fail_login.gsp
 Author: brett chaldecott
 -->
 <!DOCTYPE html>
@@ -52,6 +52,7 @@ Author: brett chaldecott
         <div class="container">
             <form class="form-signin" method="POST" action="j_security_check">
                 <h2 class="form-signin-heading">Please sign in</h2>
+                <p class="text-error">Invalid Username or Password.</p>
                 <input type="text" class="input-block-level" placeholder="Username" name= "j_username">
                 <input type="password" class="input-block-level" placeholder="Password" name= "j_password">
                 <br/>

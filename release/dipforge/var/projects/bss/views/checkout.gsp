@@ -1,6 +1,6 @@
 <!--
-Date: Fri Aug 17 07:41:25 SAST 2012
-File: users.gsp
+Date: Fri Dec 28 07:07:38 SAST 2012
+File: checkout.gsp
 Author: brett chaldecott
 -->
 
@@ -36,15 +36,16 @@ Author: brett chaldecott
 
     <% PageManager.includeWithResult("Menu.groovy", request, response, ["menuItem" : "home","contextBase":"./"]) %>
     
-    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "shopping"]) %>
+    <% PageManager.includeWithResult("SideBar.groovy", request, response, ["menuItem" : "checkout"]) %>
     
-    <% PageManager.includeWithResult("shopping/List.groovy", request, response, [:]) %>
+    <% PageManager.includeWithResult("shopping/ShoppingList.groovy", request, response, [:]) %>
     
-    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "shopping"]) %>
+    <% PageManager.includeWithResult("Footer.groovy", request, response, ["menuItem" : "checkout"]) %>
     
     <script src="chosen/chosen.jquery.js"></script>
     <script src="utils/Tools.js"></script>
-    <script src="js/Shopping.js"></script>
+    <script src="js/Checkout.js"></script>
     
   </body>
 </html>
+

@@ -59,7 +59,7 @@ Author: brett chaldecott
                             offering.getPckg().getProducts().each { productConfig ->
                                 productConfig.getProduct().getConfigurationManager().each { config ->
                                     if (config.getName() == "Install") {
-                                        if (!importScripts.contains(config.getUrl())) {
+                                        if (!importScripts.contains("bss/" + config.getUrl())) {
                                             importScripts.add("bss/" + config.getUrl())
                                         }
                                     }

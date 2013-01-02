@@ -60,6 +60,5 @@ log.debug("query result " + offerings)
 
 RDF.deapCopy(offerings, ["pckg.products.product"])
 
-
 PageManager.includeWithResult("list.gsp", request, response, ["offerings" : offerings])
 

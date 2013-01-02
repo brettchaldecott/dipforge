@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Fri Dec 07 05:47:29 SAST 2012 rift it 
+ * Copyright (C) Wed Jan 02 05:59:01 SAST 2013 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * AddToBasket.groovy
+ * UpdateBasket.groovy
  * @author brett chaldecott
  */
 
@@ -26,9 +26,9 @@ import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
 
 
-def log = Logger.getLogger("com.dipforge.log.shopping.AddToBasket");
+def log = Logger.getLogger("com.dipforge.log.shopping.UpdateBasket");
 
-log.info("########################################### From the add to basket : " + params)
+log.info("########################################### From the update basket : " + params)
 
 def shoppingCart = [:]
 if (session.getAttribute("shopping-cart") != null) {

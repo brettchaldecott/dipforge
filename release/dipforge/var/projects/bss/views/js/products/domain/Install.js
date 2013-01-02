@@ -70,7 +70,12 @@ var Domain = function() {
         });
         $('#tld').append(html.join(''));
     };
-    
+    this.populateConfiguredValues = function(offeringId) {
+        var jsonData = JSON.parse($('#offeringInfo' + offeringId).val());
+        $("select#tld option")
+            .each(function() { this.selected = (this.text == jsonData.tld); });
+        $("#domain").val(jsonData.domain);
+    };
 };
 
 

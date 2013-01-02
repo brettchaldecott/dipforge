@@ -5,7 +5,7 @@ import com.rift.coad.util.connection.ConnectionManager
 import org.apache.log4j.Logger;
 import com.rift.coad.daemon.event.FeedServer
 
-def log = Logger.getLogger("files.FileList");
+def log = Logger.getLogger("feeds.FeedEvents");
 def feeds = []
 try {
     def daemon = ConnectionManager.getInstance().getConnection(
@@ -21,6 +21,7 @@ try {
                 ])
     }
     events = daemon.getEvents("news")
+    log.info("The feed events are : " + events)
     for (def event : events) {
         feeds.add([
                     image: 'favicon.ico',

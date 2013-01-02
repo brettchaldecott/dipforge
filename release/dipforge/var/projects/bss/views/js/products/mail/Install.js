@@ -51,5 +51,8 @@ var Mail = function() {
     this.populateValues = function(offeringId) {
         $('#mailQuota').val($('#existingOfferingData' + offeringId + 'mail').val());
     };
+    this.populateConfiguredValues = function(offeringId) {
+        // do nothing as this is all setup in populate values
+    };
 };
 

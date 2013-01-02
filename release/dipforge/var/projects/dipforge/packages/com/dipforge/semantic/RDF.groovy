@@ -438,16 +438,28 @@ class RDF {
      */
     static def deapCopy(def data, def variables) {
         try {
-            data.each { row ->
-                row.each { item ->
-                    if (item instanceof Expando) {
-                        variables.each { var ->
-                            def names = var.toString().split("[.]")
-                            deapCopyCallMethods(item, names)
+            if (data instanceof java.util.ArrayList) {
+                data.each { row ->
+                    row.each { item ->
+                        if (item instanceof Expando) {
+                            variables.each { var ->
+                                def names = var.toString().split("[.]")
+                                deapCopyCallMethods(item, names)
+                            }
                         }
                     }
                 }
+            } else {
+                // this section assumes that the data is a single element
+                def names = []
+                if (variables instanceof java.util.ArrayList) {
+                    names = variables[0].toString().split("[.]")
+                } else {
+                    names = variables.toString().split("[.]")
+                }
+                deapCopyCallMethods(data, names)
             }
+            
         } catch (Exception ex) {
             log.error("Failed to perform a deap copy : " + ex.getMessage(),ex);
             throw ex;
