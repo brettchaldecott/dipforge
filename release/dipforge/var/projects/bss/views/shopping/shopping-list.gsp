@@ -89,7 +89,7 @@ Author: brett chaldecott
           </tr>
         </tbody>
       </table>
-    <a href="#" class="btn btn-primary" id="purchaseOffering"><i class="icon-shopping-cart"></i>Buy</a>
+    <a href="shopping/BuyBasket.groovy" class="btn btn-primary" id="buyOffering"><i class="icon-shopping-cart"></i>Buy</a>
     </div>
 </div>
 

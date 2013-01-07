@@ -22,7 +22,39 @@
 
 package shopping
 
+import com.dipforge.utils.PageManager;
+import com.dipforge.semantic.RDF;
+import com.dipforge.offering.OfferingUtil;
+import org.apache.log4j.Logger;
+import com.rift.coad.lib.common.RandomGuid;
+import com.dipforge.request.RequestHandler;
 
+
+def log = Logger.getLogger("com.dipforge.log.shopping.BuyBasket");
+
+def cartInfo = session.getAttribute("shopping-cart")
+
+if (cartInfo != null) {
+    for (element in cartInfo) {
+        def offering = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering/${element.value.offeringId}")
+        offering.getPckg().getProducts().each { productConfig ->
+            productConfig.getProduct().getConfigurationManager().each { config ->
+                if (config.getName() == "Groovy") {
+                    def configObject = this.class.classLoader.loadClass( config.getUrl(), true, false )?.newInstance()
+                    def pckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
+                    pckgConfig.setId(productId + ":" + params.pckgId)
+                    pckgConfig.setProduct(product)
+                    pckgConfig.setData(configObject."generateData"(params))
+                    products.add(pckgConfig)
+                    return
+                }
+            }
+        }
+        
+    }
+}
+
+response.sendRedirect("../finish.gsp")
 
 
 

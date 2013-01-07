@@ -349,7 +349,7 @@ try {
     def guestUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     guestUserApplicationPckgConfig.setId("application:base-guest-package")
     guestUserApplicationPckgConfig.setProduct(applicationProduct)
-    guestUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/desktop/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/desktop/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/desktop/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png")
+    guestUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/DipforgeWeb/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/DipforgeWeb/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png")
     guestUserPckgProducts.add(guestUserApplicationPckgConfig)
     
     guestUserPckg.setProducts(guestUserPckgProducts)
@@ -379,7 +379,7 @@ try {
     def userApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     userApplicationPckgConfig.setId("application:base-user-package")
     userApplicationPckgConfig.setProduct(applicationProduct)
-    userApplicationPckgConfig.setData("name=IDE,principle=ide,url=/desktop/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/desktop/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/desktop/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/desktop/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png")
+    userApplicationPckgConfig.setData("name=IDE,principle=ide,url=/DipforgeWeb/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/DipforgeWeb/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/DipforgeWeb/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png")
     userPckgProducts.add(userApplicationPckgConfig)
     
     userPckg.setProducts(userPckgProducts)
@@ -409,7 +409,7 @@ try {
     def techUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     techUserApplicationPckgConfig.setId("application:base-tech-user-package")
     techUserApplicationPckgConfig.setProduct(applicationProduct)
-    techUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/desktop/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/desktop/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/desktop/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/desktop/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png:name=Audit Trail,principle=admin,url=/desktop/AuditTrailConsole/,thumbnail=images/icon/Audit.png,icon=images/icon/Audit.png")
+    techUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/DipforgeWeb/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/DipforgeWeb/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/DipforgeWeb/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png:name=Audit Trail,principle=admin,url=/AuditTrailConsole/,thumbnail=images/icon/Audit.png,icon=images/icon/Audit.png")
     techUserPckgProducts.add(techUserApplicationPckgConfig)
     
     techUserPckg.setProducts(techUserPckgProducts)
@@ -439,7 +439,7 @@ try {
     def adminUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     adminUserApplicationPckgConfig.setId("application:base-admin-user-package")
     adminUserApplicationPckgConfig.setProduct(applicationProduct)
-    adminUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/desktop/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/desktop/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/desktop/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/desktop/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png:name=Audit Trail,principle=none,url=/desktop/AuditTrailConsole/,thumbnail=images/icon/Audit.png,icon=images/icon/Audit.png:name=Admin,principle=none,url=/desktop/DipforgeAdmin/,thumbnail=images/icon/Admin.png,icon=images/icon/Admin.png:name=Tomcat,principle=none,url=/desktop/manager/html,thumbnail=images/icon/Admin.png,icon=images/icon/Admin.png")
+    adminUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/DipforgeWeb/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/DipforgeWeb/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/DipforgeWeb/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png:name=Audit Trail,principle=none,url=/AuditTrailConsole/,thumbnail=images/icon/Audit.png,icon=images/icon/Audit.png:name=Admin,principle=none,url=/DipforgeAdmin/,thumbnail=images/icon/Admin.png,icon=images/icon/Admin.png:name=Tomcat,principle=none,url=/manager/html,thumbnail=images/icon/Admin.png,icon=images/icon/Admin.png")
     adminUserPckgProducts.add(adminUserApplicationPckgConfig)
     
     adminUserPckg.setProducts(adminUserPckgProducts)
@@ -476,7 +476,7 @@ try {
     def organisationUserApplicationPckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
     organisationUserApplicationPckgConfig.setId("application:base-organisation-with-user-package")
     organisationUserApplicationPckgConfig.setProduct(applicationProduct)
-    organisationUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/desktop/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/desktop/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/desktop/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/desktop/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png")
+    organisationUserApplicationPckgConfig.setData("name=IDE,principle=ide,url=/DipforgeWeb/ide/,thumbnail=images/icon/IDE.png,icon=images/icon/IDE.png:name=Documentation,principle=none,url=/DipforgeWeb/documentation/,thumbnail=images/icon/Documents.png,icon=images/icon/Documents.png:name=File Manager,principle=none,url=/FileManager/path/,thumbnail=images/icon/FileManager.png,icon=images/icon/FileManager.png:name=Administration,principle=none,url=/DipforgeWeb/bss/,thumbnail=images/icon/Organisation.png,icon=images/icon/Organisation.png")
     organisationUserPckgProducts.add(organisationUserApplicationPckgConfig)
     
     organisationUserPckg.setProducts(organisationUserPckgProducts)
