@@ -1,6 +1,6 @@
 /*
- * bss: Description
- * Copyright (C) Sat Aug 18 12:07:13 SAST 2012 owner 
+ * oss: Description
+ * Copyright (C) Tue Jan 08 04:51:01 SAST 2013 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,24 +16,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Config.groovy
- * @author admin
+ * Createdomain.lwf
+ * @author brett chaldecott
  */
 
-package products.desktop
 
 /**
- * The configuration object
+ * This is the template for a flow
  */
-class Config {
-    
-    /**
-     * This method generates the data
-     */
-    def generateData(params) {
-        return params.desktopName;
-    }
-    
-    
-    
+@java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain" "Domain")
+@service("oss" "oss" "com.dipforge.domain.CreateDomain" "endPoint")
+@store("store")
+flow Createdomain {
+   def out
+   def log
+   def Domain
+   def endPoint
+
+   {
+       endPoint.createDomain(Domain)
+       store.persist(Domain)
+       log.info("Created the domain [" + Domain.name + "]")
+   }
 }

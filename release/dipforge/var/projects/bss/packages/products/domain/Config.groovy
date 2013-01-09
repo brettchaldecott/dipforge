@@ -22,6 +22,8 @@
 
 package products.domain
 
+
+
 /**
  * The configuration object
  */
@@ -29,8 +31,25 @@ class Config {
     
     /**
      * This method generates the data
+     * 
+     * @param params Generate the configuration data.
      */
     def generateData(params) {
         return params.tlds;
+    }
+    
+    
+    /**
+     * This method is responsible for populating the data type.
+     * 
+     * @param dataType The data type to populate
+     * @param data The data values
+     */
+    def populateDataType(dataType,data,parentDataType) {
+        dataType.setName(data.domain)
+        dataType.setTld(data.tld)
+        dataType.setCreated(new java.util.Date())
+        dataType.setModified(new java.util.Date())
+        return dataType;
     }
 }

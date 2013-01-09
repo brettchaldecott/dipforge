@@ -1,6 +1,6 @@
 /*
- * bss: Description
- * Copyright (C) Sat Aug 18 12:07:13 SAST 2012 owner 
+ * oss: Description
+ * Copyright (C) Tue Jan 08 04:54:13 SAST 2013 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,24 +16,35 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Config.groovy
- * @author admin
+ * CreateMail.groovy
+ * @author brett chaldecott
  */
 
-package products.desktop
+package com.dipforge.mail
+
+
+// imports
+import com.rift.coad.util.connection.ConnectionManager
+import com.rift.coad.daemon.rdbusermanager.RDBUserManagementMBean
+import java.util.Date
+import org.apache.log4j.Logger;
+
 
 /**
- * The configuration object
+ * This object is responsible for creating a new user
  */
-class Config {
+class CreateMail {
+    
+    static Logger log = Logger.getLogger("com.dipforge.log.pckg.com.dipforge.mail.CreateMail");
+    
     
     /**
-     * This method generates the data
+     * This is a test call.
      */
-    def generateData(params) {
-        return params.desktopName;
+    def createMail(def Mail) {
+        log.info("#######  This is a mail test for id " + Mail.getId())
+        log.info("#######  This is a mail test for domain " + Mail.getDomain().getName())
+    
     }
-    
-    
-    
+
 }

@@ -35,23 +35,49 @@ def log = Logger.getLogger("com.dipforge.log.shopping.BuyBasket");
 def cartInfo = session.getAttribute("shopping-cart")
 
 if (cartInfo != null) {
+    
     for (element in cartInfo) {
         def offering = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering/${element.value.offeringId}")
+        
+        def organisation = RDF.getFromStore("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation/base")
+        def organisationOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering")
+        organisationOffering.setId(RandomGuid.getInstance().getGuid())
+        organisationOffering.setOffering(offering)
+        organisationOffering.setOrganisation(organisation)
+        organisationOffering.setInstalled(new java.util.Date())
+        organisationOffering.setStatus("active")
+        
+        
+        def request = RequestHandler.getInstance("bss", "CreateOrganisationOffering", organisationOffering)
+        def subRequest = request
+        def parentDataType = []
         offering.getPckg().getProducts().each { productConfig ->
             productConfig.getProduct().getConfigurationManager().each { config ->
                 if (config.getName() == "Groovy") {
                     def configObject = this.class.classLoader.loadClass( config.getUrl(), true, false )?.newInstance()
-                    def pckgConfig = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig")
-                    pckgConfig.setId(productId + ":" + params.pckgId)
-                    pckgConfig.setProduct(product)
-                    pckgConfig.setData(configObject."generateData"(params))
-                    products.add(pckgConfig)
-                    return
+                    def productType = RDF.create(productConfig.getProduct().getDataType())
+                    productType.setId(RandomGuid.getInstance().getGuid())
+                    productType = configObject."populateDataType"(productType,element.value,parentDataType)
+                    
+                    subRequest = subRequest.createChild('oss', 'Create' + productConfig.getProduct().getId(), productType)
+                    
+                    def productOrganisationOffering = RDF.create("http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent")
+                    productOrganisationOffering.setId(RandomGuid.getInstance().getGuid())
+                    productOrganisationOffering.setProduct(productConfig.getProduct())
+                    productOrganisationOffering.setUri(productType._getUri())
+                    productOrganisationOffering.setOrganisationOffering(organisationOffering)
+                    
+                    subRequest.createChild('bss', 'CreateOrganisationOfferingComponent', productOrganisationOffering)
+                    
+                    parentDataType.add(productType)
                 }
             }
         }
         
+        request.makeRequest()
     }
+    
+    session.removeAttribute("shopping-cart")
 }
 
 response.sendRedirect("../finish.gsp")

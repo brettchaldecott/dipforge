@@ -68,6 +68,13 @@ class RDFTypeBuilder {
         return session.dumpXML();
     }
     
+    /**
+     * This method returns the uri of this object
+     */
+    public String _getUri() {
+        URI uri = new URI(classDef.getURI().toString() + '/' + typeInstance.getId());
+        return uri.toString();
+    }
     
     /**
      * This method process the properties
@@ -237,7 +244,10 @@ class RDFTypeBuilder {
             return typeInstance.builder.toXML()
         }
         
-        
+        // get the uri for this object
+        typeInstance."_getUri" = {_local_variable->
+            return typeInstance.builder._getUri()
+        }
     }
     
     /**

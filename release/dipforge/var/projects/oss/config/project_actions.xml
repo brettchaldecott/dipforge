@@ -23,4 +23,20 @@
     <action name="UpdateDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/desktopApplication/UpdateDesktopApplication.lwf" role="daemon" />
     <action name="RemoveDesktopApplication" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication#DesktopApplication" file="/flows/desktopApplication/RemoveDesktopApplication.lwf" role="daemon" />
     
+    <!-- Domain actions and Flows -->
+    <action name="Createdomain" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain" file="/flows/domain/Createdomain.lwf" role="daemon" />
+    <action name="Updatedomain" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain" file="/flows/domain/Updatedomain.lwf" role="daemon" />
+    <action name="Removedomain" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain" file="/flows/domain/Removedomain.lwf" role="daemon" />
+    
+    <!-- Mail actions and Flows -->
+    <action name="Createmail" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail" file="/flows/mail/Createmail.lwf" role="daemon" />
+    <action name="Updatemail" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail" file="/flows/mail/Updatemail.lwf" role="daemon" />
+    <action name="Removemail" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail" file="/flows/mail/Removemail.lwf" role="daemon" />
+    
+    <!-- Web actions and Flows -->
+    <action name="Createweb" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Web#Web" file="/flows/web/Createweb.lwf" role="daemon" />
+    <action name="Updateweb" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Web#Web" file="/flows/web/Updateweb.lwf" role="daemon" />
+    <action name="Removeweb" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Web#Web" file="/flows/web/Removeweb.lwf" role="daemon" />
+    
+    
 </actions>

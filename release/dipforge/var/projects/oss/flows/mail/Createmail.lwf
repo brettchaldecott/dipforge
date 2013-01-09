@@ -1,6 +1,6 @@
 /*
- * bss: Description
- * Copyright (C) Sat Aug 18 12:07:13 SAST 2012 owner 
+ * oss: Description
+ * Copyright (C) Tue Jan 08 04:51:27 SAST 2013 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,24 +16,29 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Config.groovy
+ * Createmail.lwf
  * @author admin
  */
 
-package products.desktop
 
 /**
- * The configuration object
+ * This is the template for a flow
  */
-class Config {
-    
-    /**
-     * This method generates the data
-     */
-    def generateData(params) {
-        return params.desktopName;
-    }
-    
-    
-    
+@java("out")
+@java("log")
+@rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail" "Mail")
+@service("oss" "oss" "com.dipforge.mail.CreateMail" "endPoint")
+@store("store")
+flow Createmail {
+   def out
+   def log
+   def Mail
+   def endPoint
+
+   {
+       endPoint.createMail(Mail)
+       store.persist(Mail)
+       
+       log.info("Created the mail [" + Mail.domain.name + "]")
+   }
 }

@@ -34,4 +34,23 @@ class Config {
     def generateData(params) {
         return params.webQuota;
     }
+    
+    
+    /**
+     * This method is responsible for populating the data type.
+     * 
+     * @param dataType The data type to populate
+     * @param data The data values
+     */
+    def populateDataType(dataType,data,parentDataType) {
+        parentProducts.each { parentDataType ->
+            if (parentDataType._getUri().contains("Domain")) {
+                dataType.setDomain(parentDataType)
+            }
+        }
+        dataType.setName("www")
+        dataType.setCreated(new java.util.Date())
+        dataType.setModified(new java.util.Date())
+        return dataType;
+    }
 }
