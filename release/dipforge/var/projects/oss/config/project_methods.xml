@@ -31,6 +31,9 @@
             <method class="com.dipforge.domain.CreateDomain" name="createDomain" type="http://www.w3.org/2001/XMLSchema#string">
                 <parameter name="Domain" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain"/>
             </method>
+            <method class="com.dipforge.domain.CreateMailDomain" name="createMailDomain" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="Mail" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail"/>
+            </method>
             <method class="com.dipforge.mail.CreateMail" name="createMail" type="http://www.w3.org/2001/XMLSchema#string">
                 <parameter name="Mail" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail"/>
             </method>

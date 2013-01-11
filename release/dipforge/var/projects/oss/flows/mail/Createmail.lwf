@@ -28,6 +28,7 @@
 @java("log")
 @rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail" "Mail")
 @service("oss" "oss" "com.dipforge.mail.CreateMail" "endPoint")
+@service("oss" "oss" "com.dipforge.domain.CreateMailDomain" "domainEndPoint")
 @store("store")
 flow Createmail {
    def out
@@ -36,6 +37,7 @@ flow Createmail {
    def endPoint
 
    {
+       domainEndPoint.createMailDomain(Mail)
        endPoint.createMail(Mail)
        store.persist(Mail)
        

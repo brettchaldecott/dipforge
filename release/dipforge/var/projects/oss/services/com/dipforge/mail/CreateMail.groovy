@@ -28,7 +28,7 @@ import com.rift.coad.util.connection.ConnectionManager
 import com.rift.coad.daemon.rdbusermanager.RDBUserManagementMBean
 import java.util.Date
 import org.apache.log4j.Logger;
-
+import com.rift.coad.daemon.email.EMailServerMBean;
 
 /**
  * This object is responsible for creating a new user
@@ -44,7 +44,15 @@ class CreateMail {
     def createMail(def Mail) {
         log.info("#######  This is a mail test for id " + Mail.getId())
         log.info("#######  This is a mail test for domain " + Mail.getDomain().getName())
-    
+        
+        def fqdn = "${Mail.getDomain().getName()}.${Mail.getDomain().getTld()}"
+        try {
+            EMailServerMBean manageDaemon = (EMailServerMBean)ConnectionManager.getInstance().
+                    getConnection(EMailServerMBean.class,"email/MBeanManager");
+            manageDaemon.addDomain(fqdn)
+        } catch (Exception ex) {
+            log.error("Failed to add the mail domain : " + ex.getMessage());
+        }
     }
 
 }

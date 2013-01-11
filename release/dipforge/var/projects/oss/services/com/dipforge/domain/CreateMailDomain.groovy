@@ -1,6 +1,6 @@
 /*
  * oss: Description
- * Copyright (C) Tue Jan 08 04:53:28 SAST 2013 owner 
+ * Copyright (C) Fri Jan 11 05:30:18 SAST 2013 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,12 +16,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * CreateDomain.groovy
- * @author brett chaldecott
+ * CreateMailDomain.groovy
+ * @author admin
  */
 
 package com.dipforge.domain
-
 
 // imports
 import com.rift.coad.util.connection.ConnectionManager
@@ -34,33 +33,30 @@ import java.net.InetAddress;
 /**
  * This object is responsible for creating a new user
  */
-class CreateDomain {
+class CreateMailDomain {
     
-    static Logger log = Logger.getLogger("com.dipforge.log.pckg.com.dipforge.domain.CreateDomain");
+    static Logger log = Logger.getLogger("com.dipforge.log.pckg.com.dipforge.domain.CreateMailDomain");
     
     
     /**
      * This is a test call.
      */
-    def createDomain(def Domain) {
-        log.info("#######  This is a domain test " + Domain.getName())
+    def createMailDomain(def Mail) {
+        log.info("#######  This is a domain test " + Mail.getDomain().getName())
         try {
             DNSServerMBean manageDaemon = (DNSServerMBean)ConnectionManager.getInstance().
                     getConnection(DNSServerMBean.class,"dns/MBeanManager");
             InetAddress localhost = InetAddress.getLocalHost();
-            def fqdn = "${Domain.getName()}.${Domain.getTld()}"
+            def fqdn = "${Mail.getDomain().getName()}.${Mail.getDomain().getTld()}"
+            def zone = manageDaemon.getZone(fqdn)
+            zone = zone + 
+                "${fqdn}.        86400    IN MX  10 mail.${fqdn}.\n" +
+                "mail.${fqdn}.        604800    IN    A    ${localhost.getHostAddress()}\n"
             log.info("zone\n" +
-                "${fqdn}.        604800    IN    SOA    ${fqdn}. root.${fqdn}. (2 604800 86400 2419200 604800)\n" +
-                "${fqdn}.        604800    IN    NS    ns.${fqdn}.\n" + 
-                "${fqdn}.        604800    IN    A    ${localhost.getHostAddress()}\n" +
-                "ns.${fqdn}.        604800    IN    A    ${localhost.getHostAddress()}\n")
-            manageDaemon.createZone(fqdn, 
-                "${fqdn}.        604800    IN    SOA    ${fqdn}. root.${fqdn}. (2 604800 86400 2419200 604800)\n" +
-                "${fqdn}.        604800    IN    NS    ns.${fqdn}.\n" + 
-                "${fqdn}.        604800    IN    A    ${localhost.getHostAddress()}\n" +
-                "ns.${fqdn}.        604800    IN    A    ${localhost.getHostAddress()}\n");
+                "${zone}.")
+            manageDaemon.updateZone(fqdn,zone);
         } catch (Exception ex) {
-            log.error("Failed to create the domain : " + ex.getMessage());
+            log.error("Failed to update the domain : " + ex.getMessage());
         }
         
     }
