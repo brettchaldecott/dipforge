@@ -6,8 +6,8 @@
  
   <info>
     <appname>Dipforge</appname>
-    <appversion>3.0.1b</appversion>
-    <appsubpath>dipforge-3.0.1b</appsubpath>
+    <appversion>3.0.b1</appversion>
+    <appsubpath>dipforge-3.0.b1</appsubpath>
     <javaversion>1.6</javaversion>
     <authors>
 	<author name="Brett Chaldecott" email="brett.chaldecott@gmail.com"/>
@@ -66,17 +66,24 @@
   <packs>
     <pack name="Base" required="yes">
       <description>The base of Dipforge</description>
-      <fileset dir="dipforge" targetdir="${INSTALL_PATH}" override="true"/>
-      <exclude name="**/*.keepme*"/>
-      <exclude name="dipforge/etc/**" />
-      <exclude name="dipforge/tmp/**" />
-      <exclude name="dipforge/log/**.log*" />
+      <fileset dir="dipforge" targetdir="${INSTALL_PATH}" override="true">
+          <exclude name="**/*.keepme*"/>
+          <exclude name="**/*changelog.dmp*"/>
+          <exclude name="**/etc/**" />
+          <exclude name="**/tmp/**" />
+          <exclude name="**/log/**.log*" />
+          <exclude name="**/log/**.out*" />
+          <exclude name="**/bin/**" />
+          <exclude name="**/var/nameservice/**" />
+          <exclude name="**/var/named/**" />
+      </fileset>
     </pack>
     <pack name="Config" required="yes">
       <description>The configuration for Dipforge</description>
-      <fileset dir="resource" targetdir="${INSTALL_PATH}" override="true"/>
-      <exclude name="**/*.keepme*"/>
-      <exclude name="resource/install-info/izpack-user-input.xml" />
+      <fileset dir="resource" targetdir="${INSTALL_PATH}" override="true">
+          <exclude name="**/*.keepme*"/>
+          <exclude name="**/install-info/izpack-user-input.xml" />
+      </fileset>
       <parsable targetfile="${INSTALL_PATH}/bin/run.sh"/>
       <executable targetfile="$INSTALL_PATH/bin/run.sh" os="unix" stage="never" keep="true"/>
       <parsable targetfile="${INSTALL_PATH}/bin/run.bat"/>

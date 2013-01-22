@@ -7,19 +7,19 @@
       <pwd txt="The Password:" size="25" set=""/>
       <pwd txt="Retype Password:" size="25" set=""/>
     </spec>
-    <validator class="com.izforge.izpack.util.PasswordEqualityValidator" txt="Both passwords must match." id="admin.password.validator"/>
+    <validator class="com.izforge.izpack.installer.validator.PasswordEqualityValidator" txt="Both passwords must match." id="admin.password.validator"/>
   </field>
   <field type="divider" />
   <field type="rule" variable="NAMESERVERS">
     <description align="left" txt="Please provide a valid name server ip address. This will be used when the nameserver does not know the result and has to defer the request to another. It could be your company or ISP primary name server. (Note: it is possible to provide more IP addresses after setup by modifying the configuration file.)" id="nameserver.description"/>
     <spec txt="Name Server IP:" layout="N:3:3 . N:3:3 . N:3:3 . N:3:3" set=""/>
-    <validator class="com.izforge.izpack.util.NotEmptyValidator" txt="The Name Server information is manditory." />
+    <validator class="com.izforge.izpack.installer.validator.NotEmptyValidator" txt="The Name Server information is manditory." />
   </field>
   <field type="divider" />
   <field type="text" variable="RELAY_SMTP_SERVER">
     <description align="left" txt="If mail from this server is to be relayed through another one provide the hostname here." id="relay.description"/>
     <spec txt="SMTP Relay:" size="25" set="" id="relay.text"/>
-    <validator class="com.izforge.izpack.util.RegularExpressionValidator" txt="Invalid host name for the relay requests.">
+    <validator class="com.izforge.izpack.installer.validator.RegularExpressionValidator" txt="Invalid host name for the relay requests.">
       <param name="pattern" value="[a-zA-Z0-9._-]*"/>
     </validator>
   </field>

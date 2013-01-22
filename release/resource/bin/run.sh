@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 
-JAVA_HOME=$JDKPath
-export JAVA_HOME
+JDK_JAVA_PATH=$JDKPath
+JAVA_PATH=$JDKPath
+export JDK_JAVA_PATH JAVA_PATH
 
-if [ -d $JAVA_HOME ]
+if [ -d $JDK_JAVA_PATH ]
 then
-   echo "Using JAVA_HOME [$JAVA_HOME]"
+   echo "Using JDK_JAVA_PATH [$JDK_JAVA_PATH]"
 else
-   echo "JAVA_HOME must be set correctly"
+   echo "JDK_JAVA_PATH must be set correctly"
    exit -1
 fi
 
 # setup the java path
-JAVA_PATH=$JAVA_HOME/bin/java
+JAVA_PATH=$JDK_JAVA_PATH/bin/java
 
 if [ -f $JAVA_PATH ]
 then
@@ -22,7 +23,7 @@ else
 fi
 
 # setup tools path
-TOOLS=$JAVA_HOME/lib/tools.jar
+TOOLS=$JDK_JAVA_PATH/lib/tools.jar
 DIPFORGE_HOME=$INSTALL_PATH
 export DIPFORGE_HOME
 VERSION=$APP_VER
