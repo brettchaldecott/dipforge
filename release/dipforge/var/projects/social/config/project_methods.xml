@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : method_mappings.xml
+    Created on : Thu Oct 18 05:31:44 SAST 2012
+    Author     : admin
+    Description:
+        The types within the [social] project
+-->
+
+<mapping>
+    <!-- example mappings 
+    <jndi name="groovy/Daemon" service="name">
+        <project name="social">
+            <method class="com.test.name1" name="test1">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+                <parameter name="test3" type="xmltype"/>
+            </method>
+            <method class="com.test.name1" name="test2">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+            </method>
+        </project>
+        <project name="social">
+            <method class="com.test.name1" name="test1">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+                <parameter name="test3" type="xmltype"/>
+            </method>
+            <method class="com.test.name1" name="test2">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+            </method>
+        </project>
+    </jndi>
+    <jndi name="groovy/Daemon">
+        <project name="social">
+            <method class="com.test.name1" name="test1">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+                <parameter name="test3" type="xmltype"/>
+            </method>
+            <method class="com.test.name1" name="test2">
+                <parameter name="test1" type="xmltype"/>
+                <parameter name="test2" type="xmltype"/>
+            </method>
+        </project>
+    </jndi>
+    -->
+</mapping>
+

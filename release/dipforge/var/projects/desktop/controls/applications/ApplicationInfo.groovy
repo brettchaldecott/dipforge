@@ -57,6 +57,11 @@ if (result.size() != 1) {
                     image: 'images/icon/Organisation.png',                
                     title: 'Administration',
                     url: '/DipforgeWeb/bss/'
+                ],
+                [
+                    image: 'images/icon/Organisation.png',                
+                    title: 'Social',
+                    url: '/DipforgeWeb/social/'
                 ]/*,
                 [
                     image: 'images/icon/Admin.png',                

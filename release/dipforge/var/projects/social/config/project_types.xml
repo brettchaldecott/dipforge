@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : project_types.xml
+    Created on : Thu Oct 18 05:31:44 SAST 2012
+    Author     : admin
+    Description:
+        The types within the [social] project
+-->
+
+<types project="social">
+    <type name="Message" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="username" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="message" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+    </type>
+</types>
+
