@@ -21,6 +21,7 @@
         <filter meta-data="x-application" name="BBC News"/>
         <filter meta-data="x-application" name="CNN News"/>
         <filter meta-data="x-application" name="Sky News"/>
+        <filter meta-data="x-application" name="Social Feed"/>
     </Feed>
     
     <Feed name="environment">
