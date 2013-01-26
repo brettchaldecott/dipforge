@@ -57,7 +57,7 @@ Ext.define('FeedViewer.FeedPanel', {
          var task = runner.start({
             scope: this,
              run: this.reloadFeeds,
-             interval: 1000 * 60 * 5
+             interval: 1000 * 60
          });
         
     },   
@@ -236,8 +236,16 @@ Ext.define('FeedViewer.FeedPanel', {
      * @param {Ext.data.Model} rec The feed
      */
     loadFeed: function(rec){
+        // Load a feed
         if (rec) {
-            this.fireEvent('feedselect', this, rec.get('title'), rec.get('url'));
+            // Check if the author is the Social feed
+            // If So launch the Feed application
+            if (rec.get('author') !== null && rec.get('author') == 'Social Feed') {
+                this.fireEvent('feedselect', this, 'Feed', rec.get('url'));
+            } else {
+                this.fireEvent('feedselect', this, rec.get('title'), rec.get('url'));
+            }
+            
         }
     },
 

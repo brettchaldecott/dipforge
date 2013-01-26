@@ -23,6 +23,9 @@ Author: brett chaldecott
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">                
             </script>
         <![endif]--><!--//-->
+        <script type="text/javascript">
+            var username = '${request.getRemoteUser()}';
+        </script>
     </head>
     <body>
         <div class="navbar navbar-fixed-top navbar-static-top">

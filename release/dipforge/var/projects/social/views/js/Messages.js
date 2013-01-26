@@ -36,25 +36,21 @@ function createMsg() {
         url: 'messages/CreateMessage.groovy',
         data: "message=" + $('#messageText').val(),
         success: function(data) {
-            if (data == "success") {
-                setTimeout(function () {
-                    $('#createMessage').toggleClass('btn-primary');
-                    loadMsgs();
-                }, 1000 * 4);
-                
-            } else {
-                
-                setTimeout(function () {
-                    $('#createMessage').toggleClass('btn-primary');
-                    loadMsgs();    
-                }, 1000 * 4);
-            }
+            var html = [];
+            html.push(
+                    '<li class="span9" style="margin-bottom:10px;">',
+                    '    <div class="thumbnail">',
+                    '        <p><b>',username,'</b> </p>',
+                    '        <p>',$('#messageText').val(),'</p>',
+                    '    </div>',
+                    '</li>\n');
+            $('#messageList').prepend(html.join(''));
+            $('#messageText').val('');
+            $('#createMessage').toggleClass('btn-primary');
         },
         failure: function(data) {
-            setTimeout(function () {
-                $('#createMessage').toggleClass('btn-primary');
-                loadMsgs();    
-            }, 1000 * 4);
+            loadMsgs();
+            $('#createMessage').toggleClass('btn-primary');
         }
     });
 }

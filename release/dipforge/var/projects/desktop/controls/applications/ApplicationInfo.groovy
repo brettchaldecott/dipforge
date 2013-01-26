@@ -24,6 +24,11 @@ def builder = new JsonBuilder()
 if (result.size() != 1) {
     def menu = [
                  [
+                    image: 'images/icon/Social.png',                
+                    title: 'Feed',
+                    url: '/DipforgeWeb/social/'
+                 ],
+                 [
                     image: 'images/icon/IDE.png',
                     title: 'IDE',
                     url: '/DipforgeWeb/ide/'
@@ -57,11 +62,6 @@ if (result.size() != 1) {
                     image: 'images/icon/Organisation.png',                
                     title: 'Administration',
                     url: '/DipforgeWeb/bss/'
-                ],
-                [
-                    image: 'images/icon/Organisation.png',                
-                    title: 'Social',
-                    url: '/DipforgeWeb/social/'
                 ]/*,
                 [
                     image: 'images/icon/Admin.png',                
@@ -85,7 +85,14 @@ if (result.size() != 1) {
     
     log.debug("#########################  application query result " + applicationResults)
     
-    def menu = []
+    
+    def menu = [
+                [
+                    image: 'images/icon/Social.png',                
+                    title: 'Feed',
+                    url: '/DipforgeWeb/social/'
+                ]
+            ]
     
     // return the default for now
     applicationResults.each { row ->

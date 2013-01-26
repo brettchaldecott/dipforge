@@ -9,44 +9,12 @@
 -->
 
 <mapping>
-    <!-- example mappings 
-    <jndi name="groovy/Daemon" service="name">
+    <jndi name="groovy/DataMapper" service="social">
         <project name="social">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
-            </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-            </method>
-        </project>
-        <project name="social">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
-            </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
+            <method class="com.dipforge.messages.AddEvent" name="addEvent" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="Message" type="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
             </method>
         </project>
     </jndi>
-    <jndi name="groovy/Daemon">
-        <project name="social">
-            <method class="com.test.name1" name="test1">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-                <parameter name="test3" type="xmltype"/>
-            </method>
-            <method class="com.test.name1" name="test2">
-                <parameter name="test1" type="xmltype"/>
-                <parameter name="test2" type="xmltype"/>
-            </method>
-        </project>
-    </jndi>
-    -->
 </mapping>
 

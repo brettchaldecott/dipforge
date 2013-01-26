@@ -27,14 +27,17 @@
 @java("out")
 @java("log")
 @rdf("http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message" "Message")
+@service("social" "social" "com.dipforge.messages.AddEvent" "endPoint")
 @store("store")
 flow CreateMessage {
     def out
     def log
     def Message
+    def endPoint
     
     {
        log.info("Persisting the message [" + Message.username + "]")
        store.persist(Message)
+       endPoint.addEvent(Message)
     }
 }

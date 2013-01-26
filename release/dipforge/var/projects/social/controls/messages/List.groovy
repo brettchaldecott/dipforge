@@ -32,7 +32,7 @@ def log = Logger.getLogger("com.dipforge.log.message.List");
 def result = RDF.query("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message> . " + 
     "?s <http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#created> ?created .} " +
-    "ORDER BY DESC(?created)" )
+    "ORDER BY DESC(?created) LIMIT 30" )
 
 def builder = new JsonBuilder()
 def messages = []
