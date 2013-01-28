@@ -3,7 +3,7 @@ import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
 apply plugin: 'maven'
 apply plugin: 'war'
 
-version = "1.0.1"
+//version = "1.0.1"
 distsDirName="dist"
 libsDirName="."
 archivesBaseName="CoadunationTypeManagerConsole"

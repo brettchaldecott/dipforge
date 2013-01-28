@@ -4,7 +4,7 @@ apply plugin: 'announce'
 import org.apache.tools.ant.filters.ReplaceTokens
 
 //libsDirName="."
-project.ext.version="1.0.1"
+project.ext.version=version
 //sourceCompatibility=1.6
 //targetCompatibility=1.6
 project.ext.javaHome = getJavaHomeVar()
@@ -502,6 +502,8 @@ dependencies {
     releaseGroovyLib project(':client:ChangeControlClient')
     releaseGroovyLib project(':client:RequestBrokerClient')
     releaseGroovyLib project(':client:RDBUserManagerClient')
+    releaseGroovyLib project(':client:DNSServerClient')
+    releaseGroovyLib project(':client:EmailServerClient')
     releaseGroovyLib project(':client:EventServerClient')
     releaseGroovyLib project(':client:AuditTrail')
     releaseGroovyLib "asm:asm:3.2"
