@@ -46,10 +46,7 @@ class AddEvent {
         try {
             FeedManager manageDaemon = (FeedManager)ConnectionManager.getInstance().
                     getConnection(FeedManager.class,"event/Manager");
-            def title = Message.getUsername() + ":" + Message.getMessage()
-            if (title.length() > 50) {
-                title = title.substring(0,50) + "...";
-            }
+            def title = Message.getUsername() + ":" + Message.getCreated().toString()
             FeedEvent event = new FeedEvent(title, Message.getId(),
                 Message.getUsername(),'Social Feed',Message.getMessage(),
                 '/DipforgeWeb/social/','guest');       
