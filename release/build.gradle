@@ -512,6 +512,7 @@ dependencies {
     releaseGroovyLib "asm:asm-util:3.2"
     releaseGroovyLib "asm:asm-analysis:3.2"
     releaseGroovyLib "asm:asm-tree:3.2"
+    releaseGroovyLib "org.codehaus.groovy.modules:groovyws:0.5.2"
     
     // rdf type generator
     releaseRDFTypeGenerator "javax.transaction:jta:1.1"
