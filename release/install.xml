@@ -6,8 +6,8 @@
  
   <info>
     <appname>Dipforge</appname>
-    <appversion>3.0.b1</appversion>
-    <appsubpath>dipforge-3.0.b1</appsubpath>
+    <appversion>3.0.b2</appversion>
+    <appsubpath>dipforge-3.0.b2</appsubpath>
     <javaversion>1.6</javaversion>
     <authors>
 	<author name="Brett Chaldecott" email="brett.chaldecott@gmail.com"/>
@@ -87,6 +87,7 @@
       <parsable targetfile="${INSTALL_PATH}/bin/run.sh"/>
       <executable targetfile="$INSTALL_PATH/bin/run.sh" os="unix" stage="never" keep="true"/>
       <parsable targetfile="${INSTALL_PATH}/bin/run.bat"/>
+      <parsable targetfile="${INSTALL_PATH}/bin/dipforge.conf"/>
       <parsable targetfile="${INSTALL_PATH}/etc/config.xml"/>
       <parsable targetfile="${INSTALL_PATH}/etc/log4j.properties"/>
       <parsable targetfile="${INSTALL_PATH}/etc/users.xml"/>
