@@ -285,6 +285,7 @@ task copyToGroovyLib(type: Copy) {
     into "dipforge/var/groovylib/"
     from configurations.releaseGroovyLib
     exclude "**/*servlet-api*"
+    exclude "**/*groovy-all-1.7.2*"
 }
 
 
