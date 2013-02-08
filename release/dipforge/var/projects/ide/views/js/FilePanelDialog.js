@@ -121,17 +121,21 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 	 	                                    success : function() {
 	 	                                    	var treeNode = null;
 	 	                                    	if (fileType == "folder") {
-	 	                                    		var completePath = path + "/" + fileName
+                                                    var subPath = fileName
+                                                    if (fileName.indexOf("/")) {
+                                                        subPath = fileName.substring(0,fileName.indexOf("/"))
+                                                    }
+	 	                                    		var completePath = path + "/" + subPath
 	 	                                    		treeNode = Ext.create('File',{
 		    												id: 'P:' + projectName + ":" + completePath,
 												            project: projectName,
-												            file: fileName,
+												            file: subPath,
 												            user: projectName,
 												            leaf: false,
 												            path: completePath,
 												            project_dir: false,
 												  			iconCls: 'directory',
-												  			text: fileName
+												  			text: subPath
 														});
 	 	                                    	} else {
 	 	                                    		var completePath = path + "/" + fileName + "." + fileType
@@ -201,7 +205,9 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 	 	                                    	}
 	 	                                    	
 												Ext.data.NodeInterface.decorate(treeNode);
-												record.appendChild(treeNode)
+                                                if (!record.findChild("id",treeNode.getId())) {
+                                                    record.appendChild(treeNode)
+                                                }
 	 	                                    },
 	 	                                    failure: function(response) {
 	 	                                    	Ext.Msg.show({
