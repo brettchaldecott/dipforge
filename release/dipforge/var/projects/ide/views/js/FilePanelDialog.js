@@ -122,7 +122,7 @@ Ext.define('com.dipforge.IDE.FilePanelDialog', {
 	 	                                    	var treeNode = null;
 	 	                                    	if (fileType == "folder") {
                                                     var subPath = fileName
-                                                    if (fileName.indexOf("/")) {
+                                                    if (fileName.indexOf("/") != -1) {
                                                         subPath = fileName.substring(0,fileName.indexOf("/"))
                                                     }
 	 	                                    		var completePath = path + "/" + subPath
