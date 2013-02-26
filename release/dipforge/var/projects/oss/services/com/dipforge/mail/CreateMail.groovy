@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 import com.rift.coad.daemon.email.EMailServerMBean;
 
 /**
- * This object is responsible for creating a new user
+ * This object is responsible for creating a new mail domain
  */
 class CreateMail {
     
