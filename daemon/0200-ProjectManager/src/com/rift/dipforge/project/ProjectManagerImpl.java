@@ -79,6 +79,9 @@ public class ProjectManagerImpl implements ProjectManager {
                 if (!file.isDirectory()) {
                     continue;
                 }
+                if (file.getName().startsWith(".git")) {
+                    continue;
+                }
                 ProjectBean project = ProjectFactory.getInstance().getProject(
                         file.getName());
                 projectList.add(project.getInfo());
