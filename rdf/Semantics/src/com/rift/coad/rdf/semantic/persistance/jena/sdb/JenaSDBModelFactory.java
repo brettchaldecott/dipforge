@@ -129,7 +129,11 @@ public class JenaSDBModelFactory implements JenaStore {
                     new JenaSDBEscaper());
             
             // check if this database type requires a keep alive
-            if (store.getDatabaseType().getName().equals(DatabaseType.MySQL)) {
+            log.info("The database type is : " + 
+                store.getDatabaseType().getName());
+            if (store.getDatabaseType().getName().equals(
+                    DatabaseType.MySQL.getName())) {
+                log.info("The database requires keep alive");
                 keepAlive = new JenaSDBKeepAlive(dataStore);
                 keepAlive.start();
             }
