@@ -24,6 +24,7 @@ package com.rift.coad.rdf.semantic.persistance.jena.sdb;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sdb.SDBFactory;
 import com.hp.hpl.jena.sdb.Store;
+import com.hp.hpl.jena.sdb.store.DatabaseType;
 import com.hp.hpl.jena.sdb.store.SDBStoreWrapper;
 import com.hp.hpl.jena.sdb.util.StoreUtils;
 
@@ -49,6 +50,7 @@ public class JenaSDBModelFactory implements JenaStore {
     // private member variables
     private Store store = null;
     private Model dataStore;
+    private JenaSDBKeepAlive keepAlive = null;
 
     private JenaSDBModelFactory(Properties prop) throws PersistanceException {
         try {
@@ -118,14 +120,20 @@ public class JenaSDBModelFactory implements JenaStore {
                 log.error("Failed to remove reference : " +ex.getMessage());
             }
 
-
+            // format an empty store
             if (!StoreUtils.isFormatted(store)) {
                 store.getTableFormatter().create();
             }
             dataStore = SDBFactory.connectDefaultModel(store);
             JenaEscaperFactory.getInstance().setEscaper(dataStore, 
                     new JenaSDBEscaper());
-
+            
+            // check if this database type requires a keep alive
+            if (store.getDatabaseType().getName().equals(DatabaseType.MySQL)) {
+                keepAlive = new JenaSDBKeepAlive(dataStore);
+                keepAlive.start();
+            }
+            
             // This is a nasty work around to remove mbeans to prevent
             // clashes on mbean services
             try {
@@ -194,6 +202,13 @@ public class JenaSDBModelFactory implements JenaStore {
     public void close() throws PersistanceException {
         try {
             SDBStoreWrapper.close(store);
+        } catch (Exception ex) {
+            // ignore
+        }
+        try {
+            if (keepAlive != null) {
+                keepAlive.terminate();
+            }
         } catch (Exception ex) {
             // ignore
         }
