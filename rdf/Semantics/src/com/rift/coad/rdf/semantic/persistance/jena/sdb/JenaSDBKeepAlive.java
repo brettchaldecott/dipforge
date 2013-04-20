@@ -62,6 +62,7 @@ public class JenaSDBKeepAlive extends Thread {
      */
     @Override
     public void run() {
+        log.info("Keep alive is running");
         while(!isTerminated()) {
             this.testConnection();
         }
@@ -96,13 +97,16 @@ public class JenaSDBKeepAlive extends Thread {
      * This method is called to test the connection.
      */
     private void testConnection() {
+        log.info("Test the connection [" + model + "]");
         try {
             Query query = QueryFactory.create(
-                    "SELECT ?s WHERE { ?s a " + 
-                    "<http://www.coadunation.net/schema/rdf/1.0/test#Test> .}");
+                    "SELECT * { <http://example/junk> " +
+                    "<http://example/junk> <http://example/junk> }");
             QueryExecution executioner = 
                     QueryExecutionFactory.create(query, model);
+            log.info("Execute the query");
             ResultSet resultSet = executioner.execSelect();
+            log.info("After executing : " + resultSet.hasNext());
             executioner.close();
         } catch (Exception ex) {
             log.error("Failed to test the connection : " + ex.getMessage());
