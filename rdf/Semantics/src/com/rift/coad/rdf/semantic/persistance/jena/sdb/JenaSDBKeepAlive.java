@@ -97,7 +97,7 @@ public class JenaSDBKeepAlive extends Thread {
      * This method is called to test the connection.
      */
     private void testConnection() {
-        log.info("Test the connection [" + model + "]");
+        log.info("Test the connection");
         try {
             Query query = QueryFactory.create(
                     "SELECT * { <http://example/junk> " +

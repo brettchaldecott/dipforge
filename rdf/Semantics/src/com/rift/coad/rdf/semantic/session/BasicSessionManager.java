@@ -116,7 +116,27 @@ public class BasicSessionManager implements SessionManager {
                     ("Failed to get a session : " + ex.getMessage(),ex);
         }
     }
-
+    
+    
+    /**
+     * This method returns an instance of a new session object.
+     *
+     * @param lock The lock type to use.
+     * @return The reference to the session object to retrieve.
+     * @throws SessionException
+     */
+    public Session getSession(SessionManager.SessionLock lock) throws SessionException {
+        try {
+            PersistanceSession peristanceSession = persistanceManager.getSession();
+            OntologySession ontologySession = ontologyManager.getSession();
+            return new BasicSession(peristanceSession,ontologySession,
+                    jdoManager.getSession(peristanceSession, ontologySession));
+        } catch (Exception ex) {
+            log.error("Failed to get a session : " + ex.getMessage(),ex);
+            throw new SessionException
+                    ("Failed to get a session : " + ex.getMessage(),ex);
+        }
+    }
     
     /**
      * This method is called to reload the ontology information.

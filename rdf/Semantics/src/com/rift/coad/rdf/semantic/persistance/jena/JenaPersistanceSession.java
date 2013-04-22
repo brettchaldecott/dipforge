@@ -22,6 +22,7 @@
 package com.rift.coad.rdf.semantic.persistance.jena;
 
 import com.hp.hpl.jena.rdf.model.*;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQuery;
@@ -54,13 +55,28 @@ public class JenaPersistanceSession implements PersistanceSession {
     /**
      * The protected constructor of the jena persistance session object.
      * 
-     * @param jenaModel
+     * @param jenaModel The model the perform the operations on.
+     * @param storeType The type of store that is being used.
      */
-    protected JenaPersistanceSession(Model jenaModel) {
+    protected JenaPersistanceSession(Model jenaModel, JenaStoreType storeType) {
         this.jenaModel = jenaModel;
-        transaction = new JenaPersistanceTransaction(jenaModel);
+        transaction = new JenaPersistanceTransaction(jenaModel,storeType);
+    }
+    
+    /**
+     * The protected constructor of the jena persistance session object.
+     * 
+     * @param jenaModel The model to perform the operations on.
+     * @param storeType The type of store to utilize.
+     * @param lock The type of lock to utilize on this object,
+     */
+    protected JenaPersistanceSession(Model jenaModel,
+            SessionManager.SessionLock lock) {
+        this.jenaModel = jenaModel;
+        transaction = new JenaPersistanceTransaction(jenaModel,lock);
     }
 
+    
     /**
      * This method returns a reference to the transaction.
      *

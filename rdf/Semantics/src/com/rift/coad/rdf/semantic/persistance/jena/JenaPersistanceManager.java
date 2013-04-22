@@ -23,6 +23,7 @@
 package com.rift.coad.rdf.semantic.persistance.jena;
 
 import com.hp.hpl.jena.rdf.model.Model;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
@@ -116,9 +117,21 @@ public class JenaPersistanceManager implements PersistanceManager {
      * @throws PersistanceException
      */
     public PersistanceSession getSession() throws PersistanceException {
-        return new JenaPersistanceSession(store.getModule());
+        return new JenaPersistanceSession(store.getModule(),store.getType());
     }
-
+    
+    
+    /**
+     * This method returns the persistance session.
+     *
+     * @param lock The type of lock to utilize on this session.
+     * @return The reference to the persistance session.
+     * @throws PersistanceException
+     */
+    public PersistanceSession getSession(SessionManager.SessionLock lock) 
+            throws PersistanceException {
+        return new JenaPersistanceSession(store.getModule(),lock);
+    }
     
     /**
      * This method is responsible for closing the jena persistance manager.

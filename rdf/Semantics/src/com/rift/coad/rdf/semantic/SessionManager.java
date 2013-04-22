@@ -31,7 +31,13 @@ import java.util.Properties;
  * @author brett chaldecott
  */
 public interface SessionManager {
-
+    
+    public enum SessionLock {
+        READ_LOCK,
+        WRITE_LOCK,
+        NO_LOCK
+    };
+    
     /**
      * This method returns the version information for the session object.
      *
@@ -62,6 +68,14 @@ public interface SessionManager {
      * @throws com.rift.coad.rdf.semantic.SessionException
      */
     public Session getSession() throws SessionException;
+    
+    
+    /**
+     * This method returns the description of the 
+     * @return
+     * @throws com.rift.coad.rdf.semantic.SessionException
+     */
+    public Session getSession(SessionLock lock) throws SessionException;
     
     
     /**

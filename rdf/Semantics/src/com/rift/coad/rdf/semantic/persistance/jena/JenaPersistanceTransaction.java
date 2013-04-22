@@ -23,6 +23,8 @@
 package com.rift.coad.rdf.semantic.persistance.jena;
 
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.shared.Lock;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceTransaction;
 import org.apache.log4j.Logger;
@@ -41,17 +43,36 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
     // private member variables
     private Model jenaModel;
     private boolean inTransaction = false;
-
+    private SessionManager.SessionLock lock;
 
     /**
      * The constructor responsible for creating the jena transaction.
      *
      * @param jenaModel The reference to the jena model.
+     * @param type The type of store to utilize
      */
-    protected JenaPersistanceTransaction(Model jenaModel) {
+    protected JenaPersistanceTransaction(Model jenaModel, JenaStoreType type) {
         this.jenaModel = jenaModel;
+        // sets up the default read lock
+        if (type == JenaStoreType.XML) {
+            this.lock = SessionManager.SessionLock.NO_LOCK;
+        } else {
+            this.lock = SessionManager.SessionLock.READ_LOCK;
+        }
     }
-
+    
+    
+    /**
+     * The constructor responsible for creating the jena transaction.
+     *
+     * @param jenaModel The reference to the jena model.
+     * @param lock The type of lock to utilize on this session.
+     */
+    protected JenaPersistanceTransaction(Model jenaModel, 
+            SessionManager.SessionLock lock) {
+        this.jenaModel = jenaModel;
+        this.lock = lock;
+    }
 
     /**
      * This method is called to being the transaction scope.
@@ -64,6 +85,11 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
                     "Transaction already started for this object.");
         }
         try {
+            if (lock == SessionManager.SessionLock.READ_LOCK) {
+                jenaModel.enterCriticalSection(Lock.READ);
+            } else if (lock == SessionManager.SessionLock.WRITE_LOCK) {
+                jenaModel.enterCriticalSection(Lock.WRITE);
+            }
             jenaModel.begin();
             inTransaction = true;
         } catch (Exception ex) {
@@ -83,6 +109,11 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
             jenaModel.commit();
         } catch (Exception ex) {
             log.error("Failed to commit the changes : " + ex.getMessage());
+        } finally {
+            if (lock == SessionManager.SessionLock.READ_LOCK || 
+                    lock == SessionManager.SessionLock.WRITE_LOCK) {
+                jenaModel.leaveCriticalSection();
+            }
         }
     }
 
@@ -97,6 +128,11 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
             jenaModel.abort();
         } catch (Exception ex) {
             log.error("Failed to commit the changes : " + ex.getMessage());
+        } finally {
+            if (lock == SessionManager.SessionLock.READ_LOCK || 
+                    lock == SessionManager.SessionLock.WRITE_LOCK) {
+                jenaModel.leaveCriticalSection();
+            }
         }
     }
 

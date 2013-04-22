@@ -18,7 +18,6 @@
  *
  * JenaStoreTypes.java
  */
-
 package com.rift.coad.rdf.semantic.persistance.jena.sdb;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -35,6 +34,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaEscaperFactory;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
+import com.rift.coad.rdf.semantic.persistance.jena.JenaStoreType;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -46,7 +46,6 @@ public class JenaSDBModelFactory implements JenaStore {
 
     // logger
     private static Logger log = Logger.getLogger(JenaSDBModelFactory.class);
-
     // private member variables
     private Store store = null;
     private Model dataStore;
@@ -56,122 +55,122 @@ public class JenaSDBModelFactory implements JenaStore {
         try {
             // synchronize on the MBeanServer to solve the race condition
             // between the various threads
-            synchronized(ManagementFactory.getPlatformMBeanServer()) {
-            // This is a nasty work around to remove mbeans to prevent
-            // clashes on mbean services
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Context"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Engine"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
+            synchronized (ManagementFactory.getPlatformMBeanServer()) {
+                // This is a nasty work around to remove mbeans to prevent
+                // clashes on mbean services
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=Context"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=Engine"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
 
-            String sdbConfigPath = prop.getProperty(PersistanceConstants.STORE_CONFIGURATION_FILE);
-            if (sdbConfigPath == null) {
-                throw new PersistanceException("The configuration file [" +
-                        PersistanceConstants.STORE_CONFIGURATION_FILE +
-                        "] must be set for the SDB store.");
-            }
-            // read in the SDB data information
-            store = SDBFactory.connectStore(sdbConfigPath);
+                String sdbConfigPath = prop.getProperty(PersistanceConstants.STORE_CONFIGURATION_FILE);
+                if (sdbConfigPath == null) {
+                    throw new PersistanceException("The configuration file ["
+                            + PersistanceConstants.STORE_CONFIGURATION_FILE
+                            + "] must be set for the SDB store.");
+                }
+                // read in the SDB data information
+                store = SDBFactory.connectStore(sdbConfigPath);
 
-            // This is a nasty work around to remove mbeans to prevent
-            // clashes on mbean services
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Context"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Engine"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
+                // This is a nasty work around to remove mbeans to prevent
+                // clashes on mbean services
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=Context"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=Engine"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
 
-            // format an empty store
-            if (!StoreUtils.isFormatted(store)) {
-                store.getTableFormatter().create();
-            }
-            dataStore = SDBFactory.connectDefaultModel(store);
-            JenaEscaperFactory.getInstance().setEscaper(dataStore, 
-                    new JenaSDBEscaper());
-            
-            // check if this database type requires a keep alive
-            log.info("The database type is : " + 
-                store.getDatabaseType().getName());
-            if (store.getDatabaseType().getName().equals(
-                    DatabaseType.MySQL.getName())) {
-                log.info("The database requires keep alive");
-                keepAlive = new JenaSDBKeepAlive(dataStore);
-                keepAlive.start();
-            }
-            
-            // This is a nasty work around to remove mbeans to prevent
-            // clashes on mbean services
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Context"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
-            try {
-                ManagementFactory.getPlatformMBeanServer().
-                    unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Engine"));
-            } catch (Exception ex) {
-                // ignore
-                log.error("Failed to remove reference : " +ex.getMessage());
-            }
+                // format an empty store
+                if (!StoreUtils.isFormatted(store)) {
+                    store.getTableFormatter().create();
+                }
+                dataStore = SDBFactory.connectDefaultModel(store);
+                JenaEscaperFactory.getInstance().setEscaper(dataStore,
+                        new JenaSDBEscaper());
+
+                // check if this database type requires a keep alive
+                log.info("The database type is : "
+                        + store.getDatabaseType().getName());
+                if (store.getDatabaseType().getName().equals(
+                        DatabaseType.MySQL.getName())) {
+                    log.info("The database requires keep alive");
+                    keepAlive = new JenaSDBKeepAlive(dataStore);
+                    keepAlive.start();
+                }
+
+                // This is a nasty work around to remove mbeans to prevent
+                // clashes on mbean services
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=Context"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
+                try {
+                    ManagementFactory.getPlatformMBeanServer().
+                            unregisterMBean(new ObjectName(
+                            "com.hp.hpl.jena.sparql.system:type=Engine"));
+                } catch (Exception ex) {
+                    // ignore
+                    log.error("Failed to remove reference : " + ex.getMessage());
+                }
             }
         } catch (PersistanceException ex) {
             throw ex;
         } catch (Throwable ex) {
             log.error("Failed to instantiate the Jena SDB store : "
-                    + ex.getMessage(),ex);
+                    + ex.getMessage(), ex);
             throw new PersistanceException("Failed to instantiate the Jena SDB store : "
-                    + ex.getMessage(),ex);
+                    + ex.getMessage(), ex);
         }
     }
 
@@ -197,10 +196,9 @@ public class JenaSDBModelFactory implements JenaStore {
         return dataStore;
     }
 
-
     /**
      * This method closes the jena sdb model
-     * 
+     *
      * @throws PersistanceException
      */
     public void close() throws PersistanceException {
@@ -218,4 +216,12 @@ public class JenaSDBModelFactory implements JenaStore {
         }
     }
 
+    /**
+     * This method is called to determine the type of store.
+     *
+     * @return The type of store being utilized.
+     */
+    public JenaStoreType getType() {
+        return JenaStoreType.SDB;
+    }
 }
