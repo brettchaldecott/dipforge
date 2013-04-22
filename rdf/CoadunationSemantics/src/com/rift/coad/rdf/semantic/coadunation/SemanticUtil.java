@@ -73,7 +73,8 @@ public class SemanticUtil implements XAResource {
     private SessionManager sessionManager = null;
     private Map<Xid,Session> sessions = new ConcurrentHashMap<Xid,Session>();
     private ThreadLocal<Session> currentSession = new ThreadLocal<Session>();
-
+    private ThreadLocal<SessionManager.SessionLock> currentLock = 
+            new ThreadLocal<SessionManager.SessionLock>();
 
     /**
      * The constructor of the hibernate util object.
@@ -213,6 +214,7 @@ public class SemanticUtil implements XAResource {
      */
     public Session getSession() throws SemanticUtilException {
         try {
+            currentLock.set(null);
             Transaction transaction = getTransaction();
             transaction.enlistResource(this);
             return (Session)currentSession.get();
@@ -222,9 +224,35 @@ public class SemanticUtil implements XAResource {
             throw new SemanticUtilException(
                     "Failed to retrieve the current session for this thread : "
                     + ex.getMessage(),ex);
+        } finally {
+            currentLock.remove();
         }
     }
-
+    
+    
+    /**
+     * This method returns a reference to the session factory object.
+     *
+     * @return Returns the current session for this thread.
+     * @exception
+     */
+    public Session getSession(SessionManager.SessionLock lock) throws SemanticUtilException {
+        try {
+            currentLock.set(lock);
+            Transaction transaction = getTransaction();
+            transaction.enlistResource(this);
+            return (Session)currentSession.get();
+        } catch (Exception ex) {
+            log.error("Failed to retrieve the current session for this thread : "
+                    + ex.getMessage(),ex);
+            throw new SemanticUtilException(
+                    "Failed to retrieve the current session for this thread : "
+                    + ex.getMessage(),ex);
+        } finally {
+            currentLock.remove();
+        }
+    }
+    
     
     /**
      * This method is called to reload the ontology based on the 
@@ -418,7 +446,12 @@ public class SemanticUtil implements XAResource {
             session = sessions.get(xid);
         } else {
             try {
-                session = sessionManager.getSession();
+                if (currentLock.get() != null) {
+                    session = sessionManager.getSession(
+                            currentLock.get());
+                } else {
+                    session = sessionManager.getSession();
+                }
                 sessions.put(xid,session);
             } catch (Exception ex) {
                 log.error("Failed to start the transaction : "
