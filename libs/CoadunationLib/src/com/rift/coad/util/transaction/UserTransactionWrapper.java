@@ -124,12 +124,20 @@ public class UserTransactionWrapper {
                 log.error("Failed to commit the changes because of null " +
                         "pointer exception. Assuming cleanup was successfull : "
                         + ex.getMessage(),ex);
+            } catch (javax.transaction.RollbackException ex) {
+                log.error("Failed to commit the changes because of transaction " +
+                        "transaction rollback : " + ex.getMessage(),ex);
+                try {
+                    ut.rollback();
+                } catch (Exception ex2) {
+                    log.error("Failed to roll back exception : " + 
+                            ex.getMessage(),ex);
+                }
+                log.error("Ignoring errors and continuing");
             } catch (Exception ex) {
-                
                 log.error("Failed to commit the changes : "
                         + ex.getMessage(),ex);
-                throw new TransactionException("Failed to commit the changes : "
-                        + ex.getMessage(),ex);
+                log.error("Ignoring errors and continuing");
             } finally {
                 lockCount--;
                 committed = true;
