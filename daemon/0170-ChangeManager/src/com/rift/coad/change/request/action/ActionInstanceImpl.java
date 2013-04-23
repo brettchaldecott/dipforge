@@ -56,6 +56,7 @@ import com.rift.coad.lib.common.CopyObject;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.util.change.ChangeLog;
 import com.rift.coad.util.connection.ConnectionManager;
 import com.rift.dipforge.ls.engine.LeviathanConfig;
@@ -127,7 +128,9 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
          */
         public void applyChanges() throws com.rift.coad.util.change.ChangeException {
             try {
-                Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+                Session session = SemanticUtil.getInstance(
+                        ChangeManagerDaemonImpl.class).getSession(
+                        SessionManager.SessionLock.WRITE_LOCK);
                 if ((changeType == TYPE.ADD) || (changeType == TYPE.UPDATE)) {
                     log.debug("###### persist the stack : " + action.getId());
                     session.persist(this.action);

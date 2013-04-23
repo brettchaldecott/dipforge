@@ -45,6 +45,7 @@ import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.request.rdf.RequestActionInfoRDF;
 import com.rift.coad.request.rdf.RequestInfoRDF;
 import com.rift.coad.util.change.Change;
@@ -112,7 +113,9 @@ public class RequestBrokerDaemonImpl implements RequestBrokerDaemon, BeanRunnabl
          */
         public void applyChanges() throws ChangeException {
             try {
-                Session session = SemanticUtil.getInstance(RequestBrokerDaemonImpl.class).getSession();
+                Session session = SemanticUtil.getInstance(
+                        RequestBrokerDaemonImpl.class).getSession(
+                        SessionManager.SessionLock.WRITE_LOCK);
                 if ((changeType == TYPE.ADD)|| (changeType == TYPE.UPDATE)) {
                     session.persist(request);
                 } else {

@@ -39,6 +39,7 @@ import com.rift.coad.lib.ResourceIndex;
 import com.rift.coad.lib.common.CopyObject;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.util.change.Change;
 import com.rift.coad.util.change.ChangeException;
 import com.rift.coad.util.change.ChangeLog;
@@ -95,7 +96,9 @@ public class RequestFactoryObjectImpl implements RequestFactoryObject,
          */
         public void applyChanges() throws ChangeException {
             try {
-                Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+                Session session = SemanticUtil.getInstance(
+                        ChangeManagerDaemonImpl.class).getSession(
+                        SessionManager.SessionLock.WRITE_LOCK);
                 if ((changeType == TYPE.ADD)|| (changeType == TYPE.UPDATE)) {
                     session.persist(request);
                 } else {

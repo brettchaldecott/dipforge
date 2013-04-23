@@ -28,6 +28,7 @@ import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.util.change.Change;
 import com.rift.coad.util.change.ChangeException;
 import com.rift.coad.util.change.ChangeLog;
@@ -74,7 +75,8 @@ public class RDFStoreDaemonImpl implements RDFStoreDaemon, BeanRunnable  {
          */
         public void applyChanges() throws ChangeException {
             try {
-                Session session = SemanticUtil.getInstance(RDFConfig.class).getSession();
+                Session session = SemanticUtil.getInstance(RDFConfig.class).
+                        getSession(SessionManager.SessionLock.WRITE_LOCK);
                 if (StoreActions.PERSIST.equals(action)) {
                     session.persist(rdfXML);
                     RDFStoreStatsManager.getInstance().incrementUpdate();
