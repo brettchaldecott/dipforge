@@ -27,6 +27,8 @@ import com.hp.hpl.jena.shared.Lock;
 import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceTransaction;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.log4j.Logger;
 
 /**
@@ -37,6 +39,74 @@ import org.apache.log4j.Logger;
  */
 public class JenaPersistanceTransaction implements PersistanceTransaction {
 
+    /**
+     * The lock manager
+     */
+    public static class LockManager {
+        
+        // class singleton
+        private static Map<Model,LockManager> singleton = 
+                new ConcurrentHashMap<Model,LockManager>();
+        
+        // private member variables
+        private ThreadLocal<Integer> currentCount = new ThreadLocal<Integer>();
+        
+        /**
+         * This is the private lock manager constructor.
+         */
+        private LockManager() {
+            
+        }
+        
+        
+        /**
+         * The method to get the reference to the lock manager singleton.
+         * 
+         * @param jenaModel The model to identify the reference.
+         * @return The reference to the object.
+         */
+        public static synchronized LockManager getInstance(Model jenaModel) {
+            LockManager result = null;
+            if (!singleton.containsKey(jenaModel)) {
+                result = new LockManager();
+                singleton.put(jenaModel, result);
+            } else {
+                result = singleton.get(jenaModel);
+            }
+            return result;
+        }
+        
+        
+        /**
+         * This method is called to increment the lock count on a particular jena model.
+         * 
+         * @return The incremented count.
+         */
+        public int incrementLockCount() {
+            Integer count = this.currentCount.get();
+            if (count == null) {
+                count = 1;
+            } else {
+                count++;
+            }
+            this.currentCount.set(count);
+            return count;
+        }
+        
+        
+        /**
+         * This method is called to decrement the reference count.
+         * 
+         * @return The reference count for this thread on the model.
+         */
+        public int decrementLockCount() {
+            Integer count = this.currentCount.get();
+            count--;
+            this.currentCount.set(count);
+            return count;
+        }
+    }
+    
     // static member variables
     private static Logger log = Logger.getLogger(JenaPersistanceTransaction.class);
     
@@ -44,6 +114,7 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
     private Model jenaModel;
     private boolean inTransaction = false;
     private SessionManager.SessionLock lock;
+    
 
     /**
      * The constructor responsible for creating the jena transaction.
@@ -85,12 +156,15 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
                     "Transaction already started for this object.");
         }
         try {
-            if (lock == SessionManager.SessionLock.READ_LOCK) {
-                jenaModel.enterCriticalSection(Lock.READ);
-            } else if (lock == SessionManager.SessionLock.WRITE_LOCK) {
-                jenaModel.enterCriticalSection(Lock.WRITE);
+            int count = LockManager.getInstance(jenaModel).incrementLockCount();
+            if (count == 1) {
+                if (lock == SessionManager.SessionLock.READ_LOCK) {
+                    jenaModel.enterCriticalSection(Lock.READ);
+                } else if (lock == SessionManager.SessionLock.WRITE_LOCK) {
+                    jenaModel.enterCriticalSection(Lock.WRITE);
+                }
+                jenaModel.begin();
             }
-            jenaModel.begin();
             inTransaction = true;
         } catch (Exception ex) {
             log.error("Failed to begin the changes : " + ex.getMessage());
@@ -110,9 +184,17 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
         } catch (Exception ex) {
             log.error("Failed to commit the changes : " + ex.getMessage());
         } finally {
-            if (lock == SessionManager.SessionLock.READ_LOCK || 
-                    lock == SessionManager.SessionLock.WRITE_LOCK) {
-                jenaModel.leaveCriticalSection();
+            int count = LockManager.getInstance(jenaModel).decrementLockCount();
+            if (count <= 0) {
+                if (lock == SessionManager.SessionLock.READ_LOCK || 
+                        lock == SessionManager.SessionLock.WRITE_LOCK) {
+                    try {
+                        jenaModel.leaveCriticalSection();
+                    } catch (Exception ex) {
+                        log.error("Failed to release the critical lock : " + 
+                                ex.getMessage());
+                    }
+                }
             }
         }
     }
@@ -129,9 +211,15 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
         } catch (Exception ex) {
             log.error("Failed to commit the changes : " + ex.getMessage());
         } finally {
-            if (lock == SessionManager.SessionLock.READ_LOCK || 
-                    lock == SessionManager.SessionLock.WRITE_LOCK) {
-                jenaModel.leaveCriticalSection();
+            int count = LockManager.getInstance(jenaModel).decrementLockCount();
+            if (count <= 0 && (lock == SessionManager.SessionLock.READ_LOCK || 
+                    lock == SessionManager.SessionLock.WRITE_LOCK)) {
+                try {
+                    jenaModel.leaveCriticalSection();
+                } catch (Exception ex) {
+                    log.error("Failed to release the critical lock : " + 
+                            ex.getMessage());
+                }
             }
         }
     }
