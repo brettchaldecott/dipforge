@@ -72,7 +72,7 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
                 result = new LockManager();
                 singleton.put(jenaModel, result);
             } else {
-                log.info("######## Create new lock manager for model");
+                log.info("######## Return an existing lock.");
                 result = singleton.get(jenaModel);
             }
             return result;
