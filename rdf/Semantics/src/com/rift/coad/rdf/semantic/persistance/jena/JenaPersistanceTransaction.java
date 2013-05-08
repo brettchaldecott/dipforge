@@ -68,9 +68,11 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
         public static synchronized LockManager getInstance(Model jenaModel) {
             LockManager result = null;
             if (!singleton.containsKey(jenaModel)) {
+                log.info("######## Create new lock manager for model");
                 result = new LockManager();
                 singleton.put(jenaModel, result);
             } else {
+                log.info("######## Create new lock manager for model");
                 result = singleton.get(jenaModel);
             }
             return result;
@@ -101,6 +103,9 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
          */
         public int decrementLockCount() {
             Integer count = this.currentCount.get();
+            if (count == null) {
+                return 0;
+            }
             count--;
             this.currentCount.set(count);
             return count;
@@ -141,6 +146,7 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
      */
     protected JenaPersistanceTransaction(Model jenaModel, 
             SessionManager.SessionLock lock) {
+        
         this.jenaModel = jenaModel;
         this.lock = lock;
     }
@@ -156,14 +162,16 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
                     "Transaction already started for this object.");
         }
         try {
-            int count = LockManager.getInstance(jenaModel).incrementLockCount();
-            if (count == 1) {
-                if (lock == SessionManager.SessionLock.READ_LOCK) {
-                    jenaModel.enterCriticalSection(Lock.READ);
-                } else if (lock == SessionManager.SessionLock.WRITE_LOCK) {
-                    jenaModel.enterCriticalSection(Lock.WRITE);
+            if (this.lock != SessionManager.SessionLock.NO_LOCK) {
+                int count = LockManager.getInstance(jenaModel).incrementLockCount();
+                if (count == 1) {
+                    if (lock == SessionManager.SessionLock.READ_LOCK) {
+                        jenaModel.enterCriticalSection(Lock.READ);
+                    } else if (lock == SessionManager.SessionLock.WRITE_LOCK) {
+                        jenaModel.enterCriticalSection(Lock.WRITE);
+                    }
+                    jenaModel.begin();
                 }
-                jenaModel.begin();
             }
             inTransaction = true;
         } catch (Exception ex) {
@@ -184,10 +192,10 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
         } catch (Exception ex) {
             log.error("Failed to commit the changes : " + ex.getMessage());
         } finally {
-            int count = LockManager.getInstance(jenaModel).decrementLockCount();
-            if (count <= 0) {
-                if (lock == SessionManager.SessionLock.READ_LOCK || 
-                        lock == SessionManager.SessionLock.WRITE_LOCK) {
+            if (this.lock != SessionManager.SessionLock.NO_LOCK) {
+                int count = LockManager.getInstance(jenaModel).decrementLockCount();
+                if (count <= 0 && (lock == SessionManager.SessionLock.READ_LOCK || 
+                        lock == SessionManager.SessionLock.WRITE_LOCK)) {
                     try {
                         jenaModel.leaveCriticalSection();
                     } catch (Exception ex) {
@@ -211,14 +219,16 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
         } catch (Exception ex) {
             log.error("Failed to commit the changes : " + ex.getMessage());
         } finally {
-            int count = LockManager.getInstance(jenaModel).decrementLockCount();
-            if (count <= 0 && (lock == SessionManager.SessionLock.READ_LOCK || 
-                    lock == SessionManager.SessionLock.WRITE_LOCK)) {
-                try {
-                    jenaModel.leaveCriticalSection();
-                } catch (Exception ex) {
-                    log.error("Failed to release the critical lock : " + 
-                            ex.getMessage());
+            if (this.lock != SessionManager.SessionLock.NO_LOCK) {
+                int count = LockManager.getInstance(jenaModel).decrementLockCount();
+                if (count <= 0 && (lock == SessionManager.SessionLock.READ_LOCK || 
+                        lock == SessionManager.SessionLock.WRITE_LOCK)) {
+                    try {
+                        jenaModel.leaveCriticalSection();
+                    } catch (Exception ex) {
+                        log.error("Failed to release the critical lock : " + 
+                                ex.getMessage());
+                    }
                 }
             }
         }
