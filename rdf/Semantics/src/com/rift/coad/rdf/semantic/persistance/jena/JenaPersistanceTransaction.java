@@ -106,7 +106,11 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
             if (count == null) {
                 return 0;
             }
-            count--;
+            if (count <= 0) {
+                count = 0;
+            } else {
+                count--;
+            }
             this.currentCount.set(count);
             return count;
         }
