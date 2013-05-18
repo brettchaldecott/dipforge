@@ -78,7 +78,14 @@ public class IfStatementStackEntry extends StatementStackEntry {
                         block.getExpression());
 
             } else if (block.getType() != IfStatement.IfStatementType.ELSE
-                    || expressionResult.booleanValue()) {
+                    && expressionResult!= null && 
+                    expressionResult.booleanValue()) {
+                Map parameters = new HashMap();
+                parameters.put(Constants.BLOCK, block.getBlock());
+                BlockStackEntry stackEntry = new BlockStackEntry(
+                        this.getProcessorMemoryManager(),this,parameters);
+                statements.clear();
+            } else if (block.getType() == IfStatement.IfStatementType.ELSE) {
                 Map parameters = new HashMap();
                 parameters.put(Constants.BLOCK, block.getBlock());
                 BlockStackEntry stackEntry = new BlockStackEntry(
