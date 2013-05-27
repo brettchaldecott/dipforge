@@ -212,6 +212,7 @@ public class TransactionManager implements XAResource {
     
     // class constants
     private final static String TIMEOUT = "transaction_timeout";
+    // the default infinit transaction timout value.
     private final static long DEFAULT_TIMEOUT = 0;
     
     // private member variables
