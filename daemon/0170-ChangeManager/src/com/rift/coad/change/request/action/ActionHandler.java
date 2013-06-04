@@ -56,4 +56,13 @@ public interface ActionHandler extends AsyncCallbackHandler {
      * @throws java.rmi.RemoteException
      */
     public void invokeAction(String masterRequestId, Request request) throws ActionException, RemoteException;
+    
+    
+    /**
+     * This method is called to reinvoke a paused action.
+     *
+     * @param actionId The id of the action to re-invoke
+     * @throws java.rmi.RemoteException
+     */
+    public void resumeAction(String actionId) throws ActionException, RemoteException;
 }

@@ -51,4 +51,13 @@ public interface ActionHandlerAsync {
      * @throws java.rmi.RemoteException
      */
     public String invokeAction(String masterRequestId, Request request) throws RemoteException;
+    
+    
+    /**
+     * This method is called to reinvoke a paused action.
+     *
+     * @param actionId The id of the action to re-invoke
+     * @throws java.rmi.RemoteException
+     */
+    public String resumeAction(String actionId) throws RemoteException;
 }

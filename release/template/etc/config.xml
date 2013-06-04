@@ -788,6 +788,11 @@
             @dipforge_home@/var/projects/
         </entry>
     </object>
+    <object name="com.rift.coad.change.request.action.sleep.SleepManagerImpl">
+        <entry key="dump_dir" type="string">
+            @dipforge_home@/var/requestmanager
+        </entry>
+    </object>
     <!-- Change Manager configuration -->
     <!-- Data Mapper configuration -->
     <object name="com.rift.coad.datamapperbroker.DataMapperBrokerDaemonImpl">

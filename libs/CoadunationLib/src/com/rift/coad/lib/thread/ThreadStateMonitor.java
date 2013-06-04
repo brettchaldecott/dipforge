@@ -96,4 +96,25 @@ public class ThreadStateMonitor {
             // ignore
         }
     }
+    
+    
+    /**
+     * This method will get called to monitor the state of the thread.
+     * 
+     * @param delay The duration to delay
+     */
+    public synchronized void monitor(long delay) {
+        try {
+            if (terminated) {
+                return;
+            }
+            if (delay > 0) {
+                wait(delay);
+            } else {
+                wait();
+            }
+        } catch (Exception ex) {
+            // ignore
+        }
+    }
 }

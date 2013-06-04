@@ -13,6 +13,7 @@ targetCompatibility=1.6
 
 configurations {
     compile
+    testCompile
     releaseJars
 }
 
@@ -48,6 +49,7 @@ dependencies {
     releaseJars project(':rdf:Semantics')
     releaseJars project(':rdf:SchemaUtils')
     releaseJars project(':client:RDFMasterStoreClient')
+    testCompile group: 'junit', name: 'junit', version: '4.10', ext: 'jar'
 }
 
 sourceSets {
@@ -59,6 +61,16 @@ sourceSets {
             srcDir './src'
         }
     }
+    test {
+        java {
+            srcDir './src'
+            srcDir './test'
+        }
+        resources {
+            srcDir './test'
+        }
+    }
+
 }
 
 
