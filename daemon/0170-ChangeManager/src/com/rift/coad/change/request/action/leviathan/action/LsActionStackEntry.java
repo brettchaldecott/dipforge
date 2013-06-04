@@ -93,7 +93,7 @@ public class LsActionStackEntry extends ProcessStackEntry {
             // get the name of the method being called.
             CallStatement.CallStatementEntry entry =
                     callStatement.getEntries().get(callStatement.getEntries().size() - 1);
-            if (entry.getName() != METHOD_SLEEP) {
+            if (!entry.getName().equals(METHOD_SLEEP)) {
                 throw new EngineException("The action has been invoked by an "
                         + "unrecognised method [" + entry.getName() + "]");
             }
