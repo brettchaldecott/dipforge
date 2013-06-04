@@ -102,5 +102,14 @@
             <cache_timeout>60000</cache_timeout>
             <transaction>true</transaction>
         </bean>
+        <bean>
+            <interface>com.rift.coad.change.request.action.sleep.SleepManager</interface>
+            <class>com.rift.coad.change.request.action.sleep.SleepManagerImpl</class>
+            <bindName>change/request/action/SleepManager</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
     </beans>
 </coadunation>

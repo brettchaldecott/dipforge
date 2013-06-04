@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import com.rift.coad.change.ChangeManagerDaemonImpl;
 import com.rift.coad.change.rdf.ActionInstanceInfoRDF;
 import com.rift.coad.change.request.Request;
+import com.rift.coad.change.request.action.leviathan.LsActionTypeManager;
 import com.rift.coad.change.request.action.leviathan.LsRDFTypeManager;
 import com.rift.coad.change.request.action.leviathan.LsRPCTypeManager;
 import com.rift.coad.change.request.action.leviathan.LsStoreTypeManager;
@@ -269,6 +270,7 @@ public class ActionFactoryManagerImpl implements
             config.addTypeManager(new LsRDFTypeManager());
             config.addTypeManager(new LsRPCTypeManager());
             config.addTypeManager(new LsStoreTypeManager());
+            config.addTypeManager(new LsActionTypeManager());
             LeviathanEngine instance = LeviathanEngine.buildEngine(config);
             
         } catch (Exception ex) {

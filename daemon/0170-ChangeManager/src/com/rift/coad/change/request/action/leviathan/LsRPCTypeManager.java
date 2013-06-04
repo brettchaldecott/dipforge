@@ -60,7 +60,7 @@ public class LsRPCTypeManager implements TypeManager {
             if (annotation.getName().equalsIgnoreCase("service")) {
                 if (annotation.getList().size() != 4) {
                     throw new EngineException(
-                            "The annotation is corrupt and must provide three "
+                            "The annotation is corrupt and must provide four "
                             + "parameters [service,project,class,name] got [" +
                             annotation.getList().size() + "]");
                 }
@@ -69,7 +69,7 @@ public class LsRPCTypeManager implements TypeManager {
             if (annotation.getName().equalsIgnoreCase("jndi")) {
                 if (annotation.getList().size() != 4) {
                     throw new EngineException(
-                            "The annotation is corrupt and must provide three "
+                            "The annotation is corrupt and must provide four "
                             + "parameters [jndi,project,class,name] got [" +
                             annotation.getList().size() + "]");
                 }

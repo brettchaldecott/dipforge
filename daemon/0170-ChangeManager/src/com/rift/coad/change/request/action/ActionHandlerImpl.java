@@ -103,6 +103,30 @@ public class ActionHandlerImpl implements ActionHandler {
         }
     }
     
+    
+    /**
+     * This method is called to reinvoke a paused action.
+     *
+     * @param actionId The id of the action to re-invoke
+     * @throws java.rmi.RemoteException
+     */
+    public void resumeAction(String actionId) throws ActionException, RemoteException {
+        try {
+            ActionFactoryManager daemon = (ActionFactoryManager)ConnectionManager.getInstance().
+                    getConnection(ActionFactoryManager.class,
+                    "java:comp/env/bean/change/request/action/ActionFactoryManager");
+            ActionInstance instance = daemon.getActionInstance(actionId);
+            
+            // call the 
+            instance.execute(null);
+            handleCompletion(daemon,instance);
+        } catch (Exception ex) {
+            log.error("Failed to handle the invokation : " + ex.getMessage(),ex);
+            // force a retry of this call.
+            throw new RemoteException
+                    ("Failed to handle the invokation : " + ex.getMessage(),ex);
+        }
+    }
 
     /**
      * This method is called to deal with a successfull result.
