@@ -6,8 +6,8 @@
  
   <info>
     <appname>Dipforge</appname>
-    <appversion>3.0.b5</appversion>
-    <appsubpath>dipforge-3.0.b5</appsubpath>
+    <appversion>3.0.b6</appversion>
+    <appsubpath>dipforge-3.0.b6</appsubpath>
     <javaversion>1.6</javaversion>
     <authors>
 	<author name="Brett Chaldecott" email="brett.chaldecott@gmail.com"/>
