@@ -202,6 +202,11 @@ public class SleepManagerImpl extends InterceptorWrapper implements
                         createOneWay("change/request/RequestFactoryDaemon", ActionHandler.class,
                     ActionHandlerAsync.class, "change/request/action/ActionHandler");
             handler.resumeAction(info.getActionInstanceId());
+            // remove the entries from the set and sleep action map.
+            synchronized(this) {
+                this.sleepSet.remove(info);
+                this.sleepingActions.remove(info.getActionInstanceId());
+            }
             
         } catch (Exception ex) {
             log.error("Failed to resume the action : " + ex.getMessage(),ex);
