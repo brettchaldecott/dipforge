@@ -31,6 +31,7 @@ import com.rift.dipforge.ls.parser.obj.CallStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * This object represents the action stack information.
@@ -48,7 +49,11 @@ public class LsActionStackEntry extends ProcessStackEntry {
      * This default sleep time is to be used if the sleep period is not set
      * correctly.
      */
-    public final static long DEFAULT_SLEEP_TIME = 30 *1000;
+    public final static long DEFAULT_SLEEP_TIME = 30 * 1000;
+    
+    // class singletons
+    private static Logger log = Logger.getLogger(LsActionStackEntry.class);
+    
     // private member variables
     private List parameters = new ArrayList();
     private CallStatement callStatement;
@@ -132,12 +137,21 @@ public class LsActionStackEntry extends ProcessStackEntry {
     private long getSleepPeriod(Object parameter) {
         // use a default sleep time of 30 seconds
         long period = DEFAULT_SLEEP_TIME;
+        log.info("##### The sleep parameter type is : " + parameter.getClass().getName());
         if (parameter instanceof String) {
             period = Long.parseLong((String)parameter);
         } else if (parameter instanceof Long) {
             period = (Long)parameter;
         } else if (parameter.getClass().equals(long.class)) {
             period = long.class.cast(parameter);
+        } else if (parameter instanceof Integer) {
+            period = (Integer)parameter;
+        } else if (parameter.getClass().equals(int.class)) {
+            period = int.class.cast(parameter);
+        } else if (parameter instanceof Double) {
+            period = ((Double)parameter).longValue();
+        } else if (parameter.getClass().equals(double.class)) {
+            period = double.class.cast(parameter).longValue();
         }
         return period;
     }
