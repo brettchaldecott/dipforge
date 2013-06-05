@@ -32,7 +32,7 @@
     margin: 0;
 }
 </style>
-    <script type="text/javascript" src="extjs-4.1.0/bootstrap.js"></script>
+    <script type="text/javascript" src="extjs-4.1.0/ext-all.js"></script>
     <script type="text/javascript" src="js/FeedInfo.js"></script>
     <script type="text/javascript" src="js/FeedPanel.js"></script>
     <script type="text/javascript" src="js/FeedViewer.js"></script>
