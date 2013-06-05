@@ -57,6 +57,7 @@ public class LsActionStackEntry extends ProcessStackEntry {
     // private member variables
     private List parameters = new ArrayList();
     private CallStatement callStatement;
+    private boolean executed = false;
 
     /**
      * This constructor sets up the action stack information.
@@ -95,26 +96,31 @@ public class LsActionStackEntry extends ProcessStackEntry {
     @Override
     public void execute() throws EngineException {
         try {
-            // get the name of the method being called.
-            CallStatement.CallStatementEntry entry =
-                    callStatement.getEntries().get(callStatement.getEntries().size() - 1);
-            if (!entry.getName().equals(METHOD_SLEEP)) {
-                throw new EngineException("The action has been invoked by an "
-                        + "unrecognised method [" + entry.getName() + "]");
+            if (!this.executed) {
+                // get the name of the method being called.
+                CallStatement.CallStatementEntry entry =
+                        callStatement.getEntries().get(callStatement.getEntries().size() - 1);
+                if (!entry.getName().equals(METHOD_SLEEP)) {
+                    throw new EngineException("The action has been invoked by an "
+                            + "unrecognised method [" + entry.getName() + "]");
+                }
+                if (this.parameters.size() != 1) {
+                    throw new EngineException("An invalid number of parameters was passed, "
+                            + "expected [1] got [" + this.parameters.size() + "]");
+                }
+                long sleepPeriod = getSleepPeriod(parameters.get(0));
+                SleepManager daemon = (SleepManager)
+                            ConnectionManager.getInstance().getConnection(
+                            SleepManager.class,
+                            "change/request/action/SleepManager");
+                daemon.addAction(this.getParent().getProcessorMemoryManager().getGuid(), 
+                        sleepPeriod);
+                this.getProcessorMemoryManager().setState(LeviathanConstants.Status.SUSPENDED);
+                executed = true;
+                return;
+            } else {
+                pop();
             }
-            if (this.parameters.size() != 1) {
-                throw new EngineException("An invalid number of parameters was passed, "
-                        + "expected [1] got [" + this.parameters.size() + "]");
-            }
-            long sleepPeriod = getSleepPeriod(parameters.get(0));
-            SleepManager daemon = (SleepManager)
-                        ConnectionManager.getInstance().getConnection(
-                        SleepManager.class,
-                        "change/request/action/SleepManager");
-            daemon.addAction(this.getParent().getProcessorMemoryManager().getGuid(), 
-                    sleepPeriod);
-            this.getProcessorMemoryManager().setState(LeviathanConstants.Status.SUSPENDED);
-            return;
         } catch (EngineException ex) {
             throw ex;
         } catch (Exception ex) {
