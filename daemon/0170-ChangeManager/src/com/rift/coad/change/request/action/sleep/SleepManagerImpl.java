@@ -106,7 +106,7 @@ public class SleepManagerImpl extends InterceptorWrapper implements
             SleepActionInfo sleepInfo = new SleepActionInfo(actionInstanceId,period);
             sleepSet.add(sleepInfo);
             sleepingActions.put(actionInstanceId, sleepInfo);
-            notify();
+            state.notifyThread();
         } catch (Exception ex) {
             log.error("Failed to add the action : " + ex.getMessage(),ex);
             throw new SleepManagerException
@@ -156,17 +156,23 @@ public class SleepManagerImpl extends InterceptorWrapper implements
         
         try {
             while(!state.isTerminated()) {
-                SleepActionInfo info;
+                SleepActionInfo info = null;
                 synchronized(this) {
-                    info = this.sleepSet.first();
+                    if (!this.sleepSet.isEmpty()) {
+                        info = this.sleepSet.first();
+                    }
                 }
-                Date current = new Date();
-                long sleepPeriod = (info.getStart().getTime() + info.getPeriod()) - 
-                        current.getTime();
-                if (sleepPeriod <= 0) {
-                    resumeAction(info);
+                if (info == null) {
+                    state.monitor(0);
                 } else {
-                    state.monitor(sleepPeriod);
+                    Date current = new Date();
+                    long sleepPeriod = (info.getStart().getTime() + info.getPeriod()) - 
+                            current.getTime();
+                    if (sleepPeriod <= 0) {
+                        resumeAction(info);
+                    } else {
+                        state.monitor(sleepPeriod);
+                    }
                 }
             }
         } catch (Exception ex) {
