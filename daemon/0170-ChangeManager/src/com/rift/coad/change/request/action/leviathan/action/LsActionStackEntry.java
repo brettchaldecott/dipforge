@@ -131,7 +131,7 @@ public class LsActionStackEntry extends ProcessStackEntry {
 
     @Override
     public void setResult(Object result) throws EngineException {
-        // do nothing with the result
+        this.getProcessorMemoryManager().setState(LeviathanConstants.Status.RUNNING);
     }
 
     /**
