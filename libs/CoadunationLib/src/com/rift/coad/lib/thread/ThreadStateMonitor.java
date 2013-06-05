@@ -117,4 +117,12 @@ public class ThreadStateMonitor {
             // ignore
         }
     }
+    
+    
+    /**
+     * This method is called to notify the sleeping thread.
+     */
+    public synchronized void notifyThread() {
+        notifyAll();
+    }
 }
