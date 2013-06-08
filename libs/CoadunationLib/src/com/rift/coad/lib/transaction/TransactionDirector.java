@@ -69,7 +69,7 @@ public class TransactionDirector {
      */
     public TransactionDirector() throws TransactionException {
         try {
-            jotm = new Jotm(true,true);
+            jotm = new Jotm(true,false);
             ContextManager contextManager = 
                     new ContextManager(TRANSACTION_CONTEXT_BASE);
             userTransaction = jotm.getUserTransaction();
