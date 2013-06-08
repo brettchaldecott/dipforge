@@ -163,11 +163,11 @@ public class CosNamingContextManagerTest extends TestCase {
         context.bind("basic","basic");
         System.out.println("Add value 2");
         context.bind("basic2/bob","basic2");
-        if (!context.lookup("basic").toString().startsWith("IOR:")) {
+        if (context.lookup("basic") != null) {
             fail("Could not retrieve the basic value from the [" + 
                     context.lookup("basic") + "]");
         }
-        if (!context.lookup("basic2/bob").toString().startsWith("IOR:")) {
+        if (context.lookup("basic2/bob") != null) {
             fail("Could not retrieve the basic value from the JNDI [" +
                     context.lookup("basic2/bob") + "]");
         }
@@ -190,10 +190,10 @@ public class CosNamingContextManagerTest extends TestCase {
         context.rebind("basic","test1");
         context.rebind("basic2/bob","test2");
         
-        if (!context.lookup("basic").toString().startsWith("IOR:")) {
+        if (context.lookup("basic") != null) {
             fail("Could not retrieve the basic value from the JNDI");
         }
-        if (!context.lookup("basic2/bob").toString().startsWith("IOR:")) {
+        if (context.lookup("basic2/bob") != null) {
             fail("Could not retrieve the basic value from the JNDI");
         }
         
