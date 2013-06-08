@@ -164,10 +164,12 @@ public class CosNamingContextManagerTest extends TestCase {
         System.out.println("Add value 2");
         context.bind("basic2/bob","basic2");
         if (!context.lookup("basic").equals("basic")) {
-            fail("Could not retrieve the basic value from the JNDI");
+            fail("Could not retrieve the basic value from the [" + 
+                    context.lookup("basic") + "]");
         }
         if (!context.lookup("basic2/bob").equals("basic2")) {
-            fail("Could not retrieve the basic value from the JNDI");
+            fail("Could not retrieve the basic value from the JNDI [" +
+                    context.lookup("basic2/bob") + "]");
         }
         
         try {
