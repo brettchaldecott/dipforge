@@ -270,8 +270,8 @@ public class UserTransactionWrapper {
                 currentTransaction.set(null);
             }
         } catch (Exception ex) {
-            log.error("Failed to release the transaction : " +
-                    ex.getMessage(),ex);
+            log.warn("Failed to release the transaction : " +
+                    ex.getMessage());
         }
     }
     
