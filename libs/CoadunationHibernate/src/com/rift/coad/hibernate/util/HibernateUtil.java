@@ -55,7 +55,7 @@ public class HibernateUtil implements XAResource {
     public final static String DB_SOURCE = "db_datasource";
     public final static String HBM2DDL = "hibernate_hbm2ddl_auto";
     public final static String TRANSACTION_TIMEOUT = "transaction_timeout";
-    public final static int DEFAULT_TRANSACTION_TIMEOUT = 180000;
+    public final static int DEFAULT_TRANSACTION_TIMEOUT = 0;
     
     // class singleton
     private static Map singletons = new HashMap();
@@ -107,7 +107,7 @@ public class HibernateUtil implements XAResource {
                     "org.hibernate.connection.DatasourceConnectionProvider")
                     .setProperty("hibernate.connection.datasource",
                     coadConfig.getString(DB_SOURCE))
-                    .setProperty("hibernate.connection.release_mode","on_close")
+                    .setProperty("hibernate.connection.release_mode","auto")
                     .setProperty("hibernate.transaction.auto_close_session","true")
                     .setProperty("hibernate.transaction.flush_before_completion","true")
                     .setProperty("hibernate.current_session_context_class","jta")
@@ -136,7 +136,7 @@ public class HibernateUtil implements XAResource {
                     "org.hibernate.connection.DatasourceConnectionProvider")
                     .setProperty("hibernate.connection.datasource",
                     coadConfig.getString(DB_SOURCE))
-                    .setProperty("hibernate.connection.release_mode","on_close")
+                    .setProperty("hibernate.connection.release_mode","auto")
                     .setProperty("hibernate.current_session_context_class","jta")
                     .setProperty("hibernate.transaction.auto_close_session","true")
                     .setProperty("hibernate.transaction.flush_before_completion","true")
@@ -221,12 +221,12 @@ public class HibernateUtil implements XAResource {
         if (this.sessions.containsKey(xid)) {
             Session session = (Session)sessions.get(xid);
             sessions.remove(xid);
-            try {
-                session.connection().setAutoCommit(true);
-            } catch (Exception ex) {
-                log.error("Failed to reset the auto commit flag on the " +
-                        "connection : " + ex.getMessage(),ex);
-            }
+            //try {
+            //    session.connection().setAutoCommit(true);
+            //} catch (Exception ex) {
+            //    log.error("Failed to reset the auto commit flag on the " +
+            //            "connection : " + ex.getMessage(),ex);
+            //}
         }
     }
     
@@ -252,12 +252,12 @@ public class HibernateUtil implements XAResource {
         if (this.sessions.containsKey(xid)) {
             Session session = (Session)sessions.get(xid);
             sessions.remove(xid);
-            try {
-                session.connection().setAutoCommit(true);
-            } catch (Exception ex) {
-                log.error("Failed to reset the auto commit flag on the " +
-                        "connection : " + ex.getMessage(),ex);
-            }
+            //try {
+            //    session.connection().setAutoCommit(true);
+            //} catch (Exception ex) {
+            //    log.error("Failed to reset the auto commit flag on the " +
+            //            "connection : " + ex.getMessage(),ex);
+            //}
         }
     }
     
@@ -321,12 +321,12 @@ public class HibernateUtil implements XAResource {
         if (this.sessions.containsKey(xid)) {
             Session session = (Session)sessions.get(xid);
             sessions.remove(xid);
-            try {
-                session.connection().setAutoCommit(true);
-            } catch (Exception ex) {
-                log.error("Failed to reset the auto commit flag on the " +
-                        "connection : " + ex.getMessage(),ex);
-            }
+            //try {
+            //    session.connection().setAutoCommit(true);
+            //} catch (Exception ex) {
+            //    log.error("Failed to reset the auto commit flag on the " +
+            //            "connection : " + ex.getMessage(),ex);
+            //}
             
         }
     }
@@ -359,20 +359,20 @@ public class HibernateUtil implements XAResource {
             session = (Session)sessions.get(xid);
         } else {
             try {
-                session = sessionFactory.getCurrentSession();
-                if (session.connection().getAutoCommit()) {
-                    session.connection().setAutoCommit(false);
-                }
+                session = sessionFactory.openSession();
+                //if (session.connection().getAutoCommit()) {
+                //    session.connection().setAutoCommit(false);
+                //}
                 sessions.put(xid,session);
             } catch (Exception ex) {
                 log.error("Failed to start the transaction : " 
                         + ex.getMessage(),ex);
-                try {
+                /*try {
                     session.disconnect();
                 } catch (Exception ex2) {
                     log.error("Failed to force the disconnect : " + 
                             ex.getMessage(),ex);
-                }
+                }*/
                 
                 /*try {
                     session.close();
