@@ -55,6 +55,8 @@ public class FeedManagerImpl implements FeedManager, BeanRunnable {
     private final static String FEED_PURGE_DIFFERENCE = "feed_purge_difference";
     private final static long FEED_PURGE_INTERVAL_DEFAULT = 60 * 60 * 1000;
     private final static long FEED_PURGE_DIFFERENCE_DEFAULT = 6 * 60 * 60 * 1000;
+    // class singleton
+    private static FeedManagerImpl singleton = null;
     
     // private member variables
     private static Logger log = Logger.getLogger(FeedManagerImpl.class);
@@ -66,6 +68,7 @@ public class FeedManagerImpl implements FeedManager, BeanRunnable {
      */
     public FeedManagerImpl() throws EventException {
         try {
+            singleton = this;
             Configuration conf = ConfigurationFactory.getInstance().getConfig(FeedManagerImpl.class);
             monitor = new ThreadStateMonitor(conf.getLong(FEED_PURGE_INTERVAL,
                     this.FEED_PURGE_INTERVAL_DEFAULT));
@@ -146,7 +149,13 @@ public class FeedManagerImpl implements FeedManager, BeanRunnable {
         monitor.terminate(true);
     }
     
-    
+    /**
+     * This method is used to retrieve a reference to the feed manager for
+     * sychronization purposes only.
+     */
+    public static FeedManagerImpl getInstance() {
+        return singleton;
+    }  
     
 }
 

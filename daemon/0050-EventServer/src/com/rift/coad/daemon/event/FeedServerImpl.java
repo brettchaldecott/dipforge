@@ -100,7 +100,8 @@ public class FeedServerImpl implements FeedServer {
      * @throws java.rmi.RemoteException
      * @throws com.rift.coad.daemon.event.EventException
      */
-    public synchronized List<FeedEvent> getEvents(String feedIdentifier) throws RemoteException, EventException {
+    public List<FeedEvent> getEvents(String feedIdentifier) throws RemoteException, EventException {
+        synchronized(FeedManagerImpl.getInstance()) {
         try {
             List<String[]> filters = configHelper.getFilters(feedIdentifier);
             Session session = HibernateUtil.getInstance(FeedManagerImpl.class).getSession();
@@ -151,6 +152,7 @@ public class FeedServerImpl implements FeedServer {
             log.error("Failed to retrieve the feed events : " + ex.getMessage(), ex);
             throw new EventException("Failed to retrieve the feed events : " + ex.getMessage(), ex);
         }
+        }
     }
 
     /**
@@ -160,7 +162,8 @@ public class FeedServerImpl implements FeedServer {
      * @throws java.rmi.RemoteException
      * @throws com.rift.coad.daemon.event.EventException
      */
-    public synchronized List<EventInfo> getMimeEvents() throws RemoteException, EventException {
+    public List<EventInfo> getMimeEvents() throws RemoteException, EventException {
+        synchronized(FeedManagerImpl.getInstance()) {
         try {
             Map<String, MimeType> mimeTypes = this.getMimeTypes();
             List<EventInfo> info = new ArrayList<EventInfo>();
@@ -181,6 +184,7 @@ public class FeedServerImpl implements FeedServer {
         } catch (Throwable ex) {
             log.error("Failed to retrieve the mime events : " + ex.getMessage(), ex);
             throw new EventException("Failed to retrieve the mime events : " + ex.getMessage(), ex);
+        }
         }
     }
 
