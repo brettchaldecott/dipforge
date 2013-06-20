@@ -120,12 +120,10 @@ public class DBSourceManager {
                                 log.error("Invalid parameter in db config :" + value);
                                 continue;
                             }
-                            String[] parameter = value.split("[=]");
-                            String parameterKey = parameter[0].trim();
-                            String parameterValue = "";
-                            if (parameter.length > 1) {
-                                parameterValue = parameter[1].trim();
-                            } 
+                            String parameterKey = value.substring(
+                                0,value.indexOf("=")).trim();
+                            String parameterValue = value.substring(
+                                value.indexOf("=") + 1).trim();
                             
                             if (parameterKey.equalsIgnoreCase("jndi")) {
                                 jndi = parameterValue;
