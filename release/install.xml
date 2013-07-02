@@ -76,7 +76,7 @@
           <exclude name="**/bin/**" />
           <exclude name="**/var/nameservice/**" />
           <exclude name="**/var/named/**" />
-          <exclude name="**/var/semantics/**.ttl*" />
+          <exclude name="**/var/semantics/**" />
       </fileset>
     </pack>
     <pack name="Config" required="yes">
