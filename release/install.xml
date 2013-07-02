@@ -6,8 +6,8 @@
  
   <info>
     <appname>Dipforge</appname>
-    <appversion>3.0.b6</appversion>
-    <appsubpath>dipforge-3.0.b6</appsubpath>
+    <appversion>3.0.b7</appversion>
+    <appsubpath>dipforge-3.0.b7</appsubpath>
     <javaversion>1.6</javaversion>
     <authors>
 	<author name="Brett Chaldecott" email="brett.chaldecott@gmail.com"/>
@@ -76,6 +76,7 @@
           <exclude name="**/bin/**" />
           <exclude name="**/var/nameservice/**" />
           <exclude name="**/var/named/**" />
+          <exclude name="**/var/semantics/**.ttl*" />
       </fileset>
     </pack>
     <pack name="Config" required="yes">
