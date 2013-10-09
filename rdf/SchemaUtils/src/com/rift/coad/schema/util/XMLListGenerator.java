@@ -87,6 +87,7 @@ public class XMLListGenerator {
                 if (suffix != null && path.endsWith(suffix)) {
                     path = path.substring(0,path.length() - suffix.length());
                 }
+                path = path.replace('\\','/');
                 result.append(baseUrl).append(path);
                 result.append("\"/>\n");
             }

@@ -100,7 +100,7 @@ public class DBSourceManager {
                     Set keys = dbSourceConfig.getKeys();
                     for (Iterator iter = keys.iterator(); iter.hasNext();) {
                         Reference ref = new Reference("javax.sql.DataSource",
-                                "org.objectweb.jndi.DataSourceFactory",
+                                "org.objectweb.jotm.datasource.DataSourceFactory",
                                 null);
                         ref.add(new StringRefAddr("driverClassName",dbSource));
                         String key = (String)iter.next();
