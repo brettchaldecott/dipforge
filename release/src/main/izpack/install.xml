@@ -20,7 +20,7 @@
   </locale>
  
   <guiprefs width="800" height="600" resizable="no">
-    <splash>../images/logos/dipForgeLogo_big.png</splash>
+    <splash>images/logos/dipForgeLogo_big.png</splash>
     <laf name="substance">
       <os family="windows" />
       <os family="unix" />
@@ -47,7 +47,7 @@
   <resources>
         <res id="LicencePanel.licence" src="resource/install-info/Licence.txt"/>
         <res id="InfoPanel.info" src="resource/install-info/README.txt"/>
-        <res id="Heading.image" src="../images/logos/dipForgeLogo_small.png"/>
+        <res id="Heading.image" src="images/logos/dipForgeLogo_small.png"/>
         <res id="userInputSpec.xml" src="resource/install-info/izpack-user-input.xml"  parse="yes" type="xml"/>
   </resources>
 
