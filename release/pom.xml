@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dipforge.izpack</groupId>
-  <artifactId>dipforge</artifactId>
-  <version>3.0</version>
+  <artifactId>dipforge-install</artifactId>
+  <version>3.0.0</version>
 
   <name>Dipforge</name>
   
@@ -30,7 +30,7 @@
      
     <defaultGoal>package</defaultGoal>
     
-    <finalName>${project.artifactId}</finalName>
+    <finalName>${project.artifactId}-${project.version}</finalName>
     
       <plugins>
 
