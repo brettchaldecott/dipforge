@@ -73,6 +73,7 @@ public class TransactionDirector {
             ContextManager contextManager = 
                     new ContextManager(TRANSACTION_CONTEXT_BASE);
             userTransaction = jotm.getUserTransaction();
+            userTransaction.setTransactionTimeout(60 * 60 * 1000);
             contextManager.bind(USER_TRANSACTION_CONTEXT_BINDING,
                     userTransaction);
             transactionManager = jotm.getTransactionManager();
