@@ -343,7 +343,7 @@ public class WebServiceWrapper {
             responseMsg.writeTo(output);
             output.flush();
             if (ownTransaction) {
-                ut.commit();
+                commitTransaction();
                 ownTransaction = false;
             }
             return output.toString();
@@ -630,4 +630,35 @@ public class WebServiceWrapper {
         }
         return entries;
     }
+
+
+    /**
+     * Attempt to commit the transaction
+     *
+     * @param ut The user transaction to commit.
+     */
+    private void commitTransaction() throws Exception {
+        javax.transaction.TransactionManager jtaTransManager = null;
+        javax.transaction.Transaction transaction = null;
+        try {
+            jtaTransManager = (javax.transaction.TransactionManager)context.
+                    lookup("java:comp/TransactionManager");
+            transaction = jtaTransManager.getTransaction();
+            transaction.commit();
+        } catch (Exception ex) {
+            log.error("Failed to commit the transaction : " + ex.getMessage(),ex);
+            try {
+                if (transaction != null) {
+                    log.info("Calling rollback to attempt to undo the changes");
+                    transaction.rollback();
+                    log.info("After calling rollback to attempt to undo the changes");
+                }
+            } catch (Exception ex2) {
+                log.error("Failed to rollback a failed commit : " +
+                        ex2.getMessage(),ex2);
+            }
+            throw ex;
+        }
+    }
+
 }

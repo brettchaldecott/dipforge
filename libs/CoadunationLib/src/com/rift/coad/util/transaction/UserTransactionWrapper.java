@@ -117,32 +117,31 @@ public class UserTransactionWrapper {
          *
          * @exception TransactionException
          */
-        public void commit() throws TransactionException {
+        public void commit() throws Exception {
+            javax.transaction.TransactionManager jtaTransManager = null;
+            javax.transaction.Transaction transaction = null;
             try {
-                ut.commit();
-            } catch (java.lang.NullPointerException ex) {
-                log.error("Failed to commit the changes because of null " +
-                        "pointer exception. Assuming cleanup was successfull : "
-                        + ex.getMessage(),ex);
-            } catch (javax.transaction.RollbackException ex) {
-                log.error("Failed to commit the changes because of transaction " +
-                        "transaction rollback : " + ex.getMessage(),ex);
-                try {
-                    ut.rollback();
-                } catch (Exception ex2) {
-                    log.error("Failed to roll back exception : " + 
-                            ex.getMessage(),ex);
-                }
-                log.error("Ignoring errors and continuing");
+                jtaTransManager = (javax.transaction.TransactionManager)context.
+                        lookup("java:comp/TransactionManager");
+                transaction = jtaTransManager.getTransaction();
+                transaction.commit();
             } catch (Exception ex) {
-                log.error("Failed to commit the changes : "
-                        + ex.getMessage(),ex);
-                log.error("Ignoring errors and continuing");
+                log.error("Failed to commit the transaction : " + ex.getMessage(),ex);
+                try {
+                    if (transaction != null) {
+                        log.info("Calling rollback to attempt to undo the changes");
+                        transaction.rollback();
+                        log.info("After calling rollback to attempt to undo the changes");
+                    }
+                } catch (Exception ex2) {
+                    log.error("Failed to rollback a failed commit : " +
+                            ex2.getMessage(),ex2);
+                }
+                throw ex;
             } finally {
                 lockCount--;
                 committed = true;
             }
-            
         }
     }
     

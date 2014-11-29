@@ -222,7 +222,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                         proxyCache.addCacheEntry(beanInfo.getCacheTimeout(), newProxy,
                                 handler);
                         if (ownTransaction) {
-                            ut.commit();
+                            commitTransaction();
                         }
                         return newProxy;
                     } catch (Exception ex) {
@@ -234,7 +234,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                     }
                 }
                 if (ownTransaction) {
-                    ut.commit();
+                    commitTransaction();
                 }
                 // return the result if not an interface
                 return result;
@@ -422,9 +422,9 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                 if (ownTransaction) {
                     try {
                         if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                            ut.commit();
+                            commitTransaction();
                         }
-                    } catch (Exception ex2) {
+                    } catch (Throwable ex2) {
                         log.error("Failed to commit the changes : " +
                                 ex2.getMessage(),ex2);
                     }
@@ -470,7 +470,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                         proxy, handler);
             }
             if (ownTransaction) {
-                ut.commit();
+                commitTransaction();
             }
             return proxy;
         } catch (Throwable ex) {
@@ -600,7 +600,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                     cacheEntry.setProxy(proxy);
                 }
                 if (ownTransaction) {
-                    ut.commit();
+                    commitTransaction();
                 }
                 return cacheEntry.getProxy();
             }
@@ -630,9 +630,9 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                 if (ownTransaction) {
                     try {
                         if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                            ut.commit();
+                            commitTransaction();
                         }
-                    } catch (Exception ex2) {
+                    } catch (Throwable ex2) {
                         log.error("Failed to commit the changes : " +
                                 ex2.getMessage(),ex2);
                     }
@@ -662,7 +662,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
             transactionBeanCache.addCacheEntry(beanInfo.getCacheTimeout(),
                     args[0], result, proxy, handler);
             if (ownTransaction) {
-                ut.commit();
+                commitTransaction();
             }
             return proxy;
         } catch (Throwable ex) {
@@ -759,7 +759,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                     getTransactionBeanCache();
             transactionBeanCache.removeCacheEntry(args[0]);
             if (ownTransaction) {
-                ut.commit();
+                commitTransaction();
             }
         } catch (Throwable ex) {
             log.error("Failed to remove bean cache entry : " +
@@ -874,6 +874,34 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
         }
     }
     
+    /**
+     * Attempt to commit the transaction
+     *
+     * @param ut The user transaction to commit.
+     */
+    private void commitTransaction() throws Throwable {
+        javax.transaction.TransactionManager jtaTransManager = null;
+        javax.transaction.Transaction transaction = null;
+        try {
+            jtaTransManager = (javax.transaction.TransactionManager)context.
+                    lookup("java:comp/TransactionManager");
+            transaction = jtaTransManager.getTransaction();
+            transaction.commit();
+        } catch (Throwable ex) {
+            log.error("Failed to commit the transaction : " + ex.getMessage(),ex);
+            try {
+                if (transaction != null) {
+                    log.info("Calling rollback to attempt to undo the changes");
+                    transaction.rollback();
+                    log.info("After calling rollback to attempt to undo the changes");
+                }
+            } catch (Exception ex2) {
+                log.error("Failed to rollback a failed commit : " +
+                        ex2.getMessage(),ex2);
+            }
+            throw ex;
+        }
+    }
     
     
 }

@@ -398,30 +398,53 @@ public class %tieClassName% implements CacheEntry %implements%
         Boolean ownTransaction = (Boolean)this.ownTransaction.get();
         if (!ownTransaction.booleanValue()) {
             return;
+        } else {
+            this.ownTransaction.remove();
         }
-        try {
-            if (commit) {
-                ut.commit();
-                return;
-            }
-        } catch (Exception ex) {
-            log.error("Failed to commit : " + ex.getMessage(),ex);
-            try {
-                ut.rollback();
-            } catch (Exception ex2) {
-                log.error("Failed to rollback a failed commit : " + 
-                        ex2.getMessage(),ex2);
-            }
-            throw new org.omg.CORBA.UNKNOWN("Failed to commit : " + 
-                    ex.getMessage());
+        if (commit) {
+            log.info("commit the transaction");
+            commitTransaction();
+            return;
         }
         try {
             if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                log.info("rollback the transaction");
                 ut.rollback();
             }
         } catch (Exception ex) {
             log.error("Failed to rollback a failed commit : " + 
                         ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * Attempt to commit the transaction
+     *
+     * @param ut The user transaction to commit.
+     */
+    private void commitTransaction() {
+        javax.transaction.TransactionManager jtaTransManager = null;
+        javax.transaction.Transaction transaction = null;
+        try {
+            jtaTransManager = (javax.transaction.TransactionManager)context.
+                    lookup("java:comp/TransactionManager");
+            transaction = jtaTransManager.getTransaction();
+            transaction.commit();
+        } catch (Throwable ex) {
+            log.error("Failed to commit the transaction : " + ex.getMessage(),ex);
+            try {
+                if (transaction != null) {
+                    log.info("Calling rollback to attempt to undo the changes");
+                    transaction.rollback();
+                    log.info("After calling rollback to attempt to undo the changes");
+                }
+            } catch (Exception ex2) {
+                log.error("Failed to rollback a failed commit : " +
+                        ex2.getMessage(),ex2);
+            }
+            throw new java.lang.RuntimeException("Failed to commit the changes : " + 
+                    ex.getMessage(),ex);
         }
     }
 }
