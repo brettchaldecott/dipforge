@@ -890,7 +890,8 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
         } catch (Throwable ex) {
             log.error("Failed to commit the transaction : " + ex.getMessage(),ex);
             try {
-                if (transaction != null) {
+                if (transaction != null && transaction.getStatus() != Status.STATUS_ROLLEDBACK
+                      && transaction.getStatus() != Status.STATUS_COMMITTED) {
                     log.info("Calling rollback to attempt to undo the changes");
                     transaction.rollback();
                     log.info("After calling rollback to attempt to undo the changes");
