@@ -9,8 +9,12 @@
     </configurations>
     <dependencies>
         <dependency org="log4j" name="log4j" rev="1.2.14"/>
-        <dependency org="org.apache.tomcat" name="catalina" rev="6.0.29"/>
-        <dependency org="org.apache.tomcat" name="servlet-api" rev="6.0.29"/>
-        <dependency org="org.apache.tomcat" name="coyote" rev="6.0.29"/>
+        <dependency org="org.apache.tomcat" name="tomcat-catalina" rev="8.0.15"/>
+        <dependency org="org.apache.tomcat" name="tomcat-servlet-api" rev="8.0.15"/>
+        <dependency org="org.apache.tomcat" name="tomcat-coyote" rev="8.0.15"/>
+        <dependency org="org.apache.tomcat" name="tomcat-util" rev="8.0.15"/>
+        <dependency org="org.apache.tomcat" name="tomcat-util-scan" rev="8.0.15"/>
+        <dependency org="org.apache.tomcat" name="tomcat-api" rev="8.0.15"/>
+        <dependency org="org.apache.tomcat" name="tomcat-juli" rev="8.0.15"/>
     </dependencies>
 </ivy-module>

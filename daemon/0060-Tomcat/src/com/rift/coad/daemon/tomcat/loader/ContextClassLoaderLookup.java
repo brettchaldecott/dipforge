@@ -126,10 +126,13 @@ public class ContextClassLoaderLookup {
     public ClassLoader[] getDependanciesForContext(String context) 
             throws LoaderException {
         context = context.replace('/','.');
+        log.info("Get the context dependencies for [" + context + "].");
         String[] dependancyNames = getContext(context);
         if (dependancyNames == null) {
+            log.info("No dependencies found for [" + context + "].");
             return new ClassLoader[0];
         }
+        log.info("Attempt to load the extra context information for [" + context + "]");
         List<ClassLoader> classLoaders = new ArrayList<ClassLoader>();
         for (String dependancyName : dependancyNames) {
             ClassLoader loader = ClassLoaderLookup.getInstance().
@@ -144,6 +147,7 @@ public class ContextClassLoaderLookup {
             }
             classLoaders.add(loader);
         }
+        log.info("Return the list of class loaders for [" + context + "]");
         return classLoaders.toArray(new ClassLoader[0]);
     }
 

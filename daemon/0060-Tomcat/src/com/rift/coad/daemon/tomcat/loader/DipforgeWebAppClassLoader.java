@@ -166,8 +166,11 @@ public class DipforgeWebAppClassLoader extends  WebappClassLoader {
             if (loaders != null) {
                 return loaders;
             }
+            // pre-pend the . as prior to version 8 the context name included / which got removed
+            // but the ear code still places a . in the configuration files for the libraries.
+            log.info("Get the new set of loader dependencies [." + this.getContextName() + "]");
             loaders = ContextClassLoaderLookup.getInstance().
-                    getDependanciesForContext(this.getContextName());
+                    getDependanciesForContext("." + this.getContextName());
             return loaders;
         } catch (Exception ex) {
             log.info("Failed to retrieve the class loaders : " + ex.getMessage());

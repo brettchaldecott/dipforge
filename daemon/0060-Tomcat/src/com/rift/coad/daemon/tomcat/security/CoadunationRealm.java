@@ -44,8 +44,8 @@ import org.apache.log4j.Logger;
 // tomcat imports
 import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.Realm;
-import org.apache.catalina.deploy.SecurityConstraint;
-import org.apache.catalina.deploy.LoginConfig;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.apache.tomcat.util.descriptor.web.LoginConfig;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 import org.apache.catalina.realm.RealmBase;
@@ -172,7 +172,7 @@ public class CoadunationRealm extends RealmBase implements Realm {
                 hasPermission = false;
             } else if (!denyfromall) {
                 for (int j = 0; j < roles.length; j++) {
-                    if (hasRole(principal, roles[j])) {
+                    if (hasRole(context.createWrapper(),principal, roles[j])) {
                         hasPermission = true;
                     }
                     if( trace )
@@ -240,7 +240,7 @@ public class CoadunationRealm extends RealmBase implements Realm {
             UserSession userSession = sessionLogin.getUser();
             
             // retrieve the list of roles
-            List roles = new ArrayList();
+            List<String> roles = new ArrayList<String>();
             Set systemRoles = RoleManager.getInstance().getRoles();
             for (Iterator iter = systemRoles.iterator(); iter.hasNext();) {
                 Role role = RoleManager.getInstance().getRole(
@@ -258,7 +258,7 @@ public class CoadunationRealm extends RealmBase implements Realm {
             
             // construct the gneric principal object
             CoadunationGenericPrincipal genericPrincipal = 
-                    new CoadunationGenericPrincipal(this, username, credentials,
+                    new CoadunationGenericPrincipal(username, credentials,
                     roles, userSession);
             
             // setup the session

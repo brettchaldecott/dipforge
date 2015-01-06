@@ -53,7 +53,7 @@ import org.apache.catalina.Host;
 import org.apache.catalina.Session;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.Loader;
-import org.apache.catalina.loader.StandardClassLoader;
+//import org.apache.catalina.loader.StandardClassLoader;
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.Container;
 import org.apache.catalina.Server;
@@ -115,6 +115,8 @@ public class TomcatWrapper {
             
             // basic config
             basePath = configuration.getString("TomcatBasePath");
+            System.setProperty("catalina.home",basePath);
+            System.setProperty("catalina.base",basePath);
             
             // clear out the directory
             clearWebAppDirectory();
@@ -126,11 +128,11 @@ public class TomcatWrapper {
             System.setProperty("CatalinaHome",basePath);
             tomcat = new Catalina();
             tomcat.setParentClassLoader(childLoader);
-            tomcat.setCatalinaHome(basePath);
             
             // start tomcat
             log.info("Starting the engine.");
             tomcat.setUseNaming(false);
+            tomcat.load();
             tomcat.start();
             log.info("Engine started");
             
@@ -381,14 +383,16 @@ public class TomcatWrapper {
      */
     private ClassLoader createClassLoader(URL[] urls,ClassLoader parent) {
         try {
-            String[] locations = new String[urls.length];
-            Integer[] types = new Integer[urls.length];
+            java.util.List<org.apache.catalina.startup.ClassLoaderFactory.Repository> repositories = 
+                new java.util.ArrayList<org.apache.catalina.startup.ClassLoaderFactory.Repository>();
             for (int index = 0; index < urls.length; index++) {
-                locations[index] = urls[index].toString();
-                types[index] = new Integer(3); 
+                log.debug("URLS : " + urls[index].toString());
+                repositories.add(
+                    new org.apache.catalina.startup.ClassLoaderFactory.Repository(
+                    urls[index].toString(),org.apache.catalina.startup.ClassLoaderFactory.RepositoryType.JAR));
             }
             return ClassLoaderFactory.createClassLoader
-                (locations, types, parent);
+                (repositories, parent);
         } catch (Exception ex) {
             log.error("Failed to create a new class loader : " + 
                     ex.getMessage(),ex);

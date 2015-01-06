@@ -47,9 +47,9 @@ public class CoadunationGenericPrincipal extends GenericPrincipal {
     /**
      * Creates a new instance of CoadunationGenericPrincipal
      */
-    public CoadunationGenericPrincipal(Realm realm, String name, String password,
-            List roles, UserSession session) {
-        super(realm,name,password,roles);
+    public CoadunationGenericPrincipal(String name, String password,
+            List<String> roles, UserSession session) {
+        super(name,password,roles);
         this.session = session;
     }
     
