@@ -3,8 +3,13 @@
      Documentation at /docs/config/server.html
  -->
 <Server port="-1" shutdown="SHUTDOWN">
-  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+  <!--APR library loader. Documentation at /docs/apr.html -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
   <Service name="Catalina">
     <Connector port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
@@ -13,9 +18,9 @@
        <Realm className="com.rift.coad.daemon.tomcat.security.CoadunationRealm"/>
        <Host name="localhost"  appBase="webapps"
             unpackWARs="true" autoDeploy="false"
-            xmlValidation="false" xmlNamespaceAware="false">
+            xmlValidation="false" xmlNamespaceAware="false" deployXML="true">
           <Valve className="com.rift.coad.daemon.tomcat.security.CoadunationValve" />
        </Host>
-    </Engine>    
+    </Engine>
   </Service>
 </Server>
