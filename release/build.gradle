@@ -5,8 +5,8 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 //libsDirName="."
 project.ext.version=version
-//sourceCompatibility=1.6
-//targetCompatibility=1.6
+//sourceCompatibility=1.7
+//targetCompatibility=1.7
 project.ext.javaHome = getJavaHomeVar()
 project.ext.dipforgeHome = "${projectDir}/dipforge/".toString()
 
@@ -515,7 +515,7 @@ dependencies {
     releaseGroovyLib "asm:asm-analysis:3.2"
     releaseGroovyLib "asm:asm-tree:3.2"
     releaseGroovyLib "org.codehaus.groovy.modules:groovyws:0.5.2"
-    releaseGroovyLib "org.codehaus.groovy.modules.http-builder:http-builder:0.5.2"
+    releaseGroovyLib "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1"
     
     // rdf type generator
     releaseRDFTypeGenerator "javax.transaction:jta:1.1"
