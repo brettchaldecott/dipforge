@@ -31,12 +31,6 @@ import java.util.Map;
 // log4j imports
 import org.apache.log4j.Logger;
 
-// hibernate imports
-import org.hibernate.*;
-import org.hibernate.cfg.*;
-
-// coadunation imports
-import com.rift.coad.hibernate.util.HibernateUtil;
 
 // coadunation imports
 import com.rift.coad.lib.security.login.AuthValues;
