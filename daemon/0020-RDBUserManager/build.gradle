@@ -27,6 +27,9 @@ dependencies {
     compile project(':libs:CoadunationHibernate')
     compile project(':auth:CoadunationRDBAuth')
     releaseJars project(':client:RDBUserManagerClient')
+    releaseJars group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
+    releaseJars project(':libs:CoadunationHibernate')
+    releaseJars project(':auth:CoadunationRDBAuth')
 }
 
 sourceSets {
