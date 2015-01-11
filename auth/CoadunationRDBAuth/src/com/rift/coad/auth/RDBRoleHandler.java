@@ -22,32 +22,26 @@
 package com.rift.coad.auth;
 
 // java imports
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Iterator;
-
-// hibernate imports
-import org.hibernate.*;
-import org.hibernate.cfg.*;
-
-// log 4 j imports
-import org.apache.log4j.Logger;
-
-// coadunation imports
-import com.rift.coad.hibernate.util.HibernateUtil;
-
-// coadunation imports
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
+import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.security.Role;
 import com.rift.coad.lib.security.RoleHandler;
 import com.rift.coad.lib.security.SecurityException;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
-import com.rift.coad.lib.deployment.DeploymentMonitor;
-
-// import database
-import com.rift.coad.auth.db.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import org.apache.log4j.Logger;
 
 
 
@@ -86,23 +80,24 @@ public class RDBRoleHandler implements RoleHandler {
             }
             transaction = new UserTransactionWrapper();
             transaction.begin();
-            Session session =
-                    HibernateUtil.getInstance(RDBUserStore.class).getSession();
-            List roles = session.createQuery("FROM CoadunationRole").list();
+            Connection connection = getConnection();
+            ResultSet result = 
+                    connection.prepareCall("SELECT * FROM CoadunationRole")
+                            .executeQuery();
             Map results = new HashMap();
-            for (Iterator iter = roles.iterator(); iter.hasNext();) {
-                CoadunationRole role = (CoadunationRole)iter.next();
-                results.put(role.getRole(), getRole(role));
+            while(result.next()) {
+                String role = result.getString("role");
+                results.put(role,getRole(connection,role));
             }
             return results;
         } catch (SecurityException ex) {
-            throw ex;
+            log.warn("Failed to retrieve the list of roles : " +
+                    ex.getMessage(), ex);
+            return new HashMap();
         } catch (Exception ex) {
-            log.error("Failed to retrieve the list of roles : " +
+            log.warn("Failed to retrieve the list of roles : " +
                     ex.getMessage(), ex);
-            throw new SecurityException(
-                    "Failed to retrieve the list of roles : " +
-                    ex.getMessage(), ex);
+            return new HashMap();
         } finally {
             if (transaction != null) {
                 transaction.release();
@@ -130,16 +125,18 @@ public class RDBRoleHandler implements RoleHandler {
             } 
             transaction = new UserTransactionWrapper();
             transaction.begin();
-            Session session =
-                    HibernateUtil.getInstance(RDBUserStore.class).getSession();
-            return getRole( 
-                    (CoadunationRole)session.get(CoadunationRole.class, role));
+            Connection connection = getConnection();
+            CallableStatement cs = connection.prepareCall("SELECT ROLE FROM COADUNATIONROLE WHERE ROLE = ?");
+            cs.setString(1, role);
+            ResultSet rs = cs.executeQuery();
+            if (!rs.next()) {
+               return null; 
+            }
+            return getRole(connection,role);
         } catch (Exception ex) {
-            log.error("Failed to retrieve the role: " +
+            log.warn("Failed to retrieve the role: " +
                     ex.getMessage(), ex);
-            throw new SecurityException(
-                    "Failed to retrieve the role : " +
-                    ex.getMessage(), ex);
+            return null;
         } finally {
             if (transaction != null) {
                 transaction.release();
@@ -157,14 +154,43 @@ public class RDBRoleHandler implements RoleHandler {
      * @param role The rdb object  to convert.
      * @throws RDBException
      */
-    private Role getRole(CoadunationRole role) throws RDBException {
-        Set principals = new HashSet();
-        Set rolePrincipals = role.getPrincipals();
-        for (Iterator iter = rolePrincipals.iterator(); iter.hasNext();) {
-            CoadunationRolePrincipal principal = 
-                    (CoadunationRolePrincipal)iter.next();
-            principals.add(principal.getPrincipal().getName());
+    private Role getRole(Connection connection, String role) throws RDBException {
+        try {
+            CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONROLEPRINCIPAL WHERE ROLE = ?");
+            cs.setString(1, role);
+            ResultSet rs = cs.executeQuery();
+            Set principals = new HashSet();
+            while(rs.next()) {
+                String principal = rs.getString("name");
+                principals.add(principal);
+            }
+            return new Role(role,principals);
+        } catch (Exception ex) {
+            log.warn("Failed to retrieve the ROLE information : " + ex.getMessage(),ex);
+            throw new RDBException
+                    ("Failed to retrieve the ROLE information : " + ex.getMessage(),ex);
         }
-        return new Role(role.getRole(), principals);
+    }
+    
+    
+    /**
+     * This method is used to retrieve a connection to the database.
+     * 
+     * @return The connection to the database.
+     * @throws RDBException 
+     */
+    private Connection getConnection() throws RDBException {
+        try {
+            Context context = new InitialContext();
+            Configuration config = ConfigurationFactory.getInstance().
+                    getConfig(RDBUserStore.class);
+            DataSource ds = (DataSource)context.lookup(
+                    config.getString("DATA_SOURCE","java:comp/env/jdbc/hsqldb"));
+            return ds.getConnection();
+        } catch (Throwable ex) {
+            log.error("Failed to retrieve the connection : " + ex.getMessage(),ex);
+            throw new RDBException(
+                "Failed to retrieve the connection : " + ex.getMessage(),ex);
+        }
     }
 }

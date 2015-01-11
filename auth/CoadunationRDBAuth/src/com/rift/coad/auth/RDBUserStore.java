@@ -23,30 +23,32 @@
 package com.rift.coad.auth;
 
 // java imports
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 
-// log4j imports
-import org.apache.log4j.Logger;
-
-
-// coadunation imports
-import com.rift.coad.lib.security.login.AuthValues;
+// import database
+import com.rift.coad.lib.configuration.ConfigurationFactory;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.auth.util.HashPassword;
+import com.rift.coad.lib.deployment.DeploymentMonitor;
+import com.rift.coad.lib.security.UserSession;
 import com.rift.coad.lib.security.login.AuthTypes;
+import com.rift.coad.lib.security.login.AuthValues;
 import com.rift.coad.lib.security.login.LoginException;
 import com.rift.coad.lib.security.login.LoginHandler;
 import com.rift.coad.lib.security.login.LoginInfoHandler;
-import com.rift.coad.lib.security.user.UserStoreConnector;
 import com.rift.coad.lib.security.user.UserException;
-import com.rift.coad.lib.security.UserSession;
+import com.rift.coad.lib.security.user.UserStoreConnector;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
-import com.rift.coad.lib.deployment.DeploymentMonitor;
-
-// import database
-import com.rift.coad.auth.db.*;
-import com.rift.coad.auth.util.HashPassword;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import org.apache.log4j.Logger;
 
 /**
  * This objects represents a user store.
@@ -114,14 +116,13 @@ public class RDBUserStore implements UserStoreConnector {
 
                 transaction = new UserTransactionWrapper();
                 transaction.begin();
-                Session session =
-                        HibernateUtil.getInstance(RDBUserStore.class).getSession();
-                CoadunationUser user = (CoadunationUser) session.get(
-                        CoadunationUser.class, username);
-                if (user.getPassword().equals(shaPassword)) {
-                    this.user = new UserSession(user.getUsername(),
-                            getPrincipals(user));
-                    return true;
+                Connection connection = getConnection();
+                CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
+                cs.setString(1, username);
+                ResultSet rs = cs.executeQuery();
+                if (rs.next() && shaPassword.equals(cs.getString("password"))) {
+                   this.user = new UserSession(username,
+                            getPrincipals(connection,username));
                 }
             } catch (Throwable ex) {
                 log.debug("Failed to retrieve the user information : " +
@@ -172,13 +173,15 @@ public class RDBUserStore implements UserStoreConnector {
             }
             transaction = new UserTransactionWrapper();
             transaction.begin();
-            Session session =
-                    HibernateUtil.getInstance(RDBUserStore.class).getSession();
-            CoadunationUser user = (CoadunationUser) session.get(
-                    CoadunationUser.class, username);
-            // return the user session.
-            return new UserSession(user.getUsername(),
-                    getPrincipals(user));
+            Connection connection = getConnection();
+            CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
+            cs.setString(1, username);
+            ResultSet rs = cs.executeQuery();
+            if (rs.next()) {
+               return new UserSession(username,
+                        getPrincipals(connection,username));
+            }
+            return null;
         } catch (Exception ex) {
             log.debug("Failed to retrieve the user information : " +
                     ex.getMessage(), ex);
@@ -221,22 +224,44 @@ public class RDBUserStore implements UserStoreConnector {
      * @return The set containing the string principals.
      * @throws RDBException
      */
-    private Set getPrincipals(CoadunationUser user) throws RDBException {
+    private Set getPrincipals(Connection connection, String username) throws RDBException {
         try {
+            CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONUSERPRINCIPAL WHERE USER_COLUMN = ?");
+            cs.setString(1, username);
+            ResultSet rs = cs.executeQuery();
             Set principals = new HashSet();
-            for (Iterator iter = user.getPrincipals().iterator();
-                    iter.hasNext();) {
-                CoadunationUserPrincipal principal =
-                        (CoadunationUserPrincipal) iter.next();
-                principals.add(principal.getPrincipal().getName());
+            while(rs.next()) {
+                principals.add(rs.getString("PRINCIPAL"));
             }
             return principals;
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             log.error("Failed to retrieve the principal information : " +
                     ex.getMessage(), ex);
             throw new RDBException(
                     "Failed to retrieve the principal information : " +
                     ex.getMessage(), ex);
+        }
+    }
+    
+    
+    /**
+     * This method is called to retrieve the connection information.
+     * 
+     * @return
+     * @throws RDBException 
+     */
+    private Connection getConnection() throws RDBException {
+        try {
+            Context context = new InitialContext();
+            Configuration config = ConfigurationFactory.getInstance().
+                    getConfig(RDBUserStore.class);
+            DataSource ds = (DataSource)context.lookup(
+                    config.getString("DATA_SOURCE","java:comp/env/jdbc/hsqldb"));
+            return ds.getConnection();
+        } catch (Throwable ex) {
+            log.error("Failed to retrieve the connection : " + ex.getMessage(),ex);
+            throw new RDBException(
+                "Failed to retrieve the connection : " + ex.getMessage(),ex);
         }
     }
 }
