@@ -28,6 +28,8 @@ dependencies {
     releaseJars project(':client:MessageServiceClient')
     releaseJars project(':client:ServiceBrokerClient')
     releaseJars project(':utils:CoadunationUtil')
+    releaseJars project(':libs:CoadunationHibernate')
+    releaseJars group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
 }
 
 sourceSets {

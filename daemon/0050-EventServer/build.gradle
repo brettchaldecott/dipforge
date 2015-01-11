@@ -31,6 +31,8 @@ dependencies {
     releaseJars project(':client:DesktopServerClient')
     releaseJars project(':client:EventServerClient')
     releaseJars project(':utils:CoadunationUtil')
+    releaseJars group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
+    releaseJars project(':libs:CoadunationHibernate')
 }
 
 sourceSets {

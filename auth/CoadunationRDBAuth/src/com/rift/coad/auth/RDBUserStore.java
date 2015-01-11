@@ -120,12 +120,13 @@ public class RDBUserStore implements UserStoreConnector {
                 CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
                 cs.setString(1, username);
                 ResultSet rs = cs.executeQuery();
-                if (rs.next() && shaPassword.equals(cs.getString("password"))) {
-                   this.user = new UserSession(username,
-                            getPrincipals(connection,username));
+                if (rs.next() && shaPassword.equals(rs.getString("password"))) {
+                    this.user = new UserSession(username,
+                             getPrincipals(connection,username));
+                    return true;
                 }
             } catch (Throwable ex) {
-                log.debug("Failed to retrieve the user information : " +
+                log.info("Failed to retrieve the user information : " +
                         ex.getMessage(), ex);
             } finally {
                 if (transaction != null) {
@@ -231,7 +232,8 @@ public class RDBUserStore implements UserStoreConnector {
             ResultSet rs = cs.executeQuery();
             Set principals = new HashSet();
             while(rs.next()) {
-                principals.add(rs.getString("PRINCIPAL"));
+                String principal = rs.getString("PRINCIPAL");
+                principals.add(principal);
             }
             return principals;
         } catch (Exception ex) {

@@ -17,7 +17,7 @@ configurations {
 
 dependencies {
     compile group: 'log4j', name: 'log4j', version: '1.2.16', ext: 'jar'
-    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
+//    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
     compile group: 'javax.transaction', name: 'jta', version: '1.1', ext: 'jar'
     compile project(':libs:CoadunationAnnotations')
     compile project(':libs:CoadunationCommon')

@@ -26,6 +26,8 @@ dependencies {
     compile project(':libs:CoadunationAnnotations')
     compile project(':libs:CoadunationHibernate')
     releaseJars project(':client:TimerClient')
+    releaseJars group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
+    releaseJars project(':libs:CoadunationHibernate')
 }
 
 sourceSets {

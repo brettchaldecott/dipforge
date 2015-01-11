@@ -29,6 +29,8 @@ dependencies {
     releaseJars project(':client:MessageServiceClient')
     releaseJars group: 'rome', name: 'rome', version: '1.0', ext: 'jar'
     releaseJars group: 'org.jdom', name: 'jdom', version: '1.1', ext: 'jar'
+    releaseJars project(':libs:CoadunationHibernate')
+    releaseJars group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
 }
 
 sourceSets {

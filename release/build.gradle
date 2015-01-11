@@ -82,6 +82,8 @@ task copyToLib(type: Copy) {
     from configurations.releaseLibs
     exclude "**/*CoadunationBase*"
     exclude "**/*CoadunationUtil*"
+    exclude "**/*CoadunationHibernate*"
+    exclude "**/*hibernate*"
 }
 
 task copyToClient(type: Copy) {
@@ -389,12 +391,12 @@ dependencies {
     releaseLibs project(':libs:CoadunationClient')
     releaseClients project(':libs:CoadunationClient')
     releaseLibs project(':libs:CoadunationSecurity')
-    releaseLibs project(':libs:CoadunationHibernate')
+    //releaseLibs project(':libs:CoadunationHibernate')
     releaseLibs project(':libs:CoadunationUtil')
     releaseLibs project(':auth:CoadunationRDBAuth')
     releaseLibs project(':libs:CoadunationLib')
     releaseLibs group: 'backport-util-concurrent', name: 'backport-util-concurrent', version: '3.1', ext: 'jar'
-    releaseLibs group: 'org.hibernate', name: 'hibernate-c3p0', version: '3.5.1-Final', ext: 'jar'
+    //releaseLibs group: 'org.hibernate', name: 'hibernate-c3p0', version: '3.5.1-Final', ext: 'jar'
     releaseLibs group: 'commons-cli', name: 'commons-cli', version: '1.0', ext: 'jar'
     releaseLibs group: 'commons-collections', name: 'commons-collections', version: '3.2.1', ext: 'jar'
     releaseLibs group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2', ext: 'jar'
@@ -408,7 +410,7 @@ dependencies {
     releaseLibs group: 'com.sun.jndi', name: 'cosnaming', version: '1.2.1-Local', ext: 'jar'
     releaseLibs group: 'dom4j', name: 'dom4j', version: '1.6.1', ext: 'jar'
     releaseLibs group: 'net.sf.ehcache', name: 'ehcache', version: '1.2.3', ext: 'jar'
-    releaseLibs group: 'org.hibernate', name: 'hibernate-cglib-repack', version: '2.1_3', ext: 'jar'
+    //releaseLibs group: 'org.hibernate', name: 'hibernate-cglib-repack', version: '2.1_3', ext: 'jar'
     releaseLibs group: 'howl', name: 'howl-logger', version: '0.1.11', ext: 'jar'
     releaseLibs group: 'org.hsqldb', name: 'hsqldb', version: '2.2.8', ext: 'jar'
     releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore-nio', version: '4.1-beta2', ext: 'jar'
