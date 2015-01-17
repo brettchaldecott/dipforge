@@ -35,7 +35,7 @@ dependencies {
     testCompile group: 'javax.resource', name: 'connector-api', version: '1.5', ext: 'jar'
     testCompile group: 'com.sun.jndi', name: 'cosnaming', version: '1.2.1-Local', ext: 'jar'
     testCompile group: 'howl', name: 'howl-logger', version: '0.1.11', ext: 'jar'
-    testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.2.8', ext: 'jar'
+    testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.2', ext: 'jar'
     testCompile group: 'org.apache.httpcomponents', name: 'httpcore-nio', version: '4.1-beta2', ext: 'jar'
     testCompile group: 'org.objectweb.carol', name: 'carol', version: '2.2.10', ext: 'jar'
     testCompile group: 'org.objectweb.carol', name: 'carol-iiop-delegate', version: '2.2.10', ext: 'jar'
