@@ -745,7 +745,7 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           sdb
+           tdb
         </entry>
         <entry key="store_configuration_file" type="string">
             $INSTALL_PATH/var/semantics/audit.ttl
@@ -764,7 +764,7 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           sdb
+           tdb
         </entry>
         <entry key="store_configuration_file" type="string">
             $INSTALL_PATH/var/semantics/change.ttl
@@ -806,7 +806,7 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           sdb
+           tdb
         </entry>
         <entry key="store_configuration_file" type="string">
             $INSTALL_PATH/var/semantics/data_mapper_broker.ttl
@@ -887,7 +887,7 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           sdb
+           tdb
         </entry>
         <entry key="store_configuration_file" type="string">
             $INSTALL_PATH/var/semantics/groovy_daemon.ttl
@@ -916,7 +916,7 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           sdb
+           tdb
         </entry>
         <entry key="store_configuration_file" type="string">
             $INSTALL_PATH/var/semantics/request_broker.ttl
@@ -1062,7 +1062,7 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           sdb
+           tdb
         </entry>
         <entry key="store_configuration_file" type="string">
             $INSTALL_PATH/var/semantics/dipforge_web.ttl
@@ -1085,7 +1085,7 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           sdb
+           tdb
         </entry>
         <entry key="store_configuration_file" type="string">
             $INSTALL_PATH/var/semantics/master_rdf_store.ttl

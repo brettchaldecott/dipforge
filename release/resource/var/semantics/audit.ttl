@@ -1,18 +1,12 @@
-@prefix rdfs:	   <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix ja:       <http://jena.hpl.hp.com/2005/11/Assembler#> .
-@prefix sdb:      <http://jena.hpl.hp.com/2007/sdb#> .
+@prefix tdb:     <http://jena.hpl.hp.com/2008/tdb#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ja:      <http://jena.hpl.hp.com/2005/11/Assembler#> .
 
- _:c rdf:type sdb:SDBConnection ;
-     sdb:sdbType        "hsqldb" ;
-     sdb:driver         "org.hsqldb.jdbcDriver" ;
-     sdb:sdbUser        "sa" ;
-     sdb:sdbPassword    "" ;
-     sdb:jdbcURL        "jdbc:hsqldb:hsql://$HOST_NAME/audit;sql.enforce_strict_size=false" ;
-     .
+[] ja:loadClass "com.hp.hpl.jena.tdb.TDB" .
+tdb:DatasetTDB  rdfs:subClassOf  ja:RDFDataset .
+tdb:GraphTDB    rdfs:subClassOf  ja:Model      .
 
-[] rdf:type sdb:Store ;
-     sdb:layout         "layout2/hash" ;
-     sdb:connection     _:c ;
-     .
+<#dataset> rdf:type         tdb:DatasetTDB ;
+    tdb:location "$INSTALL_PATH/var/semantics/audit" ;
 

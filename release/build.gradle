@@ -275,6 +275,7 @@ task copySemanticTemplate(type: Copy) {
     from "${projectDir}/template/var/semantics/"
     into "${projectDir}/dipforge/var/semantics/"
     include "*.ttl"
+    include "*.ttl.sdb"
     filter(ReplaceTokens, tokens:[hostname: InetAddress.getLocalHost().getHostName()] )
 }
 
@@ -413,7 +414,8 @@ dependencies {
     //releaseLibs group: 'org.hibernate', name: 'hibernate-cglib-repack', version: '2.1_3', ext: 'jar'
     releaseLibs group: 'howl', name: 'howl-logger', version: '0.1.11', ext: 'jar'
     releaseLibs group: 'org.hsqldb', name: 'hsqldb', version: '2.2.8', ext: 'jar'
-    releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore-nio', version: '4.1-beta2', ext: 'jar'
+    releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore-nio', version: '4.3.3', ext: 'jar'
+    releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.3.3', ext: 'jar'
     releaseLibs group: 'org.objectweb.carol', name: 'carol', version: '2.2.10', ext: 'jar'
     releaseLibs group: 'org.objectweb.carol', name: 'carol-iiop-delegate', version: '2.2.10', ext: 'jar'
     releaseLibs group: 'jts', name: 'jts', version: '1.0', ext: 'jar'

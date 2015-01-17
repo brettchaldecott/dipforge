@@ -6,8 +6,8 @@
  
   <info>
     <appname>Dipforge</appname>
-    <appversion>4.0.a1</appversion>
-    <appsubpath>dipforge-4.0.a1</appsubpath>
+    <appversion>4.0.a2</appversion>
+    <appsubpath>dipforge-4.0.a2</appsubpath>
     <javaversion>1.6</javaversion>
     <authors>
 	<author name="Brett Chaldecott" email="brett.chaldecott@gmail.com"/>
@@ -103,6 +103,18 @@
       <parsable targetfile="${INSTALL_PATH}/var/semantics/script_manager.ttl"/>
       <parsable targetfile="${INSTALL_PATH}/var/semantics/dipforge_web.ttl"/>
       <parsable targetfile="${INSTALL_PATH}/var/semantics/master_rdf_store.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/audit.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/groovy_daemon.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/request_broker.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/change.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/groovy_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/revision_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/data_mapper_broker.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/jython_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/script_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/dipforge_web.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/master_rdf_store.ttl.sdb"/>
+
     </pack>
 
   </packs>

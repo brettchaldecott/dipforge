@@ -67,7 +67,6 @@ task copyToJars(type: Copy) {
          exclude '**/carol*'
          exclude '**/wsdl4j*'
          exclude '**/ant*'
-         exclude '**/httpcore*'
     }
 }
 
