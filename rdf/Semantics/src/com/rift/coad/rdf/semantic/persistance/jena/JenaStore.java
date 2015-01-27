@@ -39,7 +39,7 @@ public interface JenaStore {
      * @return The reference to the data model.
      * @throws PersistanceException
      */
-    public Model getModule() throws PersistanceException;
+    public JenaModelWrapper getModule() throws PersistanceException;
 
 
     /**

@@ -37,6 +37,7 @@ import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
 import com.rift.coad.rdf.types.mapping.MethodMapping;
 import com.rift.coad.rdf.types.mapping.ParameterMapping;
@@ -72,7 +73,8 @@ public class DataMapperBrokerDaemonImpl implements DataMapperBrokerDaemon, BeanR
     public void register(List<MethodMapping> methods) throws DataMapperBrokerException {
         try {
             Session session = SemanticUtil.
-                    getInstance(DataMapperBrokerDaemonImpl.class).getSession();
+                    getInstance(DataMapperBrokerDaemonImpl.class).getSession(
+                    SessionManager.SessionLock.WRITE_LOCK);
             // this code makes the assumption that methods are attached to projects
             // and that these project methods will be removed
             Set<String> projects = new HashSet<String>();

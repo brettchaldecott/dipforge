@@ -33,6 +33,7 @@ import javax.management.ObjectName;
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaEscaperFactory;
+import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStoreType;
 import java.util.Properties;
@@ -192,8 +193,8 @@ public class JenaSDBModelFactory implements JenaStore {
      * @return The reference to the model.
      * @throws PersistanceException
      */
-    public Model getModule() throws PersistanceException {
-        return dataStore;
+    public JenaModelWrapper getModule() throws PersistanceException {
+        return new JenaModelWrapperSDB(dataStore);
     }
 
     /**

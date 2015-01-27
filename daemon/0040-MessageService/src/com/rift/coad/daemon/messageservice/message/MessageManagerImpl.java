@@ -177,24 +177,15 @@ public class MessageManagerImpl implements MessageManager {
                                 ((RPCMessageImpl)rpcMessage).getResultBytes().
                                 clone());
                     }
-                    try {
-                        session.persist(rpcBody);
-                    } catch (Exception ex) {
-                        log.info("Failed to add the rpc body : " + 
-                                ex.getMessage(),ex);
-                    }
+                    session.persist(rpcBody);
+                    
                 } else if (newMessage instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage)newMessage;
                     MessageTxtBody txtBody = new MessageTxtBody();
                     txtBody.setMessage(message);
                     txtBody.setMessageId(message.getId());
                     txtBody.setBody(textMessage.getTextBody());
-                    try {
-                        session.persist(txtBody);
-                    } catch (Exception ex) {
-                        log.info("Failed to add the text body : " + 
-                                ex.getMessage(),ex);
-                    }
+                    session.persist(txtBody);
                 } else {
                     log.error("The message type [" + newMessage.getClass().getName()
                     + "] is not recognised.");
@@ -210,12 +201,7 @@ public class MessageManagerImpl implements MessageManager {
                         MessageService messageServices = new MessageService();
                         messageServices.setMessage(message);
                         messageServices.setService(services[index]);
-                        try {
-                            session.persist(messageServices);
-                        } catch (Exception ex) {
-                            log.info("Failed to log the message service : " + 
-                                    ex.getMessage(),ex);
-                        }
+                        session.persist(messageServices);
                     }
                 }
                 
@@ -259,6 +245,7 @@ public class MessageManagerImpl implements MessageManager {
                                 (property.getObjectValue() != null ? property.getObjectValue().length : 0 ) 
                                 + "] : " + 
                                 ex.getMessage(),ex);
+                        throw ex;
                     }
                 }
                 
@@ -273,12 +260,7 @@ public class MessageManagerImpl implements MessageManager {
                     String principalStr = (String)iter.next();
                     //log.info("Add principal : " + principalStr);
                     principal.setPrincipalValue(principalStr);
-                    try {
-                        session.persist(principal);
-                    } catch (Exception ex) {
-                        log.info("Failed to save the principal : " + 
-                                ex.getMessage(),ex);
-                    }
+                    session.persist(principal);
                 }
                 List errors = newMessage.getErrors();
                 for (Iterator iter = errors.iterator(); iter.hasNext();) {
@@ -292,19 +274,18 @@ public class MessageManagerImpl implements MessageManager {
                     dbMessageError.setErrorDate(new java.sql.Timestamp(
                             messageError.getErrorDate().getTime()));
                     dbMessageError.setErrorLevel(messageError.getLevel());
-                    dbMessageError.setMsg(messageError.getMSG());
-                    try {
-                        session.persist(dbMessageError);
-                    } catch (Exception ex) {
-                        log.info("Failed to log the message : " + 
-                                ex.getMessage(),ex);
-                    }
+                    dbMessageError.setMsg(messageError.getMSG().length() > 1024 ? 
+                            messageError.getMSG().substring(0,1024) : messageError.getMSG());
+                    
+                    // If the apply fails exit
+                    session.persist(dbMessageError);
+                
                 }
                 
             } catch (Exception ex) {
                 log.error("Failed to apply the changes : " + ex.getMessage(),ex);
-                //throw new ChangeException(
-                //        "Failed to apply the changes : " + ex.getMessage(),ex);
+                throw new ChangeException(
+                        "Failed to apply the changes : " + ex.getMessage(),ex);
             }
             
         }

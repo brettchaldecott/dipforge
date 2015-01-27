@@ -22,7 +22,6 @@
 // package path
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.shared.Lock;
 import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
@@ -45,8 +44,8 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
     public static class LockManager {
         
         // class singleton
-        private static Map<Model,LockManager> singleton = 
-                new ConcurrentHashMap<Model,LockManager>();
+        private static Map<JenaModelWrapper,LockManager> singleton = 
+                new ConcurrentHashMap<JenaModelWrapper,LockManager>();
         
         // private member variables
         private ThreadLocal<Integer> currentCount = new ThreadLocal<Integer>();
@@ -65,7 +64,7 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
          * @param jenaModel The model to identify the reference.
          * @return The reference to the object.
          */
-        public static synchronized LockManager getInstance(Model jenaModel) {
+        public static synchronized LockManager getInstance(JenaModelWrapper jenaModel) {
             LockManager result = null;
             if (!singleton.containsKey(jenaModel)) {
                 log.info("######## Create new lock manager for model");
@@ -120,7 +119,7 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
     private static Logger log = Logger.getLogger(JenaPersistanceTransaction.class);
     
     // private member variables
-    private Model jenaModel;
+    private JenaModelWrapper jenaModel;
     private boolean inTransaction = false;
     private SessionManager.SessionLock lock;
     
@@ -131,11 +130,14 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
      * @param jenaModel The reference to the jena model.
      * @param type The type of store to utilize
      */
-    protected JenaPersistanceTransaction(Model jenaModel, JenaStoreType type) {
+    protected JenaPersistanceTransaction(JenaModelWrapper jenaModel, JenaStoreType type) {
+        System.out.println("Retrieve the Transaction using the constructor without a lock");
         this.jenaModel = jenaModel;
         // sets up the default read lock
         if (type == JenaStoreType.XML) {
             this.lock = SessionManager.SessionLock.NO_LOCK;
+        } else if (type == JenaStoreType.TDB) {
+            this.lock = SessionManager.SessionLock.READ_LOCK;
         } else {
             this.lock = SessionManager.SessionLock.READ_LOCK;
         }
@@ -148,9 +150,9 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
      * @param jenaModel The reference to the jena model.
      * @param lock The type of lock to utilize on this session.
      */
-    protected JenaPersistanceTransaction(Model jenaModel, 
+    protected JenaPersistanceTransaction(JenaModelWrapper jenaModel, 
             SessionManager.SessionLock lock) {
-        
+        System.out.println("Retrieve the session using the lock : " + lock);
         this.jenaModel = jenaModel;
         this.lock = lock;
     }
@@ -166,16 +168,22 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
                     "Transaction already started for this object.");
         }
         try {
+            System.out.println("[" + Thread.currentThread().getId() + "]Before locking");
             if (this.lock != SessionManager.SessionLock.NO_LOCK) {
                 int count = LockManager.getInstance(jenaModel).incrementLockCount();
+                System.out.println("[" + Thread.currentThread().getId() + "]The jena persistance transaction : " + count);
                 if (count == 1) {
                     if (lock == SessionManager.SessionLock.READ_LOCK) {
+                        System.out.println("[" + Thread.currentThread().getId() + "]Setup the read critical lock");
                         jenaModel.enterCriticalSection(Lock.READ);
                     } else if (lock == SessionManager.SessionLock.WRITE_LOCK) {
+                        System.out.println("[" + Thread.currentThread().getId() + "]Setup the write critical lock");
                         jenaModel.enterCriticalSection(Lock.WRITE);
+                        
                     }
-                    jenaModel.begin();
                 }
+                System.out.println("[" + Thread.currentThread().getId() + "]Begin the model transaction");
+                jenaModel.begin();
             }
             inTransaction = true;
         } catch (Exception ex) {
@@ -192,18 +200,27 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
      */
     public void commit() throws PersistanceException {
         try {
+            log.error("[" + Thread.currentThread().getId() + "]Before commiting the change");
+            System.out.println("[" + Thread.currentThread().getId() + "]Before commiting the change");
             jenaModel.commit();
+            log.error("[" + Thread.currentThread().getId() + "]After Commit the changes");
+            System.out.println("[" + Thread.currentThread().getId() + "]After Commit the changes");
         } catch (Exception ex) {
-            log.error("Failed to commit the changes : " + ex.getMessage());
+            log.error("[" + Thread.currentThread().getId() + "]Failed to commit the changes : " + ex.getMessage());
         } finally {
             if (this.lock != SessionManager.SessionLock.NO_LOCK) {
                 int count = LockManager.getInstance(jenaModel).decrementLockCount();
+                System.out.println("[" + Thread.currentThread().getId() + "]The lock count is : " + count);
                 if (count <= 0 && (lock == SessionManager.SessionLock.READ_LOCK || 
                         lock == SessionManager.SessionLock.WRITE_LOCK)) {
                     try {
+                        System.out.println("[" + Thread.currentThread().getId() + "]Leave the critical lock");
+                        log.error("[" + Thread.currentThread().getId() + "]Leave the critical lock");
                         jenaModel.leaveCriticalSection();
+                        System.out.println("[" + Thread.currentThread().getId() + "]After critical lock");
+                        log.error("[" + Thread.currentThread().getId() + "]After critical lock");
                     } catch (Exception ex) {
-                        log.error("Failed to release the critical lock : " + 
+                        log.error("[" + Thread.currentThread().getId() + "]Failed to release the critical lock : " + 
                                 ex.getMessage());
                     }
                 }
@@ -219,18 +236,30 @@ public class JenaPersistanceTransaction implements PersistanceTransaction {
      */
     public void rollback() throws PersistanceException {
         try {
+            log.error("[" + Thread.currentThread().getId() + "]Before aborting the changes");
+            System.out.println("[" + Thread.currentThread().getId() + "]Before aborting the changes");
             jenaModel.abort();
+            log.error("[" + Thread.currentThread().getId() + "]After aborting the changes");
+            System.out.println("[" + Thread.currentThread().getId() + "]After aborting the changes");
         } catch (Exception ex) {
-            log.error("Failed to commit the changes : " + ex.getMessage());
+            log.error("[" + Thread.currentThread().getId() + "]Failed to commit the changes : " + ex.getMessage());
         } finally {
             if (this.lock != SessionManager.SessionLock.NO_LOCK) {
+                log.error("[" + Thread.currentThread().getId() + "]Release the lock count in rollback");
+                System.out.println("[" + Thread.currentThread().getId() + "]Release the lock count in rollback");
                 int count = LockManager.getInstance(jenaModel).decrementLockCount();
+                log.error("[" + Thread.currentThread().getId() + "]After releasing the lock count : " + count);
+                System.out.println("[" + Thread.currentThread().getId() + "]After releasing the lock count : " + count);
                 if (count <= 0 && (lock == SessionManager.SessionLock.READ_LOCK || 
                         lock == SessionManager.SessionLock.WRITE_LOCK)) {
                     try {
+                        log.error("[" + Thread.currentThread().getId() + "]Call leave the critical section : " + count);
+                        System.out.println("[" + Thread.currentThread().getId() + "]Call leave the critical section : " + count);
                         jenaModel.leaveCriticalSection();
+                        log.error("[" + Thread.currentThread().getId() + "]After calling leave the critical section : " + count);
+                        System.out.println("[" + Thread.currentThread().getId() + "]After calling leave the critical section : " + count);
                     } catch (Exception ex) {
-                        log.error("Failed to release the critical lock : " + 
+                        log.error("[" + Thread.currentThread().getId() + "]Failed to release the critical lock : " + 
                                 ex.getMessage());
                     }
                 }

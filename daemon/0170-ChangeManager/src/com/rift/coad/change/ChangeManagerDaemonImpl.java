@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
 // change manager imports
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
 import java.rmi.RemoteException;
 
@@ -68,10 +69,13 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             throws ChangeException, RemoteException {
         try {
             String project = "";
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession(
+                    SessionManager.SessionLock.WRITE_LOCK);
             for (ActionInfo action : actions) {
+                System.out.println("[" + Thread.currentThread().getId() + "]Add the action : " + action.getAction());
                 session.persist(new ActionInfoRDF(action));
                 project = action.getProject();
+                System.out.println("[" + Thread.currentThread().getId() + "]After adding action : " + action.getAction());
             }
             auditLog.complete("Added [%d] actions to project [%s]",
                     actions.size(),project);
@@ -94,7 +98,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             throws ChangeException, RemoteException {
         try {
             String project = "";
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession(
+                    SessionManager.SessionLock.WRITE_LOCK);
             for (ActionInfo action : actions) {
                 ActionInfoRDF actionInfo = new ActionInfoRDF(action);
                 if (session.contains(ActionInfoRDF.class, actionInfo.getId())) {
@@ -230,7 +235,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
     public void removeAction(String project, String type, String action)
             throws ChangeException, RemoteException {
         try {
-            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession();
+            Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession(
+                    SessionManager.SessionLock.WRITE_LOCK);
             StringBuilder sparqlFilter = new StringBuilder();
             String sep = "";
             if (project != null && project.length() > 0) {

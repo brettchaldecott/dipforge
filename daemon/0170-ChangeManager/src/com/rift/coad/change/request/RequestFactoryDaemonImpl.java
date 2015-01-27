@@ -244,6 +244,7 @@ public class RequestFactoryDaemonImpl implements RequestFactoryDaemon, BeanRunna
                 this.entries.put(request.getId(),new RequestFactoryObjectImpl(
                         session.disconnect(MasterRequestRDF.class, request)));
             }
+            utw.commit();
         } catch (Exception ex) {
             log.error("Failed to load the requests from the RDF store : " + ex.getMessage(),ex);
             throw new RequestException

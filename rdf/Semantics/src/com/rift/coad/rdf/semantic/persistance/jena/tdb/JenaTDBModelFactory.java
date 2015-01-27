@@ -6,20 +6,21 @@
 package com.rift.coad.rdf.semantic.persistance.jena.tdb;
 
 // jena imports
-import com.hp.hpl.jena.tdb.TDBFactory;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.rdf.model.Model;
 
 // dipforge imports
+import com.hp.hpl.jena.tdb.TDBFactory;
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaEscaperFactory;
+import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStoreType;
-
-// common imports
 import java.lang.management.ManagementFactory;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.management.ObjectName;
 import org.apache.log4j.Logger;
 
@@ -33,8 +34,13 @@ public class JenaTDBModelFactory implements JenaStore {
     // logger
     private static Logger log = Logger.getLogger(JenaTDBModelFactory.class);
     
+    // class singleton
+    private static Map<String,JenaTDBModelFactory> singletonMap =  
+            new ConcurrentHashMap<String,JenaTDBModelFactory>();
+    
     // private member variables
     private Dataset dataset;
+    //private JenaModelWrapperTDB model;
     
     
     /**
@@ -153,9 +159,25 @@ public class JenaTDBModelFactory implements JenaStore {
      * @return The reference to the new store.
      * @throws PersistanceException
      */
-    public static JenaStore createInstance(Properties properties)
+    public synchronized static JenaStore createInstance(Properties properties)
             throws PersistanceException {
-        return new JenaTDBModelFactory(properties);
+        try {
+            String assemblerFile = properties.getProperty(PersistanceConstants.STORE_CONFIGURATION_FILE);
+            if (assemblerFile == null) {
+                throw new PersistanceException("The configuration file ["
+                        + PersistanceConstants.STORE_CONFIGURATION_FILE
+                        + "] must be set for the SDB store.");
+            }
+            JenaTDBModelFactory result = singletonMap.get(assemblerFile);
+            if (result == null) {
+                result = new JenaTDBModelFactory(properties);
+                singletonMap.put(assemblerFile, result);
+            }
+        
+            return result;
+        } catch (PersistanceException ex) {
+            throw ex;
+        }
     }
 
     /**
@@ -164,9 +186,9 @@ public class JenaTDBModelFactory implements JenaStore {
      * @return The reference to the TDB model
      * @throws PersistanceException 
      */
-    public Model getModule() throws PersistanceException {
+    public synchronized JenaModelWrapper getModule() throws PersistanceException {
         try {
-            return dataset.getDefaultModel();
+            return new JenaModelWrapperTDB(dataset);
         } catch (Exception ex) {
             log.error("Failed to retrieve the model : " + ex.getMessage(),ex);
             throw new PersistanceException

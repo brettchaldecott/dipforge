@@ -127,7 +127,7 @@ public class BasicSessionManager implements SessionManager {
      */
     public Session getSession(SessionManager.SessionLock lock) throws SessionException {
         try {
-            PersistanceSession peristanceSession = persistanceManager.getSession();
+            PersistanceSession peristanceSession = persistanceManager.getSession(lock);
             OntologySession ontologySession = ontologyManager.getSession();
             return new BasicSession(peristanceSession,ontologySession,
                     jdoManager.getSession(peristanceSession, ontologySession));

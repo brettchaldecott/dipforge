@@ -40,6 +40,7 @@ import com.rift.coad.lib.bean.BeanRunnable;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.Session;
+import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.coadunation.SemanticUtil;
 import com.rift.coad.rdf.types.network.Host;
 import com.rift.coad.rdf.types.network.Service;
@@ -78,7 +79,8 @@ public class AuditTrailLoggerImpl implements AuditTrailLogger, BeanRunnable {
          */
         public void applyChanges() throws ChangeException {
             try {
-                Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession();
+                Session session = SemanticUtil.getInstance(AuditTrailLoggerImpl.class).getSession(
+                        SessionManager.SessionLock.WRITE_LOCK);
                 session.persist(entry);
             } catch (Exception ex) {
                 log.error("Failed to commit the change to the log because : " + 
