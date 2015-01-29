@@ -427,6 +427,7 @@ public class TransactionBeanCache implements Cache,XAResource {
     public void addCacheEntry(long timeout, Object cacheKey, Object wrappedObject,
             Object proxy, CacheEntry handle) throws BeanException {
         try {
+            
             TransactionManager.getInstance().bindResource(this,false);
             getLock(cacheKey);
             if (baseCacheEntries.containsKey(cacheKey)) {

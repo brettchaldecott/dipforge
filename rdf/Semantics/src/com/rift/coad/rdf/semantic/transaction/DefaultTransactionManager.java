@@ -1,6 +1,6 @@
 /*
  * Semantics: The semantic library for coadunation os
- * Copyright (C) 2009  Rift IT Contracting
+ * Copyright (C) 2015  Rift IT Contracting
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,21 +16,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TransactionManager.java
+ * DefaultTransactionManager.java
  */
 
 package com.rift.coad.rdf.semantic.transaction;
 
+// java imports
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.transaction.xa.XAResource;
+import org.apache.log4j.Logger;
+
+
 
 /**
- *
+ * The default transaction manager
+ * 
  * @author brett chaldecott
  */
 public class DefaultTransactionManager extends TransactionManager {
 
+    private static Logger log = Logger.getLogger(DefaultTransactionManager.class);
+    
     // the transaction manager
     private javax.transaction.TransactionManager jtaTransManager = null;
 
@@ -43,7 +50,8 @@ public class DefaultTransactionManager extends TransactionManager {
             jtaTransManager = (javax.transaction.TransactionManager)context.
                     lookup("java:comp/TransactionManager");
         } catch (Exception ex) {
-            System.out.println("Failed to retrieve the transaction manager : " + ex.getMessage());
+            log.error("Failed to retrieve the transaction manager : " + 
+                    ex.getMessage(),ex);
         }
     }
     

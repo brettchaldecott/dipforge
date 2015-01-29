@@ -23,39 +23,35 @@
 package com.rift.coad.rdf.semantic.session;
 
 // java imports
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.net.URI;
-
-// log4j imports
-import org.apache.log4j.Logger;
-
-// jena bean imports
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 //import thewebsemantic.Bean2RDF;
 //import thewebsemantic.RDF2Bean;
 //import thewebsemantic.Sparql;
 import static com.hp.hpl.jena.graph.Node.ANY;
 import static com.hp.hpl.jena.graph.Node.createURI;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.rift.coad.rdf.semantic.*;
 
 // coadunation imports
-import com.rift.coad.rdf.semantic.basic.*;
-import com.rift.coad.rdf.semantic.annotation.helpers.NamespaceHelper;
 import com.rift.coad.rdf.semantic.annotation.helpers.LocalNameHelper;
+import com.rift.coad.rdf.semantic.annotation.helpers.NamespaceHelper;
+import com.rift.coad.rdf.semantic.basic.*;
 import com.rift.coad.rdf.semantic.jdo.JDOSession;
 import com.rift.coad.rdf.semantic.jdo.basic.sparql.BasicJDOSPARQLQuery;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.resource.BasicResource;
 import com.rift.coad.rdf.semantic.util.BeanCopy;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.net.URI;
+import java.util.Collection;
+import java.util.Properties;
+import org.apache.log4j.Logger;
 
 /**
  * This object represents a basic session.
@@ -71,6 +67,7 @@ public class BasicSession implements Session {
     private OntologySession ontologySession;
     private JDOSession jdoSession;
     private Transaction transaction;
+    private Properties properties;
 
 
     /**
@@ -79,14 +76,15 @@ public class BasicSession implements Session {
      * @param persistanceSession
      * @param ontologySession
      */
-    public BasicSession(PersistanceSession persistanceSession, OntologySession ontologySession,
+    public BasicSession(Properties properties, PersistanceSession persistanceSession, OntologySession ontologySession,
             JDOSession jdoSession)
             throws SessionException {
+        this.properties = properties;
         this.persistanceSession = persistanceSession;
         this.ontologySession = ontologySession;
         this.jdoSession = jdoSession;
         try {
-            transaction = new BasicTransaction(persistanceSession,ontologySession);
+            transaction = new BasicTransaction(properties, persistanceSession,ontologySession);
         } catch (Exception ex) {
             log.error("Failed to instanciate the basic session : " + ex.getMessage(),ex);
             throw new SessionException

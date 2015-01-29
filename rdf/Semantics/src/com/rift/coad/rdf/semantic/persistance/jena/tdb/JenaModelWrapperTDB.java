@@ -21,6 +21,9 @@
 
 package com.rift.coad.rdf.semantic.persistance.jena.tdb;
 
+// apache imports
+import org.apache.log4j.Logger;
+
 // jena imports
 import com.rift.coad.rdf.semantic.persistance.jena.xml.*;
 import com.hp.hpl.jena.query.Dataset;
@@ -39,6 +42,8 @@ import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
  */
 public class JenaModelWrapperTDB implements JenaModelWrapper {
     
+    private static Logger log = Logger.getLogger(JenaModelWrapperTDB.class);
+    
     // private model
     private Dataset dataset;
     private Model model = null;
@@ -53,7 +58,6 @@ public class JenaModelWrapperTDB implements JenaModelWrapper {
      */
     public JenaModelWrapperTDB(Dataset dataset) {
         this.dataset = dataset;
-        lock = dataset.getLock();
     }
     
     /**
@@ -64,7 +68,6 @@ public class JenaModelWrapperTDB implements JenaModelWrapper {
     public JenaModelWrapperTDB(JenaModelWrapperTDB model) {
         this.dataset = model.dataset;
         this.model = model.model;
-        lock = dataset.getLock();
     }
     
     /**
@@ -85,37 +88,26 @@ public class JenaModelWrapperTDB implements JenaModelWrapper {
      * @param lock 
      */
     public void enterCriticalSection(boolean lock) {
-//        if (lock) {
-//            System.out.println("[" + System.identityHashCode(dataset) + "] Enter a critical section and begin read transaction");
-//            dataset.begin(ReadWrite.READ);
-//            read = true;
-//        } else {
-            System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] Enter a critical section and begin write transaction");
-            //dataset.begin(ReadWrite.WRITE);
-            this.lock.enterCriticalSection(Lock.WRITE);
+        if (lock) {
+            dataset.begin(ReadWrite.READ);
+            read = true;
+        } else {
+            dataset.begin(ReadWrite.WRITE);
             read = false;
-            System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] After creating a write lock");
-//        }
-        //this.getModel().enterCriticalSection(false);
+        }
     }
 
     /**
      * This method is called to begin the transaction
      */
     public void begin() {
-//        System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] Enter a begin");
-//        this.getModel().begin();
-//        System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] After the begin");
     }
 
     /**
      * This method is called to abort action on the model
      */
     public void abort() {
-        //this.commit = false;
-//        System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] Abort has been called");
-//        dataset.abort();
-//        System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] After the abort");
+        dataset.abort();
     }
 
     
@@ -123,9 +115,7 @@ public class JenaModelWrapperTDB implements JenaModelWrapper {
      * This method is called to commit the changes
      */
     public void commit() {
-//        System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] Commit a transaction");
-//        dataset.commit();    
-//        System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] After commit");
+        dataset.commit();
     }
 
     
@@ -134,27 +124,9 @@ public class JenaModelWrapperTDB implements JenaModelWrapper {
      */
     public void leaveCriticalSection() {
         try {
-            //if (commit && !read) {
-            //    System.out.println("[" + System.identityHashCode(dataset) + "] Commit the changes");
-            //    dataset.commit();   
-            //} //else {
-            //    dataset.abort();
-            //}
-            // end the critial section
-            System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] End ");
-            //this.getModel().leaveCriticalSection();
-            //dataset.end();
-            lock.leaveCriticalSection();
-            System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] After ending a lock");
-            
+            dataset.end();
         } catch (Exception ex) {
-            System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "]Failed to commit the changes : " + ex.getMessage());
-//            try {
-//                dataset.end();
-//            } catch (Exception ex2) {
-//                System.out.println("[" + System.identityHashCode(dataset) + "]Failed to end the changes : " + ex.getMessage());
-//            }
-//            System.out.println("[" + Thread.currentThread().getId() + "][" + System.identityHashCode(dataset) + "] The lock has been ended.");
+            log.error("Failed to commit the changes : " + ex.getMessage(),ex);
         }
     }
     

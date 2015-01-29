@@ -23,24 +23,23 @@
 package com.rift.coad.rdf.semantic.session;
 
 // log4j imports
-import org.apache.log4j.Logger;
 
 // jena imports
 import com.hp.hpl.jena.rdf.model.Model;
 
 // javax transaction manager.
-import javax.transaction.xa.XAException;
-import javax.transaction.xa.XAResource;
-import javax.transaction.xa.Xid;
-
-// coadunation imports
-import com.rift.coad.rdf.semantic.TransactionException;
 import com.rift.coad.rdf.semantic.Transaction;
+import com.rift.coad.rdf.semantic.TransactionException;
 import com.rift.coad.rdf.semantic.ontology.OntologySession;
 import com.rift.coad.rdf.semantic.ontology.OntologyTransaction;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
 import com.rift.coad.rdf.semantic.persistance.PersistanceTransaction;
 import com.rift.coad.rdf.semantic.transaction.TransactionManager;
+import java.util.Properties;
+import javax.transaction.xa.XAException;
+import javax.transaction.xa.XAResource;
+import javax.transaction.xa.Xid;
+import org.apache.log4j.Logger;
 
 /**
  * The transaction that manages the basic transaction.
@@ -52,6 +51,7 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
     private static Logger log = Logger.getLogger(BasicTransaction.class);
 
     // private member variables
+    private Properties properties;
     private PersistanceSession persistanceSession;
     private PersistanceTransaction persistanceTransaction = null;
     private OntologySession ontologySession;
@@ -63,13 +63,19 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
      * The constructor that sets the store reference.
      * @param store
      */
-    public BasicTransaction(PersistanceSession persistanceSession,
+    public BasicTransaction(Properties properties, PersistanceSession persistanceSession,
             OntologySession ontologySession) throws TransactionException {
+        this.properties = properties;
         this.persistanceSession = persistanceSession;
         this.ontologySession = ontologySession;
 
         try {
-            TransactionManager.getInstance().enlist(this);
+            log.info("[BasicTransaction] the keys in the properties is [" + properties.keySet().toString() + "]");
+            log.info("[BasicTransaction] the values in the properties is [" + properties.values().toString() + "]");
+            TransactionManager transactionManager = TransactionManager.getInstance(properties);
+            log.info("[BasicTransaction] the transaction manager is [" + 
+                    transactionManager.getClass().getName() + "]");
+            transactionManager.enlist(this);
         } catch (Exception ex) {
             log.error("Failed to enlist this transaction : " + ex.getMessage(),ex);
             throw new TransactionException

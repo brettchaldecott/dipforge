@@ -182,7 +182,7 @@ public class LocalTransactionManagerTest extends TestCase {
     public void testGetStatus() throws Exception {
         System.out.println("getStatus");
         LocalTransactionManager instance = new LocalTransactionManager();
-        int expResult = Status.STATUS_UNKNOWN;
+        int expResult = Status.STATUS_NO_TRANSACTION;
         int result = instance.getStatus();
         assertEquals(expResult, result);
         instance.begin();

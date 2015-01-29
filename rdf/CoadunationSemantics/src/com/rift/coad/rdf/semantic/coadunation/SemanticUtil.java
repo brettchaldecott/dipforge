@@ -23,6 +23,8 @@
 package com.rift.coad.rdf.semantic.coadunation;
 
 // java imports
+import com.rift.coad.lib.transaction.TransactionManagerConnector;
+import com.rift.coad.lib.transaction.TransactionManagerType;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -57,6 +59,8 @@ public class SemanticUtil implements XAResource {
     public final static String RDF_CONFIG_URL = "rdf_config_url";
     public final static String RDF_QUERY_URL = "rdf_query_url";
     public final static String TRANSACTION_TIMEOUT = "transaction_timeout";
+    private final static String JENA_STORE_TYPE = "jena_store_type";
+    private final static String JENA_TDB_STORE = "tdb";
     public final static int DEFAULT_TRANSACTION_TIMEOUT = 180000;
 
     // class singleton
@@ -75,6 +79,7 @@ public class SemanticUtil implements XAResource {
     private ThreadLocal<Session> currentSession = new ThreadLocal<Session>();
     private ThreadLocal<SessionManager.SessionLock> currentLock = 
             new ThreadLocal<SessionManager.SessionLock>();
+    private String jenaStoreType;
 
     /**
      * The constructor of the hibernate util object.
@@ -136,6 +141,7 @@ public class SemanticUtil implements XAResource {
             }
             
             // instanciate the session manager
+            this.jenaStoreType = properties.getProperty(JENA_STORE_TYPE);
             this.sessionManager = SessionManagerBuilder.createManager(properties);
         } catch (Throwable ex) {
             log.error("Initial SessionManager " +
@@ -472,9 +478,16 @@ public class SemanticUtil implements XAResource {
      */
     private Transaction getTransaction() throws SemanticUtilException {
         try {
-            TransactionManager transactionManager = (TransactionManager)
-                    context.lookup("java:comp/TransactionManager");
-            return transactionManager.getTransaction();
+            if (jenaStoreType.equals(JENA_TDB_STORE)) {
+                TransactionManager transactionManager = 
+                        TransactionManagerConnector.getTransactionManager(TransactionManagerType.LOCAL);
+                return transactionManager.getTransaction();
+            } else {
+                TransactionManager transactionManager = 
+                        TransactionManagerConnector.getTransactionManager(TransactionManagerType.GLOBAL);
+                return transactionManager.getTransaction();
+            }
+            
         } catch (Exception ex) {
             log.error("Failed to retrieve the current transaction because : "
                     + ex.getMessage(),ex);

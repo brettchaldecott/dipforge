@@ -111,9 +111,9 @@ public class BasicJDOPersistanceHandler {
             OntologyClass ontologyClass = ontologySession.getClass(
                     PersistanceIdentifier.getInstance(classInfo.getNamespace(),
                     classInfo.getLocalName()).toURI());
-            System.out.println(classInfo.getNamespace() + "#" +
-                    classInfo.getLocalName() + "/" +
-                    classInfo.getIdMethod().getMethodRef().getName());
+//            System.out.println(classInfo.getNamespace() + "#" +
+//                    classInfo.getLocalName() + "/" +
+//                    classInfo.getIdMethod().getMethodRef().getName());
             URI resourceUri = ClassURIBuilder.generateClassURI(dataSource.getClass(),
                     classInfo.getIdMethod().getMethodRef().invoke(dataSource).toString());
             PersistanceResource typeResource = session.createResource(PersistanceIdentifier.getInstance(

@@ -21,6 +21,10 @@
 
 package com.rift.coad.rdf.semantic.transaction;
 
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * This object manages the access to the transaction manager. It assumes there will only ever be one type of
  * transaction object per environment.
@@ -29,17 +33,45 @@ package com.rift.coad.rdf.semantic.transaction;
  */
 public abstract class TransactionManager {
 
+    // private class constants
+    private final static String DEFAULT = "default";
+    private final static String TDB = "jena_store_type";
+    
     // the class singleton value.
-    private static TransactionManager singleton = null;
+    private static Map<String,TransactionManager> singletons = new ConcurrentHashMap<>();
 
     /**
-     * This
+     * This singlon method will attempt to instanciate the approriate transaction manager
+     * defending on configuration
      */
-    public static synchronized TransactionManager getInstance() throws TransactionManagerException {
-        if (singleton == null) {
-            singleton = new DefaultTransactionManager();
+    public static synchronized TransactionManager getInstance(Properties properties) throws TransactionManagerException {
+        if (getStoreType(properties).equalsIgnoreCase("TDB")) {
+            TransactionManager manager = singletons.get(TDB);
+            if (manager == null) {
+                manager = new DipforgeTDBTransactionManager();
+                singletons.put(TDB, manager) ;
+            }
+            return manager;
+        } else {
+            TransactionManager manager = singletons.get(DEFAULT);
+            if (manager == null) {
+                manager = new DefaultTransactionManager();
+                singletons.put(DEFAULT, manager);
+            }
+            return manager;
         }
-        return singleton;
+    }
+    
+    
+    /**
+     * This singlon method will attempt to instanciate the approriate transaction manager
+     * defending on configuration
+     * 
+     * @param key The key to identify the transaction manager.
+     * @return The reference to the transaction manager
+     */
+    public static synchronized TransactionManager getInstance(String key) throws TransactionManagerException {
+        return TransactionManager.singletons.get(key);
     }
 
     
@@ -48,10 +80,19 @@ public abstract class TransactionManager {
      *
      * @param singleton The new transaction manager that should be set as the singleton.
      */
-    public static synchronized void setTransactionManager(TransactionManager singleton) {
-        TransactionManager.singleton = singleton;
+    public static synchronized void setTransactionManager(TransactionManager manager) {
+        TransactionManager.singletons.put(DEFAULT, manager);
     }
 
+    /**
+     * This method is called to set the transaction manager.
+     *
+     * @param key The key to set the transaction manager.
+     * @param singleton The new transaction manager that should be set as the singleton.
+     */
+    public static synchronized void setTransactionManager(String key, TransactionManager manager) {
+        TransactionManager.singletons.put(key, manager);
+    }
 
     /**
      * This method is called to enlist the specified resource in a transaction.
@@ -61,4 +102,20 @@ public abstract class TransactionManager {
      */
     public abstract void enlist(javax.transaction.xa.XAResource resource) throws TransactionManagerException;
     
+    
+    /**
+     * This method processes the store type
+     * 
+     * @param properties The list of properties.
+     * @return The store type.
+     */
+    private static String getStoreType(Properties properties) {
+        if (properties == null) {
+            return "DEFAULT";
+        }
+        if (properties.containsKey(TDB)) {
+            return properties.getProperty(TDB);
+        }
+        return "DEFAULT";
+    }
 }

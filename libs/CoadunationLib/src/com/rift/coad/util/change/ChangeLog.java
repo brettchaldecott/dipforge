@@ -122,7 +122,6 @@ public class ChangeLog implements XAResource {
         // private member variables
         private ThreadStateMonitor state = new ThreadStateMonitor();
         private Context context = null;
-        private UserTransactionWrapper utw = null;
         private boolean process = false;
         
         /**
@@ -131,13 +130,7 @@ public class ChangeLog implements XAResource {
          * @exception Exception
          */
         public ChangeLogProcessor() throws Exception {
-            try {
-                utw = new UserTransactionWrapper();
-            } catch (Exception ex) {
-                throw new ChangeException(
-                        "Failed to init the change log processor : " +
-                        ex.getMessage(),ex);
-            }
+            
         }
         
         
@@ -172,15 +165,11 @@ public class ChangeLog implements XAResource {
                 }
                 while(true) {
                     try {
-                        utw.begin();
                         change.applyChanges();
-                        utw.commit();
                         break;
                     } catch (Exception ex) {
                         log.error("Failed to apply the changes : " +
                                 ex.getMessage(),ex);
-                    } finally {
-                        utw.release();
                     }
                     try {
                         Thread.sleep(1000);
@@ -220,7 +209,7 @@ public class ChangeLog implements XAResource {
     public static class ChangeEntry implements Serializable {
         
         // private member variables
-        private List changes = new ArrayList();
+        private List<Change> changes = new ArrayList();
         
         
         /**
@@ -248,9 +237,32 @@ public class ChangeLog implements XAResource {
          * @exception ChangeException
          */
         public void applyChanges() throws ChangeException {
-            for (Iterator iter = changes.iterator(); iter.hasNext();) {
-                Change change = (Change)iter.next();
-                change.applyChanges();
+            for (Change change : changes) {
+                // set the class loader
+                ClassLoader currentLoader = Thread.currentThread().
+                        getContextClassLoader();
+                Thread.currentThread().setContextClassLoader(
+                        change.getClass().getClassLoader());
+                UserTransactionWrapper utw = null;
+                try {
+                    utw = new UserTransactionWrapper();
+                    utw.begin();
+                    change.applyChanges();
+                    utw.commit();
+                } catch (Exception ex) {
+                    log.error("Failed to apply the changes : " + ex.getMessage(),ex);
+                } finally {
+                    if (utw != null) {
+                        try {
+                            utw.release();
+                        } catch (Exception ex) {
+                            // ignore
+                            log.error("Failed to release : " + ex.getMessage(),ex);
+                        }
+                    }
+                    // reset the class loader
+                    Thread.currentThread().setContextClassLoader(currentLoader);
+                }
             }
         }
     }

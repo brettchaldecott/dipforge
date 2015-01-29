@@ -51,7 +51,7 @@ public class LocalTransaction implements Transaction {
          * @param id 
          */
         public TransactionId (Object id) {
-            id = System.identityHashCode(id);
+            this.id = System.identityHashCode(id);
         }
         
         /**
@@ -89,6 +89,7 @@ public class LocalTransaction implements Transaction {
     }
     
     // private member variables
+    private LocalTransactionManager manager;
     private boolean rollbackOnly = false;
     private int referenceCount = 1;
     private int status;
@@ -99,7 +100,8 @@ public class LocalTransaction implements Transaction {
     /**
      * The local transaction
      */
-    public LocalTransaction() {
+    public LocalTransaction(LocalTransactionManager manager) {
+        this.manager = manager; 
         status = Status.STATUS_ACTIVE;
         id = new TransactionId(this);
     }
@@ -135,9 +137,12 @@ public class LocalTransaction implements Transaction {
             for(Synchronization sync : syncs) {
                 sync.afterCompletion(status);
             }
+            
         } catch (Exception ex) {
             status = Status.STATUS_UNKNOWN;
             throw new SystemException("Failed to commit : " + ex.getMessage());
+        } finally {
+            manager.remove();
         }
     }
 
@@ -228,6 +233,8 @@ public class LocalTransaction implements Transaction {
         } catch (Exception ex) {
             status = Status.STATUS_UNKNOWN;
             throw new SystemException("Failed to rollback : " + ex.getMessage());
+        } finally {
+            manager.remove();
         }
     }
 

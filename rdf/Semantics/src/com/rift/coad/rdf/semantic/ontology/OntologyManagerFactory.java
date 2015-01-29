@@ -141,7 +141,7 @@ public class OntologyManagerFactory {
         try {
             OntologyManager managerInstance = null;
             if (!properties.containsKey(IGNORE_CACHE)) {
-                System.out.println("Use the cached ontology manager.");
+                //System.out.println("Use the cached ontology manager.");
                 managerInstance = factoryCache.getOntologyManager(properties);
                 if (managerInstance != null) {
                     return managerInstance;

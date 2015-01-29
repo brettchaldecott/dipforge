@@ -25,14 +25,28 @@
 package com.rift.coad.lib.bean;
 
 // java core import
+import com.rift.coad.lib.Resource;
+import com.rift.coad.lib.ResourceIndex;
+import com.rift.coad.lib.ResourceReleasedException;
+import com.rift.coad.lib.audit.AuditTrail;
+import com.rift.coad.lib.cache.CacheEntry;
+import com.rift.coad.lib.cache.CacheRegistry;
+import com.rift.coad.lib.cache.KeySyncCache;
+import com.rift.coad.lib.cache.KeySyncCacheManager;
+import com.rift.coad.lib.common.ClassUtil;
+import com.rift.coad.lib.common.RandomGuid;
+import com.rift.coad.lib.deployment.BeanInfo;
+import com.rift.coad.lib.security.ThreadsPermissionContainer;
+import com.rift.coad.lib.security.Validator;
+import com.rift.coad.util.transaction.UserTransactionWrapper;
 import java.lang.ClassLoader;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationTargetException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.transaction.Status;
@@ -40,21 +54,6 @@ import javax.transaction.UserTransaction;
 
 // logging import
 import org.apache.log4j.Logger;
-
-// coadunation imports
-import com.rift.coad.lib.Resource;
-import com.rift.coad.lib.ResourceIndex;
-import com.rift.coad.lib.ResourceReleasedException;
-import com.rift.coad.lib.cache.CacheRegistry;
-import com.rift.coad.lib.cache.CacheEntry;
-import com.rift.coad.lib.cache.KeySyncCache;
-import com.rift.coad.lib.cache.KeySyncCacheManager;
-import com.rift.coad.lib.common.ClassUtil;
-import com.rift.coad.lib.common.RandomGuid;
-import com.rift.coad.lib.deployment.BeanInfo;
-import com.rift.coad.lib.security.Validator;
-import com.rift.coad.lib.security.ThreadsPermissionContainer;
-import com.rift.coad.lib.audit.AuditTrail;
 import org.objectweb.carol.jndi.enc.java.javaURLContextFactory;
 
 
@@ -86,7 +85,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
     private TransactionProxyCache transactionProxyCacheRef = null;
     private KeySyncCache keySyncCache = null;
     private Context context = null;
-    private UserTransaction ut = null;
+    private UserTransactionWrapper utw = null;
     private AuditTrail auditTrail = null;
     
     /** Creates a new instance of BeanHandler */
@@ -103,7 +102,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
             this.permissions = permissions;
             this.classLoader = classLoader;
             context = new InitialContext();
-            ut = (UserTransaction)context.lookup("java:comp/UserTransaction");
+            utw = new UserTransactionWrapper();
             auditTrail = AuditTrail.getAudit(subObject.getClass());
         } catch (Exception ex) {
             throw new BeanException("Failed to instanciate the handler for ["
@@ -190,22 +189,10 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
             }
             
             // make the call
-            boolean ownTransaction = false;
             Object result = null;
             try {
                 if (beanInfo.getTransaction()) {
-                    try {
-                        if (ut.getStatus() == Status.STATUS_NO_TRANSACTION) {
-                            ut.begin();
-                            ownTransaction = true;
-                        }
-                    } catch (Exception ex) {
-                        log.error("Failed to start the transacton : " +
-                                ex.getMessage(),ex);
-                        throw new BeanException(
-                                "Failed to start the transacton : " +
-                                ex.getMessage(),ex);
-                    }
+                    utw.begin();
                 }
                 result = subMethod.invoke(subObject,args);
                 // deal with none bean pattern method caching
@@ -221,9 +208,7 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                         ProxyCache proxyCache = getProxyCache();
                         proxyCache.addCacheEntry(beanInfo.getCacheTimeout(), newProxy,
                                 handler);
-                        if (ownTransaction) {
-                            commitTransaction();
-                        }
+                        utw.commit();
                         return newProxy;
                     } catch (Exception ex) {
                         log.error("Failed to create the proxy return object : " +
@@ -233,23 +218,18 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                                 ex.getMessage(),ex);
                     }
                 }
-                if (ownTransaction) {
-                    commitTransaction();
-                }
+                utw.commit();
                 // return the result if not an interface
                 return result;
             } catch (Throwable ex) {
-                if (ownTransaction) {
-                    try {
-                        if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                            ut.rollback();
-                        }
-                    } catch (Exception ex2) {
-                        log.error("Failed to rollback the changes : " +
-                                ex2.getMessage(),ex2);
-                    }
-                }
                 throw ex;
+            } finally {
+                try {
+                    utw.release();
+                } catch (Exception ex2) {
+                    log.error("Failed to rollback the changes : " +
+                            ex2.getMessage(),ex2);
+                }
             }
         } catch (InvocationTargetException ex) {
             log.error("An exception was thrown by the sub object : " +
@@ -399,52 +379,19 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
      */
     private Object transactionAddMethod(Method subMethod, Object[] args) throws
             Throwable {
-        boolean ownTransaction = false;
         try {
-            if (ut.getStatus() == Status.STATUS_NO_TRANSACTION) {
-                ut.begin();
-                ownTransaction = true;
-            }
-        } catch (Exception ex) {
-            log.error("Failed to start the transacton : " +
-                    ex.getMessage(),ex);
-            throw new BeanException(
-                    "Failed to start the transacton : " +
-                    ex.getMessage(),ex);
-        }
-        
-        // make the call
-        Object result = null;
-        try {
-            result = subMethod.invoke(subObject,args);
+            utw.begin();
+            Object result = subMethod.invoke(subObject,args);
             if (result == null)
             {
-                if (ownTransaction) {
                     try {
-                        if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                            commitTransaction();
-                        }
+                        utw.commit();
                     } catch (Throwable ex2) {
                         log.error("Failed to commit the changes : " +
                                 ex2.getMessage(),ex2);
                     }
-                }
                 return result;
             }
-        } catch (Throwable ex) {
-            if (ownTransaction) {
-                try {
-                    if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                        ut.rollback();
-                    }
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the changes : " +
-                            ex2.getMessage(),ex2);
-                }
-            }
-            throw ex;
-        }
-        try {
             BeanHandler handler = new BeanHandler(beanInfo, result,
                     beanInfo.getRole(),permissions,classLoader);
             Object proxy = (Object)Proxy.newProxyInstance(
@@ -469,26 +416,21 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                 transactionProxyCache.addCacheEntry(beanInfo.getCacheTimeout(),
                         proxy, handler);
             }
-            if (ownTransaction) {
-                commitTransaction();
-            }
+            utw.commit();
             return proxy;
         } catch (Throwable ex) {
             log.error("Failed to create the proxy return object : " +
                     ex.getMessage(),ex);
-            if (ownTransaction) {
-                try {
-                    if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                        ut.rollback();
-                    }
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the changes : " +
-                            ex2.getMessage(),ex2);
-                }
-            }
             throw new BeanException(
                     "Failed to create the proxy return object : " +
                     ex.getMessage(),ex);
+        } finally {
+            try {
+                utw.release();
+            } catch (Exception ex2) {
+                log.error("Failed to rollback the changes : " +
+                        ex2.getMessage(),ex2);
+            }
         }
     }
     
@@ -568,22 +510,9 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
      */
     private Object transactionFindMethod(Method subMethod, Object[] args) throws
             Throwable {
-        boolean ownTransaction = false;
         try {
-            if (ut.getStatus() == Status.STATUS_NO_TRANSACTION) {
-                ut.begin();
-                ownTransaction = true;
-            }
-        } catch (Exception ex) {
-            log.error("Failed to start the transacton : " +
-                    ex.getMessage(),ex);
-            throw new BeanException(
-                    "Failed to start the transacton : " +
-                    ex.getMessage(),ex);
-        }
-        
-        TransactionBeanCache transactionBeanCache = null;
-        try {
+            utw.begin();
+            TransactionBeanCache transactionBeanCache = null;
             transactionBeanCache = getTransactionBeanCache();
             BeanCacheEntry cacheEntry =
                     transactionBeanCache.getCacheEntry(args[0]);
@@ -599,61 +528,16 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                             getInterfaces(),handler);
                     cacheEntry.setProxy(proxy);
                 }
-                if (ownTransaction) {
-                    commitTransaction();
-                }
+                utw.commit();
                 return cacheEntry.getProxy();
             }
-        } catch (Throwable ex) {
-            log.error("Failed to check the cache : " +
-                    ex.getMessage(),ex);
-            if (ownTransaction) {
-                try {
-                    if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                        ut.rollback();
-                    }
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the changes : " +
-                            ex2.getMessage(),ex2);
-                }
-            }
-            throw new BeanException(
-                    "Failed to check the cache : " +
-                    ex.getMessage(),ex);
-        }
-        
-        Object result = null;
-        try {
+            Object result = null;
             result = subMethod.invoke(subObject,args);
             if (result == null)
             {
-                if (ownTransaction) {
-                    try {
-                        if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                            commitTransaction();
-                        }
-                    } catch (Throwable ex2) {
-                        log.error("Failed to commit the changes : " +
-                                ex2.getMessage(),ex2);
-                    }
-                }
+                utw.commit();
                 return result;
             }
-        } catch (Throwable ex) {
-            if (ownTransaction) {
-                try {
-                    if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                        ut.rollback();
-                    }
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the changes : " +
-                            ex2.getMessage(),ex2);
-                }
-            }
-            throw ex;
-        }
-        
-        try {
             BeanHandler handler = new BeanHandler(beanInfo, result,
                     beanInfo.getRole(),permissions,classLoader);
             Object proxy = (Object)Proxy.newProxyInstance(
@@ -661,26 +545,22 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
                     result.getClass().getInterfaces(),handler);
             transactionBeanCache.addCacheEntry(beanInfo.getCacheTimeout(),
                     args[0], result, proxy, handler);
-            if (ownTransaction) {
-                commitTransaction();
-            }
+            
+            utw.commit();
             return proxy;
         } catch (Throwable ex) {
             log.error("Failed to create the proxy return object : " +
                     ex.getMessage(),ex);
-            if (ownTransaction) {
-                try {
-                    if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                        ut.rollback();
-                    }
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the changes : " +
-                            ex2.getMessage(),ex2);
-                }
-            }
             throw new BeanException(
                     "Failed to create the proxy return object : " +
                     ex.getMessage(),ex);
+        } finally {
+            try {
+                utw.release();
+            } catch (Exception ex2) {
+                log.error("Failed to rollback the changes : " +
+                        ex2.getMessage(),ex2);
+            }
         }
     }
     
@@ -724,61 +604,29 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
      */
     private Object transactionRemoveMethod(Method subMethod, Object[] args)
     throws Throwable {
-        boolean ownTransaction = false;
         try {
-            if (ut.getStatus() == Status.STATUS_NO_TRANSACTION) {
-                ut.begin();
-                ownTransaction = true;
-            }
-        } catch (Exception ex) {
-            log.error("Failed to start the transacton : " +
-                    ex.getMessage(),ex);
-            throw new BeanException(
-                    "Failed to start the transacton : " +
-                    ex.getMessage(),ex);
-        }
-        Object result = null;
-        try {
+            utw.begin();
+            Object result = null;
             result = subMethod.invoke(subObject,args);
-        } catch (Throwable ex) {
-            if (ownTransaction) {
-                try {
-                    if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                        ut.rollback();
-                    }
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the changes : " +
-                            ex2.getMessage(),ex2);
-                }
-            }
-            throw ex;
-        }
-        
-        try {
             TransactionBeanCache transactionBeanCache =
                     getTransactionBeanCache();
             transactionBeanCache.removeCacheEntry(args[0]);
-            if (ownTransaction) {
-                commitTransaction();
-            }
+            utw.commit();
+            return result;
         } catch (Throwable ex) {
             log.error("Failed to remove bean cache entry : " +
                     ex.getMessage(),ex);
-            if (ownTransaction) {
-                try {
-                    if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                        ut.rollback();
-                    }
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the changes : " +
-                            ex2.getMessage(),ex2);
-                }
-            }
             throw new BeanException(
                     "Failed to remove bean cache entry : " +
                     ex.getMessage(),ex);
+        } finally {
+            try {
+                utw.release();
+            } catch (Exception ex2) {
+                log.error("Failed to rollback the changes : " +
+                        ex2.getMessage(),ex2);
+            }
         }
-        return result;
     }
     
     
@@ -871,36 +719,6 @@ public class BeanHandler implements InvocationHandler, CacheEntry {
             throw new BeanException(
                     "Failed to retrieve the key sync cache object ref : " +
                     ex.getMessage(),ex);
-        }
-    }
-    
-    /**
-     * Attempt to commit the transaction
-     *
-     * @param ut The user transaction to commit.
-     */
-    private void commitTransaction() throws Throwable {
-        javax.transaction.TransactionManager jtaTransManager = null;
-        javax.transaction.Transaction transaction = null;
-        try {
-            jtaTransManager = (javax.transaction.TransactionManager)context.
-                    lookup("java:comp/TransactionManager");
-            transaction = jtaTransManager.getTransaction();
-            transaction.commit();
-        } catch (Throwable ex) {
-            log.error("Failed to commit the transaction : " + ex.getMessage(),ex);
-            try {
-                if (transaction != null && transaction.getStatus() != Status.STATUS_ROLLEDBACK
-                      && transaction.getStatus() != Status.STATUS_COMMITTED) {
-                    log.info("Calling rollback to attempt to undo the changes");
-                    transaction.rollback();
-                    log.info("After calling rollback to attempt to undo the changes");
-                }
-            } catch (Exception ex2) {
-                log.error("Failed to rollback a failed commit : " +
-                        ex2.getMessage(),ex2);
-            }
-            throw ex;
         }
     }
     

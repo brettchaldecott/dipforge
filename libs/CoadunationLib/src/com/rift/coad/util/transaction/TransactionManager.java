@@ -41,8 +41,11 @@ import org.apache.log4j.Logger;
 // coadunation imports
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
+import com.rift.coad.lib.transaction.TransactionManagerConnector;
+import com.rift.coad.lib.transaction.TransactionManagerType;
 import com.rift.coad.util.lock.LockRef;
 import com.rift.coad.util.lock.ObjectLockFactory;
+import javax.transaction.Status;
 
 /**
  * This object is responsible for managing the transactions for a group of
@@ -236,8 +239,9 @@ public class TransactionManager implements XAResource {
     private TransactionManager() throws TransactionException {
         try {
             context = new InitialContext();
-            jtaTransManager = (javax.transaction.TransactionManager)context.
-                    lookup("java:comp/TransactionManager");
+            jtaTransManager = 
+                    TransactionManagerConnector.getTransactionManager(
+                            TransactionManagerType.GLOBAL);
             Configuration config = ConfigurationFactory.getInstance().getConfig(
                     this.getClass());
             timeout = (int)config.getLong(TIMEOUT,DEFAULT_TIMEOUT);
@@ -309,6 +313,15 @@ public class TransactionManager implements XAResource {
     public void bindResource(XAResource xaResource, boolean writeLock) throws
             TransactionException {
         try {
+            if (jtaTransManager.getStatus() != Status.STATUS_ACTIVE) {
+                throw new TransactionException(
+                        "There is no active transaction : " +
+                        jtaTransManager.getStatus());
+            }
+            if (jtaTransManager.getTransaction() == null) {
+                throw new TransactionException(
+                        "There is no transaction connected to this jta object.");
+            }
             jtaTransManager.getTransaction().enlistResource(this);
             Xid currentTransactionId = (Xid)threadXID.get();
             Transaction transaction = (Transaction)transactions.get(
@@ -318,6 +331,8 @@ public class TransactionManager implements XAResource {
                 transactions.put(currentTransactionId,transaction);
             }
             transaction.addResource(xaResource,writeLock);
+        } catch (TransactionException ex) {
+            throw ex;
         } catch (Exception ex) {
             log.error("Failed to bind the resource to the transaction " +
                     "manager : " + ex.getMessage(),ex);

@@ -49,7 +49,8 @@ public class BasicSessionManager implements SessionManager {
     private PersistanceManager persistanceManager;
     private OntologyManager ontologyManager;
     private JDOManager jdoManager;
-
+    private Properties properties;
+    
     /**
      * The basic session manager.
      *
@@ -57,6 +58,7 @@ public class BasicSessionManager implements SessionManager {
      */
     public BasicSessionManager(Properties properties) throws SessionException {
         try {
+            this.properties = properties;
             persistanceManager = PersistanceManagerFactory.init(properties);
             ontologyManager = OntologyManagerFactory.init(properties);
             jdoManager = JDOManagerFactory.init(properties);
@@ -108,7 +110,7 @@ public class BasicSessionManager implements SessionManager {
         try {
             PersistanceSession peristanceSession = persistanceManager.getSession();
             OntologySession ontologySession = ontologyManager.getSession();
-            return new BasicSession(peristanceSession,ontologySession,
+            return new BasicSession(properties,peristanceSession,ontologySession,
                     jdoManager.getSession(peristanceSession, ontologySession));
         } catch (Exception ex) {
             log.error("Failed to get a session : " + ex.getMessage(),ex);
@@ -129,7 +131,7 @@ public class BasicSessionManager implements SessionManager {
         try {
             PersistanceSession peristanceSession = persistanceManager.getSession(lock);
             OntologySession ontologySession = ontologyManager.getSession();
-            return new BasicSession(peristanceSession,ontologySession,
+            return new BasicSession(properties,peristanceSession,ontologySession,
                     jdoManager.getSession(peristanceSession, ontologySession));
         } catch (Exception ex) {
             log.error("Failed to get a session : " + ex.getMessage(),ex);

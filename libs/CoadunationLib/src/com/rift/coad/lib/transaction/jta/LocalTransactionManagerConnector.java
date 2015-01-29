@@ -35,7 +35,17 @@ public class LocalTransactionManagerConnector {
      */
     public static synchronized LocalTransactionManager getTransactionManager() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        
+        // walk the parent class loader to find a transaction loader
+        ClassLoader currentLoader = loader;
         LocalTransactionManager manager = managers.get(loader);
+        while (manager == null && currentLoader.getParent() != null) {
+            currentLoader = currentLoader.getParent();
+            manager = managers.get(currentLoader);
+        }
+        
+        // check if a manager was found for the class loader
+        // if not found a new transaction will be created on demand
         if (manager == null) {
             manager = new LocalTransactionManager();
             managers.put(loader, manager);

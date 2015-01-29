@@ -59,7 +59,7 @@ public class LocalTransactionManager implements TransactionManager {
      */
     public void begin() throws NotSupportedException, SystemException {
         if (transactions.get() == null) {
-            transactions.set(new LocalTransaction());
+            transactions.set(new LocalTransaction(this));
         } else {
             transactions.get().incrementReferenceCount();
         }
@@ -88,7 +88,6 @@ public class LocalTransactionManager implements TransactionManager {
                     throw new RollbackException("This exception is in rollback only status");
                 }
                 transaction.commit();
-                transactions.remove();
             }
         } catch (RollbackException ex) {
             throw ex;
@@ -105,7 +104,7 @@ public class LocalTransactionManager implements TransactionManager {
      * @throws SystemException 
      */
     public int getStatus() throws SystemException {
-        int status = Status.STATUS_UNKNOWN;
+        int status = Status.STATUS_NO_TRANSACTION;
         if (transactions.get() != null) {
             status = transactions.get().getStatus();
         }
@@ -152,7 +151,6 @@ public class LocalTransactionManager implements TransactionManager {
         int referenceCount = transaction.decrementReferenceCount();
         if (referenceCount <= 0) {
             transaction.rollback();
-            transactions.remove();
         }
     }
 
@@ -189,6 +187,14 @@ public class LocalTransactionManager implements TransactionManager {
      */
     public Transaction suspend() throws SystemException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    /**
+     * This method is called to remove a transaction
+     */
+    protected void remove() {
+        transactions.remove();
     }
     
 }

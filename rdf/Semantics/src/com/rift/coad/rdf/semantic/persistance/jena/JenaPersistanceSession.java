@@ -60,7 +60,6 @@ public class JenaPersistanceSession implements PersistanceSession {
      */
     protected JenaPersistanceSession(JenaModelWrapper jenaModel, JenaStoreType storeType) {
         this.jenaModel = jenaModel;
-        System.out.println("Create a new session using a store type");
         transaction = new JenaPersistanceTransaction(jenaModel,storeType);
     }
     
@@ -74,7 +73,6 @@ public class JenaPersistanceSession implements PersistanceSession {
     protected JenaPersistanceSession(JenaModelWrapper jenaModel,
             SessionManager.SessionLock lock) {
         this.jenaModel = jenaModel;
-        System.out.println("Create a new session with a lock type : " + lock);
         transaction = new JenaPersistanceTransaction(jenaModel,lock);
     }
 
