@@ -72,10 +72,8 @@ public class ChangeManagerDaemonImpl implements ChangeManagerDaemon {
             Session session = SemanticUtil.getInstance(ChangeManagerDaemonImpl.class).getSession(
                     SessionManager.SessionLock.WRITE_LOCK);
             for (ActionInfo action : actions) {
-                System.out.println("[" + Thread.currentThread().getId() + "]Add the action : " + action.getAction());
                 session.persist(new ActionInfoRDF(action));
                 project = action.getProject();
-                System.out.println("[" + Thread.currentThread().getId() + "]After adding action : " + action.getAction());
             }
             auditLog.complete("Added [%d] actions to project [%s]",
                     actions.size(),project);
