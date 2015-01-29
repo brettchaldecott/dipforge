@@ -90,14 +90,11 @@ public class TransactionScopeFilter implements Filter {
 
         Throwable problem = null;
 
-        System.out.println("Before creating the transaction");
         UserTransactionWrapper userTransaction = null;
         try {
             userTransaction = new UserTransactionWrapper();
-            System.out.println("Begin the transaction");
             userTransaction.begin();
             chain.doFilter(wrappedRequest, wrappedResponse);
-            System.out.println("Commit the changes");
             userTransaction.commit();
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
@@ -108,9 +105,7 @@ public class TransactionScopeFilter implements Filter {
             t.printStackTrace();
         }  finally {
             if (userTransaction != null) {
-                System.out.println("Release the transaction");
                 int count = userTransaction.release();
-                System.out.println("After releasing the transaction [" + count + "]");
             }
         }
 
