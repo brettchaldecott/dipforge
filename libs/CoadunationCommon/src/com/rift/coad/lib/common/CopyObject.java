@@ -57,7 +57,7 @@ public class CopyObject {
                 return null;
             }
             // assume a default constructor
-            System.out.println("Copy the class : " + type.getName());
+            //System.out.println("Copy the class : " + type.getName());
             T result = type.newInstance();
 
             for (Method getter : value.getClass().getMethods()) {
