@@ -29,7 +29,7 @@
             <role>daemon</role>
             <username>daemon</username>
             <cache_timeout>60000</cache_timeout>
-            <transaction>false</transaction>
+            <transaction>true</transaction>
         </bean>
         <bean>
             <interface>com.rift.coad.daemon.timer.TimerEventHandler</interface>

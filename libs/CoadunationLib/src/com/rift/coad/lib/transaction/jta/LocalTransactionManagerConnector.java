@@ -36,20 +36,45 @@ public class LocalTransactionManagerConnector {
     public static synchronized LocalTransactionManager getTransactionManager() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         
-        // walk the parent class loader to find a transaction loader
+        // Find the first manager with a transaction
         ClassLoader currentLoader = loader;
-        LocalTransactionManager manager = managers.get(loader);
-        while (manager == null && currentLoader.getParent() != null) {
-            currentLoader = currentLoader.getParent();
+        LocalTransactionManager manager = null;
+        while (currentLoader != null) {
             manager = managers.get(currentLoader);
+            try {
+                if (manager != null && manager.getTransaction() != null) {
+                    return manager;
+                }
+            } catch (Exception ex) {
+                // failed to 
+                System.out.println("Failed to retrieve the transaction manager " + 
+                        ex.getMessage());
+            }
+            currentLoader = currentLoader.getParent();
+        }
+        
+        // There is no active transaction with any manager
+        // fall back to the first manager.
+        manager = null;
+        currentLoader = loader;
+        while (currentLoader != null) {
+            manager = managers.get(currentLoader);
+            try {
+                if (manager != null) {
+                    return manager;
+                }
+            } catch (Exception ex) {
+                // failed to 
+                System.out.println("Failed to retrieve the transaction manager " + 
+                        ex.getMessage());
+            }
+            currentLoader = currentLoader.getParent();
         }
         
         // check if a manager was found for the class loader
         // if not found a new transaction will be created on demand
-        if (manager == null) {
-            manager = new LocalTransactionManager();
-            managers.put(loader, manager);
-        }
+        manager = new LocalTransactionManager();
+        managers.put(loader, manager);
         return manager;
     }
 }
