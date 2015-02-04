@@ -11,12 +11,14 @@
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/test/com/rift/coad/lib/bean/BeanHandlerTest.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/lib/deployment/rmi/resources/TransactionBasicMethodTemplate.txt</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/test/com/rift/coad/util/lock/ObjectLockFactoryTest.java</file>
+            <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/util/change/ChangeLog.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/util/transaction/TransactionManager.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/lib/bean/TransactionBeanCache.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/lib/transaction/TransactionManagerConnector.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/test/com/rift/coad/lib/transaction/jta/LocalTransactionManagerConnectorTest.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/test/com/rift/coad/util/change/ChangeLogTest.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/lib/transaction/jta/LocalTransaction.java</file>
+            <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/util/change/Change.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/lib/bean/BeanHandler.java</file>
             <file>file:/home/brett/Development/dipforge/libs/CoadunationLib/src/com/rift/coad/util/transaction/UserTransactionWrapper.java</file>
         </group>

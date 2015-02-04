@@ -520,6 +520,7 @@ dependencies {
     releaseGroovyLib "asm:asm-tree:3.2"
     releaseGroovyLib "org.codehaus.groovy.modules:groovyws:0.5.2"
     releaseGroovyLib "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1"
+    releaseGroovyLib "com.paypal.sdk:paypal-core:1.6.6"
     
     // rdf type generator
     releaseRDFTypeGenerator "javax.transaction:jta:1.1"

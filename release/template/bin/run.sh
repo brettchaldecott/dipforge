@@ -69,5 +69,5 @@ fi
 
 
 # run
-echo $JAVA $JAVA_OPTS -Xmx2048M -XX:PermSize=128M -XX:MaxPermSize=256M -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
-$JAVA $JAVA_OPTS -Xmx2048M -XX:PermSize=128M -XX:MaxPermSize=256M -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
+echo $JAVA $JAVA_OPTS -Xmx2048M -XX:PermSize=128M -XX:MaxPermSize=512M -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
+$JAVA $JAVA_OPTS -Xmx2048M -XX:PermSize=128M -XX:MaxPermSize=512M -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
