@@ -179,8 +179,8 @@
             url=jdbc:hsqldb:hsql://@hostname@/coadunation,
             username=sa,
             password=,
-            min=10,
-            max=10
+            min=20,
+            max=50
         </entry>
         <entry key="db_source2" type="string">
             jndi=audit,

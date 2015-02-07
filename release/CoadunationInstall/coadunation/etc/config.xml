@@ -123,8 +123,8 @@
             url=jdbc:hsqldb:hsql://localhost/coadunation,
             username=sa,
             password=,
-            min=25,
-            max=25
+            min=20,
+            max=50
         </entry>
     </object>
     <object name="com.rift.coad.lib.security.login.LoginManager">
