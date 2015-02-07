@@ -96,10 +96,10 @@ public class FeedManagerImpl implements FeedManager, BeanRunnable {
                     event.getUsername(), event.getDescription(), event.getUrl(), event.getApplication(),event.getRole(),
                     new java.sql.Timestamp(new java.util.Date().getTime()));
             
-            session.persist(dbEvent);
+            dbEvent = (DBFeedEvent)session.merge(dbEvent);
             DBFeedEventMeta applicationMeta = new DBFeedEventMeta("x-application", 
                     event.getApplication(), dbEvent);
-            session.persist(applicationMeta);
+            session.merge(applicationMeta);
         } catch (Exception ex) {
             log.error("Failed to register the event :" + ex.getMessage(),ex);
             throw new EventException("Failed to register the event :" + ex.getMessage(),ex);

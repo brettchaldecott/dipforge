@@ -31,6 +31,7 @@ import com.rift.coad.lib.security.SecurityException;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -82,7 +83,7 @@ public class RDBRoleHandler implements RoleHandler {
             transaction.begin();
             Connection connection = getConnection();
             ResultSet result = 
-                    connection.prepareCall("SELECT * FROM CoadunationRole")
+                    connection.prepareStatement("SELECT * FROM CoadunationRole")
                             .executeQuery();
             Map results = new HashMap();
             while(result.next()) {
@@ -126,9 +127,10 @@ public class RDBRoleHandler implements RoleHandler {
             transaction = new UserTransactionWrapper();
             transaction.begin();
             Connection connection = getConnection();
-            CallableStatement cs = connection.prepareCall("SELECT ROLE FROM COADUNATIONROLE WHERE ROLE = ?");
-            cs.setString(1, role);
-            ResultSet rs = cs.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT ROLE FROM COADUNATIONROLE WHERE ROLE = ?");
+            ps.setString(1, role);
+            ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
                return null; 
             }
@@ -156,9 +158,10 @@ public class RDBRoleHandler implements RoleHandler {
      */
     private Role getRole(Connection connection, String role) throws RDBException {
         try {
-            CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONROLEPRINCIPAL WHERE ROLE = ?");
-            cs.setString(1, role);
-            ResultSet rs = cs.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT * FROM COADUNATIONROLEPRINCIPAL WHERE ROLE = ?");
+            ps.setString(1, role);
+            ResultSet rs = ps.executeQuery();
             Set principals = new HashSet();
             while(rs.next()) {
                 String principal = rs.getString("name");

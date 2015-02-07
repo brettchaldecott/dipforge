@@ -103,8 +103,6 @@ class RDFTypeBuilder {
             }
             
             if (XSDDataDictionary.isBasicTypeByURI(classProperty.getType().getURI().toString())) {
-                log.info("#### URI [" + classProperty.getURI().toString() + "][" + 
-                    typeInstance."${propertyName}" + "]")
                 def propertyType = classProperty.getType().getURI().toString();
                 if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(

@@ -70,11 +70,7 @@ public class BasicTransaction implements com.rift.coad.rdf.semantic.Transaction,
         this.ontologySession = ontologySession;
 
         try {
-            log.info("[BasicTransaction] the keys in the properties is [" + properties.keySet().toString() + "]");
-            log.info("[BasicTransaction] the values in the properties is [" + properties.values().toString() + "]");
             TransactionManager transactionManager = TransactionManager.getInstance(properties);
-            log.info("[BasicTransaction] the transaction manager is [" + 
-                    transactionManager.getClass().getName() + "]");
             transactionManager.enlist(this);
         } catch (Exception ex) {
             log.error("Failed to enlist this transaction : " + ex.getMessage(),ex);
