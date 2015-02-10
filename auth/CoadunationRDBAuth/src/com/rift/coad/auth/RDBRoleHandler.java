@@ -127,7 +127,7 @@ public class RDBRoleHandler implements RoleHandler {
             transaction.begin();
             Connection connection = getConnection();
             PreparedStatement ps = connection.prepareStatement(
-                    "SELECT ROLE FROM COADUNATIONROLE WHERE ROLE = ?");
+                    "SELECT ROLE FROM CoadunationRole WHERE ROLE = ?");
             ps.setString(1, role);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
@@ -158,7 +158,7 @@ public class RDBRoleHandler implements RoleHandler {
     private Role getRole(Connection connection, String role) throws RDBException {
         try {
             PreparedStatement ps = connection.prepareStatement(
-                    "SELECT * FROM COADUNATIONROLEPRINCIPAL WHERE ROLE = ?");
+                    "SELECT * FROM CoadunationRolePrincipal WHERE ROLE = ?");
             ps.setString(1, role);
             ResultSet rs = ps.executeQuery();
             Set principals = new HashSet();

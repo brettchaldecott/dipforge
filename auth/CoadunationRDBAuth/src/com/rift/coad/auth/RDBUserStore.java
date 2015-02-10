@@ -117,7 +117,7 @@ public class RDBUserStore implements UserStoreConnector {
                 transaction = new UserTransactionWrapper();
                 transaction.begin();
                 Connection connection = getConnection();
-                PreparedStatement ps = connection.prepareStatement("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM CoadunationUser WHERE USERNAME = ?");
                 ps.setString(1, username);
                 ResultSet rs = ps.executeQuery();
                 if (rs.next() && shaPassword.equals(rs.getString("password"))) {
@@ -175,7 +175,7 @@ public class RDBUserStore implements UserStoreConnector {
             transaction = new UserTransactionWrapper();
             transaction.begin();
             Connection connection = getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM CoadunationUser WHERE USERNAME = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -227,7 +227,7 @@ public class RDBUserStore implements UserStoreConnector {
      */
     private Set getPrincipals(Connection connection, String username) throws RDBException {
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM COADUNATIONUSERPRINCIPAL WHERE USER_COLUMN = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM CoadunationUserPrincipal WHERE USER_COLUMN = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             Set principals = new HashSet();
