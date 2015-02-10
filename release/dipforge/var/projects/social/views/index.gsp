@@ -45,54 +45,6 @@ Author: brett chaldecott
         <div class="span10">
             <ul class="thumbnails">
                 <div id="messageList">
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
-                <li class="span9">
-                    <div class="thumbnail">
-                        <p><b>test</b> 2013-01-22</p>
-                        <p>hello to the world</p>
-                    </div>
-                </li>
                 </div>
             </ul>
         </div>
