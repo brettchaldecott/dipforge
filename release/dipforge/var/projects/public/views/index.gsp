@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Dipforge | Version 4.0.a4</title>
+    <title>Dipforge | Version 4.0.a5</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="brett chaldecott">
@@ -40,7 +40,7 @@
 <body>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="."><image height="30px" width="30px" src="images/dipForgeLogo_small.png"/></a>&nbsp;dipforge&nbsp;4.0.a4
+            <h3 class="muted"><a href="."><image height="30px" width="30px" src="images/dipForgeLogo_small.png"/></a>&nbsp;dipforge&nbsp;4.0.a5
                 <a class="btn btn-medium btn-info pull-right" href="../desktop/" style="margin-right:10px;margin-top:10px;">Sign In</a>
             </h3>
             <div class="navbar">

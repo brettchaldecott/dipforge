@@ -29,7 +29,6 @@ import com.rift.coad.lib.security.Role;
 import com.rift.coad.lib.security.RoleHandler;
 import com.rift.coad.lib.security.SecurityException;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

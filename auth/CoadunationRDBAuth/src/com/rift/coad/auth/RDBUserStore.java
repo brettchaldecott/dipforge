@@ -25,9 +25,9 @@ package com.rift.coad.auth;
 // java imports
 
 // import database
-import com.rift.coad.lib.configuration.ConfigurationFactory;
-import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.auth.util.HashPassword;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.security.UserSession;
 import com.rift.coad.lib.security.login.AuthTypes;
@@ -38,8 +38,8 @@ import com.rift.coad.lib.security.login.LoginInfoHandler;
 import com.rift.coad.lib.security.user.UserException;
 import com.rift.coad.lib.security.user.UserStoreConnector;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
-import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -117,9 +117,9 @@ public class RDBUserStore implements UserStoreConnector {
                 transaction = new UserTransactionWrapper();
                 transaction.begin();
                 Connection connection = getConnection();
-                CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
-                cs.setString(1, username);
-                ResultSet rs = cs.executeQuery();
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
+                ps.setString(1, username);
+                ResultSet rs = ps.executeQuery();
                 if (rs.next() && shaPassword.equals(rs.getString("password"))) {
                     this.user = new UserSession(username,
                              getPrincipals(connection,username));
@@ -175,9 +175,9 @@ public class RDBUserStore implements UserStoreConnector {
             transaction = new UserTransactionWrapper();
             transaction.begin();
             Connection connection = getConnection();
-            CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
-            cs.setString(1, username);
-            ResultSet rs = cs.executeQuery();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM COADUNATIONUSER WHERE USERNAME = ?");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                return new UserSession(username,
                         getPrincipals(connection,username));
@@ -227,9 +227,9 @@ public class RDBUserStore implements UserStoreConnector {
      */
     private Set getPrincipals(Connection connection, String username) throws RDBException {
         try {
-            CallableStatement cs = connection.prepareCall("SELECT * FROM COADUNATIONUSERPRINCIPAL WHERE USER_COLUMN = ?");
-            cs.setString(1, username);
-            ResultSet rs = cs.executeQuery();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM COADUNATIONUSERPRINCIPAL WHERE USER_COLUMN = ?");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
             Set principals = new HashSet();
             while(rs.next()) {
                 String principal = rs.getString("PRINCIPAL");
