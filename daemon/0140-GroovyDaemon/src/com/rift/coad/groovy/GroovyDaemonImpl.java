@@ -24,18 +24,16 @@
 package com.rift.coad.groovy;
 
 // java imports
-import java.rmi.RemoteException;
-
-// log 4j imports
-import org.apache.log4j.Logger;
-
-// coadunation imports
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.dipforge.groovy.lib.ContextInfo;
 import com.rift.dipforge.groovy.lib.GroovyEnvironmentConstants;
 import com.rift.dipforge.groovy.lib.GroovyEnvironmentManager;
 import com.rift.dipforge.groovy.lib.GroovyExecuter;
+import java.io.StringWriter;
+import java.io.PrintWriter;
+import java.rmi.RemoteException;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -95,8 +93,12 @@ public class GroovyDaemonImpl implements GroovyDaemon {
                     new String[0], new String[0]).toString();
         } catch (Exception ex) {
             log.error("Failed to execute the script : " + ex.getMessage(),ex);
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter pw = new PrintWriter(stringWriter);
+            ex.printStackTrace(pw);
             throw new GroovyDaemonException
-                    ("Failed to execute the script : " + ex.getMessage(),ex);
+                    ("Failed to execute the script : " + ex.getMessage(),
+                            stringWriter.toString());
         }
     }
     
