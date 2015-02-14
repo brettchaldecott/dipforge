@@ -1117,6 +1117,11 @@
             $INSTALL_PATH/var/template/files
         </entry>
     </object>
+    <object name="com.rift.dipforge.project.logs.LogViewerImpl">
+        <entry key="logs_directory" type="string">
+            $INSTALL_PATH/log
+        </entry>
+    </object>
     <!-- XML semantic utility configuration -->
     <object name="com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil">
         <entry key="rdf_query_url" type="string">

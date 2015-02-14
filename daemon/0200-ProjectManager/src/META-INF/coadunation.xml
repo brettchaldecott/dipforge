@@ -65,5 +65,14 @@
             <cache_timeout>60000</cache_timeout>
             <transaction>true</transaction>
         </bean>
+        <bean>
+            <interface>com.rift.dipforge.project.logs.LogViewer</interface>
+            <class>com.rift.dipforge.project.logs.LogViewerImpl</class>
+            <bindName>project/logs/LogViewer</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
     </beans>
 </coadunation>

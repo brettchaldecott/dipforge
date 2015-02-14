@@ -31,6 +31,7 @@ dependencies {
     compile project(':client:TimerClient')
     compile project(':rdf:CommonTypes')
     compile project(':libs:ProjectUtils')
+    compile group: 'commons-io', name: 'commons-io', version: '2.4', ext: 'jar'
     releaseJars project(':client:ProjectClient')
     releaseJars project(':client:CoadunationTypeManager')
     releaseJars project(':libs:CoadunationUtil')
