@@ -87,12 +87,14 @@ public class LogViewerImpl implements LogViewer, BeanRunnable {
      * @throws RemoteException 
      */
     public List<String> getLogList() throws LogsException {
-        return Arrays.asList(logsDirectory.list(new FilenameFilter() {
+        List<String> result = new ArrayList<>();
+        result.addAll(Arrays.asList(logsDirectory.list(new FilenameFilter() {
                 public boolean accept(File dir, String name) {
-                    return name.endsWith("log");
+                    return (name.endsWith("log") || name.endsWith("out"));
                 }
             }
-        ));
+        )));
+        return result;
     }
     
     

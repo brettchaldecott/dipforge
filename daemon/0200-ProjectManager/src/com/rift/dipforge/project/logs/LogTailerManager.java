@@ -81,7 +81,7 @@ public class LogTailerManager {
 
         @Override
         public synchronized void handle(String line) {
-            if (this.lines.size() <= BUFFER_SIZE) {
+            if (this.lines.size() >= BUFFER_SIZE) {
                 this.lines.remove(0);
                 this.currentBegin++;
             }

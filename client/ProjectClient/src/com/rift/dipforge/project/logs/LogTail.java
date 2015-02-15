@@ -94,5 +94,18 @@ public class LogTail implements java.io.Serializable {
     public void setLines(String lines) {
         this.lines = lines;
     }
+
+    
+    /**
+     * The to string method.
+     * 
+     * @return to string
+     */
+    @Override
+    public String toString() {
+        return "LogTail{" + "gap=" + gap + ", endLine=" + endLine + ", lines=" + lines + '}';
+    }
+    
+    
     
 }
