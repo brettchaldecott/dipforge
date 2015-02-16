@@ -39,7 +39,7 @@ import java.util.Map;
 public class LogTailerManager {
     
     // class constants
-    private final static int BUFFER_SIZE = 1024;
+    private final static int BUFFER_SIZE = 256;
     private final static String LINE_SEPERATOR = System.getProperty("line.separator");
     
     /**

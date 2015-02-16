@@ -64,13 +64,33 @@ Ext.onReady(function() {
     });
     
     tb.add(combo);
+    tb.add({
+        text: 'Clear',
+        baseParams: {
+            q: 'html+anchor+tag'
+        },
+        tooltip: 'Click this button to clear the log',
+        handler: function(){
+            if (logpanel !== null) {
+                logpanel.clear();
+            }
+        }
+    });
     tb.suspendLayout = false;
     tb.doLayout();
+    
+    
 
 });
 
 
 function selectLog(combo,records,source) {
+    
+    var innerHeight = window.innerHeight - 27;
+    var innerWidth = window.innerWidth;
+    
+    $('#log-contents').css({height : innerHeight, width:innerWidth });
+    
     // clear the existing log panel
     if (logpanel !== null) {
         logpanel.stop();
@@ -117,7 +137,7 @@ function pollLog(file,endLine) {
                 
                 $('#log-contents').append(logResult[0].lines.replace("\n", "\r\n"));
                 // delay and hide the modal
-                if (!logpanel.getFinish()) {
+                if (logpanel !== null && !logpanel.getFinish()) {
                     setTimeout(function () {
                         pollLog(file,logResult[0].endLine);
                     }, 1000 * 3);
