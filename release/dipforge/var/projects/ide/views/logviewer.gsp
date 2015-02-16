@@ -48,6 +48,6 @@
 </head>
     <body> 
         <div id="log-toolbar" style="width:100%;height:27px"></div>
-        <pre id="log-contents" style="width:1000px;height:1000px;overflow:scroll;"></pre>
+        <pre id="log-contents" style="width:100%;height:100%;overflow:auto;"></pre>
     </body>
 </html>
