@@ -76,6 +76,30 @@ Ext.onReady(function() {
             }
         }
     });
+    tb.add({
+        text: 'Stop',
+        baseParams: {
+            q: 'html+anchor+tag'
+        },
+        tooltip: 'Click this button to stop tailing the log',
+        handler: function(){
+            if (logpanel !== null) {
+                logpanel.stop();
+            }
+        }
+    });
+    tb.add({
+        text: 'Re-Start',
+        baseParams: {
+            q: 'html+anchor+tag'
+        },
+        tooltip: 'Click this button to start clearing the log',
+        handler: function(){
+            if (logpanel !== null) {
+                logpanel.start();
+            }
+        }
+    });
     tb.suspendLayout = false;
     tb.doLayout();
     
@@ -122,6 +146,14 @@ var LogTailer = function() {
     this.stop = function() {
         this.finish = true;
     };
+    this.start = function() {
+        if (this.finish === false) {
+            return;
+        }
+        this.finish = false;
+        $('#log-contents').empty();
+        pollLog(this.file,0);
+    };
     this.getFinish = function() {
         return this.finish;
     };
@@ -145,9 +177,11 @@ function pollLog(file,endLine) {
             },
             failure: function(data) {
                 // delay and hide the modal
-                setTimeout(function () {
-                    pollLog(file,endLine);    
-                }, 1000 * 3);
+                if (!logpanel.getFinish()) {
+                    setTimeout(function () {
+                        pollLog(file,endLine);    
+                    }, 1000 * 3);
+                }
             }
         });
 }
