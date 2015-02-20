@@ -25,6 +25,16 @@
 Ext.require(['*']);
 
 var logpanel = null;
+var entityMap = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': '&quot;',
+                "'": '&#39;',
+                "/": '&#x2F;'
+                };
+
+
 
 Ext.onReady(function() {
     
@@ -167,7 +177,7 @@ function pollLog(file,endLine) {
             success: function(data) {
                 var logResult = JSON.parse(data);
                 
-                $('#log-contents').append(logResult[0].lines.replace("\n", "\r\n"));
+                $('#log-contents').append(escapeHtml(logResult[0].lines));
                 // delay and hide the modal
                 if (logpanel !== null && !logpanel.getFinish()) {
                     setTimeout(function () {
@@ -184,4 +194,11 @@ function pollLog(file,endLine) {
                 }
             }
         });
+}
+
+
+function escapeHtml(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+      return entityMap[s];
+    });
 }

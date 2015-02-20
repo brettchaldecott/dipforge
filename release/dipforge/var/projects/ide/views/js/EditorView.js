@@ -20,6 +20,14 @@
  * @author admin
  */
 
+var entityMap = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': '&quot;',
+                "'": '&#39;',
+                "/": '&#x2F;'
+                };
 
 Ext.define('com.dipforge.IDE.Editor', {
     extend: 'Ext.container.Viewport',
@@ -596,6 +604,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                 handler: function() {
                                     Ext.Ajax.request({
                                         url: 'scripts/ExecuteScript.groovy',
+                                        timeout: 1000000,
                                         params: {
                                             project: project,
                                             path: path
@@ -603,7 +612,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         success: function(response) {
                                          	Ext.Msg.show({
 											     title:"Execute the script [" + path + "]",
-											     msg: response.responseText,
+											     msg: escapeHtml(response.responseText),
 											     autoScroll: true,
 											     buttons: Ext.Msg.CANCEL
 											});
@@ -611,7 +620,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                                         failure: function(response) {
  	                                    	Ext.Msg.show({
 											     title:"Failed to execute the script [" + path + "] methods",
-											     msg: response.responseText,
+											     msg: escapeHtml(response.responseText),
 											     autoScroll: true,
 											     buttons: Ext.Msg.CANCEL
 											});
@@ -795,3 +804,8 @@ Ext.define('com.dipforge.IDE.Editor', {
     }
 });
 
+function escapeHtml(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+      return entityMap[s];
+    });
+}
