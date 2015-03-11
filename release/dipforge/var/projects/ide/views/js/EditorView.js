@@ -194,7 +194,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     
                     var el = Ext.get("id|" + id)
                     var editor = ace.edit("id|" + id);
-                    var JavaScriptMode = require(mode).Mode;
+                    var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                     editor.resize();
                     
@@ -312,7 +312,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     
                     var el = Ext.get("id|" + id)
                     var editor = ace.edit("id|" + id);
-                    var JavaScriptMode = require(mode).Mode;
+                    var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
@@ -428,7 +428,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     
                     var el = Ext.get("id|" + id)
                     var editor = ace.edit("id|" + id);
-                    var JavaScriptMode = require(mode).Mode;
+                    var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
@@ -544,7 +544,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     
                     var el = Ext.get("id|" + id)
                     var editor = ace.edit("id|" + id);
-                    var JavaScriptMode = require(mode).Mode;
+                    var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
@@ -670,7 +670,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     
                     var el = Ext.get("id|" + id)
                     var editor = ace.edit("id|" + id);
-                    var JavaScriptMode = require(mode).Mode;
+                    var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
@@ -767,11 +767,11 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editorpanel.removeAll()
                     editorpanel.add(editorPanelContent)
                     
-                    var canon = require("pilot/canon");
+                    var canon = ace.require("pilot/canon");
                     
                     //var el = Ext.get("id|" + id)
                     var editor = ace.edit("id|" + id);
-                    var JavaScriptMode = require(mode).Mode;
+                    var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                     // Fake-Save, works from the editor and the command line.
                     editor.commands.addCommand({
