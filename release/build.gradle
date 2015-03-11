@@ -521,7 +521,10 @@ dependencies {
     releaseGroovyLib "org.codehaus.groovy.modules:groovyws:0.5.2"
     releaseGroovyLib "com.github.groovy-wslite:groovy-wslite:1.1.0"
     releaseGroovyLib "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1"
-    releaseGroovyLib "com.paypal.sdk:paypal-core:1.6.6"
+    //releaseGroovyLib "com.paypal.sdk:paypal-core:1.6.6"
+    releaseGroovyLib 'javax.activation:activation:1.1.1'
+    releaseGroovyLib 'javax.mail:javax.mail-api:1.5.2'
+    releaseGroovyLib "com.sun.mail:javax.mail:1.5.2"
     
     // rdf type generator
     releaseRDFTypeGenerator "javax.transaction:jta:1.1"
