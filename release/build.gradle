@@ -525,6 +525,7 @@ dependencies {
     releaseGroovyLib 'javax.activation:activation:1.1.1'
     releaseGroovyLib 'javax.mail:javax.mail-api:1.5.2'
     releaseGroovyLib "com.sun.mail:javax.mail:1.5.2"
+    releaseGroovyLib "com.coinbase.api:coinbase-java:1.9.1"
     
     // rdf type generator
     releaseRDFTypeGenerator "javax.transaction:jta:1.1"
