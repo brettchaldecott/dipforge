@@ -62,6 +62,26 @@
         <url-pattern>*.ico</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.eot</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.svg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.ttf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.woff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>*.woff2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>TextHtmlServlet</servlet-name>
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
@@ -88,6 +108,10 @@
     <servlet-mapping>
         <servlet-name>TextHtmlServlet</servlet-name>
         <url-pattern>*.less</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TextHtmlServlet</servlet-name>
+        <url-pattern>*.json</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
