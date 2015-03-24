@@ -65,7 +65,30 @@ public class UserTransactionWrapper {
                 transactions = new ArrayList<>();
                 for (TransactionManager manager: transactionManagers) {
                     manager.begin();
-                    transactions.add(manager.getTransaction());
+                    Transaction transaction = manager.getTransaction();
+                    
+                    // if transaction is already committed attempt to create a new one.
+                    // this is a hack to work around the problems seen with the
+                    // data source.
+                    if (transaction.getStatus() == Status.STATUS_COMMITTED) {
+                        try {
+                            transaction.commit();
+                            manager.begin();
+                            transaction = manager.getTransaction();
+                        } catch (Exception ex) {
+                            log.error("Failed to forcibly release "
+                                    + "the transaction : " + ex.getMessage());
+                            try {
+                                transaction.rollback();
+                                manager.begin();
+                                transaction = manager.getTransaction();
+                            } catch (Exception ex2) {
+                                log.error("Failed to forcibly release "
+                                    + "the transaction : " + ex.getMessage());
+                            }
+                        }
+                    }
+                    transactions.add(transaction);
                 }
             } catch (Exception ex) {
                 log.error("Failed to start the transaction : " + ex.getMessage());
