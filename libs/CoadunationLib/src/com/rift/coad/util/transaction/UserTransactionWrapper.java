@@ -230,7 +230,7 @@ public class UserTransactionWrapper {
     private TransactionManager transactionManager = null;
     private TransactionManager localTransactionManager = null;
     private ThreadLocal currentTransaction = new ThreadLocal();
-    private int transactionTimout = 0;
+    private int transactionTimout = 60 * 60 * 1000;
     
     /**
      * Creates a new instance of UserTransactionWrapper
@@ -277,7 +277,14 @@ public class UserTransactionWrapper {
             TransactionInfo trans = (TransactionInfo)currentTransaction.get();
             if (trans == null) {
                 List<TransactionManager> managers = new ArrayList<>();
-                if (transactionManager.getStatus() == Status.STATUS_NO_TRANSACTION) {
+                
+                // check if there is not transaction or if the 
+                // transaction associated with this thread has allready been
+                // committed. If commited we need to start a new transaction
+                // ass all changes will fail to commit
+                if (transactionManager.getStatus() == Status.STATUS_NO_TRANSACTION || 
+                        transactionManager.getStatus() == Status.STATUS_COMMITTED || 
+                        transactionManager.getStatus() == Status.STATUS_ROLLEDBACK) {
                     if (transactionTimout != 0) {
                         transactionManager.setTransactionTimeout(transactionTimout);
                     }
