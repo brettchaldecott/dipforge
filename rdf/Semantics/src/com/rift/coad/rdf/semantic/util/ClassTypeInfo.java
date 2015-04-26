@@ -48,6 +48,8 @@ public class ClassTypeInfo {
             return true;
         } else if (Short.class.equals(c)) {
             return true;
+        } else if (Boolean.class.equals(c)) {
+            return true;
         } else if (c.isPrimitive()) {
             return true;
         }
