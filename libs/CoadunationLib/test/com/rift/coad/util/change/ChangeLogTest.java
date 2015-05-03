@@ -183,11 +183,11 @@ public class ChangeLogTest extends TestCase {
         // init the change log
         ChangeLog.init(ChangeLog.class);
         ChangeLog.getInstance().start();
-        
+        System.out.println("Before sleeping");
         Thread.sleep(500);
-        
+        System.out.println("After sleeping");
         if (changeCount != 10000) {
-            fail("Failed to apply 10000 changes");
+            fail("Failed to apply 10000 changes [" + changeCount + "]");
         }
         
         

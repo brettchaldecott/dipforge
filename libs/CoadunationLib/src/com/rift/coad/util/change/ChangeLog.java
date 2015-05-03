@@ -56,8 +56,10 @@ import com.rift.coad.lib.configuration.ConfigurationException;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.lib.thread.CoadunationThread;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
+import com.rift.coad.util.transaction.TransactionException;
 import com.rift.coad.util.transaction.TransactionManager;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
+import java.util.logging.Level;
 
 /**
  * This object is responsible for applying changes to the database the message
@@ -115,6 +117,129 @@ public class ChangeLog implements XAResource {
     
     
     /**
+     * This object is responsible for managing the batching of changes
+     */
+    public class ChangeLogBatchManager {
+        
+        private ClassLoader currentLoader = null;
+        private ClassLoader changeClassLoader = null;
+        private UserTransactionWrapper utw = null;
+        private long maxBatchSize;
+        private long batchSize = 0;
+        
+        /**
+         * The default constructor
+         */
+        public ChangeLogBatchManager(long maxBatchSize) {
+            this.maxBatchSize = maxBatchSize;
+            try {
+                this.utw = new UserTransactionWrapper();
+            } catch (TransactionException ex) {
+                log.error("Failed to create a user transaction wrapepr : " + 
+                        ex.getMessage(),ex);
+            }
+        }
+        
+        
+        public void beginTransaction(Change change) throws Exception {
+            ClassLoader changeClassLoader = change.getClass().getClassLoader();
+            this.currentLoader = Thread.currentThread().
+                        getContextClassLoader();
+            
+            if (null != this.changeClassLoader && this.changeClassLoader != changeClassLoader) {
+                Thread.currentThread().setContextClassLoader(
+                        this.changeClassLoader);
+                try {
+                    this.utw.commit();
+                } catch (Exception ex) {
+                    log.error("Failed to commit : " + ex.getMessage(),ex);
+                } finally {
+                    this.utw.release();
+                }
+                Thread.currentThread().setContextClassLoader(
+                        this.currentLoader);
+                this.batchSize = 0;
+                this.changeClassLoader = null;
+            }
+            
+            
+            
+            if (this.changeClassLoader == null) {
+                this.changeClassLoader = changeClassLoader;
+                Thread.currentThread().setContextClassLoader(
+                    this.changeClassLoader);
+                utw.begin();
+            } else {
+                Thread.currentThread().setContextClassLoader(
+                    this.changeClassLoader);
+            }
+            
+            
+            
+        }
+        
+        
+        /**
+         * This method is called to commit the batch transaction
+         * 
+         * @throws Exception 
+         */
+        public void commitTransaction() {
+            this.batchSize++;
+            
+            if (this.batchSize > this.maxBatchSize) {
+                try {
+                    this.utw.commit();
+                } catch(Exception ex) {
+                    log.error("Failed to commit the transaction : " + 
+                            ex.getMessage(),ex);
+                } finally {
+                    this.utw.release();
+                }
+                this.batchSize = 0;
+                this.changeClassLoader = null;
+            }
+            
+            Thread.currentThread().setContextClassLoader(
+                        this.currentLoader);
+        }
+        
+        
+        /**
+         * This method is called to force the commit of a change log transaction
+         * 
+         * @throws Exception 
+         */
+        public void forceCommitTransaction() {
+            if (this.changeClassLoader != null) {
+                // logic to handle the class loader if we are called
+                // from an exception
+                if (this.changeClassLoader != Thread.currentThread().
+                        getContextClassLoader()) {
+                    this.currentLoader = Thread.currentThread().
+                        getContextClassLoader();
+                    Thread.currentThread().setContextClassLoader(
+                            this.changeClassLoader);
+                }
+                // try and commit within an exception block so that
+                // the thread context can be reset properly
+                try {
+                    this.utw.commit();
+                } catch (Exception ex) {
+                    log.error("Failed to commit : " + ex.getMessage(),ex);
+                } finally {
+                    this.utw.release();
+                }
+                Thread.currentThread().setContextClassLoader(
+                        this.currentLoader);
+                this.batchSize = 0;
+                this.changeClassLoader = null;
+            }
+        }
+    }
+    
+    
+    /**
      * This object is responsible for processing entries in the change log.
      */
     public class ChangeLogProcessor extends CoadunationThread {
@@ -156,6 +281,12 @@ public class ChangeLog implements XAResource {
                     change = (ChangeEntry)changes.poll();
                     if (change == null) {
                         try {
+                            batchManager.forceCommitTransaction();
+                        } catch (Exception ex) {
+                            log.error("Failed to force the commit of the "
+                                    + "transaction : " + ex.getMessage(),ex);
+                        }
+                        try {
                             changes.wait(500);
                         } catch (Exception ex) {
                             log.error("Failed to wait : " + ex.getMessage(),ex);
@@ -165,6 +296,7 @@ public class ChangeLog implements XAResource {
                 }
                 while(true) {
                     try {
+                        change.setBatchManager(batchManager);
                         change.applyChanges();
                         break;
                     } catch (Exception ex) {
@@ -179,6 +311,13 @@ public class ChangeLog implements XAResource {
                     }
                 }
             }
+            try {
+                batchManager.forceCommitTransaction();
+            } catch (Exception ex) {
+                log.error("Failed to force the commit of the "
+                        + "transaction : " + ex.getMessage(),ex);
+            }
+            
         }
         
         
@@ -210,13 +349,23 @@ public class ChangeLog implements XAResource {
         
         // private member variables
         private List<Change> changes = new ArrayList();
-        
+        transient private ChangeLogBatchManager batchManager;
         
         /**
          * The constructor of
          */
         public ChangeEntry() {
             
+        }
+
+        
+        /**
+         * This method is called to set the batch manager
+         * 
+         * @param batchManager 
+         */
+        protected void setBatchManager(ChangeLogBatchManager batchManager) {
+            this.batchManager = batchManager;
         }
         
         
@@ -239,29 +388,14 @@ public class ChangeLog implements XAResource {
         public void applyChanges() throws ChangeException {
             for (Change change : changes) {
                 // set the class loader
-                ClassLoader currentLoader = Thread.currentThread().
-                        getContextClassLoader();
-                Thread.currentThread().setContextClassLoader(
-                        change.getClass().getClassLoader());
-                UserTransactionWrapper utw = null;
+                
                 try {
-                    utw = new UserTransactionWrapper();
-                    utw.begin();
+                    batchManager.beginTransaction(change);
                     change.applyChanges();
-                    utw.commit();
+                    batchManager.commitTransaction();
                 } catch (Exception ex) {
                     log.error("Failed to apply the changes : " + ex.getMessage(),ex);
-                } finally {
-                    if (utw != null) {
-                        try {
-                            utw.release();
-                        } catch (Exception ex) {
-                            // ignore
-                            log.error("Failed to release : " + ex.getMessage(),ex);
-                        }
-                    }
-                    // reset the class loader
-                    Thread.currentThread().setContextClassLoader(currentLoader);
+                    batchManager.forceCommitTransaction();
                 }
             }
         }
@@ -271,6 +405,8 @@ public class ChangeLog implements XAResource {
     private final static String USERNAME = "changelog_username";
     private final static String DATA_DIR = "changelog_data_dir";
     private final static String DATA_FILE = "changelog.dmp";
+    private final static String CHANGE_LOG_BATCH_SIZE = "change_log_batch_size";
+    private final static long CHANGE_LOG_BATCH_SIZE_DEFAULT = 20;
     
     // the logger reference
     protected static Logger log =
@@ -280,13 +416,13 @@ public class ChangeLog implements XAResource {
     private static Map singletons = new HashMap();
     
     // class member variables
+    private ChangeLogBatchManager batchManager;
     private ThreadStateMonitor state = new ThreadStateMonitor();
     private Map changesMap = new ConcurrentHashMap();
     private ThreadLocal currentChange = new ThreadLocal();
     private ChangeLogProcessor processor = null;
     private Queue changes = new ConcurrentLinkedQueue();
     private String dataDirectory = null;
-    private UserTransactionWrapper utw = null;
     
     
     /**
@@ -296,9 +432,13 @@ public class ChangeLog implements XAResource {
      */
     private ChangeLog(Class configInfo) throws ChangeException {
         try {
-            utw = new UserTransactionWrapper();
+            
             Configuration configuration = ConfigurationFactory.getInstance().
                     getConfig(configInfo);
+            
+            batchManager = new ChangeLogBatchManager(
+                    configuration.getLong(CHANGE_LOG_BATCH_SIZE,
+                            CHANGE_LOG_BATCH_SIZE_DEFAULT));
             dataDirectory = configuration.getString(DATA_DIR);
             loadData();
             applyChanges();
@@ -357,22 +497,18 @@ public class ChangeLog implements XAResource {
     public static void terminate() throws
             ChangeException {
         ChangeLog changeLog = null;
-        log.info("Begin of terminate");
         synchronized(singletons) {
-            log.info("Get change log");
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             changeLog = (ChangeLog)singletons.get(loader);
             if (changeLog == null) {
                 throw new ChangeException(
                         "The change log has not been instanciated.");
             }
-            log.info("Remove change log");
             singletons.remove(loader);
         }
         log.info("Terminate change log");
         changeLog.terminateChangeLog();
         log.info("Change log terminated");
-        
     }
     
     /**
@@ -629,15 +765,12 @@ public class ChangeLog implements XAResource {
             ChangeEntry change = (ChangeEntry)changes.poll();
             while(true) {
                 try {
-                    utw.begin();
+                    change.setBatchManager(batchManager);
                     change.applyChanges();
-                    utw.commit();
                     break;
                 } catch (Exception ex) {
                     log.error("Failed to apply the changes : " +
                             ex.getMessage(),ex);
-                } finally {
-                    utw.release();
                 }
                 try {
                     Thread.sleep(1000);
