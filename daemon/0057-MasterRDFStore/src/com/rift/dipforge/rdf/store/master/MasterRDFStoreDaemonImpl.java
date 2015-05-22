@@ -23,6 +23,8 @@ package com.rift.dipforge.rdf.store.master;
 import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import com.rift.coad.daemon.servicebroker.ServiceBroker;
 import com.rift.coad.lib.bean.BeanRunnable;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.lib.deployment.DeploymentMonitor;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.rdf.semantic.Session;
@@ -98,12 +100,27 @@ public class MasterRDFStoreDaemonImpl implements MasterRDFStoreDaemon, BeanRunna
         
     }
     
+    // class constants
+    private static final String PUSH_TO_SLAVE = "push_to_slave";
+    
+    // private member variables
+    private boolean pushToSlave;
     
     /**
      * The default constructor of the master rdf store.
      */
     public MasterRDFStoreDaemonImpl() {
         MasterRDFStoreStatsManager.getInstance();
+        try {
+            Configuration config = 
+                    ConfigurationFactory.getInstance().
+                            getConfig(MasterRDFStoreDaemonImpl.class);
+            pushToSlave = config.getBoolean(PUSH_TO_SLAVE, true);
+        } catch (Exception ex) {
+            log.error("Failed to retrieve configuration : " + 
+                    ex.getMessage(),ex);
+            pushToSlave = true;
+        }
     }
     
     
@@ -118,15 +135,19 @@ public class MasterRDFStoreDaemonImpl implements MasterRDFStoreDaemon, BeanRunna
     @Override
     public void persist(String action, String rdfXML) throws MasterRDFStoreException, RemoteException {
         try {
+            // add to the local change log
             ChangeLog.getInstance().addChange(new MasterRDFStoreChange(action,rdfXML));
-            List<String> services = new ArrayList<String>();
-            services.add("rdf_store");
+            
             
             // push the changes to the read only stores.
-            RDFStoreDaemonAsync daemon = (RDFStoreDaemonAsync)RPCMessageClient.createOneWay(
-                    "rdf/MasterRDFStoreDaemon", RDFStoreDaemon.class,
-                    RDFStoreDaemonAsync.class, services, true);
-            daemon.persist(action, rdfXML);
+            if (this.pushToSlave) {
+                List<String> services = new ArrayList<String>();
+                services.add("rdf_store");
+                RDFStoreDaemonAsync daemon = (RDFStoreDaemonAsync)RPCMessageClient.createOneWay(
+                        "rdf/MasterRDFStoreDaemon", RDFStoreDaemon.class,
+                        RDFStoreDaemonAsync.class, services, true);
+                daemon.persist(action, rdfXML);
+            }
         } catch (Exception ex) {
             log.error("Failed to add the change : " + ex.getMessage(),ex);
             throw new RemoteException(

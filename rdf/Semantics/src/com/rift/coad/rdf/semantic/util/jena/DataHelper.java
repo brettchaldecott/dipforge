@@ -74,6 +74,8 @@ public class DataHelper {
             return ((XSDDateTime) l.getValue()).asCalendar();
         } else if (c.equals(BigDecimal.class)) {
             return bigDecimal(l);
+        } else if (Integer.TYPE.equals(c)) {
+            return l.getLong();
         } else if (Long.TYPE.equals(c)) {
             return l.getLong();
         } else if (Double.TYPE.equals(c)) {
@@ -175,6 +177,8 @@ public class DataHelper {
         } else if (c.equals(Calendar.class)) {
             return true;
         } else if (c.equals(BigDecimal.class)) {
+            return true;
+        } else if (Integer.TYPE.equals(c)) {
             return true;
         } else if (Long.TYPE.equals(c)) {
             return true;

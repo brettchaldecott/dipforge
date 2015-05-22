@@ -44,4 +44,10 @@ public class PersistanceConstants {
      */
     public final static String STORE_CONFIGURATION_FILE = "store_configuration_file";
     
+    
+    /**
+     * The store url
+     */
+    public final static String STORE_URL = "store_url";
+    
 }

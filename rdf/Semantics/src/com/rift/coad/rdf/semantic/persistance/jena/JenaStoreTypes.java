@@ -55,5 +55,9 @@ public class JenaStoreTypes {
     public final static String XML = "xml";
 
 
-    
+    /**
+     * This store uses http as the backend data store.
+     */
+    public final static String HTTP = "http";
+
 }

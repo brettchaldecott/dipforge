@@ -28,5 +28,6 @@ package com.rift.coad.rdf.semantic.persistance.jena;
 public enum JenaStoreType {
     XML,
     SDB,
-    TDB
+    TDB,
+    HTTP
 }

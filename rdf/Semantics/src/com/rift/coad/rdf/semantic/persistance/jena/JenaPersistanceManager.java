@@ -27,6 +27,7 @@ import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceSession;
+import com.rift.coad.rdf.semantic.persistance.jena.http.JenaHTTPModelFactory;
 import com.rift.coad.rdf.semantic.persistance.jena.sdb.JenaSDBModelFactory;
 import com.rift.coad.rdf.semantic.persistance.jena.tdb.JenaTDBModelFactory;
 import com.rift.coad.rdf.semantic.persistance.jena.xml.JenaXMLModelFactory;
@@ -59,7 +60,8 @@ public class JenaPersistanceManager implements PersistanceManager {
                     "] was not supplied it must be suppiled with one of the following [" +
                     JenaStoreTypes.SDB + "," +
                     JenaStoreTypes.TDB + "," +
-                    JenaStoreTypes.XML + "]");
+                    JenaStoreTypes.XML + "," +
+                    JenaStoreTypes.HTTP + "]");
         }
         if (jenaStoreType.equals(JenaStoreTypes.SDB)) {
             store = JenaSDBModelFactory.createInstance(properties);
@@ -67,12 +69,15 @@ public class JenaPersistanceManager implements PersistanceManager {
             store = JenaTDBModelFactory.createInstance(properties);
         } else if (jenaStoreType.equals(JenaStoreTypes.XML)) {
             store = JenaXMLModelFactory.createInstance(properties);
+        } else if (jenaStoreType.equals(JenaStoreTypes.HTTP)) {
+            store = JenaHTTPModelFactory.createInstance(properties);
         } else {
             throw new PersistanceException("The property [" + JenaStoreTypes.JENA_STORE_TYPE +
                     "] was contained an unknown store type must be one of the following [" +
                     JenaStoreTypes.SDB + "," +
                     JenaStoreTypes.TDB + "," +
-                    JenaStoreTypes.XML + "]");
+                    JenaStoreTypes.XML + "," +
+                    JenaStoreTypes.HTTP + "]");
         }
     }
 
