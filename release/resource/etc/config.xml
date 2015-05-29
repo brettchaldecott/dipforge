@@ -984,6 +984,23 @@
             $INSTALL_PATH/var/groovylib/
         </entry>
     </object>
+    <object name="com.rift.dipforge.groovy.api.WebGroovyServlet">
+        <entry key="dipforge_lib_dir" type="string">
+            $INSTALL_PATH/var/projects/dipforge
+        </entry>
+        <entry key="environment_base" type="string">
+            $INSTALL_PATH/var/projects
+        </entry>
+        <entry key="lib_dir" type="string">
+            lib
+        </entry>
+        <entry key="environment_sub_directories" type="string">
+            controls,services,packages
+        </entry>
+        <entry key="environment_libs_dir" type="string">
+            $INSTALL_PATH/var/groovylib/
+        </entry>
+    </object>
     <object name="com.rift.coad.groovy.GroovyDaemonImpl">
         <entry key="dipforge_lib_dir" type="string">
             $INSTALL_PATH/var/projects/dipforge

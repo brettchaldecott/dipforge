@@ -19,6 +19,7 @@ configurations {
 dependencies {
     releaseJars project(':daemon:0055-RDFStore')
     releaseJars project(':web:DipforgeWeb')
+    releaseJars project(':web:DipforgeAPI')
 }
 
 sourceSets {

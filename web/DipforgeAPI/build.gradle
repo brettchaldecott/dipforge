@@ -1,0 +1,63 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'war'
+
+//version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="DipforgeAPI"
+sourceCompatibility=1.7
+targetCompatibility=1.7
+
+
+configurations {
+    compile
+}
+
+dependencies {
+    compile(ivyDependencies('compile'))
+    compile project(':libs:GroovyLib')
+    compile project(':libs:CoadunationLib')
+    compile project(':rdf:Semantics')
+    compile project(':rdf:CoadunationSemantics')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir './src/java'
+        }
+        resources {
+            srcDir './src/java'
+            srcDir './src/conf'
+        }
+    }
+}
+
+war {
+    def classPath = getClasspath().filter({file -> file.name.contains("classes") ||
+        file.name.contains("GroovyLib") }) 
+    setClasspath(classPath)
+    classpath 'build/classes/main/'
+    from 'web'
+}
+
+artifacts {
+    runtime war
+}
+
+release.dependsOn build
+
+def ivyDependencies(conf) {
+        def dep = []
+
+        def ivyModule = new XmlParser().parse(file("${projectDir}/ivy.xml"))
+
+        ivyModule.dependencies.dependency.each {
+                if(it.@conf == null || it.@conf == conf)
+                        dep.add(it.@org + ':' + it.@name + ':' + it.@rev + ':@jar')
+        }
+
+        return dep
+}
