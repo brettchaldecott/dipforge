@@ -37,8 +37,6 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.transaction.UserTransaction;
-import javax.transaction.Status;
 
 // logging import
 import org.apache.log4j.Logger;
@@ -54,6 +52,7 @@ import com.rift.coad.hibernate.util.HibernateUtil;
 import com.rift.coad.daemon.timer.db.Schedule;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.lib.thread.CoadunationThread;
+import com.rift.coad.util.transaction.UserTransactionWrapper;
 
 // hibernate imports
 import org.hibernate.Session;
@@ -89,26 +88,37 @@ public class TimerImpl implements Timer, BeanRunnable {
          */
         public void process() {
             String jndi = null;
-            UserTransaction ut = null;
             try {
-                ut = (UserTransaction)ctx.lookup("java:comp/UserTransaction");
-                ut.begin();
-
-                Session session = HibernateUtil
-                        .getInstance(com.rift.coad.daemon.timer.TimerImpl.class)
-                        .getSession();
-
-                jndi = (String) row[0];
                 byte[] b_event = (byte[]) row[1];
-                byte recure = ((Byte) row[2]).byteValue();
-                int id = Integer.parseInt(row[3].toString());
-                if (recure == 0) {
-                    session.createQuery(
-                            "DELETE FROM Schedule as sche WHERE " +
-                            "sche.id = ?").
-                            setInteger(0,id).executeUpdate();
+                UserTransactionWrapper utw = new UserTransactionWrapper();
+                try {
+                    utw.begin();
+
+                    Session session = HibernateUtil
+                            .getInstance(com.rift.coad.daemon.timer.TimerImpl.class)
+                            .getSession();
+
+                    jndi = (String) row[0];
+                    b_event = (byte[]) row[1];
+                    byte recure = ((Byte) row[2]).byteValue();
+                    int id = Integer.parseInt(row[3].toString());
+                    if (recure == 0) {
+                        session.createQuery(
+                                "DELETE FROM Schedule as sche WHERE " +
+                                "sche.id = ?").
+                                setInteger(0,id).executeUpdate();
+                    }
+                    utw.commit();
+                } catch (Exception ex) {
+                    log.warn("Failed to process timer event for [" + jndi 
+                        + "] because :" + ex.getMessage(), ex);                   
+                    return;
+                } finally {
+                    utw.release();
                 }
+                
                 Object obj = ctx.lookup(jndi);
+
                 com.rift.coad.daemon.timer.TimerEventHandler
                         beanInterface =
                         (com.rift.coad.daemon.timer.TimerEventHandler)
@@ -119,16 +129,9 @@ public class TimerImpl implements Timer, BeanRunnable {
                 ObjectSerializer.deserialize(b_event);
                 beanInterface.processEvent(event);
 
-                ut.commit();
             } catch (Exception ex) {
                 log.warn("Failed to process timer event for [" + jndi 
                         + "] because :" + ex.getMessage(), ex);
-                try {
-                    ut.rollback();
-                } catch (Exception ex2) {
-                    log.error("Failed to rollback the transaction " +
-                            "event :" + ex2.getMessage(), ex2);
-                }
             }
         }
         
@@ -239,12 +242,11 @@ public class TimerImpl implements Timer, BeanRunnable {
                 break;
             }
             
-            UserTransaction ut = null;
+            UserTransactionWrapper utw = null;
             try {
                 
-                ut = (UserTransaction)ctx.lookup("java:comp/UserTransaction");
-                
-                ut.begin();
+                utw = new UserTransactionWrapper();
+                utw.begin();
                 
                 Session session = HibernateUtil
                         .getInstance(com.rift.coad.daemon.timer.TimerImpl.class)
@@ -271,7 +273,7 @@ public class TimerImpl implements Timer, BeanRunnable {
                 java.util.ArrayList copy = new java.util.ArrayList();
                 copy.addAll(list);
                 
-                ut.commit();
+                utw.commit();
                 
                 for (int index = 0; index < list.size() && !state.isTerminated(); 
                         index++){
@@ -283,11 +285,14 @@ public class TimerImpl implements Timer, BeanRunnable {
             } catch (Exception ex) {
                 log.error("Failed to process timer events :" + ex.getMessage(),
                         ex);
-                try {
-                    ut.rollback();
-                } catch (Exception ex2) {
-                    log.error("Rollback failed because :" + ex2.getMessage(),
-                            ex2);
+                
+            } finally {
+                if (utw != null) {
+                    try {
+                        utw.release();
+                    } catch (Exception ex) {
+                        // ignore
+                    }
                 }
             }
         }
