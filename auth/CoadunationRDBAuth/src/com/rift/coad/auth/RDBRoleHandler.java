@@ -53,7 +53,9 @@ import org.apache.log4j.Logger;
 public class RDBRoleHandler implements RoleHandler {
     
     // private member
-    private Logger log = Logger.getLogger(RDBRoleHandler.class);
+    private static Logger log = Logger.getLogger(RDBRoleHandler.class);
+    private static DataSource ds = null;
+    
     
     /**
      * The constructor of the rdb role handler.
@@ -72,6 +74,7 @@ public class RDBRoleHandler implements RoleHandler {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
         UserTransactionWrapper transaction = null;
+        Connection connection = null;
         try {
             if (!DeploymentMonitor.getInstance().isInitDeployComplete()) {
                 log.info("The deployment has not completed");
@@ -80,7 +83,7 @@ public class RDBRoleHandler implements RoleHandler {
             }
             transaction = new UserTransactionWrapper();
             transaction.begin();
-            Connection connection = getConnection();
+            connection = getConnection();
             ResultSet result = 
                     connection.prepareStatement("SELECT * FROM CoadunationRole")
                             .executeQuery();
@@ -99,6 +102,13 @@ public class RDBRoleHandler implements RoleHandler {
                     ex.getMessage(), ex);
             return new HashMap();
         } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch(Exception ex) {
+                    // ignore
+                }
+            }
             if (transaction != null) {
                 transaction.release();
             }
@@ -119,13 +129,14 @@ public class RDBRoleHandler implements RoleHandler {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
         UserTransactionWrapper transaction = null;
+        Connection connection = null;
         try {
             if (!DeploymentMonitor.getInstance().isInitDeployComplete()) {
                return null;
             } 
             transaction = new UserTransactionWrapper();
             transaction.begin();
-            Connection connection = getConnection();
+            connection = getConnection();
             PreparedStatement ps = connection.prepareStatement(
                     "SELECT ROLE FROM CoadunationRole WHERE ROLE = ?");
             ps.setString(1, role);
@@ -139,6 +150,13 @@ public class RDBRoleHandler implements RoleHandler {
                     ex.getMessage(), ex);
             return null;
         } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch(Exception ex) {
+                    // ignore
+                }
+            }
             if (transaction != null) {
                 transaction.release();
             }
@@ -181,13 +199,15 @@ public class RDBRoleHandler implements RoleHandler {
      * @return The connection to the database.
      * @throws RDBException 
      */
-    private Connection getConnection() throws RDBException {
+    private synchronized static Connection getConnection() throws RDBException {
         try {
-            Context context = new InitialContext();
-            Configuration config = ConfigurationFactory.getInstance().
-                    getConfig(RDBUserStore.class);
-            DataSource ds = (DataSource)context.lookup(
-                    config.getString("DATA_SOURCE","java:comp/env/jdbc/hsqldb"));
+            if (ds == null) {
+                Context context = new InitialContext();
+                Configuration config = ConfigurationFactory.getInstance().
+                        getConfig(RDBUserStore.class);
+                ds = (DataSource)context.lookup(
+                        config.getString("DATA_SOURCE","java:comp/env/jdbc/hsqldb"));
+            }
             return ds.getConnection();
         } catch (Throwable ex) {
             log.error("Failed to retrieve the connection : " + ex.getMessage(),ex);
