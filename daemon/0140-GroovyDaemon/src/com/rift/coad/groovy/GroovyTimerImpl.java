@@ -54,7 +54,7 @@ public class GroovyTimerImpl implements TimerEventHandler {
             TimerException {
         try {
             GroovyDaemon server = (GroovyDaemon)ConnectionManager.getInstance().
-                    getConnection(GroovyDaemon.class, "java:comp/env/bean/groovy/Daemon");
+                    getConnection(GroovyDaemon.class, "groovy/Daemon");
             String info = serializable.toString();
             String[] arguments = info.split(":");
             if (arguments.length == 2) {
