@@ -104,8 +104,9 @@ public class CoadunationThreadGroup {
                 if (threads.get(index) == thread) {
                     log.info("Object equal removing [" 
                             + thread.getId() + "] id [" + 
-                            ((BasicThread)threads.get(index)).getId() + "]");
-                    threads.remove(thread);
+                            ((BasicThread)threads.get(index)).getId() 
+                            + "] index [" + index + "]");
+                    threads.remove(index);
                     break;
                 }
             }

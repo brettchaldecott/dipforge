@@ -108,7 +108,7 @@ public class HibernateUtil implements XAResource {
                     .setProperty("hibernate.connection.datasource",
                     coadConfig.getString(DB_SOURCE))
                     .setProperty("hibernate.connection.release_mode","after_transaction")
-                    //.setProperty("hibernate.transaction.auto_close_session","true")
+                    .setProperty("hibernate.transaction.auto_close_session","true")
                     .setProperty("hibernate.transaction.flush_before_completion","true")
                     .setProperty("hibernate.current_session_context_class","jta")
                     .setProperty("hibernate.transaction.factory_class",

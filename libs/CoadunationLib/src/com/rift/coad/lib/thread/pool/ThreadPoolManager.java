@@ -77,12 +77,18 @@ public class ThreadPoolManager {
                 if (!monitor()) {
                     break;
                 }
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
                 try {
                     Task task = (Task)taskClass.newInstance();
+                    Thread.currentThread().setContextClassLoader(
+                            task.getClass().getClassLoader());
                     task.process(threadPoolManager);
                 } catch (Exception ex) {
                     log.error("Failed to process a task : " + ex.getMessage(),
                             ex);
+                } finally {
+                    Thread.currentThread().setContextClassLoader(
+                            loader);
                 }
                 processing.decrementAndGet();
             }

@@ -74,12 +74,22 @@ public class TimerImpl implements Timer, BeanRunnable {
     public class TimerThread extends CoadunationThread {
         
         // private member variables
-        private Object[] row = null;
+        private TimerImpl timer;
+        private int id;
+        private String jndi;
+        private byte[] b_event;
+        private byte recure;
+        
         /**
          * The constructor of the timer thread
          */
-        public TimerThread(Object[] row) throws Exception {
-            this.row = row;
+        public TimerThread(TimerImpl timer, int id, String jndi, 
+                byte[] b_event, byte recure) throws Exception {
+            this.timer = timer;
+            this.id = id;
+            this.jndi = jndi;
+            this.b_event = b_event;
+            this.recure = recure;
         }
         
         /**
@@ -87,38 +97,14 @@ public class TimerImpl implements Timer, BeanRunnable {
          * object.
          */
         public void process() {
-            String jndi = null;
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            Thread.currentThread().setContextClassLoader(
+                    timer.getClass().getClassLoader());
+            UserTransactionWrapper utw = null;
             try {
-                byte[] b_event = (byte[]) row[1];
-                UserTransactionWrapper utw = new UserTransactionWrapper();
-                try {
-                    utw.begin();
-
-                    Session session = HibernateUtil
-                            .getInstance(com.rift.coad.daemon.timer.TimerImpl.class)
-                            .getSession();
-
-                    jndi = (String) row[0];
-                    b_event = (byte[]) row[1];
-                    byte recure = ((Byte) row[2]).byteValue();
-                    int id = Integer.parseInt(row[3].toString());
-                    if (recure == 0) {
-                        session.createQuery(
-                                "DELETE FROM Schedule as sche WHERE " +
-                                "sche.id = ?").
-                                setInteger(0,id).executeUpdate();
-                    }
-                    utw.commit();
-                } catch (Exception ex) {
-                    log.warn("Failed to process timer event for [" + jndi 
-                        + "] because :" + ex.getMessage(), ex);                   
-                    return;
-                } finally {
-                    utw.release();
-                }
-                
+                utw = new UserTransactionWrapper();
+                utw.begin();
                 Object obj = ctx.lookup(jndi);
-
                 com.rift.coad.daemon.timer.TimerEventHandler
                         beanInterface =
                         (com.rift.coad.daemon.timer.TimerEventHandler)
@@ -128,10 +114,32 @@ public class TimerImpl implements Timer, BeanRunnable {
                 Serializable event = (Serializable)
                 ObjectSerializer.deserialize(b_event);
                 beanInterface.processEvent(event);
-
+                
+                if (recure == 0) {
+                    try {
+                        Session session = HibernateUtil
+                                .getInstance(com.rift.coad.daemon.timer.TimerImpl.class)
+                                .getSession();
+                        session.createQuery(
+                                "DELETE FROM Schedule as sche WHERE " +
+                                "sche.id = ?").
+                                setInteger(0,id).executeUpdate();
+                    } catch (Exception ex) {
+                        log.warn("Failed to remove timer event [" + id 
+                            + "] because :" + ex.getMessage(), ex);
+                    }
+                }
+                
+                utw.commit();
+                
             } catch (Exception ex) {
                 log.warn("Failed to process timer event for [" + jndi 
                         + "] because :" + ex.getMessage(), ex);
+            } finally {
+                if (utw != null){
+                    utw.release();
+                }
+                Thread.currentThread().setContextClassLoader(loader);
             }
         }
         
@@ -254,8 +262,8 @@ public class TimerImpl implements Timer, BeanRunnable {
                 
                 Calendar currentDate = Calendar.getInstance();
                 
-                List list = session.createSQLQuery("SELECT Schedule.jndi, " +
-                        "Schedule.event, Schedule.recure, Schedule.id FROM " +
+                List list = session.createSQLQuery("SELECT Schedule.id, "
+                        + "Schedule.jndi, Schedule.event, Schedule.recure FROM " +
                         "Schedule WHERE " +
                         "(month=? OR month=-1)" +
                         " AND " +
@@ -273,14 +281,16 @@ public class TimerImpl implements Timer, BeanRunnable {
                 java.util.ArrayList copy = new java.util.ArrayList();
                 copy.addAll(list);
                 
-                utw.commit();
                 
                 for (int index = 0; index < list.size() && !state.isTerminated(); 
                         index++){
-                    TimerThread timerThread = new TimerThread((Object[])list.
-                            get(index));
+                    Object[] row = (Object[])list.
+                            get(index);
+                    TimerThread timerThread = new TimerThread(this,(int)row[0],
+                        (String)row[1], (byte[])row[2], (byte)row[3]);
                     timerThread.start(username);
                 }
+                utw.commit();
                 
             } catch (Exception ex) {
                 log.error("Failed to process timer events :" + ex.getMessage(),
