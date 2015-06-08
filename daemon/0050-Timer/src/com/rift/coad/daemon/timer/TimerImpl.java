@@ -52,6 +52,7 @@ import com.rift.coad.hibernate.util.HibernateUtil;
 import com.rift.coad.daemon.timer.db.Schedule;
 import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.lib.thread.CoadunationThread;
+import com.rift.coad.util.connection.ConnectionManager;
 import com.rift.coad.util.transaction.UserTransactionWrapper;
 
 // hibernate imports
@@ -97,20 +98,16 @@ public class TimerImpl implements Timer, BeanRunnable {
          * object.
          */
         public void process() {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader(
-                    timer.getClass().getClassLoader());
             UserTransactionWrapper utw = null;
             try {
                 utw = new UserTransactionWrapper();
                 utw.begin();
-                Object obj = ctx.lookup(jndi);
+                log.info("Finding service [" + jndi + "] to invoke from timer.");
                 com.rift.coad.daemon.timer.TimerEventHandler
-                        beanInterface =
-                        (com.rift.coad.daemon.timer.TimerEventHandler)
-                        PortableRemoteObject.narrow(obj,
-                        com.rift.coad.daemon.timer.
-                        TimerEventHandler.class);
+                        beanInterface = (com.rift.coad.daemon.timer.TimerEventHandler)
+                        ConnectionManager.getInstance().
+                    getConnection(com.rift.coad.daemon.timer.TimerEventHandler.class,
+                            jndi);
                 Serializable event = (Serializable)
                 ObjectSerializer.deserialize(b_event);
                 beanInterface.processEvent(event);
@@ -139,7 +136,6 @@ public class TimerImpl implements Timer, BeanRunnable {
                 if (utw != null){
                     utw.release();
                 }
-                Thread.currentThread().setContextClassLoader(loader);
             }
         }
         
