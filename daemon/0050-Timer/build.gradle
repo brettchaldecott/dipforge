@@ -28,6 +28,7 @@ dependencies {
     releaseJars project(':client:TimerClient')
     releaseJars group: 'org.hibernate', name: 'hibernate-core', version: '3.5.1-Final', ext: 'jar'
     releaseJars project(':libs:CoadunationHibernate')
+    releaseJars project(':libs:CoadunationUtil')
 }
 
 sourceSets {
@@ -49,6 +50,25 @@ task createDir << {
 task copyToJars(type: Copy) {
     into "build/classes/main"
     from configurations.releaseJars
+    exclude "**/*servlet-api*"
+    exclude "**/*groovy*"
+    exclude "**/*log4j*"
+    exclude "**/*jta*"
+    exclude "**/*jotm*"
+    exclude "**/*CoadunationLib*"
+    exclude "**/*CoadunationBase*"
+    exclude "**/*CoadunationCommon*"
+    exclude "**/*CoadunationSecurity*"
+    exclude "**/*CoadunationClient*"
+    exclude "**/*CoadunationAnnotations*"
+    exclude "**/*carol*"
+    exclude "**/*axis*"
+    exclude "**/*httpcore*"
+    exclude "**/*wsdl4j*"
+    exclude "**/*ant*"
+    exclude "**/*avalon-framework*"
+    exclude "**/*commons-logging*"
+    exclude "**/*jacorb*"
 }
 
 jar {
