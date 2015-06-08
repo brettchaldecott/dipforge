@@ -154,8 +154,6 @@ public class BasicThread extends Thread {
                return;
            }
            sessionManager.initSessionForUser(user);
-           //Thread.currentThread().setContextClassLoader(
-           //         this.getClass().getClassLoader());
            process();
        } catch (Exception ex) {
            log.error("Thread failed to processes :" + ex.getMessage(),ex);
@@ -180,15 +178,7 @@ public class BasicThread extends Thread {
                     "method must be over ridden or a BasicRunnable object must be used.");
         }
         System.out.println("Call the runnable object");
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader(
-                    runnable.getClass().getClassLoader());
-        try {
-            runnable.process();
-        } finally {
-            Thread.currentThread().setContextClassLoader(loader);
-        }
-        
+        runnable.process();
         System.out.println("After calling the runnable object");
     }
     
