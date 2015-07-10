@@ -79,8 +79,8 @@ public class TransactionManagerTest extends TestCase {
      */
     public void testGetInstance() throws Exception {
         System.out.println("getInstance");
-        TransactionManager expResult = TransactionManager.getInstance();
-        TransactionManager result = TransactionManager.getInstance();
+        TransactionManager expResult = TransactionManager.getInstance("TDB");
+        TransactionManager result = TransactionManager.getInstance("TDB");
         assertEquals(expResult, result);
         if (!(result instanceof DefaultTransactionManager)) {
             fail("Not the correct transaction manager");

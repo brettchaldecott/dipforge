@@ -6,13 +6,13 @@
  
   <info>
     <appname>Dipforge</appname>
-    <appversion>4.0.rc1</appversion>
-    <appsubpath>dipforge-4.0.rc1</appsubpath>
-    <javaversion>1.6</javaversion>
+    <appversion>4.0.rc2</appversion>
+    <appsubpath>dipforge-4.0.rc2</appsubpath>
+    <javaversion>1.7</javaversion>
     <authors>
-	<author name="Brett Chaldecott" email="brett.chaldecott@gmail.com"/>
+	<author name="Burntjam" email="info@dipforge.net"/>
     </authors>
-    <url>http://dipforge.sourceforge.net/</url>
+    <url>http://dipforge.net/</url>
   </info>
  
   <locale>

@@ -17,6 +17,7 @@ configurations {
 
 dependencies {
     compile(ivyDependencies('compile'))
+    
 }
 
 sourceSets {

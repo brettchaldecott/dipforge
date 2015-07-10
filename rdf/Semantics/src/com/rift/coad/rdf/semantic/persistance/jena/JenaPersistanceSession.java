@@ -97,6 +97,7 @@ public class JenaPersistanceSession implements PersistanceSession {
         try {
             Model tempStore = ModelFactory.createDefaultModel();
             tempStore.read(in, null);
+            
             for (ResIterator node = tempStore.listSubjects(); node.hasNext();) {
                 RDFNode rdfNode = node.next();
                 if (!rdfNode.isResource()) {
@@ -106,17 +107,18 @@ public class JenaPersistanceSession implements PersistanceSession {
                     log.info("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
                     continue;
                 }
-                log.info("####### The node value is [" + rdfNode.toString() + "]");
-                if (jenaModel.getModel().contains(rdfNode.asResource(),null)) {
-                    log.debug("####### The resource [" + rdfNode.toString() +
-                            "] exists remove conflicting values");
-                    // remove conflicting values
-                    Resource resource = jenaModel.getModel().getResource(
-                            rdfNode.asResource().getURI());
-                    resource.removeProperties();
-                }
-                jenaModel.getModel().add(rdfNode.getModel());
+                log.info("####### The remove the node value is [" + rdfNode.toString() + "]");
+                jenaModel.getModel().removeAll(rdfNode.asResource(), null, null);
+//                if (jenaModel.getModel().contains(rdfNode.asResource(),null)) {
+//                    log.debug("####### The resource [" + rdfNode.toString() +
+//                            "] exists remove conflicting values");
+//                    // remove all nodes associated with the subject
+//                    
+//                }
+                
             }
+            // add all statements
+            jenaModel.getModel().add(tempStore.listStatements().toList());
             //jenaModel.getModel().add(tempStore);
             in.close();
         } catch (Exception ex) {
