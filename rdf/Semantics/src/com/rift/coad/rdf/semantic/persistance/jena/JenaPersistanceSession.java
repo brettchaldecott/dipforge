@@ -104,22 +104,14 @@ public class JenaPersistanceSession implements PersistanceSession {
                     continue;
                 }
                 if (!(rdfNode.asResource().listProperties().toList().size() > 1)) {
-                    log.info("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
+                    log.debug("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
                     continue;
                 }
-                log.info("####### The remove the node value is [" + rdfNode.toString() + "]");
+                log.debug("####### The remove the node value is [" + rdfNode.toString() + "]");
                 jenaModel.getModel().removeAll(rdfNode.asResource(), null, null);
-//                if (jenaModel.getModel().contains(rdfNode.asResource(),null)) {
-//                    log.debug("####### The resource [" + rdfNode.toString() +
-//                            "] exists remove conflicting values");
-//                    // remove all nodes associated with the subject
-//                    
-//                }
-                
             }
             // add all statements
             jenaModel.getModel().add(tempStore.listStatements().toList());
-            //jenaModel.getModel().add(tempStore);
             in.close();
         } catch (Exception ex) {
             log.error("Failed to persist the stream : " + ex.getMessage(), ex);
@@ -399,22 +391,12 @@ public class JenaPersistanceSession implements PersistanceSession {
                     continue;
                 }
                 if (!(rdfNode.asResource().listProperties().toList().size() > 1)) {
-                    log.info("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
+                    log.debug("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
                     continue;
                 }
-                log.info("####### The node value is [" + rdfNode.toString() + "]");
-                if (jenaModel.getModel().contains(rdfNode.asResource(),null)) {
-                    log.info("####### The resource [" + rdfNode.toString() +
-                            "] exists and will be removed");
-                    // remove conflicting values
-                    Resource resource = jenaModel.getModel().getResource(
-                            rdfNode.asResource().getURI());
-                    resource.removeProperties();
-                    //jenaModel.getModel().removeAll(resource, resource.listProperties(), rdfNode);
-                }
+                log.debug("####### The remove the node value is [" + rdfNode.toString() + "]");
+                jenaModel.getModel().removeAll(rdfNode.asResource(), null, null);
             }
-            
-            //jenaModel.getModel().remove(tempStore);
             in.close();
         } catch (Exception ex) {
             log.error("Failed to remove the rdf from the store : " + ex.getMessage(), ex);
