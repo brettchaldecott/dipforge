@@ -23,7 +23,6 @@ Author: brett chaldecott
             <ul class="nav">
               <li class="${params.menuItem == "home" ? "active" : ""}" ><a href="#">Home</a></li>
               <li><a href="pckg/">Package</a></li>
-              <li><a href="billing/">Billing</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
