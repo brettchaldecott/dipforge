@@ -9,7 +9,7 @@ Author: Brett Chaldecott
       <hr>
     
       <footer>
-        <p>&copy; Rift IT 2012</p>
+        <p>&copy; Burntjam 2015</p>
       </footer>
 
     </div>    
