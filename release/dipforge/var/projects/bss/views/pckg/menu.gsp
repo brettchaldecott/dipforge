@@ -22,7 +22,6 @@ Author: admin
             <ul class="nav">
               <li><a href="../">Home</a></li>
               <li class="${params.menuItem == "package" ? "active" : ""}" ><a href="#">Package</a></li>
-              <li><a href="../billing/">Billing</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
