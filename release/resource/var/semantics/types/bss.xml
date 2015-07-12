@@ -810,14 +810,14 @@
     <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
   </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
   <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#id">
     <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
     <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
     <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country">
-    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>

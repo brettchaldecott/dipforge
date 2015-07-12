@@ -1,0 +1,5 @@
+*.data binary
+*.idn binary
+*.jrnl binary
+*.dat-jrnl binary
+*.lock binary

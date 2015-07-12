@@ -59,7 +59,7 @@ Ext.define('FeedViewer.App', {
                     height: 40,
                     width: 140,
                     //padding: '0 0 0 0',
-                    url: 'http://dipforge.sourceforge.net/',
+                    url: 'http://dipforge.net/',
                     text: 'dip<span style="color:#b4281a;">forge</span>'
                 },
                 // begin using the right-justified button container

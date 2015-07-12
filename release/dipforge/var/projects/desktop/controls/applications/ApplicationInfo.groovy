@@ -29,6 +29,11 @@ if (result.size() != 1) {
                     url: '/DipforgeWeb/social/'
                  ],
                  [
+                    image: 'images/icon/Admin.png',
+                    title: 'Setup',
+                    url: '/DipforgeWeb/bss/setup/'
+                ],
+                [
                     image: 'images/icon/IDE.png',
                     title: 'IDE',
                     url: '/DipforgeWeb/ide/'

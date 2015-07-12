@@ -1,6 +1,6 @@
 /*
  * bss: Description
- * Copyright (C) Wed Jul 25 14:23:53 SAST 2012 owner 
+ * Copyright (C) Sun Jul 12 09:26:10 SAST 2015 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,22 +16,18 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Setup.groovy
- * @author brett chaldecott
+ * SideBar.groovy
+ * @author admin
  */
 
-package pckg.setup
+package setup
 
 import com.dipforge.utils.PageManager;
-import com.dipforge.semantic.RDF;
 import org.apache.log4j.Logger;
-import com.rift.coad.lib.common.RandomGuid;
-import com.dipforge.request.RequestHandler;
-import com.dipforge.setup.SetupBase
+import com.dipforge.semantic.RDF;
 
+def log = Logger.getLogger("com.dipforge.log.manage.shopping.List");
 
-def log = Logger.getLogger("com.dipforge.log.pckg.setup.Setup");
+def values = request.getAttribute("GROOVY_RESULT")
 
-def setup = new SetupBase()
-
-print setup.executeSetup()
+PageManager.include("sidebar.gsp", request, response)
