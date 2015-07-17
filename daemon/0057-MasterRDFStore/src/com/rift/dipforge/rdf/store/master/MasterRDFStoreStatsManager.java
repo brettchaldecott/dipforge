@@ -23,6 +23,7 @@
 // package path
 package com.rift.dipforge.rdf.store.master;
 
+import com.rift.coad.util.change.ChangeLog;
 import java.util.Date;
 
 /**
@@ -88,9 +89,16 @@ public class MasterRDFStoreStatsManager {
      * @return The string containing the stats information.
      */
     public synchronized String getStats() {
+        int size  = -1;
+        try {
+             size = ChangeLog.getInstance().getLogSize();
+        } catch (Exception ex) {
+            // ignore exception
+        }
         return "Start Time:" + startTime.toString() + "\nNumber Updates: " +
                 numberUpdates + "\nLast Update: " + lastUpdate.toString() +
                 "\nNumber Deletes: " + numberDeletes +
-                "\nLast Delete: " + lastDelete.toString();
+                "\nLast Delete: " + lastDelete.toString()+
+                "\nQueue Size: " + size;
     }
 }

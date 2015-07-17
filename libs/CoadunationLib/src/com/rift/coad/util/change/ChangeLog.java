@@ -277,22 +277,29 @@ public class ChangeLog implements XAResource {
             }
             while(!state.isTerminated()) {
                 ChangeEntry change = null;
-                synchronized(changes) {
-                    change = (ChangeEntry)changes.poll();
-                    if (change == null) {
-                        try {
-                            batchManager.forceCommitTransaction();
-                        } catch (Exception ex) {
-                            log.error("Failed to force the commit of the "
-                                    + "transaction : " + ex.getMessage(),ex);
-                        }
-                        try {
-                            changes.wait(500);
-                        } catch (Exception ex) {
-                            log.error("Failed to wait : " + ex.getMessage(),ex);
-                        }
-                        continue;
+                
+                change = (ChangeEntry)changes.poll();
+                if (change == null) {
+                    try {
+                        batchManager.forceCommitTransaction();
+                    } catch (Exception ex) {
+                        log.error("Failed to force the commit of the "
+                                + "transaction : " + ex.getMessage(),ex);
                     }
+                    // I suspect that the commit is synchronized between 
+                    // threads. So in order to prevent a deadlock between it
+                    // and the lock on changes. I have moved the synchronize below
+                    // the force commit and have added a double check on it.
+                    synchronized(changes) {
+                        if (changes.isEmpty()) {
+                            try {
+                                changes.wait(500);
+                            } catch (Exception ex) {
+                                log.error("Failed to wait : " + ex.getMessage(),ex);
+                            }
+                        }
+                    }
+                    continue;
                 }
                 while(true) {
                     try {
@@ -576,6 +583,15 @@ public class ChangeLog implements XAResource {
         }
     }
     
+    
+    /**
+     * This method returns the size of the change log
+     * 
+     * @return The size of the change log
+     */
+    public int getLogSize() {
+        return changes.size();
+    }
     
     /**
      * This method is called to commit the specified transaction.

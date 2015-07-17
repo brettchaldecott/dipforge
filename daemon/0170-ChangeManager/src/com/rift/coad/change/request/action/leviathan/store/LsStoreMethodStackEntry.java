@@ -217,11 +217,11 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
                                     sourceSubResource.getURI()));
                         } else {
                             String targetUri = sourceSubResource.get(String.class);
-                            log.info("##########################");
-                            log.info("The property URI is : " + propertyURI);
-                            log.info("The property URI is : " + property.getType().getURI());
-                            log.info("The target uri is : " + targetUri);
-                            log.info("##########################");
+                            log.debug("##########################");
+                            log.debug("The property URI is : " + propertyURI);
+                            log.debug("The property URI is : " + property.getType().getURI());
+                            log.debug("The target uri is : " + targetUri);
+                            log.debug("##########################");
                             resultResource.addProperty(propertyURI,
                                     resultSession.createResource(
                                     property.getType().getURI(),
@@ -286,7 +286,7 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
                         resultResource.addProperty(propertyURI,
                                     propertyValue.get(Date.class));
                     } else {
-                        log.info("#### add new resource " + 
+                        log.debug("#### add new resource " + 
                                 propertyValue.get(Resource.class).getURI().toString());
                         resultResource.addProperty(propertyURI,
                                     copyResource(sourceSession,resultSession,
