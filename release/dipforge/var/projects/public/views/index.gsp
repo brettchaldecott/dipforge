@@ -54,13 +54,16 @@
                                 <a href="../desktop/">Desktop</a>
                             </li>
                             <li>
-                                <a href="http://dipforge.sourceforge.net/">Dipforge Site</a>
+                                <a href="http://dipforge.net/">Dipforge</a>
                             </li>
                             <li>
-                                <a href="http://dipforge.sourceforge.net/about-dipforge/">About Dipforge</a>
+                                <a href="http://dipforge.net/introduction-to-dipforge/">Introduction</a>
                             </li>
                             <li>
-                                <a href="http://dipforge.sourceforge.net/documentation/">Documentation</a>
+                                <a href="http://dipforge.net/developing-in-dipforge/">Developing</a>
+                            </li>
+                            <li>
+                                <a href="http://dipforge.net/hello-world-example/">Hello World</a>
                             </li>
                         </ul>
                     </div>
