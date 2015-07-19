@@ -10,7 +10,7 @@
 
 <mapping>
     <!-- example mappings 
-    <jndi name="groovy/Daemon" service="name">
+    <jndi name="groovy/DataMapper" service="name">
         <project name="%project">
             <method class="com.test.name1" name="test1">
                 <parameter name="test1" type="xmltype"/>
@@ -34,7 +34,7 @@
             </method>
         </project>
     </jndi>
-    <jndi name="groovy/Daemon">
+    <jndi name="groovy/DataMapper">
         <project name="%project">
             <method class="com.test.name1" name="test1">
                 <parameter name="test1" type="xmltype"/>
