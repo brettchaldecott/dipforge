@@ -107,8 +107,10 @@ public class JenaPersistanceSession implements PersistanceSession {
                     log.debug("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
                     continue;
                 }
-                log.debug("####### The remove the node value is [" + rdfNode.toString() + "]");
-                jenaModel.getModel().removeAll(rdfNode.asResource(), null, null);
+                if (jenaModel.getModel().contains(rdfNode.asResource(), null)) {
+                    log.debug("####### The remove the node value is [" + rdfNode.toString() + "]");
+                    jenaModel.getModel().removeAll(rdfNode.asResource(), null, null);
+                }
             }
             // add all statements
             jenaModel.getModel().add(tempStore.listStatements().toList());
@@ -394,8 +396,10 @@ public class JenaPersistanceSession implements PersistanceSession {
                     log.debug("####### The rdf node has no properties ignoring it [" + rdfNode.toString() + "]");
                     continue;
                 }
-                log.debug("####### The remove the node value is [" + rdfNode.toString() + "]");
-                jenaModel.getModel().removeAll(rdfNode.asResource(), null, null);
+                if (jenaModel.getModel().contains(rdfNode.asResource(), null)) {
+                    log.debug("####### The remove the node value is [" + rdfNode.toString() + "]");
+                    jenaModel.getModel().removeAll(rdfNode.asResource(), null, null);
+                }
             }
             in.close();
         } catch (Exception ex) {

@@ -21,6 +21,7 @@
 package com.rift.dipforge.project;
 
 import com.rift.coad.daemon.timer.Timer;
+import com.rift.coad.daemon.timer.TimerEvent;
 import com.rift.coad.type.TypeManagerDaemon;
 import com.rift.coad.type.dto.ResourceDefinition;
 import com.rift.coad.util.connection.ConnectionManager;
@@ -65,12 +66,59 @@ public class ProjectTimerManagerImpl implements ProjectTimerManager {
             Timer daemon = (Timer)
                     ConnectionManager.getInstance().getConnection(Timer.class,
                     "timer/Daemon");
+            TimerEvent[] existingTimer = daemon.listEvents();
+            
+            // add new enties
             for (XMLTimerInfoParser.Action action: actions) {
-                daemon.register(action.getJndi(), action.getMonth(), 
-                        action.getDay(), action.getHour(), action.getMinute(), 
-                        parser.getProject() + ":" + action.getScript(), 
-                        action.isRecure());
+                boolean found = false;
+                String script = parser.getProject() + ":" + action.getScript();
+                for (TimerEvent timer : existingTimer) {
+                    String event = (timer.getEvent() != null? timer.getEvent().toString() : null);
+                    if (script.equals(event)
+                            && timer.getMonth() == action.getMonth()
+                            && timer.getDay() == action.getDay()
+                            && timer.getHour() == action.getHour()
+                            && timer.getMinute() == action.getMinute()
+                            && timer.getRecure() == action.isRecure()) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    daemon.register(action.getJndi(), action.getMonth(), 
+                            action.getDay(), action.getHour(), action.getMinute(), 
+                            script,action.isRecure());
+                }
             }
+            
+            // remove
+            for (TimerEvent timer : existingTimer) {
+                String event = (timer.getEvent() != null? timer.getEvent().toString() : null);
+                
+                // check if this event has any thing to do with this project
+                if (event == null || !event.startsWith(parser.getProject() + ":")) {
+                    continue;
+                }
+                
+                // check the new action list
+                boolean found = false;
+                for (XMLTimerInfoParser.Action action: actions) {
+                    String script = parser.getProject() + ":" + action.getScript();
+                    if (script.equals(event)
+                            && timer.getMonth() == action.getMonth()
+                            && timer.getDay() == action.getDay()
+                            && timer.getHour() == action.getHour()
+                            && timer.getMinute() == action.getMinute()
+                            && timer.getRecure() == action.isRecure()) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    daemon.deleteEvent(timer.getId());
+                }
+            }
+            
         } catch (Exception ex) {
             log.error("Failed to publish the types file : " + ex.getMessage(),ex);
             throw new ProjectException
