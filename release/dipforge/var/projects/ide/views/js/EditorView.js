@@ -193,11 +193,16 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editorpanel.add(editorPanelContent)
                     
                     var el = Ext.get("id|" + id)
+                    ace.require("ace/ext/language_tools");
                     var editor = ace.edit("id|" + id);
                     var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,
+                        enableSnippets: true,
+                        enableLiveAutocompletion: false
+                    });
                     editor.resize();
-                    
                     editor.getSession().setUseSoftTabs(true);
                     editor.getSession().setTabSize(4);
                     
@@ -311,9 +316,15 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editorpanel.add(editorPanelContent)
                     
                     var el = Ext.get("id|" + id)
+                    ace.require("ace/ext/language_tools");
                     var editor = ace.edit("id|" + id);
                     var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,
+                        enableSnippets: true,
+                        enableLiveAutocompletion: false
+                    });
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
                     editor.getSession().setTabSize(4);
@@ -427,10 +438,17 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editorpanel.add(editorPanelContent)                    
                     
                     var el = Ext.get("id|" + id)
+                    ace.require("ace/ext/language_tools");
                     var editor = ace.edit("id|" + id);
                     var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,
+                        enableSnippets: true,
+                        enableLiveAutocompletion: false
+                    });
                     editor.resize();
+                    
                     editor.getSession().setUseSoftTabs(true);
                     editor.getSession().setTabSize(4);
                     
@@ -543,9 +561,15 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editorpanel.add(editorPanelContent)                    
                     
                     var el = Ext.get("id|" + id)
+                    ace.require("ace/ext/language_tools");
                     var editor = ace.edit("id|" + id);
                     var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,
+                        enableSnippets: true,
+                        enableLiveAutocompletion: false
+                    });
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
                     editor.getSession().setTabSize(4);
@@ -669,9 +693,15 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editorpanel.add(editorPanelContent)                    
                     
                     var el = Ext.get("id|" + id)
+                    ace.require("ace/ext/language_tools");
                     var editor = ace.edit("id|" + id);
                     var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,
+                        enableSnippets: true,
+                        enableLiveAutocompletion: false
+                    });
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
                     editor.getSession().setTabSize(4);
@@ -770,6 +800,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     var canon = ace.require("pilot/canon");
                     
                     //var el = Ext.get("id|" + id)
+                    ace.require("ace/ext/language_tools");
                     var editor = ace.edit("id|" + id);
                     var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());

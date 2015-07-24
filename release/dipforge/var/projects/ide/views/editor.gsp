@@ -56,7 +56,7 @@
     <script type="text/javascript" src="ace-0.2.0/mode-textile.js" charset="utf-8"></script>
     <script type="text/javascript" src="ace-0.2.0/mode-xml.js" charset="utf-8"></script>
     <script type="text/javascript" src="ace-0.2.0/mode-leviathan.js" charset="utf-8"></script>
-    
+    <script type="text/javascript" src="ace-0.2.0/ext-language_tools.js" charset="utf-8"></script>
     <script type="text/javascript">
         Ext.onReady(function(){
             //var app = new com.dipforge.IDE.App();
