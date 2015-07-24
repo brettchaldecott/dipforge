@@ -1,6 +1,6 @@
 /*
  * ScriptIDE: The coadunation ide for editing scripts in coadunation.
- * Copyright (C) 2010  Rift IT Contracting
+ * Copyright (C) 2010  2015 Burntjam
  *
  * TypeCache.java
  */

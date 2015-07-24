@@ -1,6 +1,6 @@
 /*
  * Coadunation Annotation: The annotations library used by coadunation
- * Copyright (C) 2008  Rift IT Contracting
+ * Copyright (C) 2008  2015 Burntjam
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

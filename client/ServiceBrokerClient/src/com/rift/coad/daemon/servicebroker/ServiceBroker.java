@@ -1,6 +1,6 @@
 /*
  * Service Broker: The class responsible for supplying the service broker interface.
- * Copyright (C) 2006-2007  Rift IT Contracting
+ * Copyright (C) 2006-2007  2015 Burntjam
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

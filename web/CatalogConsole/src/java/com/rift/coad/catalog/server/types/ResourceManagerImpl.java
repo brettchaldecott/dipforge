@@ -1,6 +1,6 @@
 /*
  * CatalogConsole: The catalog console
- * Copyright (C) 2010  Rift IT Contracting
+ * Copyright (C) 2010  2015 Burntjam
  *
  * TypeCache.java
  */
