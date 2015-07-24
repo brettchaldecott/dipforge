@@ -48,6 +48,8 @@
     <script type="text/javascript" src="ace-0.2.0/mode-css.js" charset="utf-8"></script>    
     <script type="text/javascript" src="ace-0.2.0/mode-groovy.js" charset="utf-8"></script>
     <script type="text/javascript" src="ace-0.2.0/mode-html.js" charset="utf-8"></script>
+    <script type="text/javascript" src="ace-0.2.0/mode-jsp.js" charset="utf-8"></script>
+    <script type="text/javascript" src="ace-0.2.0/mode-gsp.js" charset="utf-8"></script>
     <script type="text/javascript" src="ace-0.2.0/mode-java.js" charset="utf-8"></script>
     <script type="text/javascript" src="ace-0.2.0/mode-javascript.js" charset="utf-8"></script>
     <script type="text/javascript" src="ace-0.2.0/mode-json.js" charset="utf-8"></script>
