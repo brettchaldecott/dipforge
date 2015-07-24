@@ -200,7 +200,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editor.setOptions({
                         enableBasicAutocompletion: true,
                         enableSnippets: true,
-                        enableLiveAutocompletion: false
+                        enableLiveAutocompletion: true
                     });
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
@@ -323,7 +323,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editor.setOptions({
                         enableBasicAutocompletion: true,
                         enableSnippets: true,
-                        enableLiveAutocompletion: false
+                        enableLiveAutocompletion: true
                     });
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
@@ -445,7 +445,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editor.setOptions({
                         enableBasicAutocompletion: true,
                         enableSnippets: true,
-                        enableLiveAutocompletion: false
+                        enableLiveAutocompletion: true
                     });
                     editor.resize();
                     
@@ -568,7 +568,7 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editor.setOptions({
                         enableBasicAutocompletion: true,
                         enableSnippets: true,
-                        enableLiveAutocompletion: false
+                        enableLiveAutocompletion: true
                     });
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
@@ -700,8 +700,9 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editor.setOptions({
                         enableBasicAutocompletion: true,
                         enableSnippets: true,
-                        enableLiveAutocompletion: false
+                        enableLiveAutocompletion: true
                     });
+                    
                     editor.resize();
                     editor.getSession().setUseSoftTabs(true);
                     editor.getSession().setTabSize(4);
@@ -797,13 +798,19 @@ Ext.define('com.dipforge.IDE.Editor', {
                     editorpanel.removeAll()
                     editorpanel.add(editorPanelContent)
                     
-                    var canon = ace.require("pilot/canon");
-                    
-                    //var el = Ext.get("id|" + id)
-                    ace.require("ace/ext/language_tools");
+                    var el = Ext.get("id|" + id)
                     var editor = ace.edit("id|" + id);
+                    ace.require("ace/ext/language_tools");
                     var JavaScriptMode = ace.require(mode).Mode;
                     editor.getSession().setMode(new JavaScriptMode());
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,
+                        enableSnippets: true,
+                        enableLiveAutocompletion: true
+                    });
+                    
+                    
+                    
                     // Fake-Save, works from the editor and the command line.
                     editor.commands.addCommand({
                         name: "save",
