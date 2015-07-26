@@ -8,7 +8,7 @@ The Enterprise RAD framework provided by Dipforge is implemented using a Model D
 Dipforge provides the following:
 --------------------------------
 
-    1. A Enterprise RAD platform 
+    1. An Enterprise RAD platform 
     2. Web IDE
     3. Distributed Architecture
     4. Distributed Graph Data Store based on RDF
