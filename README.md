@@ -1,31 +1,24 @@
 The Dipforge project
 ====================
 
-This project is released under LGPL and was orgininaly called Coadunation. It isa project that focuses on providing rapid enterprise development tools. Thus enabling the rapid development and deployment of enterprise level applciations.
+Dipforge is an Open-Source Java Application Server, that specializes in Enterprise RAD(Rapid Application Development), we do for Enterprise Development what Ruby on Rails did for applications, make it quick and easy. Further more Dipforge is based on a daemon framework which makes it possible for Daaemons and j2ee applications to interact seamlessly.
 
-In order to facilitate this it provides the following
+The Enterprise RAD framework provided by Dipforge is implemented using a Model Driven approach that is coupled with an ESB(Enterprise Service Bus). This means that all changes to the data Model information are pushed through the ESB and dramatical simplifies integration and interoperability between systems. Because of this approach it is very simply to implement an Enterprise Canonical Model using Dipforge and as the system is dynamic changes to the model are none braking and can be made at any stage.
 
-    1. A web IDE
-    2. A common type system that makes persistance transparent.
-    3. A workflow system built around actions on the common types.
-    4. An MVC web layer.
-    5. A simple script environment for the development of end points.
+Dipforge provides the following:
+--------------------------------
 
+    1. A Enterprise RAD platform 
+    2. Web IDE
+    3. Distributed Architecture
+    4. Distributed Graph Data Store based on RDF
+    5. Model driven ESB
+    6. Daemon Framework
+    7. J2EE environment seamlessly integrated with Daemon Framework
+    8. Distributed Message queue archtecture
+    9. Distributed service broker architecture
+    10. and lots more ...
 
-To build the application server follow the following steps:
-----------------------------------------------------------
-
-    bash# git clone https://brettchaldecott@github.com/brettchaldecott/dipforge.git  
-    bash# cd dipforge  
-    bash# gradle release  
-    bash# cd release/dipforge/bin  
-    bash# sudo ./run.sh  
-
-I have not tested the build process on windows. It will be the same but the
-last step will require the invocation of the run.bat script. Feel free to try
-it and report any problems.
-
-Note: Dipforge requires root or admin privilages to run properly. This is 
-because it start services such as pop, imap and dns on reserved ports. If you
-do not need these services to function properly than the application server
-does not have to run as super user.
+Installation instructructions:
+------------------------------
+To find instructions on how to install visit our site http://dipforge.net/download-dipforge/.
