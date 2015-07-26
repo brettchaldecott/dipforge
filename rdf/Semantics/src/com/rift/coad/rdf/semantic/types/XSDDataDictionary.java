@@ -53,6 +53,8 @@ public class XSDDataDictionary {
             return new XSDDataType(XSD_NAMESPACE,XSD_FLOAT);
         } else if (name.equalsIgnoreCase(XSD_DOUBLE)) {
             return new XSDDataType(XSD_NAMESPACE,XSD_DOUBLE);
+        } else if (name.equalsIgnoreCase(XSD_DECIMAL)) {
+            return new XSDDataType(XSD_NAMESPACE,XSD_DECIMAL);
         } else if (name.equalsIgnoreCase(XSD_DURATION)) {
             return new XSDDataType(XSD_NAMESPACE,XSD_DURATION);
         } else if (name.equalsIgnoreCase(XSD_INTEGER)) {
@@ -90,6 +92,8 @@ public class XSDDataDictionary {
         } else if (name.equalsIgnoreCase(XSD_FLOAT)) {
             return true;
         } else if (name.equalsIgnoreCase(XSD_DOUBLE)) {
+            return true;
+        } else if (name.equalsIgnoreCase(XSD_DECIMAL)) {
             return true;
         } else if (name.equalsIgnoreCase(XSD_DURATION)) {
             return true;
