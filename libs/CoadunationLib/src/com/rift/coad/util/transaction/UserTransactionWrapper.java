@@ -344,15 +344,16 @@ public class UserTransactionWrapper {
                 return 0;
             }
             int lockCount = trans.unlock();
-            if ((0 == lockCount) && trans.getOwnLock() &&
-                    (transactionManager.getStatus() == Status.STATUS_ACTIVE)) {
+            if ((0 >= lockCount) && trans.getOwnLock()) {
                 // commit the transaction if need be
                 try{
-                    if (trans.getCommitted()) {
-                        trans.commit();
-                    // roll back if not set to commit
-                    } else {
-                        trans.rollback();
+                    if (transactionManager.getStatus() == Status.STATUS_ACTIVE) {
+                        if (trans.getCommitted()) {
+                            trans.commit();
+                        // roll back if not set to commit
+                        } else {
+                            trans.rollback();
+                        }
                     }
                 } finally {
                     currentTransaction.remove();

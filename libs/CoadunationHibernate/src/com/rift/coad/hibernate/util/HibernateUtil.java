@@ -117,7 +117,7 @@ public class HibernateUtil implements XAResource {
                     "java:comp/UserTransaction")
                     .setProperty("hibernate.transaction.manager_lookup_class",
                     "org.hibernate.transaction.JOTMTransactionManagerLookup")
-                    //.setProperty("hibernate.connection.autocommit","false")
+                    .setProperty("hibernate.connection.autocommit","false")
                     //.setProperty("hibernate.cache.provider_class",
                     //"org.hibernate.cache.NoCacheProvider")
                     .setProperty("hibernate.show_sql",
@@ -148,7 +148,7 @@ public class HibernateUtil implements XAResource {
                     "java:comp/UserTransaction")
                     .setProperty("hibernate.transaction.manager_lookup_class",
                     "org.hibernate.transaction.JOTMTransactionManagerLookup")
-                    //.setProperty("hibernate.connection.autocommit","false")
+                    .setProperty("hibernate.connection.autocommit","false")
                     //.setProperty("hibernate.cache.provider_class",
                     //"org.hibernate.cache.NoCacheProvider")
                     //.setProperty("hibernate.jdbc.batch_size","0")
@@ -364,9 +364,9 @@ public class HibernateUtil implements XAResource {
         } else {
             try {
                 session = sessionFactory.openSession();
-                //if (session.connection().getAutoCommit()) {
-                //    session.connection().setAutoCommit(false);
-                //}
+                if (session.connection().getAutoCommit()) {
+                    session.connection().setAutoCommit(false);
+                }
                 sessions.put(xid,session);
             } catch (Exception ex) {
                 log.error("Failed to start the transaction : " 
