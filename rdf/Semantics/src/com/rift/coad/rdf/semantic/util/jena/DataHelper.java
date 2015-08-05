@@ -75,7 +75,7 @@ public class DataHelper {
         } else if (c.equals(BigDecimal.class)) {
             return bigDecimal(l);
         } else if (Integer.TYPE.equals(c)) {
-            return l.getLong();
+            return l.getInt();
         } else if (Long.TYPE.equals(c)) {
             return l.getLong();
         } else if (Double.TYPE.equals(c)) {
@@ -83,6 +83,16 @@ public class DataHelper {
         } else if (Character.TYPE.equals(c)) {
             return l.getValue().toString().charAt(0);
         } else if (Short.TYPE.equals(c)) {
+            return l.getShort();
+        } else if (c.equals(Integer.class)) {
+            return l.getInt();
+        } else if (c.equals(Long.class)) {
+            return l.getLong();
+        } else if (c.equals(Double.class)) {
+            return l.getDouble();
+        } else if (c.equals(Character.class)) {
+            return l.getValue().toString().charAt(0);
+        } else if (c.equals(Short.class)) {
             return l.getShort();
         } else {
             return l.getValue();
@@ -186,7 +196,17 @@ public class DataHelper {
             return true;
         } else if (Character.TYPE.equals(c)) {
             return true;
-        } else if (Short.TYPE.equals(c)) {
+        } else if (c.equals(Short.class)) {
+            return true;
+        } else if (c.equals(Integer.class)) {
+            return true;
+        } else if (c.equals(Long.class)) {
+            return true;
+        } else if (c.equals(Double.class)) {
+            return true;
+        } else if (c.equals(Character.class)) {
+            return true;
+        } else if (c.equals(Short.class)) {
             return true;
         }
         return false;
