@@ -111,8 +111,22 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
         try {
             OntologySession session = this.getSession(resource.getProject());
             URI uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
-            OntologyClass ontologyClass = session.createClass(uri);
-
+            
+            // there is a chance a class has been created
+            // by another object. Rather than recreate the properties
+            OntologyClass ontologyClass = null;
+            if (session.hasClass(uri)) {
+                ontologyClass = session.getClass(uri);
+            } else {
+                ontologyClass = session.createClass(uri);
+            }
+            
+            // remove all the existing propeties
+            for (OntologyProperty  property :ontologyClass.listProperties()) {
+                ontologyClass.removeProperty(property.getURI());
+            }
+            
+            // loop through the resources
             for (String key : resource.getProperties().keySet()) {
                 RDFDataType type = resource.getProperties().get(key);
                 URI propertyURI = 
@@ -132,10 +146,16 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                                 type.getTypeUri()));
                     } else {
                         URI typeURI = new URI(type.getTypeUri());
+                        log.info("Link the property [" + propertyURI + 
+                                "] to type [" + type.getTypeUri() + "] range [" + type.hasRange() + "]");
                         if (session.hasClass(typeURI) || type.hasRange()) {
+                            log.info("The type already exists for [" + propertyURI + 
+                                "] to [" + type.getTypeUri() + "] linking it");
                             property.setType(session.getClass(
                                     typeURI));
                         } else if (!type.hasRange()){
+                            log.info("Set the property type [" + propertyURI + 
+                                "] to [" + type.getTypeUri() + "] this is a linked type");
                             property.setType(
                                 session.createClass(typeURI));
                         }
@@ -167,15 +187,16 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             OntologySession session = this.getSession(resource.getProject());
             uri = new URI(resource.getNamespace() + "#" + resource.getLocalname());
             log.info("Add the property [" + uri + "]");
+            OntologyClass ontologyClass = null;
             if (session.hasClass(uri)) {
-                OntologyClass ontologyClass = session.getClass(uri);
-                List<OntologyProperty> properties = ontologyClass.listProperties();
-                for (OntologyProperty property : properties) {
+                ontologyClass = session.getClass(uri);
+                for (OntologyProperty property : ontologyClass.listProperties()) {
                     session.removeProperty(property.getURI());
                 }
-                session.removeClass(uri);
+                //session.removeClass(uri);
+            } else {
+                ontologyClass = session.createClass(uri);
             }
-            OntologyClass ontologyClass = session.createClass(uri);
             for (String key : resource.getProperties().keySet()) {
                 RDFDataType type = resource.getProperties().get(key);
                 URI propertyURI = 
@@ -200,6 +221,7 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                             property.setType(session.getClass(
                                     typeURI));
                         } else if (!type.hasRange()){
+                            log.info("Add the type uri [" + uri + "]");
                             property.setType(
                                 session.createClass(typeURI));
                         }

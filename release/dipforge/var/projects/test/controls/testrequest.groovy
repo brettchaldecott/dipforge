@@ -28,18 +28,34 @@ import com.rift.coad.lib.common.RandomGuid;
 import com.dipforge.request.RequestHandler;
 
 
-def log = Logger.getLogger("test.index.groovy");
 
-def test1 = RDF.create("http://dipforge.sourceforge.net/test1#type1")
-log.info("Set the values on : " + test1)
-test1.setId(RandomGuid.getInstance().getGuid())
-test1.setProperty1(params.name)
-test1.setProperty2(params.description)
-//test1.setProperty3(params.description)
+def log = Logger.getLogger("com.dipforge.log.test.index.groovy");
 
-log.info("Init the request : " + test1)
-RequestHandler.getInstance("test", "test1", test1).makeRequest()
+try {
 
-
-PageManager.forward("index.gsp", request, response)
+    def test2 = RDF.create("http://dipforge.sourceforge.net/test2#type2")
+    log.info("Set the values on : " + test2)
+    test2.setId(RandomGuid.getInstance().getGuid())
+    test2.setProperty3(params.name)
+    test2.setProperty4(params.description)
+    test2.setProperty5(null)
+    
+    RequestHandler.getInstance("test", "test2", test2).makeRequest()
+    
+    def test1 = RDF.create("http://dipforge.sourceforge.net/test1#type1")
+    log.info("Set the values on : " + test1)
+    test1.setId(RandomGuid.getInstance().getGuid())
+    test1.setProperty1(params.name)
+    test1.setProperty2(params.description)
+    test1.setProperty3(test2)
+    
+    log.info("Init the request : " + test1)
+    RequestHandler.getInstance("test", "test1", test1).makeRequest()
+    
+    
+    PageManager.forward("index.gsp", request, response)
+} catch (Exception ex) {
+    log.error("Failed to make request : ${ex.getMessage()}",ex)
+    throw ex
+}
 
