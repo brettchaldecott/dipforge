@@ -64,7 +64,32 @@ public class UserTransactionWrapper {
             try {
                 transactions = new ArrayList<>();
                 for (TransactionManager manager: transactionManagers) {
-                    manager.begin();
+                    
+                    try {
+                        manager.begin();
+                    } catch (Exception ex) {
+                        // check type of transaction manager
+                        // and attempt a recovery
+                        if (manager instanceof org.objectweb.jotm.Current) {
+                            log.error("If this is a JOTM transaction we will attempt to recover :" +
+                                ex.getMessage(),ex);
+                            // This is a nasty hack and very JOTM specific
+                            // we are going to attempt to clear previous transactions
+                            // from the current transaction manager reference
+                            try {
+                                org.objectweb.jotm.Current current = 
+                                        (org.objectweb.jotm.Current)manager;
+                                current.clearThreadTx();
+                                manager.begin();
+                            } catch (Exception ex2) {
+                                log.error("Failed recover from JOTM internal error : " 
+                                        + ex2.getMessage(),ex2);
+                                throw ex;
+                            }
+                        } else {
+                            throw ex;
+                        }
+                    }
                     Transaction transaction = manager.getTransaction();
                     
                     // if transaction is already committed attempt to create a new one.
@@ -91,9 +116,9 @@ public class UserTransactionWrapper {
                     transactions.add(transaction);
                 }
             } catch (Exception ex) {
-                log.error("Failed to start the transaction : " + ex.getMessage());
+                log.error("Failed to start the transaction : " + ex.getMessage(),ex);
                 throw new TransactionException(
-                    "Failed to start the transaction : " + ex.getMessage());
+                    "Failed to start the transaction : " + ex.getMessage(),ex);
             }
         }
         
@@ -173,17 +198,21 @@ public class UserTransactionWrapper {
                     transaction.commit();
                 } catch (Exception ex) {
                     log.error("Failed to commit the transaction : " + ex.getMessage(),ex);
-                    try {
-                        if (transaction.getStatus() != Status.STATUS_ROLLEDBACK
-                          && transaction.getStatus() != Status.STATUS_COMMITTED) {
-                            log.info("Calling rollback to attempt to undo the changes");
-                            transaction.rollback();
-                            log.info("After calling rollback to attempt to undo the changes");
-                        }
-                    } catch (Exception ex2) {
-                        log.error("Failed to rollback a failed commit : " +
-                                ex2.getMessage(),ex2);
-                    }
+                    // cannot recover from a failed commit
+                    // JOTM internal doesnt support this
+                    // once commited the transaction is lost and removed
+                    // cannot roll back
+//                    try {
+//                        if (transaction.getStatus() != Status.STATUS_ROLLEDBACK
+//                          && transaction.getStatus() != Status.STATUS_COMMITTED) {
+//                            log.info("Calling rollback to attempt to undo the changes");
+//                            transaction.rollback();
+//                            log.info("After calling rollback to attempt to undo the changes");
+//                        }
+//                    } catch (Exception ex2) {
+//                        log.error("Failed to rollback a failed commit : " +
+//                                ex2.getMessage(),ex2);
+//                    }
                     if (exception == null) {
                        exception = ex; 
                     }

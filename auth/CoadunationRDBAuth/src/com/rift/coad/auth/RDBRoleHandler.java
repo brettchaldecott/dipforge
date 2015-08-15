@@ -104,6 +104,11 @@ public class RDBRoleHandler implements RoleHandler {
         } finally {
             if (connection != null) {
                 try {
+                    connection.rollback();
+                } catch (Exception ex) {
+                    //ignore
+                }
+                try {
                     connection.close();
                 } catch(Exception ex) {
                     // ignore
@@ -151,6 +156,11 @@ public class RDBRoleHandler implements RoleHandler {
             return null;
         } finally {
             if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (Exception ex) {
+                    //ignore
+                }
                 try {
                     connection.close();
                 } catch(Exception ex) {
@@ -208,7 +218,9 @@ public class RDBRoleHandler implements RoleHandler {
                 ds = (DataSource)context.lookup(
                         config.getString("DATA_SOURCE","java:comp/env/jdbc/hsqldb"));
             }
-            return ds.getConnection();
+            Connection connection = ds.getConnection();
+            connection.setAutoCommit(false);
+            return connection;
         } catch (Throwable ex) {
             log.error("Failed to retrieve the connection : " + ex.getMessage(),ex);
             throw new RDBException(
