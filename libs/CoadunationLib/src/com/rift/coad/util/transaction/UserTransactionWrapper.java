@@ -66,6 +66,17 @@ public class UserTransactionWrapper {
                 for (TransactionManager manager: transactionManagers) {
                     
                     try {
+                        // if transaction is already committed attempt to create a new one.
+                        // this is a hack to work around the problems seen with the
+                        // data source.
+                        if (transactionManager.getStatus() == Status.STATUS_COMMITTED) {
+                            try {
+                                transactionManager.commit();
+                            } catch (Exception ex) {
+                                log.error("Failed to forcibly release "
+                                        + "the transaction : " + ex.getMessage());
+                            }
+                        }
                         manager.begin();
                     } catch (Exception ex) {
                         // check type of transaction manager
@@ -91,7 +102,6 @@ public class UserTransactionWrapper {
                         }
                     }
                     Transaction transaction = manager.getTransaction();
-                    
                     // if transaction is already committed attempt to create a new one.
                     // this is a hack to work around the problems seen with the
                     // data source.
@@ -103,14 +113,7 @@ public class UserTransactionWrapper {
                         } catch (Exception ex) {
                             log.error("Failed to forcibly release "
                                     + "the transaction : " + ex.getMessage());
-                            try {
-                                transaction.rollback();
-                                manager.begin();
-                                transaction = manager.getTransaction();
-                            } catch (Exception ex2) {
-                                log.error("Failed to forcibly release "
-                                    + "the transaction : " + ex.getMessage());
-                            }
+                            throw ex;
                         }
                     }
                     transactions.add(transaction);
@@ -202,17 +205,17 @@ public class UserTransactionWrapper {
                     // JOTM internal doesnt support this
                     // once commited the transaction is lost and removed
                     // cannot roll back
-//                    try {
-//                        if (transaction.getStatus() != Status.STATUS_ROLLEDBACK
-//                          && transaction.getStatus() != Status.STATUS_COMMITTED) {
-//                            log.info("Calling rollback to attempt to undo the changes");
-//                            transaction.rollback();
-//                            log.info("After calling rollback to attempt to undo the changes");
-//                        }
-//                    } catch (Exception ex2) {
-//                        log.error("Failed to rollback a failed commit : " +
-//                                ex2.getMessage(),ex2);
-//                    }
+                    try {
+                        if (transaction.getStatus() != Status.STATUS_ROLLEDBACK
+                          && transaction.getStatus() != Status.STATUS_COMMITTED) {
+                            log.info("Calling rollback to attempt to undo the changes");
+                            transaction.rollback();
+                            log.info("After calling rollback to attempt to undo the changes");
+                        }
+                    } catch (Exception ex2) {
+                        log.error("Failed to rollback a failed commit : " +
+                                ex2.getMessage(),ex2);
+                    }
                     if (exception == null) {
                        exception = ex; 
                     }
