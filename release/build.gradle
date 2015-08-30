@@ -276,7 +276,7 @@ task copySemanticTemplate(type: Copy) {
     into "${projectDir}/dipforge/var/semantics/"
     include "*.ttl"
     include "*.ttl.sdb"
-    filter(ReplaceTokens, tokens:[hostname: InetAddress.getLocalHost().getHostName()] )
+    filter(ReplaceTokens, tokens:[hostname: InetAddress.getLocalHost().getHostName(), dipforge_home: project.ext.dipforgeHome] )
 }
 
 task copyWebManagerToTomcat(type: Copy) {
