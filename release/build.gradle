@@ -352,6 +352,42 @@ clean {
         delete {
             fileset(dir: "dipforge/var/semantics"){
                 include(name: "**/*.ttl")
+                include(name: "**/*.ttl.sdb")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/audit"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/change"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/data_mapper_broker"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/dipforge_web"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/groovy_daemon"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/master_rdf_store"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/request_broker"){
+                exclude(name: "**/*.keepme")
             }
         }
         delete {
