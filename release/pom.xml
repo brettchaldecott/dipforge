@@ -3,7 +3,7 @@
 
   <groupId>com.dipforge.izpack</groupId>
   <artifactId>dipforge-install</artifactId>
-  <version>4.0.rc6</version>
+  <version>4.0.rc7</version>
 
   <name>Dipforge</name>
   
