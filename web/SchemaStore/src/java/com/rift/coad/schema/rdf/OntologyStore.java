@@ -151,8 +151,9 @@ public class OntologyStore extends HttpServlet {
 
             File schemaDirPath = new File(schemaDir);
             List<File> files =DirectoryUtil.recurseDirectory(schemaDirPath, ".xml");
-            XMLListGenerator generator = new XMLListGenerator(request.getRequestURL().toString(),
-                schemaDirPath.getPath(), files,".xml");
+            XMLListGenerator generator = new XMLListGenerator(
+                    request.getRequestURL().toString().toLowerCase(),
+                    schemaDirPath.getPath(), files,".xml");
             return generator.generateXMLList();
         } catch (Exception ex) {
             log.error("Failed generate the list of reponses : " + ex.getMessage());
