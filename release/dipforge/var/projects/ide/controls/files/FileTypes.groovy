@@ -83,4 +83,7 @@ try {
 }
 log.info("FileTypes " + fileTypes)
 builder(fileTypes)
+
+response.setContentType("application/json");
+
 println builder.toString()

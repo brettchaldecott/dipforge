@@ -136,5 +136,8 @@ def data = [fields:fields,data:resultData,columns:columns]
 
 log.info("Data " + data)
 builder(data)
+
+response.setContentType("application/json");
+
 println builder.toString()
 

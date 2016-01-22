@@ -48,4 +48,6 @@ try {
 def builder = new JsonBuilder()
 builder(feeds)
 
+response.setContentType("application/json");
+
 println builder.toString()

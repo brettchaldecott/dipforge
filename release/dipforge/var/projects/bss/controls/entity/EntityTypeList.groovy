@@ -59,4 +59,5 @@ if (params.node == "root") {
 
 log.debug("Tree " + tree)
 builder(tree)
+response.setContentType("application/json");
 println builder.toString()

@@ -32,4 +32,6 @@ def userFeeds = [
 
 builder(userFeeds)
 
+response.setContentType("application/json");
+
 println builder.toString()

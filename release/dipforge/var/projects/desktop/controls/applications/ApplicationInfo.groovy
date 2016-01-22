@@ -112,4 +112,6 @@ if (result.size() != 1) {
     builder(menu)
 }
 
+response.setContentType("application/json");
+
 println builder.toString()

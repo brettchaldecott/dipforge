@@ -137,4 +137,7 @@ try {
 }
 log.info("Tree " + tree)
 builder(tree)
+
+response.setContentType("application/json");
+
 println builder.toString()

@@ -30,4 +30,7 @@ try {
 }
 
 builder([contents:fileContent.escape()])
+
+response.setContentType("application/json");
+
 println builder.toString()

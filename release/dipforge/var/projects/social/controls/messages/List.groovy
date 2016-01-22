@@ -48,4 +48,5 @@ result.each { row ->
 }
 
 builder(messages)
+response.setContentType("application/json");
 println builder.toString()

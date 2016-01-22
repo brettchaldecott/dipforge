@@ -28,4 +28,7 @@ try {
 }
 
 builder([success:true])
+
+response.setContentType("application/json");
+
 println builder.toString()

@@ -48,5 +48,8 @@ try {
 
 
 log.info("Returning the log results")
+
+response.setContentType("application/json");
+
 println builder.toString()
 

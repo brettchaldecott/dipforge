@@ -50,6 +50,8 @@ try {
 }
 
 builder([success:true])
-println builder.toString()
 
+response.setContentType("application/json");
+
+println builder.toString()
 
