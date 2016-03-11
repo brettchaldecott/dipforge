@@ -107,7 +107,6 @@ public class ClientPasswordInterceptor extends LocalObject implements
      * returned from the server and before control is returned to the client.
      *
      * @param ri The client request information.
-     * @exception ForwardRequest
      */
     public void receive_reply(ClientRequestInfo ri) {
         
@@ -146,7 +145,7 @@ public class ClientPasswordInterceptor extends LocalObject implements
      *
      * @return A byte array of the object.
      * @param ref The reference to the object to serialize.
-     * @exception CommonException
+     * @throws Exception
      */
     public byte[] serialize(Object ref) throws Exception {
         try {

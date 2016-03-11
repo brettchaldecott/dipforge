@@ -38,8 +38,8 @@ public interface MessageHandler extends Remote {
      * @return The processed message. Cannot use IN/OUT as RMI does not support 
      *          it.
      * @param msg The message to perform the processing on.
-     * @exception RemoteException
-     * @exception MessageServiceException
+     * @throws RemoteException
+     * @throws MessageServiceException
      */
     public Message processMessage(Message msg) throws RemoteException, 
             MessageServiceException;

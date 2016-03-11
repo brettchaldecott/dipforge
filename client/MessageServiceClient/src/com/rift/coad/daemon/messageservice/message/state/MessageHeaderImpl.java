@@ -46,8 +46,6 @@ public class MessageHeaderImpl extends MessageHeader {
 
     /**
      * This method is called to init the message header.
-     *
-     * @param message The message session
      */
     public static void initMessageHeader() {
         if (local.get() == null) {
@@ -60,7 +58,7 @@ public class MessageHeaderImpl extends MessageHeader {
      * This method returns the property value identified by the key.
      *
      * @param key The key to return
-     * @return
+     * @return A string property
      */
     public String getProperty(String key) {
         return properties.getProperty(key);

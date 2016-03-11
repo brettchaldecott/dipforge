@@ -52,8 +52,8 @@ public interface MessageServiceManagerMBean extends Remote{
      * This method returns the thread pool size.
      *
      * @return The size of the thread pool.
-     * @exception RemoteException
-     * @exception MessageServiceException
+     * @throws RemoteException
+     * @throws MessageServiceException
      */
     @MethodInfo(description="Returns the current size of the thread pool")
     @Version(number="1.0")
@@ -66,8 +66,8 @@ public interface MessageServiceManagerMBean extends Remote{
      * This method sets the size of the thread pool.
      *
      * @param size The new size of the thread pool.
-     * @exception RemoteException
-     * @exception MessageServiceException
+     * @throws RemoteException
+     * @throws MessageServiceException
      */
     @MethodInfo(description="Sets the size of the thread pool used by the message service")
     @Version(number="1.0")
@@ -80,8 +80,8 @@ public interface MessageServiceManagerMBean extends Remote{
      * This method lists the named queues.
      *
      * @return The list of named queues.
-     * @exception RemoteException
-     * @exception MessageServiceException
+     * @throws RemoteException
+     * @throws MessageServiceException
      */
     @MethodInfo(description="Returns the list of named queues assigned to this message service")
     @Version(number="1.0")
@@ -95,8 +95,8 @@ public interface MessageServiceManagerMBean extends Remote{
      *
      * @return The list of messages for this queue.
      * @param queueName The name of the queue to list messages for.
-     * @exception RemoteException
-     * @exception MessageServiceException
+     * @throws RemoteException
+     * @throws MessageServiceException
      */
     @MethodInfo(description="Returns the list of message for a named queue.")
     @Version(number="1.0")
@@ -111,8 +111,8 @@ public interface MessageServiceManagerMBean extends Remote{
      * This purges the messages from the named queue
      *
      * @param queueName The name of the queue to purge.
-     * @exception RemoteException
-     * @exception MessageServiceException
+     * @throws RemoteException
+     * @throws MessageServiceException
      */
     @MethodInfo(description="Purge the messages from a name queue.")
     @Version(number="1.0")

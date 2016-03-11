@@ -31,7 +31,7 @@ public interface RPCMessage extends Message {
      * This method sets the XML body for the message.
      *
      * @param xml The string containing the formatted xml for the request.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setMethodBodyXML(String xml) throws MessageServiceException;
     
@@ -40,7 +40,7 @@ public interface RPCMessage extends Message {
      * This method returns the XML body of the message.
      *
      * @return The string containing the formatted xml for the request.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getMethodBodyXML() throws MessageServiceException;
     
@@ -51,7 +51,7 @@ public interface RPCMessage extends Message {
      * @param returnType The return type for this message.
      * @param name The name of this method.
      * @param types The types that are arguments to this method.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void defineMethod(Class returnType, String name, Class[] types) 
     throws MessageServiceException;
@@ -61,7 +61,7 @@ public interface RPCMessage extends Message {
      * This method retrieves the return type of a method.
      *
      * @return The object containing the return type information.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Object getReturnType() throws MessageServiceException;
     
@@ -70,7 +70,7 @@ public interface RPCMessage extends Message {
      * This method returns the name of the method being wrapped.
      *
      * @return The string containing the method name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getMethodName() throws MessageServiceException;
     
@@ -79,7 +79,7 @@ public interface RPCMessage extends Message {
      * This method returns the argument types for this method.
      *
      * @return The list of arguments.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Class[] getArgumentTypes() throws MessageServiceException;
     
@@ -88,7 +88,7 @@ public interface RPCMessage extends Message {
      * This method sets the arguments for this message.
      *
      * @param args The arguments to set.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setArguments(Object[] args) throws MessageServiceException;
     
@@ -97,7 +97,7 @@ public interface RPCMessage extends Message {
      * This method returns the arguments for a method.
      *
      * @return The list of arguments.
-     * @exception MessageServiceException.
+     * @throws MessageServiceException
      */
     public Object[] getArguments() throws MessageServiceException;
     
@@ -106,7 +106,7 @@ public interface RPCMessage extends Message {
      * This method returns true if an exception was thrown.
      *
      * @return TRUE if and exception was generated, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean generatedException() throws MessageServiceException;
     
@@ -115,7 +115,7 @@ public interface RPCMessage extends Message {
      * This method returns the result of the RPC call.
      *
      * @return The object returns as a result of the asynchronis call.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Object getResult() throws MessageServiceException;
     
@@ -124,7 +124,7 @@ public interface RPCMessage extends Message {
      * This method is responsible for setting the result of the return.
      *
      * @param result The result of the message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setResult(Object result) throws MessageServiceException;
     
@@ -134,7 +134,7 @@ public interface RPCMessage extends Message {
      * RPC message.
      *
      * @return The exception that got thrown while processing this message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Throwable getThrowable() throws MessageServiceException;
     
@@ -144,7 +144,7 @@ public interface RPCMessage extends Message {
      * RPC message.
      *
      * @param throwable The throwable exception to set.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setThrowable(Throwable throwable) throws MessageServiceException;
 }

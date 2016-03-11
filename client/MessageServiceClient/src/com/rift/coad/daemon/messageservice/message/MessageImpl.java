@@ -93,10 +93,11 @@ public abstract class MessageImpl implements Message, Cloneable {
      * Creates a new instance of MessageImpl.
      *
      * @param messageId The unique id of this message.
-     * @param create The date the message was created.
+     * @param created The date the message was created.
      * @param retries The number of retries of this message.
      * @param processedDate The processed date.
      * @param user The user responsible for this message.
+     * @param sessionId The session id
      * @param principals The list of principals.
      * @param from The from url of the message.
      * @param messageType The message type.
@@ -263,8 +264,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the target of this message.
      *
      * @return The string containing the target information.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public String getTarget() throws MessageServiceException,
             InvalidMessageType {
@@ -275,8 +276,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the target of this message.
      *
      * @param target The string containing the Target URL.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public void setTarget(String target) throws MessageServiceException,
             InvalidMessageType {
@@ -288,8 +289,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the list of services this message targeted at.
      *
      * @return This method returns the list of services.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public String[] getServices() throws MessageServiceException,
             InvalidMessageType {
@@ -301,8 +302,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the list of services this message targeted at.
      *
      * @param services The list of services.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public void setServices(String[] services) throws MessageServiceException,
             InvalidMessageType {
@@ -314,7 +315,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the from address of the message.
      *
      * @return The from address of the message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getFrom() throws MessageServiceException {
         return from;
@@ -324,8 +325,7 @@ public abstract class MessageImpl implements Message, Cloneable {
     /**
      * This method returns the from address of the message.
      *
-     * @return The from address of the message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setFrom(String from) throws MessageServiceException {
         this.from = from;
@@ -337,7 +337,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * URL.
      *
      * @return The string containing the from URL.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getReplyTo() throws MessageServiceException {
         return replyTo;
@@ -348,8 +348,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the reply to URL, it can be different from the from
      * URL.
      *
-     * @return The string containing the from URL.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setReplyTo(String replyTo) throws MessageServiceException {
         this.replyTo = replyTo;
@@ -361,7 +360,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * external process.
      *
      * @return The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getTargetNamedQueue() throws MessageServiceException {
         return targetNamedQueue;
@@ -373,7 +372,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * external process.
      *
      * @param name The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setTargetNamedQueue(String name) throws MessageServiceException {
         this.targetNamedQueue = name;
@@ -385,7 +384,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * external process.
      *
      * @return The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getReplyNamedQueue() throws MessageServiceException {
         return replyNamedQueue;
@@ -397,7 +396,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * external process.
      *
      * @param name The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setReplyNamedQueue(String name) throws MessageServiceException {
         this.replyNamedQueue = name;
@@ -409,7 +408,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * FALSE if it should not.
      *
      * @return TRUE if this message must reply, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean getReply() throws MessageServiceException {
         return reply;
@@ -420,7 +419,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method sets the reply flag.
      *
      * @param value TRUE if a reply is required, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setReply(boolean value) throws MessageServiceException {
         this.reply = value;
@@ -431,7 +430,6 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This message returns the priority of this message.
      *
      * @return The int indicating the priority of this message.
-     * @exception MessageServiceException
      */
     public int getPriority() {
         return priority;
@@ -442,7 +440,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method sets the priority of the message.
      *
      * @param priority The priority of the message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setPriority(int priority) throws MessageServiceException {
         this.priority = priority;
@@ -454,7 +452,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * identifier for this message.
      *
      * @param id The id that will be used as the correlation id.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setCorrelationId(String id) throws MessageServiceException {
         this.correlationId = id;
@@ -465,7 +463,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * The external correlation id for this message.
      *
      * @return The string containing the correllation ID.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getCorrelationId() throws MessageServiceException {
         return correlationId;
@@ -475,7 +473,7 @@ public abstract class MessageImpl implements Message, Cloneable {
     /**
      * This clears the body of the message.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public abstract void clearBody() throws MessageServiceException;
     
@@ -483,7 +481,7 @@ public abstract class MessageImpl implements Message, Cloneable {
     /**
      * This method clears the properties assigned to this message.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void clearProperties() throws MessageServiceException {
         properties.clear();
@@ -495,7 +493,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return TRUE if the property is found, FALSE if not.
      * @param name The name of the property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean containsProperty(String name) throws MessageServiceException {
         return properties.containsKey(name);
@@ -507,8 +505,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the boolean property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public boolean getBooleanProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -526,8 +524,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the byte property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public byte getByteProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -545,8 +543,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the byte property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public double getDoubleProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -564,8 +562,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the float property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public float getFloatProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -583,8 +581,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the int property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public int getIntProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -602,8 +600,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the long property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public long getLongProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -621,8 +619,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the object property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public Object getObjectProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -644,8 +642,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the string property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public String getStringProperty(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -662,8 +660,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return The value of the property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public Object getPropertyValue(String name) throws 
             MessageServiceException, InvalidProperty {
@@ -679,7 +677,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the string property value for the requested name.
      *
      * @return The list of property names
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Enumeration getPropertyNames() throws MessageServiceException {
         return properties.propertyNames();
@@ -691,7 +689,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @return TRUE if the property exists, FALSE if not.
      * @param name The name of the property to look for.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean propertyExists(String name) throws MessageServiceException {
         return properties.containsKey(name);
@@ -703,7 +701,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @param name The name of the property.
      * @param value The value of the boolean property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setBooleanProperty(String name, boolean value) throws 
             MessageServiceException {
@@ -716,7 +714,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @param name The name of the property.
      * @param value The value of the byte property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setByteProperty(String name, byte value) throws 
             MessageServiceException {
@@ -729,7 +727,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @param name The name of the property.
      * @param value The value of the double property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setDoubleProperty(String name, double value) throws 
             MessageServiceException{
@@ -742,7 +740,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @param name The name of the property.
      * @param value The value of the float property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setFloatProperty(String name, float value) throws 
             MessageServiceException {
@@ -755,7 +753,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @param name The name of the property.
      * @param value The value of the int property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setIntProperty(String name, int value) throws 
             MessageServiceException {
@@ -767,8 +765,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method sets the long property value for the name.
      *
      * @param name The name of the property.
-     * @return value The new long value.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setLongProperty(String name, long value) throws 
             MessageServiceException {
@@ -781,8 +778,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @param name The name of the property.
      * @param value The new object value to set.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public void setObjectProperty(String name, Object value) throws 
             MessageServiceException {
@@ -799,8 +796,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method sets the string property value for the name.
      *
      * @param name The name of the property.
-     * @return value The new string value to set.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setStringProperty(String name, String value) throws 
             MessageServiceException {
@@ -813,8 +809,8 @@ public abstract class MessageImpl implements Message, Cloneable {
      *
      * @param name The name of the property.
      * @param value The property value.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public void setPropertyValue(String name,Object value) throws 
             MessageServiceException, InvalidProperty {
@@ -825,7 +821,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method acknowledges that this message has been successfully
      * processed by a target.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void acknowledge() throws MessageServiceException {
         acknowledged = true;
@@ -836,7 +832,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the value of the acknowledged flag for this message.
      *
      * @return TRUE if acknowleded, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean isAcknowledged() throws MessageServiceException {
         return acknowledged;
@@ -847,7 +843,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns the current state of this message.
      *
      * @return The current state of this message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public int getState() throws MessageServiceException {
         return status;
@@ -858,7 +854,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method sets the current state of this message.
      *
      * @param status The new status of this message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setState(int status) throws MessageServiceException {
         this.status = status;
@@ -898,7 +894,7 @@ public abstract class MessageImpl implements Message, Cloneable {
      * This method returns a clone of this object.
      *
      * @return A cloned instance of this object.
-     * @exception CloneNotSupportedException
+     * @throws CloneNotSupportedException
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

@@ -52,7 +52,7 @@ public abstract class MessageHeader {
      * This method returns the property value identified by the key.
      *
      * @param key The key to return
-     * @return
+     * @return A string property
      */
     public abstract String getProperty(String key);
 

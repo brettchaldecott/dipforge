@@ -45,10 +45,10 @@ public class CopyObject {
      * This method is responsible for copying the object value.
      *
      * @param <T>
-     * @param c
      * @param value
+     * @param deepCopy
      * @return
-     * @throws com.rift.coad.rdf.objmapping.util.CommonException
+     * @throws CommonException
      */
     public static <T> T copy(Class<T> type, Object value, boolean deepCopy) throws CommonException {
         try {
@@ -185,7 +185,7 @@ public class CopyObject {
      *
      * @param internalArray The array to be copied
      * @return The resultant object.
-     * @throws com.rift.coad.rdf.objmapping.util.CommonException
+     * @throws CommonException
      */
     public static <T> T[] copyToArray(Class<T> type, Object internalArray) throws CommonException {
         try {

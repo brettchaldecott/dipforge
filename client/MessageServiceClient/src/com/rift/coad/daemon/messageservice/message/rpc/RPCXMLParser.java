@@ -79,7 +79,7 @@ public class RPCXMLParser implements Serializable {
          * @param localName The name of local object.
          * @param qName The quick name
          * @param attributes The attributes associated with this element.
-         * @exception SAXException
+         * @throws SAXException
          */
         public void startElement(String uri, String localName, String qName,
                          Attributes attributes) throws SAXException {
@@ -118,7 +118,7 @@ public class RPCXMLParser implements Serializable {
          * @param uri The uri of the element
          * @param localName The local name of the element. 
          * @param qName The quick name of the element
-         * @exception SAXException
+         * @throws SAXException
          */
         public void endElement(String uri, String localName, String qName) 
                 throws SAXException {
@@ -181,7 +181,7 @@ public class RPCXMLParser implements Serializable {
          *
          * @return The reference to the class definition for the primitive
          * @param name The name of the primitive.
-         * @exception SAXException
+         * @throws SAXException
          */
         private Class getPrimitive(String name) throws SAXException {
             if (name.equals("byte")) {
@@ -220,7 +220,7 @@ public class RPCXMLParser implements Serializable {
      * Creates a new instance of RPCXMLParser.
      *
      * @param rpcXML The string to parse.
-     * @exception RPCXMLException
+     * @throws RPCXMLException
      */
     public RPCXMLParser(String rpcXML) throws RPCXMLException {
         this.rpcXML = rpcXML;
@@ -251,7 +251,6 @@ public class RPCXMLParser implements Serializable {
      * This method returns the return type of the rpc call.
      *
      * @return The object containing the return type.
-     * @exception RPCXMLException
      */
     public Object getReturnType() {
         return returnType;

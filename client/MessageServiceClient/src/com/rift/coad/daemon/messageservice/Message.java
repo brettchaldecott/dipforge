@@ -171,8 +171,8 @@ public interface Message extends Serializable {
      * point to point message.
      *
      * @return The string containing the Target URL.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public String getTarget() throws MessageServiceException, 
             InvalidMessageType;
@@ -182,8 +182,8 @@ public interface Message extends Serializable {
      * This method sets the target of the message.
      *
      * @param target The string containing the Target URL.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public void setTarget(String  target) throws MessageServiceException, 
             InvalidMessageType;
@@ -193,8 +193,8 @@ public interface Message extends Serializable {
      * This method returns the list of services.
      *
      * @return The string array list of services.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public String[] getServices() throws MessageServiceException, 
             InvalidMessageType;
@@ -204,8 +204,8 @@ public interface Message extends Serializable {
      * This method returns the list of services this message targeted at.
      *
      * @param services The list of services.
-     * @exception MessageServiceException
-     * @exception InvalidMessageType
+     * @throws MessageServiceException
+     * @throws InvalidMessageType
      */
     public void setServices(String[] services) throws MessageServiceException,
             InvalidMessageType;
@@ -215,7 +215,7 @@ public interface Message extends Serializable {
      * This method returns the from URL of a message.
      *
      * @return The string containing the from URL.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getFrom() throws MessageServiceException;
     
@@ -223,8 +223,7 @@ public interface Message extends Serializable {
     /**
      * This method returns the from address of the message.
      *
-     * @return The from address of the message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setFrom(String from) throws MessageServiceException;
     
@@ -234,7 +233,7 @@ public interface Message extends Serializable {
      * URL.
      *
      * @return The string containing the from URL.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getReplyTo() throws MessageServiceException;
     
@@ -243,8 +242,7 @@ public interface Message extends Serializable {
      * This method returns the reply to URL, it can be different from the from
      * URL.
      *
-     * @return The string containing the from URL.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setReplyTo(String replyTo) throws MessageServiceException;
     
@@ -253,7 +251,7 @@ public interface Message extends Serializable {
      * This method gets the target named queue.
      *
      * @return The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getTargetNamedQueue() throws MessageServiceException;
     
@@ -262,7 +260,7 @@ public interface Message extends Serializable {
      * This method sets the target named queue.
      *
      * @param name The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setTargetNamedQueue(String name) throws MessageServiceException;
     
@@ -272,7 +270,7 @@ public interface Message extends Serializable {
      * external process.
      *
      * @return The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getReplyNamedQueue() throws MessageServiceException;
     
@@ -282,7 +280,7 @@ public interface Message extends Serializable {
      * external process.
      *
      * @param name The string containing the Queue name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setReplyNamedQueue(String name) throws MessageServiceException;
     
@@ -292,7 +290,7 @@ public interface Message extends Serializable {
      * FALSE if it should not.
      *
      * @return TRUE if this message must reply, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean getReply() throws MessageServiceException;
     
@@ -301,7 +299,7 @@ public interface Message extends Serializable {
      * This method sets the reply flag.
      *
      * @param value TRUE if a reply is required, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setReply(boolean value) throws MessageServiceException;
     
@@ -310,7 +308,6 @@ public interface Message extends Serializable {
      * This message returns the priority of this message.
      *
      * @return The int indicating the priority of this message.
-     * @exception MessageServiceException
      */
     public int getPriority();
     
@@ -319,7 +316,7 @@ public interface Message extends Serializable {
      * This method sets the priority of the message.
      *
      * @param priority The priority of the message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setPriority(int priority) throws MessageServiceException;
     
@@ -329,7 +326,7 @@ public interface Message extends Serializable {
      * identifier for this message.
      *
      * @param id The id that will be used as the correlation id.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setCorrelationId(String id) throws MessageServiceException;
     
@@ -338,7 +335,7 @@ public interface Message extends Serializable {
      * The external correlation id for this message.
      *
      * @return The string containing the correllation ID.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getCorrelationId() throws MessageServiceException;
     
@@ -346,7 +343,7 @@ public interface Message extends Serializable {
     /**
      * This clears the body of the message.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void clearBody() throws MessageServiceException;
     
@@ -354,7 +351,7 @@ public interface Message extends Serializable {
     /**
      * This method clears the properties assigned to this message.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void clearProperties() throws MessageServiceException;
     
@@ -364,7 +361,7 @@ public interface Message extends Serializable {
      *
      * @return TRUE if the property is found, FALSE if not.
      * @param name The name of the property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean containsProperty(String name) throws MessageServiceException;
     
@@ -374,8 +371,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the boolean property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public boolean getBooleanProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -386,8 +383,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the byte property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public byte getByteProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -398,8 +395,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the byte property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public double getDoubleProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -410,8 +407,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the float property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public float getFloatProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -422,8 +419,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the int property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public int getIntProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -434,8 +431,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the long property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public long getLongProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -446,8 +443,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the object property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public Object getObjectProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -458,8 +455,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the string property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public String getStringProperty(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -470,8 +467,8 @@ public interface Message extends Serializable {
      *
      * @return The value of the property.
      * @param name The name of the property.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public Object getPropertyValue(String name) throws 
             MessageServiceException, InvalidProperty;
@@ -481,7 +478,7 @@ public interface Message extends Serializable {
      * This method returns the string property value for the requested name.
      *
      * @return The list of property names
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Enumeration getPropertyNames() throws MessageServiceException;
     
@@ -491,7 +488,7 @@ public interface Message extends Serializable {
      *
      * @return TRUE if the property exists, FALSE if not.
      * @param name The name of the property to look for.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean propertyExists(String name) throws MessageServiceException;
     
@@ -501,7 +498,7 @@ public interface Message extends Serializable {
      *
      * @param name The name of the property.
      * @param value The value of the boolean property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setBooleanProperty(String name, boolean value) throws 
             MessageServiceException;
@@ -512,7 +509,7 @@ public interface Message extends Serializable {
      *
      * @param name The name of the property.
      * @param value The value of the byte property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setByteProperty(String name, byte value) throws 
             MessageServiceException;
@@ -523,7 +520,7 @@ public interface Message extends Serializable {
      *
      * @param name The name of the property.
      * @param value The value of the double property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setDoubleProperty(String name, double value) throws 
             MessageServiceException;
@@ -534,7 +531,7 @@ public interface Message extends Serializable {
      *
      * @param name The name of the property.
      * @param value The value of the float property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setFloatProperty(String name, float value) throws 
             MessageServiceException;
@@ -545,7 +542,7 @@ public interface Message extends Serializable {
      *
      * @param name The name of the property.
      * @param value The value of the int property.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setIntProperty(String name, int value) throws 
             MessageServiceException;
@@ -555,8 +552,8 @@ public interface Message extends Serializable {
      * This method sets the long property value for the name.
      *
      * @param name The name of the property.
-     * @return value The new long value.
-     * @exception MessageServiceException
+     * @param value The new long value.
+     * @throws MessageServiceException
      */
     public void setLongProperty(String name, long value) throws 
             MessageServiceException;
@@ -567,8 +564,8 @@ public interface Message extends Serializable {
      *
      * @param name The name of the property.
      * @param value The new object value to set.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public void setObjectProperty(String name, Object value) throws 
             MessageServiceException;
@@ -578,8 +575,8 @@ public interface Message extends Serializable {
      * This method sets the string property value for the name.
      *
      * @param name The name of the property.
-     * @return value The new string value to set.
-     * @exception MessageServiceException
+     * @param value The new string value to set.
+     * @throws MessageServiceException
      */
     public void setStringProperty(String name, String value) throws 
             MessageServiceException;
@@ -590,8 +587,8 @@ public interface Message extends Serializable {
      *
      * @param name The name of the property.
      * @param value The property value.
-     * @exception MessageServiceException
-     * @exception InvalidProperty
+     * @throws MessageServiceException
+     * @throws InvalidProperty
      */
     public void setPropertyValue(String name,Object value) throws 
             MessageServiceException, InvalidProperty;
@@ -601,7 +598,7 @@ public interface Message extends Serializable {
      * This method acknowledges that this message has been successfully
      * processed by a target.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void acknowledge() throws MessageServiceException;
     
@@ -610,7 +607,7 @@ public interface Message extends Serializable {
      * This method returns the value of the acknowledged flag for this message.
      *
      * @return TRUE if acknowleded, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean isAcknowledged() throws MessageServiceException;
     
@@ -619,13 +616,16 @@ public interface Message extends Serializable {
      * This method returns the current state of this message.
      *
      * @return The current state of this message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public int getState() throws MessageServiceException;
     
     
     /**
      * This method returns list of errors
+     *
+     * @return The list of errors
+     * @throws MessageServiceException
      */
     public List getErrors() throws MessageServiceException;
     
@@ -635,6 +635,7 @@ public interface Message extends Serializable {
      *
      * @param level The level of the error.
      * @param msg The message associated with the error.
+     * @throws MessageServiceException
      */
     public void addError(int level, String msg) throws MessageServiceException;
 }

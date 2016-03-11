@@ -7,8 +7,8 @@ apply plugin: 'war'
 distsDirName="dist"
 libsDirName="."
 archivesBaseName="FileManager"
-sourceCompatibility=1.7
-targetCompatibility=1.7
+sourceCompatibility=1.8
+targetCompatibility=1.8
 
 
 configurations {
@@ -24,8 +24,8 @@ dependencies {
     compile group: 'jsfcl', name: 'jsfcl', version: '1.0', ext: 'jar', transitive: true
     compile group: 'com.sun.faces.extensions', name: 'jsf-extensions-common', version: '0.1', ext: 'jar', transitive: true
     compile group: 'com.sun.faces.extensions', name: 'jsf-extensions-dynamic-faces', version: '0.1', ext: 'jar', transitive: true
-    compile group: 'com.sun.woodstock', name: 'webui-jsf', version: '4.0.2.2', ext: 'jar', transitive: true
-    compile group: 'com.sun.woodstock', name: 'webui-jsf-suntheme', version: '4.0.2.2', ext: 'jar', transitive: true
+    compile group: 'com.sun.woodstock', name: 'webui-jsf', version: '4.2', ext: 'jar', transitive: true
+    compile group: 'com.sun.woodstock', name: 'webui-jsf-suntheme', version: '4.2', ext: 'jar', transitive: true
     compile group: 'commons-io', name: 'commons-io', version: '1.4', ext: 'jar', transitive: true
     compile group: 'commons-net', name: 'commons-net', version: '1.4.1', ext: 'jar', transitive: true
     compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.2.1', ext: 'jar', transitive: true

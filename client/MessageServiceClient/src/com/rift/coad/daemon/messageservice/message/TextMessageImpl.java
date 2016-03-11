@@ -60,7 +60,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
      * Creates a new instance of MessageImpl.
      *
      * @param messageId The id of the message that was created.
-     * @param create The created time stamp.
+     * @param created The created time stamp.
      * @param retries The number of retries of this message.
      * @param processedDate The last time this message was processed.
      * @param user The name of the user.
@@ -81,7 +81,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
     /**
      * This clears the body of the message.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void clearBody() throws MessageServiceException {
         txtMessage = null;
@@ -92,7 +92,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
      * This method sets the text body of a text message.
      *
      * @param text The text to set as the body of this message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setTextBody(String text) throws MessageServiceException {
         this.txtMessage = text;
@@ -103,7 +103,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
      * This method returns the text body of this message.
      *
      * @return The string containing the text body.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getTextBody() throws MessageServiceException {
         return txtMessage;

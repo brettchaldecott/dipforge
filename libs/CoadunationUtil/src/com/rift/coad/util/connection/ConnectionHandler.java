@@ -58,7 +58,7 @@ public class ConnectionHandler implements InvocationHandler {
      * @param proxy The proxy that is making the call on this handler.
      * @param method The method that is being called.
      * @param args The arguments that are being called.
-     * @exception Throwable.
+     * @throws Throwable
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws 
             Throwable {

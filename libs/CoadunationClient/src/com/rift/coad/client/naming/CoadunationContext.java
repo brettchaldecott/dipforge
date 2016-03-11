@@ -73,7 +73,7 @@ public class CoadunationContext implements Context {
          *
          * @return The parse name object.
          * @param name The name to parse.
-         * @exception NamingException
+         * @throws NamingException
          */
         public Name parse(String name) throws NamingException {
             return new CompoundName(name,syntax);
@@ -126,7 +126,7 @@ public class CoadunationContext implements Context {
      *
      * @return The previous value of the property or null.
      * @param propName The property to replace or add.
-     * @param propValue The new property value.
+     * @param propVal The new property value.
      */
     public Object addToEnvironment(String propName, Object propVal) throws
             NamingException {
@@ -139,7 +139,7 @@ public class CoadunationContext implements Context {
      *
      * @param name The name of the object to bind.
      * @param obj The object to bind.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void bind(Name name, Object obj) throws NamingException {
         throw new NamingException("Not implemented");
@@ -171,7 +171,7 @@ public class CoadunationContext implements Context {
      * @return The compisit name.
      * @param name The name to add to the prefix.
      * @param prefix The prefix of the current context.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Name composeName(Name name, Name prefix) throws NamingException {
         return null;
@@ -196,7 +196,7 @@ public class CoadunationContext implements Context {
      *
      * @return The newly created context.
      * @param name The name of the new sub context.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Context createSubcontext(Name name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -207,8 +207,8 @@ public class CoadunationContext implements Context {
      * Creates and binds a new context.
      *
      * @return The newly create sub context.
-     * @exception name The name of the new sub context.
-     * @exception NamingException
+     * @param name The name of the new sub context.
+     * @throws NamingException
      */
     public Context createSubcontext(String name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -219,7 +219,7 @@ public class CoadunationContext implements Context {
      * Destroys the named context and removes it from the namespace.
      *
      * @param name The name of the sub context to remove.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void destroySubcontext(Name name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -240,7 +240,7 @@ public class CoadunationContext implements Context {
      * Retrieves the environment in effect for this context.
      *
      * @return The reference to the hash table.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Hashtable getEnvironment() throws NamingException {
         return null;
@@ -260,7 +260,7 @@ public class CoadunationContext implements Context {
      *
      * @return The reference to the name parser.
      * @param name The name to return the parser for.
-     * @exception NamingException
+     * @throws NamingException
      */
     public NameParser getNameParser(Name name) throws NamingException {
         return null;
@@ -290,7 +290,7 @@ public class CoadunationContext implements Context {
      *
      * @return The list of names bound to this context.
      * @param name The list of names.
-     * @exception NamingException
+     * @throws NamingException
      */
     public NamingEnumeration list(String name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -303,7 +303,7 @@ public class CoadunationContext implements Context {
      *
      * @return The list of bindings for the name
      * @param name The name to perform the search below.
-     * @exception NamingException
+     * @throws NamingException
      */
     public NamingEnumeration listBindings(Name name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -316,7 +316,7 @@ public class CoadunationContext implements Context {
      *
      * @return The list of binding for the name.
      * @param name The name to perform the search for.
-     * @exception NamingException
+     * @throws NamingException
      */
     public NamingEnumeration listBindings(String name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -328,7 +328,7 @@ public class CoadunationContext implements Context {
      *
      * @return The named object.
      * @param name The name to retrieve the object for.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Object lookup(Name name) throws NamingException {
         Context context = getContext();
@@ -382,7 +382,7 @@ public class CoadunationContext implements Context {
      *
      * @return The object to retrieve by name.
      * @param name The name of the object to retrieve.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Object lookup(String name) throws NamingException {
         return lookup(new NamingParser().parse(name));
@@ -395,7 +395,7 @@ public class CoadunationContext implements Context {
      *
      * @return The object to retrieve.
      * @param name The name of the object to lookup.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Object lookupLink(Name name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -408,7 +408,7 @@ public class CoadunationContext implements Context {
      *
      * @return The results of the lookup link.
      * @param name The name of the object to lookup.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Object lookupLink(String name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -420,7 +420,7 @@ public class CoadunationContext implements Context {
      *
      * @param name The name to rebind.
      * @param obj The object to rebind.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void rebind(Name name, Object obj) throws NamingException {
         throw new NamingException("Not implemented");
@@ -432,7 +432,7 @@ public class CoadunationContext implements Context {
      *
      * @param name The name to rebind.
      * @param obj The object to rebind.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void rebind(String name, Object obj) throws NamingException {
         throw new NamingException("Not implemented");
@@ -443,7 +443,7 @@ public class CoadunationContext implements Context {
      * Removes an environment property from the environment of this context.
      *
      * @param propName The name of the entry to remove from the environment.
-     * @exception NamingException
+     * @throws NamingException
      */
     public Object removeFromEnvironment(String propName) throws NamingException {
         throw new NamingException("Not implemented");
@@ -456,7 +456,7 @@ public class CoadunationContext implements Context {
      *
      * @param oldName The old name to rename.
      * @param newName The name to replace it with.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void rename(Name oldName, Name newName) throws NamingException {
         throw new NamingException("Not implemented");
@@ -469,7 +469,7 @@ public class CoadunationContext implements Context {
      *
      * @param oldName The old name to rename.
      * @param newName The name to replace it with.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void rename(String oldName, String newName) throws NamingException {
         throw new NamingException("Not implemented");
@@ -480,7 +480,7 @@ public class CoadunationContext implements Context {
      * Unbinds the named object.
      *
      * @param name The name to unbind.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void unbind(Name name) throws NamingException {
         throw new NamingException("Not implemented");
@@ -491,7 +491,7 @@ public class CoadunationContext implements Context {
      * Unbinds the named objec.
      *
      * @param name The name to unbind.
-     * @exception NamingException
+     * @throws NamingException
      */
     public void unbind(String name) throws NamingException {
         throw new NamingException("Not implemented");

@@ -122,7 +122,7 @@ public class ObjectSerializer {
      * This method serializes the object passed to it.
      *
      * @return A byte array of the object.
-     * @param ref The reference to the object to serialize.
+     * @param input The input bytes to deserialize
      * @exception CommonException
      */
     public static Object deserialize(byte[] input) throws CommonException {

@@ -51,11 +51,11 @@ public class RemoteClassLoaderSpi extends RMIClassLoaderSpi {
      * Load a proxy class to be used by RMI.
      *
      * @return The reference to the required proxy class.
-     * @param codeBase The code base for this object.
+     * @param codebase The code base for this object.
      * @param interfaces The interface array to be loaded.
-     * @param default The class loader that would have been used by the JVM.
-     * @exception MalformedURLException
-     * @exception ClassNotFoundException
+     * @param defaultLoader The class loader that would have been used by the JVM.
+     * @throws MalformedURLException
+     * @throws ClassNotFoundException
      */
     public Class loadProxyClass (String codebase, String[] interfaces, 
             ClassLoader defaultLoader) throws MalformedURLException,
@@ -74,8 +74,8 @@ public class RemoteClassLoaderSpi extends RMIClassLoaderSpi {
      * @param codebase The code base to load from.
      * @param name The name of the class to load.
      * @param defaultLoader The loader that would have been used by the jvm
-     * @exception MalformedURLException
-     * @exception ClassNotFoundException
+     * @throws MalformedURLException
+     * @throws ClassNotFoundException
      */
     public Class loadClass(String codebase, String name, 
             ClassLoader defaultLoader) throws MalformedURLException,
@@ -92,7 +92,7 @@ public class RemoteClassLoaderSpi extends RMIClassLoaderSpi {
      *
      * @return The reference to the required class loader.
      * @param codebase The code base for the class loader.
-     * @exception MalformedURLException
+     * @throws MalformedURLException
      */
     public ClassLoader getClassLoader(String codebase) throws 
             MalformedURLException {

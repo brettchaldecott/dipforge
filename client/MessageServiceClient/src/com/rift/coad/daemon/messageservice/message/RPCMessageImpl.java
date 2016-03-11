@@ -64,7 +64,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * Creates a new instance of RPCMessageImpl
      *
      * @param messageId The id of the message that was created.
-     * @param create The created time stamp.
+     * @param created The created time stamp.
      * @param retries The number of retries of this message.
      * @param processedDate The last time this message was processed.
      * @param user The name of the user.
@@ -85,7 +85,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
     /**
      * This method clears the body of the rpc message.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void clearBody() throws MessageServiceException {
         xmlBody = null;
@@ -96,7 +96,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method sets the XML body for the message.
      *
      * @param xml The string containing the formatted xml for the request.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setMethodBodyXML(String xml) throws MessageServiceException {
         this.xmlBody = xml;
@@ -107,7 +107,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method returns the XML body of the message.
      *
      * @return The string containing the formatted xml for the request.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getMethodBodyXML() throws MessageServiceException {
         return xmlBody;
@@ -120,7 +120,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * @param returnType The return type for this message.
      * @param name The name of this method.
      * @param types The types that are arguments to this method.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void defineMethod(Class returnType, String name, Class[] types) 
     throws MessageServiceException {
@@ -146,7 +146,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method retrieves the return type of a method.
      *
      * @return The object containing the return type information.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Object getReturnType() throws MessageServiceException {
         parseXML();
@@ -158,7 +158,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method returns the name of the method being wrapped.
      *
      * @return The string containing the method name.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public String getMethodName() throws MessageServiceException {
         parseXML();
@@ -170,7 +170,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method returns the argument types for this method.
      *
      * @return The list of arguments.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Class[] getArgumentTypes() throws MessageServiceException {
         parseXML();
@@ -182,7 +182,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method sets the arguments for this message.
      *
      * @param args The arguments to set.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setArguments(Object[] args) throws MessageServiceException {
         for (int index = 0; args != null && index < args.length; index++) {
@@ -196,7 +196,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method returns the arguments for a method.
      *
      * @return The list of arguments.
-     * @exception MessageServiceException.
+     * @throws MessageServiceException
      */
     public Object[] getArguments() throws MessageServiceException {
         parseXML();
@@ -214,7 +214,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method returns true if an exception was thrown.
      *
      * @return TRUE if and exception was generated, FALSE if not.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public boolean generatedException() throws MessageServiceException {
         return (exception != null);
@@ -225,7 +225,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method returns the result of the RPC call.
      *
      * @return The object returns as a result of the asynchronis call.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Object getResult() throws MessageServiceException {
         if (result == null) {
@@ -245,7 +245,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method returns the result of the RPC call.
      *
      * @return The object returns as a result of the asynchronis call.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public byte[] getResultBytes() throws MessageServiceException {
         return result;
@@ -256,7 +256,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method is responsible for setting the result of the return.
      *
      * @param result The result of the message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setResult(Object result) throws MessageServiceException {
         try {
@@ -276,7 +276,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method is responsible for setting the result of the return.
      *
      * @param result The bytes containing the result
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setResultBytes(byte[] result) throws MessageServiceException {
         this.result = result;
@@ -288,7 +288,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * RPC message.
      *
      * @return The exception that got thrown while processing this message.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public Throwable getThrowable() throws MessageServiceException {
         if (exception == null) {
@@ -308,7 +308,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * RPC message.
      *
      * @return The bytes representing the serialized exception
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public byte[] getThrowableBytes() throws MessageServiceException {
         return exception;
@@ -320,7 +320,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * RPC message.
      *
      * @param throwable The throwable exception to set.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setThrowable(Throwable throwable) throws 
             MessageServiceException {
@@ -337,7 +337,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
      * This method sets the throwable bytes of the exception.
      *
      * @param exception The exception bytes.
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     public void setThrowableBytes(byte[] exception) throws 
             MessageServiceException {
@@ -348,7 +348,7 @@ public class RPCMessageImpl extends MessageImpl implements RPCMessage {
     /**
      * This method is responsible for parsing XML.
      *
-     * @exception MessageServiceException
+     * @throws MessageServiceException
      */
     private void parseXML() throws MessageServiceException {
         if (parser != null) {

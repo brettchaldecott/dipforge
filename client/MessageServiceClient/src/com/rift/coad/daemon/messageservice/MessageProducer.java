@@ -46,8 +46,8 @@ public interface MessageProducer extends Remote {
      *
      * @return The message producer object.
      * @param from The from url of the message.
-     * @exception RemoteException
-     * @exception MessageServiceException
+     * @throws RemoteException
+     * @throws MessageServiceException
      */
     public Producer createProducer(String from) throws RemoteException, 
             MessageServiceException;
