@@ -21,11 +21,11 @@
 // package path
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
 import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
@@ -139,8 +139,8 @@ public class JenaPersistanceResource implements PersistanceResource {
      * @throws PersistanceException
      */
     public Calendar getValueAsCalendar() throws PersistanceException {
-        com.hp.hpl.jena.datatypes.xsd.XSDDateTime dateTime =
-                (com.hp.hpl.jena.datatypes.xsd.XSDDateTime)resource.asLiteral().getValue();
+        org.apache.jena.datatypes.xsd.XSDDateTime dateTime =
+                (org.apache.jena.datatypes.xsd.XSDDateTime)resource.asLiteral().getValue();
         return dateTime.asCalendar();
     }
     

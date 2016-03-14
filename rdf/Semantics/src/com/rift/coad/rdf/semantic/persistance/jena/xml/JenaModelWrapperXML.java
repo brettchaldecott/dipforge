@@ -22,8 +22,8 @@
 package com.rift.coad.rdf.semantic.persistance.jena.xml;
 
 // jena imports
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.shared.Lock;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.shared.Lock;
 
 // dipforge imports
 import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;

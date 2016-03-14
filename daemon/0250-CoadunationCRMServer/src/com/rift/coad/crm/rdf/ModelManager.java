@@ -31,9 +31,9 @@ import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 
 // jena and sdb imports
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.sdb.SDBFactory;
-import com.hp.hpl.jena.sdb.Store;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.sdb.SDBFactory;
+import org.apache.jena.sdb.Store;
 
 /**
  * This object is responsible for managing the Jena RDF modeller.

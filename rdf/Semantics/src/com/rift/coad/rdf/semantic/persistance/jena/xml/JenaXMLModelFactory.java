@@ -23,8 +23,8 @@ package com.rift.coad.rdf.semantic.persistance.jena.xml;
 import java.lang.management.ManagementFactory;
 import javax.management.ObjectName;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
@@ -58,21 +58,21 @@ public class JenaXMLModelFactory implements JenaStore {
             try {
                 ManagementFactory.getPlatformMBeanServer().
                     unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                    "org.apache.jena.sparql.system:type=SystemInfo"));
             } catch (Exception ex) {
                 // ignore
             }
             try {
                 ManagementFactory.getPlatformMBeanServer().
                     unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Context"));
+                    "org.apache.jena.sparql.system:type=Context"));
             } catch (Exception ex) {
                 // ignore
             }
             try {
                 ManagementFactory.getPlatformMBeanServer().
                     unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Engine"));
+                    "org.apache.jena.sparql.system:type=Engine"));
             } catch (Exception ex) {
                 // ignore
             }
@@ -83,21 +83,21 @@ public class JenaXMLModelFactory implements JenaStore {
             try {
                 ManagementFactory.getPlatformMBeanServer().
                     unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                    "org.apache.jena.sparql.system:type=SystemInfo"));
             } catch (Exception ex) {
                 // ignore
             }
             try {
                 ManagementFactory.getPlatformMBeanServer().
                     unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Context"));
+                    "org.apache.jena.sparql.system:type=Context"));
             } catch (Exception ex) {
                 // ignore
             }
             try {
                 ManagementFactory.getPlatformMBeanServer().
                     unregisterMBean(new ObjectName(
-                    "com.hp.hpl.jena.sparql.system:type=Engine"));
+                    "org.apache.jena.sparql.system:type=Engine"));
             } catch (Exception ex) {
                 // ignore
             }

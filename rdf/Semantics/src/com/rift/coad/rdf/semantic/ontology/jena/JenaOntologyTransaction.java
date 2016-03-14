@@ -21,7 +21,7 @@
 
 package com.rift.coad.rdf.semantic.ontology.jena;
 
-import com.hp.hpl.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModel;
 import com.rift.coad.rdf.semantic.ontology.OntologyException;
 import com.rift.coad.rdf.semantic.ontology.OntologyTransaction;
 import org.apache.log4j.Logger;

@@ -30,10 +30,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 // jena imports
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 //import thewebsemantic.Bean2RDF;
 //import thewebsemantic.RDF2Bean;
 

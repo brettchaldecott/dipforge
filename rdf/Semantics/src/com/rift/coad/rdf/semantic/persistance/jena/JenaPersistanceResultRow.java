@@ -20,11 +20,11 @@
  */
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 import com.rift.coad.rdf.semantic.QueryException;
 import com.rift.coad.rdf.semantic.RDFConstants;
 import com.rift.coad.rdf.semantic.jdo.obj.JDODataType;

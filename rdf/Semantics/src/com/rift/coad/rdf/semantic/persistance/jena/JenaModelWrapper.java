@@ -23,8 +23,8 @@
 package com.rift.coad.rdf.semantic.persistance.jena;
 
 // imports for the jena libraries
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.shared.Lock;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.shared.Lock;
 
 /**
  * This object is a wrapper of the wrapped model. It acts as a visitor to the

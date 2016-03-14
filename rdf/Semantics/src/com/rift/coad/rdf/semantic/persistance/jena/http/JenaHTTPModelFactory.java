@@ -21,9 +21,9 @@
 
 package com.rift.coad.rdf.semantic.persistance.jena.http;
 
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.DatasetAccessor;
-import com.hp.hpl.jena.query.DatasetAccessorFactory;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetAccessor;
+import org.apache.jena.query.DatasetAccessorFactory;
 import com.rift.coad.rdf.semantic.persistance.PersistanceConstants;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;

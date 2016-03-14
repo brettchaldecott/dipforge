@@ -20,10 +20,10 @@
  */
 
 
-package com.hp.hpl.jena.sdb.store;
+package org.apache.jena.sdb.store;
 
 // imports
-import com.hp.hpl.jena.sdb.Store;
+import org.apache.jena.sdb.Store;
 
 /**
  * This is a wrapper to manage any funny stuff with the store implementations.

@@ -20,12 +20,12 @@
  */
 package com.rift.coad.rdf.semantic.persistance.jena.sdb;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.sdb.SDBFactory;
-import com.hp.hpl.jena.sdb.Store;
-import com.hp.hpl.jena.sdb.store.DatabaseType;
-import com.hp.hpl.jena.sdb.store.SDBStoreWrapper;
-import com.hp.hpl.jena.sdb.util.StoreUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.sdb.SDBFactory;
+import org.apache.jena.sdb.Store;
+import org.apache.jena.sdb.store.DatabaseType;
+import org.apache.jena.sdb.store.SDBStoreWrapper;
+import org.apache.jena.sdb.util.StoreUtils;
 
 import java.lang.management.ManagementFactory;
 import javax.management.ObjectName;
@@ -62,7 +62,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                            "org.apache.jena.sparql.system:type=SystemInfo"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -70,7 +70,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=Context"));
+                            "org.apache.jena.sparql.system:type=Context"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -78,7 +78,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=Engine"));
+                            "org.apache.jena.sparql.system:type=Engine"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -98,7 +98,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                            "org.apache.jena.sparql.system:type=SystemInfo"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -106,7 +106,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=Context"));
+                            "org.apache.jena.sparql.system:type=Context"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -114,7 +114,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=Engine"));
+                            "org.apache.jena.sparql.system:type=Engine"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -143,7 +143,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=SystemInfo"));
+                            "org.apache.jena.sparql.system:type=SystemInfo"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -151,7 +151,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=Context"));
+                            "org.apache.jena.sparql.system:type=Context"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());
@@ -159,7 +159,7 @@ public class JenaSDBModelFactory implements JenaStore {
                 try {
                     ManagementFactory.getPlatformMBeanServer().
                             unregisterMBean(new ObjectName(
-                            "com.hp.hpl.jena.sparql.system:type=Engine"));
+                            "org.apache.jena.sparql.system:type=Engine"));
                 } catch (Exception ex) {
                     // ignore
                     log.error("Failed to remove reference : " + ex.getMessage());

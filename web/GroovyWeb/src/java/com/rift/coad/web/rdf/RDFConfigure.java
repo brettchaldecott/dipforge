@@ -63,8 +63,8 @@ public class RDFConfigure extends HttpServlet {
         //ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             //Thread.currentThread().setContextClassLoader(
-            //        com.hp.hpl.jena.sdb.store.Feature.class.getClassLoader());
-            log.error("The class could be : " + com.hp.hpl.jena.sdb.SDB.class.getName());
+            //        org.apache.jena.sdb.store.Feature.class.getClassLoader());
+            log.error("The class could be : " + org.apache.jena.sdb.SDB.class.getName());
             SemanticUtil.closeInstance(RDFConfigure.class);
         } catch (Exception ex) {
             log.error("Failed to destroy the groovy mapping manager : " + ex.getMessage(),ex);

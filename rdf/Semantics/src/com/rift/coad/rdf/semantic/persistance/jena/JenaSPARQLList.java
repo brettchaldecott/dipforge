@@ -34,18 +34,18 @@ import java.util.ListIterator;
 import org.apache.log4j.Logger;
 
 // jena imports
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.QuerySolution;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.QuerySolution;
 
 // coadunation imports
-import com.hp.hpl.jena.sdb.store.DatasetStore;
+import org.apache.jena.sdb.store.DatasetStore;
 import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;

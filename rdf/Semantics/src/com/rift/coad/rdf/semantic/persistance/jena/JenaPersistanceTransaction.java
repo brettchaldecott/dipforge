@@ -22,7 +22,7 @@
 // package path
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.shared.Lock;
+import org.apache.jena.shared.Lock;
 import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceTransaction;

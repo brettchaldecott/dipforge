@@ -25,7 +25,7 @@ package com.rift.coad.rdf.semantic.session;
 // log4j imports
 
 // jena imports
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Model;
 
 // javax transaction manager.
 import com.rift.coad.rdf.semantic.Transaction;

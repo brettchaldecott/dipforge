@@ -21,10 +21,10 @@
 
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import com.rift.coad.rdf.semantic.RDFConstants;
 import com.rift.coad.rdf.semantic.SemanticException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
@@ -430,8 +430,8 @@ public class JenaPersistanceProperty implements PersistanceProperty {
                 throw new PersistanceException("The property [" +
                         property.getURI() + "]has not been set.");
             } else {
-                com.hp.hpl.jena.datatypes.xsd.XSDDateTime dateTime =
-                        (com.hp.hpl.jena.datatypes.xsd.XSDDateTime)statement.getLiteral().getValue();
+                org.apache.jena.datatypes.xsd.XSDDateTime dateTime =
+                        (org.apache.jena.datatypes.xsd.XSDDateTime)statement.getLiteral().getValue();
                 return dateTime.asCalendar();
             }
         } catch (PersistanceException ex) {

@@ -26,10 +26,10 @@ import org.apache.log4j.Logger;
 
 // jena imports
 import com.rift.coad.rdf.semantic.persistance.jena.xml.*;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.shared.Lock;
-import com.hp.hpl.jena.query.ReadWrite;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.shared.Lock;
+import org.apache.jena.query.ReadWrite;
 
 // dipforge imports
 import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
@@ -47,7 +47,7 @@ public class JenaModelWrapperTDB implements JenaModelWrapper {
     // private model
     private Dataset dataset;
     private Model model = null;
-    private com.hp.hpl.jena.shared.Lock lock;
+    private org.apache.jena.shared.Lock lock;
     private boolean commit = true;
     private boolean read = true;
     

@@ -26,10 +26,10 @@ package com.rift.coad.rdf.semantic.session;
 //import thewebsemantic.Bean2RDF;
 //import thewebsemantic.RDF2Bean;
 //import thewebsemantic.Sparql;
-import static com.hp.hpl.jena.graph.Node.ANY;
-import static com.hp.hpl.jena.graph.Node.createURI;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
+import static org.apache.jena.graph.Node.ANY;
+import static org.apache.jena.graph.NodeFactory.createURI;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import com.rift.coad.rdf.semantic.*;
 
 // coadunation imports

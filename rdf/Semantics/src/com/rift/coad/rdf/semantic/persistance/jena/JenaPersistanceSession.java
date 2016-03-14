@@ -21,7 +21,7 @@
 // package scope
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.rdf.model.*;
+import org.apache.jena.rdf.model.*;
 import com.rift.coad.rdf.semantic.SessionManager;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;

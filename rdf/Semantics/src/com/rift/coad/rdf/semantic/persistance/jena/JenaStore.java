@@ -23,7 +23,7 @@
 package com.rift.coad.rdf.semantic.persistance.jena;
 
 // package path
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Model;
 import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 
 /**

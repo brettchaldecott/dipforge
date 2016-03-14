@@ -22,12 +22,12 @@
 package com.rift.coad.crm.rdf.sdb;
 
 // rdf imports
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.sdb.SDBFactory;
-import com.hp.hpl.jena.sdb.Store;
-import com.hp.hpl.jena.sdb.store.SDBStoreWrapper;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.sdb.SDBFactory;
+import org.apache.jena.sdb.Store;
+import org.apache.jena.sdb.store.SDBStoreWrapper;
 
 // log4j import
 import org.apache.log4j.Logger;

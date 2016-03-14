@@ -5,7 +5,7 @@
 
 package com.rift.coad.rdf.semantic.persistance.jena;
 
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Model;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQuery;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResultRow;
