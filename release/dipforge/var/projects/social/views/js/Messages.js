@@ -61,7 +61,7 @@ function loadMsgs() {
         success: function(data) {
             $('#messageList').empty();
             var html = [];
-            $.each($.parseJSON(data),function(index,message) {
+            $.each(data,function(index,message) {
                 html.push(
                     '<li class="span9" style="margin-bottom:10px;">',
                     '    <div class="thumbnail">',
