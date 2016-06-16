@@ -20,12 +20,6 @@ allprojects {
         maven {
             url "http://tomcat.apache.org/dev/dist/m2-repository"
         }
-        //maven {
-        //    url "http://openjena.org/repo"
-        //}
-        //maven {
-        //    url "http://www.topazproject.org/maven2/"
-        //}
         maven {
             url "http://www.smartclient.com/maven2/"
         }
