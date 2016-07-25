@@ -23,6 +23,7 @@
 package com.rift.coad.daemon.dns;
 
 // java imports
+import com.rift.coad.daemon.dns.server.DNSStatusManager;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -35,6 +36,7 @@ import com.rift.coad.lib.thread.ThreadStateMonitor;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.daemon.dns.server.Server;
+import java.util.Date;
 
 
 /**
@@ -245,7 +247,29 @@ public class DNSServer implements DNSServerMBean, BeanRunnable {
                     + "] because : " + ex.getMessage(),ex);
         }
     }
+
     
+    /**
+     * This method is called to query
+     * @param query
+     * @return
+     * @throws DNSException
+     * @throws RemoteException 
+     */
+    @Override
+    public List<DNSRequestInfo> queryZoneRequests(String query) throws DNSException, RemoteException {
+        try {
+            return DNSStatusManager.getInstance().queryRequests(query);
+        } catch (Exception ex) {
+            log.error(
+                    "Failed to perfom the query [" + query
+                    + "] because : " + ex.getMessage(),ex);
+            throw new DNSException (
+                    "Failed to perfom the query [" + query
+                    + "] because : " + ex.getMessage(),ex);
+        }
+    }
+
     
     /**
      * This method is called to process

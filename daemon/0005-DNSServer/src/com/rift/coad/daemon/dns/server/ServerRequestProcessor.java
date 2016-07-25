@@ -51,11 +51,11 @@ public class ServerRequestProcessor implements Task {
         ServerRequest request = ServerRequestManager.getInstance().getRequest();
         
         // the request manager has been terminated.
+        pool.releaseThread();
         if (request == null) {
             return;
         }
         
-        pool.releaseThread();
         request.processRequest();
     }
     

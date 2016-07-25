@@ -17,6 +17,8 @@ configurations {
 
 dependencies {
     compile project(':libs:CoadunationAnnotations')
+    compile group: 'com.googlecode.cqengine', name: 'cqengine', version: '2.6.0', ext: 'jar'
+    
 }
 
 sourceSets {

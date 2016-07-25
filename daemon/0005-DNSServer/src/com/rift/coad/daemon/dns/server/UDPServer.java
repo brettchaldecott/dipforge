@@ -23,6 +23,7 @@
 package com.rift.coad.daemon.dns.server;
 
 // java imports
+import com.rift.coad.daemon.dns.DNSRequestInfo;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -43,6 +44,8 @@ import org.xbill.DNS.Message;
 
 // coadunation import
 import com.rift.coad.lib.thread.ThreadStateMonitor;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 
 
@@ -88,10 +91,20 @@ public class UDPServer extends Thread {
                     response = handler.generateReply(query, in,
                             indp.getLength(),
                             null);
+                    
                     log.debug("Retrieved the response");
                     if (response == null) {
+                        // dont log responses that were not found
+                        //DNSStatusManager.getInstance().addDNSRequestInfo(
+                        //    new DNSRequestInfo(getNextId(),indp.getAddress().getHostAddress(), 
+                        //            LocalDateTime.now(), query.toString(), 
+                        //            ""));
                         return;
                     }
+                    
+                    log.info("Add the query to the stats engine");
+                    DNSStatusManager.getInstance().addDNSRequestInfo(indp,query,new Message(response));
+                    
                 } catch (IOException e) {
                     log.info("Print an error message : " + e.getMessage(),e);
                     response = handler.formErrMessage(in);

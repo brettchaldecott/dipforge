@@ -34,6 +34,7 @@ import com.rift.coad.annotation.ParamInfo;
 import com.rift.coad.annotation.Version;
 import com.rift.coad.annotation.Result;
 import com.rift.coad.annotation.ExceptionInfo;
+import java.util.Date;
 
 
 /**
@@ -193,5 +194,20 @@ public interface DNSServerMBean extends Remote {
             throws DNSException, RemoteException;
     
     
+    /**
+     * This method is responsible for returning the zone request stats for a given time period
+     * 
+     * @param startTime The start time to perform the query for.
+     * @param endTime The end time to perform the query for.
+     * @return The reference to the dns stats
+     * @throws DNSException
+     * @throws RemoteException 
+     */
+    @MethodInfo(description="Get the zone requests stats for a given time period")
+    @Version(number="1.0")
+    public List<DNSRequestInfo> queryZoneRequests(
+            @ParamInfo(name="query",
+            description="The query to perform on the records.")String query)
+            throws DNSException, RemoteException;
     
 }

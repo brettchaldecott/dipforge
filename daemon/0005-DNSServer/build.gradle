@@ -21,11 +21,19 @@ dependencies {
     compile group: 'dnsjava', name: 'dnsjava', version: '2.0.7', ext: 'jar'
     compile group: 'axis', name: 'axis', version: '1.4', ext: 'jar'
     compile group: 'axis', name: 'axis-jaxrpc', version: '1.4', ext: 'jar'
+    compile group: 'com.googlecode.cqengine', name: 'cqengine', version: '2.6.0', ext: 'jar'
     compile project(':client:DNSServerClient')
     compile project(':libs:CoadunationLib')
     compile project(':libs:CoadunationAnnotations')
     releaseJars project(':client:DNSServerClient')
     releaseJars group: 'dnsjava', name: 'dnsjava', version: '2.0.7', ext: 'jar'
+    releaseJars group: 'com.googlecode.cqengine', name: 'cqengine', version: '2.6.0', ext: 'jar'
+    // https://mvnrepository.com/artifact/org.javassist/javassist
+    releaseJars group: 'org.javassist', name: 'javassist', version: '3.18.2-GA'
+    // https://mvnrepository.com/artifact/org.antlr/antlr4-runtime
+    releaseJars group: 'org.antlr', name: 'antlr4-runtime', version: '4.5'
+
+
 }
 
 sourceSets {
