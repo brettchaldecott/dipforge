@@ -77,7 +77,7 @@
         <plugin>
           <groupId>org.codehaus.izpack</groupId>
 	  <artifactId>izpack-maven-plugin</artifactId>
-	  <version>5.0.0-rc2</version>
+	  <version>5.0.9</version>
           <!--<dependencies>
             <dependency>
               <groupId>org.codehaus.izpack</groupId>

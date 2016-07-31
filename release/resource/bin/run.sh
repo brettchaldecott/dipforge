@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-JDK_JAVA_PATH=$JDKPath
-JAVA_PATH=$JDKPath
-export JDK_JAVA_PATH JAVA_PATH
+JDK_JAVA_PATH=$jdkPath
+export JDK_JAVA_PATH
 
 if [ -d $JDK_JAVA_PATH ]
 then
@@ -14,6 +13,7 @@ fi
 
 # setup the java path
 JAVA_PATH=$JDK_JAVA_PATH/bin/java
+export JAVA_PATH
 
 if [ -f $JAVA_PATH ]
 then

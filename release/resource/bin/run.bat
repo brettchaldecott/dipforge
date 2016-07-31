@@ -1,5 +1,5 @@
 @echo off
-set JAVA_HOME=$JDKPath
+set JAVA_HOME=$jdkPath
 set DIPFORGE_HOME=$INSTALL_PATH
 set VERSION=$APP_VER
 set EXTRA=""
