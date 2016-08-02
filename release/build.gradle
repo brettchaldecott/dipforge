@@ -292,6 +292,7 @@ task copyToGroovyLib(type: Copy) {
 }
 
 
+
 clean {
     ant {
         delete {
@@ -601,4 +602,80 @@ def getJavaHomeVar() {
         javaHome = javaHome.substring(0,javaHome.length() - "/jre".length())
     }
     return javaHome
+}
+
+task zipDipforge(type: Zip) {
+    appendix = 'template'
+    from 'dipforge'
+    baseName = 'dipforge'
+    exclude '**/deploy/*.jar'
+    exclude '**/deploy/*.war'
+    exclude '**/deploy/*.ear'
+}
+
+task makeDipforgeRelease(type:Exec, dependsOn:[':release:release']) {
+  commandLine 'mvn', 'install'
+}
+
+task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,makeDipforgeRelease]) << {
+    // validate parameters for release task
+    println "git tag ${project.hasProperty('gitTag')}"
+    println "git tag name ${project.hasProperty('gitTagName')}"
+    println "git username ${project.hasProperty('gitUsername')}"
+    println "git token ${project.hasProperty('gitToken')}"
+    println "git comment ${project.hasProperty('comment')}"
+    if (false == project.hasProperty('gitTag') || false == project.hasProperty('gitTagName') || false == project.hasProperty('gitUsername') || 
+            false == project.hasProperty('gitToken') || false == project.hasProperty('comment')) {
+        printUsage()
+        throw new Exception("Incorrect usage")
+    }
+    def gitTag = project.getProperty('gitTag')
+    def gitTagName = project.getProperty('gitTagName')
+    def gitUsername = project.getProperty('gitUsername')
+    def gitToken = project.getProperty('gitToken')
+    def revision = project.getProperty('revision')
+    def comment = project.getProperty('comment')
+    def repo = 'dipforge'
+
+    // create the release
+    createRelease(gitUsername,gitToken,repo,gitTag,gitTagName,comment)
+
+    // upload the dipforge jar
+    def dipforgeInstallFileName = "dipforge-install-${version}.jar"
+    def dipforgeInstallPath = new File("target/${fileName}")
+    uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeInstallFileName, dipforgeInstallPath.absolutePath)
+    
+    // upload all the dipforge daemon
+    new File('dipforge/deploy/').eachFile { file ->
+        if (file.name.endsWith(".jar") || file.name.endsWith(".war") || file.name.endsWith(".ear")) {
+           uploadFile(gitUsername, gitToken, repo, gitTag, file.name, file.absolutePath)
+        }
+    }
+
+    // upload the dipforge template
+    def dipforgeTemplateFileName = "dipforge-template-${version}.jar"
+    def dipforgeTemplatePath = new File("build/distributions/${fileName}")
+    uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeTemplateFileName, dipforgeTemplatePath.absolutePath)
+
+    println "bob said hi ${stuff}"
+}
+
+def printUsage() {
+    println "Incorrect usage of createReleaseOnGithub"
+    println "gradle createReleaseOnGithub -PgitUsername=\"git hub username\" \\"
+    println "    -PgitToken=\"git hub token\" \\"
+    println "    -PgitTag=\"git tag\" \\"
+    println "    -PgitTagName=\"git tag name\" \\"
+    println "    -Prevision=\"revision number\" \\"
+    println "    -Pcomment=\"comment about the commit\" \\"
+}
+
+def createRelease(def username, def token, def repo, def tag, def tagName, def comment) {
+    def releaseCommand = "github-release release --user ${username} --security-token ${token} --repo ${repo} --tag ${tag} --name ${tagName} --description ${comment}"
+    releaseCommand.execute()
+} 
+
+def uploadFile(def username, def token, def repo, def tag, def fileName, def path) {
+    def uploadCommand = "github-release upload --user ${username} --security-token ${token} --repo ${repo} --tag ${tag} --name ${fileName} --filename ${path}"
+    uploadCommand.execute()
 }
