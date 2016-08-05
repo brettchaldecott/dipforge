@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
-JAVA_HOME=@java_home@
-export JAVA_HOME
+JDK_JAVA_PATH=@java_home@
+export JDK_JAVA_PATH
 
-if [ -d $JAVA_HOME ]
+if [ -d $JDK_JAVA_PATH ]
 then
-   echo "Using JAVA_HOME [$JAVA_HOME]"
+   echo "Using JDK_JAVA_PATH [$JDK_JAVA_PATH]"
 else
-   echo "JAVA_HOME must be set correctly"
+   echo "JDK_JAVA_PATH must be set correctly"
    exit -1
 fi
 
 # setup the java path
-JAVA_PATH=$JAVA_HOME/bin/java
+JAVA_PATH=$JDK_JAVA_PATH/bin/java
 
 if [ -f $JAVA_PATH ]
 then
@@ -22,7 +22,7 @@ else
 fi
 
 # setup tools path
-TOOLS=$JAVA_HOME/lib/tools.jar
+TOOLS=$JDK_JAVA_PATH/lib/tools.jar
 DIPFORGE_HOME=@dipforge_home@
 export DIPFORGE_HOME
 VERSION=@dipforge_version@
@@ -74,5 +74,5 @@ fi
 
 
 # run
-echo $JAVA $JAVA_OPTS -XX:PermSize=128M -XX:MaxPermSize=512M -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
-$JAVA $JAVA_OPTS -XX:PermSize=128M -XX:MaxPermSize=512M -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
+echo $JAVA $JAVA_OPTS -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
+$JAVA $JAVA_OPTS -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
