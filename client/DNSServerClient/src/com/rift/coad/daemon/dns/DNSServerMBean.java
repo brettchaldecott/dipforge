@@ -149,10 +149,9 @@ public interface DNSServerMBean extends Remote {
     /**
      * This method is responsible for getting a zone from the dns server
      *
-     * @param zone The zone contents.
      * @param zoneName The name of the zone to retrieve.
-     * @exception DNSException
-     * @exception RemoteException
+     * @exception DNSException The dns exception
+     * @exception RemoteException The remote exception
      */
     @MethodInfo(description="Returns the Zone content information.")
     @Version(number="1.0")
@@ -197,8 +196,7 @@ public interface DNSServerMBean extends Remote {
     /**
      * This method is responsible for returning the zone request stats for a given time period
      * 
-     * @param startTime The start time to perform the query for.
-     * @param endTime The end time to perform the query for.
+     * @param query The query to execute
      * @return The reference to the dns stats
      * @throws DNSException
      * @throws RemoteException 

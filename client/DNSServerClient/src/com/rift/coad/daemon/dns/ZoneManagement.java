@@ -44,7 +44,7 @@ public interface ZoneManagement extends Remote {
      * This method returns the name of the zone.
      *
      * @return The string containing the zone name.
-     * @throw RemoteException
+     * @throws RemoteException The exception that gets thrown
      */
     public String getName() throws RemoteException;
     

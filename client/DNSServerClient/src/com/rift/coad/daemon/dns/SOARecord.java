@@ -72,7 +72,6 @@ public class SOARecord implements Serializable {
      * This method gets the admin for a zone.
      *
      * @return The string containing the admin name.
-     * @throws RemoteException
      */
     public String getHost() {
         return host;
@@ -93,7 +92,6 @@ public class SOARecord implements Serializable {
      * This method gets the admin for a zone.
      *
      * @return The string containing the admin name.
-     * @throws RemoteException
      */
     public String getAdmin(){
         return admin;
@@ -104,8 +102,6 @@ public class SOARecord implements Serializable {
      * This method sets the admin of the zone.
      *
      * @param admin The string containing the admin name.
-     * @throws DNSException
-     * @throws RemoteException
      */
     public void setAdmin(String admin){
         this.admin = admin;
@@ -116,7 +112,6 @@ public class SOARecord implements Serializable {
      * This method returns the current serial number for the zone.
      *
      * @return The string containing the serial number for the zone.
-     * @throws RemoteException
      */
     public long getSerial(){
         return serial;
@@ -126,8 +121,7 @@ public class SOARecord implements Serializable {
     /**
      * This method returns the current serial number for the zone.
      *
-     * @return The string containing the serial number for the zone.
-     * @throws RemoteException
+     * @param serial The serial number for this record
      */
     public void setSerial(long serial){
         this.serial = serial;
@@ -138,7 +132,6 @@ public class SOARecord implements Serializable {
      * This method returns the refresh time of the zone management object.
      *
      * @return The long containing the refresh time of the zone.
-     * @throws RemoteException
      */
     public long getRefresh() {
         return refresh;
@@ -149,8 +142,6 @@ public class SOARecord implements Serializable {
      * This method sets the refresh time of the zone management object.
      *
      * @param refresh The new refresh time for the zone.
-     * @throws DNSException
-     * @throws RemoteException
      */
     public void setRefresh(long refresh) {
         this.refresh = refresh;
@@ -161,7 +152,6 @@ public class SOARecord implements Serializable {
      * This method returns the retry time of the zone.
      *
      * @return The long containing the retry time of the zone.
-     * @throws RemoteException
      */
     public long getRetry() {
         return retry;
@@ -172,8 +162,6 @@ public class SOARecord implements Serializable {
      * This method sets the retry time of the zone.
      *
      * @param retry The new retry time for the zone.
-     * @throws DNSException
-     * @throws RemoteException
      */
     public void setRetry(long retry) {
         this.retry = retry;
@@ -184,7 +172,6 @@ public class SOARecord implements Serializable {
      * This method returns the expiry time of the zone.
      *
      * @return The long containing the expiry time of the zone.
-     * @throws RemoteException
      */
     public long getExpiry() {
         return expire;
@@ -195,8 +182,6 @@ public class SOARecord implements Serializable {
      * This method sets the expiry time of the zone.
      *
      * @param expiry The new expiry time for the zone.
-     * @throws DNSException
-     * @throws RemoteException
      */
     public void setExpire(long expire) {
         this.expire = expire;
@@ -207,7 +192,6 @@ public class SOARecord implements Serializable {
      * This method returns the minimun time of the zone.
      *
      * @return The long containing the expiry time of the zone.
-     * @throws RemoteException
      */
     public long getMinimum() {
         return minimum;
@@ -218,8 +202,6 @@ public class SOARecord implements Serializable {
      * This method sets the minimum time of the zone.
      *
      * @param minimum The new minimum time for the zone.
-     * @throws DNSException
-     * @throws RemoteException
      */
     public void setMinimum(long minimum) {
         this.minimum = minimum;
