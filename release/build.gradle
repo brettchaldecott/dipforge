@@ -2,6 +2,7 @@ apply plugin: 'maven'
 apply plugin: 'announce'
 
 import org.apache.tools.ant.filters.ReplaceTokens
+import groovy.json.*
 
 //libsDirName="."
 project.ext.version=version
@@ -46,7 +47,12 @@ task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
 	":libs:GroovyServletBootStrap:build",":libs:GroovyLib:build",
 	":client:GroovyDaemonClient:build", ":daemon:0140-GroovyDaemon:build",
 	":client:DataMapperBroker:build", ":daemon:0160-DataMapperBroker:build",
-	":client:ProjectClient:build",":daemon:0200-ProjectManager:build"]) << {
+	":client:ProjectClient:build",":daemon:0200-ProjectManager:build",
+        ":client:RDFMasterStoreClient:build", ":client:RDFStoreClient:build",
+        ":client:RSSReaderClient:build", ":client:ServiceBrokerClient:build",
+        ":client:TimerClient:build", ":client:TomcatClient:build",
+        ":client:TomcatClient:build", ":client:GroovyDaemonClient:build",
+        ":client:RequestBrokerClient:build", ":client:ChangeControlClient:build"]) << {
 
 }
 
@@ -119,114 +125,114 @@ release.doLast {
         src: "$projectDir/../web/SchemaStore/build/SchemaStore-${project.ext.version}.war" , 
         dest: "$projectDir/dipforge/var/tomcat/webapps/schema")
     ant {
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationCommon")
-    //    copy(todir: "dipforge/var/projects/documentation/views/CoadunationCommon"){
-    //        fileset(dir: "../libs/CoadunationCommon/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationHibernate")
-    //    copy(todir: "dipforge/var/projects/documentation/views/CoadunationHibernate"){
-    //        fileset(dir: "../libs/CoadunationHibernate/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationLib")
-    //    copy(todir: "dipforge/var/projects/documentation/views/CoadunationLib"){
-    //        fileset(dir: "../libs/CoadunationLib/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationUtil")
-    //    copy(todir: "dipforge/var/projects/documentation/views/CoadunationUtil"){
-    //        fileset(dir: "../libs/CoadunationUtil/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/Semantics")
-    //    copy(todir: "dipforge/var/projects/documentation/views/Semantics"){
-    //        fileset(dir: "../rdf/Semantics/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationSemantics")
-    //    copy(todir: "dipforge/var/projects/documentation/views/CoadunationSemantics"){
-    //        fileset(dir: "../rdf/CoadunationSemantics/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/SchemaUtils")
-    //    copy(todir: "dipforge/var/projects/documentation/views/SchemaUtils"){
-    //        fileset(dir: "../rdf/SchemaUtils/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/AuditTrail")
-    //    copy(todir: "dipforge/var/projects/documentation/views/AuditTrail"){
-    //        fileset(dir: "../client/AuditTrail/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationTypeManager")
-    //    copy(todir: "dipforge/var/projects/documentation/views/CoadunationTypeManager"){
-    //        fileset(dir: "../client/CoadunationTypeManager/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/DeploymentDaemonClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/DeploymentDaemonClient"){
-    //        fileset(dir: "../client/DeploymentDaemonClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/DesktopServerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/DesktopServerClient"){
-    //        fileset(dir: "../client/DesktopServerClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/DNSServerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/DNSServerClient"){
-    //        fileset(dir: "../client/DNSServerClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/EmailServerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/EmailServerClient"){
-    //        fileset(dir: "../client/EmailServerClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/EventServerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/EventServerClient"){
-    //        fileset(dir: "../client/EventServerClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/HsqlDBEngineClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/HsqlDBEngineClient"){
-    //        fileset(dir: "../client/HsqlDBEngineClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/MessageServiceClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/MessageServiceClient"){
-    //        fileset(dir: "../client/MessageServiceClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/ProjectClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/ProjectClient"){
-    //        fileset(dir: "../client/ProjectClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/RDBUserManagerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/RDBUserManagerClient"){
-    //        fileset(dir: "../client/RDBUserManagerClient/build/docs/javadoc") {}
-    //    }
-        //mkdir(dir:"dipforge/var/projects/documentation/views/RDFMaterStoreClient")
-        //copy(todir: "dipforge/var/projects/documentation/views/RDFMaterStoreClient"){
-        //    fileset(dir: "../client/RDFMaterStoreClient/build/docs/javadoc") {}
-        //}
-        //mkdir(dir:"dipforge/var/projects/documentation/views/RDFStoreClient")
-        //copy(todir: "dipforge/var/projects/documentation/views/RDFStoreClient"){
-        //    fileset(dir: "../client/RDFStoreClient/build/docs/javadoc") {}
-        //}
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/RSSReaderClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/RSSReaderClient"){
-    //        fileset(dir: "../client/RSSReaderClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/ServiceBrokerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/ServiceBrokerClient"){
-    //        fileset(dir: "../client/ServiceBrokerClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/TimerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/TimerClient"){
-    //        fileset(dir: "../client/TimerClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/TomcatClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/TomcatClient"){
-    //        fileset(dir: "../client/TomcatClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/GroovyDaemonClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/GroovyDaemonClient"){
-    //        fileset(dir: "../client/GroovyDaemonClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/RequestBrokerClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/RequestBrokerClient"){
-    //        fileset(dir: "../client/RequestBrokerClient/build/docs/javadoc") {}
-    //    }
-    //    mkdir(dir:"dipforge/var/projects/documentation/views/ChangeControlClient")
-    //    copy(todir: "dipforge/var/projects/documentation/views/ChangeControlClient"){
-    //        fileset(dir: "../client/ChangeControlClient/build/docs/javadoc") {}
-    //    }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationCommon")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationCommon"){
+            fileset(dir: "../libs/CoadunationCommon/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationHibernate")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationHibernate"){
+            fileset(dir: "../libs/CoadunationHibernate/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationLib")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationLib"){
+            fileset(dir: "../libs/CoadunationLib/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationUtil")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationUtil"){
+            fileset(dir: "../libs/CoadunationUtil/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/Semantics")
+        copy(todir: "dipforge/var/projects/documentation/views/Semantics"){
+            fileset(dir: "../rdf/Semantics/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationSemantics")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationSemantics"){
+            fileset(dir: "../rdf/CoadunationSemantics/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/SchemaUtils")
+        copy(todir: "dipforge/var/projects/documentation/views/SchemaUtils"){
+            fileset(dir: "../rdf/SchemaUtils/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/AuditTrail")
+        copy(todir: "dipforge/var/projects/documentation/views/AuditTrail"){
+            fileset(dir: "../client/AuditTrail/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationTypeManager")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationTypeManager"){
+            fileset(dir: "../client/CoadunationTypeManager/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DeploymentDaemonClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DeploymentDaemonClient"){
+            fileset(dir: "../client/DeploymentDaemonClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DesktopServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DesktopServerClient"){
+            fileset(dir: "../client/DesktopServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DNSServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DNSServerClient"){
+            fileset(dir: "../client/DNSServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/EmailServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/EmailServerClient"){
+            fileset(dir: "../client/EmailServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/EventServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/EventServerClient"){
+            fileset(dir: "../client/EventServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/HsqlDBEngineClient")
+        copy(todir: "dipforge/var/projects/documentation/views/HsqlDBEngineClient"){
+            fileset(dir: "../client/HsqlDBEngineClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/MessageServiceClient")
+        copy(todir: "dipforge/var/projects/documentation/views/MessageServiceClient"){
+            fileset(dir: "../client/MessageServiceClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ProjectClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ProjectClient"){
+            fileset(dir: "../client/ProjectClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RDBUserManagerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RDBUserManagerClient"){
+            fileset(dir: "../client/RDBUserManagerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RDFMasterStoreClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RDFMasterStoreClient"){
+            fileset(dir: "../client/RDFMasterStoreClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RDFStoreClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RDFStoreClient"){
+            fileset(dir: "../client/RDFStoreClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RSSReaderClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RSSReaderClient"){
+            fileset(dir: "../client/RSSReaderClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ServiceBrokerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ServiceBrokerClient"){
+            fileset(dir: "../client/ServiceBrokerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/TimerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/TimerClient"){
+            fileset(dir: "../client/TimerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/TomcatClient")
+        copy(todir: "dipforge/var/projects/documentation/views/TomcatClient"){
+            fileset(dir: "../client/TomcatClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/GroovyDaemonClient")
+        copy(todir: "dipforge/var/projects/documentation/views/GroovyDaemonClient"){
+            fileset(dir: "../client/GroovyDaemonClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RequestBrokerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RequestBrokerClient"){
+            fileset(dir: "../client/RequestBrokerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ChangeControlClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ChangeControlClient"){
+            fileset(dir: "../client/ChangeControlClient/build/docs/javadoc") {}
+        }
         mkdir(dir:"dipforge/var/flow/tmp")
     }
     // generate the types
@@ -247,42 +253,90 @@ release.doLast {
     //announce("Release complete", "notify-send")
 }
 
+// copy the tools
 task copyToTools(type: Copy) {
     into "dipforge/tools/"
     from configurations.releaseTools
     include "**/*CommandLine*" + project.ext.version + ".jar"
 }
 
+// copy the template files
 task copyBinTemplate(type: Copy) {
     from "${projectDir}/template/bin/"
     into "${projectDir}/dipforge/bin/"
-    include 'run.bat'
-    include 'run.sh'
     fileMode=0755
-    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version, hostname: InetAddress.getLocalHost().getHostName(), java_home: project.ext.javaHome] )
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version, hostname: InetAddress.getLocalHost().getHostName(), java_home: project.ext.javaHome, ADMIN_PASSWORD: "admin"] )
 }
 
 task copyEtcTemplate(type: Copy) {
     from "${projectDir}/template/etc/"
     into "${projectDir}/dipforge/etc/"
-    include 'config.xml'
-    include 'log4j.properties'
-    include 'server.policy'
-    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName()] )
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName(), ADMIN_PASSWORD: "admin"] )
 }
 
-task copySemanticTemplate(type: Copy) {
-    from "${projectDir}/template/var/semantics/"
-    into "${projectDir}/dipforge/var/semantics/"
-    include "*.ttl"
-    include "*.ttl.sdb"
-    filter(ReplaceTokens, tokens:[hostname: InetAddress.getLocalHost().getHostName(), dipforge_home: project.ext.dipforgeHome] )
+task copyVarTemplate(type: Copy) {
+    from "${projectDir}/template/var/"
+    into "${projectDir}/dipforge/var/"
+    filter(ReplaceTokens, tokens:[hostname: InetAddress.getLocalHost().getHostName(), dipforge_home: project.ext.dipforgeHome,ADMIN_PASSWORD: "admin"] )
 }
 
+task copyTemplates(dependsOn:[copyBinTemplate,copyEtcTemplate,copyVarTemplate]) {
+}
+
+// copy the resource files
+task copyBinResource(type: Copy) {
+    from "${projectDir}/template/bin/"
+    into "${projectDir}/resource/bin/"
+    fileMode=0755
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD"] )
+}
+
+task copyEtcResource(type: Copy) {
+    from "${projectDir}/template/etc/"
+    into "${projectDir}/resource/etc/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD"] )
+}
+
+task copyVarResource(type: Copy) {
+    from "${projectDir}/template/var/"
+    into "${projectDir}/resource/var/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD"] )
+}
+
+task copyResource(dependsOn:[copyBinResource,copyEtcResource,copyVarResource]) {
+}
+
+// copy the resource files
+task copyBinGenerator(type: Copy) {
+    from "${projectDir}/template/bin/"
+    into "${projectDir}/generator/bin/"
+    fileMode=0755
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>"] )
+}
+
+task copyEtcGenerator(type: Copy) {
+    from "${projectDir}/template/etc/"
+    into "${projectDir}/generator/etc/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>"] )
+}
+
+task copyVarGenerator(type: Copy) {
+    from "${projectDir}/template/var/"
+    into "${projectDir}/generator/var/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>"] )
+}
+
+task copyGenerator(dependsOn:[copyBinGenerator,copyEtcGenerator,copyVarGenerator]) {
+}
+
+
+
+// copy web manager to compat
 task copyWebManagerToTomcat(type: Copy) {
     into "${projectDir}/dipforge/var/tomcat/webapps/manager"
     from "${projectDir}/template/web/manager"
 }
+
 
 task copyToGroovyLib(type: Copy) {
     into "dipforge/var/groovylib/"
@@ -414,6 +468,17 @@ clean {
                 include(name: "**/ChangeControl.xml")
                 include(name: "**/Request.xml")
             }
+        }
+        delete {
+            fileset (dir: "generator") {
+            }              
+        }
+        delete {
+            fileset (dir: "resource") {
+                exclude(name: "**/install-info/izpack-user-input.xml")
+                exclude(name: "**/install-info/Licence.txt")
+                exclude(name: "**/install-info/README.txt")
+            }              
         }
     }
 }
@@ -591,7 +656,7 @@ dependencies {
 }
 
 
-task build(dependsOn:[dependancyTask,copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyBinTemplate,copyEtcTemplate,copyWebManagerToTomcat,copySemanticTemplate,copyToGroovyLib]) {
+task build(dependsOn:[dependancyTask,copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyTemplates,copyResource,copyGenerator,copyWebManagerToTomcat,copyToGroovyLib]) {
 }
 
 release.dependsOn build
