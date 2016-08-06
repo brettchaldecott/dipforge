@@ -21,6 +21,8 @@
 
 package com.rift.coad.change.request.action.leviathan.store;
 
+import com.rift.coad.change.request.action.ActionConstants;
+import com.rift.coad.change.request.action.ActionException;
 import com.rift.coad.change.request.action.leviathan.requestdata.LsActionRDFProperty;
 import com.rift.coad.daemon.messageservice.rpc.RPCMessageClient;
 import com.rift.coad.rdf.semantic.Property;
@@ -46,6 +48,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
+
 
 /**
  * The implementation of the LsStoreMethod stack entry
@@ -60,6 +65,7 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
     private CallStatement callStatement;
     private LsStoreProperty target;
     private List parameters = new ArrayList();
+    private boolean broadcast = true;
 
     /**
      * The constructor of the ls store method
@@ -77,6 +83,14 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
         this.callStatement = callStatement;
         this.target = (LsStoreProperty) target;
         this.parameters.addAll(parameters);
+        try {
+            Configuration config = ConfigurationFactory.getInstance().getConfig(
+                    this.getClass());
+            broadcast = config.getBoolean("BROADCAST_TO_MASTERS",true);
+            
+        } catch (Exception ex) {
+            log.info("Failed to retrieve the broadcast to masters assuming true, exception was : " + ex.getMessage(),ex);
+        }
     }
 
     /**
@@ -131,11 +145,14 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
             List<String> services = new ArrayList<String>();
             services.add(Constants.SERVICE);
 
+            // switched on the ability to broadcast to other masters
+            // this solves the split head problem. It can also
+            // result in a broadcast storm.
             MasterRDFStoreDaemonAsync daemon = (MasterRDFStoreDaemonAsync)
                     RPCMessageClient.createOneWay(
                     "change/request/action/ActionFactoryManager", 
                     MasterRDFStoreDaemon.class,
-                    MasterRDFStoreDaemonAsync.class, services, false);
+                    MasterRDFStoreDaemonAsync.class, services, broadcast);
             for (Object parameter : this.parameters) {
                 String xml = getXML(parameter);
                 daemon.persist(action, xml);
