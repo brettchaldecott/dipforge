@@ -81,7 +81,7 @@ public class SOARecord implements Serializable {
     /**
      * This method returns the TTL for the zone management.
      *
-     * @param ttl The ttl.
+     * @return The ttl
      */
     public long getTTL() {
         return ttl;
@@ -181,7 +181,7 @@ public class SOARecord implements Serializable {
     /**
      * This method sets the expiry time of the zone.
      *
-     * @param expiry The new expiry time for the zone.
+     * @param expire The new expiry time for the zone.
      */
     public void setExpire(long expire) {
         this.expire = expire;
