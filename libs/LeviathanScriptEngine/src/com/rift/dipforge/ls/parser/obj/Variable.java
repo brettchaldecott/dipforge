@@ -102,7 +102,7 @@ public class Variable extends Statement implements Serializable {
     /**
      * This method returns the intial value for this type.
      *
-     * @return The reference to the initial type.
+     * @param initialValue The initial value
      */
     public void setInitialValue(Assignment initialValue) {
         this.initialValue = initialValue;

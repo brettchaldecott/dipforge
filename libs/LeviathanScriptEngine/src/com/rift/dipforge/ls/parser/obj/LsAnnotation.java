@@ -55,7 +55,6 @@ public class LsAnnotation implements Serializable {
 	 * This constructor for the annotation object.
 	 * 
 	 * @param name The name of the annotation.
-	 * @param list The list of annotations.
 	 */
 	public LsAnnotation(String name) {
 		super();

@@ -90,7 +90,7 @@ public class IncrementStatement extends Statement implements Serializable {
 	/**
 	 * This method sets the variable value.
 	 * 
-	 * @param value The value the increment is performed on.
+	 * @param variable The value the increment is performed on.
 	 */
 	public void setVariable(String variable) {
 		this.variable = variable;

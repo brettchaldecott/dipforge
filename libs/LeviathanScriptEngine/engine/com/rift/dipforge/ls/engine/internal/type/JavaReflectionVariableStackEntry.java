@@ -44,13 +44,12 @@ public class JavaReflectionVariableStackEntry extends ProcessStackEntry {
     /**
      * The constructor of the java reflection variable stack object
      * 
-     * @param processorMemoryManager
-     * @param parent
-     * @param variables
-     * @param callStatement
-     * @param target
-     * @param assignmentValue
-     * @param hasAssignment 
+     * @param parent The parent reference
+     * @param variables The variables
+     * @param callStatement The call statement
+     * @param target The target
+     * @param assignmentValue The value to assign
+     * @param hasAssignment The has assignements
      */
     public JavaReflectionVariableStackEntry(
             ProcessStackEntry parent, Map variables,
@@ -67,7 +66,7 @@ public class JavaReflectionVariableStackEntry extends ProcessStackEntry {
     /**
      * This method executes the reflection call onto a variable
      * 
-     * @throws EngineException 
+     * @throws EngineException The exception that gets thrown
      */
     @Override
     public void execute() throws EngineException {
@@ -80,8 +79,8 @@ public class JavaReflectionVariableStackEntry extends ProcessStackEntry {
     
     /**
      * This method sets the result
-     * @param result
-     * @throws EngineException 
+     * @param result The result
+     * @throws EngineException The engine exception that can get thrown
      */
     @Override
     public void setResult(Object result) throws EngineException {

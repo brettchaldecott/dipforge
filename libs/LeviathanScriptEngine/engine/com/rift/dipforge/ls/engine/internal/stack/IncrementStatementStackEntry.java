@@ -44,8 +44,8 @@ public class IncrementStatementStackEntry extends StatementStackEntry {
      * This method increments the expression entry information.
      *
      * @param processorMemoryManager The processor memory manager
-     * @param parent
-     * @param currentIncrement The current increment method.
+     * @param parent The reference to the parent
+     * @param incrementStatement The current increment method.
      */
     public IncrementStatementStackEntry(
             ProcessorMemoryManager processorMemoryManager,
@@ -58,8 +58,9 @@ public class IncrementStatementStackEntry extends StatementStackEntry {
      * This method increments the expression entry information.
      *
      * @param processorMemoryManager The processor memory manager
-     * @param parent
-     * @param currentIncrement The current increment method.
+     * @param parent The reference to the pareent
+     * @param variables The variable references.
+     * @param incrementStatement The increment statement
      */
     public IncrementStatementStackEntry(
             ProcessorMemoryManager processorMemoryManager,
@@ -73,7 +74,7 @@ public class IncrementStatementStackEntry extends StatementStackEntry {
     /**
      * This method is called to execute the increment expression.
      *
-     * @throws EngineException
+     * @throws EngineException The exception that gets generated
      */
     @Override
     public void execute() throws EngineException {

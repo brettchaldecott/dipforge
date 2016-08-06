@@ -52,9 +52,9 @@ public class MultiExpressionEntry extends ExpressionEntryStatementComponent {
     /**
      * The multi expression entry
      * 
-     * @param processorMemoryManager
-     * @param parent 
-     * @param currentMulti The multiply.
+     * @param processorMemoryManager The process memory manager
+     * @param parent The parent in the stack
+     * @param multStatement The multiply.
      */
     public MultiExpressionEntry(ProcessorMemoryManager processorMemoryManager,
             ProcessStackEntry parent, MultStatement multStatement) {

@@ -52,8 +52,8 @@ public abstract class StatementStackEntry extends ProcessStackEntry {
     /**
      * The statement stack entry
      * 
-     * @param processorMemoryManager
-     * @param parent 
+     * @param processorMemoryManager The process memory manager
+     * @param parent The parent in the stack
      */
     public StatementStackEntry(ProcessorMemoryManager processorMemoryManager,
             ProcessStackEntry parent) {

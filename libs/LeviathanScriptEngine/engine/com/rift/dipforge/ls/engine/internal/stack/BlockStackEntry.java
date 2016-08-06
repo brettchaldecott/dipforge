@@ -89,8 +89,8 @@ public class BlockStackEntry extends ProcessStackEntry {
     
     /**
      * This method is called to set a result value.
-     * @param result
-     * @throws EngineException 
+     * @param result The result to set
+     * @throws EngineException An exception that can get thrown
      */
     @Override
     public void setResult(Object result) throws EngineException {
@@ -101,8 +101,6 @@ public class BlockStackEntry extends ProcessStackEntry {
     /**
      * This method retrieves the next item in the list
      *
-     * @param blk The block that this object is attached to.
-     * @param statement The current statement
      * @return The reference to the statement
      */
     protected Statement getNextStatement()

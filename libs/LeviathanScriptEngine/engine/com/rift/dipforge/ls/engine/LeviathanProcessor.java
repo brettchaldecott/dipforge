@@ -49,7 +49,7 @@ public class LeviathanProcessor {
      * This constructor loads the process into memory using the file path as the
      * source for the information.
      *
-     * @param filePath The path to the file.
+     * @param file The file to parse
      * @exception EngineException
      */
     public LeviathanProcessor(File file) throws EngineException {
@@ -68,7 +68,8 @@ public class LeviathanProcessor {
     /**
      * The constructor that sets the code space.
      *
-     * @param codeSpace The code space
+     * @param flow The flow to process
+     * @param variables The variables
      * @exception EngineException
      */
     public LeviathanProcessor(Workflow flow, Map variables)

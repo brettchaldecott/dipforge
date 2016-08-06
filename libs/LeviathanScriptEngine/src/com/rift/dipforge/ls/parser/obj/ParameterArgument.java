@@ -87,7 +87,7 @@ public class ParameterArgument extends StatementArgument  implements Serializabl
 	/**
 	 * This method sets the expression value
 	 * 
-	 * @param expression The expression value.
+	 * @param expressions The expression value.
 	 */
 	public void setExpressions(List<Expression> expressions) {
 		this.expressions = expressions;

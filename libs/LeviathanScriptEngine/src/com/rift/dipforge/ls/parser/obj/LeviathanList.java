@@ -99,7 +99,8 @@ public class LeviathanList implements Serializable{
 	/**
 	 * This method returns true if this object equals another.
 	 * 
-	 * @param boolean TRUE if equals 
+	 * @return boolean TRUE if equals 
+         * @param obj The object to perform the comparison on
 	 */
 	@Override
 	public boolean equals(Object obj) {

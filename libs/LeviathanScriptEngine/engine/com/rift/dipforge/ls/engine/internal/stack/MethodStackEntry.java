@@ -53,7 +53,8 @@ public class MethodStackEntry extends BlockStackEntry {
      * The method stack entry information.
      * 
      * @param processorMemoryManager The processor memory manager.
-     * @param parent The parent reference.
+     * @param caller The caller reference stack
+     * @param callStatement The calling statement reference
      * @param method The method that is being called 
      */
     public MethodStackEntry(ProcessorMemoryManager processorMemoryManager,
