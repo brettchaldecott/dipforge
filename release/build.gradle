@@ -391,6 +391,7 @@ clean {
         delete {
             fileset(dir: "dipforge/etc"){
                 include(name: "**/config.xml")
+                include(name: "**/users.xml")
                 include(name: "**/*.policy")
                 include(name: "**/*.properties")
             }
