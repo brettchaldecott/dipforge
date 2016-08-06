@@ -165,7 +165,7 @@ public class RequestData implements Serializable {
     
     /**
      * This method returns TRUE if the values are equal
-     * @param objThe reference to the object.
+     * @param obj The reference to the object.
      * @return TRUE if equal FALSE if not.
      */
     @Override
