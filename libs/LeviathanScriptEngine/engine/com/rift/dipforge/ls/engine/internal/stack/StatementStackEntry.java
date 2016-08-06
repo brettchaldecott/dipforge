@@ -39,7 +39,7 @@ public abstract class StatementStackEntry extends ProcessStackEntry {
     /**
      * The statement stack entry
      * 
-     * @param processorStack The stack reference.
+     * @param processorMemoryManager The stack reference.
      * @param parent The parent of this stack entry.
      * @param variables The list of variables.
      */

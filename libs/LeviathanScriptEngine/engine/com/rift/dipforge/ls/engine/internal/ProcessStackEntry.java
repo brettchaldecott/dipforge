@@ -30,7 +30,7 @@ public abstract class ProcessStackEntry implements Serializable {
     /**
      * The process stack entry
      *
-     * @param processMemoryManager The reference to the process memory manager
+     * @param processorMemoryManager The reference to the process memory manager
      * @param parent The parent reference.
      */
     public ProcessStackEntry(ProcessorMemoryManager processorMemoryManager,
@@ -44,6 +44,7 @@ public abstract class ProcessStackEntry implements Serializable {
     /**
      * The process stack entry
      *
+     * @param processorMemoryManager The reference to the process memory manager
      * @param parent The reference to the parent.
      * @param variables The variables.
      */

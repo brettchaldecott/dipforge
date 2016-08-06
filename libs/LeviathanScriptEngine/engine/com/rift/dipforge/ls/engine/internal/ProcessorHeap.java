@@ -64,7 +64,6 @@ public class ProcessorHeap implements Serializable {
      * 
      * @param key The key to identify this variable
      * @return TRUE if found FALSE if not.
-     * @throws NoSuchVariable 
      */
     public boolean containsVariable(String key) {
         return variables.containsKey(key);
