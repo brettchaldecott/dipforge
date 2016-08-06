@@ -168,9 +168,11 @@ public interface ChangeManagerMBean extends Remote {
     /**
      * This method removes the specified action name.
      *
-     * @param name The name of the action to remove.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
+     * @param project The name of the action to remove.
+     * @param type The type of project
+     * @param action The action to perform
+     * @throws ChangeException
+     * @throws RemoteException
      */
     @MethodInfo(description = "This method removes the specified action.")
     @Version(number = "1.0")

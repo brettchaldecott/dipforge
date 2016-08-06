@@ -80,9 +80,10 @@ public interface RequestManagerMBean extends Remote {
     /**
      * This method initiates a request.
      *
-     * @param request The request to init.
-     * @throws com.rift.coad.change.request.RequestException
-     * @throws java.rmi.RemoteException
+     * @param id The request to init.
+     * @param xml The xml to process
+     * @throws RequestException The request exception
+     * @throws RemoteException The remote exception
      */
     @MethodInfo(description="Initialize a request using the XML as the source.")
     @Version(number="1.0")

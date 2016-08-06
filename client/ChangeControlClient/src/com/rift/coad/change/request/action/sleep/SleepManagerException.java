@@ -32,7 +32,7 @@ public class SleepManagerException extends Exception {
      * Constructs an instance of
      * <code>SleepManagerException</code> with the specified detail message.
      *
-     * @param msg the detail message.
+     * @param message the detail message.
      * @param cause The cause of the exception
      */
     public SleepManagerException(String message, Throwable cause) {

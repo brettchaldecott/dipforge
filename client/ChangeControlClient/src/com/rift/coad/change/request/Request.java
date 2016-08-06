@@ -209,7 +209,7 @@ public class Request implements Serializable {
     /**
      * This method sets the dependencies.
      * 
-     * @param dependancies The list of dependencies.
+     * @param dependencies The list of dependencies.
      */
     public void setDependencies(List<RequestData> dependencies) {
         this.dependencies = dependencies;

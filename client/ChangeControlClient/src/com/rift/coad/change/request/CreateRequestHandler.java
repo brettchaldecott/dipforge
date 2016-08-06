@@ -47,8 +47,8 @@ public interface CreateRequestHandler extends java.rmi.Remote {
      *
      * @param id The id of the request.
      * @return The reference to the request.
-     * @throws RequestBrokerException
-     * @throws java.rmi.RemoteException
+     * @throws RequestException The request exception
+     * @throws java.rmi.RemoteException The remote exception
      */
     public Request getRequest(String id) throws
             RequestException, RemoteException;

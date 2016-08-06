@@ -36,9 +36,9 @@ public interface ChangeManagerDaemon extends Remote {
     /**
      * This method is responsible for adding a new action.
      * 
-     * @param name The name of the action.
-     * @throws com.rift.coad.change.ChangeException
-     * @throws java.rmi.RemoteException
+     * @param action The name of the action.
+     * @throws ChangeException The change exception
+     * @throws RemoteException The remote exception
      */
     public void addAction(List<ActionInfo> action) throws ChangeException, RemoteException;
 
