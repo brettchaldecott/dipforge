@@ -76,6 +76,7 @@ public class ProcessorHeap implements Serializable {
      * 
      * @param key The key to identify the variable by.
      * @return The reference to the object.
+     * @exception NoSuchVariable If the variable was not found
      */
     public Object getVariable(String key) throws NoSuchVariable {
         if (variables.containsKey(key)) {
@@ -89,7 +90,7 @@ public class ProcessorHeap implements Serializable {
      * This method adds a new variable
      * @param key The key to identify the new variable by.
      * @param value The value to store.
-     * @throws DuplicateVariable 
+     * @throws DuplicateVariableException If there is a duplicate variable
      */
     public void addVariable(String key, Object value) throws DuplicateVariableException {
         if (variables.containsKey(key)) {
@@ -104,7 +105,7 @@ public class ProcessorHeap implements Serializable {
      * 
      * @param key The key to set the value for.
      * @param value The value to set.
-     * @throws NoSuchVariable 
+     * @throws NoSuchVariable If the variable was not found to set
      */
     public void setVariable(String key, Object value) throws NoSuchVariable {
         if (variables.containsKey(key)) {

@@ -52,7 +52,7 @@ public class InvalidOperationException extends EngineException {
      * Constructs an instance of
      * <code>InvalidOperationException</code> with the specified detail message.
      *
-     * @param msg the detail message.
+     * @param message the detail message.
      * @param cause the cause of the message
      */
     public InvalidOperationException(String message, Throwable cause) {

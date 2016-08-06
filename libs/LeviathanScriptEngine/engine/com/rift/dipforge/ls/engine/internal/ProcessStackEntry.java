@@ -30,7 +30,7 @@ public abstract class ProcessStackEntry implements Serializable {
     /**
      * The process stack entry
      *
-     * @param heap The heap
+     * @param processMemoryManager The reference to the process memory manager
      * @param parent The parent reference.
      */
     public ProcessStackEntry(ProcessorMemoryManager processorMemoryManager,
@@ -83,7 +83,6 @@ public abstract class ProcessStackEntry implements Serializable {
      *
      * @param key The key to identify this variable
      * @return TRUE if found FALSE if not.
-     * @throws NoSuchVariable
      */
     public boolean containsVariable(String key) {
         return containsVariable(key, true);
@@ -95,7 +94,6 @@ public abstract class ProcessStackEntry implements Serializable {
      * @param key The key to identify this variable
      * @param searchHeap The flag that indicates if
      * @return TRUE if found FALSE if not.
-     * @throws NoSuchVariable
      */
     public boolean containsVariable(String key, Boolean searchHeap) {
         if (variables.containsKey(key)) {
@@ -116,6 +114,7 @@ public abstract class ProcessStackEntry implements Serializable {
      *
      * @param key The key that identifies the variable.
      * @return The object that was retrieved.
+     * @exception NoSuchVariable If the variable being retrieved does not exist
      */
     public Object getVariable(String key) throws NoSuchVariable {
         if (variables.containsKey(key)) {
@@ -133,7 +132,7 @@ public abstract class ProcessStackEntry implements Serializable {
      *
      * @param key The key to identify the new variable by.
      * @param value The value to store.
-     * @throws DuplicateVariable
+     * @throws DuplicateVariableException If there is a duplicate variable
      */
     public void addVariable(String key, Object value) throws DuplicateVariableException {
         if (containsVariable(key)) {

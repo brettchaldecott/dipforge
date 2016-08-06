@@ -78,8 +78,7 @@ public class ProcessorMemoryManager implements Serializable {
      * This method creates a new stack using the variables and pushes the
      * previous onto the stack.
      * 
-     * @param variables The list of variables to create the new stack with.
-     * @return The newly created stack
+     * @param entry The list of variables to create the new stack with.
      */
     public void pushStack(ProcessStackEntry entry) {
         if (currentStack != null) {

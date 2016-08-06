@@ -37,10 +37,10 @@ public class JavaReflectionUtil {
      * This method returns the object as defined by the variable and the call
      * statement arguments.
      *
-     * @param variable
-     * @param callStatement
-     * @return
-     * @throws EngineException
+     * @param variable The variable
+     * @param entries The list of entries
+     * @return The object reference
+     * @throws EngineException The engin exception that can get thrown if the object was not found
      */
     public static Object getObject(Object variable, 
             List<CallStatement.CallStatementEntry> entries)
