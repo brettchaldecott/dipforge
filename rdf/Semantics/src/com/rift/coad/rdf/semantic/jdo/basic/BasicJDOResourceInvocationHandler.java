@@ -363,8 +363,7 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
     /**
      * The method adds properties to the resource.
      *
-     * @param url The url for the property.
-     * @param obj The object to add to the property.
+     * @param args The arguments
      * @return The resource.
      * @throws com.rift.coad.rdf.semantic.ResourceException
      */

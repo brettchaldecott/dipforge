@@ -43,9 +43,10 @@ public class BasicJDOProxyFactory {
     /**
      * This method returns a JDO proxy.
      *
-     * @param <T> The type of object being dealt with.
-     * @param type The source object.
+     * @param typeRef The type reference
+     * @param persistanceSession The persistance session
      * @param resource The resource.
+     * @param ontologySession The ontology session
      * @return The result.
      * @throws BasicJDOException
      */
