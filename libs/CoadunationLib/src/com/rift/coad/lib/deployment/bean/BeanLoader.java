@@ -95,8 +95,6 @@ public class BeanLoader extends BasicThread {
     
     /**
      * This method loads the beans from the deployment file.
-     *
-     * @exception BeanException
      */
     public void process() {
         try {

@@ -101,7 +101,8 @@ public class RequestListenerThread extends BasicThread {
      * 
      * 
      * @param httpRequestManager The request manager.
-     * @exception HHttpdException
+     * @exception HttpdException
+     * @exception Exception
      */
     public RequestListenerThread(HttpRequestManager httpRequestManager) 
             throws HttpdException, Exception {
