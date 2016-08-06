@@ -154,8 +154,8 @@ public class TieGenerator {
      *
      * @param dir The directory containing all the jars.
      * @param targetDir The target directory for the tie class.
-     * @param classes The class to generate the ties for.
-     * @exception RMIException
+     * @param beanInfo The class to generate the ties for.
+     * @exception RMIException The remote exception that gets thrown
      */
     public TieGenerator(File dir, File targetDir, BeanInfo beanInfo) throws
             RMIException {
@@ -232,7 +232,7 @@ public class TieGenerator {
     /**
      * This method generates the Tie classes.
      *
-     * @exception RMIException
+     * @exception RMIException The remote exception that can be thrown
      */
     public void generate() throws RMIException {
         Class ref = getClass(beanInfo.getClassName());
@@ -400,7 +400,7 @@ public class TieGenerator {
      *
      * @return The list of implemented interfaces.
      * @param ref The reference.
-     * @exception RMIException
+     * @exception RMIException The remote exception that gets thrown
      */
     public String getImplements(Class ref) throws RMIException {
         String interfaceList = "";

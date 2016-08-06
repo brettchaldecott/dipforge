@@ -94,7 +94,7 @@ public class UserSessionManagerAccessor {
      * This method retrieves a reference to the user session manager instance.
      *
      * @return A reference to the user session manager accessor.
-     * @exception UserException;
+     * @exception UserException
      */
     public synchronized static UserSessionManagerAccessor getInstance() 
             throws UserException {

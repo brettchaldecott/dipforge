@@ -286,8 +286,6 @@ public class Runner {
     
     /**
      * The main method responsible for starting the coadunation base.
-     *
-     * @param args the command line arguments
      */
     public static void main() {
         try {

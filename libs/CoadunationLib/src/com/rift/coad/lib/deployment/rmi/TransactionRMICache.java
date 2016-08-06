@@ -98,6 +98,8 @@ public class TransactionRMICache implements Cache,XAResource  {
         
         /**
          * This method returns the list of added entries.
+         *
+         * @return The list of entries
          */
         public List getEntries() {
             return newEntries;
@@ -218,7 +220,9 @@ public class TransactionRMICache implements Cache,XAResource  {
     /**
      * This method is responsible for adding an entry to the cache.
      *
+     * @param timeout The cache timeout
      * @param entry The entry to add to the cache.
+     * @exception RMIException The rmi exception that gets thrown
      */
     public void addCacheEntry(long timeout, CacheEntry entry) throws
             RMIException {
@@ -271,9 +275,9 @@ public class TransactionRMICache implements Cache,XAResource  {
     /**
      * This method returns the bean cache entry.
      *
-     * @return The reference to the bean cache object.
-     * @param key The key to retrieve.
-     * @exception BeanException
+     * @param xid The id of the transaction
+     * @param b three phase commit
+     * @exception XAException
      */
     public void commit(Xid xid, boolean b) throws XAException {
         try {
@@ -295,8 +299,8 @@ public class TransactionRMICache implements Cache,XAResource  {
      * The resource manager has dissociated this object from the transaction.
      *
      * @param xid The id of the transaction that is getting ended.
-     * @param flags The flags associated with this operation.
-     * @exception XAException
+     * @param i The flags associated with this operation.
+     * @exception XAException The xa transaction that gets thrown
      */
     public void end(Xid xid, int i) throws XAException {
     }
@@ -306,7 +310,7 @@ public class TransactionRMICache implements Cache,XAResource  {
      * The transaction has been completed and must be forgotten.
      *
      * @param xid The id of the transaction to forget.
-     * @exception XAException
+     * @exception XAException The xa transaction that gets thrown
      */
     public void forget(Xid xid) throws XAException {
         try {
@@ -323,7 +327,7 @@ public class TransactionRMICache implements Cache,XAResource  {
      * This method returns the transaction timeout for this object.
      *
      * @return The int containing the transaction timeout.
-     * @exception XAException
+     * @exception XAException The xa transaction that gets thrown
      */
     public int getTransactionTimeout() throws XAException {
         return -1;
@@ -335,8 +339,8 @@ public class TransactionRMICache implements Cache,XAResource  {
      * queried.
      *
      * @return TRUE if this is the resource manager, FALSE if not.
-     * @param xaResource The resource to perform the check against.
-     * @exception XAException
+     * @param xAResource The resource to perform the check against.
+     * @exception XAException The xa exception that gets thrown
      */
     public boolean isSameRM(XAResource xAResource) throws XAException {
         return this == xAResource;
@@ -348,7 +352,7 @@ public class TransactionRMICache implements Cache,XAResource  {
      *
      * @return The results of the transaction.
      * @param xid The id of the transaction to check against.
-     * @exception XAException
+     * @exception XAException The xa transaction
      */
     public int prepare(Xid xid) throws XAException {
         return XAResource.XA_OK;
@@ -360,8 +364,8 @@ public class TransactionRMICache implements Cache,XAResource  {
      * manager.
      *
      * @return The list of resource branches.
-     * @param flags The flags
-     * @exception XAException
+     * @param i The flags
+     * @exception XAException The xa transaction exception
      */
     public Xid[] recover(int i) throws XAException {
         return null;
@@ -372,7 +376,7 @@ public class TransactionRMICache implements Cache,XAResource  {
      * This method is called to roll back the specified transaction.
      *
      * @param xid The id of the transaction to roll back.
-     * @exception XAException
+     * @exception XAException The xa transaction exception
      */
     public void rollback(Xid xid) throws XAException {
         try {
@@ -409,8 +413,8 @@ public class TransactionRMICache implements Cache,XAResource  {
      * This method sets the transaction timeout for this resource manager.
      *
      * @return TRUE if the transaction timeout can be set successfully.
-     * @param transactionTimeout The new transaction timeout value.
-     * @exception XAException
+     * @param i The new transaction timeout value.
+     * @exception XAException The xa transaction exception
      */
     public boolean setTransactionTimeout(int i) throws XAException {
         return true;
@@ -421,8 +425,8 @@ public class TransactionRMICache implements Cache,XAResource  {
      * This method is called to start a transaction on a resource manager.
      *
      * @param xid The id of the new transaction.
-     * @param flags The flags associated with the transaction.
-     * @exception XAException
+     * @param i The flags associated with the transaction.
+     * @exception XAException XA transaction exception
      */
     public void start(Xid xid, int i) throws XAException {
         if (!transactionChanges.containsKey(xid)) {

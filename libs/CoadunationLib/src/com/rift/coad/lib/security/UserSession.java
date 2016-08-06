@@ -118,7 +118,7 @@ public class UserSession implements PrincipalContainer, Cloneable {
     /**
      * This method returns the id of the users session id.
      *
-     * @return The id of the users session.
+     * @param sessionId The id of the session
      */
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
@@ -138,7 +138,7 @@ public class UserSession implements PrincipalContainer, Cloneable {
     /**
      * This method set the list of principals.
      *
-     * @param The list of principals.
+     * @param principals The list of principals.
      */
     public void setPrincipals(Set principals) {
         this.principals = principals;

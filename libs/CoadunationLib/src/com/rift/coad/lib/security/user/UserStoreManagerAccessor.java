@@ -91,7 +91,7 @@ public class UserStoreManagerAccessor {
      * This method retrieves a reference to the user store manager instance.
      *
      * @return A reference to the user store manager accessor.
-     * @exception UserException;
+     * @exception UserException
      */
     public synchronized static UserStoreManagerAccessor getInstance() 
             throws UserException {

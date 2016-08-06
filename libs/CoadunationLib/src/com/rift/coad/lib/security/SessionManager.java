@@ -63,6 +63,7 @@ public final class SessionManager {
      *
      * @return The reference to the session manager.
      * @param permissions The reference to the permission object.
+     * @exception SecurityException
      */
     public synchronized static SessionManager init(
             ThreadsPermissionContainer permissions) 
@@ -81,6 +82,7 @@ public final class SessionManager {
      * on if none exists.
      *
      * @return A reference to the singleton session manager.
+     * @exception SecurityException
      */
     public synchronized static SessionManager getInstance() 
         throws SecurityException {
@@ -96,7 +98,6 @@ public final class SessionManager {
      * This method will init a new session for the given thread. If one does
      * exist that session will be over written.
      *
-     * @param user The user object used to init the session.
      * @exception SecurityException
      */
     public void initSession() throws SecurityException {
