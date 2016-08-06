@@ -9,7 +9,7 @@
 -->
 
 <users>
-    <user name="admin" password="${ADMIN_PASSWORD}">
+    <user name="admin" password="@ADMIN_PASSWORD@">
         <principal>admin</principal>
         <principal>special</principal>
         <principal>guest</principal>
@@ -34,62 +34,62 @@
         <principal>base</principal>
         <principal>organisation</principal>
     </user>
-    <user name="daemon" password="${ADMIN_PASSWORD}">
+    <user name="daemon" password="@ADMIN_PASSWORD@">
         <principal>daemon</principal>
     </user>
-    <user name="dns" password="${ADMIN_PASSWORD}">
+    <user name="dns" password="@ADMIN_PASSWORD@">
         <principal>dns</principal>
         <principal>daemon</principal>
     </user>
-    <user name="email" password="${ADMIN_PASSWORD}">
+    <user name="email" password="@ADMIN_PASSWORD@">
         <principal>email</principal>
         <principal>daemon</principal>
     </user>
-    <user name="guest" password="${ADMIN_PASSWORD}">
+    <user name="guest" password="@ADMIN_PASSWORD@">
         <principal>guest</principal>
         <principal>daemon</principal>
     </user>
-    <user name="test" password="${ADMIN_PASSWORD}">
+    <user name="test" password="@ADMIN_PASSWORD@">
         <principal>guest</principal>
         <principal>daemon</principal>
     </user>
-    <user name="desktop" password="${ADMIN_PASSWORD}">
+    <user name="desktop" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
     </user>
-    <user name="type_manager" password="${ADMIN_PASSWORD}">
+    <user name="type_manager" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
         <principal>type_manager</principal>
     </user>
-    <user name="audit_trail" password="${ADMIN_PASSWORD}">
+    <user name="audit_trail" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
         <principal>audit_trail</principal>
     </user>
-    <user name="change" password="${ADMIN_PASSWORD}">
+    <user name="change" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
         <principal>audit_trail</principal>
         <principal>change</principal>
     </user>
-    <user name="data_mapper_broker" password="${ADMIN_PASSWORD}">
+    <user name="data_mapper_broker" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
         <principal>data_mapper_broker</principal>
     </user>
-    <user name="script_manager" password="${ADMIN_PASSWORD}">
+    <user name="script_manager" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
         <principal>script_manager</principal>
     </user>
-    <user name="groovy_manager" password="${ADMIN_PASSWORD}">
+    <user name="groovy_manager" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
         <principal>script_manager</principal>
         <principal>groovy_manager</principal>
     </user>
-    <user name="request_broker" password="${ADMIN_PASSWORD}">
+    <user name="request_broker" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>
         <principal>daemon</principal>
         <principal>audit_trail</principal>
