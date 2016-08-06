@@ -146,7 +146,7 @@ public class NamingDirector {
     /**
      * This method returns a reference to the current instancance in memory.
      *
-     * @exception Exception
+     * @exception NamingException
      */
     public synchronized static NamingDirector getInstance() throws 
             NamingException {

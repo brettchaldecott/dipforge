@@ -61,9 +61,7 @@ public class HttpDaemon {
      * 
      * 
      * @param threadGroup A grouping of threads.
-     * @param threadPermissions The object containing the permissions for all
-     *      threads.
-     * @exception HHttpdException
+     * @exception HttpdException
      */
     public HttpDaemon(CoadunationThreadGroup threadGroup) throws HttpdException {
         try {

@@ -38,7 +38,7 @@ public class RMIClass implements RMICInter {
      * The hello world method
      *
      * @param message The message.
-     * @exception RemoteException
+     * @exception java.rmi.RemoteException
      */
     public void helloWorld(String message) throws java.rmi.RemoteException {
         

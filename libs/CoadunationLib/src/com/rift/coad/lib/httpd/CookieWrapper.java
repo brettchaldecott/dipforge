@@ -69,7 +69,7 @@ public class CookieWrapper {
     /**
      * The constructor of the class responsible for processing the raw source.
      *
-     * @param rawSrouce The raw source to process.
+     * @param rawSource The raw source to process.
      * @exception HttpdException
      */
     public CookieWrapper(String rawSource) 

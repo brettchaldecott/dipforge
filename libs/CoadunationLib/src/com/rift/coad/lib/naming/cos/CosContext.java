@@ -231,7 +231,7 @@ public class CosContext implements Context {
      *
      * @return The previous value of the property or null.
      * @param propName The property to replace or add.
-     * @param propValue The new property value.
+     * @param propVal The new property value.
      */
     public Object addToEnvironment(String propName, Object propVal) throws 
             NamingException {
@@ -377,7 +377,7 @@ public class CosContext implements Context {
      * Creates and binds a new context.
      *
      * @return The newly create sub context.
-     * @exception name The name of the new sub context.
+     * @param name The name of the new sub context.
      * @exception NamingException
      */
     public Context createSubcontext(String name) throws NamingException {
@@ -874,7 +874,6 @@ public class CosContext implements Context {
      *
      * @return The unwrapped object.
      * @param value The value to unwrapp.
-     * @param name The name of the bound object used for Referenceble objects.
      * @exception NamingException
      */
     public Object unwrapBindingValue(Object value) throws 

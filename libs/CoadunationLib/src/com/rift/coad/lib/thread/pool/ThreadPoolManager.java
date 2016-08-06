@@ -56,7 +56,7 @@ public class ThreadPoolManager {
         /**
          * The constructor of pool thread.
          *
-         * @param threadPool The reference to the thread pool.
+         * @param threadPoolManager The reference to the thread pool.
          * @param taskClass The task object to process.
          * @exception Exception
          */

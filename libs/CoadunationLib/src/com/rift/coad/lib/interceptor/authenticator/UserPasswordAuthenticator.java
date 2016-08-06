@@ -58,7 +58,7 @@ public class UserPasswordAuthenticator implements InterceptorAuthenticator {
      * credentials
      *
      * @return UserSession The new user session for the given credentials.
-     * @param credentials The credentials for the user session.
+     * @param credential The credentials for the user session.
      * @exception InterceptorException
      * @exception AuthorizationException
      */

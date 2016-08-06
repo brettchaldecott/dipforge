@@ -66,7 +66,7 @@ public class WebServiceConnector {
      * This method returns the WebService connector instance.
      *
      * @return The reference to the web service connector.
-     * @exception JMXException
+     * @exception WebServiceException
      */
     public static synchronized WebServiceConnector getInstance() 
             throws WebServiceException {

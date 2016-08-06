@@ -88,7 +88,7 @@ public class WebServiceManager {
          * This method returns the reference to the web service wrapper object.
          *
          * @return The reference to the object.
-         * @param The path to retrieve.
+         * @param path The path to retrieve.
          */
         public synchronized Object getService(String path) {
             return services.get(path);

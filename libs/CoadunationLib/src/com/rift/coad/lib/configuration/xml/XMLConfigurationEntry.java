@@ -78,7 +78,7 @@ public class XMLConfigurationEntry {
     /**
      * The setter method for the type information.
      *
-     * @parm type The object containing the type information.
+     * @param type The object containing the type information.
      */
     public void setType(XMLConfigurationType type) {
         this.type = type;

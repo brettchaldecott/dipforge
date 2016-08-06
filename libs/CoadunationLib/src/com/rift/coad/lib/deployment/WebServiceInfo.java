@@ -105,7 +105,7 @@ public class WebServiceInfo {
     /**
      * The method responsible for setting the path to the WSDL file.
      *
-     * @param WSDLPath The name of the target to set.
+     * @param wsdlPath The name of the target to set.
      */
     public void setWSDLPath(String wsdlPath) {
         this.wsdlPath = wsdlPath;
@@ -145,7 +145,7 @@ public class WebServiceInfo {
     /**
      * This method sets the transaction
      *
-     * @param TRUE if this container must control the transaction.
+     * @param transaction TRUE if this container must control the transaction.
      */
     public void setTransaction(boolean transaction) {
         this.transaction = transaction;

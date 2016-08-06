@@ -137,7 +137,6 @@ public class ObjectLockFactory {
          * This method returns true if this lock is owned by the caller.
          *
          * @return TRUE if lock owned by CALLER
-         * @param name The name associated with the lock.
          */
         public boolean ownLock() {
             if (threadId == Thread.currentThread().getId()) {
@@ -212,7 +211,8 @@ public class ObjectLockFactory {
         /**
          * This method will aquire a read lock for the given name
          *
-         * @return LockException
+         * @param name The name of the lock
+         * @exception LockException
          */
         public synchronized void getReadLock(Object name) throws LockException {
             waiting++;
@@ -542,7 +542,7 @@ public class ObjectLockFactory {
      * This method returns the object lock factory singleton reference.
      *
      * @return The object lock factory singleton reference.
-     * @exception LockException.
+     * @exception LockException
      */
     public synchronized static ObjectLockFactory getInstance() throws
             LockException {
