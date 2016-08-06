@@ -385,6 +385,7 @@ clean {
             fileset(dir: "dipforge/bin"){
                 include(name: "**/*.bat")
                 include(name: "**/*.sh")
+                include(name: "**/*.conf")
             }
         }
         delete {
