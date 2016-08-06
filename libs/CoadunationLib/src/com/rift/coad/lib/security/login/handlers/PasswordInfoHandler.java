@@ -49,6 +49,9 @@ public class PasswordInfoHandler implements LoginInfoHandler {
     
     /** 
      * Creates a new instance of PasswordInfoHandler 
+     *
+     * @param username The username to use for authentication
+     * @param password The password to authenticate the user with
      */
     public PasswordInfoHandler(String username, String password) {
         this.username = username;
@@ -71,7 +74,7 @@ public class PasswordInfoHandler implements LoginInfoHandler {
      * This method return the information required to perform the login.
      *
      * @return The map containing the authentication information.
-     * @exception LoginException
+     * @exception LoginException If the info cannot be retrieved
      */
     public Map getInfo() throws LoginException {
         Map parameters = new HashMap();

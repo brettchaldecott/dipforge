@@ -73,7 +73,7 @@ public class RMICache implements Cache {
     /** 
      * Creates a new instance of RMICache
      *
-     * @exception RMIException
+     * @exception RMIException The remote exception that can get thrown
      */
     public RMICache() throws RMIException {
         try {
@@ -172,7 +172,9 @@ public class RMICache implements Cache {
     /**
      * This method is responsible for adding an entry to the cache.
      *
+     * @param timeout The timeout reference
      * @param entry The entry to add to the cache.
+     * @exception RMIException The remote exception that can get thrown
      */
     public void addCacheEntry(long timeout, CacheEntry entry) throws RMIException {
         synchronized(cacheEntries) {

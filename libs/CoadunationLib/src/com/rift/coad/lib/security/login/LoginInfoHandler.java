@@ -47,7 +47,7 @@ public interface LoginInfoHandler {
      * This method return the information required to perform the login.
      *
      * @return The map containing the authentication information.
-     * @exception LoginException
+     * @exception LoginException If the info cannot be retrieved due to unforceen reasons
      */
     public Map getInfo() throws LoginException;
     

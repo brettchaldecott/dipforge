@@ -88,6 +88,8 @@ public class RMICacheEntry implements CacheEntry {
     
     /**
      * This method returns the cache entry
+     *
+     * @return The reference to the cached entry
      */
     public CacheEntry getCacheEntry() {
         return cacheEntry;

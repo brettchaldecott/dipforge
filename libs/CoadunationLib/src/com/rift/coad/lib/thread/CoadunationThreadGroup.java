@@ -71,6 +71,7 @@ public class CoadunationThreadGroup {
         /**
          * This method adds a new thread to the list of threads.
          *
+         * @return TRUE if a thread is added, FALSE if the thread group is terminated and a thread cannot be added
          * @param thread The reference to the thread to add.
          */
         public synchronized boolean addThread(BasicThread thread) {
@@ -123,6 +124,8 @@ public class CoadunationThreadGroup {
         
         /**
          * This method will return true if this object is terminated
+         *
+         * @return TRUE if terminated, FALSE if not
          */
         public synchronized boolean isTerminated() {
             return terminated;
@@ -151,6 +154,7 @@ public class CoadunationThreadGroup {
      * 
      * @param sessionManager A reference to the user session manager.
      * @param userStoreManager The user store object.
+     * @exception ThreadException If the thread group cannot be intanciated
      */
     public CoadunationThreadGroup(UserSessionManager sessionManager,
             UserStoreManager userStoreManager) throws ThreadException {
@@ -205,7 +209,7 @@ public class CoadunationThreadGroup {
      * @param classRef The reference to the class type.
      * @param username The name of the user.
      * @param number The number of threads to start.
-     * @exception ThreadException
+     * @exception ThreadException If the threads cannot be thrown
      */
     public void startThreads(Class classRef, String username, int number) 
     throws ThreadException {
@@ -239,7 +243,7 @@ public class CoadunationThreadGroup {
      *
      * @param threadRef The reference to the class type.
      * @param username The name of the user.
-     * @exception ThreadException
+     * @exception ThreadException If a thread cannot be added
      */
     public void addThread(BasicThread threadRef, String username) 
     throws ThreadException {
@@ -266,7 +270,7 @@ public class CoadunationThreadGroup {
      *
      * @return TRUE if the thread has been added false if it could not be added.
      * @param threadRef The reference to the thread object to add.
-     * @exception ThreadException
+     * @exception ThreadException If a thread cannot be added
      */
     protected boolean addThread(BasicThread threadRef) throws ThreadException {
         return threadList.addThread(threadRef);
@@ -277,7 +281,6 @@ public class CoadunationThreadGroup {
      * This method will remove the thread reference from the object.
      *
      * @param threadRef The reference to removed.
-     * @exception ThreadException
      */
     protected void removeThread(BasicThread threadRef) {
         threadList.remove(threadRef);
@@ -299,6 +302,7 @@ public class CoadunationThreadGroup {
      * by this object.
      *
      * @return The list containing the thread information.
+     * @exception ThreadException If the thread information cannot be retrieved
      */
     public List getThreadInfo() throws ThreadException {
         List threadInfoList = new ArrayList();
@@ -316,6 +320,8 @@ public class CoadunationThreadGroup {
     
     /**
      * This method will return the terminated flag value.
+     *
+     * @return TRUE if terminated, FALSE if not
      */
     public boolean  isTerminated() {
         return threadList.isTerminated();
@@ -401,7 +407,7 @@ public class CoadunationThreadGroup {
      * This method creates a new child thread group.
      *
      * @return The newly created thread group.
-     * @exception ThreadException
+     * @exception ThreadException If a thread group cannot be created
      */
     public CoadunationThreadGroup createThreadGroup() throws ThreadException {
         return new CoadunationThreadGroup(this,sessionManager,userStoreManager);
