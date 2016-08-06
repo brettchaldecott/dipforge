@@ -122,7 +122,7 @@ public class BeanInfo {
     /**
      * The setter method of the extra classes.
      *
-     * @param classes The list of classes.
+     * @param className The list of classes.
      */
     public void addClass(String className) {
         this.classes.add(className);
@@ -162,7 +162,7 @@ public class BeanInfo {
     /**
      * The setter method for the role name.
      *
-     * @param The name of the role to set.
+     * @param role The name of the role to set.
      */
     public void setRole(String role) {
         this.role = role;
@@ -222,7 +222,7 @@ public class BeanInfo {
     /**
      * The setter method for the cache time out.
      *
-     * @param cacheResults The value to set the cache results flag to.
+     * @param cacheTimeout The value to set the cache results flag to.
      */
     public void setCacheTimeout(long cacheTimeout) {
         this.cacheTimeout= cacheTimeout;
@@ -262,7 +262,7 @@ public class BeanInfo {
     /**
      * This method sets the transaction
      *
-     * @param TRUE if this container must control the transaction.
+     * @param transaction TRUE if this container must control the transaction.
      */
     public void setTransaction(boolean transaction) {
         this.transaction = transaction;

@@ -365,8 +365,6 @@ public class UserTransactionWrapper {
     /**
      * This method is called to release a lock on a transaction and will result
      * in rollback if the transaction is not commited
-     *
-     * @exception TransactionException;
      */
     public int release() {
         try {

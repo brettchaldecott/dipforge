@@ -188,7 +188,8 @@ public class BeanCache implements Cache {
      * This method returns the bean cache entry for manipulation by the caller.
      *
      * @return A reference to the bean cache object.
-     * @param cacheEntry The cache entry to retrieve.
+     * @param cacheKey The cache entry to retrieve.
+     * @exception BeanException
      */
     public BeanCacheEntry getEntry(Object cacheKey) throws BeanException {
         synchronized (entries) {

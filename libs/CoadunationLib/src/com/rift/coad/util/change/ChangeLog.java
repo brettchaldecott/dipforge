@@ -181,8 +181,6 @@ public class ChangeLog implements XAResource {
         
         /**
          * This method is called to commit the batch transaction
-         * 
-         * @throws Exception 
          */
         public void commitTransaction() {
             this.batchSize++;
@@ -207,8 +205,6 @@ public class ChangeLog implements XAResource {
         
         /**
          * This method is called to force the commit of a change log transaction
-         * 
-         * @throws Exception 
          */
         public void forceCommitTransaction() {
             if (this.changeClassLoader != null) {
@@ -463,7 +459,7 @@ public class ChangeLog implements XAResource {
     /**
      * This method is responsible for instanciating the MessageChangeLog.
      *
-     * @param username The name of the user to this object will run as.
+     * @param configInfo The configuration information for this object
      * @exception ChangeException
      */
     public synchronized static void init(Class configInfo) throws
@@ -597,7 +593,7 @@ public class ChangeLog implements XAResource {
      * This method is called to commit the specified transaction.
      *
      * @param xid The id of the transaction to commit.
-     * @param onePhase If true a one phase commit should be used.
+     * @param b If true a one phase commit should be used.
      * @exception XAException
      */
     public void commit(Xid xid, boolean b) throws XAException {
@@ -612,7 +608,7 @@ public class ChangeLog implements XAResource {
      * The resource manager has dissociated this object from the transaction.
      *
      * @param xid The id of the transaction that is getting ended.
-     * @param flags The flags associated with this operation.
+     * @param i The flags associated with this operation.
      * @exception XAException
      */
     public void end(Xid xid, int i) throws XAException {
@@ -646,7 +642,7 @@ public class ChangeLog implements XAResource {
      * queried.
      *
      * @return TRUE if this is the resource manager, FALSE if not.
-     * @param xaResource The resource to perform the check against.
+     * @param xAResource The resource to perform the check against.
      * @exception XAException
      */
     public boolean isSameRM(XAResource xAResource) throws XAException {
@@ -671,7 +667,7 @@ public class ChangeLog implements XAResource {
      * manager.
      *
      * @return The list of resource branches.
-     * @param flags The flags
+     * @param i The flags
      * @exception XAException
      */
     public Xid[] recover(int i) throws XAException {
@@ -694,7 +690,7 @@ public class ChangeLog implements XAResource {
      * This method sets the transaction timeout for this resource manager.
      *
      * @return TRUE if the transaction timeout can be set successfully.
-     * @param transactionTimeout The new transaction timeout value.
+     * @param i The new transaction timeout value.
      * @exception XAException
      */
     public boolean setTransactionTimeout(int i) throws XAException {
@@ -706,7 +702,7 @@ public class ChangeLog implements XAResource {
      * This method is called to start a transaction on a resource manager.
      *
      * @param xid The id of the new transaction.
-     * @param flags The flags associated with the transaction.
+     * @param i The flags associated with the transaction.
      * @exception XAException
      */
     public void start(Xid xid, int i) throws XAException {

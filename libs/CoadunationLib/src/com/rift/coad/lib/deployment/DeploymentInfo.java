@@ -147,7 +147,7 @@ public class DeploymentInfo {
     /**
      * This method will add a new JMX bean to the list of beans.
      *
-     * @param beanInfo The bean info object.
+     * @param jmxBeanInfo The bean info object.
      */
     public void addJmxBean(JMXBeanInfo jmxBeanInfo) {
         jmxBeans.put(jmxBeanInfo.getClassName(),jmxBeanInfo);

@@ -103,7 +103,6 @@ public class SessionClientInterceptor extends InterceptorWrapper implements
      * returned from the server and before control is returned to the client.
      *
      * @param ri The client request information.
-     * @exception ForwardRequest
      */
     public void receive_reply(ClientRequestInfo ri) {
         

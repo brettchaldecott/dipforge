@@ -184,8 +184,7 @@ public class TransactionManager implements XAResource {
         /**
          * This method is called to roll back the specified transaction.
          *
-         * @param xid The id of the transaction to roll back.
-         * @exception XAException
+         * @exception TransactionException
          */
         public void rollback() throws TransactionException {
             try {
@@ -414,7 +413,7 @@ public class TransactionManager implements XAResource {
      * queried.
      *
      * @return TRUE if this is the resource manager, FALSE if not.
-     * @param xaResource The resource to perform the check against.
+     * @param xAResource The resource to perform the check against.
      * @exception XAException
      */
     public boolean isSameRM(XAResource xAResource) throws XAException {

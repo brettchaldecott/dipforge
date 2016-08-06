@@ -205,7 +205,7 @@ public class LocalTransaction implements Transaction {
     /**
      * This method is responsible for registering a transaction.
      * 
-     * @param s The synchronization object.
+     * @param sync The synchronization object.
      * @throws RollbackException
      * @throws IllegalStateException
      * @throws SystemException 

@@ -48,7 +48,7 @@ public class BeanCacheEntry {
      *
      * @param timeout The time out value.
      * @param cacheKey The cache key that uniqly identifies this object.
-     * @param wrapperObject The wrapper object reference.
+     * @param wrappedObject The wrapper object reference.
      * @param cacheEntry The new entry to add to the cache.
      */
     public BeanCacheEntry(long timeout, Object cacheKey, Object wrappedObject,

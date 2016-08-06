@@ -135,7 +135,8 @@ public class TransactionBeanCache implements Cache,XAResource {
         /**
          * This method will add a lock to the list of locks.
          *
-         * @exception MessageServiceException
+         * @param lock The lock reference
+         * @exception BeanException
          */
         public void addLock(LockRef lock) throws BeanException {
             locks.add(lock);
@@ -342,7 +343,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * This mehtod returns true if the cache contains the checked entry.
      *
      * @return TRUE if the cache contains the checked entry.
-     * @param cacheEntry The entry to perform the check for.
+     * @param cacheKey The entry to perform the check for.
      */
     public boolean contains(Object cacheKey) {
         try {
@@ -362,7 +363,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * This method returns the bean cache entry.
      *
      * @return The reference to the bean cache object.
-     * @param key The key to retrieve.
+     * @param cacheKey The key to retrieve.
      * @exception BeanException
      */
     public BeanCacheEntry getCacheEntry(Object cacheKey) throws BeanException {
@@ -478,7 +479,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * This method is called to commit the specified transaction.
      *
      * @param xid The id of the transaction to commit.
-     * @param onePhase If true a one phase commit should be used.
+     * @param b If true a one phase commit should be used.
      * @exception XAException
      */
     public synchronized void commit(Xid xid, boolean b) throws XAException {
@@ -507,7 +508,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * The resource manager has dissociated this object from the transaction.
      *
      * @param xid The id of the transaction that is getting ended.
-     * @param flags The flags associated with this operation.
+     * @param i The flags associated with this operation.
      * @exception XAException
      */
     public void end(Xid xid, int i) throws XAException {
@@ -558,7 +559,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * queried.
      *
      * @return TRUE if this is the resource manager, FALSE if not.
-     * @param xaResource The resource to perform the check against.
+     * @param xAResource The resource to perform the check against.
      * @exception XAException
      */
     public boolean isSameRM(XAResource xAResource) throws XAException {
@@ -583,7 +584,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * manager.
      *
      * @return The list of resource branches.
-     * @param flags The flags
+     * @param i The flags
      * @exception XAException
      */
     public Xid[] recover(int i) throws XAException {
@@ -658,7 +659,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * This method sets the transaction timeout for this resource manager.
      *
      * @return TRUE if the transaction timeout can be set successfully.
-     * @param transactionTimeout The new transaction timeout value.
+     * @param i The new transaction timeout value.
      * @exception XAException
      */
     public boolean setTransactionTimeout(int i) throws XAException {
@@ -670,7 +671,7 @@ public class TransactionBeanCache implements Cache,XAResource {
      * This method is called to start a transaction on a resource manager.
      *
      * @param xid The id of the new transaction.
-     * @param flags The flags associated with the transaction.
+     * @param i The flags associated with the transaction.
      * @exception XAException
      */
     public void start(Xid xid, int i) throws XAException {
