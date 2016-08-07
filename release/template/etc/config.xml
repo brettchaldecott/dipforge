@@ -526,7 +526,7 @@
     </object>
     <object name="com.rift.coad.daemon.dns.server.ServerLookup">
         <entry key="recursive_lookup" type="boolean">
-            true
+            @recursive_lookup@
         </entry>
         <entry key="nameserver_list" type="string">
             127.0.0.1

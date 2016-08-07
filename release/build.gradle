@@ -265,19 +265,19 @@ task copyBinTemplate(type: Copy) {
     from "${projectDir}/template/bin/"
     into "${projectDir}/dipforge/bin/"
     fileMode=0755
-    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version, hostname: InetAddress.getLocalHost().getHostName(), java_home: project.ext.javaHome, ADMIN_PASSWORD: "admin"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version, hostname: InetAddress.getLocalHost().getHostName(), java_home: project.ext.javaHome, ADMIN_PASSWORD: "admin", recursive_lookup: "true"] )
 }
 
 task copyEtcTemplate(type: Copy) {
     from "${projectDir}/template/etc/"
     into "${projectDir}/dipforge/etc/"
-    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName(), ADMIN_PASSWORD: "admin"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName(), ADMIN_PASSWORD: "admin", recursive_lookup: "true"] )
 }
 
 task copyVarTemplate(type: Copy) {
     from "${projectDir}/template/var/"
     into "${projectDir}/dipforge/var/"
-    filter(ReplaceTokens, tokens:[hostname: InetAddress.getLocalHost().getHostName(), dipforge_home: project.ext.dipforgeHome,ADMIN_PASSWORD: "admin"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName(), ADMIN_PASSWORD: "admin", recursive_lookup: "true"] )
 }
 
 task copyTemplates(dependsOn:[copyBinTemplate,copyEtcTemplate,copyVarTemplate]) {
@@ -288,19 +288,19 @@ task copyBinResource(type: Copy) {
     from "${projectDir}/template/bin/"
     into "${projectDir}/resource/bin/"
     fileMode=0755
-    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD", recursive_lookup: "true"] )
 }
 
 task copyEtcResource(type: Copy) {
     from "${projectDir}/template/etc/"
     into "${projectDir}/resource/etc/"
-    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD", recursive_lookup: "true"] )
 }
 
 task copyVarResource(type: Copy) {
     from "${projectDir}/template/var/"
     into "${projectDir}/resource/var/"
-    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD", recursive_lookup: "true"] )
 }
 
 task copyResource(dependsOn:[copyBinResource,copyEtcResource,copyVarResource]) {
@@ -311,19 +311,19 @@ task copyBinGenerator(type: Copy) {
     from "${projectDir}/template/bin/"
     into "${projectDir}/generator/bin/"
     fileMode=0755
-    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>", recursive_lookup: "<%= recursive_lookup %>"] )
 }
 
 task copyEtcGenerator(type: Copy) {
     from "${projectDir}/template/etc/"
     into "${projectDir}/generator/etc/"
-    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>", recursive_lookup: "<%= recursive_lookup %>"] )
 }
 
 task copyVarGenerator(type: Copy) {
     from "${projectDir}/template/var/"
     into "${projectDir}/generator/var/"
-    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>"] )
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>", recursive_lookup: "<%= recursive_lookup %>"] )
 }
 
 task copyGenerator(dependsOn:[copyBinGenerator,copyEtcGenerator,copyVarGenerator]) {
@@ -680,11 +680,17 @@ task zipDipforge(type: Zip) {
     exclude '**/deploy/*.ear'
 }
 
+task zipGeneratorTemplate(type: Zip) {
+    appendix = 'template'
+    from 'generator'
+    baseName = 'generator-dipforge'
+}
+
 task makeDipforgeRelease(type:Exec, dependsOn:[':release:release']) {
   commandLine 'mvn', 'install'
 }
 
-task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,makeDipforgeRelease]) << {
+task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease]) << {
     try {
         // validate parameters for release task
         println "git tag ${project.hasProperty('gitTag')}"
@@ -722,6 +728,11 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,makeDipfor
         def dipforgeTemplateFileName = "dipforge-template-${version}.zip"
         def dipforgeTemplatePath = new File("release/build/distributions/${dipforgeTemplateFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeTemplateFileName, dipforgeTemplatePath.absolutePath)
+
+        // upload the generator dipforge template
+        def generatorDipforgeTemplateFileName = "generator-dipforge-template-${version}.zip"
+        def generatorDipforgeTemplatePath = new File("release/build/distributions/${generatorDipforgeTemplateFileName}")
+        uploadFile(gitUsername, gitToken, repo, gitTag, generatorDipforgeTemplateFileName, generatorDipforgeTemplatePath.absolutePath)
 
     } catch (Exception ex) {
         println "Failed to create the release ${ex.getMessage()}"
