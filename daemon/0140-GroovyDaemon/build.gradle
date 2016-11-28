@@ -46,7 +46,7 @@ dependencies {
     releaseJars project(':client:ServiceBrokerClient')
     releaseJars project(':client:CoadunationTypeManager')
     releaseJars group: 'xerces', name: 'xercesImpl', version: '2.7.1', ext: 'jar'
-    releaseJars group: 'org.apache.httpcomponents', name:'httpclient', version:'4.3.6', ext: 'jar'
+    releaseJars group: 'org.apache.httpcomponents', name:'httpclient', version:'4.5.2', ext: 'jar'
 }
 
 sourceSets {
@@ -76,6 +76,21 @@ task copyToJars(type: Copy) {
     exclude "**/*CoadunationLib*"
     exclude "**/*carol*"
     exclude "**/*axis*"
+    exclude '**/*CoadunationLib*'
+    exclude '**/*CoadunationAnnotations*'
+    exclude '**/*CoadunationCommon*'
+    exclude '**/*CoadunationClient*'
+    exclude '**/*CoadunationSecurity*'
+    exclude '**/*CoadunationBase*'
+    exclude '**/*jacorb*'
+    exclude '**/*axis*'
+    exclude '**/*carol*'
+    exclude '**/*jotm*'
+    exclude '**/*wsdl*'
+    exclude '**/*slf4j*'
+    exclude '**/*jta*'
+    exclude '**/*avalon*'
+    exclude '**/*log4j*'
 }
 
 jar {

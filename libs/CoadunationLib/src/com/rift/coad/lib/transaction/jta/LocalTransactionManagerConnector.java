@@ -8,6 +8,7 @@ package com.rift.coad.lib.transaction.jta;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.log4j.Logger;
 
 /**
  * This object is responsible for the transaction managers associated with various
@@ -16,6 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author brett chaldecott
  */
 public class LocalTransactionManagerConnector {
+    
+    // the logger reference
+    protected static Logger log =
+            Logger.getLogger(LocalTransactionManagerConnector.class.getName());
     
     private static Map<ClassLoader,LocalTransactionManager> managers = 
             new ConcurrentHashMap<>();
@@ -35,7 +40,6 @@ public class LocalTransactionManagerConnector {
      */
     public static synchronized LocalTransactionManager getTransactionManager() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        
         // Find the first manager with a transaction
         ClassLoader currentLoader = loader;
         LocalTransactionManager manager = null;
@@ -47,7 +51,7 @@ public class LocalTransactionManagerConnector {
                 }
             } catch (Exception ex) {
                 // failed to 
-                System.out.println("Failed to retrieve the transaction manager " + 
+                log.info("Failed to retrieve the transaction manager " + 
                         ex.getMessage());
             }
             currentLoader = currentLoader.getParent();
@@ -65,7 +69,7 @@ public class LocalTransactionManagerConnector {
                 }
             } catch (Exception ex) {
                 // failed to 
-                System.out.println("Failed to retrieve the transaction manager " + 
+                log.info("Failed to retrieve the transaction manager " + 
                         ex.getMessage());
             }
             currentLoader = currentLoader.getParent();

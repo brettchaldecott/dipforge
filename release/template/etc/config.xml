@@ -1107,6 +1107,9 @@
         <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/master_rdf_store.ttl
         </entry>
+        <entry key="start_store_http_server" type="string">
+            yes
+        </entry>
     </object>
     <!-- End of Dipforge Groovy Environment -->
     <!-- Reverse Proxy Configuration -->

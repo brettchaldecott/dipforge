@@ -177,6 +177,8 @@ public class MasterRDFStoreDaemonImpl implements MasterRDFStoreDaemon, BeanRunna
             }
         }
         
+        
+        
         try {
             ChangeLog.init(MasterRDFStoreDaemonImpl.class);
         } catch (Exception ex) {

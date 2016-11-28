@@ -65,7 +65,6 @@ task copyToJars(type: Copy) {
     exclude "**/*axis*"
     exclude "**/*httpcore*"
     exclude "**/*wsdl4j*"
-    exclude "**/*ant*"
     exclude "**/*avalon-framework*"
     exclude "**/*commons-logging*"
     exclude "**/*jacorb*"

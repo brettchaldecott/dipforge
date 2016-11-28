@@ -307,7 +307,7 @@ public class UserTransactionWrapper {
     public void begin() throws TransactionException {
         try {
             TransactionInfo trans = (TransactionInfo)currentTransaction.get();
-            if (trans == null) {
+            if (trans == null || !this.isInTransaction()) {
                 List<TransactionManager> managers = new ArrayList<>();
                 
                 // check if there is not transaction or if the 
@@ -395,6 +395,20 @@ public class UserTransactionWrapper {
                     ex.getMessage());
             return -1;
         }
+    }
+    
+    
+    /**
+     * This method returns TRUE if there is a transaction on this object.
+     * 
+     * @return TRUE if there is a transaction, FALSE if not.
+     */
+    public boolean isInTransaction() {
+        TransactionInfo trans = (TransactionInfo)currentTransaction.get();
+        if (trans == null) {
+             return false;
+        }
+        return !trans.getCommitted();
     }
     
     

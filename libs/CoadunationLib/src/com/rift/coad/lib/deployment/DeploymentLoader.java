@@ -204,7 +204,10 @@ public class DeploymentLoader {
                 urlList[index + 1] = jars[index].toURL();
             }
             
-            // load the temporary file
+            // need to perform more testing to get the custom
+            // class loader working properly.
+            //classLoader = new DeploymentClassLoader(urlList,
+            //        MasterClassLoader.getInstance().getLoader());
             classLoader = new URLClassLoader(urlList,
                     MasterClassLoader.getInstance().getLoader());
             

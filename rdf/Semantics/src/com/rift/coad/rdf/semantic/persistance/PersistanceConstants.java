@@ -50,4 +50,10 @@ public class PersistanceConstants {
      */
     public final static String STORE_URL = "store_url";
     
+    
+    /**
+     * The store url
+     */
+    public final static String START_STORE_HTTP_SERVER = "start_store_http_server";
+    
 }

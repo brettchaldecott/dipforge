@@ -32,7 +32,6 @@ import com.rift.coad.rdf.semantic.persistance.jena.JenaStoreType;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
 import org.apache.log4j.Logger;
 
 /**
@@ -75,8 +74,7 @@ public class JenaHTTPModelFactory implements JenaStore{
                 String password = properties.getProperty(HTTP_AUTH_PASSWORD);
                 
                 datasetAccessor = DatasetAccessorFactory.createHTTP(
-                        properties.getProperty(PersistanceConstants.STORE_URL),
-                        new SimpleAuthenticator(username,password.toCharArray()));
+                        properties.getProperty(PersistanceConstants.STORE_URL));
                 
             }
         } catch (Exception ex) {

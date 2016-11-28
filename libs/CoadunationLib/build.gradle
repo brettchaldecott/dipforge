@@ -25,8 +25,8 @@ dependencies {
     compile project(':libs:CoadunationCommon')
     testCompile group: 'junit', name: 'junit', version: '3.8.2', ext: 'jar'
     testCompile group: 'com.sun.jndi', name: 'providerutil', version: '1.2-Local', ext: 'jar'
-    testCompile group: 'org.slf4j', name: 'slf4j-api', version: '1.5.8', ext: 'jar'
-    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.5.8', ext: 'jar'
+    testCompile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21', ext: 'jar'
+    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21', ext: 'jar'
     testCompile group: 'com.experlog', name: 'xapool', version: '1.6-beta', ext: 'jar'
     testCompile group: 'xstream', name: 'xstream', version: '1.1.3', ext: 'jar'
     testCompile group: 'axis', name: 'axis-saaj', version: '1.4', ext: 'jar'

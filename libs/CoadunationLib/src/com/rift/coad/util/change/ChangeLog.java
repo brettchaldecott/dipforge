@@ -132,12 +132,7 @@ public class ChangeLog implements XAResource {
          */
         public ChangeLogBatchManager(long maxBatchSize) {
             this.maxBatchSize = maxBatchSize;
-            try {
-                this.utw = new UserTransactionWrapper();
-            } catch (TransactionException ex) {
-                log.error("Failed to create a user transaction wrapepr : " + 
-                        ex.getMessage(),ex);
-            }
+            
         }
         
         
@@ -146,7 +141,8 @@ public class ChangeLog implements XAResource {
             this.currentLoader = Thread.currentThread().
                         getContextClassLoader();
             
-            if (null != this.changeClassLoader && this.changeClassLoader != changeClassLoader) {
+            if (this.utw != null && 
+                    (null != this.changeClassLoader && this.changeClassLoader != changeClassLoader)) {
                 Thread.currentThread().setContextClassLoader(
                         this.changeClassLoader);
                 try {
@@ -164,10 +160,21 @@ public class ChangeLog implements XAResource {
             
             
             
-            if (this.changeClassLoader == null) {
+            if (this.changeClassLoader == null || 
+                    (this.changeClassLoader != null && (utw == null || !utw.isInTransaction()))) {
                 this.changeClassLoader = changeClassLoader;
                 Thread.currentThread().setContextClassLoader(
                     this.changeClassLoader);
+                try {
+                    synchronized(this) {
+                        if (this.utw == null) {
+                            this.utw = new UserTransactionWrapper();
+                        }
+                    }
+                } catch (TransactionException ex) {
+                    log.error("Failed to create a user transaction wrapepr : " + 
+                            ex.getMessage(),ex);
+                }
                 utw.begin();
             } else {
                 Thread.currentThread().setContextClassLoader(
@@ -185,7 +192,7 @@ public class ChangeLog implements XAResource {
         public void commitTransaction() {
             this.batchSize++;
             
-            if (this.batchSize > this.maxBatchSize) {
+            if (this.batchSize > this.maxBatchSize && this.utw != null) {
                 try {
                     this.utw.commit();
                 } catch(Exception ex) {
@@ -220,11 +227,15 @@ public class ChangeLog implements XAResource {
                 // try and commit within an exception block so that
                 // the thread context can be reset properly
                 try {
-                    this.utw.commit();
+                    if (this.utw != null) {
+                        this.utw.commit();
+                    }
                 } catch (Exception ex) {
                     log.error("Failed to commit : " + ex.getMessage(),ex);
                 } finally {
-                    this.utw.release();
+                    if (this.utw != null) {
+                        this.utw.release();
+                    }
                 }
                 Thread.currentThread().setContextClassLoader(
                         this.currentLoader);

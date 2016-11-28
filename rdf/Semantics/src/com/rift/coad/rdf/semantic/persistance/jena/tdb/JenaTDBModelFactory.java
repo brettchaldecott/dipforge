@@ -40,6 +40,7 @@ public class JenaTDBModelFactory implements JenaStore {
     
     // private member variables
     private Dataset dataset;
+    private JenaHTTPServer server = null;
     //private JenaModelWrapperTDB model;
     
     
@@ -53,33 +54,6 @@ public class JenaTDBModelFactory implements JenaStore {
             // synchronize on the MBeanServer to solve the race condition
             // between the various threads
             synchronized (ManagementFactory.getPlatformMBeanServer()) {
-//                // This is a nasty work around to remove mbeans to prevent
-//                // clashes on mbean services
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=SystemInfo"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=Context"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=Engine"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-
                 String assemblerFile = prop.getProperty(PersistanceConstants.STORE_CONFIGURATION_FILE);
                 if (assemblerFile == null) {
                     throw new PersistanceException("The configuration file ["
@@ -90,59 +64,13 @@ public class JenaTDBModelFactory implements JenaStore {
                 // read in the SDB data information
                 dataset = TDBFactory.assembleDataset(assemblerFile);
                 
-//                // This is a nasty work around to remove mbeans to prevent
-//                // clashes on mbean services
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=SystemInfo"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=Context"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=Engine"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-//
-//                // This is a nasty work around to remove mbeans to prevent
-//                // clashes on mbean services
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=SystemInfo"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=Context"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
-//                try {
-//                    ManagementFactory.getPlatformMBeanServer().
-//                            unregisterMBean(new ObjectName(
-//                            "org.apache.jena.sparql.system:type=Engine"));
-//                } catch (Exception ex) {
-//                    // ignore
-//                    log.error("Failed to remove reference : " + ex.getMessage());
-//                }
+                String startStoreHttpServer = prop.getProperty(PersistanceConstants.START_STORE_HTTP_SERVER);
+                if (startStoreHttpServer != null && 
+                        (startStoreHttpServer.equals("true") || startStoreHttpServer.equals("yes"))) {
+                    server = new JenaHTTPServer(dataset);
+                    server.start();
+                }
+                
             }
         } catch (Exception ex) {
             log.error(
@@ -179,7 +107,22 @@ public class JenaTDBModelFactory implements JenaStore {
             throw ex;
         }
     }
-
+    
+    
+    /**
+     * This method returns the store matching the path to the assember file
+     * @param path The path to the assembler file.
+     * @return The reference to the jena store object.
+     * @throws PersistanceException 
+     */
+    public synchronized static JenaTDBModelFactory getInstance(String path) throws PersistanceException {
+        try {
+            return singletonMap.get(path);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
     /**
      * This method is called to retrieve the model
      * 
@@ -203,6 +146,9 @@ public class JenaTDBModelFactory implements JenaStore {
      */
     public void close() throws PersistanceException {
         try {
+            if (server != null) {
+                server.stop();
+            }
             dataset.close();
         } catch (Exception ex) {
             log.error("Failed to close the store : " + ex.getMessage(),ex);

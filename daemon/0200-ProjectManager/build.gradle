@@ -64,6 +64,22 @@ task createDir << {
 task copyToJars(type: Copy) {
     into "build/classes/main"
     from configurations.releaseJars
+    exclude '**/*CoadunationLib*'
+    exclude '**/*CoadunationAnnotations*'
+    exclude '**/*CoadunationCommon*'
+    exclude '**/*CoadunationClient*'
+    exclude '**/*CoadunationSecurity*'
+    exclude '**/*CoadunationBase*'
+    exclude '**/*jacorb*'
+    exclude '**/*axis*'
+    exclude '**/*carol*'
+    exclude '**/*jotm*'
+    exclude '**/*wsdl*'
+    exclude '**/*slf4j*'
+    exclude '**/*jta*'
+    exclude '**/*avalon*'
+    exclude '**/*commons-loggin*'
+    exclude '**/*log4j*'
 }
 
 jar {

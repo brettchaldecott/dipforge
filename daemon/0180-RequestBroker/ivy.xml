@@ -11,19 +11,19 @@
     <dependencies>
         <dependency org="javax.transaction" name="jta" rev="1.1" />
         <dependency org="log4j" name="log4j" rev="1.2.14"/>
-        <dependency org="org.apache.jena" name="jena-arq" rev="3.0.1" />
-        <dependency org="org.apache.jena" name="jena-core" rev="3.0.1" />
-        <dependency org="org.apache.jena" name="jena-sdb" rev="3.0.1" />
-        <dependency org="org.apache.jena" name="jena-tdb" rev="3.0.1" />
-        <dependency org="org.apache.jena" name="jena-iri" rev="3.0.1" />
-        <dependency org="org.apache.jena" name="jena-base" rev="3.0.1" />
-	<dependency org="org.apache.jena" name="jena-shaded-guava" rev="3.0.1" />
+        <dependency org="org.apache.jena" name="jena-arq" rev="3.1.1" />
+        <dependency org="org.apache.jena" name="jena-core" rev="3.1.1" />
+        <dependency org="org.apache.jena" name="jena-sdb" rev="3.1.1" />
+        <dependency org="org.apache.jena" name="jena-tdb" rev="3.1.1" />
+        <dependency org="org.apache.jena" name="jena-iri" rev="3.1.1" />
+        <dependency org="org.apache.jena" name="jena-base" rev="3.1.1" />
+	<dependency org="org.apache.jena" name="jena-shaded-guava" rev="3.1.1" />
 	<dependency org="org.apache.commons" name="commons-lang3" rev="3.4"/>
-        <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.3.6" />
-        <dependency org="org.apache.httpcomponents" name="httpcore" rev="4.3.3" />
+        <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.2" />
+        <dependency org="org.apache.httpcomponents" name="httpcore" rev="4.4.5" />
         <dependency org="com.ibm.icu" name="icu4j" rev="3.4.4" />
         <dependency org="commons-logging" name="commons-logging" rev="1.0.4" />
-        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8"/>
+        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.21"/>
         <dependency org="cglib" name="cglib" rev="2.2.2"/>
         <dependency org="asm" name="asm" rev="3.3.1"/>
         <dependency org="asm" name="asm-tree" rev="3.3.1"/>
