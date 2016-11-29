@@ -65,6 +65,7 @@ public class JenaHTTPModelFactory implements JenaStore{
      */
     private JenaHTTPModelFactory(Properties properties) throws PersistanceException {
         try {
+            log.info("######################### The jena http model factory is being started");
             if (properties.get(HTTP_AUTH) == null || 
                     (boolean)properties.get(HTTP_AUTH) == false) {
                 datasetAccessor = DatasetAccessorFactory.createHTTP(
@@ -77,8 +78,9 @@ public class JenaHTTPModelFactory implements JenaStore{
                         properties.getProperty(PersistanceConstants.STORE_URL));
                 
             }
+            log.info("######################### The jena http model factory has been started");
         } catch (Exception ex) {
-            throw new PersistanceException("Failed to ");
+            throw new PersistanceException("Failed to : " + ex.getMessage());
         }
     }
 
