@@ -36,11 +36,6 @@ public class DeploymentClassLoader extends URLClassLoader {
         public Class<?> loadClass(String name) throws ClassNotFoundException {
             // search system first to make sure that the J2SE classes are
             // not over run
-//            try {
-//                return systemLoader.loadClass(name);
-//            } catch (Exception ex) {
-//
-//            }
 
             // fall back to parent
             return parent.loadClass(name);
@@ -56,13 +51,6 @@ public class DeploymentClassLoader extends URLClassLoader {
          */
         @Override
         protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-            // search system first to make sure that the J2SE classes are
-            // not over run
-            //try {
-            //    return systemLoader.loadClass(name);
-            //} catch (Exception ex) {
-//
-  //          }
 
             // fall back to parent
             return parent.loadClass(name);
@@ -71,7 +59,6 @@ public class DeploymentClassLoader extends URLClassLoader {
     }
 
     // private member variables
-    private ClassLoader systemLoader;
     private ClassLoader parent;
     private URLClassLoader local;
     
@@ -83,7 +70,6 @@ public class DeploymentClassLoader extends URLClassLoader {
     public DeploymentClassLoader(URL[] urls) {
         super(urls,null);
         local = new URLClassLoader(urls, this.getClass().getClassLoader());
-        //systemLoader = this.getClass().getClassLoader();
     }
 
 
@@ -96,7 +82,6 @@ public class DeploymentClassLoader extends URLClassLoader {
         super(urls, null);
         this.local = new URLClassLoader(urls,parent);
         this.parent = parent;
-        //this.systemLoader = this.getClass().getClassLoader();
     }
 
     
@@ -121,9 +106,6 @@ public class DeploymentClassLoader extends URLClassLoader {
      */
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
-        // search system first to make sure that the J2SE classes are
-        // not over run
-
         // search the local application space to enable local classes
         // to over ride coadunation libraries.
         try {
@@ -131,11 +113,6 @@ public class DeploymentClassLoader extends URLClassLoader {
         } catch (Throwable ex) {
 
         }
-//        try {
-//            return systemLoader.loadClass(name);
-//        } catch (Exception ex) {
-//
-//        }
 
         // fall back to parent
         return parent.loadClass(name);
@@ -151,9 +128,6 @@ public class DeploymentClassLoader extends URLClassLoader {
      */
     @Override
     protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        // search system first to make sure that the J2SE classes are
-        // not over run
-
         // search the local application space to enable local classes
         // to over ride coadunation libraries.
         try {
@@ -161,11 +135,6 @@ public class DeploymentClassLoader extends URLClassLoader {
         } catch (Throwable ex) {
 
         }
-//        try {
-//            return systemLoader.loadClass(name);
-//        } catch (Exception ex) {
-//
-//        }
 
         // fall back to parent
         return parent.loadClass(name);
