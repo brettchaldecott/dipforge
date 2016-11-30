@@ -21,7 +21,7 @@ public class JenaHTTPServer {
      * @param dataset 
      */
     public JenaHTTPServer(Dataset dataset) {
-        server = FusekiEmbeddedServer.create().add("/rdf", dataset).build();
+        server = FusekiEmbeddedServer.create().add("/rdf", dataset, false).build();
         
     }
     

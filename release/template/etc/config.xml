@@ -887,7 +887,10 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           tdb
+           http
+        </entry>
+        <entry key="store_url" type="string">
+            http://@hostname@:3330/rdf/data
         </entry>
         <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/groovy_daemon.ttl
@@ -1079,7 +1082,10 @@
            com.rift.coad.rdf.semantic.ontology.jena.JenaOntologyManager
         </entry>
         <entry key="jena_store_type" type="string">
-           tdb
+           http
+        </entry>
+        <entry key="store_url" type="string">
+            http://@hostname@:3330/rdf/data
         </entry>
         <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/dipforge_web.ttl
@@ -1109,6 +1115,9 @@
         </entry>
         <entry key="start_store_http_server" type="string">
             yes
+        </entry>
+        <entry key="push_to_slave" type="string">
+            false
         </entry>
     </object>
     <!-- End of Dipforge Groovy Environment -->

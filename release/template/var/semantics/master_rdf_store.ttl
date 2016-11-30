@@ -5,8 +5,16 @@
 
 [] ja:loadClass "org.apache.jena.tdb.TDB" .
 tdb:DatasetTDB  rdfs:subClassOf  ja:RDFDataset .
-tdb:GraphTDB    rdfs:subClassOf  ja:Model      .
+tdb:GraphTDB    rdfs:subClassOf  ja:Model .
 
+# A dataset of one TDB-backed graph as the default graph and
+# an in-memory graph as a named graph.
 <#dataset> rdf:type         tdb:DatasetTDB ;
-    tdb:location "@dipforge_home@/var/semantics/master_rdf_store" ;
+    tdb:location "@dipforge_home@/var/semantics/master_rdf_store/default/" ;
+    tdb:unionDefaultGraph true ;
+    .
 
+<#graph2> rdf:type tdb:GraphTDB ;
+    tdb:location "@dipforge_home@/var/semantics/master_rdf_store/dipforge/" ;
+    tdb:graphName <http://dipforge.sourceforge.net/schema> ;
+    .
