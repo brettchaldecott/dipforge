@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.management.ObjectName;
+import org.apache.jena.sparql.core.assembler.AssemblerUtils;
+import org.apache.jena.tdb.assembler.VocabTDB;
 import org.apache.log4j.Logger;
 
 /**
@@ -61,8 +63,18 @@ public class JenaTDBModelFactory implements JenaStore {
                             + "] must be set for the SDB store.");
                 }
                 
-                // read in the SDB data information
+                // attempt to assemble a default data set
                 dataset = TDBFactory.assembleDataset(assemblerFile);
+                if (dataset == null) {
+                    
+                    // 
+                    dataset = (Dataset)AssemblerUtils.build(assemblerFile, "http://jena.hpl.hp.com/2005/11/Assembler#RDFDataset");
+                    
+                    if (dataset == null) {
+                        log.info("##################### The assembler : " + AssemblerUtils.readAssemblerFile(assemblerFile).toString());
+                        throw new PersistanceException("Failed to instantiate the tdb persistance model");
+                    }
+                }
                 
                 String startStoreHttpServer = prop.getProperty(PersistanceConstants.START_STORE_HTTP_SERVER);
                 if (startStoreHttpServer != null && 
@@ -72,6 +84,8 @@ public class JenaTDBModelFactory implements JenaStore {
                 }
                 
             }
+        } catch (PersistanceException ex) {
+            throw ex;
         } catch (Exception ex) {
             log.error(
                     "Failed to init the tdb file : " + ex.getMessage(),ex);

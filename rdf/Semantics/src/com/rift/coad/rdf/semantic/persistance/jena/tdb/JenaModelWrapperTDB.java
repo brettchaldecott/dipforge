@@ -33,6 +33,9 @@ import org.apache.jena.query.ReadWrite;
 
 // dipforge imports
 import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * The implementation of the jena model wrapper. This simply trunks the calls
@@ -88,6 +91,7 @@ public class JenaModelWrapperTDB implements JenaModelWrapper {
      * @param lock 
      */
     public void enterCriticalSection(boolean lock) {
+        
         if (lock) {
             dataset.begin(ReadWrite.READ);
             read = true;
