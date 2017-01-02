@@ -1116,7 +1116,7 @@
         <entry key="start_store_http_server" type="string">
             yes
         </entry>
-        <entry key="push_to_slave" type="string">
+        <entry key="push_to_slave" type="boolean">
             false
         </entry>
     </object>
