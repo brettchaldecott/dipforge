@@ -31,6 +31,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
 import com.rift.coad.rdf.semantic.persistance.PersistanceProperty;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
+import com.rift.coad.rdf.semantic.persistance.jena.http.HttpModel;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
@@ -534,11 +535,22 @@ public class JenaPersistanceProperty implements PersistanceProperty {
             throws PersistanceException {
         try {
             if (statement != null) {
-                return new JenaPersistanceResource(jenaModel,
+                if (jenaModel instanceof HttpModel) {
+                    return new JenaHttpPersistanceResource(jenaModel,
                         statement.getResource());
+                } else {
+                    return new JenaPersistanceResource(jenaModel,
+                        statement.getResource());
+                }
+                
             } else if (resource != null) {
-                return new JenaPersistanceResource(jenaModel,
-                        resource);
+                if (jenaModel instanceof HttpModel) {
+                    return new JenaHttpPersistanceResource(jenaModel,
+                            resource);
+                } else {
+                    return new JenaPersistanceResource(jenaModel,
+                        statement.getResource());
+                }
             } else {
                 return null;
             }

@@ -47,9 +47,10 @@ public class JenaPersistanceResource implements PersistanceResource {
 
     // class static variables
     private static Logger log = Logger.getLogger(JenaPersistanceResource.class);
+    
     // private member variables
-    private Model jenaModel;
-    private Resource resource;
+    protected Model jenaModel;
+    protected Resource resource;
 
     /**
      * The reference to the resource.
