@@ -54,7 +54,8 @@ public class JenaHTTPModelFactory implements JenaStore{
             new ConcurrentHashMap<String,JenaHTTPModelFactory>();
     
     // 
-    private DatasetAccessor datasetAccessor;
+    //private DatasetAccessor datasetAccessor;
+    private HttpModel model;
     
     
     /**
@@ -66,7 +67,7 @@ public class JenaHTTPModelFactory implements JenaStore{
     private JenaHTTPModelFactory(Properties properties) throws PersistanceException {
         try {
             log.info("######################### The jena http model factory is being started");
-            if (properties.get(HTTP_AUTH) == null || 
+            /*if (properties.get(HTTP_AUTH) == null || 
                     (boolean)properties.get(HTTP_AUTH) == false) {
                 datasetAccessor = DatasetAccessorFactory.createHTTP(
                         properties.getProperty(PersistanceConstants.STORE_URL));
@@ -77,7 +78,9 @@ public class JenaHTTPModelFactory implements JenaStore{
                 datasetAccessor = DatasetAccessorFactory.createHTTP(
                         properties.getProperty(PersistanceConstants.STORE_URL));
                 
-            }
+            }*/
+            log.info("######################### instanciate the http model");
+            model = new HttpModel(properties.getProperty(PersistanceConstants.STORE_URL));
             log.info("######################### The jena http model factory has been started");
         } catch (Exception ex) {
             throw new PersistanceException("Failed to : " + ex.getMessage());
@@ -121,7 +124,7 @@ public class JenaHTTPModelFactory implements JenaStore{
      */
     @Override
     public JenaModelWrapper getModule() throws PersistanceException {
-        return new JenaHTTPModelWrapper(datasetAccessor.getModel());
+        return new JenaHTTPModelWrapper(model);
     }
 
     /**
@@ -131,7 +134,8 @@ public class JenaHTTPModelFactory implements JenaStore{
      */
     @Override
     public void close() throws PersistanceException {
-        datasetAccessor.getModel().close();
+        // do nothing as this model does not need to be closed
+        
     }
 
     

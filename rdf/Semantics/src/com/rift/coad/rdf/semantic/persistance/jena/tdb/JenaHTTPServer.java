@@ -28,6 +28,7 @@ public class JenaHTTPServer {
         }
         
         server = FusekiEmbeddedServer.create().add("/rdf", dataset).build();
+        
     }
     
     /**

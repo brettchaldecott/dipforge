@@ -32,6 +32,7 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceIdentifier;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResource;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResultRow;
+import com.rift.coad.rdf.semantic.persistance.jena.http.HttpModel;
 import com.rift.coad.rdf.semantic.types.DataType;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 import com.rift.coad.rdf.semantic.util.jena.DataHelper;
@@ -41,6 +42,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ResultSet;
 
 /**
  * This method object contains the persistant result row information.
@@ -54,16 +65,18 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      */
     public class JenaPersistanceRowEntry {
 
-        private RDFNode node;
-
+        protected Model jenaModel;
+        protected RDFNode node;
+        
         /**
          * The constructor responsible for retrieving the persistance
          * information
          *
          * @param node The node to retrieve.
          */
-        public JenaPersistanceRowEntry(RDFNode node) {
+        public JenaPersistanceRowEntry(Model jenaModel,RDFNode node) {
             this.node = node;
+            this.jenaModel = jenaModel;
         }
 
         /**
@@ -146,8 +159,81 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
                     + "] is not recognized");
         }
     }
+    
+    
+    /**
+     * This object is responsible for wrapping and managing the init process
+     * based on sub query over http. This is performed in order to load entries
+     * when required. If speed is a requirement rather optimize the SPARQL queries
+     * and flatten them out.
+     */
+    public class JenaPersistanceHttpRowEntry extends JenaPersistanceRowEntry {
+        
+        private boolean isInited = false;
+        
+        public JenaPersistanceHttpRowEntry(Model jenaModel, RDFNode node) {
+            super(jenaModel, node);
+        }
+        
+        public boolean isBasicType() throws PersistanceQueryException {
+            init();
+            return super.isBasicType();
+        }
+        
+        public DataType getType() throws PersistanceQueryException {
+            init();
+            return super.getType();
+        }
+        
+        public <T> T get(Class<T> t) throws PersistanceQueryException {
+            init();
+            return super.get(t);
+        }
+        
+        
+        /**
+         * This method is called to init a node if the current node is a uri.
+         * This is required if a HTTP SPARQL Query is being used
+         * @throws PersistanceQueryException 
+         */
+        private void init() throws PersistanceQueryException {
+            if (isInited) {
+                return;
+            }
+            if (super.isBasicType()) {
+                //jenaModel = node.getModel();
+                isInited = true;
+                return;
+            }
+            // if the node is not a uri something went wrong
+            if (!node.isURIResource()) {
+                throw new PersistanceQueryException(
+                        "Something is wrong with the data set.");
+            }
+            // force a sub query to retrieve all the sub values
+            HttpModel httpModel = (HttpModel)jenaModel;
+            Query query = QueryFactory.create(
+                    String.format("SELECT * WHERE { <%s> ?predicate ?object . }", node.toString()));
+            QueryExecution executioner = QueryExecutionFactory.sparqlService(httpModel.getServiceUrl(),query);
+            ResultSet resultSet = executioner.execSelect();
+            RDFNode rdfSubject = node;
+            Dataset dataset = DatasetFactory.create();
+            while(resultSet.hasNext()) {
+                QuerySolution solution = resultSet.next();
+                RDFNode rdfPrediate = solution.get("predicate");
+                RDFNode rdfObject = solution.get("object");
+                dataset.asDatasetGraph().getDefaultGraph().add(
+                        Triple.create(rdfSubject.asNode(), rdfPrediate.asNode(), rdfObject.asNode()));
+            }
+            super.node = dataset.getDefaultModel().getRDFNode(rdfSubject.asNode());
+            //super.jenaModel = dataset.getDefaultModel();
+            isInited = true;
+        }
+    }
+    
+    
     // private member variable
-    private Model jenaModel;
+    //private Model jenaModel;
     private QuerySolution solution;
     private int size;
     private List<String> columns = new ArrayList<String>();
@@ -162,15 +248,22 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @param solution The solution.
      */
     protected JenaPersistanceResultRow(Model jenaModel, QuerySolution solution) {
-        this.jenaModel = jenaModel;
+        //this.jenaModel = jenaModel;
         this.solution = solution;
         Iterator<String> iter = solution.varNames();
         while (iter.hasNext()) {
             String name = iter.next();
             columns.add(name);
             size++;
-            JenaPersistanceRowEntry entry =
-                    new JenaPersistanceRowEntry(solution.get(name));
+            JenaPersistanceRowEntry entry = null;
+            if (jenaModel instanceof HttpModel) {
+                entry =
+                    new JenaPersistanceHttpRowEntry(jenaModel,solution.get(name));
+            } else {
+                entry =
+                    new JenaPersistanceRowEntry(jenaModel,solution.get(name));
+            }
+            
             entries.add(entry);
             mapEntries.put(name, entry);
         }

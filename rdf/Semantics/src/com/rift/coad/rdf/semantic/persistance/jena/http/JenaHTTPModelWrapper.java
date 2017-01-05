@@ -14,13 +14,13 @@ import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
  */
 public class JenaHTTPModelWrapper implements JenaModelWrapper {
     
-    private Model model;
+    private HttpModel model;
 
     /**
      * This constructor 
      * @param model 
      */
-    public JenaHTTPModelWrapper(Model model) {
+    public JenaHTTPModelWrapper(HttpModel model) {
         this.model = model;
     }
     

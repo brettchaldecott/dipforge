@@ -50,6 +50,8 @@ import com.rift.coad.rdf.semantic.SPARQLResultRow;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.persistance.PersistanceQueryException;
 import com.rift.coad.rdf.semantic.persistance.PersistanceResultRow;
+import com.rift.coad.rdf.semantic.persistance.jena.http.HttpModel;
+import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
 
 
 /**
@@ -77,8 +79,20 @@ public class JenaSPARQLList extends ArrayList<PersistanceResultRow> {
             PersistanceQueryException {
         try {
             Query query = QueryFactory.create(queryString);
-            QueryExecution executioner = QueryExecutionFactory.create(query, store);
-            ResultSet resultSet = executioner.execSelect();
+            // check if an http model is being used
+            ResultSet resultSet = null;
+            if (store instanceof HttpModel) {
+                // perform an http sqarql query to retrieve the results
+                HttpModel httpModel = (HttpModel)store;
+                QueryExecution executioner = QueryExecutionFactory.sparqlService(httpModel.getServiceUrl(),query);
+                resultSet = executioner.execSelect();
+            } else {
+                // use a local native store.
+                QueryExecution executioner = null;
+                executioner = QueryExecutionFactory.create(query, store);
+                resultSet = executioner.execSelect();
+            }
+            //ResultSet resultSet = executioner.execSelect();
             while (resultSet.hasNext()) {
                 QuerySolution solution = resultSet.nextSolution();
                 JenaPersistanceResultRow row = new JenaPersistanceResultRow(store,solution);
