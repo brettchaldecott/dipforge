@@ -630,6 +630,12 @@ dependencies {
     releaseGroovyLib 'javax.mail:javax.mail-api:1.5.2'
     releaseGroovyLib "com.sun.mail:javax.mail:1.5.2"
     releaseGroovyLib "com.coinbase.api:coinbase-java:1.9.1"
+    // https://mvnrepository.com/artifact/com.github.andrewoma.dexx/collection
+    releaseGroovyLib "com.github.andrewoma.dexx:collection:0.7"
+    // https://mvnrepository.com/artifact/com.xlson.groovycsv/groovycsv
+    releaseGroovyLib "com.xlson.groovycsv:groovycsv:1.1"
+
+
     
     // rdf type generator
     releaseRDFTypeGenerator "javax.transaction:jta:1.1"

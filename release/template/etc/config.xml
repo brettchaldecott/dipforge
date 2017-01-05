@@ -890,7 +890,7 @@
            http
         </entry>
         <entry key="store_url" type="string">
-            http://@hostname@:3330/rdf/data
+            http://@hostname@:3330/rdf/
         </entry>
         <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/groovy_daemon.ttl
@@ -1085,7 +1085,7 @@
            http
         </entry>
         <entry key="store_url" type="string">
-            http://@hostname@:3330/rdf/data
+            http://@hostname@:3330/rdf/
         </entry>
         <entry key="store_configuration_file" type="string">
             @dipforge_home@/var/semantics/dipforge_web.ttl
