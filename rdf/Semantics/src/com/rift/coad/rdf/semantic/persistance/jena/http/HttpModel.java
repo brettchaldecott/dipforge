@@ -17,7 +17,16 @@ import java.util.function.Supplier;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
+import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Alt;
 import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Bag;
@@ -87,9 +96,29 @@ public class HttpModel implements Model {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    /**
+     * This method is used to retrieve the resource over 
+     * @param uri
+     * @return 
+     */
     @Override
-    public Resource getResource(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Resource getResource(String uri) {
+        
+        Query query = QueryFactory.create(
+                    String.format("SELECT * WHERE { <%s> ?predicate ?object . }", uri));
+        QueryExecution executioner = QueryExecutionFactory.sparqlService(getServiceUrl(),query);
+        ResultSet resultSet = executioner.execSelect();
+        Node subject = NodeFactory.createURI(uri);
+        Dataset dataset = DatasetFactory.create();
+        while(resultSet.hasNext()) {
+            QuerySolution solution = resultSet.next();
+            RDFNode rdfPrediate = solution.get("predicate");
+            RDFNode rdfObject = solution.get("object");
+            dataset.asDatasetGraph().getDefaultGraph().add(
+                    Triple.create(subject, rdfPrediate.asNode(), rdfObject.asNode()));
+        }
+        return dataset.getDefaultModel().getRDFNode(subject).asResource();
     }
 
     @Override
@@ -329,7 +358,23 @@ public class HttpModel implements Model {
 
     @Override
     public boolean containsResource(RDFNode rdfn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (rdfn.asNode() == null) {
+            return false;
+        } else if (rdfn.asNode().getURI() == null) {
+            return false;
+        }
+        String uri = rdfn.asNode().getURI();
+        Query query = QueryFactory.create(
+                    String.format("SELECT * WHERE { <%s> ?predicate ?object . }", uri));
+        QueryExecution executioner = QueryExecutionFactory.sparqlService(getServiceUrl(),query);
+        ResultSet resultSet = executioner.execSelect();
+        Node subject = NodeFactory.createURI(uri);
+        Dataset dataset = DatasetFactory.create();
+        if (resultSet.hasNext()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
