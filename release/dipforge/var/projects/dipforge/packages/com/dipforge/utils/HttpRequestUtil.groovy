@@ -52,4 +52,29 @@ class HttpRequestUtil {
     }
     
     
+    /**
+     * This method is called to process the request and convert the string to json
+     */
+    static def requestContentToString(def request) {
+        def inputStream = request.getInputStream()
+        byte[] buffer = new byte[1024]
+        def stringBuilder = new java.lang.StringBuilder()
+        int length = 0
+        while((length= inputStream.readLine(buffer,0,1024)) != -1) {
+            stringBuilder.append(new String(buffer,0,length));
+        }
+        return stringBuilder.toString();
+
+    }
+
+
+    /**
+     * This method is called to process the request and convert the string to json
+     */
+    static def requestContentFromStringToJson(def request) {
+        def jsonSlurper = new JsonSlurper()
+        return jsonSlurper.parseText(request)
+
+    }
+
 }
