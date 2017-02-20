@@ -35,6 +35,9 @@ dependencies {
     releaseJars project(':libs:CoadunationUtil')
     releaseJars project(':rdf:Semantics')
     releaseJars project(':rdf:SchemaUtils')
+    releaseJars group: 'org.apache.httpcomponents', name:'httpclient', version:'4.5.3', ext: 'jar'
+    releaseJars group: 'org.apache.httpcomponents', name:'httpclient-cache', version:'4.5.3'
+
 }
 
 sourceSets {

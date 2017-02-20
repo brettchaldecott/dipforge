@@ -29,15 +29,18 @@ dependencies {
     compile project(':rdf:CoadunationSemantics')
     compile project(':rdf:Semantics')
     compile project(':rdf:SchemaUtils')
-    compile group:"org.apache.jena", name:"jena-arq", version:"3.1.1"
-    compile group:"org.apache.jena", name:"jena-core", version:"3.1.1"
-    compile group:"org.apache.jena", name:"jena-sdb", version:"3.1.1"
-    compile group:"org.apache.jena", name:"jena-tdb", version:"3.1.1"
-    compile group:"org.apache.jena", name:"jena-iri", version:"3.1.1"
-    compile group:"org.apache.jena", name:"jena-base", version:"3.1.1"
-    compile group:"org.apache.jena", name:"jena-shaded-guava", version:"3.1.1"
+    compile group:"org.apache.jena", name:"jena-arq", version:"3.2.0"
+    compile group:"org.apache.jena", name:"jena-core", version:"3.2.0"
+    compile group:"org.apache.jena", name:"jena-sdb", version:"3.2.0"
+    compile group:"org.apache.jena", name:"jena-tdb", version:"3.2.0"
+    compile group:"org.apache.jena", name:"jena-iri", version:"3.2.0"
+    compile group:"org.apache.jena", name:"jena-base", version:"3.2.0"
+    compile group:"org.apache.jena", name:"jena-shaded-guava", version:"3.2.0"
     compile group:"org.apache.jena", name:"jena-fuseki-embedded", version:"2.4.1"
     compile group:"org.apache.jena", name:"jena-fuseki-core", version:"2.4.1"
+    compile group:"org.apache.thrift", name:"libthrift", version:"0.9.3"
+    compile 'org.apache.jena:jena-rdfconnection:3.2.0'
+    compile 'com.github.andrewoma.dexx:collection:0.7'
     releaseJars(ivyDependencies('compile'))
     releaseJars project(':client:RDFMasterStoreClient')
     releaseJars project(':client:RDFStoreClient')
@@ -54,8 +57,11 @@ dependencies {
     releaseJars group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'
     releaseJars group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '9.3.14.v20161028'
     releaseJars group: 'org.eclipse.jetty', name: 'jetty-servlets', version: '9.3.14.v20161028'
-    releaseJars group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
-    releaseJars group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.5'
+    releaseJars group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+    releaseJars group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.6'
+    releaseJars group: 'org.apache.httpcomponents', name: 'httpclient-cache', version: '4.5.3'
+    releaseJars 'org.apache.commons:commons-csv:1.4'
+
     releaseJars group: 'commons-codec', name: 'commons-codec', version: '1.9'
     releaseJars group: 'commons-logging', name: 'commons-logging', version: '1.2'
 

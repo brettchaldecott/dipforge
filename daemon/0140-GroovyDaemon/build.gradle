@@ -46,7 +46,8 @@ dependencies {
     releaseJars project(':client:ServiceBrokerClient')
     releaseJars project(':client:CoadunationTypeManager')
     releaseJars group: 'xerces', name: 'xercesImpl', version: '2.7.1', ext: 'jar'
-    releaseJars group: 'org.apache.httpcomponents', name:'httpclient', version:'4.5.2', ext: 'jar'
+    releaseJars group: 'org.apache.httpcomponents', name:'httpclient', version:'4.5.3', ext: 'jar'
+    releaseJars group: 'org.apache.httpcomponents', name:'httpclient-cache', version:'4.5.3'
 }
 
 sourceSets {

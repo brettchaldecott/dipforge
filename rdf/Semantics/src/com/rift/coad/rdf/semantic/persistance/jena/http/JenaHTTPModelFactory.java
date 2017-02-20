@@ -29,9 +29,12 @@ import com.rift.coad.rdf.semantic.persistance.PersistanceException;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaModelWrapper;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStore;
 import com.rift.coad.rdf.semantic.persistance.jena.JenaStoreType;
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.log4j.Logger;
 
 /**
@@ -79,11 +82,24 @@ public class JenaHTTPModelFactory implements JenaStore{
                         properties.getProperty(PersistanceConstants.STORE_URL));
                 
             }*/
-            log.info("######################### instanciate the http model");
-            model = new HttpModel(properties.getProperty(PersistanceConstants.STORE_URL));
+            String url = properties.getProperty(PersistanceConstants.STORE_URL);
+            log.info("######################### instanciate the http model [" + url + "]");
+            // check if the url is initialized and ready to use. This has to be done
+            // as if the url is not up the Inheritience hierachy can cause an 
+            // ClassDefNotFound exception to occurr if the HTTP model does not innize
+            // completely
+            URL serverUrl = new URL(url);
+            serverUrl.getContent();
+            
+            // instanciate the memory model first, using a blank model this setups
+            // necessary requirements to instanciate a model if this is not done
+            // the ClassDefNotFound exception can occurr
+            ModelFactory.createDefaultModel();
+            model = new HttpModel(url);
             log.info("######################### The jena http model factory has been started");
         } catch (Exception ex) {
-            throw new PersistanceException("Failed to : " + ex.getMessage());
+            log.error("Failed to instanciate the http model factor : " + ex.getMessage(),ex);
+            throw new PersistanceException("Failed to : " + ex.getMessage(),ex);
         }
     }
 

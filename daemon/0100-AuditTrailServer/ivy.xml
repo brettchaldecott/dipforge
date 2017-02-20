@@ -10,16 +10,21 @@
     <dependencies>
         <dependency org="javax.transaction" name="jta" rev="1.1" />
         <dependency org="log4j" name="log4j" rev="1.2.14"/>
-        <dependency org="org.apache.jena" name="jena-arq" rev="3.1.1" />
-        <dependency org="org.apache.jena" name="jena-core" rev="3.1.1" />
-        <dependency org="org.apache.jena" name="jena-sdb" rev="3.1.1" />
-        <dependency org="org.apache.jena" name="jena-tdb" rev="3.1.1" />
-        <dependency org="org.apache.jena" name="jena-iri" rev="3.1.1" />
-        <dependency org="org.apache.jena" name="jena-base" rev="3.1.1" />
-	<dependency org="org.apache.jena" name="jena-shaded-guava" rev="3.1.1" />
+        <dependency org="org.apache.jena" name="jena-arq" rev="3.2.0" />
+        <dependency org="org.apache.jena" name="jena-core" rev="3.2.0" />
+        <dependency org="org.apache.jena" name="jena-sdb" rev="3.2.0" />
+        <dependency org="org.apache.jena" name="jena-tdb" rev="3.2.0" />
+        <dependency org="org.apache.jena" name="jena-iri" rev="3.2.0" />
+        <dependency org="org.apache.jena" name="jena-base" rev="3.2.0" />
+	<dependency org="org.apache.jena" name="jena-shaded-guava" rev="3.2.0" />
+	<dependency org="org.apache.jena" name="jena-rdfconnection" rev="3.2.0" />
+        <dependency org="com.github.andrewoma.dexx" name="collection" rev="0.7" />
+	<dependency org="org.apache.thrift" name="libthrift" rev="0.9.3" />
 	<dependency org="org.apache.commons" name="commons-lang3" rev="3.4"/>
-        <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.2" />
-        <dependency org="org.apache.httpcomponents" name="httpcore" rev="4.4.5" />
+	<dependency org="org.apache.commons" name="commons-csv" rev="1.4" />
+        <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.3" />
+        <dependency org="org.apache.httpcomponents" name="httpcore" rev="4.4.6" />
+	<dependency org="org.apache.httpcomponents" name="httpclient-cache" rev="4.5.3"/>
         <dependency org="commons-logging" name="commons-logging" rev="1.0.4" />
         <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.21"/>
         <dependency org="cglib" name="cglib" rev="2.2.2"/>
