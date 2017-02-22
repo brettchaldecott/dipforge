@@ -529,7 +529,7 @@
             @recursive_lookup@
         </entry>
         <entry key="nameserver_list" type="string">
-            127.0.0.1
+            8.8.8.8
         </entry>
     </object>
     <!-- end of dns configuration -->
