@@ -579,7 +579,7 @@ dependencies {
     releaseDaemon project(':daemon:0050-DesktopServer')
     releaseDaemon project(':daemon:0050-EventServer')
     releaseDaemon project(':daemon:0050-Timer')
-    releaseDaemon project(':daemon:0057-MasterRDFStore')
+//    releaseDaemon project(':daemon:0057-MasterRDFStore')
     releaseDaemon project(':daemon:0060-Tomcat')
     releaseDaemon project(':daemon:0101-DeploymentDaemon')
     releaseDaemon project(':daemon:0102-RSSReader')
@@ -599,7 +599,7 @@ dependencies {
 //    releaseWeb project(':web:CoadunationTypeManagerConsole')
     releaseWeb project(':web:DipforgeEntryPoint')
 
-    releaseEAR project(':composite:dipforgeenvironment')
+    releaseEAR project(':composite:dipforgemasterenvironment')
 
     // release extract web
     releaseExtractWeb project(':web:SchemaStore')
@@ -700,7 +700,7 @@ task makeDipforgeRelease(type:Exec, dependsOn:[':release:release']) {
   commandLine 'mvn', 'install'
 }
 
-task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease]) << {
+task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease,':composite:dipforgeenvironment']) << {
     try {
         // validate parameters for release task
         println "git tag ${project.hasProperty('gitTag')}"
@@ -743,6 +743,11 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGenerat
         def generatorDipforgeTemplateFileName = "generator-dipforge-template-${version}.zip"
         def generatorDipforgeTemplatePath = new File("release/build/distributions/${generatorDipforgeTemplateFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, generatorDipforgeTemplateFileName, generatorDipforgeTemplatePath.absolutePath)
+
+        // upload the dipforge environment
+        def dipforgeEnvironmentEar = "DipforgeEnvironment-${version}.ear"
+        def dipforgeEnvironmentEarPath = new File("composite/dipforgeenvironment/build/${dipforgeEnvironmentEar}")
+        uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeEnvironmentEar, generatorDipforgeTemplatePath.absolutePath)
 
     } catch (Exception ex) {
         println "Failed to create the release ${ex.getMessage()}"

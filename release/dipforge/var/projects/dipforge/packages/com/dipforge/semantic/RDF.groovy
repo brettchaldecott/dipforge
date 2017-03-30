@@ -56,9 +56,13 @@ class RDF {
         try {
             Class configClass = null
             try {
-                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
-            } catch (Exception ex) {
-                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                configClass = Class.forName("com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl");
+            } catch (Exception ex1) {
+                try {
+                    configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+                } catch (Exception ex2) {
+                    configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                }
             }
             Session session = SemanticUtil.getInstance(configClass).getSession();
             def instance = create(session,type);
@@ -102,10 +106,15 @@ class RDF {
         try {
             Class configClass = null
             try {
-                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
-            } catch (Exception ex) {
-                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                configClass = Class.forName("com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl");
+            } catch (Exception ex1) {
+                try {
+                    configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+                } catch (Exception ex2) {
+                    configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                }
             }
+
             Session session = SemanticUtil.getInstance(configClass).getSession();
             Resource resource = session.get(Resource.class,uri)
             
@@ -164,9 +173,13 @@ class RDF {
         try {
             Class configClass = null
             try {
-                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
-            } catch (Exception ex) {
-                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                configClass = Class.forName("com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl");
+            } catch (Exception ex1) {
+                try {
+                    configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+                } catch (Exception ex2) {
+                    configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                }
             }
             Session session = SemanticUtil.getInstance(configClass).getSession();
             def records = session.createSPARQLQuery(query).execute()
@@ -256,9 +269,13 @@ class RDF {
         try {
             Class configClass = null
             try {
-                configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
-            } catch (Exception ex) {
-                configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                configClass = Class.forName("com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl");
+            } catch (Exception ex1) {
+                try {
+                    configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+                } catch (Exception ex2) {
+                    configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                }
             }
             Session session = SemanticUtil.getInstance(configClass).getSession();
             def records = session.createSPARQLQuery(query).execute()
