@@ -88,8 +88,9 @@ public class JenaHTTPModelFactory implements JenaStore{
             // as if the url is not up the Inheritience hierachy can cause an 
             // ClassDefNotFound exception to occurr if the HTTP model does not innize
             // completely
-            URL serverUrl = new URL(url);
-            serverUrl.getContent();
+            // remove this check and just assume as this loads the entire store
+            //URL serverUrl = new URL(url);
+            //serverUrl.getContent();
             
             // instanciate the memory model first, using a blank model this setups
             // necessary requirements to instanciate a model if this is not done
