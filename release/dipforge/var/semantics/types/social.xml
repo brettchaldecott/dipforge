@@ -1,33 +1,27 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" > 
-  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#created">
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <rdfs:Class rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
+  <xsd:string rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#id">
     <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
     <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
-    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message">
-    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#message">
+  </xsd:string>
+  <xsd:string rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#message">
     <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
     <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
-    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#id">
+  </xsd:string>
+  <xsd:string rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#username">
     <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
     <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
-    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#username">
+  </xsd:string>
+  <xsd:date rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#created">
     <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
     <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
-    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-  </rdf:Description>
+  </xsd:date>
 </rdf:RDF>

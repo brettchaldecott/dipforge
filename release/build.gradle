@@ -700,7 +700,7 @@ task makeDipforgeRelease(type:Exec, dependsOn:[':release:release']) {
   commandLine 'mvn', 'install'
 }
 
-task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease,':composite:dipforgeenvironment']) << {
+task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease,':composite:dipforgeenvironment:release']) << {
     try {
         // validate parameters for release task
         println "git tag ${project.hasProperty('gitTag')}"
