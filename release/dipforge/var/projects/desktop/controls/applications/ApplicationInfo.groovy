@@ -67,6 +67,11 @@ if (result.size() != 1) {
                     image: 'images/icon/Organisation.png',                
                     title: 'Administration',
                     url: '/DipforgeWeb/bss/'
+                ],
+                [
+                    image: 'images/icon/swagger.png',                
+                    title: 'Swagger API',
+                    url: '/DipforgeWeb/swagger/'
                 ]/*,
                 [
                     image: 'images/icon/Admin.png',                
