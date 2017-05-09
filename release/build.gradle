@@ -751,7 +751,7 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGenerat
 
         // upload the dipforge environment
         def masterRDFStoreJar = "0057-MasterRDFStore-${version}.jar"
-        def masterRDFStoreJarPath = new File("daemon/0057-MasterRDFStore/build/${dipforgeEnvironmentEar}")
+        def masterRDFStoreJarPath = new File("daemon/0057-MasterRDFStore/build/${masterRDFStoreJar}")
         uploadFile(gitUsername, gitToken, repo, gitTag, masterRDFStoreJar, masterRDFStoreJarPath.absolutePath)
 
     } catch (Exception ex) {
