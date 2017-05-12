@@ -26,7 +26,7 @@ Ext.require(['*']);
 
 var logpanel = null;
 var entityMap = {
-                "&": "&amp;",
+                "&": "&",
                 "<": "&lt;",
                 ">": "&gt;",
                 '"': '&quot;',
@@ -175,7 +175,8 @@ function pollLog(file,endLine) {
     $.ajax({
             url: 'logs/TailLog.groovy?logFile=' + file + '&endLine=' + endLine,
             success: function(data) {
-                var logResult = JSON.parse(data);
+                //var logResult = JSON.parse(data);
+                var logResult = data
                 
                 $('#log-contents').append(escapeHtml(logResult[0].lines));
                 // delay and hide the modal
