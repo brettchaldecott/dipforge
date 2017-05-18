@@ -43,44 +43,48 @@ class RequestHandler {
     public class RequestWrapper {
         String project
         String action
-        def data
-        def dependancies
+        //def data
+        //def dependancies
         def children
+        Request request
         
         
         /**
          * The default constructor
          */
-        public RequestWrapper() {
-            
-            this.dependancies = [];
-            this.children = [];
-        }
+        //public RequestWrapper() {
+        //    
+        //    this.dependancies = [];
+        //    this.children = [];
+        //}
         
         public RequestWrapper(String project, String action, def data) {
             this.project = project;
             this.action = action;
             this.data = data;
-            this.dependancies = [];
-            this.children = [];
+            //this.dependancies = [];
+            //this.children = [];
+            generateRequest(data,dependancies);
         }
         
         public RequestWrapper(String project, String action, def data, 
             def dependancies) {
             this.project = project;
             this.action = action;
-            this.data = data;
-            this.dependancies = dependancies;
+            //this.data = data;
+            //this.dependancies = dependancies;
             this.children = [];
+            generateRequest(data,dependancies);
         }
         
         public RequestWrapper(String project, String action, def data, 
             def dependancies, def children) {
             this.project = project;
             this.action = action;
-            this.data = data;
-            this.dependancies = dependancies;
+            //this.data = data;
+            //this.dependancies = dependancies;
             this.children = children;
+            generateRequest(data,dependancies);
         }
         
         
@@ -88,19 +92,19 @@ class RequestHandler {
             return project
         }
         
-        public void setProject(String project) {
-            this.project = project
-        }
+        //public void setProject(String project) {
+        //    this.project = project
+        //}
         
         public String getAction() {
             return action;
         }
         
-        public void setAction(String action) {
-            this.action = action;
-        }
+        //public void setAction(String action) {
+        //    this.action = action;
+        //}
         
-        public def getData() {
+        /*public def getData() {
             return data;
         }
         
@@ -114,7 +118,7 @@ class RequestHandler {
         
         public void setDependancies(def dependancies) {
             this.dependancies = dependancies;
-        }
+        }*/
         
         public def getChildren() {
             return children
@@ -124,9 +128,9 @@ class RequestHandler {
             this.children = children
         }
         
-        public void addChild(def child) {
+        /*public void addChild(def child) {
             this.children(child)
-        }
+        }*/
         
         
         /**
@@ -158,33 +162,13 @@ class RequestHandler {
             return child;
         }
         
-        
         /**
-         * This method creates a new child using the parameters.
          * 
-         * @param project The project name
-         * @param action The action
-         * @param data The data.
-         * @param dependancies The dependancies.
-         * @param children The children references.
          */
-        public def createChild(String project, String action, def data, 
-                def dependancies, def children) {
-            def child = new RequestWrapper(project,action,data,dependancies,children)
-            this.children.add(child);
-            return child;
-        }
-        
-        
-        /**
-         * This method makes the request onto the request broker
-         */
-        def createRequest() {
-            RequestBrokerConnector connector = new RequestBrokerConnector();
-            
+        def generateRequest(def data, def dependancies) {
             RequestData requestData = new RequestData(this.data.getId(), this.data.builder.classDef.getURI().toString(),
                     this.data.toXML(), data.builder.classDef.getLocalName())
-            Request request = new Request(RandomGuid.getInstance().getGuid(), 
+            request = new Request(RandomGuid.getInstance().getGuid(), 
                     project, requestData, action, new java.util.Date(), null,
                     new java.util.ArrayList<RequestEvent>())
             if (dependancies.size() > 0) {
@@ -216,6 +200,15 @@ class RequestHandler {
                                 this.data."${propertyName}".toXML(), propertyName))
                 }
             }
+            data = null
+            dependancies = null
+        }
+        
+        
+        /**
+         * This method makes the request onto the request broker
+         */
+        def createRequest() {
             
             for (child in this.children) {
                 request.getChildren().add(child.createRequest());
