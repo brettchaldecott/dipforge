@@ -108,6 +108,54 @@ public class ProjectFileManagerImpl implements ProjectFileManager {
                     ("Failed to list the files for the directory : " + ex.getMessage(),ex);
         }
     }
+    
+    
+    /**
+     * This method lists all the files within a project directory.
+     *
+     * @param project The name of the project.
+     * @return The list of folders.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public List<FileDTO> listFolders(String project)
+            throws ProjectException {
+        try {
+            ProjectBean projectBean =
+                    ProjectFactory.getInstance().getProject(project);
+            return projectBean.listFolders();
+        } catch (Exception ex) {
+            log.error("Failed to list the files for the directory : " + ex.getMessage(),ex);
+            throw new ProjectException
+                    ("Failed to list the files for the directory : " + ex.getMessage(),ex);
+        }
+
+    }
+
+
+    /**
+     * This method lists all the files within a project directory.
+     *
+     * @param project The name of the project.
+     * @param directoryCommaList The list of directories to search below
+     * @return The list of folders.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public List<FileDTO> listFolders(String project, String directoryCommaList)
+            throws ProjectException {
+        try {
+            ProjectBean projectBean =
+                    ProjectFactory.getInstance().getProject(project);
+            return projectBean.listFolders(directoryCommaList);
+        } catch (Exception ex) {
+            log.error("Failed to list the files for the directory : " + ex.getMessage(),ex);
+            throw new ProjectException
+                    ("Failed to list the files for the directory : " + ex.getMessage(),ex);
+        }
+
+    }
+
 
     /**
      * This method creates the file.
@@ -122,6 +170,28 @@ public class ProjectFileManagerImpl implements ProjectFileManager {
             ProjectBean projectBean =
                     ProjectFactory.getInstance().getProject(project);
             projectBean.createFile(path,type);
+        } catch (Exception ex) {
+            log.error("Failed to create the file : " + ex.getMessage(),ex);
+            throw new ProjectException
+                    ("Failed to create the file : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method creates the file.
+     * @param project The project to create.
+     * @param path The path.
+     * @param type The type of file.
+     * @param context The context of the file
+     * @throws ProjectException
+     */
+    public void createFile(String project, String path, String type, String context)
+            throws ProjectException {
+        try {
+            ProjectBean projectBean =
+                    ProjectFactory.getInstance().getProject(project);
+            projectBean.createFile(path,type,context);
         } catch (Exception ex) {
             log.error("Failed to create the file : " + ex.getMessage(),ex);
             throw new ProjectException

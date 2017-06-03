@@ -1,5 +1,6 @@
 apply plugin: 'maven'
 apply plugin: 'announce'
+apply plugin: 'maven-publish'
 
 import org.apache.tools.ant.filters.ReplaceTokens
 import groovy.json.*

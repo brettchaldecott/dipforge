@@ -12,7 +12,8 @@
     "angular-touch": "^1.4.0",
     "angular-ui-ace":"bower",
     "angular-ui-grid":"*",
-    "angular-bootstrap-nav-tree":"*"
+    "angular-bootstrap-nav-tree":"*",
+    "angular-bootstrap":"*"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

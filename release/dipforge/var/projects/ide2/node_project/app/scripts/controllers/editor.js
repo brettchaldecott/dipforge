@@ -66,6 +66,34 @@ angular.module('ide2App')
         }
     }
     
+    vm.saveFile = function(id) {
+        for (var index in vm.editorFiles) {
+            var editorFile = vm.editorFiles[index];
+            if (editorFile.id === id) {
+                FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
+                editorFile.dirty = false
+                break;
+            }
+        }
+    }
+    
+    vm.refreshFile = function(id) {
+        for (var index in vm.editorFiles) {
+            var editorFile = vm.editorFiles[index];
+            if (editorFile.id === id) {
+                // add a new tab
+                FileService.getFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
+                    editorFile.fileData = response.data
+                    editorFile.dirty = false
+                    //console.log(response.data.contents)
+                    editorFile.editor.getSession().setValue(editorFile.fileData.contents);
+                });
+                break;
+            }
+        }
+    }
+    
+    
     $scope.aceLoaded = function(editor) {
         console.log("The ace load method is called")
         var editorFile = vm.editorFiles[vm.editorFiles.length - 1]

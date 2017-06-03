@@ -26,19 +26,5 @@ angular.module('ide2App')
             
         }
         
-        vm.deleteProject = function() {
-            console.log("Delete the project")
-            ProjectModal.deleteProject({name:vm.projectName}).then(function(response) {
-                $rootScope.$broadcast('removeProject', {name:vm.projectName});
-                vm.projectName=""
-                vm.projectDescription=""
-                $('#deleteProject').modal('hide');
-            });
-        }
         
-        
-        $rootScope.$on('deleteProject',function(event, data){
-            vm.projectName = data.projectName
-            $('#deleteProject').modal('show');
-        });
 });

@@ -131,6 +131,51 @@ println """
             }
          }
       },
+      "/com/dipforge/ide/ListFolders.groovy?project={project}&directoryCommaList={directoryCommaList}":{
+         "get":{
+            "tags":[
+               "files"
+            ],
+            "summary":"List Folders",
+            "description":"Retrieve the list of folders in a project.",
+            "operationId":"ListFolders",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"project",
+                    "in":"query",
+                    "description":"The name of the project",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                },
+                {
+                    "name":"directoryCommaList",
+                    "in":"query",
+                    "description":"The path within project",
+                    "required":false,
+                    "type":"string",
+                    "format":"int64"
+                }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/Files"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
       "/com/dipforge/ide/GetFile.groovy?project={project}&path={path}":{
          "get":{
             "tags":[
@@ -172,6 +217,47 @@ println """
                },
                "400":{
                   "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/CreateFile.groovy":{
+         "post":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Create a file",
+            "description":"Create a file",
+            "operationId":"createFile",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"body",
+                  "description":"The information for the file that needs to be create",
+                  "required":true,
+                  "schema":{
+                     "\$ref":"#/definitions/FileInfo"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/FileInfo"
+                     }
+                  }
+               },
+               "405":{
+                  "description":"Invalid input"
                }
             }
          }
@@ -355,6 +441,27 @@ println """
             "fileExtension":{
                "type":"string"
             }
+         },
+         "xml":{
+            "name":"File"
+         }
+      },
+      "FileInfo":{
+         "type":"object",
+         "properties":{
+            "project":{
+               "type":"string"
+            },
+            "path":{
+               "type":"string"
+            },
+            "type":{
+               "type":"string"
+            },
+            "context":{
+               "type":"string"
+            },
+            
          },
          "xml":{
             "name":"File"

@@ -57,7 +57,6 @@
                 <div class="modal-body">
                     <form name="projectForm" id="projectForm">
                       <div class="form-group" ng-class="{'has-error': projectForm.projectName.$invalid}">
-                          {{projectForm.projectName.$invalid}}
                         <label for="projectName">Project Name</label>
                         <input type="string" class="form-control" id="projectName" name="projectName" ng-model="projectModalCtrl.projectName" placeholder="Project Name" required ng-pattern="/^[a-zA-Z0-9_-]{5,}$/">
                       </div>
@@ -75,27 +74,78 @@
         </div> 
     </div>
     
-    <div class="modal fade in" role="dialog" id="deleteProject" tabindex="-1" aria-labelledby="myModalLabel" ng-controller="ProjectModalCtrl as projectModalCtrl">
+    <div class="modal fade in" role="dialog" id="deleteFileFolderOrProject" tabindex="-1" aria-labelledby="deleteFileFolderOrProject" ng-controller="DeleteModalCtrl as deleteModalCtrl">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp;Create File Or Folder</h4>
+                    <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp;Delete File, Folder Or Project</h4>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete the project {{projectModalCtrl.projectName}}!!
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12" >
+                            <div class="well">
+                                {{deleteModalCtrl.project}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    
+                        <div class="col-sm-5 col-md-5" >
+                            <div class="well">
+                            <ul class="nav nav-sidebar" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#_delete_project" role="tab" data-toggle="tab">
+                                        project
+                                        <span class="glyphicon glyphicon-th-large pull-right" style="inline" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#_delete_folder" role="tab" data-toggle="tab">
+                                        folder
+                                        <span class="glyphicon glyphicon-folder-close pull-right" style="inline" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-7 col-md-7" >
+                            
+                            <div class="well">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="_delete_project">
+                                        Do you wish to delete the project {{deleteModalCtrl.project}}
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="_delete_folder">
+                                        <form name="deleteFolderForm" id="deleteFolderForm" autocomplete="off">
+                                          <div class="form-group">
+                                            <label for="folderFormFolder">Project Folder</label>
+                                            <select class="form-control" id="folderFormFolder" name="folderFormFolder" ng-model="deleteModalCtrl.folderFormFolder" ng-change="deleteModalCtrl.folderFormChangeFolder()" >
+                                              <option ng-repeat="folder in deleteModalCtrl.folders" value="{{folder.path}}">{{folder.path}}</option>
+                                            </select>
+                                          </div>
+                                          <div class="form-group" ng-class="{'has-error': deleteFolderForm.deleteFolderPath.$invalid}">
+                                            <label for="deleteFolderPath">Folder Path</label>
+                                            <input type="string" class="form-control" id="deleteFolderPath" name="deleteFolderPath" uib-typeahead="folder for folder in deleteModalCtrl.folderFormFolders | filter:$viewValue | limitTo:16" typeahead-editable="false" ng-model="deleteModalCtrl.deleteFolderPath" placeholder="Folder Path" required ng-pattern="/^[a-zA-Z0-9_\/]{1,}$/">
+                                          </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" ng-click="projectModalCtrl.deleteProject()">Delete Project</button>
+                    <button type="button" class="btn btn-primary" ng-click="deleteModalCtrl.deleteFileFolderOrProject()">Delete</button>
                 </div>
             </div>
         </div> 
     </div>
     
-    <div class="modal fade in" role="dialog" id="createFileOrFolder" tabindex="-1" aria-labelledby="myModalLabel" >
+    <div class="modal fade in" role="dialog" id="createFileOrFolder" tabindex="-1" aria-labelledby="myModalLabel" ng-controller="FileModalCtrl as fileModalCtrl">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -105,11 +155,158 @@
                     <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp;Create File Or Folder</h4>
                 </div>
                 <div class="modal-body">
-                    hello world
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12" >
+                                <div class="well">
+                                    {{fileModalCtrl.project}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        
+                            <div class="col-sm-5 col-md-5" >
+                                <div class="well">
+                                <ul class="nav nav-sidebar" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#_folder" role="tab" data-toggle="tab">
+                                            folder
+                                            <span class="glyphicon glyphicon-folder-close pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#_controller" role="tab" data-toggle="tab">
+                                            controller
+                                            <span class="glyphicon glyphicon-bullhorn pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#_service" role="tab" data-toggle="tab">
+                                            service
+                                            <span class="glyphicon glyphicon-cog pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#_package" role="tab" data-toggle="tab">
+                                            package
+                                            <span class="glyphicon glyphicon-th-large pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#_workflow" role="tab" data-toggle="tab">
+                                            workflow
+                                            <span class="glyphicon glyphicon-play pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#_view" role="tab" data-toggle="tab">
+                                            view
+                                            <span class="glyphicon glyphicon-camera pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#_file" role="tab" data-toggle="tab">
+                                            file
+                                            <span class="glyphicon glyphicon-file pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 col-md-7" >
+                                
+                                <div class="well">
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="_folder">
+                                            <form name="folderForm" id="folderForm" autocomplete="off">
+                                              <div class="form-group">
+                                                <label for="projectFolder">Project Folder</label>
+                                                <select class="form-control" id="folderFormFolder" name="folderFormFolder" ng-model="fileModalCtrl.folderFormFolder" ng-change="fileModalCtrl.folderFormChangeFolder()" >
+                                                  <option ng-repeat="folder in fileModalCtrl.folders" value="{{folder.path}}">{{folder.path}}</option>
+                                                </select>
+                                              </div>
+                                              <div class="form-group" ng-class="{'has-error': folderForm.folderPath.$invalid}">
+                                                <label for="projectDescription">Folder Path</label>
+                                                <input type="string" class="form-control" id="folderPath" name="folderPath" uib-typeahead="folder for folder in fileModalCtrl.folderFormFolders | filter:$viewValue | limitTo:16" ng-model="fileModalCtrl.folderPath" placeholder="Folder Path" required ng-pattern="/^[a-zA-Z0-9_\/]{5,}$/">
+                                              </div>
+                                            </form>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="_controller">
+                                            <form name="controllerForm" id="controllerForm" autocomplete="off">
+                                              <div class="form-group" ng-class="{'has-error': controllerForm.controllerPath.$invalid}">
+                                                <label for="controllerPath">Controller Path</label>
+                                                <input type="string" class="form-control" id="controllerPath" name="controllerPath" uib-typeahead="path for path in fileModalCtrl.controllerFormFolders | filter:$viewValue | limitTo:16" ng-model="fileModalCtrl.controllerPath" placeholder="Controller Path" required ng-pattern="/^[a-zA-Z0-9_\.]{5,}$/">
+                                              </div>
+                                            </form>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="_service">
+                                            <form name="serviceForm" id="serviceForm" autocomplete="off">
+                                              <div class="form-group" ng-class="{'has-error': serviceForm.servicePath.$invalid}">
+                                                <label for="servicePath">Service Path</label>
+                                                <input type="string" class="form-control" id="servicePath" name="servicePath" uib-typeahead="path for path in fileModalCtrl.serviceFormFolders | filter:$viewValue | limitTo:16"  ng-model="fileModalCtrl.servicePath" placeholder="Service Path" required ng-pattern="/^[a-zA-Z0-9_\.]{5,}$/">
+                                              </div>
+                                            </form>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="_package">
+                                            <form name="packageForm" id="packageForm" autocomplete="off">
+                                              <div class="form-group" ng-class="{'has-error': packageForm.packagePath.$invalid}">
+                                                <label for="packagePath">Package Path</label>
+                                                <input type="string" class="form-control" id="packagePath" name="packagePath" uib-typeahead="path for path in fileModalCtrl.packageFormFolders | filter:$viewValue | limitTo:16" ng-model="fileModalCtrl.packagePath" placeholder="Package Path" required ng-pattern="/^[a-zA-Z0-9_\.]{5,}$/">
+                                              </div>
+                                            </form>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="_workflow">
+                                            <form name="workflowForm" id="workflowForm" autocomplete="off">
+                                              <div class="form-group" ng-class="{'has-error': workflowForm.flowPath.$invalid}">
+                                                <label for="packagePath">Flow Path</label>
+                                                <input type="string" class="form-control" id="flowPath" name="flowPath" uib-typeahead="path for path in fileModalCtrl.flowFormFolders | filter:$viewValue | limitTo:16"  ng-model="fileModalCtrl.flowPath" placeholder="Flow Path" required ng-pattern="/^[a-zA-Z0-9_\/]{5,}$/">
+                                              </div>
+                                            </form>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="_view">
+                                            <form name="viewForm" id="controllerForm" autocomplete="off">
+                                              <div class="form-group" ng-class="{'has-error': viewForm.viewPath.$invalid}">
+                                                <label for="viewPath">View Path</label>
+                                                <input type="string" class="form-control" id="viewPath" name="viewPath" uib-typeahead="path for path in fileModalCtrl.flowFormFolders | filter:$viewValue | limitTo:16"  ng-model="fileModalCtrl.viewPath" placeholder="View Path" required ng-pattern="/^[a-zA-Z0-9_\/]{5,}$/">
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="projectFolder">Project Folder</label>
+                                                <select class="form-control" id="viewType" name="viewType" ng-model="fileModalCtrl.viewType">
+                                                  <option value="css">css</option>
+                                                  <option value="html">html</option>
+                                                  <option value="gsp">gsp</option>
+                                                  <option value="js">javascript</option>
+                                                </select>
+                                              </div>
+                                              <div class="form-group" ng-class="{'has-error': viewForm.viewName.$invalid}">
+                                                <label for="viewName">View Name</label>
+                                                <input type="string" class="form-control" id="viewName" name="viewName" ng-model="fileModalCtrl.viewName" placeholder="View Name" required ng-pattern="/^[a-zA-Z0-9_-]{1,}$/">
+                                              </div>
+                                              
+                                            </form>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="_file">
+                                            <form name="fileForm" id="fileForm" autocomplete="off">
+                                              <div class="form-group">
+                                                <label for="projectFolder">Project Folder</label>
+                                                <select class="form-control" id="filesFormFolder" name="filesFormFolder" ng-model="fileModalCtrl.filesFormFolder" ng-change="fileModalCtrl.filesFormChangeFolder()">
+                                                  <option ng-repeat="folder in fileModalCtrl.folders" value="{{folder.path}}">{{folder.path}}</option>
+                                                </select>
+                                              </div>
+                                              <div class="form-group" ng-class="{'has-error': fileForm.filePath.$invalid}">
+                                                <label for="projectDescription">File Path</label>
+                                                <input type="string" class="form-control" id="filePath" name="filePath" uib-typeahead="path for path in fileModalCtrl.filesFormFolders | filter:$viewValue | limitTo:16" ng-model="fileModalCtrl.filePath" placeholder="File Path" required>
+                                              </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" ng-click="fileModalCtrl.createFileOrFolder()">Create</button>
                 </div>
             </div>
         </div> 
@@ -159,10 +356,11 @@
                                 <div class="collapse" id="{{projectEntry.name}}">
                                     <div  class="col-sm-offset-1"><small>{{projectEntry.description}}</small></div>
                                     <ul class="nav nav-pills" role="tablist">
-                                        <li role="presentation"><a href="#"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
-                                        <li role="presentation"><a href="#" data-toggle="modal" data-target="#createFileOrFolder"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a></li>
-                                        <li role="presentation"><a href="#" ng-click="filesCtl.deleteProject()"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a></li>
-                                        <li role="presentation"><a href="#"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></li>
+                                        <li role="presentation"><a href="#" ng-click="filesCtl.refresh()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
+                                        <li role="presentation"><a href="#" ng-click="filesCtl.launchFileModal()"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a></li>
+                                        
+                                        <li role="presentation"><a href="/DipforgeWeb/{{projectEntry.name}}/" target="_blank"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></li>
+                                        <li role="presentation" class="pull-right"><a href="#" ng-click="filesCtl.deleteFileFolderOrProject()"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
                                     </ul>
                                     <div class="well well-tree-bg">
                                         
@@ -201,14 +399,14 @@
                 <div class="tab-content">
                     <div ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="tabpanel" class="tab-pane" ng-class="{active: editorCtrls.editorFiles.length == (1 + $index)}" id="{{editorFile.id}}">
                         <ul class="nav nav-pills" role="tablist">
-                          <li role="presentation"><a href="#"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
-                          <li role="presentation"><a href="#"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a></li>
-                          <li role="presentation"><a href="#"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a></li>
+                          <li role="presentation"><a href="#" ng-click="editorCtrls.refreshFile(editorFile.id)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
+                          <li role="presentation"><a href="#" ng-click="editorCtrls.saveFile(editorFile.id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a></li>
                           <li role="presentation">
                               <h4>{{editorFile.project}}:{{editorFile.treeNode.fullPath}}&nbsp;
                               </h4>
                           </li>
                           <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeFile(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+                          <li role="presentation" class="pull-right"><a href="#"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
                           
                         </ul>
                         
@@ -263,6 +461,7 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-ui-ace/ui-ace.js"></script>
     <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     
     <!-- endbower -->
     <!-- endbuild -->
@@ -276,11 +475,15 @@
         <script src="scripts/controllers/filenavigator.js"></script>
         <script src="scripts/services/projectservice.js"></script>
         <script src="scripts/services/fileservice.js"></script>
+        <script src="scripts/services/filemodal.js"></script>
+        <script src="scripts/services/deletemodal.js"></script>
         <script src="scripts/directives/abntree.js"></script>
         <script src="scripts/controllers/tools.js"></script>
         <script src="scripts/controllers/editor.js"></script>
         <script src="scripts/controllers/projectmodal.js"></script>
         <script src="scripts/services/projectmodal.js"></script>
+        <script src="scripts/controllers/filemodal.js"></script>
+        <script src="scripts/controllers/deletemodal.js"></script>
         <!-- endbuild -->
 </body>
 </html>

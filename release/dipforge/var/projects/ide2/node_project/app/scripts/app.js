@@ -17,6 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.ace',
+    'ui.bootstrap',
     'angularBootstrapNavTree'
   ])
   .config(function ($routeProvider) {

@@ -39,6 +39,11 @@ if (result.size() != 1) {
                     url: '/DipforgeWeb/ide/'
                 ],
                 [
+                    image: 'images/icon/IDE.png',
+                    title: 'IDE2',
+                    url: '/DipforgeWeb/ide2/'
+                ],
+                [
                     image: 'images/icon/Documents.png',                
                     title: 'Documentation',
                     url: '/DipforgeWeb/documentation/'

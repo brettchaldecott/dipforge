@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
 
 def tree = []
 def builder = new JsonBuilder()
-def log = Logger.getLogger("files.FileSave");
+def log = Logger.getLogger("com.dipforge.log.ide.DeleteProject");
 
 log.info(params)
 

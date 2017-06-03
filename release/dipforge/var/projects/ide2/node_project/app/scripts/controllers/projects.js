@@ -30,7 +30,6 @@ angular.module('ide2App')
                 break;
             }
         }
-        vm.projectLists.split.openFile(data.project,data.treeNode)
     });
     
     listProjects();

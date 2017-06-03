@@ -77,6 +77,31 @@ public interface ProjectFileManager extends Remote {
 
 
     /**
+     * This method lists the files in a directory.
+     *
+     * @param name The name of the project
+     * @return The list of folders in a project
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public List<FileDTO> listFolders(String name)
+            throws ProjectException, RemoteException;
+
+
+    /**
+     * This method lists the files in a directory.
+     *
+     * @param name The name of the project
+     * @param directoryCommaList The list of directories to perform the search under
+     * @return The list of folders in a project
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public List<FileDTO> listFolders(String name, String directoryCommaList)
+            throws ProjectException, RemoteException;
+
+
+    /**
      * This method is called to create the file identified by the path
      * 
      * @param project The name of the project.
@@ -86,6 +111,19 @@ public interface ProjectFileManager extends Remote {
      * @throws RemoteException
      */
     public void createFile(String project, String path, String type) throws ProjectException,
+            RemoteException;
+
+
+    /**
+     * This method is called to create the file identified by the path
+     * 
+     * @param project The name of the project.
+     * @param path The path to the file.
+     * @param type The type of file.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public void createFile(String project, String path, String type, String context) throws ProjectException,
             RemoteException;
 
 

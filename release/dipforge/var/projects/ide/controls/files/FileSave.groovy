@@ -10,6 +10,7 @@ import com.rift.dipforge.project.ProjectFileManager
 import com.dipforge.utils.HTMLCharacterEscaper
 import java.util.Date
 import files.mimes.MimeTypeMapper
+import com.dipforge.utils.HttpRequestUtil
 	
 import groovy.json.*;
 import org.apache.log4j.Logger;
@@ -22,6 +23,7 @@ log.info(params)
 
 def fileContent = ""
 try {
+    
     def daemon = ConnectionManager.getInstance().getConnection(
 			ProjectFileManager.class,"project/FileManager")
 	daemon.updateFile(params.project,params.path,params.content)

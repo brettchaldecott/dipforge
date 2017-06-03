@@ -163,7 +163,7 @@ class RequestHandler {
         }
         
         /**
-         * 
+         * This method is called to generate the request data
          */
         def generateRequest(def data, def dependancies) {
             RequestData requestData = new RequestData(this.data.getId(), this.data.builder.classDef.getURI().toString(),

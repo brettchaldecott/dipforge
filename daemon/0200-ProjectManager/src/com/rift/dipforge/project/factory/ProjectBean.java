@@ -276,6 +276,139 @@ public class ProjectBean {
         }
     }
 
+    /**
+     * This method lists the files in a directory.
+     *
+     * @param name The name of the project
+     * @param directory The directory list.
+     * @return The list of files.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public List<FileDTO> listFolders()
+            throws ProjectFactoryException {
+        try {
+            File  dir = projectDir;
+            List<FileDTO> files = new ArrayList<FileDTO>();
+            File[] filesArray = dir.listFiles();
+            Arrays.sort(filesArray);
+            for (File file: filesArray) {
+                if (!file.isDirectory()) {
+                    continue;
+                }
+                FileDTO fileDto = new FileDTO();
+                // at this point the java libraries to not provide
+                // a means to get at the created date of a file.
+                fileDto.setCreated(new Date(file.lastModified()));
+                fileDto.setCreator(null);
+                fileDto.setModified(new Date(file.lastModified()));
+                fileDto.setModifier(null);
+                fileDto.setName(file.getName());
+                // construct a relative path based on the directory passed in.
+                fileDto.setPath(stripProjectBase(file));
+                fileDto.setType(FileTypes.DIRECTORY);
+                files.add(fileDto);
+                // start recursion on the folder structure
+                files.addAll(listFolders(file));
+            }
+            return files;
+        } catch (Exception ex) {
+            log.error("Failed to list the files : " + ex.getMessage(),ex);
+            throw new ProjectFactoryException
+                    ("Failed to list the files : " + ex.getMessage(),ex);
+        }
+    }
+    
+    
+    /**
+     * This method lists the files in a directory.
+     *
+     * @param name The name of the project
+     * @param directory The directory list.
+     * @return The list of files.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public List<FileDTO> listFolders(String directoryCommaList)
+            throws ProjectFactoryException {
+        try {
+            List<FileDTO> files = new ArrayList<FileDTO>();
+            String[] directories = directoryCommaList.split(",");
+            for (String directoryName: directories) {
+
+                File  dir = new File(projectDir,directoryName);
+                File[] filesArray = dir.listFiles();
+                if (filesArray == null) {
+                    continue;
+                }
+                Arrays.sort(filesArray);
+                for (File file: filesArray) {
+                    if (!file.isDirectory()) {
+                        continue;
+                    }
+                    FileDTO fileDto = new FileDTO();
+                    // at this point the java libraries to not provide
+                    // a means to get at the created date of a file.
+                    fileDto.setCreated(new Date(file.lastModified()));
+                    fileDto.setCreator(null);
+                    fileDto.setModified(new Date(file.lastModified()));
+                    fileDto.setModifier(null);
+                    fileDto.setName(file.getName());
+                    // construct a relative path based on the directory passed in.
+                    fileDto.setPath(stripProjectBase(file));
+                    fileDto.setType(FileTypes.DIRECTORY);
+                    files.add(fileDto);
+                    // start recursion on the folder structure
+                    files.addAll(listFolders(file));
+                }
+            }
+            return files;
+        } catch (Exception ex) {
+            log.error("Failed to list the files : " + ex.getMessage(),ex);
+            throw new ProjectFactoryException
+                    ("Failed to list the files : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method lists the files in a directory.
+     *
+     * @param folder The parent folder that we are recursing through
+     * @return The list of files.
+     */
+    private List<FileDTO> listFolders(File folder) {
+        List<FileDTO> files = new ArrayList<FileDTO>();
+        File[] filesArray = folder.listFiles();
+        Arrays.sort(filesArray);
+        for (File file: filesArray) {
+            if (!file.isDirectory()) {
+                continue;
+            }
+            FileDTO fileDto = new FileDTO();
+            // at this point the java libraries to not provide
+            // a means to get at the created date of a file.
+            fileDto.setCreated(new Date(file.lastModified()));
+            fileDto.setCreator(null);
+            fileDto.setModified(new Date(file.lastModified()));
+            fileDto.setModifier(null);
+            fileDto.setName(file.getName());
+            // construct a relative path based on the directory passed in.
+            fileDto.setPath(stripProjectBase(file));
+            fileDto.setType(FileTypes.DIRECTORY);
+            files.add(fileDto);
+            files.addAll(listFolders(file));
+        }
+
+        return files;
+    }
+
+    private String stripProjectBase(File path) {
+        String targetPath = path.getAbsolutePath();
+        String projectPath = projectDir.getAbsolutePath();
+        return targetPath.substring(projectPath.length());
+    }
+
 
     /**
      * This method is called to create the file identified by the path
@@ -300,6 +433,54 @@ public class ProjectBean {
             String fileName = path.substring(path.lastIndexOf("/") + 1);
             
             String contents = getTemplate(directory,fileName,type);
+            java.io.FileOutputStream out = new java.io.FileOutputStream(targetFile);
+            out.write(contents.getBytes());
+            out.close();
+            
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
+        } catch (ProjectFactoryException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to create the file : " + ex.getMessage(),ex);
+            throw new ProjectFactoryException
+                    ("Failed to create the file : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method is called to create the file identified by the path
+     *
+     * @param path The path to the file, this has to be fully formed within a project
+     * @param type The type of file.
+     * @param context The context for the template file
+     * @throws ProjectException
+     */
+    public void createFile(String path, String type, String context) throws ProjectFactoryException {
+        try {
+
+            File targetFile = new File(projectDir,path);
+            if (targetFile.exists()) {
+                log.error("Attempting to create duplicate file [" + path + "]");
+                throw new ProjectFactoryException(
+                        "Attempting to create duplicate file [" + path + "]");
+            }
+            
+            // process path information
+            String directory = path.substring(0,path.lastIndexOf("/"));
+
+            File dir = new File(projectDir,directory);
+            if (!dir.exists()) {
+                createDirectory(directory);
+            }
+            String fileName = path.substring(path.lastIndexOf("/") + 1);
+            
+            String contents = getTemplate(directory,fileName,type,context);
             java.io.FileOutputStream out = new java.io.FileOutputStream(targetFile);
             out.write(contents.getBytes());
             out.close();
@@ -517,20 +698,41 @@ public class ProjectBean {
 
 
     /**
-     * This method returns the contents of the specified template file.
-     *
-     * @param suffix The string containing the suffix name for the template file.
-     * @return The string containing the template file information.
-     * @throws ProjectFactoryException
+     * This method returns the template file
      */
     private String getTemplate(String directory, String fileName, String type)
             throws ProjectFactoryException {
+            return getTemplate(directory,fileName,type,null);
+    }
+
+    /**
+     * This method returns the contents of the specified template file.
+     *
+     * @return The string containing the template file information.
+     * @throws ProjectFactoryException
+     */
+    private String getTemplate(String directory, String fileName, String type, String context)
+            throws ProjectFactoryException {
         try {
-            TemplateHelper template = new TemplateHelper(new File(templateDir,
-                    type + Constants.TEMPLATE_SUFFIX).getPath());
+            File templateFile = null;
+            if (context == null) {
+                templateFile = new File(templateDir,context + "/" + type + Constants.TEMPLATE_SUFFIX);
+                if (!templateFile.exists()) {
+                    templateFile = new File(templateDir,type + Constants.TEMPLATE_SUFFIX);
+                }
+            } else {
+                templateFile = new File(templateDir, type + Constants.TEMPLATE_SUFFIX);
+            }
+            TemplateHelper template = new TemplateHelper(templateFile.getPath());
             Map<String,String> values = new HashMap<String,String>();
             
-            String fullFilename = fileName + "." + type;
+            String fullFilename = fileName;
+            if (!fullFilename.contains(".")) {
+                fullFilename = fileName + "." + type;
+            }
+            if (fileName.contains(".")) {
+                fileName = fileName.substring(0,fileName.lastIndexOf("."));
+            }
             
             String scope = ".";
             int index = 0;
