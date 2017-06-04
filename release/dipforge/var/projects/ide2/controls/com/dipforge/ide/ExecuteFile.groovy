@@ -1,6 +1,6 @@
 /*
  * ide2: Description
- * Copyright (C) Fri Jun 02 06:17:39 UTC 2017 owner 
+ * Copyright (C) Sun Jun 04 18:00:43 UTC 2017 owner 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * CreateFile.groovy
+ * ExecuteFile.groovy
  * @author admin
  */
 
@@ -43,13 +43,11 @@ try {
     def json = HttpRequestUtil.requestContentToJson(request)
     
     def daemon = ConnectionManager.getInstance().getConnection(
-			ProjectFileManager.class,"project/FileManager")
-	if (json.type == "folder") {
-		daemon.createDirectory(json.project,json.path)
-	} else {
-	    log.info("The ${json.project} ${json.path} ${json.type} ${json.context} ")
-		daemon.createFile(json.project,json.path,json.type,json.context)
-	}
+			GroovyDaemon.class,"groovy/Daemon")
+    //def path = params.path + "/" + params.fileName
+    def results = daemon.execute(params.project,params.path)
+    
+    
 	builder(json)
 	response.setContentType("application/json");
 	print builder.toString()
@@ -57,5 +55,3 @@ try {
     log.error("Failed to create the file [" + params.fileName + "] in the project [" + params.project + "]" + ex.getMessage());
     throw ex
 }
-
-

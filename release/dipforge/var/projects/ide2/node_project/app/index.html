@@ -245,6 +245,13 @@
                                                 <input type="string" class="form-control" id="servicePath" name="servicePath" uib-typeahead="path for path in fileModalCtrl.serviceFormFolders | filter:$viewValue | limitTo:16"  ng-model="fileModalCtrl.servicePath" placeholder="Service Path" required ng-pattern="/^[a-zA-Z0-9_\.]{5,}$/">
                                               </div>
                                             </form>
+                                            <div class="form-group">
+                                                <label for="projectFolder">Project Folder</label>
+                                                <select class="form-control" id="serviceType" name="serviceType" ng-model="fileModalCtrl.serviceType">
+                                                  <option value="end_point_groovy">End Point</option>
+                                                  <option value="executor_groovy">Script</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="_package">
                                             <form name="packageForm" id="packageForm" autocomplete="off">

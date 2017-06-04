@@ -78,7 +78,7 @@ angular.module('ide2App')
                     return;
                 }
                 path = "/services/" + vm.servicePath.replace(/\./g,"/") + ".groovy"
-                type = "groovy"
+                type = vm.serviceType
                 context = "/services"
                 
                 

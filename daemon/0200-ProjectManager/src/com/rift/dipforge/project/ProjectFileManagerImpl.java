@@ -189,6 +189,7 @@ public class ProjectFileManagerImpl implements ProjectFileManager {
     public void createFile(String project, String path, String type, String context)
             throws ProjectException {
         try {
+            log.info("The create file [" + path + "][" + type + "][" + context + "]");
             ProjectBean projectBean =
                     ProjectFactory.getInstance().getProject(project);
             projectBean.createFile(path,type,context);

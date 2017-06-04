@@ -480,6 +480,7 @@ public class ProjectBean {
             }
             String fileName = path.substring(path.lastIndexOf("/") + 1);
             
+            log.info("Attempt to retrieve the file template [" + type + "][" + context + "]");
             String contents = getTemplate(directory,fileName,type,context);
             java.io.FileOutputStream out = new java.io.FileOutputStream(targetFile);
             out.write(contents.getBytes());
@@ -715,10 +716,13 @@ public class ProjectBean {
             throws ProjectFactoryException {
         try {
             File templateFile = null;
-            if (context == null) {
+            log.info("The context path [" + fileName + "][" + type + "][" + context + "]");
+            if (context != null) {
                 templateFile = new File(templateDir,context + "/" + type + Constants.TEMPLATE_SUFFIX);
+                log.info("The template file : " + templateFile.getPath());
                 if (!templateFile.exists()) {
                     templateFile = new File(templateDir,type + Constants.TEMPLATE_SUFFIX);
+                    log.info("Use the short path : " + templateFile.getPath());
                 }
             } else {
                 templateFile = new File(templateDir, type + Constants.TEMPLATE_SUFFIX);
