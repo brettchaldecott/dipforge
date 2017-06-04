@@ -117,6 +117,21 @@ angular.module('ide2App')
             
             
             FileModal.createFile(vm.project,path,type,context).then(function(response){
+                if (response.type != "folder") {
+                    
+                    var label = stripLabel(path)
+                    
+                    var treeNode = {
+                        "fullPath": path, 
+                        "project": vm.project,
+                        "path": path,
+                        "leafNode": true,
+                        "iconCls": "na",
+                        "fileExtension":response.type,
+                        "label": label
+                    }
+                    $rootScope.$broadcast('openFile', {project: vm.project,treeNode:treeNode});
+                }
                 $('#createFileOrFolder').modal('hide');
             })
         }
@@ -293,5 +308,9 @@ angular.module('ide2App')
         }
         
         
+        var stripLabel = function(path) {
+            console.log("The path : " + path)
+            return path.substring(path.lastIndexOf("/") + 1)
+        }
         
     });

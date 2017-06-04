@@ -8,10 +8,13 @@
  * Service in the ide2App.
  */
 angular.module('ide2App')
-  .service('ProjectService', function ($http) {
-      this.listProjects = function() {
-          return $http.get("../com/dipforge/ide/ListProjects.groovy");
-      };
+    .service('ProjectService', function ($http) {
+        this.listProjects = function() {
+            return $http.get("../com/dipforge/ide/ListProjects.groovy");
+        };
       
-    // AngularJS will instantiate a singleton by calling "new" on this function
-  });
+    
+        this.publishProject = function(project) {
+            return $http.get("../com/dipforge/ide/PublishProject.groovy?project=" + project);
+        };  
+    });

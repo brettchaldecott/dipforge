@@ -23,4 +23,16 @@ angular.module('ide2App')
         var jsonData = JSON.stringify(jsonObject);
         return $http.post("../com/dipforge/ide/SaveFile.groovy",jsonData);
     };
+    
+    this.deleteFile = function(project,path,type) {
+        var jsonData = JSON.stringify({project:project,path:path,type:type});
+        return $http.post("../com/dipforge/ide/DeleteFile.groovy",jsonData);
+    };
+    
+    
+    this.deleteFile = function(project,path,type) {
+        var jsonData = JSON.stringify({project:project,path:path,type:type});
+        return $http.post("../com/dipforge/ide/DeleteFile.groovy",jsonData);
+    };
+        
   });

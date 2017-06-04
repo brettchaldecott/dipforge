@@ -352,7 +352,7 @@
                     <div class="well">
                         <ul class="nav nav-sidebar" ng-controller="ProjectsCtrl as projectsCtl">
                             <li ng-repeat="projectEntry in projectsCtl.projectLists" ng-controller="FilesCtrl as filesCtl" ng-init="filesCtl.init(projectEntry.name)">
-                                <a data-toggle="collapse" href="#{{projectEntry.name}}"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>&nbsp;{{projectEntry.name}}</a>
+                                <a data-toggle="collapse" href="#{{projectEntry.name}}"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>&nbsp;{{projectEntry.name}}&nbsp;<span class="badge">{{filesCtl.project_status}}</span></a>
                                 <div class="collapse" id="{{projectEntry.name}}">
                                     <div  class="col-sm-offset-1"><small>{{projectEntry.description}}</small></div>
                                     <ul class="nav nav-pills" role="tablist">
@@ -360,6 +360,8 @@
                                         <li role="presentation"><a href="#" ng-click="filesCtl.launchFileModal()"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a></li>
                                         
                                         <li role="presentation"><a href="/DipforgeWeb/{{projectEntry.name}}/" target="_blank"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></li>
+                                        <li role="presentation"><a href="#" ng-click="filesCtl.publishProject()"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span></a></li>
+                                        
                                         <li role="presentation" class="pull-right"><a href="#" ng-click="filesCtl.deleteFileFolderOrProject()"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
                                     </ul>
                                     <div class="well well-tree-bg">
@@ -406,7 +408,7 @@
                               </h4>
                           </li>
                           <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeFile(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
-                          <li role="presentation" class="pull-right"><a href="#"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
+                          <li role="presentation" class="pull-right"><a href="#" ng-click="editorCtrls.deleteFile(editorFile.id)"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
                           
                         </ul>
                         

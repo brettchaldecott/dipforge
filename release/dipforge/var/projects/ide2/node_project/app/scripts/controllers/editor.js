@@ -93,6 +93,18 @@ angular.module('ide2App')
         }
     }
     
+    vm.deleteFile = function(id) {
+        for (var index in vm.editorFiles) {
+            var editorFile = vm.editorFiles[index];
+            if (editorFile.id === id) {
+                FileService.deleteFile(editorFile.project,editorFile.treeNode.fullPath,"file").then(function(response){
+                    vm.editorFiles.splice(index, 1);
+                });
+                break;
+            }
+        }
+    }
+    
     
     $scope.aceLoaded = function(editor) {
         console.log("The ace load method is called")

@@ -86,6 +86,37 @@ println """
             }
          },
       },
+      "/com/dipforge/ide/PublishProject.groovy?project={project}":{
+         "get":{
+            "tags":[
+               "projects"
+            ],
+            "summary":"Publish Project",
+            "description":"Publish  the project.",
+            "operationId":"PublishProject",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"project",
+                    "in":"query",
+                    "description":"The name of the project",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation"
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
       "/com/dipforge/ide/ListFiles.groovy?project={project}&path={path}":{
          "get":{
             "tags":[

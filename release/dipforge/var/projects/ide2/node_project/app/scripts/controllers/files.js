@@ -10,6 +10,7 @@
 angular.module('ide2App')
   .controller('FilesCtrl', function ($rootScope, $scope, $interval,ProjectService,FileService) {
     var vm = this;
+    vm.project_status = "";
     var apple_selected, tree, treedata_avm, treedata_geography;
     
     
@@ -77,7 +78,15 @@ angular.module('ide2App')
         console.log("The project : " + vm.project)
         $rootScope.$broadcast('launchFileModal', {project: vm.project});
     }
-      
+    
+    vm.publishProject = function() {
+        console.log("The project : " + vm.project)
+        ProjectService.publishProject(vm.project).then(function(response) {
+            vm.project_status = "published";
+        });
+    }
+    
+    
     $scope.my_tree_handler = function(branch) {
         var _ref;
         if (!branch.leafNode) {
