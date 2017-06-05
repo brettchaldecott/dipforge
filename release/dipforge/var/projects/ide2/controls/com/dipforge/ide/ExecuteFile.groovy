@@ -28,17 +28,19 @@ import com.rift.dipforge.project.ProjectFileManager
 import com.dipforge.utils.HTMLCharacterEscaper
 import java.util.Date
 import com.dipforge.utils.HttpRequestUtil
-	
+import com.rift.coad.groovy.GroovyDaemon
 import groovy.json.*;
 import org.apache.log4j.Logger;
+import java.io.StringWriter;
+import java.io.PrintWriter;
 
 def tree = []
 def builder = new JsonBuilder()
 def log = Logger.getLogger("com.dipforge.log.ide.CreateFile");
-def resultJson = {
+def resultJson = [
     status: "ok",
     result: ""
-}
+]
 
 
 log.info(params)
@@ -49,10 +51,14 @@ try {
     
     def daemon = ConnectionManager.getInstance().getConnection(
 			GroovyDaemon.class,"groovy/Daemon")
-    resultJson.results = daemon.execute(params.project,params.path)
-} catch (Exception ex) {
+    resultJson.result = daemon.execute(json.project,json.path)
+} catch (Throwable ex) {
     log.error("Failed to create the file [" + params.fileName + "] in the project [" + params.project + "]" + ex.getMessage());
-    throw ex
+    resultJson.status = "failed"
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+    ex.printStackTrace(pw);
+    resultJson.result = sw.toString();
 }
 
 builder(resultJson)

@@ -45,7 +45,33 @@
       </div>
     </nav>
     
-    <div class="modal fade in" role="dialog" id="createProject" tabindex="-1" aria-labelledby="myModalLabel" ng-controller="ProjectModalCtrl as projectModalCtrl">
+    <div class="modal fade in" role="dialog" id="outputModal" tabindex="-1" aria-labelledby="myModalLabel" ng-controller="OutputModalCtrl as outputModalCtrl">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>&nbsp;Output</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12" >
+                            <p>Status: {{outputModalCtrl.executeStatus}}</p>
+                            <div class="well">
+                                {{outputModalCtrl.executeOutput}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div> 
+    </div>
+    
+    <div class="modal fade in" role="dialog" id="projectOutputModel" tabindex="-1" aria-labelledby="myModalLabel" ng-controller="ProjectModalCtrl as projectModalCtrl">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -410,6 +436,7 @@
                         <ul class="nav nav-pills" role="tablist">
                           <li role="presentation"><a href="#" ng-click="editorCtrls.refreshFile(editorFile.id)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
                           <li role="presentation"><a href="#" ng-click="editorCtrls.saveFile(editorFile.id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a></li>
+                          <li ng-show="editorFile.treeNode.fullPath.startsWith('/services')" role="presentation"><a href="#" ng-click="editorCtrls.executeFile(editorFile.id)"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></li>
                           <li role="presentation">
                               <h4>{{editorFile.project}}:{{editorFile.treeNode.fullPath}}&nbsp;
                               </h4>
@@ -421,7 +448,7 @@
                         
                         <div ui-ace="{
                             onLoad : aceLoaded,
-                            useWrapMode : true,
+                            useWrapMode : false,
                             showGutter: true,
                             theme:'twilight',
                             require: ['ace/ext/language_tools'],
@@ -490,6 +517,7 @@
         <script src="scripts/services/projectmodal.js"></script>
         <script src="scripts/controllers/filemodal.js"></script>
         <script src="scripts/controllers/deletemodal.js"></script>
+        <script src="scripts/controllers/outputmodal.js"></script>
         <!-- endbuild -->
 </body>
 </html>

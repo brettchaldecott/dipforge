@@ -415,6 +415,47 @@ println """
                }
             }
          }
+      },
+      "/com/dipforge/ide/ExecuteFile.groovy":{
+         "post":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Execute a file",
+            "description":"Execute a file",
+            "operationId":"ExecuteFile",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"body",
+                  "description":"The information for the file that needs to be create",
+                  "required":true,
+                  "schema":{
+                     "\$ref":"#/definitions/ExecuteInfo"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/ExecuteResult"
+                     }
+                  }
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         }
       }
    },
    "securityDefinitions":{
@@ -470,6 +511,34 @@ println """
                "type":"string"
             },
             "fileExtension":{
+               "type":"string"
+            }
+         },
+         "xml":{
+            "name":"File"
+         }
+      },
+      "ExecuteInfo":{
+         "type":"object",
+         "properties":{
+            "project":{
+               "type":"string"
+            },
+            "path":{
+               "type":"string"
+            }
+         },
+         "xml":{
+            "name":"File"
+         }
+      },
+      "ExecuteResult":{
+         "type":"object",
+         "properties":{
+            "status":{
+               "type":"string"
+            },
+            "result":{
                "type":"string"
             }
          },

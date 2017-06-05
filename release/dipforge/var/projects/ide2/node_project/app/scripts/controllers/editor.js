@@ -78,16 +78,30 @@ angular.module('ide2App')
         }
     }
     
+    
+    vm.executeFile = function(id) {
+        console.log("The execute method")
+        for (var index in vm.editorFiles) {
+            var editorFile = vm.editorFiles[index];
+            if (editorFile.id === id) {
+                FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
+                    FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
+                        $rootScope.$broadcast("executeOutput",response.data);
+                    });
+                });
+                break;
+            }
+        }
+    }
+    
     vm.refreshFile = function(id) {
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 // add a new tab
                 FileService.getFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
-                    editorFile.fileData = response.data
-                    editorFile.dirty = false
-                    //console.log(response.data.contents)
-                    editorFile.editor.getSession().setValue(editorFile.fileData.contents);
+                    editorFile.fileData.contents = response.data.contents
+                    editorFile.dirty = false;
                 });
                 break;
             }
@@ -100,7 +114,6 @@ angular.module('ide2App')
             if (editorFile.id === id) {
                 FileService.deleteFile(editorFile.project,editorFile.treeNode.fullPath,"file").then(function(response){
                     vm.editorFiles.splice(index, 1);
-                    $("#ace_" + id).remove();
                 });
                 break;
             }
@@ -124,8 +137,6 @@ angular.module('ide2App')
         
         editor.getSession().on("change", function() {
             editorFile.dirty = true
-            console.log("File has changed")
-            console.log("#### The ace editor changed values : " + editorFile.id)
         });
     }
     
