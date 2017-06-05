@@ -56,6 +56,7 @@ angular.module('ide2App')
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
+                console.log("Close the id : " + id);
                 if (editorFile.dirty) {
                     FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                     editorFile.dirty = false
@@ -99,6 +100,7 @@ angular.module('ide2App')
             if (editorFile.id === id) {
                 FileService.deleteFile(editorFile.project,editorFile.treeNode.fullPath,"file").then(function(response){
                     vm.editorFiles.splice(index, 1);
+                    $("#ace_" + id).remove();
                 });
                 break;
             }
@@ -107,9 +109,9 @@ angular.module('ide2App')
     
     
     $scope.aceLoaded = function(editor) {
-        console.log("The ace load method is called")
+        console.log("The ace load method is called [" + (vm.editorFiles.length - 1) + "]")
         var editorFile = vm.editorFiles[vm.editorFiles.length - 1]
-        editorFile.editor = editor
+        //editorFile.editor = editor
         console.log("The mode is : " + editorFile.fileData.fileExtension)
         var mode = editorFile.fileData.fileExtension
         if (editorFile.fileData.fileExtension === "js") {
@@ -118,16 +120,12 @@ angular.module('ide2App')
             mode = "jsp"
         }
         editor.getSession().setMode("ace/mode/" + mode)
-        editor.getSession().setValue(editorFile.fileData.contents)
         editorFile.dirty = false
-        editor.getSession().id = editorFile.id
-        console.log("Set the id : " + editorFile.id)
         
         editor.getSession().on("change", function() {
             editorFile.dirty = true
-            editorFile.fileData.contents = editor.getSession().getValue()
-            console.log("The ace editor changed values : " + editorFile.id)
-            
+            console.log("File has changed")
+            console.log("#### The ace editor changed values : " + editorFile.id)
         });
     }
     

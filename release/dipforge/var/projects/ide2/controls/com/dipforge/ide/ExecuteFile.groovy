@@ -35,6 +35,11 @@ import org.apache.log4j.Logger;
 def tree = []
 def builder = new JsonBuilder()
 def log = Logger.getLogger("com.dipforge.log.ide.CreateFile");
+def resultJson = {
+    status: "ok",
+    result: ""
+}
+
 
 log.info(params)
 
@@ -44,14 +49,12 @@ try {
     
     def daemon = ConnectionManager.getInstance().getConnection(
 			GroovyDaemon.class,"groovy/Daemon")
-    //def path = params.path + "/" + params.fileName
-    def results = daemon.execute(params.project,params.path)
-    
-    
-	builder(json)
-	response.setContentType("application/json");
-	print builder.toString()
+    resultJson.results = daemon.execute(params.project,params.path)
 } catch (Exception ex) {
     log.error("Failed to create the file [" + params.fileName + "] in the project [" + params.project + "]" + ex.getMessage());
     throw ex
 }
+
+builder(resultJson)
+response.setContentType("application/json");
+print builder.toString()
