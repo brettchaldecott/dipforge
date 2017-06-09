@@ -17,7 +17,6 @@ angular.module('ide2App')
         combo: 'ctrl+down',
         description: 'Tab between windows',
         callback: function() {
-            console.log("Keys down")
             if (vm.editorFiles.length == 0) {
                 return
             }
@@ -26,7 +25,6 @@ angular.module('ide2App')
             }
             $("#tab-" + vm.selectTabId).removeClass("active");
             $("#" + vm.selectTabId).removeClass("active");
-            console.log("The current slected tab : " + vm.selectTabId);
             // loop through the windows
             for (var index in vm.editorFiles) {
                 var editorFile = vm.editorFiles[index];
@@ -43,7 +41,6 @@ angular.module('ide2App')
                     break;
                 }
             }
-            console.log("selectTabId : " + vm.selectTabId)
             $("#tab-" + vm.selectTabId).addClass("active");
             $("#" + vm.selectTabId).addClass("active");
         }
@@ -52,7 +49,6 @@ angular.module('ide2App')
         combo: 'ctrl+up',
         description: 'Tab between windows',
         callback: function() {
-            console.log("Keys up")
             if (vm.editorFiles.length == 0) {
                 return
             }
@@ -61,7 +57,6 @@ angular.module('ide2App')
             }
             $("#tab-" + vm.selectTabId).removeClass("active");
             $("#" + vm.selectTabId).removeClass("active");
-            console.log("The current slected tab : " + vm.selectTabId);
             // loop through the windows
             for (var index in vm.editorFiles) {
                 var editorFile = vm.editorFiles[index];
@@ -79,7 +74,6 @@ angular.module('ide2App')
                     break;
                 }
             }
-            console.log("selectTabId : " + vm.selectTabId)
             $("#tab-" + vm.selectTabId).addClass("active");
             $("#" + vm.selectTabId).addClass("active");
         }
@@ -88,7 +82,6 @@ angular.module('ide2App')
         combo: 'ctrl+s',
         description: 'Called to save a file',
         callback: function(event) {
-            console.log("Keys up")
             if (vm.editorFiles.length == 0) {
                 return
             }
@@ -96,7 +89,6 @@ angular.module('ide2App')
                 vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
             }
             vm.saveFile(vm.selectTabId)
-            console.log("After the save")
             event.preventDefault();
         }
     });
