@@ -8,10 +8,99 @@
  * Controller of the ide2App
  */
 angular.module('ide2App')
-  .controller('EditorCtrl', function ($rootScope, $scope, $interval,FileService) {
+  .controller('EditorCtrl', function ($rootScope, $scope, $interval,FileService,hotkeys) {
     var vm = this;
     vm.editorFiles = []
     vm.selectTabId = null;
+    
+    hotkeys.add({
+        combo: 'ctrl+down',
+        description: 'Tab between windows',
+        callback: function() {
+            console.log("Keys down")
+            if (vm.editorFiles.length == 0) {
+                return
+            }
+            if (!vm.selectTabId) {
+                vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
+            }
+            $("#tab-" + vm.selectTabId).removeClass("active");
+            $("#" + vm.selectTabId).removeClass("active");
+            console.log("The current slected tab : " + vm.selectTabId);
+            // loop through the windows
+            for (var index in vm.editorFiles) {
+                var editorFile = vm.editorFiles[index];
+                if (editorFile.id === vm.selectTabId) {
+                    var nextPos = (parseInt(index) + 1);
+                    console.log("The pos is : " + nextPos)
+                    if (nextPos < vm.editorFiles.length) {
+                        console.log("Setting to the next tab index")
+                        vm.selectTabId = vm.editorFiles[nextPos].id
+                    } else {
+                        console.log("The select tab id is getting reset")
+                        vm.selectTabId = vm.editorFiles[0].id
+                    }
+                    break;
+                }
+            }
+            console.log("selectTabId : " + vm.selectTabId)
+            $("#tab-" + vm.selectTabId).addClass("active");
+            $("#" + vm.selectTabId).addClass("active");
+        }
+    });
+    hotkeys.add({
+        combo: 'ctrl+up',
+        description: 'Tab between windows',
+        callback: function() {
+            console.log("Keys up")
+            if (vm.editorFiles.length == 0) {
+                return
+            }
+            if (!vm.selectTabId) {
+                vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
+            }
+            $("#tab-" + vm.selectTabId).removeClass("active");
+            $("#" + vm.selectTabId).removeClass("active");
+            console.log("The current slected tab : " + vm.selectTabId);
+            // loop through the windows
+            for (var index in vm.editorFiles) {
+                var editorFile = vm.editorFiles[index];
+                if (editorFile.id === vm.selectTabId) {
+                    var nextPos = (parseInt(index) - 1);
+                    console.log("The pos is : " + nextPos)
+                    if (nextPos == -1) {
+                        console.log("The select tab id is getting reset")
+                        vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
+                    } else {
+                        
+                        console.log("Setting to the next tab index")
+                        vm.selectTabId = vm.editorFiles[nextPos].id
+                    }
+                    break;
+                }
+            }
+            console.log("selectTabId : " + vm.selectTabId)
+            $("#tab-" + vm.selectTabId).addClass("active");
+            $("#" + vm.selectTabId).addClass("active");
+        }
+    });
+    hotkeys.add({
+        combo: 'ctrl+s',
+        description: 'Called to save a file',
+        callback: function(event) {
+            console.log("Keys up")
+            if (vm.editorFiles.length == 0) {
+                return
+            }
+            if (!vm.selectTabId) {
+                vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
+            }
+            vm.saveFile(vm.selectTabId)
+            console.log("After the save")
+            event.preventDefault();
+        }
+    });
+    
     
     vm.openFile = function(project,treeNode) {
         
@@ -60,6 +149,10 @@ angular.module('ide2App')
                 if (editorFile.dirty) {
                     FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                     editorFile.dirty = false
+                }
+                if (vm.selectTabId) {
+                    $("#" + vm.selectTabId).removeClass("active");
+                    $("#tab-" + vm.selectTabId).removeClass("active");
                 }
                 vm.editorFiles.splice(index, 1);
                 break;

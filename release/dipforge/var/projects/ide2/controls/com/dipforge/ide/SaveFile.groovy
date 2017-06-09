@@ -40,17 +40,17 @@ log.info(params)
 
 def fileContent = ""
 try {
-    def json = HttpRequestUtil.requestContentToJson(request)
+    def jsonData = HttpRequestUtil.requestContentToJson(request)
     
     def daemon = ConnectionManager.getInstance().getConnection(
 			ProjectFileManager.class,"project/FileManager")
-	daemon.updateFile(json.project,json.path,json.content)
+	daemon.updateFile(jsonData.project,jsonData.path,jsonData.content)
 	
 	response.setContentType("application/json");
     log.info("The json response is [${jsonData}]");
     builder(jsonData)
-    print builder.toString()
-	
+    println builder.toString()
+	log.info("After saving the file")
 } catch (Exception ex) {
-    log.error("Failed to update the project file " + ex.getMessage());
+    log.error("Failed to save the project file " + ex.getMessage(),ex);
 }

@@ -18,7 +18,8 @@ angular
     'ngTouch',
     'ui.ace',
     'ui.bootstrap',
-    'angularBootstrapNavTree'
+    'angularBootstrapNavTree',
+    'cfp.hotkeys'
   ])
   .config(function ($routeProvider) {
     $routeProvider
