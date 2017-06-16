@@ -39,13 +39,12 @@ try {
     
     def daemon = ConnectionManager.getInstance().getConnection(
 			ProjectFileManager.class,"project/FileManager")
-    def contents = daemon.getFile(params.project,params.path)
-	def fileContent = new HTMLCharacterEscaper(contents)
+    def fileData = daemon.getFileData(params.project,params.path)
 	def fileExtension = FilenameUtils.getExtension(params.path)
 
     response.setContentType("application/json");
     
-    builder([project:params.project,path:params.path,contents:contents,fileExtension:fileExtension])
+    builder([project:params.project,path:params.path,contents:fileData.getContents(),fileHash:fileData.getHash(),fileExtension:fileExtension])
     println builder.toString()
 	
 } catch (Exception ex) {

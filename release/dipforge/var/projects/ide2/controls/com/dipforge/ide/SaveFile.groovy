@@ -44,10 +44,13 @@ try {
     
     def daemon = ConnectionManager.getInstance().getConnection(
 			ProjectFileManager.class,"project/FileManager")
-	daemon.updateFile(jsonData.project,jsonData.path,jsonData.content)
+	def fileData = daemon.updateFile(jsonData.project,jsonData.path,jsonData.fileHash,jsonData.content)
 	
 	response.setContentType("application/json");
     log.info("The json response is [${jsonData}]");
+    jsonData.content = fileData.getContents()
+    jsonData.fileHash = fileData.getHash()
+    jsonData.status = fileData.getStatus()
     builder(jsonData)
     println builder.toString()
 	log.info("After saving the file")

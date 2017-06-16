@@ -221,6 +221,28 @@ public class ProjectFileManagerImpl implements ProjectFileManager {
         }
     }
 
+    
+    /**
+     * This method retrieves the file data and contents identified by the project and path
+     *
+     * @param project The project containing the file.
+     * @param path The path to the file within the project.
+     * @return The contents of the file.
+     * @throws ProjectException
+     */
+    public FileData getFileData(String project, String path) throws ProjectException {
+        try {
+            ProjectBean projectBean =
+                    ProjectFactory.getInstance().getProject(project);
+            return projectBean.getFileData(path);
+        } catch (Exception ex) {
+            log.error("Failed to get the file : " + ex.getMessage(),ex);
+            throw new ProjectException
+                    ("Failed to get the file : " + ex.getMessage(),ex);
+        }
+    }
+
+
 
     /**
      * This method updates the file.
@@ -236,6 +258,30 @@ public class ProjectFileManagerImpl implements ProjectFileManager {
             ProjectBean projectBean =
                     ProjectFactory.getInstance().getProject(project);
             projectBean.updateFile(path,contents);
+        } catch (Exception ex) {
+            log.error("Failed to update the file : " + ex.getMessage(),ex);
+            throw new ProjectException
+                    ("Failed to update the file : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method updates the file identified by the project and the path.
+     *
+     * @param project The project to update the file for.
+     * @param path The path to the file. within the project.
+     * @param hash The original hash for the file.
+     * @param contents The contents of the file.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public FileData updateFile(String project, String path, String hash, String contents)
+            throws ProjectException {
+        try {
+            ProjectBean projectBean =
+                    ProjectFactory.getInstance().getProject(project);
+            return projectBean.updateFile(path,hash,contents);
         } catch (Exception ex) {
             log.error("Failed to update the file : " + ex.getMessage(),ex);
             throw new ProjectException

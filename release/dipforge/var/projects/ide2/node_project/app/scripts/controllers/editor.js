@@ -156,7 +156,11 @@ angular.module('ide2App')
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
-                FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
+                FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
+                    FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
+                        $rootScope.$broadcast("executeOutput",response.data);
+                    });
+                });
                 editorFile.dirty = false
                 break;
             }
@@ -169,7 +173,7 @@ angular.module('ide2App')
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
-                FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
+                FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
                     FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
                         $rootScope.$broadcast("executeOutput",response.data);
                     });
@@ -186,6 +190,7 @@ angular.module('ide2App')
                 // add a new tab
                 FileService.getFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
                     editorFile.fileData.contents = response.data.contents
+                    editorFile.fileData.fileHash = response.data.fileHash
                     editorFile.dirty = false;
                 });
                 break;

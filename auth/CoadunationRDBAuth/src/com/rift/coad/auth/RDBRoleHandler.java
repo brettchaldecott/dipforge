@@ -191,7 +191,7 @@ public class RDBRoleHandler implements RoleHandler {
             ResultSet rs = ps.executeQuery();
             Set principals = new HashSet();
             while(rs.next()) {
-                String principal = rs.getString("name");
+                String principal = rs.getString("role");
                 principals.add(principal);
             }
             return new Role(role,principals);

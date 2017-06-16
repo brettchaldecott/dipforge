@@ -512,6 +512,9 @@ println """
             },
             "fileExtension":{
                "type":"string"
+            },
+            "fileHash":{
+               "type":"string"
             }
          },
          "xml":{

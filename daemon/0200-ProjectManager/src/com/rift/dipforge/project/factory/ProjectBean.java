@@ -29,6 +29,7 @@ import com.rift.coad.lib.security.SessionManager;
 import com.rift.coad.lib.security.ThreadsPermissionContainerAccessor;
 import com.rift.dipforge.project.Constants;
 import com.rift.dipforge.project.FileDTO;
+import com.rift.dipforge.project.FileData;
 import com.rift.dipforge.project.FileTypes;
 import com.rift.dipforge.project.ProjectInfoDTO;
 import com.rift.dipforge.project.util.TemplateHelper;
@@ -534,6 +535,57 @@ public class ProjectBean {
         }
     }
 
+    
+    /**
+     * This method gets the file.
+     *
+     * @param path The path to the file.
+     * @return The string containing the file contents.
+     * @throws ProjectException
+     */
+    public FileData getFileData(String path) throws ProjectFactoryException {
+        try {
+            File  file = new File(projectDir,path);
+            if (file.isDirectory()) {
+                log.error("Trying to access directory [" + path + "] as a file");
+                throw new ProjectFactoryException
+                        ("Trying to access directory [" + path + "] as a file");
+            }
+            FileData fileData = new FileData();
+            // at this point the java libraries to not provide
+            // a means to get at the created date of a file.
+            fileData.setCreated(new Date(file.lastModified()));
+            fileData.setCreator(null);
+            fileData.setModified(new Date(file.lastModified()));
+            fileData.setModifier(null);
+            fileData.setName(file.getName());
+            // construct a relative path based on the directory passed in.
+            fileData.setPath(path);
+            if (file.isDirectory()) {
+                fileData.setType(FileTypes.DIRECTORY);
+            } else {
+                fileData.setType(FileTypes.FILE);
+            }
+
+            FileInputStream in = new FileInputStream(file);
+            StringBuffer result = new StringBuffer();
+            byte[] buffer = new byte[1024];
+            int bits = 0;
+            while ( (bits = in.read(buffer)) != -1) {
+                result.append(new String(buffer, 0, bits));
+            }
+            fileData.setContents(result.toString());
+            fileData.setHash(generateFileHashCode(file));
+            return fileData;
+        } catch (ProjectFactoryException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to get the file : " + ex.getMessage(),ex);
+            throw new ProjectFactoryException
+                    ("Failed to get the file : " + ex.getMessage(),ex);
+        }
+    }
+
 
     /**
      * This method updates the file identified by the project and the path.
@@ -560,6 +612,49 @@ public class ProjectBean {
             info.setModifiedBy(username);
             info.setModified(new Date());
             setInfo(info);
+        } catch (ProjectFactoryException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to update the file : " + ex.getMessage(),ex);
+            throw new ProjectFactoryException
+                    ("Failed to update the file : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method updates the file identified by the project and the path.
+     *
+     * @param path The path to the file. within the project.
+     * @param contents The contents of the file.
+     * @throws ProjectException
+     */
+    public FileData updateFile(String path, String hash, String contents)
+            throws ProjectFactoryException {
+        try {
+            File  file = new File(projectDir,path);
+            if (file.isDirectory()) {
+                log.error("Trying to access directory [" + path + "] as a file");
+                throw new ProjectFactoryException
+                        ("Trying to access directory [" + path + "] as a file");
+            }
+            if (!generateFileHashCode(file).equals(hash)) {
+                FileData data = getFileData(path);
+                data.setStatus("conflict");
+                return data;
+            }
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(contents.getBytes());
+            out.flush();
+            String username = SessionManager.getInstance().
+                    getSession().getUser().getName();
+            ProjectInfoDTO info = getInfo();
+            info.setModifiedBy(username);
+            info.setModified(new Date());
+            setInfo(info);
+            FileData data = getFileData(path);
+            data.setStatus("updated");
+            return data;
         } catch (ProjectFactoryException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -778,5 +873,17 @@ public class ProjectBean {
             }
         }
         return false;
+    }
+
+
+    /**
+     * @param file The file object to generate the hash for
+     * @return The hash for the file
+     */
+    private String generateFileHashCode(File file) throws Exception {
+        FileInputStream fis = new FileInputStream(file);
+        String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
+        fis.close();
+        return md5;
     }
 }

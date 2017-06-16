@@ -241,6 +241,7 @@ public class RDBUserManagement implements RDBUserManagementMBean {
                         new CoadunationUserPrincipal(user,principal);
                 session.persist(coadUserPrincipal);
             }
+            session.flush();
             transaction.commit();
         } catch (RDBUserManagementException ex) {
             throw ex;
@@ -502,6 +503,7 @@ public class RDBUserManagement implements RDBUserManagementMBean {
                         new CoadunationRolePrincipal(coadRole,coadPrincipal);
                 session.persist(rolePrincipal);
             }
+            session.flush();
             transaction.commit();
         } catch (RDBUserManagementException ex) {
             throw ex;
@@ -562,6 +564,7 @@ public class RDBUserManagement implements RDBUserManagementMBean {
                         new CoadunationRolePrincipal(coadRole,coadPrincipal);
                 session.persist(rolePrincipal);
             }
+            session.flush();
             transaction.commit();
         } catch (RDBUserManagementException ex) {
             throw ex;
@@ -669,6 +672,7 @@ public class RDBUserManagement implements RDBUserManagementMBean {
             CoadunationPrincipal coadPrincipal = 
                     new CoadunationPrincipal(principal);
             session.persist(coadPrincipal);
+            session.flush();
             transaction.commit();
         } catch (Throwable ex) {
             log.error("Failed to add the principal : " +

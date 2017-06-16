@@ -141,6 +141,19 @@ public interface ProjectFileManager extends Remote {
 
 
     /**
+     * This method gets the file.
+     *
+     * @param project The project path.
+     * @param path The path to the file.
+     * @return The string containing the file contents.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public FileData getFileData(String project, String path) throws ProjectException,
+            RemoteException;
+
+
+    /**
      * This method updates the file identified by the project and the path.
      *
      * @param project The project to update the file for.
@@ -150,6 +163,20 @@ public interface ProjectFileManager extends Remote {
      * @throws RemoteException
      */
     public void updateFile(String project, String path, String contents)
+            throws ProjectException, RemoteException;
+
+
+    /**
+     * This method updates the file identified by the project and the path.
+     *
+     * @param project The project to update the file for.
+     * @param path The path to the file. within the project.
+     * @param hash The original hash for the file.
+     * @param contents The contents of the file.
+     * @throws ProjectException
+     * @throws RemoteException
+     */
+    public FileData updateFile(String project, String path, String hash, String contents)
             throws ProjectException, RemoteException;
 
 
