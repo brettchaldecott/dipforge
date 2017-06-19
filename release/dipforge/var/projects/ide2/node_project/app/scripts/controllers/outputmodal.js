@@ -11,7 +11,7 @@ angular.module('ide2App')
   .controller('OutputModalCtrl', function ($rootScope) {
     
     var vm = this;
-    vm.executeOutput = ""
+    vm.executeStatus = ""
     vm.executeOutput = ""
     
     $rootScope.$on("executeOutput",function(event, data) {

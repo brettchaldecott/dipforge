@@ -157,9 +157,13 @@ angular.module('ide2App')
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
-                    FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
-                        $rootScope.$broadcast("executeOutput",response.data);
-                    });
+                    console.log("The content has been saved : " + response.data.status)
+                    if (response.data.status == "updated") {
+                        editorFile.fileData.fileHash = response.data.fileHash;
+                        
+                    } else {
+                        console.log("There was a conflish on the file original hash [" + editorFile.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
+                    }
                 });
                 editorFile.dirty = false
                 break;
@@ -174,9 +178,15 @@ angular.module('ide2App')
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
-                    FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
-                        $rootScope.$broadcast("executeOutput",response.data);
-                    });
+                    if (response.data.status == "updated") {
+                        editorFile.fileData.fileHash = response.data.fileHash;
+                        FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(saveResponse) {
+                            //console.log("The current hash [" + editorFile.fileData.fileHash + "]")
+                            $rootScope.$broadcast("executeOutput",saveResponse.data);
+                        });
+                    } else {
+                        console.log("There was a conflish on the file original hash [" + editorFile.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
+                    }
                 });
                 break;
             }
@@ -239,8 +249,9 @@ angular.module('ide2App')
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
             if (editorFile.dirty) {
-                FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
-                editorFile.dirty = false
+                vm.saveFile(editorFile.id);
+                //FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
+                //editorFile.dirty = false
             }
         }
         
