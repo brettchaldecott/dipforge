@@ -635,6 +635,8 @@ dependencies {
     releaseGroovyLib "com.github.andrewoma.dexx:collection:0.7"
     // https://mvnrepository.com/artifact/com.xlson.groovycsv/groovycsv
     releaseGroovyLib "com.xlson.groovycsv:groovycsv:1.1"
+    releaseGroovyLib group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.3'
+
 
 
     

@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/DipforgeAPI" unloadDelay="60000"/>
+<Context antiJARLocking="true" path="/DipforgeAPI" unloadDelay="60000" allowCasualMultipartParsing="true" />
 
