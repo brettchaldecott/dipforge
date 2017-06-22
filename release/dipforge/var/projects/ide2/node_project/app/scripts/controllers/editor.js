@@ -130,6 +130,15 @@ angular.module('ide2App')
                 //console.log(response.data.contents)
                 
             });
+        } else {
+            if (!vm.selectTabId) {
+                vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
+            }
+            $("#tab-" + vm.selectTabId).removeClass("active");
+            $("#" + vm.selectTabId).removeClass("active");
+            vm.selectTabId = id;
+            $("#" + vm.selectTabId).addClass("active");
+            $("#tab-" + vm.selectTabId).addClass("active");
         }
     }
     

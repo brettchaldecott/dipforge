@@ -11,7 +11,7 @@ Author: brett chaldecott
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content=""/>
         <meta name="author" content="brett chaldecott"/>
-        <link href="../public/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="/DipforgeWeb/public/bootstrap/css/bootstrap.css" rel="stylesheet">
         <style type="text/css">
             body{
                 padding-top:40px;
@@ -42,7 +42,7 @@ Author: brett chaldecott
             }
             
         </style>
-        <link href="../public/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="/DipforgeWeb/public/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">                
             </script>
@@ -58,7 +58,7 @@ Author: brett chaldecott
                 <button class="btn btn-large btn-primary" type="submit">Sign in</button>
             </form>
         </div>
-        <script src="../public/jquery/jquery-1.7.2.min.js"></script>
-        <script src="../public/bootstrap/js/bootstrap.js"></script>
+        <script src="/DipforgeWeb/public/jquery/jquery-1.7.2.min.js"></script>
+        <script src="/DipforgeWeb/public/bootstrap/js/bootstrap.js"></script>
     </body>
 </html>
