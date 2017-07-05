@@ -769,11 +769,6 @@ public class ProjectBean {
                 if (Files.isSymbolicLink(path)) {
                     Path symbolicTarget = Files.readSymbolicLink(path);
 
-                    //String symbolicTargetpath = symbolicTarget.toFile().getAbsolutePath();
-                    //log.info("The symbolic target path is : " + symbolicTargetpath);
-                    //log.info("The symbolic : " + symbolicTarget.toString());
-                    //Path newSymbolicTargetPath = Paths.get(new File(baseTargetDirectory.getAbsolutePath() + "/" + 
-                    //    symbolicTargetpath.substring(0,baseSourceDirectory.getAbsolutePath().length())).toURI());
                     Files.createSymbolicLink(Paths.get(targetSub.toURI()),symbolicTarget);
                     continue;
                 }
