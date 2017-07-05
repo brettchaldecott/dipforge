@@ -35,6 +35,9 @@ import com.rift.dipforge.project.ProjectInfoDTO;
 import com.rift.dipforge.project.util.TemplateHelper;
 import com.rift.dipforge.project.util.TemplateVariables;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,6 +68,7 @@ public class ProjectBean {
     private File projectDir;
     private ProjectInfoManager manager;
     private String templateDir;
+
 
     /**
      * The constructor of the project bean.
@@ -734,7 +738,7 @@ public class ProjectBean {
             }
             
             projectDir.mkdirs();
-            copyRecursive(name,templateDirectory, projectDir);
+            copyRecursive(name,templateDirectory, projectDir, baseDir, templateDirectory);
             return projectDir;
         } catch (ProjectFactoryException ex) {
             throw ex;
@@ -749,18 +753,33 @@ public class ProjectBean {
     /**
      * This method copies the entries recursively.
      *
+     * @param project The project the recursion is happening for
      * @param sourceDir The source directory to copy from
      * @param targetDir The target directory to copy to.
+     * @param baseTargetDirectory The base target directory
+     * @param baseSourceDirectory The base source directory
      * @throws ProjectFactoryException
      */
     private void copyRecursive(String project, File sourceDir,
-            File targetDir) throws ProjectFactoryException {
+            File targetDir, File baseTargetDirectory, File baseSourceDirectory) throws ProjectFactoryException {
         try {
             for (File file: sourceDir.listFiles()) {
+                Path path = Paths.get(file.toURI());
                 File targetSub = new File(targetDir,file.getName());
+                if (Files.isSymbolicLink(path)) {
+                    Path symbolicTarget = Files.readSymbolicLink(path);
+
+                    //String symbolicTargetpath = symbolicTarget.toFile().getAbsolutePath();
+                    //log.info("The symbolic target path is : " + symbolicTargetpath);
+                    //log.info("The symbolic : " + symbolicTarget.toString());
+                    //Path newSymbolicTargetPath = Paths.get(new File(baseTargetDirectory.getAbsolutePath() + "/" + 
+                    //    symbolicTargetpath.substring(0,baseSourceDirectory.getAbsolutePath().length())).toURI());
+                    Files.createSymbolicLink(Paths.get(targetSub.toURI()),symbolicTarget);
+                    continue;
+                }
                 if (file.isDirectory()) {
                     targetSub.mkdirs();
-                    copyRecursive(project, file, targetSub);
+                    copyRecursive(project, file, targetSub, baseTargetDirectory, baseSourceDirectory);
                     continue;
                 }
                 if (isParsable(file)) {

@@ -53,6 +53,17 @@ public interface ProjectManager extends Remote {
 
 
     /**
+     * This method is called to create the project.
+     *
+     * @param name The name of the project to create.
+     * @param description The description of the project.
+     * @param type The type of of project.
+     * @throws ProjectException
+     */
+    public void createProject(String name, String description, String projectType) throws ProjectException, RemoteException;
+
+
+    /**
      * This method deletes the project identified by name.
      *
      * @param name The name of the project to delete.

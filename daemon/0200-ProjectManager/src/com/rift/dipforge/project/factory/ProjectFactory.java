@@ -98,6 +98,26 @@ public class ProjectFactory {
 
 
     /**
+     * This method creates new project.
+     *
+     * @param project
+     * @return
+     * @throws ProjectFactoryException
+     */
+    public ProjectBean createProject(String project, String description, String projectType) throws ProjectFactoryException {
+
+        String templatePath  = this.templatePath;
+        if (!projectType.equals("simple")) {
+            templatePath = String.format("%s_%s",this.templatePath,projectType);
+        }
+        ProjectBean projectBean = new ProjectBean(new File(basePath), project,
+                description, new File(templatePath));
+        entries.put(project, projectBean);
+        return projectBean;
+    }
+
+
+    /**
      * This method returns the project information.
      *
      * @param project The reference to the project.

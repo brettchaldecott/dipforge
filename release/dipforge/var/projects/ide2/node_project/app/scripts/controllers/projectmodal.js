@@ -13,15 +13,17 @@ angular.module('ide2App')
         
         vm.projectName = "";
         vm.projectDescription = "";
+        vm.projectType=""
         
         // the method to create a project
         vm.createProject = function () {
             console.log("Create a project")
-            ProjectModal.createProject({name:vm.projectName,description:vm.projectDescription}).then(function(response) {
-                $rootScope.$broadcast('addProject', {name:vm.projectName,description:vm.projectDescription});
+            ProjectModal.createProject({name:vm.projectName,description:vm.projectDescription,projectType:vm.projectType}).then(function(response) {
+                $rootScope.$broadcast('addProject', {name:vm.projectName,description:vm.projectDescription,projectType:vm.projectType});
                 vm.projectName=""
                 vm.projectDescription=""
-                $('#createProject').modal('hide');
+                vm.projectType=""
+                $('#projectOutputModel').modal('hide');
             });
             
         }

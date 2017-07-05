@@ -44,7 +44,7 @@ try {
     
     def daemon = ConnectionManager.getInstance().getConnection(
 			ProjectManager.class,"project/Manager")
-	daemon.createProject(json.name,json.description)
+	daemon.createProject(json.name,json.description,json.projectType)
 	builder(json)
 	response.setContentType("application/json");
 

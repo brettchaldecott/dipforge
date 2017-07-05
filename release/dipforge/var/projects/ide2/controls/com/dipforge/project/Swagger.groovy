@@ -469,6 +469,9 @@ println """
             },
             "description":{
                "type":"string"
+            },
+            "projectType":{
+               "type":"string"
             }
          },
          "xml":{

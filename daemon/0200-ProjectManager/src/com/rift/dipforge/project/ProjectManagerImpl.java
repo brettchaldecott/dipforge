@@ -115,6 +115,25 @@ public class ProjectManagerImpl implements ProjectManager {
 
 
     /**
+     * This method creates the project.
+     *
+     * @param name The name of the project.
+     * @param description The description of the project.
+     * @throws ProjectException
+     */
+    public void createProject(String name, String description, String projectType) throws ProjectException {
+        try {
+            ProjectBean project = ProjectFactory.getInstance().
+                    createProject(name,description,projectType);
+        } catch (Exception ex) {
+            log.error("Failed to create the project : " + ex.getMessage(),ex);
+            throw new ProjectException
+                    ("Failed to create the project : " + ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
      * This method deletes the project identified by the name.
      *
      * @param name The name of the project

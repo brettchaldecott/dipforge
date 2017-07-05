@@ -91,6 +91,14 @@
                         <label for="projectDescription">Project Description</label>
                         <input type="string" class="form-control" id="projectDescription" name="projectDescription" ng-model="projectModalCtrl.projectDescription" placeholder="Project Description" required ng-pattern="/^[a-zA-Z0-9_-\s]{5,}$/">
                       </div>
+                      <div class="form-group" ng-class="{'has-error': projectForm.projectType.$invalid}">
+                        <label for="folderFormFolder">Project Type</label>
+                        <select class="form-control" id="projectType" name="projectType" ng-model="projectModalCtrl.projectType" required >
+                          <option value="simple">simple</option>
+                          <option value="angular">angular</option>
+                          <option value="react">react</option>
+                        </select>
+                      </div>
                     </form>
                 </div>
                 <div class="modal-footer">
