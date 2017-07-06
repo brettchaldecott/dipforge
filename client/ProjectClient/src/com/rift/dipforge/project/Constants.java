@@ -67,6 +67,12 @@ public class Constants {
      */
     public final static String PROJECT_METHODS = "project_methods.xml";
     
+
+    /**
+     * The ignore files
+     */
+    public final static String[] IGNORE_FILES = {"node_modules"};
+
     
     /**
      * The list of file suffixes.

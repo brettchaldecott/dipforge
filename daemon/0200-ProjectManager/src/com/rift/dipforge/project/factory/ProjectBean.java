@@ -881,8 +881,27 @@ public class ProjectBean {
      * @return TRUE if parsable
      */
     private boolean isParsable(File file) {
+        if (ignoreFile(file)) {
+            return false;
+        }
         for (String suffix : Constants.FILE_SUFFIXES) {
             if (file.getName().endsWith(suffix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * This method is called to check if a file is ignored
+     *
+     * @param file The file
+     * @return TRUE if ignorable
+     */
+    private boolean ignoreFile(File file) {
+        String absolutePath = file.getAbsolutePath();
+        for (String ignorePath : Constants.IGNORE_FILES) {
+            if (absolutePath.contains(ignorePath)) {
                 return true;
             }
         }
