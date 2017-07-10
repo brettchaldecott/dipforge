@@ -1,13 +1,12 @@
-var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var browserHistory = ReactRouter.browserHistory;
+import { HashRouter } from 'react-router-dom'
 
+var ReactDOM = require('react-dom')
 
 console.log("We will now render")
 ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="**/index.html" component={Hello}/>
-  </Router>,
+  <HashRouter>
+    <Hello/>
+  </HashRouter>,
   document.getElementById('root')
 );
 console.log("After render")

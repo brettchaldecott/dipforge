@@ -2,10 +2,7 @@
   "name": "fountain-inject",
   "version": "0.0.1",
   "dependencies": {
-    "react": "^15.4.2",
-    "react-router": "https://cdnjs.cloudflare.com/ajax/libs/react-router/3.0.2/ReactRouter.min.js",
-    "babel-standalone": "^6.19.0",
-    "jquery": "^3.2.1"
+    "bootstrap": "^3.3.7"
   },
   "devDependencies": {}
 }

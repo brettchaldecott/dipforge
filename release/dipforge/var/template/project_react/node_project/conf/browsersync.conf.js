@@ -8,7 +8,6 @@ module.exports = function () {
         conf.paths.src
       ],
       routes: {
-        '/bower_components': 'bower_components'
       }
     },
     open: false
