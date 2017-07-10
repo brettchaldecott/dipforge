@@ -25,7 +25,7 @@ function inject() {
     .pipe(gulpInject(injectStyles, injectOptions))
     .pipe(gulpInject(injectScripts, injectOptions))
     .pipe(wiredep(Object.assign({}, conf.wiredep)))
-    .pipe(gulp.dest(conf.paths.src))
     .pipe(gulp.dest(conf.paths.tmp))
+    .pipe(gulp.dest(conf.paths.src))
     .pipe(browserSync.stream());
 }
