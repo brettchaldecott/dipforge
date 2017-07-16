@@ -44,6 +44,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
+import java.nio.file.Paths;
+import com.rift.dipforge.groovy.lib.WatchDir;
 
 /**
  * The implementation of the groovy executer.
@@ -143,6 +145,7 @@ public class GSPExecuter {
     private GroovyClassLoader classLoader;
     private Map<String, File[]> directoryCache = new HashMap<String, File[]>();
     private Map<String, TemplateCacheEntry> templateCache = new HashMap<String, TemplateCacheEntry>();
+    private List<WatchDir> watches = new ArrayList<>();
 
     /**
      * The constructor of the groovy script engine.
@@ -391,6 +394,14 @@ public class GSPExecuter {
             Constructor constructor = ref.getConstructor(groovyShell);
             templateEngine = constructor.newInstance(groovyShellRef);
 
+            // setup the watchers
+            watches.clear();
+            for (String libdir : libsdir) {
+                watches.add(new WatchDir(Paths.get(libdir),true));
+            }
+            for (String subdir : subdirs) {
+                watches.add(new WatchDir(new File(basePath + "/" + context.getPath(), subdir).toPath(),true));
+            }
 
         } catch (GSPEnvironmentException ex) {
             throw ex;
@@ -411,7 +422,12 @@ public class GSPExecuter {
      *
      */
     public boolean checkForChanges() throws GSPEnvironmentException {
-        return checkDirectoryList(libsdir);
+        for (WatchDir watcher : watches) {
+            if (watcher.changed()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
