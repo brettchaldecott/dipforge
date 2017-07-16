@@ -28,13 +28,13 @@ class TestClass {
      * This is a test call.
      */
     def callTest1(def message) {
-         println message
+         println "[callTest1] This is the message ${message}"
     }
     
     
     def callTest2(def message, def data) {
-         println message
-         println data.getProperty1()
+         println "[callTest2] This is the message ${message}"
+         println "[callTest2] This is the property ${data.getProperty1()}"
          return data
     }
     
