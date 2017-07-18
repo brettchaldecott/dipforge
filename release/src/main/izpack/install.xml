@@ -66,7 +66,7 @@
   <packs>
     <pack name="Base" required="yes">
       <description>The base of Dipforge</description>
-      <fileset dir="dipforge" targetdir="${INSTALL_PATH}" override="true">
+      <fileset dir="dipforge" targetdir="${INSTALL_PATH}" override="true" followsymlinks="false">
           <exclude name="**/*.keepme*"/>
           <exclude name="**/*changelog.dmp*"/>
           <exclude name="**/etc/**" />
@@ -81,7 +81,7 @@
     </pack>
     <pack name="Config" required="yes">
       <description>The configuration for Dipforge</description>
-      <fileset dir="resource" targetdir="${INSTALL_PATH}" override="true">
+      <fileset dir="resource" targetdir="${INSTALL_PATH}" override="true" followsymlinks="false">
           <exclude name="**/*.keepme*"/>
           <exclude name="**/install-info/izpack-user-input.xml" />
       </fileset>

@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import java.nio.file.Paths;
 import com.rift.dipforge.groovy.lib.WatchDir;
+import java.util.Arrays;
 
 /**
  * The implementation of the groovy executer.
@@ -128,6 +129,7 @@ public class GSPExecuter {
     }
     
     
+    private final static String[] WATCH_DIRS = {"groovylib","packages"};
     // class singletons
     private Logger log = Logger.getLogger(GSPExecuter.class);
     // private member variables
@@ -139,6 +141,7 @@ public class GSPExecuter {
     private String initPath;
     private String[] subdirs;
     private String[] libsdir;
+    private String[] watchDirs;
     private Object groovyShellRef;
     private Object templateEngine;
     private boolean enableTemplateCache;
@@ -163,6 +166,7 @@ public class GSPExecuter {
             this.dipLibPath = dipLibPath;
             this.basePath = basePath;
             this.webDir = webDir;
+            this.watchDirs = WATCH_DIRS;
             this.libDir = libDir;
             this.subdirs = subdirs;
             this.libsdir = libsdir;
@@ -400,7 +404,9 @@ public class GSPExecuter {
                 watches.add(new WatchDir(Paths.get(libdir),true));
             }
             for (String subdir : subdirs) {
-                watches.add(new WatchDir(new File(basePath + "/" + context.getPath(), subdir).toPath(),true));
+                if (Arrays.asList(this.watchDirs).contains(subdir)) {
+                    watches.add(new WatchDir(new File(basePath + "/" + context.getPath(), subdir).toPath(),true));
+                }
             }
 
         } catch (GSPEnvironmentException ex) {

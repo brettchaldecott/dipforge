@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * The implementation of the groovy executer.
@@ -48,6 +49,8 @@ import java.nio.file.Paths;
  * @author brett chaldecott
  */
 public class GroovyExecuter {
+
+    private final static String[] WATCH_DIRS = {"groovylib","packages"};
 
     // class singletons
     private Logger log = Logger.getLogger(GroovyExecuter.class);
@@ -58,6 +61,7 @@ public class GroovyExecuter {
     private String libDir;
     private String[] subdirs;
     private String[] libsdir;
+    private String[] watchDirs;
     private Object groovyScriptEngine;
     private GroovyClassLoader classLoader;
     private Map<String, File[]> directoryCache = new HashMap<String, File[]>();
@@ -78,6 +82,7 @@ public class GroovyExecuter {
         this.libDir = libDir;
         this.subdirs = subdirs;
         this.libsdir = libsdir;
+        this.watchDirs = WATCH_DIRS;
         initGroovyScriptEngine();
         try {
             executeScript("com/dipforge/init/InitGroovy.groovy", new String[0], new Object[0]);
@@ -351,7 +356,9 @@ public class GroovyExecuter {
                 watches.add(new WatchDir(Paths.get(libdir),true));
             }
             for (String subdir : subdirs) {
-                watches.add(new WatchDir(new File(basePath + "/" + context.getPath(), subdir).toPath(),true));
+                if (Arrays.asList(this.watchDirs).contains(subdir)) {
+                    watches.add(new WatchDir(new File(basePath + "/" + context.getPath(), subdir).toPath(),true));
+                }
             }
             
         } catch (GroovyEnvironmentException ex) {
