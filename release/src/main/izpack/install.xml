@@ -77,6 +77,10 @@
           <exclude name="**/var/nameservice/**" />
           <exclude name="**/var/named/**" />
           <exclude name="**/var/semantics/**" />
+          <exclude name="**/var/template/project_react/views/app/**" />
+          <exclude name="**/var/template/project_react/views/app" />
+          <exclude name="**/var/template/project_angular/views/app/**" />
+          <exclude name="**/var/template/project_angular/views/app" />
       </fileset>
     </pack>
     <pack name="Config" required="yes">
@@ -87,6 +91,8 @@
       </fileset>
       <parsable targetfile="${INSTALL_PATH}/bin/run.sh"/>
       <executable targetfile="$INSTALL_PATH/bin/run.sh" os="unix" stage="never" keep="true"/>
+      <parsable targetfile="${INSTALL_PATH}/bin/create_links.sh"/>
+      <executable targetfile="$INSTALL_PATH/bin/create_links.sh" os="unix" stage="postinstall" keep="true"/>
       <parsable targetfile="${INSTALL_PATH}/bin/run.bat"/>
       <parsable targetfile="${INSTALL_PATH}/bin/dipforge.conf"/>
       <parsable targetfile="${INSTALL_PATH}/etc/config.xml"/>
