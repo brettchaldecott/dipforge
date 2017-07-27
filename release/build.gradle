@@ -686,6 +686,7 @@ def getJavaHomeVar() {
 }
 
 task zipDipforge(type: Zip) {
+    zip64 true
     appendix = 'template'
     from 'dipforge'
     baseName = 'dipforge'
@@ -695,6 +696,7 @@ task zipDipforge(type: Zip) {
 }
 
 task zipGeneratorTemplate(type: Zip) {
+    zip64 true
     appendix = 'template'
     from 'generator'
     baseName = 'generator-dipforge'
