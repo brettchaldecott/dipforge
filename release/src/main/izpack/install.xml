@@ -6,8 +6,8 @@
  
   <info>
     <appname>Dipforge</appname>
-    <appversion>4.1.a13</appversion>
-    <appsubpath>dipforge-4.1.a13</appsubpath>
+    <appversion>4.1.a14</appversion>
+    <appsubpath>dipforge-4.1.a14</appsubpath>
     <javaversion>1.7</javaversion>
     <authors>
 	<author name="BurntJam" email="info@dipforge.net"/>
