@@ -29,17 +29,17 @@ dependencies {
     compile project(':rdf:CoadunationSemantics')
     compile project(':rdf:Semantics')
     compile project(':rdf:SchemaUtils')
-    compile group:"org.apache.jena", name:"jena-arq", version:"3.2.0"
-    compile group:"org.apache.jena", name:"jena-core", version:"3.2.0"
-    compile group:"org.apache.jena", name:"jena-sdb", version:"3.2.0"
-    compile group:"org.apache.jena", name:"jena-tdb", version:"3.2.0"
-    compile group:"org.apache.jena", name:"jena-iri", version:"3.2.0"
-    compile group:"org.apache.jena", name:"jena-base", version:"3.2.0"
-    compile group:"org.apache.jena", name:"jena-shaded-guava", version:"3.2.0"
-    compile group:"org.apache.jena", name:"jena-fuseki-embedded", version:"2.4.1"
-    compile group:"org.apache.jena", name:"jena-fuseki-core", version:"2.4.1"
+    compile group:"org.apache.jena", name:"jena-arq", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-core", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-sdb", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-tdb", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-iri", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-base", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-shaded-guava", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-fuseki-embedded", version:"3.4.0"
+    compile group:"org.apache.jena", name:"jena-fuseki-core", version:"3.4.0"
     compile group:"org.apache.thrift", name:"libthrift", version:"0.9.3"
-    compile 'org.apache.jena:jena-rdfconnection:3.2.0'
+    compile 'org.apache.jena:jena-rdfconnection:3.4.0'
     compile 'com.github.andrewoma.dexx:collection:0.7'
     releaseJars(ivyDependencies('compile'))
     releaseJars project(':client:RDFMasterStoreClient')
@@ -51,8 +51,8 @@ dependencies {
     releaseJars project(':libs:CoadunationUtil')
     releaseJars project(':rdf:Semantics')
     releaseJars project(':rdf:SchemaUtils')
-    releaseJars group:"org.apache.jena", name:"jena-fuseki-embedded", version:"2.4.1"
-    releaseJars group:"org.apache.jena", name:"jena-fuseki-embedded", version:"2.4.1"
+    releaseJars group:"org.apache.jena", name:"jena-fuseki-embedded", version:"3.4.0"
+    releaseJars group:"org.apache.jena", name:"jena-fuseki-embedded", version:"3.4.0"
     releaseJars group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
     releaseJars group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'
     releaseJars group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '9.3.14.v20161028'

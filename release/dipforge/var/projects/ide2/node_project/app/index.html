@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
     <link rel="stylesheet" href="bower_components/angular-bootstrap-nav-tree/dist/abn_tree.css" />
     <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.css" />
+    <link rel="stylesheet" href="bower_components/yasqe/dist/yasqe.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -442,6 +443,7 @@
             <div ng-show="(editorCtrls.editorFiles.length > 0)">
                 <div class="tab-content">
                     <div ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="tabpanel" class="tab-pane" ng-class="{active: editorCtrls.editorFiles.length == (1 + $index)}" id="{{editorFile.id}}">
+                        
                         <ul class="nav nav-pills" role="tablist">
                           <li role="presentation"><a href="#" ng-click="editorCtrls.refreshFile(editorFile.id)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
                           <li role="presentation"><a href="#" ng-click="editorCtrls.saveFile(editorFile.id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a></li>
@@ -505,6 +507,7 @@
     <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-hotkeys/build/hotkeys.js"></script>
+    <script src="bower_components/yasqe/dist/yasqe.bundled.js"></script>
     
     <!-- endbower -->
     <!-- endbuild -->

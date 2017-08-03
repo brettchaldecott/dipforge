@@ -5,7 +5,7 @@
  */
 package com.rift.coad.rdf.semantic.persistance.jena.tdb;
 
-import org.apache.jena.fuseki.embedded.FusekiEmbeddedServer;
+import org.apache.jena.fuseki.embedded.FusekiServer;
 import org.apache.jena.fuseki.server.DataService;
 import org.apache.jena.query.Dataset;
 
@@ -15,7 +15,7 @@ import org.apache.jena.query.Dataset;
  */
 public class JenaHTTPServer {
     
-    private FusekiEmbeddedServer server;
+    private FusekiServer server;
     private DataService service;
    
     /**
@@ -27,7 +27,7 @@ public class JenaHTTPServer {
             System.out.println("The data set is null and has not been instantiated");
         }
         
-        server = FusekiEmbeddedServer.create().add("/rdf", dataset).build();
+        server = FusekiServer.create().add("/rdf", dataset).build();
         
     }
     
