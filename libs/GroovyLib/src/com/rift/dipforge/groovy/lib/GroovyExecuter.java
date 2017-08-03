@@ -541,5 +541,10 @@ public class GroovyExecuter {
         } catch (Throwable ex) {
             log.error("Close down the executer using the script : " + ex.getMessage(), ex);
         }
+        try {
+            this.classLoader.close();
+        } catch (Throwable ex) {
+            log.error("Failed to close the class loader : " + ex.getMessage(), ex);
+        }
     }
 }

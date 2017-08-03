@@ -121,7 +121,7 @@ angular.module('ide2App')
                 project:null,
                 treeNode:null,
                 fileData:null,
-                dirty: true
+                dirty: false
             })
             //console.log(response.data.contents)
         } else {
@@ -319,7 +319,7 @@ angular.module('ide2App')
     $interval(function() {
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
-            if (editorFile.type == "file" && editorFile.dirty) {
+            if (editorFile.type == "file" && editorFile.dirty === true) {
                 vm.saveFile(editorFile.id);
                 //FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                 //editorFile.dirty = false
