@@ -18,6 +18,8 @@ package net.sf.j2ep;
 
 import java.io.File;
 import java.io.IOException;
+import com.rift.coad.lib.configuration.Configuration;
+import com.rift.coad.lib.configuration.ConfigurationFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -100,19 +102,27 @@ public class RewriteFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         log = LogFactory.getLog(RewriteFilter.class);
         
-        String data = filterConfig.getInitParameter("dataUrl");
-        if (data == null) {
-            throw new ServletException("dataUrl is required.");
-        } else {
-            try {
-                File dataFile = new File(filterConfig.getServletContext().getRealPath(data));
-                ConfigParser parser = new ConfigParser(dataFile);
-                serverChain = parser.getServerChain();               
-            } catch (Exception e) {
-                throw new ServletException(e);
-            }  
+        try {
+            Configuration config = ConfigurationFactory.getInstance().getConfig(ProxyFilter.class);
+            String data = config.getString("data_url");
+            if (data == null) {
+                serverChain = null;
+            } else {
+                try {
+                    File dataFile = new File(data);
+                    ConfigParser parser = new ConfigParser(dataFile);
+                    serverChain = parser.getServerChain();
+                } catch (Exception e) {
+                    throw new ServletException(e);
+                }
+            }
+        } catch (ServletException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new ServletException("Failed to init the proxy filter becaues : " +
+                    ex.getMessage(),ex);
         }
-        
+
     }
 
     /**

@@ -2,80 +2,24 @@
 <config>
         <server className="net.sf.j2ep.servers.BaseServer"
                 domainName="localhost:8080"
-                path="/AuditTrailConsole"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop/AuditTrailConsole" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
-                path="/manager"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop/manager" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
-                path="/DipforgeAdmin"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop/DipforgeAdmin" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
-                path="/FileManager"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop/FileManager" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
-                path="/DipforgeWeb/documentation"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop/documentation" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
-                path="/DipforgeWeb/ide"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop/ide" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
-                path="/DipforgeWeb/bss"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop/bss" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
                 path="/DipforgeWeb/desktop"
                 isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/desktop" />
+                <rule className="net.sf.j2ep.rules.RewriteRule"
+                    from="^/desktop/(.*)$"
+                            to="/$1"
+                            revertFrom="^(/DipforgeWeb/|/)(.*)$"
+                            revertTo="/desktop/$2"
+                                    />
         </server>
         <server className="net.sf.j2ep.servers.BaseServer"
                 domainName="localhost:8080"
                 path="/DipforgeWeb/public"
                 isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
-                <rule className="net.sf.j2ep.rules.DirectoryRule"
-		directory="/public" />
-        </server>
-        <server className="net.sf.j2ep.servers.BaseServer"
-                domainName="localhost:8080"
-                path="/DipforgeWeb/public"
-                isRewriting="true">
-                <rule className="net.sf.j2ep.rules.AcceptEverythingRule"/>
+                <rule className="net.sf.j2ep.rules.RewriteRule"
+                    from="^/(.*)$"
+                            to="/$1"
+                            revertFrom="^(/DipforgeWeb/|/)(.*)$"
+                            revertTo="/$2"
+                                    />
         </server>
 </config>

@@ -4,11 +4,11 @@
     Author     : brettc
 --%>
 
-<%
+<%--
 response.setStatus(301);
 response.setHeader( "Location", "/DipforgeWeb/public/" );
 response.setHeader( "Connection", "close" );
-%> 
+--%> 
 
 <%--
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

@@ -168,7 +168,7 @@ public final class UrlRewritingOutputStream extends ServletOutputStream {
         }
         
         matcher.appendTail(page);
-        originalStream.print(page.toString());        
+        originalStream.write(page.toString().getBytes());        
     }
     
     

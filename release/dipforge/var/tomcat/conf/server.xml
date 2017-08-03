@@ -20,6 +20,9 @@
             unpackWARs="true" autoDeploy="false"
             xmlValidation="false" xmlNamespaceAware="false" deployXML="true">
           <Valve className="com.rift.coad.daemon.tomcat.security.CoadunationValve" />
+          <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" 
+                  prefix="localhost_access_log" suffix=".log"
+                      pattern="combined" resolveHosts="false"/>
        </Host>
     </Engine>
   </Service>
