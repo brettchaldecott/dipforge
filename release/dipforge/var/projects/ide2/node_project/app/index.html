@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
     <link rel="stylesheet" href="bower_components/angular-bootstrap-nav-tree/dist/abn_tree.css" />
     <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.css" />
-    <link rel="stylesheet" href="bower_components/yasqe/dist/yasqe.css" />
+    <link rel="stylesheet" href="bower_components/yasgui/dist/yasgui.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -370,12 +370,14 @@
                         <ul class="nav nav-sidebar" role="tablist">
                             <li ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="presentation" ng-class="{active: editorCtrls.editorFiles.length == (1 + $index)}" 
                             id="tab-{{editorFile.id}}" ng-click="editorCtrls.selectTabId = editorFile.id">
-                                
-                                <a href="#{{editorFile.id}}" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
+                                <a ng-if="editorFile.type == 'file'" href="#{{editorFile.id}}" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
                                     {{editorFile.project + ":" + editorFile.treeNode.label}}
                                     <span class="close glyphicon glyphicon-remove" style="inline" ng-click="editorCtrls.closeFile(editorFile.id)" aria-hidden="true"></span>
                                 </a>
-                                
+                                <a ng-if="editorFile.type == 'tool'" href="#{{editorFile.id}}" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
+                                    {{editorFile.id}}
+                                    <span class="close glyphicon glyphicon-remove" style="inline" ng-click="editorCtrls.closeTool(editorFile.id)" aria-hidden="true"></span>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -444,31 +446,50 @@
                 <div class="tab-content">
                     <div ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="tabpanel" class="tab-pane" ng-class="{active: editorCtrls.editorFiles.length == (1 + $index)}" id="{{editorFile.id}}">
                         
-                        <ul class="nav nav-pills" role="tablist">
-                          <li role="presentation"><a href="#" ng-click="editorCtrls.refreshFile(editorFile.id)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
-                          <li role="presentation"><a href="#" ng-click="editorCtrls.saveFile(editorFile.id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a></li>
-                          <li ng-show="editorFile.treeNode.fullPath.startsWith('/services')" role="presentation"><a href="#" ng-click="editorCtrls.executeFile(editorFile.id)"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></li>
-                          <li role="presentation">
-                              <h4>{{editorFile.project}}:{{editorFile.treeNode.fullPath}}&nbsp;
-                              </h4>
-                          </li>
-                          <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeFile(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
-                          <li role="presentation" class="pull-right"><a href="#" ng-click="editorCtrls.deleteFile(editorFile.id)"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
-                          
-                        </ul>
+                        <div ng-if="editorFile.type == 'file'">
+                            <ul class="nav nav-pills" role="tablist">
+                              <li role="presentation"><a href="#" ng-click="editorCtrls.refreshFile(editorFile.id)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
+                              <li role="presentation"><a href="#" ng-click="editorCtrls.saveFile(editorFile.id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a></li>
+                              <li ng-show="editorFile.treeNode.fullPath.startsWith('/services')" role="presentation"><a href="#" ng-click="editorCtrls.executeFile(editorFile.id)"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></li>
+                              <li role="presentation">
+                                  <h4>{{editorFile.project}}:{{editorFile.treeNode.fullPath}}&nbsp;
+                                  </h4>
+                              </li>
+                              <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeFile(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+                              <li role="presentation" class="pull-right"><a href="#" ng-click="editorCtrls.deleteFile(editorFile.id)"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
+                              
+                            </ul>
                         
-                        <div ui-ace="{
-                            onLoad : aceLoaded,
-                            useWrapMode : false,
-                            showGutter: true,
-                            theme:'twilight',
-                            require: ['ace/ext/language_tools'],
-                            advanced: {
-                                  enableSnippets: true,
-                                  enableBasicAutocompletion: true,
-                                  enableLiveAutocompletion: true
-                              }
-                            }" ng-model="editorFile.fileData.contents"></div>
+                            <div ui-ace="{
+                                onLoad : aceLoaded,
+                                useWrapMode : false,
+                                showGutter: true,
+                                theme:'twilight',
+                                require: ['ace/ext/language_tools'],
+                                advanced: {
+                                      enableSnippets: true,
+                                      enableBasicAutocompletion: true,
+                                      enableLiveAutocompletion: true
+                                  }
+                                }" ng-model="editorFile.fileData.contents"></div>
+                        </div>
+                        <div ng-if="editorFile.type == 'tool'">
+                            <div ng-if="editorFile.id == 'Sparql'">
+                                <ul class="nav nav-pills" role="tablist">
+                                  <li role="presentation">
+                                      <h4>{{editorFile.id}}&nbsp;
+                                      </h4>
+                                  </li>
+                                  <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeTool(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+                                
+                                </ul>
+                                  <div ng-controller="SparqlCtrl as sparqlCtrl">
+                                      <div id="yasqe_div"></div>
+                                  </div>
+                                  
+                            </div>
+                        </div>
+                 
                     </div>
                 </div>
             </div>
@@ -507,7 +528,8 @@
     <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-hotkeys/build/hotkeys.js"></script>
-    <script src="bower_components/yasqe/dist/yasqe.bundled.js"></script>
+    <script src="bower_components/yasgui/dist/yasgui.bundled.js"></script>
+    
     
     <!-- endbower -->
     <!-- endbuild -->
@@ -531,6 +553,7 @@
         <script src="scripts/controllers/filemodal.js"></script>
         <script src="scripts/controllers/deletemodal.js"></script>
         <script src="scripts/controllers/outputmodal.js"></script>
+        <script src="scripts/controllers/sparql.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -118,3 +118,15 @@ body {
     height: -moz-calc(100vh - 99px);
     height: calc(100vh - 99px);
 }
+
+
+/**
+ *
+.yasqe .CodeMirror-foldgutter {
+    width: 30px;
+}
+
+.yasqe .CodeMirror span {
+    padding-left: 20px;
+}
+ */

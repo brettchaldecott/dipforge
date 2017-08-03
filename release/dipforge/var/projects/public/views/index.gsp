@@ -41,7 +41,7 @@
     <div class="container">
         <div class="masthead">
             <h3 class="muted"><a href="."><image height="30px" width="30px" src="images/dipForgeLogo_small.png"/></a>&nbsp;dipforge&nbsp;4.1.a14
-                <a class="btn btn-medium btn-info pull-right" href="../desktop/" style="margin-right:10px;margin-top:10px;">Sign In</a>
+                <a class="btn btn-medium btn-info pull-right" href="/DipforgeWeb/desktop/" style="margin-right:10px;margin-top:10px;">Sign In</a>
             </h3>
             <div class="navbar">
                 <div class="navbar-inner">
@@ -51,7 +51,7 @@
                                 <a href=".">Welcome</a>
                             </li>
                             <li>
-                                <a href="../desktop/">Desktop</a>
+                                <a href="/DipforgeWeb/desktop/">Desktop</a>
                             </li>
                             <li>
                                 <a href="http://dipforge.net/">Dipforge</a>
@@ -74,7 +74,7 @@
             <h1>Welcome</h1>
             <p class="lead">Develop your Enterprise Applications Rapidly and Easily</p>
             <p class="lead">Turn it RED(Rapid Enterprise Development)</p>
-            <a class="btn btn-large btn-info" href="../desktop/">Sign In &raquo;</a>
+            <a class="btn btn-large btn-info" href="/DipforgeWeb/desktop/">Sign In &raquo;</a>
         </div>
         <div class="row-fluid">
             <div class="span4">

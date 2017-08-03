@@ -93,6 +93,48 @@ angular.module('ide2App')
         }
     });
     
+    vm.openTool = function(tool) {
+        
+        var found = false;
+        for (var index in vm.editorFiles) {
+            var editorFile = vm.editorFiles[index];
+            if (editorFile.id === tool) {
+                found = true;
+                break;
+            }
+        }
+        
+        
+        // if not found add a new tab and clear the previous one
+        if (!found) {
+            // this is a hack to reset the active tab using jquery
+            if (vm.selectTabId != null) {
+                $("#" + vm.selectTabId).removeClass("active");
+                $("#tab-" + vm.selectTabId).removeClass("active");
+                vm.selectTabId = null;
+            }
+            
+            // add a new tab
+            vm.editorFiles.push({
+                id:tool,
+                type:"tool",
+                project:null,
+                treeNode:null,
+                fileData:null,
+                dirty: true
+            })
+            //console.log(response.data.contents)
+        } else {
+            if (!vm.selectTabId) {
+                vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
+            }
+            $("#tab-" + vm.selectTabId).removeClass("active");
+            $("#" + vm.selectTabId).removeClass("active");
+            vm.selectTabId = tool;
+            $("#" + vm.selectTabId).addClass("active");
+            $("#tab-" + vm.selectTabId).addClass("active");
+        }
+    }
     
     vm.openFile = function(project,treeNode) {
         
@@ -100,7 +142,7 @@ angular.module('ide2App')
         // generate a new id and check for a duplicate
         var id = (project + treeNode.fullPath).replace(/\//g, '');
         id = id.replace(/\./g,'')
-        var found = false
+        var found = false;
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
@@ -122,10 +164,11 @@ angular.module('ide2App')
             FileService.getFile(project,treeNode.fullPath).then(function(response) {
                 vm.editorFiles.push({
                     id:id,
+                    type:"file",
                     project:project,
                     treeNode:treeNode,
                     fileData:response.data,
-                    dirty: true
+                    dirty: false
                 })
                 //console.log(response.data.contents)
                 
@@ -151,6 +194,21 @@ angular.module('ide2App')
                     FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                     editorFile.dirty = false
                 }
+                if (vm.selectTabId) {
+                    $("#" + vm.selectTabId).removeClass("active");
+                    $("#tab-" + vm.selectTabId).removeClass("active");
+                }
+                vm.editorFiles.splice(index, 1);
+                break;
+            }
+        }
+    }
+    
+    vm.closeTool = function(id) {
+        for (var index in vm.editorFiles) {
+            var editorFile = vm.editorFiles[index];
+            if (editorFile.id === id) {
+                console.log("Close the id : " + id);
                 if (vm.selectTabId) {
                     $("#" + vm.selectTabId).removeClass("active");
                     $("#tab-" + vm.selectTabId).removeClass("active");
@@ -253,11 +311,15 @@ angular.module('ide2App')
         vm.openFile(data.project,data.treeNode)
     });
     
+    $rootScope.$on('openTool', function(event, data){
+        vm.openTool(data.tool)
+    });
+    
     // loop through the editor files
     $interval(function() {
         for (var index in vm.editorFiles) {
             var editorFile = vm.editorFiles[index];
-            if (editorFile.dirty) {
+            if (editorFile.type == "file" && editorFile.dirty) {
                 vm.saveFile(editorFile.id);
                 //FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                 //editorFile.dirty = false
