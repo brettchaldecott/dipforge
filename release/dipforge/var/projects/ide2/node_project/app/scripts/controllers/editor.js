@@ -23,8 +23,8 @@ angular.module('ide2App')
             if (!vm.selectTabId) {
                 vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
             }
-            $("#tab-" + vm.selectTabId).removeClass("active");
-            $("#" + vm.selectTabId).removeClass("active");
+            //$("#tab-" + vm.selectTabId).removeClass("active");
+            //$("#" + vm.selectTabId).removeClass("active");
             // loop through the windows
             for (var index in vm.editorFiles) {
                 var editorFile = vm.editorFiles[index];
@@ -41,8 +41,8 @@ angular.module('ide2App')
                     break;
                 }
             }
-            $("#tab-" + vm.selectTabId).addClass("active");
-            $("#" + vm.selectTabId).addClass("active");
+            //$("#tab-" + vm.selectTabId).addClass("active");
+            //$("#" + vm.selectTabId).addClass("active");
         }
     });
     hotkeys.add({
@@ -55,8 +55,8 @@ angular.module('ide2App')
             if (!vm.selectTabId) {
                 vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
             }
-            $("#tab-" + vm.selectTabId).removeClass("active");
-            $("#" + vm.selectTabId).removeClass("active");
+            //$("#tab-" + vm.selectTabId).removeClass("active");
+            //$("#" + vm.selectTabId).removeClass("active");
             // loop through the windows
             for (var index in vm.editorFiles) {
                 var editorFile = vm.editorFiles[index];
@@ -74,8 +74,8 @@ angular.module('ide2App')
                     break;
                 }
             }
-            $("#tab-" + vm.selectTabId).addClass("active");
-            $("#" + vm.selectTabId).addClass("active");
+            //$("#tab-" + vm.selectTabId).addClass("active");
+            //$("#" + vm.selectTabId).addClass("active");
         }
     });
     hotkeys.add({
@@ -107,12 +107,6 @@ angular.module('ide2App')
         
         // if not found add a new tab and clear the previous one
         if (!found) {
-            // this is a hack to reset the active tab using jquery
-            if (vm.selectTabId != null) {
-                $("#" + vm.selectTabId).removeClass("active");
-                $("#tab-" + vm.selectTabId).removeClass("active");
-                vm.selectTabId = null;
-            }
             
             // add a new tab
             vm.editorFiles.push({
@@ -123,16 +117,9 @@ angular.module('ide2App')
                 fileData:null,
                 dirty: false
             })
-            //console.log(response.data.contents)
+            vm.selectTab(tool)
         } else {
-            if (!vm.selectTabId) {
-                vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
-            }
-            $("#tab-" + vm.selectTabId).removeClass("active");
-            $("#" + vm.selectTabId).removeClass("active");
-            vm.selectTabId = tool;
-            $("#" + vm.selectTabId).addClass("active");
-            $("#tab-" + vm.selectTabId).addClass("active");
+            vm.selectTab(tool)
         }
     }
     
@@ -153,35 +140,50 @@ angular.module('ide2App')
         
         // if not found add a new tab and clear the previous one
         if (!found) {
-            // this is a hack to reset the active tab using jquery
-            if (vm.selectTabId != null) {
-                $("#" + vm.selectTabId).removeClass("active");
-                $("#tab-" + vm.selectTabId).removeClass("active");
-                vm.selectTabId = null;
-            }
             
             // add a new tab
             FileService.getFile(project,treeNode.fullPath).then(function(response) {
-                vm.editorFiles.push({
+                
+                var mode = response.data.fileExtension
+                if (response.data.fileExtension === "js") {
+                    mode = "javascript"
+                } else if (response.data.fileExtension === "gsp") {
+                    mode = "jsp"
+                }
+                
+                var editorFile = {
                     id:id,
                     type:"file",
                     project:project,
                     treeNode:treeNode,
                     fileData:response.data,
-                    dirty: false
-                })
-                //console.log(response.data.contents)
+                    mode: mode,
+                    dirty: false,
+                    editorChange:    function(editor) {
+                            editor.$blockScrolling = 1
+                            
+                            editorFile.dirty = false
+                            
+                            editor.getSession().on("change", function() {
+                                
+                                editorFile.dirty = true
+                            });
+                            
+                            // select the 
+                            if (vm.selectTabId != null) {
+                                $("#" + vm.selectTabId).addClass("active");
+                                $("#tab-" + vm.selectTabId).addClass("active");
+                                console.log("The selected the tab %s",vm.selectTabId)
+                            }
+                        }
+                    }
                 
+                vm.editorFiles.push(editorFile)
+                
+                vm.selectTab(id)
             });
         } else {
-            if (!vm.selectTabId) {
-                vm.selectTabId = vm.editorFiles[vm.editorFiles.length -1].id
-            }
-            $("#tab-" + vm.selectTabId).removeClass("active");
-            $("#" + vm.selectTabId).removeClass("active");
-            vm.selectTabId = id;
-            $("#" + vm.selectTabId).addClass("active");
-            $("#tab-" + vm.selectTabId).addClass("active");
+            vm.selectTab(id)
         }
     }
     
@@ -194,11 +196,11 @@ angular.module('ide2App')
                     FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                     editorFile.dirty = false
                 }
-                if (vm.selectTabId) {
-                    $("#" + vm.selectTabId).removeClass("active");
-                    $("#tab-" + vm.selectTabId).removeClass("active");
-                }
+                
                 vm.editorFiles.splice(index, 1);
+                
+                
+                
                 break;
             }
         }
@@ -209,14 +211,13 @@ angular.module('ide2App')
             var editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 console.log("Close the id : " + id);
-                if (vm.selectTabId) {
-                    $("#" + vm.selectTabId).removeClass("active");
-                    $("#tab-" + vm.selectTabId).removeClass("active");
-                }
+                var newId = null;
                 vm.editorFiles.splice(index, 1);
+                
                 break;
             }
         }
+        
     }
     
     vm.saveFile = function(id) {
@@ -288,7 +289,26 @@ angular.module('ide2App')
     }
     
     
+    vm.selectTab = function(id) {
+        if (vm.selectTabId != null) {
+            console.log("The select tab %s",vm.selectTabId)
+            $("#" + vm.selectTabId).removeClass("active");
+            $("#tab-" + vm.selectTabId).removeClass("active");
+            vm.selectTabId = null;
+        }
+        
+        vm.selectTabId = id
+        if (id != null) {
+            $("#" + vm.selectTabId).addClass("active");
+            $("#tab-" + vm.selectTabId).addClass("active");
+            console.log("The selected the tab %s",vm.selectTabId)
+        }
+    }
+    
+    
+    // the ace load method
     $scope.aceLoaded = function(editor) {
+        editor.$blockScrolling = 1
         console.log("The ace load method is called [" + (vm.editorFiles.length - 1) + "]")
         var editorFile = vm.editorFiles[vm.editorFiles.length - 1]
         //editorFile.editor = editor
@@ -299,12 +319,27 @@ angular.module('ide2App')
         } else if (editorFile.fileData.fileExtension === "gsp") {
             mode = "jsp"
         }
+        
         editor.getSession().setMode("ace/mode/" + mode)
+        
         editorFile.dirty = false
+        editorFile.mode = mode;
+        editorFile.editor = editor;
         
         editor.getSession().on("change", function() {
+            
+            console.log("The editor session changes  %s",editorFile.mode)
             editorFile.dirty = true
+            editorFile.editor.getSession().setMode("ace/mode/" + editorFile.mode)
+            console.log("Set the editor mode  %s",editorFile.mode)
         });
+        
+        // select the 
+        if (vm.selectTabId != null) {
+            $("#" + vm.selectTabId).addClass("active");
+            $("#tab-" + vm.selectTabId).addClass("active");
+            console.log("The selected the tab %s",vm.selectTabId)
+        }
     }
     
     $rootScope.$on('openFile', function(event, data){

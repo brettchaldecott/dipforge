@@ -368,7 +368,7 @@
                 <div class="collapse" id="_windows">
                     <div class="well">
                         <ul class="nav nav-sidebar" role="tablist">
-                            <li ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="presentation" ng-class="{active: editorCtrls.editorFiles.length == (1 + $index)}" 
+                            <li ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="presentation"
                             id="tab-{{editorFile.id}}" ng-click="editorCtrls.selectTabId = editorFile.id">
                                 <a ng-if="editorFile.type == 'file'" href="#{{editorFile.id}}" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
                                     {{editorFile.project + ":" + editorFile.treeNode.label}}
@@ -444,7 +444,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div ng-show="(editorCtrls.editorFiles.length > 0)">
                 <div class="tab-content">
-                    <div ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="tabpanel" class="tab-pane" ng-class="{active: editorCtrls.editorFiles.length == (1 + $index)}" id="{{editorFile.id}}">
+                    <div ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="tabpanel" class="tab-pane" id="{{editorFile.id}}">
                         
                         <div ng-if="editorFile.type == 'file'">
                             <ul class="nav nav-pills" role="tablist">
@@ -461,7 +461,8 @@
                             </ul>
                         
                             <div ui-ace="{
-                                onLoad : aceLoaded,
+                                onLoad : editorFile.editorChange,
+                                mode: editorFile.mode,
                                 useWrapMode : false,
                                 showGutter: true,
                                 theme:'twilight',
