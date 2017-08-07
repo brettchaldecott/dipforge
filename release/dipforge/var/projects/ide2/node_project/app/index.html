@@ -370,11 +370,11 @@
                         <ul class="nav nav-sidebar" role="tablist">
                             <li ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="presentation"
                             id="tab-{{editorFile.id}}" ng-click="editorCtrls.selectTabId = editorFile.id">
-                                <a ng-if="editorFile.type == 'file'" href="#{{editorFile.id}}" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
+                                <a ng-if="editorFile.type == 'file'" href="#" ng-click="editorCtrls.selectTab(editorFile.id)" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
                                     {{editorFile.project + ":" + editorFile.treeNode.label}}
                                     <span class="close glyphicon glyphicon-remove" style="inline" ng-click="editorCtrls.closeFile(editorFile.id)" aria-hidden="true"></span>
                                 </a>
-                                <a ng-if="editorFile.type == 'tool'" href="#{{editorFile.id}}" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
+                                <a ng-if="editorFile.type == 'tool'" href="#" ng-click="editorCtrls.selectTab(editorFile.id)" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
                                     {{editorFile.id}}
                                     <span class="close glyphicon glyphicon-remove" style="inline" ng-click="editorCtrls.closeTool(editorFile.id)" aria-hidden="true"></span>
                                 </a>
@@ -484,9 +484,9 @@
                                   <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeTool(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
                                 
                                 </ul>
-                                  <div ng-controller="SparqlCtrl as sparqlCtrl">
-                                      <div id="yasqe_div"></div>
-                                  </div>
+                                <div ng-controller="SparqlCtrl as sparqlCtrl">
+                                    <div id="yasqe_div"></div>
+                                </div>
                                   
                             </div>
                         </div>

@@ -28,30 +28,20 @@ angular.module('ide2App')
   .controller('SparqlCtrl', function ($rootScope, $scope, $interval,ProjectService) {
     var vm = this;
     
-    vm.selectTab = function(id) {
-        
-        if (id != null) {
-            $("#" + id).addClass("active");
-            $("#tab-" + id).addClass("active");
-            console.log("The selected the tab %s",id)
-        }
-    }
-    
-    console.log("Hello world")
     vm.setupYasqe = function() {
         var yasqe = YASGUI(document.getElementById("yasqe_div"), {
-        //Uncomment below to change the default endpoint
-        //Note: If you've already opened the YASGUI page before, you should first clear your
-        //local-storage cache before you will see the changes taking effect 
-        yasqe:{sparql:{endpoint:'/rdf/'}}
-      });
+            //Uncomment below to change the default endpoint
+            //Note: If you've already opened the YASGUI page before, you should first clear your
+            //local-storage cache before you will see the changes taking effect 
+            yasqe:{sparql:{endpoint:'/rdf/'}}
+        });
     
-        vm.selectTab("Sparql")
+        $rootScope.$broadcast('toolLoaded', {tool: 'Sparql'});
     }
     
-    vm.setupYasqe();
     
-    
-    
+    vm.$onInit = function () {
+        vm.setupYasqe();
+    };
     
   });

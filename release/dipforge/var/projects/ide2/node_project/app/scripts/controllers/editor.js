@@ -290,12 +290,10 @@ angular.module('ide2App')
     
     
     vm.selectTab = function(id) {
-        if (vm.selectTabId != null) {
-            console.log("The select tab %s",vm.selectTabId)
-            $("#" + vm.selectTabId).removeClass("active");
-            $("#tab-" + vm.selectTabId).removeClass("active");
-            vm.selectTabId = null;
-        }
+        console.log("The select tab %s",vm.selectTabId)
+        $(".tab-pane").removeClass("active");
+        $("[id^=tab-]").removeClass("active");
+        vm.selectTabId = null;
         
         vm.selectTabId = id
         if (id != null) {
@@ -348,6 +346,14 @@ angular.module('ide2App')
     
     $rootScope.$on('openTool', function(event, data){
         vm.openTool(data.tool)
+    });
+    
+    $rootScope.$on('toolLoaded', function(event, data) {
+        if (vm.selectTabId != null) {
+            $("#" + vm.selectTabId).addClass("active");
+            $("#tab-" + vm.selectTabId).addClass("active");
+            console.log("[toolLoaded]The selected the tab %s",vm.selectTabId)
+        }
     });
     
     // loop through the editor files
