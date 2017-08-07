@@ -152,7 +152,9 @@ class RDFTypeBuilder {
                         XSDDataDictionary.getTypeByName(
                         XSDDataDictionary.XSD_LONG).getURI().toString())) {
                     if (typeInstance."${propertyName}" instanceof Long || 
-                        typeInstance."${propertyName}".getClass().equals(long.class)) {
+                        typeInstance."${propertyName}".getClass().equals(long.class) ||
+                        typeInstance."${propertyName}" instanceof Integer || 
+                        typeInstance."${propertyName}".getClass().equals(int.class)) {
                         resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
                     } else {
                         resource.addProperty(classProperty.getURI().toString(),
