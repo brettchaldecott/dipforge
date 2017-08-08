@@ -61,9 +61,9 @@ class RequestHandler {
         public RequestWrapper(String project, String action, def data) {
             this.project = project;
             this.action = action;
-            this.data = data;
+            //this.data = data;
             //this.dependancies = [];
-            //this.children = [];
+            this.children = [];
             generateRequest(data,dependancies);
         }
         
@@ -166,8 +166,8 @@ class RequestHandler {
          * This method is called to generate the request data
          */
         def generateRequest(def data, def dependancies) {
-            RequestData requestData = new RequestData(this.data.getId(), this.data.builder.classDef.getURI().toString(),
-                    this.data.toXML(), data.builder.classDef.getLocalName())
+            RequestData requestData = new RequestData(data.getId(), data.builder.classDef.getURI().toString(),
+                    data.toXML(), data.builder.classDef.getLocalName())
             request = new Request(RandomGuid.getInstance().getGuid(), 
                     project, requestData, action, new java.util.Date(), null,
                     new java.util.ArrayList<RequestEvent>())
@@ -180,24 +180,24 @@ class RequestHandler {
                 request.setDependencies(dependancyList)
             }
             // this method loo
-            def classProperties = this.data.builder.classDef.listProperties()
+            def classProperties = data.builder.classDef.listProperties()
             for (classProperty in classProperties) {
                 if (classProperty.hasRange()) {
                     continue
                 }
                 java.util.List<RequestData> dependancyList = request.getDependencies()
                 def propertyName = classProperty.getLocalname()
-                if (this.data."${propertyName}" == null) {
+                if (data."${propertyName}" == null) {
                     continue;
                 }
-                if (this.data."${propertyName}" instanceof java.util.List) {
-                    for (def prop : this.data."${propertyName}") {
+                if (data."${propertyName}" instanceof java.util.List) {
+                    for (def prop : data."${propertyName}") {
                         dependancyList.add(new RequestData(prop.getId(), prop.builder.classDef.getURI().toString(),
                                 prop.toXML(), prop.getId()))
                     }
                 } else {
-                    dependancyList.add(new RequestData(this.data."${propertyName}".getId(), this.data."${propertyName}".builder.classDef.getURI().toString(),
-                                this.data."${propertyName}".toXML(), propertyName))
+                    dependancyList.add(new RequestData(data."${propertyName}".getId(), data."${propertyName}".builder.classDef.getURI().toString(),
+                                data."${propertyName}".toXML(), propertyName))
                 }
             }
             data = null
@@ -210,7 +210,7 @@ class RequestHandler {
          */
         def createRequest() {
             
-            for (child in this.children) {
+            for (child in children) {
                 request.getChildren().add(child.createRequest());
             }
             return request;
@@ -367,10 +367,11 @@ class RequestHandler {
             }
         }
         
+        //log.info("[makeRequest]Before adding the children ${request}");
         for (child in this.children) {
             request.getChildren().add(child.createRequest());
         }
-        
+        //log.info("[makeRequest]The full request is ${request}");
         
         connector.getBroker().createRequest(request) 
     }
