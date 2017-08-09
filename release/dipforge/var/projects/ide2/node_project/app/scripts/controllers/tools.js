@@ -13,6 +13,7 @@ angular.module('ide2App')
     
     vm.launchLogConsole = function() {
         console.log("Log console says hi")
+        $rootScope.$broadcast('openTool', {tool: "LogConsole"});
     }
     
     vm.launchSparqlConsole = function() {

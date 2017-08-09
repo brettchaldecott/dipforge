@@ -17,6 +17,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'ngFileUpload',
     'ui.ace',
     'ui.bootstrap',
     'angularBootstrapNavTree',

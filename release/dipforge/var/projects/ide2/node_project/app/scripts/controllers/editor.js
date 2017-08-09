@@ -12,6 +12,8 @@ angular.module('ide2App')
     var vm = this;
     vm.editorFiles = []
     vm.selectTabId = null;
+    vm.imageFiles = ["png","jpeg","jpg","gif","tiff","bmp"]
+    
     
     hotkeys.add({
         combo: 'ctrl+down',
@@ -125,7 +127,6 @@ angular.module('ide2App')
     
     vm.openFile = function(project,treeNode) {
         
-        
         // generate a new id and check for a duplicate
         var id = (project + treeNode.fullPath).replace(/\//g, '');
         id = id.replace(/\./g,'')
@@ -141,50 +142,84 @@ angular.module('ide2App')
         // if not found add a new tab and clear the previous one
         if (!found) {
             
-            // add a new tab
-            FileService.getFile(project,treeNode.fullPath).then(function(response) {
-                
-                var mode = response.data.fileExtension
-                if (response.data.fileExtension === "js") {
-                    mode = "javascript"
-                } else if (response.data.fileExtension === "gsp") {
-                    mode = "jsp"
-                }
+            // check if we are dealing with am image
+            if (vm.isImage(treeNode.fullPath)) {
+                // strip view of path
+                var fileData = treeNode.fullPath.replace(/\/views/,"")
                 
                 var editorFile = {
                     id:id,
-                    type:"file",
+                    type:"image",
                     project:project,
                     treeNode:treeNode,
-                    fileData:response.data,
-                    mode: mode,
-                    dirty: false,
-                    editorChange:    function(editor) {
-                            editor.$blockScrolling = 1
-                            
-                            editorFile.dirty = false
-                            
-                            editor.getSession().on("change", function() {
-                                
-                                editorFile.dirty = true
-                            });
-                            
-                            // select the 
-                            if (vm.selectTabId != null) {
-                                $("#" + vm.selectTabId).addClass("active");
-                                $("#tab-" + vm.selectTabId).addClass("active");
-                                console.log("The selected the tab %s",vm.selectTabId)
-                            }
-                        }
+                    fileData:fileData,
+                    mode: null,
+                    dirty: false
                     }
                 
                 vm.editorFiles.push(editorFile)
                 
                 vm.selectTab(id)
-            });
+                
+            
+            } else { 
+                
+                // add a new tab
+                FileService.getFile(project,treeNode.fullPath).then(function(response) {
+                    
+                    var mode = response.data.fileExtension
+                    if (response.data.fileExtension === "js") {
+                        mode = "javascript"
+                    } else if (response.data.fileExtension === "gsp") {
+                        mode = "jsp"
+                    }
+                    
+                    var editorFile = {
+                        id:id,
+                        type:"file",
+                        project:project,
+                        treeNode:treeNode,
+                        fileData:response.data,
+                        mode: mode,
+                        dirty: false,
+                        editorChange:    function(editor) {
+                                editor.$blockScrolling = 1
+                                
+                                editorFile.dirty = false
+                                
+                                editor.getSession().on("change", function() {
+                                    
+                                    editorFile.dirty = true
+                                });
+                                
+                                // select the 
+                                if (vm.selectTabId != null) {
+                                    $("#" + vm.selectTabId).addClass("active");
+                                    $("#tab-" + vm.selectTabId).addClass("active");
+                                    console.log("The selected the tab %s",vm.selectTabId)
+                                }
+                            }
+                        }
+                    
+                    vm.editorFiles.push(editorFile)
+                    
+                    vm.selectTab(id)
+                });
+                
+            }
         } else {
             vm.selectTab(id)
         }
+    }
+    
+    
+    // this function is called to see if the path contains an image
+    // this is a simple check based on the suffix of the file.
+    vm.isImage = function(path) {
+        
+        var suffix = path.substr(path.lastIndexOf('.') + 1) || path;
+        console.log("The suffix of the file is %s",suffix);
+        return vm.imageFiles.includes(suffix);
     }
     
     vm.closeFile = function(id) {

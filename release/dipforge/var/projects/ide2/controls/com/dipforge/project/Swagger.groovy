@@ -456,7 +456,84 @@ println """
                }
             }
          }
-      }
+      },
+      "/com/dipforge/ide/UploadFile.groovy":{
+         "post":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Upload a File",
+            "description":"Upload a File",
+            "operationId":"UploadFile",
+            "consumes":[
+               "multipart/form-data"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"formData",
+                  "name":"project",
+                  "description":"The name of the project",
+                  "required":true,
+                  "type": "string"
+               },
+               {
+                  "in":"formData",
+                  "name":"path",
+                  "description":"The name of the path",
+                  "required":true,
+                  "type": "string"
+               },
+               {
+                  "in":"formData",
+                  "name":"file",
+                  "description":"id of scene of guide to attache this to",
+                  "required":true,
+                  "type": "file"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         },
+      },
+      "/com/dipforge/ide/ListLogs.groovy":{
+         "get":{
+            "tags":[
+               "logs"
+            ],
+            "summary":"List Logs",
+            "description":"Retrieve the list logs.",
+            "operationId":"ListLogs",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      
    },
    "securityDefinitions":{
    },

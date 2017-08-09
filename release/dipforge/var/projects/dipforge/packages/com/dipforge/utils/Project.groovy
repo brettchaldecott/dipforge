@@ -35,6 +35,13 @@ class Project {
         return new File("${Dipforge.DIPFORGE_HOME}${PROJECT_PATH}${project}/${path}")
     }
     
+    /**
+     * This method creates the specified file
+     */
+    def static createFile(def project, def path) {
+        return new File("${Dipforge.DIPFORGE_HOME}${PROJECT_PATH}${project}/${path}")
+    }
+    
     
     /**
      * This method returns the specified file 

@@ -1,6 +1,6 @@
 /*
  * ide2: Description
- * Copyright (C) Thu Aug 03 15:30:52 UTC 2017 owner
+ * Copyright (C) Wed Aug 09 18:07:41 UTC 2017 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,28 +16,19 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * sparql.js
+ * logservice.js
  * @author admin
  */
 
+
+
 angular.module('ide2App')
-  .controller('SparqlCtrl', function ($rootScope, $scope, $interval,ProjectService) {
-    var vm = this;
+  .service('LogService', function ($http) {
+    console.log("This is stuff")
     
-    vm.setupYasqe = function() {
-        var yasqe = YASGUI(document.getElementById("yasqe_div"), {
-            //Uncomment below to change the default endpoint
-            //Note: If you've already opened the YASGUI page before, you should first clear your
-            //local-storage cache before you will see the changes taking effect 
-            yasqe:{sparql:{endpoint:'/rdf/'}}
-        });
-    
-        $rootScope.$broadcast('toolLoaded', {tool: 'Sparql'});
-    }
-    
-    
-    vm.$onInit = function () {
-        vm.setupYasqe();
+    this.listLogs = function() {
+        return $http.get("../com/dipforge/ide/ListLogs.groovy");
     };
-    
+
+
   });

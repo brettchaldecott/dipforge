@@ -245,6 +245,12 @@
                                             <span class="glyphicon glyphicon-file pull-right" style="inline" aria-hidden="true"></span>
                                         </a>
                                     </li>
+                                    <li role="presentation">
+                                        <a href="#_upload" role="tab" data-toggle="tab">
+                                            Upload
+                                            <span class="glyphicon glyphicon-upload pull-right" style="inline" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
                                 </ul>
                                 </div>
                             </div>
@@ -306,7 +312,7 @@
                                             </form>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="_view">
-                                            <form name="viewForm" id="controllerForm" autocomplete="off">
+                                            <form name="viewForm" id="viewForm" autocomplete="off">
                                               <div class="form-group" ng-class="{'has-error': viewForm.viewPath.$invalid}">
                                                 <label for="viewPath">View Path</label>
                                                 <input type="string" class="form-control" id="viewPath" name="viewPath" uib-typeahead="path for path in fileModalCtrl.flowFormFolders | filter:$viewValue | limitTo:16"  ng-model="fileModalCtrl.viewPath" placeholder="View Path" required ng-pattern="/^[a-zA-Z0-9_\/]{5,}$/">
@@ -341,6 +347,34 @@
                                               </div>
                                             </form>
                                         </div>
+                                        <div role="tabpanel" class="tab-pane" id="_upload">
+                                            <form name="uploadForm" id="uploadForm" autocomplete="off">
+                                              <div class="form-group">
+                                                <label for="uploadFilesFormFolder">Upload</label>
+                                                <select class="form-control" id="uploadFilesFormFolder" name="uploadFilesFormFolder" ng-model="fileModalCtrl.uploadFilesFormFolder" ng-change="fileModalCtrl.uploadFilesFormChangeFolder()">
+                                                  <option ng-repeat="folder in fileModalCtrl.folders" value="{{folder.path}}">{{folder.path}}</option>
+                                                </select>
+                                              </div>
+                                              <div class="form-group" ng-class="{'has-error': fileForm.uploadFilePath.$invalid}">
+                                                <label for="uploadFilePath">File Path</label>
+                                                <input type="string" class="form-control" id="uploadFilePath" name="uploadFilePath" uib-typeahead="path for path in fileModalCtrl.uploadFilesFormFolders | filter:$viewValue | limitTo:16" ng-model="fileModalCtrl.uploadFilePath" placeholder="File Path" required>
+                                              </div>
+                                              <div class="form-group" ng-class="{'has-error': fileForm.uploadFileName.$invalid}">
+                                                <label for="uploadFileName">File Name</label>
+                                                <input type="string" class="form-control" id="uploadFileName" name="uploadFileName" ng-model="fileModalCtrl.uploadFileName" placeholder="File Name" required>
+                                              </div>
+                                              <div class="form-group" ng-class="{'has-error': fileForm.fileToUpload.$invalid}">
+                                                <label for="fileToUpload">File to Upload</label>
+                                                <input class="form-group" type="file" ngf-select ng-model="fileModalCtrl.fileToUpload" id="fileToUpload" name="fileToUpload"
+                                                     accept="image/*" ngf-max-size="2MB" required
+                                                     ngf-model-invalid="errorFile" ngf-change="fileModalCtrl.handleChangeFile(fileModalCtrl.fileToUpload)">
+                                                <i ng-show="uploadForm.fileToUpload.$error.required">*required</i><br>
+                                                <i ng-show="uploadForm.fileToUpload.$error.maxSize">File too large 
+                                                    {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                                <img ng-show="uploadForm.fileToUpload.$valid" ngf-thumbnail="fileModalCtrl.fileToUpload" class="thumb"> <button ng-click="uploadForm.fileToUpload = null" ng-show="uploadForm.fileToUpload">Remove</button>
+                                              </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -371,6 +405,10 @@
                             <li ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="presentation"
                             id="tab-{{editorFile.id}}" ng-click="editorCtrls.selectTabId = editorFile.id">
                                 <a ng-if="editorFile.type == 'file'" href="#" ng-click="editorCtrls.selectTab(editorFile.id)" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
+                                    {{editorFile.project + ":" + editorFile.treeNode.label}}
+                                    <span class="close glyphicon glyphicon-remove" style="inline" ng-click="editorCtrls.closeFile(editorFile.id)" aria-hidden="true"></span>
+                                </a>
+                                <a ng-if="editorFile.type == 'image'" href="#" ng-click="editorCtrls.selectTab(editorFile.id)" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
                                     {{editorFile.project + ":" + editorFile.treeNode.label}}
                                     <span class="close glyphicon glyphicon-remove" style="inline" ng-click="editorCtrls.closeFile(editorFile.id)" aria-hidden="true"></span>
                                 </a>
@@ -474,9 +512,42 @@
                                   }
                                 }" ng-model="editorFile.fileData.contents"></div>
                         </div>
-                        <div ng-if="editorFile.type == 'tool'">
-                            <div ng-if="editorFile.id == 'Sparql'">
+                        <div ng-if="editorFile.type == 'image'">
+                            <ul class="nav nav-pills" role="tablist">
+                              <li role="presentation">
+                                  <h4>{{editorFile.project}}:{{editorFile.treeNode.fullPath}}&nbsp;
+                                  </h4>
+                              </li>
+                              <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeTool(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+                              <li role="presentation" class="pull-right"><a href="#" ng-click="editorCtrls.deleteFile(editorFile.id)"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
+                            </ul>
+                            <div ng-controller="ImageCtrl as imageCtrl" ng-init="init(editorFile.id,editorFile.project,editorFile.fileData)">
+                                <div ng-bind-html="imageTag"></div>
+                            </div>
+                        </div>
+                        <div ng-if="editorFile.type == 'tool' && editorFile.id == 'Sparql'">
+                            <ul class="nav nav-pills" role="tablist">
+                              <li role="presentation">
+                                  <h4>{{editorFile.id}}&nbsp;
+                                  </h4>
+                              </li>
+                              <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeTool(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+                            
+                            </ul>
+                            <div ng-controller="SparqlCtrl as sparqlCtrl">
+                                <div id="yasqe_div"></div>
+                            </div>
+                        </div>
+                        <div ng-if="editorFile.type == 'tool' && editorFile.id == 'LogConsole'">
+                                  
+                            <div ng-controller="LogCtrl as logCtrl">
+                            
                                 <ul class="nav nav-pills" role="tablist">
+                                  <li role="presentation">
+                                    <select class="form-control" id="viewType" name="viewType" ng-model="logCtrl.logFileName" ng-change="logCtrl.handleChangeLogFile()">
+                                        <option ng-repeat="logFile in logCtrl.logList" value="{{logFile.file}}">{{logFile.file}}</option>
+                                    </select>
+                                  </li>
                                   <li role="presentation">
                                       <h4>{{editorFile.id}}&nbsp;
                                       </h4>
@@ -484,10 +555,7 @@
                                   <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeTool(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
                                 
                                 </ul>
-                                <div ng-controller="SparqlCtrl as sparqlCtrl">
-                                    <div id="yasqe_div"></div>
-                                </div>
-                                  
+                                <pre id="log-contents" style="width:100%;overflow:auto;" class="log_console_height" >{{logCtrl.logContents}}</pre>
                             </div>
                         </div>
                  
@@ -530,6 +598,7 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-hotkeys/build/hotkeys.js"></script>
     <script src="bower_components/yasgui/dist/yasgui.bundled.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     
     
     <!-- endbower -->
@@ -555,6 +624,9 @@
         <script src="scripts/controllers/deletemodal.js"></script>
         <script src="scripts/controllers/outputmodal.js"></script>
         <script src="scripts/controllers/sparql.js"></script>
+        <script src="scripts/controllers/imagectrl.js"></script>
+        <script src="scripts/controllers/logctrl.js"></script>
+        <script src="scripts/services/logservice.js"></script>
         <!-- endbuild -->
 </body>
 </html>

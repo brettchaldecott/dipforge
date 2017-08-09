@@ -1,6 +1,6 @@
 /*
  * ide2: Description
- * Copyright (C) Thu Aug 03 15:30:52 UTC 2017 owner
+ * Copyright (C) Wed Aug 09 18:00:56 UTC 2017 owner
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,28 +16,39 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * sparql.js
+ * logctrl.js
  * @author admin
  */
 
+
+
 angular.module('ide2App')
-  .controller('SparqlCtrl', function ($rootScope, $scope, $interval,ProjectService) {
+  .controller('LogCtrl', function ($rootScope, $scope, $interval,ProjectService,LogService) {
     var vm = this;
     
-    vm.setupYasqe = function() {
-        var yasqe = YASGUI(document.getElementById("yasqe_div"), {
-            //Uncomment below to change the default endpoint
-            //Note: If you've already opened the YASGUI page before, you should first clear your
-            //local-storage cache before you will see the changes taking effect 
-            yasqe:{sparql:{endpoint:'/rdf/'}}
-        });
+    // controllers
+    vm.logList = []
+    vm.logFileName = null
+    vm.logContents = null;
     
-        $rootScope.$broadcast('toolLoaded', {tool: 'Sparql'});
+    
+    // setup the log
+    vm.setupLog = function() {
+        LogService.listLogs().then(function(response) {
+                vm.logList = response.data
+        });
+        
+        $rootScope.$broadcast('toolLoaded', {tool: 'LogConsole'});
     }
     
     
-    vm.$onInit = function () {
-        vm.setupYasqe();
-    };
+    vm.handleChangeLogFile = function() {
+        
+    }
     
-  });
+    
+    // the on init
+    vm.$onInit = function() {
+        vm.setupLog()
+    }
+});
