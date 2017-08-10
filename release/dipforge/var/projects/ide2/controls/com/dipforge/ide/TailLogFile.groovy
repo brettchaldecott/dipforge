@@ -40,15 +40,16 @@ try {
     
     builder(daemon.tailLog(params.logFile,Integer.parseInt(params.endLine)));
     
+    log.info("Returning the log results")
+
+    response.setContentType("application/json");
+    
 } catch (ex) {
     builder([])
     log.error("Failed to retrieve a list of files : " + ex.getMessage(),ex)
+    
+    
 }
-
-
-log.info("Returning the log results")
-
-response.setContentType("application/json");
-
 println builder.toString()
+
 

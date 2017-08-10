@@ -533,6 +533,51 @@ println """
             }
          }
       },
+      "/com/dipforge/ide/TailLogFile.groovy?logFile={logFile}&endLine={endLine}":{
+         "get":{
+            "tags":[
+               "logs"
+            ],
+            "summary":"Tail Log File",
+            "description":"Tail a log file.",
+            "operationId":"TailLogFile",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"logFile",
+                    "in":"query",
+                    "description":"The name of the logFile",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                },
+                {
+                    "name":"endLine",
+                    "in":"query",
+                    "description":"The last line that was read last time",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                }
+                ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
       
    },
    "securityDefinitions":{

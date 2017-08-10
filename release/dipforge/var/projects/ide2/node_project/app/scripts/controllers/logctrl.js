@@ -30,6 +30,12 @@ angular.module('ide2App')
     vm.logList = []
     vm.logFileName = null
     vm.logContents = null;
+    vm.logResponse = {
+        lines:"",
+        endLine: 0,
+        gap: true
+    };
+    vm.pollLogFile = false;
     
     
     // setup the log
@@ -43,7 +49,36 @@ angular.module('ide2App')
     
     
     vm.handleChangeLogFile = function() {
-        
+        vm.pollLogFile = true
+        vm.logContents = ""
+    }
+    
+    
+    vm.tailLogFile = function() {
+        if (!vm.pollLogFile) {
+            return
+        }
+        LogService.tailLog(vm.logFileName,vm.logResponse.endLine).then(function(response) {
+                vm.logResponse = response.data[0];
+                console.log("The log response is %o",response)
+                console.log("The set log response is %o",vm.logResponse)
+                vm.logContents += vm.logResponse.lines
+        });
+    }
+    
+    
+    // control methods
+    vm.play = function() {
+        vm.pollLogFile = true;
+    }
+    
+    
+    vm.clear = function() {
+        vm.logContents = ""
+    }
+    
+    vm.stop = function() {
+        vm.pollLogFile = false;
     }
     
     
@@ -51,4 +86,11 @@ angular.module('ide2App')
     vm.$onInit = function() {
         vm.setupLog()
     }
+    
+    
+    // loop through the editor files
+    $interval(function() {
+        vm.tailLogFile()
+        
+    }, 1000 * 5);
 });

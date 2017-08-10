@@ -548,6 +548,9 @@
                                         <option ng-repeat="logFile in logCtrl.logList" value="{{logFile.file}}">{{logFile.file}}</option>
                                     </select>
                                   </li>
+                                  <li role="presentation"><a href="#" ng-click="logCtrl.clear()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
+                                  <li role="presentation"><a href="#" ng-click="logCtrl.play()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></li>
+                                  <li role="presentation"><a href="#" ng-click="logCtrl.stop()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></a></li>
                                   <li role="presentation">
                                       <h4>{{editorFile.id}}&nbsp;
                                       </h4>

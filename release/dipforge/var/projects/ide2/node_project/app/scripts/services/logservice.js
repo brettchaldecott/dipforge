@@ -29,6 +29,10 @@ angular.module('ide2App')
     this.listLogs = function() {
         return $http.get("../com/dipforge/ide/ListLogs.groovy");
     };
-
+    
+    
+    this.tailLog = function(logFile,endLine) {
+        return $http.get("../com/dipforge/ide/TailLogFile.groovy?logFile=" + logFile + "&endLine=" + endLine);
+    };
 
   });
