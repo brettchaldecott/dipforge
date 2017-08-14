@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 
 def log = Logger.getLogger("test.index.groovy");
 
-def result = RDF.query("SELECT ?s WHERE {" +
+def result = RDF.executeQuery("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/test1#type1> . }")
 
 PageManager.includeWithResult("list.gsp", request, response, ["tests" : result])

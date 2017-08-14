@@ -82,12 +82,12 @@ log.debug("Property 2 value : " +test4.getProperty5().getProperty1())
 log.debug("XML [" +test4.toXML())
 log.debug("##########################################")
 
-def results = RDF.queryXML(test2.toXML(),
+def results = RDF.executeQueryXML(test2.toXML(),
     "SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/test2#type2> . }")
 
 for (result in results) {
-    test4 = result[0]
+    test4 = result["s"]
     log.debug("##########################################")
     log.debug("ID value : " +test4.getId())
     log.debug("Property 1 value : " +test4.getProperty3())

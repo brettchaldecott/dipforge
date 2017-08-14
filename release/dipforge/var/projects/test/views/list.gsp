@@ -29,7 +29,7 @@ import com.dipforge.semantic.RDF
     </tr>
 <%
     params.tests.each { testdata ->
-        def data = testdata[0]
+        def data = testdata["s"]
     %>
     <tr>
         <td>

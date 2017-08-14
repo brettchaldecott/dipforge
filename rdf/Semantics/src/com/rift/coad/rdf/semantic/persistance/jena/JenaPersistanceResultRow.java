@@ -297,7 +297,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @throws PersistanceQueryException
      */
     public boolean isBasicType(String name) throws PersistanceQueryException {
-        if (mapEntries.containsKey(name)) {
+        if (!mapEntries.containsKey(name)) {
             throw new PersistanceQueryException(
                     "The row does not contain the entry [" + name + "]");
         }
@@ -328,7 +328,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @throws PersistanceQueryException
      */
     public DataType getType(String name) throws PersistanceQueryException {
-        if (mapEntries.containsKey(name)) {
+        if (!mapEntries.containsKey(name)) {
             throw new PersistanceQueryException(
                     "The row does not contain the entry [" + name + "]");
         }
@@ -361,7 +361,7 @@ public class JenaPersistanceResultRow implements PersistanceResultRow {
      * @throws com.rift.coad.rdf.semantic.QueryException
      */
     public <T> T get(Class<T> t, String name) throws PersistanceQueryException {
-        if (mapEntries.containsKey(name)) {
+        if (!mapEntries.containsKey(name)) {
             throw new PersistanceQueryException(
                     "The row does not contain the entry [" + name + "]");
         }
