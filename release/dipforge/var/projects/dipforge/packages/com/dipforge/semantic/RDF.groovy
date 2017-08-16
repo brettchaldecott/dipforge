@@ -189,29 +189,26 @@ class RDF {
             if (records.size() > 0) {
                 
                 for (record in records) {
-                    def row = [:]
-                    log.info("The number of columns " + record.size())
-                
-                    for (columnName in record.getColumns()) {
-                        log.info("Attempt to retrieve the column name [${columnName}]")
-                        def dataType = record.getType(columnName)
+                    def row = []
+                    for (int i = 0; i < record.size(); i++) {
+                        def dataType = record.getType(i)
                         def dataTypeURI = dataType.getURI().toString()
                         if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_STRING).getURI().toString())) {
-                            row.put(columnName,record.get(String.class,columnName))
+                            row.add(record.get(String.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {
-                            row.put(columnName,record.get(Boolean.class,columnName))
+                            row.add(record.get(Boolean.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_FLOAT).getURI().toString())) {
-                            row.put(columnName,record.get(Float.class,columnName))
+                            row.add(record.get(Float.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
-                            row.put(columnName,record.get(Double.class,columnName))
+                            row.add(record.get(Double.class,i))
                         } /*else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
@@ -220,38 +217,38 @@ class RDF {
                         } */else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
-                            row.put(columnName,record.get(Integer.class,columnName))
+                            row.add(record.get(Integer.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_LONG).getURI().toString())) {
-                            row.put(columnName,record.get(Long.class,columnName))
+                            row.add(record.get(Long.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_INT).getURI().toString())) {
-                            row.put(columnName,record.get(Integer.class,columnName))
+                            row.add(record.get(Integer.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_SHORT).getURI().toString())) {
-                            row.put(columnName,record.get(Short.class,columnName))
+                            row.add(record.get(Short.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_BYTE).getURI().toString())) {
-                            row.put(columnName,record.get(Byte.class,columnName))
+                            row.add(record.get(Byte.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_DATE).getURI().toString())) {
-                            row.put(columnName,record.get(Date.class,columnName))
+                            row.add(record.get(Date.class,i))
                         } else if (dataTypeURI.equals(
                                 XSDDataDictionary.getTypeByName(
                                 XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
-                            row.put(columnName,record.get(Date.class,columnName))
+                            row.add(record.get(Date.class,i))
                         } else {
-                            def rdfResult = create(session,record.getType(columnName).getURI().toString());
-                            Resource resource = record.get(Resource.class,columnName)
+                            def rdfResult = create(session,record.getType(i).getURI().toString());
+                            Resource resource = record.get(Resource.class,i)
                             rdfResult.builder.populateType(resource);
-                            row.put(columnName,rdfResult)
+                            row.add(rdfResult)
                         }
-                    }
+                    } 
                     result.add(row)
                 }
             }
