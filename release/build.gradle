@@ -602,7 +602,7 @@ dependencies {
 
     releaseEAR project(':composite:dipforgemasterenvironment')
 
-    // release extract web
+    /// release extract web
     releaseExtractWeb project(':web:SchemaStore')
 
     // groovy lib
@@ -727,7 +727,8 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGenerat
     
         // create the release
         createRelease(gitUsername,gitToken,repo,gitTag,gitTagName,comment)
-        
+        makeReleaseDir(gitTag) 
+
         // upload the dipforge jar
         def dipforgeInstallFileName = "dipforge-install-${version}.jar"
         def dipforgeInstallPath = new File("release/target/${dipforgeInstallFileName}")
@@ -760,6 +761,9 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGenerat
         def masterRDFStoreJarPath = new File("daemon/0057-MasterRDFStore/build/${masterRDFStoreJar}")
         uploadFile(gitUsername, gitToken, repo, gitTag, masterRDFStoreJar, masterRDFStoreJarPath.absolutePath)
 
+        // release tag
+        copyToS3(gitTag)
+
     } catch (Exception ex) {
         println "Failed to create the release ${ex.getMessage()}"
         ex.printStackTrace();
@@ -784,8 +788,26 @@ def createRelease(def username, def token, def repo, def tag, def tagName, def c
 def uploadFile(def username, def token, def repo, def tag, def fileName, def path) {
     def uploadCommand = "/usr/local/bin/github-release upload --user ${username} --security-token ${token} --repo ${repo} --tag ${tag} --name ${fileName} --file ${path}"
     print executeOnShell(uploadCommand)
+    copyToReleaseDir(path,tag)
 }
 
+def makeReleaseDir(def tag) {
+    def releaseDir = new File("release/${tag}")
+    def mkdirCommand = "mkdir ${releaseDir.absolutePath}"
+    print executeOnShell(mkdirCommand)
+}
+
+def copyToReleaseDir(def path, def tag) {
+    def releaseDir = new File("release/${tag}")
+    def copyCommand = "cp -f ${path} ${releaseDir.absolutePath}/."
+    print executeOnShell(copyCommand)
+}
+
+def copyToS3(def tag) {
+    def releaseDir = new File("release/${tag}")
+    def s3CopyCommand = "s3cmd --recursive put ${releaseDir.absolutePath} s3://dipforge/"
+    print executeOnShell(s3CopyCommand)
+}
 
 def executeOnShell(String command) {
   println command
