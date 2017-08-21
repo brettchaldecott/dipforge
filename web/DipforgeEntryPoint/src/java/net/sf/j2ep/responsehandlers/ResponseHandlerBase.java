@@ -109,16 +109,24 @@ public abstract class ResponseHandlerBase implements ResponseHandler{
     protected void setHeaders(HttpServletResponse response) {
         Header[] headers = method.getResponseHeaders();
         
+        LogFactory.getLog(ResponseHandlerBase.class).debug("Set the headers for the response method [" + method.getClass().getName() + "]");
+        
         for (int i=0; i < headers.length; i++) {
             Header header = headers[i];
             String name = header.getName();
             boolean contentLength = name.equalsIgnoreCase("content-length");
             boolean connection = name.equalsIgnoreCase("connection");
             
+            LogFactory.getLog(ResponseHandlerBase.class).debug("The header is [" + name + "][" + header.getValue() + "]");
             if (!contentLength && !connection) {
                 response.addHeader(name, header.getValue());
-            } 
+            }
         }
+        // the connection and length headers must be present and blank
+        // to prevent subsequent proxy servers from overriding them.
+        // this appears to be a particular problem with AWS.
+        response.addHeader("Connection", "");
+        response.addHeader("Content-Length","");
         
         setViaHeader(response);
     }
@@ -132,7 +140,7 @@ public abstract class ResponseHandlerBase implements ResponseHandler{
         try {
             serverHostName = InetAddress.getLocalHost().getHostName();   
         } catch (UnknownHostException e) {
-            LogFactory.getLog(RequestHandlerBase.class).error("Couldn't get the hostname needed for header Via", e);
+            LogFactory.getLog(ResponseHandlerBase.class).error("Couldn't get the hostname needed for header Via", e);
         }
         
         Header originalVia = method.getResponseHeader("via");
