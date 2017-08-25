@@ -91,9 +91,7 @@ public class TextHtmlServlet extends HttpServlet {
         // workout the real path
         log.info("Request on [" + request.getContextPath() + "][" + request.getRequestURI() + "]");
         ContextInfo context = new ContextInfo(request);
-        log.info("Request on [" + context.getPath() + "]");
         String subPath = context.stripContext(ContextUtils.stripContext(request.getContextPath(), request.getRequestURI()));
-        log.info("Sub path [" + subPath + "]");
         
         File f = new File(this.baseDir + File.separator + context.getPath() +
                 File.separator + this.webDir + File.separator + subPath);
