@@ -6,6 +6,6 @@ Author: admin
 <html>
 <body>
 This is from gsp
-<img src="dipforgeLogo_small.png"/>
+<img src="dipForgeLogo_small.png">
 </body>
 </html>
