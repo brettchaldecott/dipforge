@@ -97,6 +97,7 @@ public class MediaServlet extends HttpServlet {
 
         File f = new File(this.baseDir + File.separator + context.getPath() +
                 File.separator + this.webDir + File.separator + subPath);
+        log.info("The media file [" + f.toString() + "]");
         // fall back
         if (!f.isFile()) {
             f = new File(this.dipforgeLibDir +
