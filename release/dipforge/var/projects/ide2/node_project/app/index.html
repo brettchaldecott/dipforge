@@ -315,7 +315,7 @@
                                             <form name="viewForm" id="viewForm" autocomplete="off">
                                               <div class="form-group" ng-class="{'has-error': viewForm.viewPath.$invalid}">
                                                 <label for="viewPath">View Path</label>
-                                                <input type="string" class="form-control" id="viewPath" name="viewPath" uib-typeahead="path for path in fileModalCtrl.flowFormFolders | filter:$viewValue | limitTo:16"  ng-model="fileModalCtrl.viewPath" placeholder="View Path" required ng-pattern="/^[a-zA-Z0-9_\/]{5,}$/">
+                                                <input type="string" class="form-control" id="viewPath" name="viewPath" uib-typeahead="path for path in fileModalCtrl.viewsFormFolders | filter:$viewValue | limitTo:16"  ng-model="fileModalCtrl.viewPath" placeholder="View Path" required ng-pattern="/^[a-zA-Z0-9_\/]{5,}$/">
                                               </div>
                                               <div class="form-group">
                                                 <label for="projectFolder">Project Folder</label>

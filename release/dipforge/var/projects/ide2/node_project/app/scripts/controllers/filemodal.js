@@ -108,7 +108,7 @@ angular.module('ide2App')
                     if(!$scope.viewForm.$valid) {
                         return;
                     }
-                    path = "/views/" + vm.viewPath + "." + vm.viewType
+                    path = "/views" + vm.viewPath + "/" + vm.viewName + "." + vm.viewType
                     type = vm.viewType
                     context = "/views"
                 } else if ($("#_file").hasClass("active")) {
