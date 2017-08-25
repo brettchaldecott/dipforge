@@ -82,13 +82,19 @@ public class ContextInfo {
      */
     public String stripContext(String uri) {
         String result = uri;
-        if (result.startsWith(path)) {
+        
+        String publicPrefix = String.format(ContextConstants.PUBLIC_PROJECT_FORMAT, path);
+        // check to see if this is the public folder with a project_
+        if (result.contains(publicPrefix)) {
+            result = result.replace(publicPrefix, "public");
+        } else if (result.startsWith(path)) {
             result = result.substring(path.length());
         } else if (result.startsWith("/" + path)) {
             result = result.substring(("/" + path).length());
         } else if (servletContext != null && result.startsWith(servletContext + "/" + path)) {
             result = result.substring((servletContext + "/" + path).length());
         }
+        // strip the extra / forward slash
         while (result.startsWith("/")) {
             result = result.substring(1);
         }

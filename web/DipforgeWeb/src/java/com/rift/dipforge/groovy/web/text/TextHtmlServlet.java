@@ -24,6 +24,7 @@ package com.rift.dipforge.groovy.web.text;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.dipforge.groovy.lib.ContextInfo;
+import com.rift.dipforge.groovy.lib.ContextUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -89,12 +90,14 @@ public class TextHtmlServlet extends HttpServlet {
     throws ServletException, IOException {
         // workout the real path
         log.info("Request on [" + request.getContextPath() + "][" + request.getRequestURI() + "]");
-        String servletSubPath = request.getContextPath();
         ContextInfo context = new ContextInfo(request);
-        String subPath = context.stripContext(request.getRequestURI());
-
+        log.info("Request on [" + context.getPath() + "]");
+        String subPath = context.stripContext(ContextUtils.stripContext(request.getContextPath(), request.getRequestURI()));
+        log.info("Sub path [" + subPath + "]");
+        
         File f = new File(this.baseDir + File.separator + context.getPath() +
                 File.separator + this.webDir + File.separator + subPath);
+        log.info("Full path [" + f.toString() + "]");
         // fall back
         if (!f.isFile()) {
             f = new File(this.dipforgeLibDir +
@@ -133,6 +136,7 @@ public class TextHtmlServlet extends HttpServlet {
             in.close();
         }
     } 
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

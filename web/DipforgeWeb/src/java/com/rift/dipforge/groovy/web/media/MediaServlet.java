@@ -24,6 +24,7 @@ package com.rift.dipforge.groovy.web.media;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
 import com.rift.dipforge.groovy.lib.ContextInfo;
+import com.rift.dipforge.groovy.lib.ContextUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -91,9 +92,8 @@ public class MediaServlet extends HttpServlet {
 
         // workout the real path
         log.info("Request on [" + request.getContextPath() + "][" + request.getRequestURI() + "]");
-        String servletSubPath = request.getContextPath();
         ContextInfo context = new ContextInfo(request);
-        String subPath = context.stripContext(request.getRequestURI());
+        String subPath = context.stripContext(ContextUtils.stripContext(request.getContextPath(), request.getRequestURI()));
 
         File f = new File(this.baseDir + File.separator + context.getPath() +
                 File.separator + this.webDir + File.separator + subPath);

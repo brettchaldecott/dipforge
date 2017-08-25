@@ -37,7 +37,13 @@ public class ContextUtils {
      * @return The stripped uri.
      */
     public static String stripUri(String uri) {
+        // check to see if this is the public folder with a project_
         String result = uri;
+        if (result.contains(ContextConstants.PUBLIC_PROJECT)) {
+            result = result.replace(ContextConstants.PUBLIC_PROJECT, "");
+        }
+        
+        // strip the project context from the path
         if (result.startsWith("/")) {
             result = result.substring(1);
         }
@@ -48,5 +54,13 @@ public class ContextUtils {
         }
         return result;
     }
-
+    
+    
+    public static String stripContext(String context, String uri) {
+        String result = uri;
+        if (result.contains(context)) {
+            result = result.replace(context, "");
+        }
+        return result;
+    }
 }
