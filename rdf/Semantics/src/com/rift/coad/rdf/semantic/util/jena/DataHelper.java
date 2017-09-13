@@ -80,6 +80,8 @@ public class DataHelper {
             return l.getLong();
         } else if (Double.TYPE.equals(c)) {
             return l.getDouble();
+        } else if (Float.TYPE.equals(c)) {
+            return l.getFloat();
         } else if (Character.TYPE.equals(c)) {
             return l.getValue().toString().charAt(0);
         } else if (Short.TYPE.equals(c)) {
@@ -90,6 +92,8 @@ public class DataHelper {
             return l.getLong();
         } else if (c.equals(Double.class)) {
             return l.getDouble();
+        } else if (c.equals(Float.class)) {
+            return l.getFloat();
         } else if (c.equals(Character.class)) {
             return l.getValue().toString().charAt(0);
         } else if (c.equals(Short.class)) {
