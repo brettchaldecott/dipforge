@@ -479,7 +479,7 @@
             com/rift/coad/daemon/messageservice/db/hibernate.xml
         </entry>
         <entry key="thread_pool_size" type="long">
-            20
+            2
         </entry>
     </object>
     <object name="com.rift.coad.lib.audit.AuditTrailManager">
