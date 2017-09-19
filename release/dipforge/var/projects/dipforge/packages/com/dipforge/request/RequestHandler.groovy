@@ -23,6 +23,7 @@ package com.dipforge.request
 
 
 // imports
+import java.util.Map
 import org.apache.log4j.Logger;
 import com.rift.coad.lib.common.RandomGuid;
 import com.rift.coad.change.request.Request;
@@ -166,21 +167,40 @@ class RequestHandler {
          * This method is called to generate the request data
          */
         def generateRequest(def data, def dependancies) {
-            RequestData requestData = new RequestData(data.getId(), data.builder.classDef.getURI().toString(),
+            RequestData requestData = null
+            if (data instanceof Map) {
+                requestData = new RequestData(data.id, data.__builder.classDef.getURI().toString(),
+                    data.__builder.toXML(), data.__builder.classDef.getLocalName())
+            } else {
+                requestData = new RequestData(data.getId(), data.builder.classDef.getURI().toString(),
                     data.toXML(), data.builder.classDef.getLocalName())
+            }
+            
+            
             request = new Request(RandomGuid.getInstance().getGuid(), 
                     project, requestData, action, new java.util.Date(), null,
                     new java.util.ArrayList<RequestEvent>())
             if (dependancies.size() > 0) {
                 java.util.List<RequestData> dependancyList = new java.util.ArrayList<RequestData>();
                 for (dependance in dependancies) {
-                    dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
-                            dependance.toXML(), dependance.builder.classDef.getLocalName()))
+                    if (dependance instanceof Map) {
+                        dependancyList.add(new RequestData(dependance.id, dependance.__builder.builder.classDef.getURI().toString(),
+                                dependance.__builder.toXML(), dependance.__builder.classDef.getLocalName()))
+                    } else {
+                        dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
+                                dependance.toXML(), dependance.builder.classDef.getLocalName()))
+                    }
                 }
                 request.setDependencies(dependancyList)
             }
             // this method loo
-            def classProperties = data.builder.classDef.listProperties()
+            def classProperties = null
+            if (data instanceof Map) {
+                classProperties = data.__builder.classDef.listProperties()
+            } else {
+                classProperties = data.builder.classDef.listProperties()
+            }
+            
             for (classProperty in classProperties) {
                 if (classProperty.hasRange()) {
                     continue
@@ -192,12 +212,22 @@ class RequestHandler {
                 }
                 if (data."${propertyName}" instanceof java.util.List) {
                     for (def prop : data."${propertyName}") {
-                        dependancyList.add(new RequestData(prop.getId(), prop.builder.classDef.getURI().toString(),
-                                prop.toXML(), prop.getId()))
+                        if (prop instanceof Map) {
+                            dependancyList.add(new RequestData(prop.id, prop.__builder.classDef.getURI().toString(),
+                                    prop.__builder.toXML(), prop.id))
+                        } else {
+                            dependancyList.add(new RequestData(prop.getId(), prop.builder.classDef.getURI().toString(),
+                                    prop.toXML(), prop.getId()))
+                        }
                     }
                 } else {
-                    dependancyList.add(new RequestData(data."${propertyName}".getId(), data."${propertyName}".builder.classDef.getURI().toString(),
-                                data."${propertyName}".toXML(), propertyName))
+                    if (data."${propertyName}" instanceof Map) {
+                        dependancyList.add(new RequestData(data."${propertyName}".id, data."${propertyName}".__builder.classDef.getURI().toString(),
+                                    data."${propertyName}".__builder.toXML(), propertyName))
+                    } else {
+                        dependancyList.add(new RequestData(data."${propertyName}".getId(), data."${propertyName}".builder.classDef.getURI().toString(),
+                                    data."${propertyName}".toXML(), propertyName))
+                    }
                 }
             }
             data = null
@@ -332,21 +362,35 @@ class RequestHandler {
     def makeRequest() {
         RequestBrokerConnector connector = new RequestBrokerConnector();
         
-        RequestData requestData = new RequestData(this.data.getId(), this.data.builder.classDef.getURI().toString(),
-                this.data.toXML(), data.builder.classDef.getLocalName())
-        Request request = new Request(RandomGuid.getInstance().getGuid(), 
+        RequestData requestData = null
+        Request request = null
+        def classProperties = null
+        if (this.data instanceof Map) {
+            requestData = new RequestData(this.data.id, this.data.__builder.classDef.getURI().toString(),
+                    this.data.__builder.toXML(), data.__builder.classDef.getLocalName())
+            classProperties = this.data.__builder.classDef.listProperties()
+        } else {
+            requestData = new RequestData(this.data.getId(), this.data.builder.classDef.getURI().toString(),
+                    this.data.toXML(), data.builder.classDef.getLocalName())
+            classProperties = this.data.builder.classDef.listProperties()
+        }
+        request = new Request(RandomGuid.getInstance().getGuid(), 
                 project, requestData, action, new java.util.Date(), null,
                 new java.util.ArrayList<RequestEvent>())
         if (dependancies.size() > 0) {
             java.util.List<RequestData> dependancyList = new java.util.ArrayList<RequestData>();
             for (dependance in dependancies) {
-                dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
-                        dependance.toXML(), dependance.builder.classDef.getLocalName()))
+                if (dependance instanceof Map) {
+                    dependancyList.add(new RequestData(dependance.id, dependance.__builder.classDef.getURI().toString(),
+                            dependance.__builder.toXML(), dependance.__builder.classDef.getLocalName()))
+                } else {
+                    dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
+                            dependance.toXML(), dependance.builder.classDef.getLocalName()))
+                }
             }
             request.setDependencies(dependancyList)
         }
         // this method loo
-        def classProperties = this.data.builder.classDef.listProperties()
         for (classProperty in classProperties) {
             if (classProperty.hasRange()) {
                 continue
@@ -358,12 +402,22 @@ class RequestHandler {
             }
             if (this.data."${propertyName}" instanceof java.util.List) {
                 for (def prop : this.data."${propertyName}") {
-                    dependancyList.add(new RequestData(prop.getId(), prop.builder.classDef.getURI().toString(),
-                            prop.toXML(), prop.getId()))
+                    if (prop instanceof Map) {
+                        dependancyList.add(new RequestData(prop.id, prop.__builder.classDef.getURI().toString(),
+                                prop.__builder.toXML(), prop.id))
+                    } else {
+                        dependancyList.add(new RequestData(prop.getId(), prop.builder.classDef.getURI().toString(),
+                                prop.toXML(), prop.getId()))
+                    }
                 }
             } else {
-                dependancyList.add(new RequestData(this.data."${propertyName}".getId(), this.data."${propertyName}".builder.classDef.getURI().toString(),
-                            this.data."${propertyName}".toXML(), propertyName))
+                if (this.data."${propertyName}" instanceof Map) {
+                    dependancyList.add(new RequestData(this.data."${propertyName}".id, this.data."${propertyName}".__builder.classDef.getURI().toString(),
+                                this.data."${propertyName}".__builder.toXML(), propertyName))
+                } else {
+                    dependancyList.add(new RequestData(this.data."${propertyName}".getId(), this.data."${propertyName}".builder.classDef.getURI().toString(),
+                                this.data."${propertyName}".toXML(), propertyName))
+                }
             }
         }
         

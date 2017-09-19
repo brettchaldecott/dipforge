@@ -33,21 +33,21 @@ def log = Logger.getLogger("com.dipforge.log.test.index.groovy");
 
 try {
 
-    def test2 = RDF.create("http://dipforge.sourceforge.net/test2#type2")
+    def test2 = RDF.createMap("http://dipforge.sourceforge.net/test2#type2")
     log.info("Set the values on : " + test2)
-    test2.setId(RandomGuid.getInstance().getGuid())
-    test2.setProperty3(params.name)
-    test2.setProperty4(params.description)
-    test2.setProperty5(null)
+    test2.id = RandomGuid.getInstance().getGuid()
+    test2.property3 = params.name
+    test2.property4 = params.description
+    test2.property5 = null
     
     RequestHandler.getInstance("test", "test2", test2).makeRequest()
     
-    def test1 = RDF.create("http://dipforge.sourceforge.net/test1#type1")
+    def test1 = RDF.createMap("http://dipforge.sourceforge.net/test1#type1")
     log.info("Set the values on : " + test1)
-    test1.setId(RandomGuid.getInstance().getGuid())
-    test1.setProperty1(params.name)
-    test1.setProperty2(params.description)
-    test1.setProperty3(test2)
+    test1.id = RandomGuid.getInstance().getGuid()
+    test1.property1 = params.name
+    test1.property2 = params.description
+    test1.property3 = test2
     
     log.info("Init the request : " + test1)
     RequestHandler.getInstance("test", "test1", test1).makeRequest()

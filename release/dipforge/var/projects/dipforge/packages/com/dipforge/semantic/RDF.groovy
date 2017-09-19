@@ -81,12 +81,62 @@ class RDF {
      * @return The referenced to the new type
      * @param type The URI of the type.
      */
+    static def createMap(String type) {
+        try {
+            Class configClass = null
+            try {
+                configClass = Class.forName("com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl");
+            } catch (Exception ex1) {
+                try {
+                    configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+                } catch (Exception ex2) {
+                    configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                }
+            }
+            Session session = SemanticUtil.getInstance(configClass).getSession();
+            def instance = createMap(session,type);
+            return instance
+        } catch (Exception ex) {
+            log.error("Failed to create the type [${type}] because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param type The URI of the type.
+     */
     static def create(Session session, String type) {
         try {
             def ontology = session.getOntologySession()
             def classDef = ontology.getClass(new URI(type))
             def typeBuilder = new RDFTypeBuilder(classDef,session)
             def instance = typeBuilder.getTypeInstance()
+            return instance
+        } catch (Exception ex) {
+            log.error("Failed to create the type [${type}] because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param type The URI of the type.
+     */
+    static def createMap(Session session, String type) {
+        try {
+            def ontology = session.getOntologySession()
+            def classDef = ontology.getClass(new URI(type))
+            def typeBuilder = new RDFMapBuilder(classDef,session)
+            def instance = typeBuilder.getDataMap()
             return instance
         } catch (Exception ex) {
             log.error("Failed to create the type [${type}] because : " + ex.getMessage(),ex);
@@ -138,6 +188,43 @@ class RDF {
      * the uri.
      * 
      * @return The referenced to the new type
+     * @param uri The uri of the entry to retrieve.
+     */
+    static def getMapFromStore(String uri) {
+        try {
+            Class configClass = null
+            try {
+                configClass = Class.forName("com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl");
+            } catch (Exception ex1) {
+                try {
+                    configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+                } catch (Exception ex2) {
+                    configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                }
+            }
+
+            Session session = SemanticUtil.getInstance(configClass).getSession();
+            Resource resource = session.get(Resource.class,uri)
+            
+            PersistanceIdentifier typeIdentifier = 
+                    PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE,
+                    RDFConstants.TYPE_LOCALNAME);
+            def typeResource = resource.getProperty(OntologyClass.class,
+                    typeIdentifier.toURI().toString());
+            def result = createMap(session,typeResource.getURI().toString());
+            result.builder.populateType(resource);
+            return result
+        } catch (Exception ex) {
+            log.error("Failed to create the type because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
      * @param xml The xml to extract the type from
      * @param uri The uri of the entry to retrieve
      */
@@ -153,6 +240,36 @@ class RDF {
             def typeResource = resource.getProperty(OntologyClass.class,
                     typeIdentifier.toURI().toString());
             def result = create(session,typeResource.getURI().toString());
+                
+            result.builder.populateType(resource);
+            return result
+        } catch (Exception ex) {
+            log.error("Failed to create the type because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param xml The xml to extract the type from
+     * @param uri The uri of the entry to retrieve
+     */
+    static def getMapFromXML(String xml, String uri) {
+        try {
+            Session session = XMLSemanticUtil.getSession()
+            session.persist(xml)
+            Resource resource = session.get(Resource.class,uri)
+            def properties = resource.listProperties()
+            PersistanceIdentifier typeIdentifier = 
+                    PersistanceIdentifier.getInstance(RDFConstants.SYNTAX_NAMESPACE,
+                    RDFConstants.TYPE_LOCALNAME);
+            def typeResource = resource.getProperty(OntologyClass.class,
+                    typeIdentifier.toURI().toString());
+            def result = createMap(session,typeResource.getURI().toString());
                 
             result.builder.populateType(resource);
             return result
@@ -344,6 +461,106 @@ class RDF {
                             row.put(columnName,record.get(Date.class,columnName))
                         } else {
                             def rdfResult = create(session,record.getType(columnName).getURI().toString());
+                            Resource resource = record.get(Resource.class,columnName)
+                            rdfResult.builder.populateType(resource);
+                            row.put(columnName,rdfResult)
+                        }
+                    }
+                    result.add(row)
+                }
+            }
+            return result
+        } catch (Exception ex) {
+            log.error("Failed to perform the query because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    /**
+     * This method executes a query and returns the results of that query.
+     * 
+     * @return The results of the query.
+     * @param The query string.
+     */
+    static def executeMapQuery(String query) {
+        try {
+            Class configClass = null
+            try {
+                configClass = Class.forName("com.rift.dipforge.rdf.store.master.MasterRDFStoreDaemonImpl");
+            } catch (Exception ex1) {
+                try {
+                    configClass = Class.forName("com.rift.dipforge.rdf.store.RDFConfig");
+                } catch (Exception ex2) {
+                    configClass = Class.forName("com.rift.coad.groovy.RDFConfig");
+                }
+            }
+            Session session = SemanticUtil.getInstance(configClass).getSession();
+            def records = session.createSPARQLQuery(query).execute()
+            log.debug("The number of records is " + records.size())
+            
+            def result = []
+            if (records.size() > 0) {
+                
+                for (record in records) {
+                    def row = [:]
+                    log.info("The number of columns " + record.size())
+                
+                    for (columnName in record.getColumns()) {
+                        log.info("Attempt to retrieve the column name [${columnName}]")
+                        def dataType = record.getType(columnName)
+                        def dataTypeURI = dataType.getURI().toString()
+                        if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_STRING).getURI().toString())) {
+                            row.put(columnName,record.get(String.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {
+                            row.put(columnName,record.get(Boolean.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_FLOAT).getURI().toString())) {
+                            row.put(columnName,record.get(Float.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
+                            row.put(columnName,record.get(Double.class,columnName))
+                        } /*else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                            typeInstance."${propertyName}" = resource.getProperty(Double.class,
+                                classProperty.getURI().toString())
+                        } */else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
+                            row.put(columnName,record.get(Integer.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_LONG).getURI().toString())) {
+                            row.put(columnName,record.get(Long.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_INT).getURI().toString())) {
+                            row.put(columnName,record.get(Integer.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_SHORT).getURI().toString())) {
+                            row.put(columnName,record.get(Short.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_BYTE).getURI().toString())) {
+                            row.put(columnName,record.get(Byte.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                            row.put(columnName,record.get(Date.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
+                            row.put(columnName,record.get(Date.class,columnName))
+                        } else {
+                            def rdfResult = createMap(session,record.getType(columnName).getURI().toString());
                             Resource resource = record.get(Resource.class,columnName)
                             rdfResult.builder.populateType(resource);
                             row.put(columnName,rdfResult)
