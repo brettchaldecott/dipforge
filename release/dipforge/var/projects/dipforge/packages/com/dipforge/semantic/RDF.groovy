@@ -44,7 +44,7 @@ import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 class RDF {
     // private member variables    
     static def log = Logger.getLogger("com.dipforge.semantic.RDF");
-        
+    
     /**
      * This method is responsible for creating a new type object identified by
      * the uri.
@@ -53,6 +53,18 @@ class RDF {
      * @param type The URI of the type.
      */
     static def create(String type) {
+        return createOrm(type)
+    }
+    
+        
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param type The URI of the type.
+     */
+    static def createOrm(String type) {
         try {
             Class configClass = null
             try {
@@ -65,7 +77,7 @@ class RDF {
                 }
             }
             Session session = SemanticUtil.getInstance(configClass).getSession();
-            def instance = create(session,type);
+            def instance = createOrm(session,type);
             return instance
         } catch (Exception ex) {
             log.error("Failed to create the type [${type}] because : " + ex.getMessage(),ex);
@@ -111,6 +123,17 @@ class RDF {
      * @param type The URI of the type.
      */
     static def create(Session session, String type) {
+        return createOrm(session,type)
+    }
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param type The URI of the type.
+     */
+    static def createOrm(Session session, String type) {
         try {
             def ontology = session.getOntologySession()
             def classDef = ontology.getClass(new URI(type))
@@ -153,6 +176,18 @@ class RDF {
      * @param uri The uri of the entry to retrieve.
      */
     static def getFromStore(String uri) {
+        return getOrmFromStore(uri)
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param uri The uri of the entry to retrieve.
+     */
+    static def getOrmFromStore(String uri) {
         try {
             Class configClass = null
             try {
@@ -173,7 +208,7 @@ class RDF {
                     RDFConstants.TYPE_LOCALNAME);
             def typeResource = resource.getProperty(OntologyClass.class,
                     typeIdentifier.toURI().toString());
-            def result = create(session,typeResource.getURI().toString());
+            def result = createOrm(session,typeResource.getURI().toString());
             result.builder.populateType(resource);
             return result
         } catch (Exception ex) {
@@ -212,7 +247,7 @@ class RDF {
             def typeResource = resource.getProperty(OntologyClass.class,
                     typeIdentifier.toURI().toString());
             def result = createMap(session,typeResource.getURI().toString());
-            result.builder.populateType(resource);
+            result.__builder.populateData(resource);
             return result
         } catch (Exception ex) {
             log.error("Failed to create the type because : " + ex.getMessage(),ex);
@@ -229,6 +264,19 @@ class RDF {
      * @param uri The uri of the entry to retrieve
      */
     static def getFromXML(String xml, String uri) {
+        return getOrmFromXML(xml, uri)
+    }
+    
+    
+    /**
+     * This method is responsible for creating a new type object identified by
+     * the uri.
+     * 
+     * @return The referenced to the new type
+     * @param xml The xml to extract the type from
+     * @param uri The uri of the entry to retrieve
+     */
+    static def getOrmFromXML(String xml, String uri) {
         try {
             Session session = XMLSemanticUtil.getSession()
             session.persist(xml)
@@ -239,7 +287,7 @@ class RDF {
                     RDFConstants.TYPE_LOCALNAME);
             def typeResource = resource.getProperty(OntologyClass.class,
                     typeIdentifier.toURI().toString());
-            def result = create(session,typeResource.getURI().toString());
+            def result = createOrm(session,typeResource.getURI().toString());
                 
             result.builder.populateType(resource);
             return result
@@ -248,7 +296,6 @@ class RDF {
             throw ex;
         }
     }
-    
     
     /**
      * This method is responsible for creating a new type object identified by
@@ -271,7 +318,7 @@ class RDF {
                     typeIdentifier.toURI().toString());
             def result = createMap(session,typeResource.getURI().toString());
                 
-            result.builder.populateType(resource);
+            result.__builder.populateData(resource);
             return result
         } catch (Exception ex) {
             log.error("Failed to create the type because : " + ex.getMessage(),ex);
@@ -360,7 +407,7 @@ class RDF {
                                 XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
                             row.add(record.get(Date.class,i))
                         } else {
-                            def rdfResult = create(session,record.getType(i).getURI().toString());
+                            def rdfResult = createOrm(session,record.getType(i).getURI().toString());
                             Resource resource = record.get(Resource.class,i)
                             rdfResult.builder.populateType(resource);
                             row.add(rdfResult)
@@ -384,6 +431,17 @@ class RDF {
      * @param The query string.
      */
     static def executeQuery(String query) {
+        return executeOrmQuery(query)
+    }
+    
+    
+    /**
+     * This method executes a query and returns the results of that query.
+     * 
+     * @return The results of the query.
+     * @param The query string.
+     */
+    static def executeOrmQuery(String query) {
         try {
             Class configClass = null
             try {
@@ -404,10 +462,10 @@ class RDF {
                 
                 for (record in records) {
                     def row = [:]
-                    log.info("The number of columns " + record.size())
+                    log.debug("The number of columns " + record.size())
                 
                     for (columnName in record.getColumns()) {
-                        log.info("Attempt to retrieve the column name [${columnName}]")
+                        log.debug("Attempt to retrieve the column name [${columnName}]")
                         def dataType = record.getType(columnName)
                         def dataTypeURI = dataType.getURI().toString()
                         if (dataTypeURI.equals(
@@ -460,7 +518,7 @@ class RDF {
                                 XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
                             row.put(columnName,record.get(Date.class,columnName))
                         } else {
-                            def rdfResult = create(session,record.getType(columnName).getURI().toString());
+                            def rdfResult = createOrm(session,record.getType(columnName).getURI().toString());
                             Resource resource = record.get(Resource.class,columnName)
                             rdfResult.builder.populateType(resource);
                             row.put(columnName,rdfResult)
@@ -504,10 +562,10 @@ class RDF {
                 
                 for (record in records) {
                     def row = [:]
-                    log.info("The number of columns " + record.size())
+                    log.debug("The number of columns " + record.size())
                 
                     for (columnName in record.getColumns()) {
-                        log.info("Attempt to retrieve the column name [${columnName}]")
+                        log.debug("Attempt to retrieve the column name [${columnName}]")
                         def dataType = record.getType(columnName)
                         def dataTypeURI = dataType.getURI().toString()
                         if (dataTypeURI.equals(
@@ -562,7 +620,7 @@ class RDF {
                         } else {
                             def rdfResult = createMap(session,record.getType(columnName).getURI().toString());
                             Resource resource = record.get(Resource.class,columnName)
-                            rdfResult.builder.populateType(resource);
+                            rdfResult.__builder.populateData(resource);
                             row.put(columnName,rdfResult)
                         }
                     }
@@ -575,6 +633,7 @@ class RDF {
             throw ex;
         }
     }
+    
     
     /**
      * This method executes a query and returns the results of that query.
@@ -764,7 +823,6 @@ class RDF {
     }
     
     
-    
     /**
      * This method executes a query and returns the results of that query.
      * 
@@ -772,6 +830,17 @@ class RDF {
      * @param The query string.
      */
     static def executeQueryXML(String xml, String query) {
+        return executeOrmQueryXML(xml, query);
+    }
+    
+    
+    /**
+     * This method executes a query and returns the results of that query.
+     * 
+     * @return The results of the query.
+     * @param The query string.
+     */
+    static def executeOrmQueryXML(String xml, String query) {
         try {
             Session session = XMLSemanticUtil.getSession()
             session.persist(xml)
@@ -781,10 +850,10 @@ class RDF {
                 
                 for (record in records) {
                     def row = [:]
-                    log.info("The number of columns " + record.size())
+                    log.debug("The number of columns " + record.size())
                 
                     for (columnName in record.getColumns()) {
-                        log.info("Attempt to retrieve the column name [${columnName}]")
+                        log.debug("Attempt to retrieve the column name [${columnName}]")
                         def dataType = record.getType(columnName)
                         def dataTypeURI = dataType.getURI().toString()
                         if (dataTypeURI.equals(
@@ -837,9 +906,99 @@ class RDF {
                                 XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
                             row.put(columnName,record.get(Date.class,columnName))
                         } else {
-                            def rdfResult = create(session,record.getType(columnName).getURI().toString());
+                            def rdfResult = createOrm(session,record.getType(columnName).getURI().toString());
                             Resource resource = record.get(Resource.class,columnName)
                             rdfResult.builder.populateType(resource);
+                            row.put(columnName,rdfResult)
+                        }
+                    }
+                    result.add(row)
+                }
+            }
+            return result
+        } catch (Exception ex) {
+            log.error("Failed to perform the query because : " + ex.getMessage(),ex);
+            throw ex;
+        }
+    }
+    
+    
+    
+    /**
+     * This method executes a query and returns the results of that query.
+     * 
+     * @return The results of the query.
+     * @param The query string.
+     */
+    static def executeMapQueryXML(String xml, String query) {
+        try {
+            Session session = XMLSemanticUtil.getSession()
+            session.persist(xml)
+            def records = session.createSPARQLQuery(query).execute()
+            def result = []
+            if (records.size() > 0) {
+                
+                for (record in records) {
+                    def row = [:]
+                    log.debug("The number of columns " + record.size())
+                
+                    for (columnName in record.getColumns()) {
+                        log.debug("Attempt to retrieve the column name [${columnName}]")
+                        def dataType = record.getType(columnName)
+                        def dataTypeURI = dataType.getURI().toString()
+                        if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_STRING).getURI().toString())) {
+                            row.put(columnName,record.get(String.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_BOOLEAN).getURI().toString())) {
+                            row.put(columnName,record.get(Boolean.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_FLOAT).getURI().toString())) {
+                            row.put(columnName,record.get(Float.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
+                            row.put(columnName,record.get(Double.class,columnName))
+                        } /*else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                            typeInstance."${propertyName}" = resource.getProperty(Double.class,
+                                classProperty.getURI().toString())
+                        } */else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
+                            row.put(columnName,record.get(Integer.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_LONG).getURI().toString())) {
+                            row.put(columnName,record.get(Long.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_INT).getURI().toString())) {
+                            row.put(columnName,record.get(Integer.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_SHORT).getURI().toString())) {
+                            row.put(columnName,record.get(Short.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_BYTE).getURI().toString())) {
+                            row.put(columnName,record.get(Byte.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DATE).getURI().toString())) {
+                            row.put(columnName,record.get(Date.class,columnName))
+                        } else if (dataTypeURI.equals(
+                                XSDDataDictionary.getTypeByName(
+                                XSDDataDictionary.XSD_DATE_TIME).getURI().toString())) {
+                            row.put(columnName,record.get(Date.class,columnName))
+                        } else {
+                            def rdfResult = createMap(session,record.getType(columnName).getURI().toString());
+                            Resource resource = record.get(Resource.class,columnName)
+                            rdfResult.__builder.populateData(resource);
                             row.put(columnName,rdfResult)
                         }
                     }

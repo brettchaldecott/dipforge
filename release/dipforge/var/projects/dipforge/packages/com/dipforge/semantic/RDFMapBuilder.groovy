@@ -89,9 +89,7 @@ class RDFMapBuilder {
             def propertyName = classProperty.getLocalname()
             if (dataMap."${propertyName}" == null) {
                 if (dataMap?."${propertyName}classProperty" != null) {
-                    dataMap.builder.onDemandPopulate(
-                                dataMap."${propertyName}classResource", 
-                                dataMap."${propertyName}classProperty");
+                    dataMap.__builder.onDemandPopulate(propertyName);
                     if (dataMap."${propertyName}" == null) {
                         continue;
                     }
@@ -216,7 +214,7 @@ class RDFMapBuilder {
                             (Resource)dataMap."${propertyName}".__builder.processResource(session))
                     } else {
                         def value = dataMap."${propertyName}"
-                        log.info("The property is ${propertyName} the value is [${value}]")
+                        log.debug("The property is ${propertyName} the value is [${value}]")
                         if (dataMap."${propertyName}" != null) {
                             resource.addProperty(classProperty.getURI().toString(),
                                 session.createResource(
@@ -316,7 +314,7 @@ class RDFMapBuilder {
                     if (properties.size() == 1) {
                         if (dataMap."${propertyName}" == null) {
                             dataMap."${propertyName}" = 
-                                RDF.create(classProperty.getType().getURI().toString())
+                                RDF.createMap(classProperty.getType().getURI().toString())
                         }
                         dataMap."${propertyName}".__builder.populateData(
                             resource.getProperty(Resource.class,
@@ -324,7 +322,7 @@ class RDFMapBuilder {
                     } else if (properties.size() > 1) {
                         dataMap."${propertyName}" = []
                         for (def prop : properties) {
-                            def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
+                            def arrayInstance = RDF.createMap(classProperty.getType().getURI().toString())
                             arrayInstance.__builder.populateData(prop.get(Resource.class));
                             dataMap."${propertyName}".add(arrayInstance)
                         }
@@ -361,13 +359,13 @@ class RDFMapBuilder {
         def classProperty = dataMap."${propertyName}classProperty"
         
         
-        log.info("############### The on demand load : "
+        log.debug("############### The on demand load : "
             + properties.size())
         def properties = resource.listProperties(classProperty.getURI().toString())
         if (properties.size() == 1) {
             if (dataMap."${propertyName}" == null) {
                 dataMap."${propertyName}" = 
-                    RDF.create(classProperty.getType().getURI().toString())
+                    RDF.createMap(classProperty.getType().getURI().toString())
             }
             dataMap."${propertyName}".__builder.populateData(
                 resource.getProperty(Resource.class,
@@ -375,7 +373,7 @@ class RDFMapBuilder {
         } else if (properties.size() > 1) {
             typeInstance."${propertyName}" = []
             for (def prop : properties) {
-                def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
+                def arrayInstance = RDF.createMap(classProperty.getType().getURI().toString())
                 arrayInstance.__builder.populateData(prop.get(Resource.class));
                 dataMap."${propertyName}".add(arrayInstance)
             }
@@ -452,7 +450,7 @@ class RDFMapBuilder {
             } else {
                 if (classProperty.hasRange()) {
                     dataMap."${propertyName}" = 
-                        RDF.create(classProperty.getType().getURI().toString())
+                        RDF.createMap(classProperty.getType().getURI().toString())
                 } else {
                     dataMap."${propertyName}" = null
                 }

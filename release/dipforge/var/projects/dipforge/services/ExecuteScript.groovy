@@ -24,6 +24,7 @@
 import com.dipforge.semantic.RDF;
 import com.rift.coad.change.request.RequestData;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
+import java.util.Map;
  
 def className = method.getClassName()
 def methodName = method.getMethodName()
@@ -33,7 +34,11 @@ for (int index = 0; index < parameters.size(); index++) {
     def param = parameters.get(index)
     def name = method.getParameters().get(index).getName()
     if (param instanceof RequestData) {
-        param = RDF.getFromXML(param.getData(), param.getDataType() + "/" + param.getId())
+        if (methodName.endsWith("Map")) {
+            param = RDF.getMapFromXML(param.getData(), param.getDataType() + "/" + param.getId())
+        } else {
+            param = RDF.getOrmFromXML(param.getData(), param.getDataType() + "/" + param.getId())
+        }
     }
     params.add(param)
 }
@@ -43,8 +48,13 @@ def result = objectRef."${methodName}"( *params )
 
 if (!(method.getReturnType() == null || 
         XSDDataDictionary.isBasicTypeByURI(method.getReturnType()))) {
-    result = new RequestData(result.getId(), result.builder.classDef.getURI().toString(),
-                result.toXML(), result.builder.classDef.getLocalName())
+    if (result instanceof Map) {
+        result = new RequestData(result.id, result.__builder.classDef.getURI().toString(),
+                    result.__builder.toXML(), result.__builder.classDef.getLocalName())
+    } else {
+        result = new RequestData(result.getId(), result.builder.classDef.getURI().toString(),
+                    result.toXML(), result.builder.classDef.getLocalName())
+    }
 }
 
 out = result

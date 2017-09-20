@@ -335,7 +335,7 @@ class RDFTypeBuilder {
                     if (properties.size() == 1) {
                         if (typeInstance."${propertyName}" == null) {
                             typeInstance."${propertyName}" = 
-                                RDF.create(classProperty.getType().getURI().toString())
+                                RDF.createOrm(classProperty.getType().getURI().toString())
                         }
                         typeInstance."${propertyName}".builder.populateType(
                             resource.getProperty(Resource.class,
@@ -343,7 +343,7 @@ class RDFTypeBuilder {
                     } else if (properties.size() > 1) {
                         typeInstance."${propertyName}" = []
                         for (def prop : properties) {
-                            def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
+                            def arrayInstance = RDF.createOrm(classProperty.getType().getURI().toString())
                             arrayInstance.builder.populateType(prop.get(Resource.class));
                             typeInstance."${propertyName}".add(arrayInstance)
                         }
@@ -385,7 +385,7 @@ class RDFTypeBuilder {
         if (properties.size() == 1) {
             if (typeInstance."${propertyName}" == null) {
                 typeInstance."${propertyName}" = 
-                    RDF.create(classProperty.getType().getURI().toString())
+                    RDF.createOrm(classProperty.getType().getURI().toString())
             }
             typeInstance."${propertyName}".builder.populateType(
                 resource.getProperty(Resource.class,
@@ -393,7 +393,7 @@ class RDFTypeBuilder {
         } else if (properties.size() > 1) {
             typeInstance."${propertyName}" = []
             for (def prop : properties) {
-                def arrayInstance = RDF.create(classProperty.getType().getURI().toString())
+                def arrayInstance = RDF.createOrm(classProperty.getType().getURI().toString())
                 arrayInstance.builder.populateType(prop.get(Resource.class));
                 typeInstance."${propertyName}".add(arrayInstance)
             }
@@ -468,7 +468,7 @@ class RDFTypeBuilder {
             } else {
                 if (classProperty.hasRange()) {
                     typeInstance."${propertyName}" = 
-                        RDF.create(classProperty.getType().getURI().toString())
+                        RDF.createOrm(classProperty.getType().getURI().toString())
                 } else {
                     typeInstance."${propertyName}" = null
                 }
