@@ -56,19 +56,23 @@ if [ `uname` == 'Linux' ]; then
    else
       echo "The ulimit is already set to ulimited"
    fi
+   JAVA_OPTS="$JAVA_OPTS -Xms2048M"
    JAVA_OPTS="$JAVA_OPTS -Xmx2048M"
 elif [ `uname` == 'SunOS' ]; then
    echo "Configuring the soft and hard ulimit on Solaris"
    ulimit -Sn 10000
    ulimit -Hn 15000
    JAVA_OPTS="$JAVA_OPTS -d64"
+   JAVA_OPTS="$JAVA_OPTS -Xms2048M"
    JAVA_OPTS="$JAVA_OPTS -Xmx2048M"
 elif [ `uname` == 'Darwin' ]; then
    echo "Configuring the soft and hard ulimit on Darwin"
    ulimit -n 10000
+   JAVA_OPTS="$JAVA_OPTS -Xms2048M"
    JAVA_OPTS="$JAVA_OPTS -Xmx2048M"
 else
    echo "Unknown system type file limit not configured"
+   JAVA_OPTS="$JAVA_OPTS -Xms2048M"
    JAVA_OPTS="$JAVA_OPTS -Xmx2048M"
 fi
 
