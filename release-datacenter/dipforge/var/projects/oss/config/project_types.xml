@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : project_types.xml
+    Created on : Wed May 30 14:45:58 SAST 2012
+    Author     : brett chaldecott
+    Description:
+        The types within the [oss] project
+-->
+
+<types project="oss">
+    
+    
+    
+    <type name="Domain" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="tld" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+    </type>
+    
+    <type name="Mail" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <link name="domain" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain"/>
+    </type>
+    
+    <type name="Web" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Web">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <link name="domain" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain"/>
+    </type>
+    
+    <type name="User" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="username" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="email" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="password" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="userType" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="principals" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+    </type>
+    
+    <type name="Desktop" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <link name="user" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+    </type>
+    
+    <type name="DesktopApplication" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/DesktopApplication">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="url" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="principal" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <link name="desktop" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Desktop#Desktop"/>
+        <link name="user" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+    </type>
+    
+    
+</types>
+

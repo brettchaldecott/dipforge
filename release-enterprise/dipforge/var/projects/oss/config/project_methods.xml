@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : method_mappings.xml
+    Created on : Wed May 30 14:45:58 SAST 2012
+    Author     : admin
+    Description:
+        The types within the [oss] project
+-->
+
+<mapping>
+    <jndi name="groovy/DataMapper" service="oss">
+        <project name="oss">
+            <method class="com.dipforge.user.CreateUser" name="createNewUser" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+            </method>
+            <method class="com.dipforge.user.UpdateUser" name="updateTheUser" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+            </method>
+            <method class="com.dipforge.user.RemoveUser" name="removeTheUser" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+            </method>
+            <method class="com.dipforge.user.AddUserPrincipal" name="addNewPrincipal" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+                <parameter name="principal" type="http://www.w3.org/2001/XMLSchema#string"/>
+            </method>
+            <method class="com.dipforge.user.RemoveUserPrincipal" name="removePrincipal" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="User" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/User#User"/>
+                <parameter name="principal" type="http://www.w3.org/2001/XMLSchema#string"/>
+            </method>
+            <method class="com.dipforge.domain.CreateDomain" name="createDomain" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="Domain" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Domain#Domain"/>
+            </method>
+            <method class="com.dipforge.domain.CreateMailDomain" name="createMailDomain" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="Mail" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail"/>
+            </method>
+            <method class="com.dipforge.mail.CreateMail" name="createMail" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="Mail" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Mail#Mail"/>
+            </method>
+            <method class="com.dipforge.web.CreateWeb" name="createWeb" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="Web" type="http://dipforge.sourceforge.net/schema/rdf/1.0/oss/Web#Web"/>
+            </method>
+        </project>
+    </jndi>
+</mapping>
+

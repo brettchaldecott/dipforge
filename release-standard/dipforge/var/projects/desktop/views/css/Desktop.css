@@ -1,0 +1,23 @@
+
+.body {
+    background-image: url('../images/bg/seamless2.jpg');
+}
+
+.horizontal-seperator {
+	border-bottom-color: grey;
+	border-bottom-style:solid;
+	border-bottom-width: 1px;
+}
+
+
+.dipforge-icon {
+    background-image: url('../favicon.ico');
+}
+
+
+.dipforge-logo {
+    background-image: url('../images/logo/dipforge-log-32by32.png');
+    background-size:32px 32px;
+    background-repeat:transparent no-repeat right center;
+    display: block;
+}

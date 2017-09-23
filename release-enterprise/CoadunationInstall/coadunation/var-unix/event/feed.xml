@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : FeedConfig.xml
+    Created on : 29 October 2008, 6:20 AM
+    Author     : brett
+    Description:
+        Purpose of the document follows.
+-->
+<FeedConfig>
+    <Desktop name="Desk 1">
+        <identifier name="overview"/>
+        <identifier name="news"/>
+        <identifier name="environment"/>        
+    </Desktop>
+    <Desktop name="Desk 2">
+        <identifier name="overview"/>
+        <identifier name="news"/>
+        <identifier name="environment"/>        
+    </Desktop>
+    <Desktop name="Desk 3">
+        <identifier name="overview"/>
+        <identifier name="news"/>
+        <identifier name="environment"/>        
+    </Desktop>
+    <Desktop name="Desk 4">
+        <identifier name="overview"/>
+        <identifier name="news"/>
+        <identifier name="environment"/>        
+    </Desktop>
+    <Desktop name="Desk 5">
+        <identifier name="overview"/>
+        <identifier name="news"/>
+        <identifier name="environment"/>        
+    </Desktop>
+    <Desktop name="Desk 6">
+        <identifier name="overview"/>
+        <identifier name="news"/>
+        <identifier name="environment"/>        
+    </Desktop>
+    
+    <Feed name="overview">
+    </Feed>
+    
+    <Feed name="news">
+        <filter meta-data="x-application" name="BBC News"/>
+        <filter meta-data="x-application" name="CNN News"/>
+        <filter meta-data="x-application" name="Sky News"/>
+    </Feed>
+    
+    <Feed name="environment">
+        <filter meta-data="x-application" name="File Manager"/>
+        <filter meta-data="x-application" name="Hudson"/>
+        <filter meta-data="x-application" name="Web Mail"/>
+        <filter meta-data="x-application" name="Jam Wiki"/>
+    </Feed>
+
+</FeedConfig>

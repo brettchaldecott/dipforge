@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : project_types.xml
+    Created on : Mon May 28 10:15:57 SAST 2012
+    Author     : Brett Chaldecott
+    Description:
+        The types within the [bss] project
+-->
+
+<types project="bss">
+    <type name="Organisation" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="code" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="role" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+    </type>
+    <type name="Person" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="firstname" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="surname" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="role" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+    </type>
+    <type name="Contact" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="value" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="type" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="status" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <link name="person" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="modified" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+    </type>
+    <type name="Country" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    <type name="Address" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="type" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="street1" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="street2" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="city" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="state" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="country" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country"/>
+        <property name="code" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <link name="person" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    </type>
+    <type name="Relationship" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="type" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <link name="person" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+        <link name="customer" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    </type>
+    
+    <!-- The category type information -->
+    <type name="Category" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    
+    <!-- The vendor type information -->
+    <type name="Vendor" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    
+    <!-- The product type information -->
+    <type name="ProductConfigManager" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="url" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    <type name="Product" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="dataType" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="category" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+        <link name="vendor" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="dependency" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="configurationManager" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+    </type>
+    
+    <!-- The package type information -->
+    <type name="ProductConfig" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+        <property name="data" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    <type name="Pckg" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="target" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+        <link name="pckgTarget" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+        <property name="products" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
+    </type>
+    
+    <!-- The catalog type information -->
+    <type name="CatalogEntry" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="catalogId" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="children" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    </type>
+    <type name="Catalog" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <link name="entries" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    </type>
+    
+    <!-- The offering type information -->
+    <type name="Cost" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="lineItem" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="type" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="amount" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+        <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    </type>
+    <type name="Offering" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="thumbnail" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="pckg" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+        <link name="catalog" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <property name="costs" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+        <property name="created" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="status" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    
+    <type name="OrganisationOffering" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="offering" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <property name="installed" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="status" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+    
+    <type name="OrganisationOfferingComponent" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="product" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+        <property name="uri" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisationOffering" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+    </type>
+    
+    <type name="Statement" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <property name="start" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="end" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="total" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+    </type>
+    
+    <type name="StatementEntry" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="statement" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+        <property name="date" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="description" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="offering" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+        <link name="offeringComponent" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+        <property name="value" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+    </type>
+    
+    <type name="Invoice" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="organisation" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+        <link name="statement" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+        <property name="date" datatype="http://www.w3.org/2001/XMLSchema#date"/>
+        <property name="total" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+    </type>
+    
+    <type name="InvoiceEntry" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <link name="invoice" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+        <link name="statementEntry" datatype="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    </type>
+    
+    
+</types>
+

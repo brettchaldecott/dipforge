@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>User preferences</comment>
+<entry key="draftFolder">Drafts</entry>
+<entry key="messagesPerPage">10</entry>
+<entry key="sentFolder">Sent Messages</entry>
+<entry key="trashFolder">Deleted Messages</entry>
+<entry key="messageFormat">HTML</entry>
+<entry key="messageOrder">New First</entry>
+<entry key="pollingInterval">Never</entry>
+</properties>

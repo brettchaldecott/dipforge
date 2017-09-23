@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : project_types.xml
+    Created on : Wed Oct 26 18:54:47 SAST 2011
+    Author     : admin
+    Description:
+        The types within the [desktop] project
+-->
+
+<types project="desktop">
+    <type name="Application" namespace="http://dipforge.sourceforge.net/schema/rdf/1.0/desktop/Application">
+        <property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="name" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="username" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="userUrl" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="appUrl" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="icon" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="role" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+    </type>
+</types>
+

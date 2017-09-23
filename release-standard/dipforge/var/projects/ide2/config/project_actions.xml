@@ -1,0 +1,16 @@
+<!--
+    Document   : project_types.xml
+    Created on : Fri May 12 08:41:40 UTC 2017
+    Author     : admin
+    Description:
+        The actions within the [ide2] project
+-->
+
+<actions project="ide2">
+
+    <!--
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    -->
+
+</actions>

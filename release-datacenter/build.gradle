@@ -1,0 +1,811 @@
+apply plugin: 'maven'
+apply plugin: 'announce'
+apply plugin: 'maven-publish'
+
+import org.apache.tools.ant.filters.ReplaceTokens
+import groovy.json.*
+
+//libsDirName="."
+project.ext.version=version
+//sourceCompatibility=1.8
+//targetCompatibility=1.8
+project.ext.javaHome = getJavaHomeVar()
+project.ext.dipforgeHome = "${projectDir}/dipforge/".toString()
+
+
+task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
+	":libs:CoadunationAnnotations:build",":libs:CoadunationClient:build",
+	":libs:CoadunationSecurity:build",":libs:CoadunationCommon:build",
+	":libs:CoadunationLib:build",":libs:CoadunationHibernate:build",
+	":auth:CoadunationRDBAuth:build",":client:DeploymentDaemonClient:build",
+	":client:DesktopServerClient:build",":client:DNSServerClient:build",
+	":client:MessageServiceClient:build",":libs:CoadunationUtil:build",
+	":client:EmailServerClient:build",":client:EventServerClient:build",
+	":client:HsqlDBEngineClient:build",":client:RDBUserManagerClient:build",
+	":client:RSSReaderClient:build",":client:ServiceBrokerClient:build",
+	":client:ServiceBrokerClient:build",":client:TimerClient:build",
+	":client:ChangeControlClient:build",":client:RequestBrokerClient:build",
+	":client:TomcatClient:build",":cli:DeploymentDaemonCommandLineTool:build",
+	":cli:MessageServiceCommandLineTool:build",":cli:ServiceBrokerCommandLineTool:build",
+	":cli:TimerCommandLineTool:build",
+	":utils:CoadunationUtil:build",":daemon:0005-DNSServer:build",
+	":daemon:0010-HsqlDBEngineDaemon:build",":daemon:0020-RDBUserManager:build",
+	":daemon:0040-MessageService:build",":daemon:0045-EmailServer:build",
+	":daemon:0050-DesktopServer:build",":daemon:0050-EventServer:build",
+	":daemon:0050-Timer:build", ":daemon:0060-Tomcat:build",
+	":daemon:0101-DeploymentDaemon:build",":daemon:0102-RSSReader:build",
+	":web:CoadunationAdmin:build",":web:FileManager:build",
+	":rdf:SchemaUtils:build", ":web:SchemaStore:build",
+	":rdf:Semantics:build",":rdf:CoadunationSemantics:build",
+	":rdf:CommonTypes:build",":client:AuditTrail:build",
+	":rdf:ChangeControlRDF:build",":rdf:RequestBrokerRDF:build",
+	":daemon:0100-AuditTrailServer:build",":daemon:0150-CoadunationTypeManager:build",
+	":daemon:0057-MasterRDFStore:build",
+	":daemon:0170-ChangeManager:build", ":web:lib:CoadunationGWTLibrary:build",
+	":daemon:0180-RequestBroker:build",
+	":web:lib:WebLibs:build", ":web:lib:AuditTrailGWT:build",
+	":web:AuditTrailConsole:release",
+	":libs:GroovyServletBootStrap:build",":libs:GroovyLib:build",
+	":client:GroovyDaemonClient:build", ":daemon:0140-GroovyDaemon:build",
+	":client:DataMapperBroker:build", ":daemon:0160-DataMapperBroker:build",
+	":client:ProjectClient:build",":daemon:0200-ProjectManager:build",
+        ":client:RDFMasterStoreClient:build", ":client:RDFStoreClient:build",
+        ":client:RSSReaderClient:build", ":client:ServiceBrokerClient:build",
+        ":client:TimerClient:build", ":client:TomcatClient:build",
+        ":client:TomcatClient:build", ":client:GroovyDaemonClient:build",
+        ":client:RequestBrokerClient:build", ":client:ChangeControlClient:build"]) << {
+
+}
+
+
+
+configurations {
+    releaseSbin
+    releaseLibs
+    releaseClients
+    releaseBin
+    releaseDaemon
+    releaseWeb
+    releaseEAR
+    releaseTools
+    releaseRDFClients
+    releaseExtractWeb
+    releaseGroovyLib
+    releaseRDFTypeGenerator
+    releaseRDFTypeTargets
+    compile
+}
+
+task compile {
+}
+
+task copyToSbin(type: Copy) {
+    into "dipforge/sbin/"
+    from configurations.releaseSbin
+}
+
+task copyToLib(type: Copy) {
+    into "dipforge/lib/"
+    from configurations.releaseLibs
+    exclude "**/*CoadunationBase*"
+    exclude "**/*CoadunationUtil*"
+    exclude "**/*CoadunationHibernate*"
+    exclude "**/*hibernate*"
+}
+
+task copyToClient(type: Copy) {
+    into "dipforge/clientlib/"
+    from configurations.releaseClients
+}
+task copyToRDFClient(type: Copy) {
+    into "dipforge/clientlib/rdf/"
+    from configurations.releaseRDFClients
+}
+
+task copyToDaemon(type: Copy) {
+    into "dipforge/deploy/"
+    from configurations.releaseDaemon
+    include "**/0*" + project.ext.version + ".jar"
+    include "**/1*" + project.ext.version + ".jar"
+}
+
+task copyWarToDaemon(type: Copy) {
+    into "dipforge/deploy/"
+    from configurations.releaseWeb
+    include "**/*" + project.ext.version + ".war"
+}
+
+task copyEarToDaemon(type: Copy) {
+    into "dipforge/deploy/"
+    from configurations.releaseEAR
+    include "**/*" + project.ext.version + ".ear"
+}
+
+release.doLast {
+    ant.unzip(
+        src: "$projectDir/../web/SchemaStore/build/SchemaStore-${project.ext.version}.war" , 
+        dest: "$projectDir/dipforge/var/tomcat/webapps/schema")
+    ant {
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationCommon")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationCommon"){
+            fileset(dir: "../libs/CoadunationCommon/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationHibernate")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationHibernate"){
+            fileset(dir: "../libs/CoadunationHibernate/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationLib")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationLib"){
+            fileset(dir: "../libs/CoadunationLib/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationUtil")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationUtil"){
+            fileset(dir: "../libs/CoadunationUtil/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/Semantics")
+        copy(todir: "dipforge/var/projects/documentation/views/Semantics"){
+            fileset(dir: "../rdf/Semantics/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationSemantics")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationSemantics"){
+            fileset(dir: "../rdf/CoadunationSemantics/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/SchemaUtils")
+        copy(todir: "dipforge/var/projects/documentation/views/SchemaUtils"){
+            fileset(dir: "../rdf/SchemaUtils/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/AuditTrail")
+        copy(todir: "dipforge/var/projects/documentation/views/AuditTrail"){
+            fileset(dir: "../client/AuditTrail/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationTypeManager")
+        copy(todir: "dipforge/var/projects/documentation/views/CoadunationTypeManager"){
+            fileset(dir: "../client/CoadunationTypeManager/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DeploymentDaemonClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DeploymentDaemonClient"){
+            fileset(dir: "../client/DeploymentDaemonClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DesktopServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DesktopServerClient"){
+            fileset(dir: "../client/DesktopServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/DNSServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/DNSServerClient"){
+            fileset(dir: "../client/DNSServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/EmailServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/EmailServerClient"){
+            fileset(dir: "../client/EmailServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/EventServerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/EventServerClient"){
+            fileset(dir: "../client/EventServerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/HsqlDBEngineClient")
+        copy(todir: "dipforge/var/projects/documentation/views/HsqlDBEngineClient"){
+            fileset(dir: "../client/HsqlDBEngineClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/MessageServiceClient")
+        copy(todir: "dipforge/var/projects/documentation/views/MessageServiceClient"){
+            fileset(dir: "../client/MessageServiceClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ProjectClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ProjectClient"){
+            fileset(dir: "../client/ProjectClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RDBUserManagerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RDBUserManagerClient"){
+            fileset(dir: "../client/RDBUserManagerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RDFMasterStoreClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RDFMasterStoreClient"){
+            fileset(dir: "../client/RDFMasterStoreClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RDFStoreClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RDFStoreClient"){
+            fileset(dir: "../client/RDFStoreClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RSSReaderClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RSSReaderClient"){
+            fileset(dir: "../client/RSSReaderClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ServiceBrokerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ServiceBrokerClient"){
+            fileset(dir: "../client/ServiceBrokerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/TimerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/TimerClient"){
+            fileset(dir: "../client/TimerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/TomcatClient")
+        copy(todir: "dipforge/var/projects/documentation/views/TomcatClient"){
+            fileset(dir: "../client/TomcatClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/GroovyDaemonClient")
+        copy(todir: "dipforge/var/projects/documentation/views/GroovyDaemonClient"){
+            fileset(dir: "../client/GroovyDaemonClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/RequestBrokerClient")
+        copy(todir: "dipforge/var/projects/documentation/views/RequestBrokerClient"){
+            fileset(dir: "../client/RequestBrokerClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/ChangeControlClient")
+        copy(todir: "dipforge/var/projects/documentation/views/ChangeControlClient"){
+            fileset(dir: "../client/ChangeControlClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/flow/tmp")
+    }
+    // generate the types
+    ant {
+        java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
+            classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
+            args: "generator ${projectDir}/dipforge/var/semantics/types/LogEntry.xml com.rift.coad.audit.dao.LogEntryDAO")
+        java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
+            classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
+            args: "generator ${projectDir}/dipforge/var/semantics/types/CommonTypes.xml com.rift.coad.rdf.types.network.Host com.rift.coad.rdf.types.network.Service com.rift.coad.rdf.types.operation.User com.rift.coad.rdf.types.mapping.MethodMapping com.rift.coad.rdf.types.mapping.ParameterMapping")
+        java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
+            classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
+            args: "generator ${projectDir}/dipforge/var/semantics/types/ChangeControl.xml com.rift.coad.change.rdf.RequestDataRDF com.rift.coad.change.rdf.RequestEventRDF com.rift.coad.change.rdf.RequestRDF com.rift.coad.change.rdf.ActionInfoRDF com.rift.coad.change.rdf.ActionInstanceInfoRDF com.rift.coad.change.rdf.MasterRequestRDF")
+        java(classname: 'com.rift.coad.rdf.semantic.jdo.generator.GeneratorRunner', fork: false,
+            classpath: "${configurations.releaseRDFTypeGenerator.asPath};${configurations.releaseRDFTypeTargets.asPath}",
+            args: "generator ${projectDir}/dipforge/var/semantics/types/Request.xml com.rift.coad.request.rdf.RequestActionInfoRDF com.rift.coad.request.rdf.RequestInfoRDF")
+    }
+    //announce("Release complete", "notify-send")
+}
+
+// copy the tools
+task copyToTools(type: Copy) {
+    into "dipforge/tools/"
+    from configurations.releaseTools
+    include "**/*CommandLine*" + project.ext.version + ".jar"
+}
+
+// copy the template files
+task copyBinTemplate(type: Copy) {
+    from "${projectDir}/template/bin/"
+    into "${projectDir}/dipforge/bin/"
+    fileMode=0755
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version, hostname: InetAddress.getLocalHost().getHostName(), java_home: project.ext.javaHome, ADMIN_PASSWORD: "admin", recursive_lookup: "true"] )
+}
+
+task copyEtcTemplate(type: Copy) {
+    from "${projectDir}/template/etc/"
+    into "${projectDir}/dipforge/etc/"
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName(), ADMIN_PASSWORD: "admin", recursive_lookup: "true"] )
+}
+
+task copyVarTemplate(type: Copy) {
+    from "${projectDir}/template/var/"
+    into "${projectDir}/dipforge/var/"
+    filter(ReplaceTokens, tokens:[dipforge_home: project.ext.dipforgeHome, dipforge_version: project.ext.version,java_home: project.ext.javaHome, hostname: InetAddress.getLocalHost().getHostName(), ADMIN_PASSWORD: "admin", recursive_lookup: "true"] )
+}
+
+task copyTemplates(dependsOn:[copyBinTemplate,copyEtcTemplate,copyVarTemplate]) {
+}
+
+// copy the resource files
+task copyBinResource(type: Copy) {
+    from "${projectDir}/template/bin/"
+    into "${projectDir}/resource/bin/"
+    fileMode=0755
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD", recursive_lookup: "true"] )
+}
+
+task copyEtcResource(type: Copy) {
+    from "${projectDir}/template/etc/"
+    into "${projectDir}/resource/etc/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD", recursive_lookup: "true"] )
+}
+
+task copyVarResource(type: Copy) {
+    from "${projectDir}/template/var/"
+    into "${projectDir}/resource/var/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "\$INSTALL_PATH", dipforge_version: "\$APP_VER", hostname: "\$HOST_NAME", java_home: "\$jdkPath", ADMIN_PASSWORD: "\$ADMIN_PASSWORD", recursive_lookup: "true"] )
+}
+
+task copyResource(dependsOn:[copyBinResource,copyEtcResource,copyVarResource]) {
+}
+
+// copy the resource files
+task copyBinGenerator(type: Copy) {
+    from "${projectDir}/template/bin/"
+    into "${projectDir}/generator/bin/"
+    fileMode=0755
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>", recursive_lookup: "<%= recursive_lookup %>"] )
+}
+
+task copyEtcGenerator(type: Copy) {
+    from "${projectDir}/template/etc/"
+    into "${projectDir}/generator/etc/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>", recursive_lookup: "<%= recursive_lookup %>"] )
+}
+
+task copyVarGenerator(type: Copy) {
+    from "${projectDir}/template/var/"
+    into "${projectDir}/generator/var/"
+    filter(ReplaceTokens, tokens:[dipforge_home: "<%= dipforge_home %>", dipforge_version: project.ext.version, hostname: "<%= HOST_NAME %>", java_home: "<%= JAVA_HOME %>", ADMIN_PASSWORD: "<%= ADMIN_PASSWORD %>", recursive_lookup: "<%= recursive_lookup %>"] )
+}
+
+task copyGenerator(dependsOn:[copyBinGenerator,copyEtcGenerator,copyVarGenerator]) {
+}
+
+
+
+// copy web manager to compat
+task copyWebManagerToTomcat(type: Copy) {
+    into "${projectDir}/dipforge/var/tomcat/webapps/manager"
+    from "${projectDir}/template/web/manager"
+}
+
+
+task copyToGroovyLib(type: Copy) {
+    into "dipforge/var/groovylib/"
+    from configurations.releaseGroovyLib
+    exclude "**/*servlet-api*"
+    exclude "**/*groovy-all-1.7.2*"
+}
+
+
+
+clean {
+    ant {
+        delete {
+            fileset(dir: "dipforge"){
+                include(name: "**/*.war")
+                include(name: "**/*.jar")
+                include(name: "**/*.ear")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/tomcat/webapps"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/tomcat/conf/Coadunation"){
+                include(name: "**/*.xml")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/tomcat/conf/ear"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/tomcat/conf"){
+                include(name: "**/*.properties")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/tomcat/work"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/bin"){
+                include(name: "**/*.bat")
+                include(name: "**/*.sh")
+                include(name: "**/*.conf")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/etc"){
+                include(name: "**/config.xml")
+                include(name: "**/users.xml")
+                include(name: "**/*.policy")
+                include(name: "**/*.properties")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/log"){
+                include(name: "**/*.*")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/hsqldb"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/semantics"){
+                include(name: "**/*.ttl")
+                include(name: "**/*.ttl.sdb")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/audit"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/change"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/data_mapper_broker"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/dipforge_web"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/groovy_daemon"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/master_rdf_store"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/semantics/request_broker"){
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/groovylib"){
+                include(name: "**/*.jar")
+            }
+        }
+        delete (includeEmptyDirs:true){
+            fileset(dir: "dipforge/var/projects/documentation/views"){
+                exclude(name: "**/images")
+                exclude(name: "**/index.gsp")
+                exclude(name: "**/content.gsp")
+                exclude(name: "**/navigation.gsp")
+                exclude(name: "**/project.properties")
+                exclude(name: "**/dipForgeLogo_small.png")
+                exclude(name: "**/home.jpg")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/var/semantics/types"){
+                include(name: "**/CommonTypes.xml")
+                include(name: "**/LogEntry.xml")
+                include(name: "**/ChangeControl.xml")
+                include(name: "**/Request.xml")
+            }
+        }
+        delete {
+            fileset (dir: "generator") {
+            }              
+        }
+        delete {
+            fileset (dir: "resource") {
+                exclude(name: "**/install-info/izpack-user-input.xml")
+                exclude(name: "**/install-info/Licence.txt")
+                exclude(name: "**/install-info/README.txt")
+            }              
+        }
+    }
+}
+
+
+dependencies {
+    // compile
+    
+    // release boot strap file
+    releaseSbin project(':libs:CoadunationBase')
+    
+    // release libraries
+    releaseLibs project(':libs:CoadunationClient')
+    releaseClients project(':libs:CoadunationClient')
+    releaseLibs project(':libs:CoadunationSecurity')
+    //releaseLibs project(':libs:CoadunationHibernate')
+    releaseLibs project(':libs:CoadunationUtil')
+    releaseLibs project(':auth:CoadunationRDBAuth')
+    releaseLibs project(':libs:CoadunationLib')
+    releaseLibs group: 'backport-util-concurrent', name: 'backport-util-concurrent', version: '3.1', ext: 'jar'
+    //releaseLibs group: 'org.hibernate', name: 'hibernate-c3p0', version: '3.5.1-Final', ext: 'jar'
+    releaseLibs group: 'commons-cli', name: 'commons-cli', version: '1.0', ext: 'jar'
+    releaseLibs group: 'commons-collections', name: 'commons-collections', version: '3.2.1', ext: 'jar'
+    releaseLibs group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2', ext: 'jar'
+    releaseLibs group: 'commons-discovery', name: 'commons-discovery', version: '0.2', ext: 'jar'
+    releaseLibs group: 'commons-logging', name: 'commons-logging', version: '1.0.4', ext: 'jar'
+    releaseLibs group: 'commons-pool', name: 'commons-pool', version: '1.3', ext: 'jar'
+    releaseLibs group: 'jotm', name: 'jotm', version: '2.0.10', ext: 'jar'
+    //releaseLibs group: 'jotm', name: 'objectweb-datasource', version: '1.0', ext: 'jar'
+    releaseLibs group: 'org.ow2.jotm', name: 'jotm-datasource', version: '2.1.9', ext: 'jar'
+    releaseLibs group: 'javax.resource', name: 'connector-api', version: '1.5', ext: 'jar'
+    releaseLibs group: 'com.sun.jndi', name: 'cosnaming', version: '1.2.1-Local', ext: 'jar'
+    releaseLibs group: 'dom4j', name: 'dom4j', version: '1.6.1', ext: 'jar'
+    releaseLibs group: 'net.sf.ehcache', name: 'ehcache', version: '1.2.3', ext: 'jar'
+    //releaseLibs group: 'org.hibernate', name: 'hibernate-cglib-repack', version: '2.1_3', ext: 'jar'
+    releaseLibs group: 'howl', name: 'howl-logger', version: '0.1.11', ext: 'jar'
+    releaseLibs group: 'org.hsqldb', name: 'hsqldb', version: '2.3.2', ext: 'jar'
+    releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore-nio', version: '4.3.3', ext: 'jar'
+    releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.3.3', ext: 'jar'
+    releaseLibs group: 'org.objectweb.carol', name: 'carol', version: '2.2.10', ext: 'jar'
+    releaseLibs group: 'org.objectweb.carol', name: 'carol-iiop-delegate', version: '2.2.10', ext: 'jar'
+    releaseLibs group: 'jts', name: 'jts', version: '1.0', ext: 'jar'
+    releaseLibs group: 'avalon', name: 'avalon-logkit', version: '1.2', ext: 'jar'
+    releaseLibs group: 'mysql', name: 'mysql-connector-java', version: '5.1.36', ext: 'jar'
+    releaseLibs group: 'com.sun.jndi', name: 'providerutil', version: '1.2-Local', ext: 'jar'
+    releaseLibs group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21', ext: 'jar'
+    releaseLibs group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21', ext: 'jar'
+    releaseLibs group: 'com.experlog', name: 'xapool', version: '1.6-beta', ext: 'jar'
+    releaseLibs group: 'xstream', name: 'xstream', version: '1.1.3', ext: 'jar'
+    releaseLibs group: 'axis', name: 'axis-saaj', version: '1.4', ext: 'jar'
+    releaseLibs group: 'axis', name: 'axis-jaxrpc', version: '1.4', ext: 'jar'
+    releaseLibs group: 'javassist', name: 'javassist', version: '3.4.GA', ext: 'jar'
+    releaseLibs group: 'org.ow2.carol.irmi', name: 'irmi', version: '1.1.2', ext: 'jar'
+    releaseLibs group: 'antlr', name: 'antlr', version: '2.7.7', ext: 'jar'
+
+    // release clients
+    releaseClients project(':client:DeploymentDaemonClient')
+    releaseClients project(':client:DesktopServerClient')
+    releaseClients project(':client:DNSServerClient')
+    releaseClients project(':client:MessageServiceClient')
+    releaseClients project(':client:EmailServerClient')
+    releaseClients project(':client:EventServerClient')
+    releaseClients project(':client:HsqlDBEngineClient')
+    releaseClients project(':client:RDBUserManagerClient')
+    releaseClients project(':client:RSSReaderClient')
+    releaseClients project(':client:ServiceBrokerClient')
+    releaseClients project(':client:TimerClient')
+    releaseClients project(':client:TomcatClient')
+    releaseClients project(':client:CoadunationTypeManager')
+    releaseClients project(':client:ChangeControlClient')
+    releaseClients project(':client:RequestBrokerClient')
+    releaseClients project(':client:DataMapperBroker')
+    releaseClients project(':client:ProjectClient')
+    releaseClients project(':client:RDFStoreClient')
+    releaseClients project(':client:RDFMasterStoreClient')
+    
+    // release rdf libs
+    releaseRDFClients project(':rdf:SchemaUtils')
+    releaseRDFClients project(':rdf:Semantics')
+    releaseRDFClients project(':rdf:CoadunationSemantics')
+    releaseRDFClients project(':rdf:CommonTypes')
+    
+    // copy to tools
+    releaseTools project(':cli:DeploymentDaemonCommandLineTool')
+    releaseTools project(':cli:MessageServiceCommandLineTool')
+    releaseTools project(':cli:ServiceBrokerCommandLineTool')
+    releaseTools project(':cli:TimerCommandLineTool')
+
+    // release daemons
+    releaseDaemon project(':daemon:0005-DNSServer')
+    releaseDaemon project(':daemon:0010-HsqlDBEngineDaemon')
+    releaseDaemon project(':daemon:0020-RDBUserManager')
+    releaseDaemon project(':daemon:0040-ServiceBroker')
+    releaseDaemon project(':daemon:0040-MessageService')
+    releaseDaemon project(':daemon:0045-EmailServer')
+    releaseDaemon project(':daemon:0050-DesktopServer')
+    releaseDaemon project(':daemon:0050-EventServer')
+    releaseDaemon project(':daemon:0050-Timer')
+//    releaseDaemon project(':daemon:0057-MasterRDFStore')
+    releaseDaemon project(':daemon:0060-Tomcat')
+    releaseDaemon project(':daemon:0101-DeploymentDaemon')
+    releaseDaemon project(':daemon:0102-RSSReader')
+    releaseDaemon project(':daemon:0100-AuditTrailServer')
+    releaseDaemon project(':daemon:0140-GroovyDaemon')
+    releaseDaemon project(':daemon:0150-CoadunationTypeManager')
+    releaseDaemon project(':daemon:0160-DataMapperBroker')
+    releaseDaemon project(':daemon:0170-ChangeManager')
+    releaseDaemon project(':daemon:0180-RequestBroker')
+    releaseDaemon project(':daemon:0200-ProjectManager')
+    
+    // release web
+    releaseWeb project(':web:CoadunationAdmin')
+//    releaseWeb project(':web:CoadunationDesktop')
+    releaseWeb project(':web:FileManager')
+    releaseWeb project(':web:AuditTrailConsole')
+//    releaseWeb project(':web:CoadunationTypeManagerConsole')
+    releaseWeb project(':web:DipforgeEntryPoint')
+
+    releaseEAR project(':composite:dipforgemasterenvironment')
+
+    /// release extract web
+    releaseExtractWeb project(':web:SchemaStore')
+
+    // groovy lib
+    releaseGroovyLib project(':libs:GroovyServletBootStrap')
+    releaseGroovyLib project(':client:ProjectClient')
+    releaseGroovyLib project(':client:CoadunationTypeManager')
+    releaseGroovyLib project(':client:GroovyDaemonClient')
+    releaseGroovyLib project(':client:ChangeControlClient')
+    releaseGroovyLib project(':client:RequestBrokerClient')
+    releaseGroovyLib project(':client:RDBUserManagerClient')
+    releaseGroovyLib project(':client:DNSServerClient')
+    releaseGroovyLib project(':client:EmailServerClient')
+    releaseGroovyLib project(':client:EventServerClient')
+    releaseGroovyLib project(':client:AuditTrail')
+    releaseGroovyLib "asm:asm:3.2"
+    releaseGroovyLib "antlr:antlr:2.7.7"
+    releaseGroovyLib "asm:asm-commons:3.2"
+    releaseGroovyLib "asm:asm-util:3.2"
+    releaseGroovyLib "asm:asm-analysis:3.2"
+    releaseGroovyLib "asm:asm-tree:3.2"
+    releaseGroovyLib "org.codehaus.groovy.modules:groovyws:0.5.2"
+    releaseGroovyLib "com.github.groovy-wslite:groovy-wslite:1.1.0"
+    releaseGroovyLib "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1"
+    //releaseGroovyLib "com.paypal.sdk:paypal-core:1.6.6"
+    releaseGroovyLib 'javax.activation:activation:1.1.1'
+    releaseGroovyLib 'javax.mail:javax.mail-api:1.5.2'
+    releaseGroovyLib "com.sun.mail:javax.mail:1.5.2"
+    releaseGroovyLib "com.coinbase.api:coinbase-java:1.9.1"
+    // https://mvnrepository.com/artifact/com.github.andrewoma.dexx/collection
+    releaseGroovyLib "com.github.andrewoma.dexx:collection:0.7"
+    // https://mvnrepository.com/artifact/com.xlson.groovycsv/groovycsv
+    releaseGroovyLib "com.xlson.groovycsv:groovycsv:1.1"
+    releaseGroovyLib group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.3'
+    releaseGroovyLib group: 'org.apache.ivy', name: 'ivy', version: '2.4.0'
+
+
+
+    
+    // rdf type generator
+    releaseRDFTypeGenerator "javax.transaction:jta:1.1"
+    releaseRDFTypeGenerator "javax.transaction:jta:1.1"
+    releaseRDFTypeGenerator "log4j:log4j:1.2.14"
+    releaseRDFTypeGenerator "org.apache.jena:jena-core:3.4.0"
+    releaseRDFTypeGenerator "org.apache.jena:jena-arq:3.4.0"
+    releaseRDFTypeGenerator "org.apache.jena:jena-tdb:3.4.0"
+    releaseRDFTypeGenerator "org.apache.jena:jena-sdb:3.4.0"
+    releaseRDFTypeGenerator "org.apache.jena:jena-iri:3.4.0"
+    releaseRDFTypeGenerator "org.apache.jena:jena-base:3.4.0"
+    releaseRDFTypeGenerator "org.apache.jena:jena-shaded-guava:3.4.0"
+    releaseRDFTypeGenerator 'org.apache.jena:jena-rdfconnection:3.4.0'
+    releaseRDFTypeGenerator 'com.github.andrewoma.dexx:collection:0.7'
+    releaseRDFTypeGenerator "org.apache.thrift:libthrift:0.9.3"
+    releaseRDFTypeGenerator 'org.apache.commons:commons-csv:1.4'
+    releaseRDFTypeGenerator "com.ibm.icu:icu4j:3.4.4"
+    releaseRDFTypeGenerator "commons-logging:commons-logging:1.0.4"
+    releaseRDFTypeGenerator "org.slf4j:slf4j-log4j12:1.7.21"
+    releaseRDFTypeGenerator "cglib:cglib:2.1_3"
+    releaseRDFTypeGenerator "xerces:xercesImpl:2.7.1"
+    releaseRDFTypeGenerator project(':rdf:Semantics')
+
+    // rdf targets
+    releaseRDFTypeTargets project(':daemon:0100-AuditTrailServer')
+    releaseRDFTypeTargets project(':client:ChangeControlClient')
+    releaseRDFTypeTargets project(':rdf:ChangeControlRDF')
+    releaseRDFTypeTargets project(':rdf:RequestBrokerRDF')
+    releaseRDFTypeTargets project(':rdf:CommonTypes')
+}
+
+
+task build(dependsOn:[dependancyTask,copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyTemplates,copyResource,copyGenerator,copyWebManagerToTomcat,copyToGroovyLib]) {
+}
+
+release.dependsOn build
+
+def getJavaHomeVar() {
+    def javaHome = System.properties["java.home"]
+    if (javaHome.endsWith("/jre")) {
+        javaHome = javaHome.substring(0,javaHome.length() - "/jre".length())
+    }
+    return javaHome
+}
+
+task zipDipforge(type: Zip) {
+    zip64 true
+    appendix = 'template'
+    from 'dipforge'
+    baseName = 'dipforge-datacenter'
+    exclude '**/deploy/*.jar'
+    exclude '**/deploy/*.war'
+    exclude '**/deploy/*.ear'
+}
+
+task zipGeneratorTemplate(type: Zip) {
+    zip64 true
+    appendix = 'template'
+    from 'generator'
+    baseName = 'generator-dipforge-datacenter'
+}
+
+task makeDipforgeRelease(type:Exec, dependsOn:[':release:release']) {
+  commandLine 'mvn', 'install'
+}
+
+task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease,':composite:dipforgeenvironment:release']) << {
+    try {
+        // validate parameters for release task
+        println "git tag ${project.hasProperty('gitTag')}"
+        println "git tag name ${project.hasProperty('gitTagName')}"
+        println "git username ${project.hasProperty('gitUsername')}"
+        println "git token ${project.hasProperty('gitToken')}"
+        println "git comment ${project.hasProperty('comment')}"
+        if (false == project.hasProperty('gitTag') || false == project.hasProperty('gitTagName') || false == project.hasProperty('gitUsername') || false == project.hasProperty('gitToken') || false == project.hasProperty('comment')) {
+            printUsage()
+            throw new Exception("Incorrect usage")
+        }
+        def gitTag = project.getProperty('gitTag')
+        def gitTagName = project.getProperty('gitTagName')
+        def gitUsername = project.getProperty('gitUsername')
+        def gitToken = project.getProperty('gitToken')
+        def comment = project.getProperty('comment')
+        def repo = 'dipforge'
+    
+        // create the release
+        createRelease(gitUsername,gitToken,repo,gitTag,gitTagName,comment)
+        makeReleaseDir(gitTag) 
+
+        // upload the dipforge jar
+        def dipforgeInstallFileName = "dipforge-datacenter-install-${version}.jar"
+        def dipforgeInstallPath = new File("release/target/${dipforgeInstallFileName}")
+        uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeInstallFileName, dipforgeInstallPath.absolutePath)
+        
+        // upload the dipforge template
+        def dipforgeTemplateFileName = "dipforge-datacenter-template-${version}.zip"
+        def dipforgeTemplatePath = new File("release/build/distributions/${dipforgeTemplateFileName}")
+        uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeTemplateFileName, dipforgeTemplatePath.absolutePath)
+
+        // upload the generator dipforge template
+        def generatorDipforgeTemplateFileName = "generator-dipforge-datacenter-template-${version}.zip"
+        def generatorDipforgeTemplatePath = new File("release/build/distributions/${generatorDipforgeTemplateFileName}")
+        uploadFile(gitUsername, gitToken, repo, gitTag, generatorDipforgeTemplateFileName, generatorDipforgeTemplatePath.absolutePath)
+
+        // release tag
+        copyToS3(gitTag)
+
+    } catch (Exception ex) {
+        println "Failed to create the release ${ex.getMessage()}"
+        ex.printStackTrace();
+        throw ex;
+    }
+}
+
+def printUsage() {
+    println "Incorrect usage of createReleaseOnGithub"
+    println "gradle createReleaseOnGithub -PgitUsername=\"git hub username\" \\"
+    println "    -PgitToken=\"git hub token\" \\"
+    println "    -PgitTag=\"git tag\" \\"
+    println "    -PgitTagName=\"git tag name\" \\"
+    println "    -Pcomment=\"comment about the commit\""
+}
+
+def createRelease(def username, def token, def repo, def tag, def tagName, def comment) {
+    def releaseCommand = "/usr/local/bin/github-release release --user ${username} --security-token ${token} --repo ${repo} --tag ${tag} --name ${tagName} --description \"${comment}\""
+    print executeOnShell(releaseCommand)
+} 
+
+def uploadFile(def username, def token, def repo, def tag, def fileName, def path) {
+    def uploadCommand = "/usr/local/bin/github-release upload --user ${username} --security-token ${token} --repo ${repo} --tag ${tag} --name ${fileName} --file ${path}"
+    print executeOnShell(uploadCommand)
+    copyToReleaseDir(path,tag)
+}
+
+def makeReleaseDir(def tag) {
+    def releaseDir = new File("release/${tag}")
+    def mkdirCommand = "mkdir ${releaseDir.absolutePath}"
+    print executeOnShell(mkdirCommand)
+}
+
+def copyToReleaseDir(def path, def tag) {
+    def releaseDir = new File("release/${tag}")
+    def copyCommand = "cp -f ${path} ${releaseDir.absolutePath}/."
+    print executeOnShell(copyCommand)
+}
+
+def copyToS3(def tag) {
+    def releaseDir = new File("release/${tag}")
+    def s3CopyCommand = "s3cmd --recursive put ${releaseDir.absolutePath} s3://dipforge/"
+    print executeOnShell(s3CopyCommand)
+}
+
+def executeOnShell(String command) {
+  println command
+  def process = new ProcessBuilder(addShellPrefix(command))
+                                    .redirectErrorStream(true) 
+                                    .start()
+  process.inputStream.eachLine {println it}
+  process.waitFor();
+  return process.exitValue()
+}
+ 
+def addShellPrefix(String command) {
+  def commandArray = new String[3]
+  commandArray[0] = "sh"
+  commandArray[1] = "-c"
+  commandArray[2] = command
+  return commandArray
+}

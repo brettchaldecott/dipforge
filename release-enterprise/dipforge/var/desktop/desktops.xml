@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : desktops.xml
+    Created on : 08 August 2008, 2:05 PM
+    Author     : brett chaldecott
+    Description:
+        The list of desktops assigned to a user.
+-->
+
+<desktops>
+    <desktop name="Desk 1" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/opensource2.jpg"/>
+    <!--
+    <desktop name="Desk 1" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/textures/brick29.jpg" repeat="true"/>
+    -->
+    <desktop name="Desk 2" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/opensource2.jpg"/>
+    <!--
+    <desktop name="Desk 2" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/textures/Texture_miscrock_001.jpg" repeat="true"/>
+    -->
+    <desktop name="Desk 3" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/opensource2.jpg"/>
+    <!--
+    <desktop name="Desk 3" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/textures/Texture_wood_019.jpg" repeat="true"/>
+    -->
+    <desktop name="Desk 4" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/opensource2.jpg"/>
+    <!--
+    <desktop name="Desk 4" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/textures/brick29.jpg" repeat="true"/>
+    -->
+    <desktop name="Desk 5" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/opensource2.jpg"/>
+    <!--
+    <desktop name="Desk 5" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/textures/Texture_miscrock_001.jpg" repeat="true"/>
+    -->
+    <desktop name="Desk 6" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/opensource2.jpg"/>
+    <!--
+    <desktop name="Desk 6" theme="alphacube" background="/FileManager/dlf/documents/backgrounds/textures/Texture_wood_019.jpg" repeat="true"/>
+    -->
+</desktops>

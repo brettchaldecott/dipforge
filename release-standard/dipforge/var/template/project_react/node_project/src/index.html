@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>FountainJS</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/png" href="http://fountainjs.io/assets/imgs/fountain.png" />
+  
+    <!-- build:css({.tmp,src}) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp,src}) styles/app.css -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- endinject -->
+    <!-- endbuild -->
+  </head>
+
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="root"></div>
+  </body>
+
+    <!-- build:js({.tmp,src}) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+  <script src="js/bundle.js"></script>
+
+  <script src="app/hello.js" type="text/babel"></script>
+  <script src="index.js" type="text/babel"></script>
+</html>
+

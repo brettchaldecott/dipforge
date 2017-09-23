@@ -1,0 +1,10 @@
+{
+  "name": "swagger-app",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "*",
+    "swagger-ui": "*"
+  },
+  "appPath": "app",
+  "moduleName": "swaggerApp"
+}

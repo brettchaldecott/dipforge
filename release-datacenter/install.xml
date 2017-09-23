@@ -1,0 +1,127 @@
+
+<izpack:installation version="5.0"
+              xmlns:izpack="http://izpack.org/schema/installation"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+ 
+  <info>
+    <appname>DipforgeDatacenter</appname>
+    <appversion>4.1.a19</appversion>
+    <appsubpath>dipforge-datacenter-4.1.a19</appsubpath>
+    <javaversion>1.7</javaversion>
+    <authors>
+	<author name="Burntjam" email="info@dipforge.net"/>
+    </authors>
+    <url>http://dipforge.net/</url>
+  </info>
+ 
+  <locale>
+    <langpack iso3="eng"/>
+  </locale>
+ 
+  <guiprefs width="800" height="600" resizable="no">
+    <splash>../images/logos/dipForgeLogo_big.png</splash>
+    <laf name="substance">
+      <os family="windows" />
+      <os family="unix" />
+      <param name="variant" value="mist-silver" />
+    </laf>
+    <laf name="substance">
+      <os family="mac" />
+      <param name="variant" value="mist-aqua" />
+    </laf>
+    <modifier key="useHeadingPanel" value="yes" />
+    <modifier key="useButtonIcons" value="no"/>
+    <modifier key="useLabelIcons" value="no"/>
+    <modifier key="labelGap" value="2"/>    
+    <modifier key="layoutAnchor" value="NORTHWEST"/>    
+    <modifier key="useHeadingPanel" value="yes"/>
+    <modifier key="headingLineCount" value="1"/>
+    <modifier key="headingFontSize" value="1.5"/>
+    <modifier key="headingBackgroundColor" value="0x00ffffff"/>
+    <modifier key="headingPanelCounter" value="text"/>
+    <modifier key="headingPanelCounterPos" value="inHeading"/>
+  </guiprefs>
+ 
+
+  <resources>
+        <res id="LicencePanel.licence" src="resource/install-info/Licence.txt"/>
+        <res id="InfoPanel.info" src="resource/install-info/README.txt"/>
+        <res id="Heading.image" src="../images/logos/dipForgeLogo_small.png"/>
+        <res id="userInputSpec.xml" src="resource/install-info/izpack-user-input.xml"  parse="yes" type="xml"/>
+  </resources>
+
+  <panels>
+    <panel classname="HelloPanel"/>
+    <panel classname="InfoPanel"/>
+    <panel classname="LicencePanel"/>
+    <panel classname="UserInputPanel" id="userinputpanel.order" />
+    <panel classname="TargetPanel"/>
+    <panel classname="JDKPathPanel"/>
+    <panel classname="PacksPanel"/>
+    <panel classname="InstallPanel"/>
+    <panel classname="FinishPanel"/>
+  </panels>
+ 
+  <packs>
+    <pack name="Base" required="yes">
+      <description>The base of Dipforge</description>
+      <fileset dir="dipforge" targetdir="${INSTALL_PATH}" override="true" followsymlinks="false">
+          <exclude name="**/*.keepme*"/>
+          <exclude name="**/*changelog.dmp*"/>
+          <exclude name="**/etc/**" />
+          <exclude name="**/tmp/**" />
+          <exclude name="**/log/**.log*" />
+          <exclude name="**/log/**.out*" />
+          <exclude name="**/bin/**" />
+          <exclude name="**/var/nameservice/**" />
+          <exclude name="**/var/named/**" />
+          <exclude name="**/var/semantics/**" />
+          <exclude name="**/var/template/project_react/views/app/**" />
+          <exclude name="**/var/template/project_react/views/app" />
+          <exclude name="**/var/template/project_angular/views/app/**" />
+          <exclude name="**/var/template/project_angular/views/app" />
+      </fileset>
+    </pack>
+    <pack name="Config" required="yes">
+      <description>The configuration for Dipforge</description>
+      <fileset dir="resource" targetdir="${INSTALL_PATH}" override="true" followsymlinks="false">
+          <exclude name="**/*.keepme*"/>
+          <exclude name="**/install-info/izpack-user-input.xml" />
+      </fileset>
+      <parsable targetfile="${INSTALL_PATH}/bin/run.sh"/>
+      <executable targetfile="$INSTALL_PATH/bin/run.sh" os="unix" stage="never" keep="true"/>
+      <executable targetfile="$INSTALL_PATH/bin/create_links.sh" os="unix" stage="postinstall" keep="true"/>
+      <parsable targetfile="${INSTALL_PATH}/bin/run.bat"/>
+      <parsable targetfile="${INSTALL_PATH}/bin/dipforge.conf"/>
+      <parsable targetfile="${INSTALL_PATH}/etc/config.xml"/>
+      <parsable targetfile="${INSTALL_PATH}/etc/log4j.properties"/>
+      <parsable targetfile="${INSTALL_PATH}/etc/users.xml"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/audit.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/groovy_daemon.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/request_broker.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/change.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/groovy_manager.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/revision_manager.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/data_mapper_broker.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/jython_manager.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/script_manager.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/dipforge_web.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/master_rdf_store.ttl"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/audit.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/groovy_daemon.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/request_broker.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/change.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/groovy_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/revision_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/data_mapper_broker.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/jython_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/script_manager.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/dipforge_web.ttl.sdb"/>
+      <parsable targetfile="${INSTALL_PATH}/var/semantics/master_rdf_store.ttl.sdb"/>
+
+    </pack>
+
+  </packs>
+ 
+</izpack:installation>

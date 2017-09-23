@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : rss.xml
+    Created on : 17 November 2008, 9:27 AM
+    Author     : brett
+    Description:
+       RSS default feeds 
+-->
+
+<Feeds>
+    <Feed name="Sky News" application="Sky News" url="http://news.sky.com/sky-news/rss/home/rss.xml"/>
+    <Feed name="CNN" application="CNN News" url="http://rss.cnn.com/rss/edition.rss"/>
+    <Feed name="BBC News" application="BBC News" url="http://newsrss.bbc.co.uk/rss/newsonline_world_edition/front_page/rss.xml"/>
+    <Feed name="Hudson" application="Hudson" url="http://localhost:8080/hudson/rssAll"/>
+</Feeds>

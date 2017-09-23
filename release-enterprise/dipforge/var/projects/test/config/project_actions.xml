@@ -1,0 +1,14 @@
+<!--
+    Document   : project_types.xml
+    Created on : Thu Apr 19 15:34:36 SAST 2012
+    Author     : brett chaldecott
+    Description:
+        The types within the [test] project
+-->
+
+<actions project="test">
+
+    <action name="test1" type="http://dipforge.sourceforge.net/test1#type1" file="/flows/bob.lwf" role="test" />
+    <action name="test2" type="http://dipforge.sourceforge.net/test2#type2" file="/flows/test2.lwf" role="test" />
+    
+</actions>

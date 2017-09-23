@@ -1,0 +1,59 @@
+<!--
+    Document   : project_types.xml
+    Created on : Mon May 28 10:15:57 SAST 2012
+    Author     : brett chaldecott
+    Description:
+        The actions within the [bss] project
+-->
+
+<actions project="bss">
+
+    <!-- Organisation actions and Flows -->
+    <action name="CreateOrganisation" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation" file="/flows/organisation/CreateOrganisation.lwf" role="organisation" />
+    <action name="UpdateOrganisation" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation" file="/flows/organisation/UpdateOrganisation.lwf" role="organisation" />
+    <action name="RemoveOrganisation" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation" file="/flows/organisation/RemoveOrganisation.lwf" role="organisation" />
+    
+    <!-- Category actions and Flows -->
+    <action name="CreateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/CreateCategory.lwf" role="category_manager" />
+    <action name="UpdateCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/UpdateCategory.lwf" role="category_manager" />
+    <action name="RemoveCategory" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category" file="/flows/category/RemoveCategory.lwf" role="category_manager" />
+    
+    <!-- Product actions and Flows -->
+    <action name="CreateVendor" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor" file="/flows/vendor/CreateVendor.lwf" role="category_manager" />
+    <action name="UpdateVendor" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor" file="/flows/vendor/UpdateVendor.lwf" role="category_manager" />
+    <action name="RemoveVendor" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor" file="/flows/vendor/RemoveVendor.lwf" role="category_manager" />
+    
+    <!-- Product actions and Flows -->
+    <action name="CreateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/CreateProduct.lwf" role="product_manager" />
+    <action name="UpdateProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/UpdateProduct.lwf" role="product_manager" />
+    <action name="RemoveProduct" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product" file="/flows/product/RemoveProduct.lwf" role="product_manager" />
+    
+    <!-- Pckg actions and Flows -->
+    <action name="CreatePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/CreatePckg.lwf" role="package_manager" />
+    <action name="UpdatePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/UpdatePckg.lwf" role="package_manager" />
+    <action name="RemovePckg" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg" file="/flows/pckg/RemovePckg.lwf" role="package_manager" />
+    
+    <!-- Offering actions and Flows -->
+    <action name="CreateOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/CreateOffering.lwf" role="package_manager" />
+    <action name="UpdateOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/UpdateOffering.lwf" role="package_manager" />
+    <action name="RemoveOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering" file="/flows/offering/RemoveOffering.lwf" role="package_manager" />
+    
+    <!-- Catalog actions and Flows -->
+    <action name="CreateCatalog" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog" file="/flows/catalog/CreateCatalog.lwf" role="package_manager" />
+    <action name="UpdateCatalog" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog" file="/flows/catalog/UpdateCatalog.lwf" role="package_manager" />
+    <action name="CreateCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/CreateCatalogEntry.lwf" role="package_manager" />
+    <action name="UpdateCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/UpdateCatalogEntry.lwf" role="package_manager" />
+    <action name="RemoveCatalogEntry" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry" file="/flows/catalog/RemoveCatalogEntry.lwf" role="package_manager" />
+    
+    <!-- Organisastion Offering actions and Flows -->
+    <action name="CreateOrganisationOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering" file="/flows/organisationOffering/CreateOrganisationOffering.lwf" role="organisation" />
+    <action name="UpdateOrganisationOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering" file="/flows/organisationOffering/UpdateOrganisationOffering.lwf" role="organisation" />
+    <action name="RemoveOrganisationOffering" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering" file="/flows/organisationOffering/RemoveOrganisationOffering.lwf" role="organisation" />
+    
+    <!-- Organisastion Offering actions and Flows -->
+    <action name="CreateOrganisationOfferingComponent" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent" file="/flows/organisationOfferingComponent/CreateOrganisationOfferingComponent.lwf" role="organisation" />
+    <action name="UpdateOrganisationOfferingComponent" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent" file="/flows/organisationOfferingComponent/UpdateOrganisationOfferingComponent.lwf" role="organisation" />
+    <action name="RemoveOrganisationOfferingComponent" type="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent" file="/flows/organisationOfferingComponent/RemoveOrganisationOfferingComponent.lwf" role="organisation" />
+    
+    
+</actions>

@@ -1,0 +1,13 @@
+<!--
+    Document   : project_types.xml
+    Created on : Thu Oct 18 05:31:44 SAST 2012
+    Author     : admin
+    Description:
+        The actions within the [social] project
+-->
+
+<actions project="social">
+
+    <action name="CreateMessage" type="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message" file="/flows/messages/CreateMessage.lwf" role="daemon" />
+    
+</actions>

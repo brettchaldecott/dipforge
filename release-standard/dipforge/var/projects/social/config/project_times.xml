@@ -1,0 +1,15 @@
+<!--
+    Created on : Thu Oct 18 05:31:44 SAST 2012
+    Author     : admin
+    Description:
+        The times within the [social] project
+-->
+
+<times project="social">
+    
+    <!--
+    Example
+    <time jndi="groovy/Timer" script="test1.groovy" month="1" day="1" hour="1" minute="1" recur="false" />
+    <time jndi="groovy/Timer" script="test2.groovy" month="2" day="2" hour="2" minute="2" recur="false"/>
+    -->
+</times>

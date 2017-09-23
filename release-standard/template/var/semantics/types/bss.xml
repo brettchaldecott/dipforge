@@ -1,0 +1,842 @@
+<rdf:RDF
+    xmlns:j.0="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#"
+    xmlns:j.1="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#"
+    xmlns:j.2="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#"
+    xmlns:j.3="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#"
+    xmlns:j.4="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#"
+    xmlns:j.5="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#"
+    xmlns:j.6="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#"
+    xmlns:j.7="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#"
+    xmlns:j.8="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#"
+    xmlns:j.9="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#"
+    xmlns:j.10="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#"
+    xmlns:j.11="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.12="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#"
+    xmlns:j.13="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:j.14="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:j.15="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:j.16="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#" > 
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#description">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#person">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#organisationOffering">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#icon">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#created">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#organisation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#value">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#configurationManager">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#description">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#dataType">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#firstname">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#pckgTarget">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#thumbnail">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#offering">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#modified">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#created">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#offering">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#surname">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#customer">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#name">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#name">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#type">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#InvoiceEntry">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#description">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#name">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#code">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#organisation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#catalogId">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#thumbnail">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#total">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#organisation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#description">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#organisation">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#description">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#invoice">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#InvoiceEntry"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#person">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#product">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#target">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#name">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#created">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#description">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#code">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#name">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#statement">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#state">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#end">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#vendor">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#name">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#description">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#icon">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#products">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#thumbnail">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#description">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#amount">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#icon">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#created">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#city">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#date">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#street2">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#thumbnail">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#icon">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#description">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#icon">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#product">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#url">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#thumbnail">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#date">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#organisation">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#installed">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#entries">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Catalog#Catalog"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#name">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#thumbnail">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#role">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#role">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#modified">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#InvoiceEntry"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#InvoiceEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfigManager#ProductConfigManager"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#pckg">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#status">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#street1">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOffering#OrganisationOffering">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#lineItem">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#children">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#total">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#name">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Vendor#Vendor"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#type">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#status">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#uri">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#start">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#type">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#name">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#offeringComponent">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/OrganisationOfferingComponent#OrganisationOfferingComponent"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#status">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#organisation">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#value">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#costs">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#person">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Customer#Relationship"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Person#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#statement">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#product">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#data">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/ProductConfig#ProductConfig"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#description">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Contact#Contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#id">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#modified">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#organisation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#category">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#statementEntry">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/InvoiceEntry#InvoiceEntry"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/StatementEntry#StatementEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Invoice#Invoice">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#organisation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Organisation#Organisation"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Statement#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#country">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Address#Address"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#icon">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#name">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#catalog">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/CatalogEntry#CatalogEntry"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Country#Country">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#id">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Pckg#Pckg"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Offering#Offering">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#type">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Cost#Cost"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#dependency">
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Product#Product"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#name">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/bss/Category#Category"/>
+  </rdf:Description>
+</rdf:RDF>

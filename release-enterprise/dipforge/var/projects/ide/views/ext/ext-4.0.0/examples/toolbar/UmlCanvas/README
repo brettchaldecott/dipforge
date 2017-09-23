@@ -1,0 +1,20 @@
+UMLCanvas is an implementation around the HTML5 Canvas that allows
+generation of UML diagrams. A Mediawiki extension is provided to allow
+editors to just enter the commands required to generate the
+diagrams. Two interfaces are provided: an OO Javascript API and a
+textual DSL in the form of a UML profile for ADL, the Application
+Definition Language.
+
+UMLCanvas is a project by TheSoftwareFactory, 
+maintained by Christophe VG <xtof@thesoftwarefactory.be>
+
+* Kickstart
+
+$ make
+...
+
+Install the Mediawiki extension:
+$ cd /var/www/htdocs/mediawiki-install-dir/extensions
+$ ln -s /path/to/UmlCanvas/dist/ext/UmlCanvas
+$ echo 'require_once( "$IP/extensions/UmlCanvas/UmlCanvas.php" );' \
+    >> LocalSettings.php

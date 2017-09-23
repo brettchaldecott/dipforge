@@ -730,7 +730,7 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGenerat
         makeReleaseDir(gitTag) 
 
         // upload the dipforge jar
-        def dipforgeInstallFileName = "dipforge-install-${version}.jar"
+        def dipforgeInstallFileName = "dipforge-cloud-install-${version}.jar"
         def dipforgeInstallPath = new File("release/target/${dipforgeInstallFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeInstallFileName, dipforgeInstallPath.absolutePath)
         

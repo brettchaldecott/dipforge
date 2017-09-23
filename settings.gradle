@@ -80,4 +80,7 @@ include 'libs:CoadunationBase',
         'client:DataMapperClient',
         'client:DataMapperBroker',
         'daemon:0160-DataMapperBroker',
-	'release'
+	'release',
+	'release-standard',
+    'release-enterprise',
+    'release-datacenter'

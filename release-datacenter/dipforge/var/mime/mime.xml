@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : mime.xml
+    Created on : 03 November 2008, 3:43 PM
+    Author     : brett
+    Description:
+        Purpose of the document follows.
+-->
+
+<MimeTypes>
+    <Mime name="File Manager" url="/FileManager/path/" icon="" width="600" height="400"/>
+    <Mime name="Web Mail" url="/WebMail" icon="" width="600" height="400"/>
+    <Mime name="Jam Wiki" url="/jamwiki-0.6.6" icon="" width="600" height="400"/> 
+    <Mime name="Hudson" url="/hudson" icon="" width="600" height="400"/> 
+    <Mime name="Office Suite" url="/OfficeSuite" icon="" width="600" height="400"/> 
+    <Mime name="Wikipedia" url="http://www.wikipedia.org/" icon="" width="600" height="400"/> 
+    <Mime name="BBC News" url="http://news.bbc.co.uk" icon="" width="600" height="400"/> 
+    <Mime name="CNN News" url="http://www.cnn.com" icon="" width="600" height="400"/> 
+    <Mime name="Sky News" url="http://news.sky.com/skynews" icon="" width="600" height="400"/> 
+</MimeTypes>

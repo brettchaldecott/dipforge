@@ -1,0 +1,6 @@
+
+
+// coadunation security policy file
+grant {
+    permission java.security.AllPermission;
+};

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testconfig
+    Created on : August 05, 2006, 11:51 AM
+    Author     : Brett Chaldecott
+    Description:
+        The configuration data
+-->
+
+<configuration>
+    <object>
+        <entry key="Client_Stub" type="String">
+            $INSTALL_PATH/client
+        </entry>
+        <entry key="primary" type="boolean">
+            true
+        </entry>
+        <entry key="instance_identifier" type="string">
+            $coadID
+        </entry>
+        <entry key="primary_jndi_url" type="string">
+            java:network/env/$coadID
+        </entry>
+        <!-- new -->
+        <entry key="host" type="string">
+            $HOST_NAME
+        </entry>
+        <entry key="http_port" type="long">
+            8085
+        </entry>
+        <entry key="installation_base" type="string">
+            $INSTALL_PATH
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.RoleManager">
+        <entry key="role_handlers" type="string">
+            com.rift.coad.lib.security.role.ConfigurationRoleHandler,
+            com.rift.coad.auth.RDBRoleHandler
+        </entry>
+        <entry key="principals" type="string">
+            admin,special,guest,daemon,dns,email,desktop
+        </entry>
+        <entry key="roles" type="string">
+            admin,special,guest,daemon,test,accessor,sudo,manager,dns,email,desktop
+        </entry>
+        <entry key="admin" type="string">
+            admin
+        </entry>
+        <entry key="guest" type="string">
+            admin,special,guest
+        </entry>
+        <entry key="special" type="string">
+            admin,special
+        </entry>
+        <entry key="daemon" type="string">
+            admin,daemon,guest
+        </entry>
+        <entry key="test" type="string">
+            guest,daemon
+        </entry>
+        <entry key="accessor" type="string">
+            daemon
+        </entry>
+        <entry key="sudo" type="string">
+            daemon
+        </entry>
+        <entry key="manager" type="string">
+            admin
+        </entry>
+        <entry key="dns" type="string">
+            dns,admin
+        </entry>
+        <entry key="email" type="string">
+            email,admin
+        </entry>
+        <entry key="desktop" type="string">
+            desktop
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.xml.XMLUserParser">
+        <entry key="password_file" type="string">
+            $INSTALL_PATH/etc/users.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManager">
+        <entry key="connectors" type="string">
+            com.rift.coad.lib.security.user.xml.XMLUserStore,
+            com.rift.coad.auth.RDBUserStore
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.CoadunationThreadGroup">
+        <entry key="Thread_Terminate_Timeout" type="long">
+            5000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager">
+        <entry key="username" type="string">
+            daemon
+        </entry>
+        <entry key="directory" type="string">
+            $INSTALL_PATH/deploy
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentManager$DeploymentThread">
+        <entry key="delay" type="long">
+            1000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.DeploymentLoader">
+        <entry key="temp_dir" type="string">
+            $INSTALL_PATH/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.db.DBSourceManager">
+        <entry key="db_sources" type="string">
+            org.hsqldb.jdbcDriver
+        </entry>
+    </object>
+    <object name="org.hsqldb.jdbcDriver">
+        <entry key="db_source" type="string">
+            jndi=hsqldb,
+            url=jdbc:hsqldb:hsql://localhost/coadunation,
+            username=sa,
+            password=,
+            min=20,
+            max=50
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.login.LoginManager">
+        <entry key="session_timeout" type="long">
+            3600000
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.ThreadsPermissionContainerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserSessionManagerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.user.UserStoreManagerAccessor">
+        <entry key="role" type="string">
+            accessor
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.security.sudo.Sudo">
+        <entry key="role" type="string">
+            sudo
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpRequestManager">
+        <entry key="daemon_username" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.httpd.HttpDaemon">
+        <entry key="daemon_username" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.cache.CacheRegistry">
+        <entry key="cache_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.credentials.Login">
+        <entry key="credential_authenticator" type="string">
+            com.rift.coad.lib.interceptor.authenticator.UserPasswordAuthenticator
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.interceptor.iiop.InterceptorIntializer">
+        <entry key="client_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SessionClientInterceptor,
+            com.rift.coad.lib.interceptor.iiop.TransactionClientInterceptor
+        </entry>
+        <entry key="server_interceptors" type="string">
+            com.rift.coad.lib.interceptor.iiop.SecurityServerInterceptor,
+            com.rift.coad.lib.interceptor.iiop.ClassLoaderInterceptor,
+            com.rift.coad.lib.interceptor.iiop.TransactionServerInterceptor
+        </entry>
+    </object>
+    <object name="com.rift.coad.Runner">
+        <entry key="runner_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.NamingDirector">
+        <entry key="orb_manager" type="string">
+            com.rift.coad.lib.naming.jacorb.JacORBManager
+        </entry>
+        <entry key="naming_context_manager" type="string">
+            com.rift.coad.lib.naming.cos.CosNamingContextManager
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.thread.ThreadGroupManager">
+        <entry key="role" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.jacorb.JacORBManager">
+        <entry key="host" type="string">
+            $HOST_NAME
+        </entry>
+        <entry key="port" type="string">
+            2000
+        </entry>
+        <entry key="name_server_store" type="string">
+            $INSTALL_PATH/var/nameservice
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.naming.cos.CosContext">
+        <entry key="instance_cos_url" type="string">
+            corbaloc:iiop:$HOST_NAME:2000/StandardNS/NameServer-POA/_root
+        </entry>
+        <entry key="master_cos_url" type="string">
+            corbaloc:iiop:$HOST_NAME:2000/StandardNS/NameServer-POA/_root
+        </entry>
+        <entry key="cos_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.bean.BeanManager">
+        <entry key="bean_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.deployment.jmxbean.JMXBeanManager">
+        <entry key="jmxbean_user" type="string">
+            daemon
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.hsqldb.HsqlDBEngine">
+        <entry key="db_path" type="string">
+           $INSTALL_PATH/var/hsqldb/coadunation 
+        </entry>
+        <entry key="db_hostname" type="string">
+           localhost
+        </entry>
+        <entry key="db_base" type="string">
+           $INSTALL_PATH/var/hsqldb
+        </entry>
+        <!--
+        <entry key="db_list" type="string">
+           rdf
+        </entry>
+        -->
+    </object>
+    <object name="com.rift.coad.daemon.timer.TimerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="timer_user" type="string">
+            daemon
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/timer/db/hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.servicebroker.ServiceBrokerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="timer_user" type="string">
+            daemon
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/servicebroker/db/hibernate.xml
+        </entry>
+        <entry key="sleep_time" type="long">
+            60000
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.jython.JythonDaemonImpl">
+        <entry key="python_home" type="string">
+            $INSTALL_PATH/var/jython
+        </entry>
+        <entry key="script_location" type="string">
+            $INSTALL_PATH/var/jython/scripts
+        </entry>
+        <entry key="coadunation_temp" type="string">
+            $INSTALL_PATH/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.deployment.DeploymentDaemonImpl">
+        <entry key="coadunation_deploy" type="string">
+            $INSTALL_PATH/deploy
+        </entry>
+        <entry key="coadunation_temp" type="string">
+            $INSTALL_PATH/tmp
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.messageservice.MessageServiceManager">
+        <entry key="thread_pool_user" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_username" type="string">
+            daemon
+        </entry>
+        <entry key="changelog_data_dir" type="string">
+            $INSTALL_PATH/var/messageservice
+        </entry>
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/messageservice/db/hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.lib.audit.AuditTrailManager">
+        <entry key="Formatter" type="string">
+            com.rift.coad.lib.audit.basic.BasicFormatter
+        </entry>
+    </object>
+
+    <!-- tomcat configuration information -->
+    <object name="com.rift.coad.daemon.tomcat.TomcatDeployer">
+        <entry key="directory" type="string">
+            $INSTALL_PATH/deploy
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.tomcat.TomcatWrapper">
+        <entry key="TomcatBasePath" type="string">
+            $INSTALL_PATH/var/tomcat
+        </entry>
+    </object>
+    <!-- end of tomcat configuration -->
+    <!-- dns configuration information -->
+    <object name="com.rift.coad.daemon.dns.DNSServer">
+        <entry key="dns_base" type="string">
+            $INSTALL_PATH/var/named
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.dns.server.Server">
+        <entry key="dns_pool_user" type="string">
+            dns
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.dns.server.ServerLookup">
+        <entry key="recursive_lookup" type="boolean">
+            true
+        </entry>
+        <entry key="nameserver_list" type="string">
+            $NAMESERVERS
+        </entry>
+    </object>
+    <!-- end of dns configuration -->
+    <!-- email server configuration -->
+    <object name="com.rift.coad.daemon.email.server.Server">
+        <entry key="reverse_message" type="string">
+            Failed to deliver the message caused by : %s
+        </entry>
+        <entry key="email_pool_user" type="string">
+           email
+        </entry>
+        <entry key="email_server_base" type="string">
+            $INSTALL_PATH/var/email
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.ServerConfig">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/email/server/db/hibernate.xml
+        </entry>
+        <entry key="email_server_base" type="string">
+            $INSTALL_PATH/var/email
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.smtp.SmtpRequest">
+        <entry key="validate_domain_argument" type="boolean">
+            false
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.smtp.ServerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/email/server/db/spool_hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.fetchmail.FetchMailManager">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/email/server/db/fetchmail_hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.smtp.handlers.DeliverRemote">
+        <entry key="smtp_gateways" type="string">
+            $RELAY_SMTP_SERVER
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.email.server.fetchmail.Server">
+        <entry key="fetchmail_pool_user" type="string">
+            email
+        </entry>
+    </object>
+    <!-- end of email server configuration -->
+    <!-- the RDB Auth configuration -->
+    <object name="com.rift.coad.auth.RDBUserStore">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/auth/db/hibernate.xml
+        </entry>
+    </object>
+    <!-- end of RDB Auth configuration -->
+    <!-- desktop configuration information -->
+    <object name="com.rift.coad.daemon.desktop.master.MasterBarImpl">
+        <entry key="menu_file" type="string">
+            $INSTALL_PATH/var/desktop/menu.xml
+        </entry>
+        <entry key="gadgets_file" type="string">
+            $INSTALL_PATH/var/desktop/gadgets.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.desktop.DesktopManagerImpl">
+        <entry key="desktop_file" type="string">
+            $INSTALL_PATH/var/desktop/desktops.xml
+        </entry>
+        <entry key="desktop_app_file" type="string">
+            $INSTALL_PATH/var/desktop/desktopapps.xml
+        </entry>
+    </object>
+    <!-- end of desktop configuration -->
+    <!-- Mime information -->
+    <object name="com.rift.coad.daemon.desktop.MimeManagerImpl">
+        <entry key="mime_file" type="string">
+            $INSTALL_PATH/var/mime/mime.xml
+        </entry>
+    </object>
+    <!-- end of Mime Information -->
+    <!-- Event Server configuraton -->
+    <object name="com.rift.coad.daemon.event.FeedManagerImpl">
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/event/db/hibernate.xml
+        </entry>
+    </object>
+    <object name="com.rift.coad.daemon.event.FeedServerImpl">
+        <entry key="event_config" type="string">
+            $INSTALL_PATH/var/event/feed.xml
+        </entry>
+    </object>
+    <!-- end of event configuration -->
+    <!--  RSS configuration -->
+    <object name="com.rift.coad.daemon.rss.RSSClientManagement">
+        <entry key="feed_config" type="string">
+            $INSTALL_PATH/var/rss/feeds.xml
+        </entry>
+        <entry key="db_dialect" type="string">
+            org.hibernate.dialect.HSQLDialect
+        </entry>
+        <entry key="db_datasource" type="string">
+            java:comp/env/jdbc/hsqldb
+        </entry>
+        <entry key="hibernate_sql" type="string">
+            false
+        </entry>
+        <entry key="hibernate_hbm2ddl_auto" type="string">
+            update
+        </entry>
+        <entry key="hibernate_resource_config" type="string">
+            com/rift/coad/daemon/rss/db/hibernate.xml
+        </entry>
+    </object>
+    <!-- end of RSS configuration -->
+</configuration>
+

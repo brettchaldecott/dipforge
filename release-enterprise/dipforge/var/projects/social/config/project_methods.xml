@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : method_mappings.xml
+    Created on : Thu Oct 18 05:31:44 SAST 2012
+    Author     : admin
+    Description:
+        The types within the [social] project
+-->
+
+<mapping>
+    <jndi name="groovy/DataMapper" service="social">
+        <project name="social">
+            <method class="com.dipforge.messages.AddEvent" name="addEvent" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="Message" type="http://dipforge.sourceforge.net/schema/rdf/1.0/social/Message#Message"/>
+            </method>
+        </project>
+    </jndi>
+</mapping>
+

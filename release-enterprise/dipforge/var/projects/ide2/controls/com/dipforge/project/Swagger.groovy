@@ -1,0 +1,707 @@
+/*
+ * test: Description
+ * Copyright (C) Mon Apr 10 10:58:24 UTC 2017 owner 
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Swagger.groovy
+ * @author admin
+ */
+
+package com.dipforge.project
+
+
+response.setContentType("application/json");
+
+println """
+{
+   "swagger":"2.0",
+   "info":{
+      "description":"This is the API for the IDE2 for Dipforge.",
+      "version":"1.0.0",
+      "title":"IDE2 Dipforge",
+      "termsOfService":"",
+      "contact":{
+         "email":"info@burntjam.com"
+      },
+      "license":{
+         "name":"Comercial",
+         "url":""
+      }
+   },
+   "host":"${request.getServerName()}:${request.getServerPort()}",
+   "basePath":"/DipforgeWeb/ide2",
+   "tags":[
+      {
+         "name":"user",
+         "description":"Operations about user",
+         "externalDocs":{
+            "description":"Find out more about our store",
+            "url":"http://swagger.io"
+         }
+      }
+   ],
+   "schemes":[
+      "http"
+   ],
+   "paths":{
+      "/com/dipforge/ide/ListProjects.groovy":{
+         "get":{
+            "tags":[
+               "projects"
+            ],
+            "summary":"List Projects",
+            "description":"Retrieve the list of Projects.",
+            "operationId":"ListProjects",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/Project"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         },
+      },
+      "/com/dipforge/ide/PublishProject.groovy?project={project}":{
+         "get":{
+            "tags":[
+               "projects"
+            ],
+            "summary":"Publish Project",
+            "description":"Publish  the project.",
+            "operationId":"PublishProject",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"project",
+                    "in":"query",
+                    "description":"The name of the project",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation"
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/ListFiles.groovy?project={project}&path={path}":{
+         "get":{
+            "tags":[
+               "files"
+            ],
+            "summary":"List Files",
+            "description":"Retrieve the list of files.",
+            "operationId":"ListFiles",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"project",
+                    "in":"query",
+                    "description":"The name of the project",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                },
+                {
+                    "name":"path",
+                    "in":"query",
+                    "description":"The path within project",
+                    "required":false,
+                    "type":"string",
+                    "format":"int64"
+                }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/Files"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/ListFolders.groovy?project={project}&directoryCommaList={directoryCommaList}":{
+         "get":{
+            "tags":[
+               "files"
+            ],
+            "summary":"List Folders",
+            "description":"Retrieve the list of folders in a project.",
+            "operationId":"ListFolders",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"project",
+                    "in":"query",
+                    "description":"The name of the project",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                },
+                {
+                    "name":"directoryCommaList",
+                    "in":"query",
+                    "description":"The path within project",
+                    "required":false,
+                    "type":"string",
+                    "format":"int64"
+                }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/Files"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/GetFile.groovy?project={project}&path={path}":{
+         "get":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Get File",
+            "description":"Retrieve the file for a project and path.",
+            "operationId":"GetFile",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"project",
+                    "in":"query",
+                    "description":"The name of the project",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                },
+                {
+                    "name":"path",
+                    "in":"query",
+                    "description":"The path within project",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/File"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/CreateFile.groovy":{
+         "post":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Create a file",
+            "description":"Create a file",
+            "operationId":"createFile",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"body",
+                  "description":"The information for the file that needs to be create",
+                  "required":true,
+                  "schema":{
+                     "\$ref":"#/definitions/FileInfo"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/FileInfo"
+                     }
+                  }
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/SaveFile.groovy":{
+         "post":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Save a file",
+            "description":"Save a file",
+            "operationId":"saveFile",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"body",
+                  "description":"File that needs to be saved",
+                  "required":true,
+                  "schema":{
+                     "\$ref":"#/definitions/File"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/File"
+                     }
+                  }
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/CreateProject.groovy":{
+         "post":{
+            "tags":[
+               "projects"
+            ],
+            "summary":"Create a project",
+            "description":"Create a project",
+            "operationId":"createProject",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"body",
+                  "description":"Project ",
+                  "required":true,
+                  "schema":{
+                     "\$ref":"#/definitions/Project"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/Project"
+                     }
+                  }
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/DeleteProject.groovy":{
+         "post":{
+            "tags":[
+               "projects"
+            ],
+            "summary":"Delete a project",
+            "description":"Delete a project",
+            "operationId":"deleteProject",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"body",
+                  "description":"Project ",
+                  "required":true,
+                  "schema":{
+                     "\$ref":"#/definitions/Project"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/Project"
+                     }
+                  }
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/ExecuteFile.groovy":{
+         "post":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Execute a file",
+            "description":"Execute a file",
+            "operationId":"ExecuteFile",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"body",
+                  "description":"The information for the file that needs to be create",
+                  "required":true,
+                  "schema":{
+                     "\$ref":"#/definitions/ExecuteInfo"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "\$ref":"#/definitions/ExecuteResult"
+                     }
+                  }
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/UploadFile.groovy":{
+         "post":{
+            "tags":[
+               "files"
+            ],
+            "summary":"Upload a File",
+            "description":"Upload a File",
+            "operationId":"UploadFile",
+            "consumes":[
+               "multipart/form-data"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"formData",
+                  "name":"project",
+                  "description":"The name of the project",
+                  "required":true,
+                  "type": "string"
+               },
+               {
+                  "in":"formData",
+                  "name":"path",
+                  "description":"The name of the path",
+                  "required":true,
+                  "type": "string"
+               },
+               {
+                  "in":"formData",
+                  "name":"file",
+                  "description":"id of scene of guide to attache this to",
+                  "required":true,
+                  "type": "file"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+               },
+               "405":{
+                  "description":"Invalid input"
+               }
+            }
+         },
+      },
+      "/com/dipforge/ide/ListLogs.groovy":{
+         "get":{
+            "tags":[
+               "logs"
+            ],
+            "summary":"List Logs",
+            "description":"Retrieve the list logs.",
+            "operationId":"ListLogs",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      "/com/dipforge/ide/TailLogFile.groovy?logFile={logFile}&endLine={endLine}":{
+         "get":{
+            "tags":[
+               "logs"
+            ],
+            "summary":"Tail Log File",
+            "description":"Tail a log file.",
+            "operationId":"TailLogFile",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+                {
+                    "name":"logFile",
+                    "in":"query",
+                    "description":"The name of the logFile",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                },
+                {
+                    "name":"endLine",
+                    "in":"query",
+                    "description":"The last line that was read last time",
+                    "required":true,
+                    "type":"string",
+                    "format":"int64"
+                }
+                ],
+            "responses":{
+               "200":{
+                  "description":"successful operation",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"string"
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid tag value"
+               }
+            }
+         }
+      },
+      
+   },
+   "securityDefinitions":{
+   },
+   "definitions":{
+      "Project":{
+         "type":"object",
+         "properties":{
+            "name":{
+               "type":"string"
+            },
+            "description":{
+               "type":"string"
+            },
+            "projectType":{
+               "type":"string"
+            }
+         },
+         "xml":{
+            "name":"Project"
+         }
+      },
+      "Files":{
+         "type":"object",
+         "properties":{
+            "project":{
+               "type":"string"
+            },
+            "path":{
+               "type":"string"
+            },
+            "leafNode":{
+               "type":"boolean"
+            },
+            "iconCls":{
+               "type":"string"
+            },
+            "fileExtension":{
+               "type":"string"
+            }
+         },
+         "xml":{
+            "name":"Files"
+         }
+      },
+      "File":{
+         "type":"object",
+         "properties":{
+            "project":{
+               "type":"string"
+            },
+            "path":{
+               "type":"string"
+            },
+            "contents":{
+               "type":"string"
+            },
+            "fileExtension":{
+               "type":"string"
+            },
+            "fileHash":{
+               "type":"string"
+            }
+         },
+         "xml":{
+            "name":"File"
+         }
+      },
+      "ExecuteInfo":{
+         "type":"object",
+         "properties":{
+            "project":{
+               "type":"string"
+            },
+            "path":{
+               "type":"string"
+            }
+         },
+         "xml":{
+            "name":"File"
+         }
+      },
+      "ExecuteResult":{
+         "type":"object",
+         "properties":{
+            "status":{
+               "type":"string"
+            },
+            "result":{
+               "type":"string"
+            }
+         },
+         "xml":{
+            "name":"File"
+         }
+      },
+      "FileInfo":{
+         "type":"object",
+         "properties":{
+            "project":{
+               "type":"string"
+            },
+            "path":{
+               "type":"string"
+            },
+            "type":{
+               "type":"string"
+            },
+            "context":{
+               "type":"string"
+            },
+            
+         },
+         "xml":{
+            "name":"File"
+         }
+      }
+   },
+   "externalDocs":{
+      "description":"Find out more about Swagger",
+      "url":"http://swagger.io"
+   }
+}
+"""
+
+
+

@@ -1,0 +1,16 @@
+<!--
+    Document   : project_types.xml
+    Created on : Mon Apr 10 02:11:36 UTC 2017
+    Author     : admin
+    Description:
+        The actions within the [swagger] project
+-->
+
+<actions project="swagger">
+
+    <!--
+    <action name="test1" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    <action name="test2" type="http://type.com/test" file="/flows/test.lwf" role="test" />
+    -->
+
+</actions>

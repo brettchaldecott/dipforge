@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dipforge.izpack</groupId>
-  <artifactId>dipforge-install</artifactId>
+  <artifactId>dipforge-cloud-install</artifactId>
   <version>4.1.a19</version>
 
-  <name>Dipforge</name>
+  <name>Dipforge Cloud</name>
   
   <packaging>jar</packaging>
   

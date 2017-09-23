@@ -1,0 +1,134 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" > 
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Service">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Version">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Type">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Project">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#id">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#Parameters">
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Id">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#Service">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodName">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#id">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#User"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#User"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#JNDI">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#MethodId">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#id">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#Service"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#Service"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#Description">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#User"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#User"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#id">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#Host"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#Host"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#description">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#Host"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#Host"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#Description">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#Service"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkService#Service"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#ClassName">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/NetworkHost#Host">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Name">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/ParameterMapping#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/OperationUser#User">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#ReturnType">
+    <rdf:type rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:range rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdfs:domain rdf:resource="http://dipforge.sourceforge.net/schema/rdf/1.0/common/MappingMethod#MethodMapping"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+</rdf:RDF>
