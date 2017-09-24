@@ -702,11 +702,11 @@ task zipGeneratorTemplate(type: Zip) {
     baseName = 'generator-dipforge-enterprise'
 }
 
-task makeDipforgeRelease(type:Exec, dependsOn:[':release:release']) {
+task makeDipforgeRelease(type:Exec, dependsOn:[':release-enterprise:release']) {
   commandLine 'mvn', 'install'
 }
 
-task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease,':composite:dipforgeenvironment:release']) << {
+task createReleaseOnGithub(dependsOn: [':release-enterprise:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease,':composite:dipforgeenvironment:release']) << {
     try {
         // validate parameters for release task
         println "git tag ${project.hasProperty('gitTag')}"
@@ -731,17 +731,17 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGenerat
 
         // upload the dipforge jar
         def dipforgeInstallFileName = "dipforge-enterprise-install-${version}.jar"
-        def dipforgeInstallPath = new File("release/target/${dipforgeInstallFileName}")
+        def dipforgeInstallPath = new File("release-enterprise/target/${dipforgeInstallFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeInstallFileName, dipforgeInstallPath.absolutePath)
         
         // upload the dipforge template
         def dipforgeTemplateFileName = "dipforge-enterprise-template-${version}.zip"
-        def dipforgeTemplatePath = new File("release/build/distributions/${dipforgeTemplateFileName}")
+        def dipforgeTemplatePath = new File("release-enterprise/build/distributions/${dipforgeTemplateFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeTemplateFileName, dipforgeTemplatePath.absolutePath)
 
         // upload the generator dipforge template
         def generatorDipforgeTemplateFileName = "generator-dipforge-enterprise-template-${version}.zip"
-        def generatorDipforgeTemplatePath = new File("release/build/distributions/${generatorDipforgeTemplateFileName}")
+        def generatorDipforgeTemplatePath = new File("release-enterprise/build/distributions/${generatorDipforgeTemplateFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, generatorDipforgeTemplateFileName, generatorDipforgeTemplatePath.absolutePath)
 
         // release tag
@@ -775,19 +775,19 @@ def uploadFile(def username, def token, def repo, def tag, def fileName, def pat
 }
 
 def makeReleaseDir(def tag) {
-    def releaseDir = new File("release/${tag}")
+    def releaseDir = new File("release-enterprise/${tag}")
     def mkdirCommand = "mkdir ${releaseDir.absolutePath}"
     print executeOnShell(mkdirCommand)
 }
 
 def copyToReleaseDir(def path, def tag) {
-    def releaseDir = new File("release/${tag}")
+    def releaseDir = new File("release-enterprise/${tag}")
     def copyCommand = "cp -f ${path} ${releaseDir.absolutePath}/."
     print executeOnShell(copyCommand)
 }
 
 def copyToS3(def tag) {
-    def releaseDir = new File("release/${tag}")
+    def releaseDir = new File("release-enterprise/${tag}")
     def s3CopyCommand = "s3cmd --recursive put ${releaseDir.absolutePath} s3://dipforge/"
     print executeOnShell(s3CopyCommand)
 }

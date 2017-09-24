@@ -689,7 +689,7 @@ task zipDipforge(type: Zip) {
     zip64 true
     appendix = 'template'
     from 'dipforge'
-    baseName = 'dipforge'
+    baseName = 'dipforge-cloud'
     exclude '**/deploy/*.jar'
     exclude '**/deploy/*.war'
     exclude '**/deploy/*.ear'
@@ -699,7 +699,7 @@ task zipGeneratorTemplate(type: Zip) {
     zip64 true
     appendix = 'template'
     from 'generator'
-    baseName = 'generator-dipforge'
+    baseName = 'generator-dipforge-cloud'
 }
 
 task makeDipforgeRelease(type:Exec, dependsOn:[':release:release']) {
@@ -742,12 +742,12 @@ task createReleaseOnGithub(dependsOn: [':release:release',zipDipforge,zipGenerat
         }
 
         // upload the dipforge template
-        def dipforgeTemplateFileName = "dipforge-template-${version}.zip"
+        def dipforgeTemplateFileName = "dipforge-cloud-template-${version}.zip"
         def dipforgeTemplatePath = new File("release/build/distributions/${dipforgeTemplateFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, dipforgeTemplateFileName, dipforgeTemplatePath.absolutePath)
 
         // upload the generator dipforge template
-        def generatorDipforgeTemplateFileName = "generator-dipforge-template-${version}.zip"
+        def generatorDipforgeTemplateFileName = "generator-dipforge-cloud-template-${version}.zip"
         def generatorDipforgeTemplatePath = new File("release/build/distributions/${generatorDipforgeTemplateFileName}")
         uploadFile(gitUsername, gitToken, repo, gitTag, generatorDipforgeTemplateFileName, generatorDipforgeTemplatePath.absolutePath)
 
