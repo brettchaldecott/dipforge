@@ -13,7 +13,7 @@ project.ext.javaHome = getJavaHomeVar()
 project.ext.dipforgeHome = "${projectDir}/dipforge/".toString()
 
 
-task dependancyTask (dependsOn: [":libs:CoadunationBase:build",
+task dependancyTask (dependsOn: [":libs:DipforgeEnterpriseBase:build",
 	":libs:CoadunationAnnotations:build",":libs:CoadunationClient:build",
 	":libs:CoadunationSecurity:build",":libs:CoadunationCommon:build",
 	":libs:CoadunationLib:build",":libs:CoadunationHibernate:build",
@@ -82,12 +82,13 @@ task compile {
 task copyToSbin(type: Copy) {
     into "dipforge/sbin/"
     from configurations.releaseSbin
+    exclude "**/*CoadunationBase*"
 }
 
 task copyToLib(type: Copy) {
     into "dipforge/lib/"
     from configurations.releaseLibs
-    exclude "**/*CoadunationBase*"
+    exclude "**/*DipforgeEnterpriseBase*"
     exclude "**/*CoadunationUtil*"
     exclude "**/*CoadunationHibernate*"
     exclude "**/*hibernate*"
@@ -491,7 +492,7 @@ dependencies {
     // compile
     
     // release boot strap file
-    releaseSbin project(':libs:CoadunationBase')
+    releaseSbin project(':libs:DipforgeEnterpriseBase')
     
     // release libraries
     releaseLibs project(':libs:CoadunationClient')

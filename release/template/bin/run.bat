@@ -16,5 +16,5 @@ set JAVA_OPTS=%JAVA_OPTS% -Djava.rmi.server.RMIClassLoaderSpi=com.rift.coad.Remo
 set CURRENT_DIR=./
 set COAD_LIB_DIRS=%DIPFORGE_HOME%/lib;%JAVA_HOME%/lib/tools.jar;
 
-echo %JAVA% %JAVA_OPTS% -Xmx2048M -cp %EXTRA% -jar "%DIPFORGE_HOME%/sbin/CoadunationBase.jar"
-%JAVA% %JAVA_OPTS% -Xmx2048M -cp %EXTRA% -jar "%DIPFORGE_HOME%/sbin/CoadunationBase-%VERSION%.jar"
+echo %JAVA% %JAVA_OPTS% -Xmx2048M -cp %EXTRA% -jar "%DIPFORGE_HOME%/sbin/DipforgeCloudBase.jar"
+%JAVA% %JAVA_OPTS% -Xmx2048M -cp %EXTRA% -jar "%DIPFORGE_HOME%/sbin/DipforgeCloudBase-%VERSION%.jar"

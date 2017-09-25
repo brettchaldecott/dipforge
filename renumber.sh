@@ -12,11 +12,11 @@ find ./ -name "build.gradle" | xargs grep "$1"
 find ./ -name "build.gradle" | xargs sed -i "s/$1/$2/"
 find ./ -name "build.gradle" | xargs grep "$2"
 
-find ./release/ -name "*.xml" | xargs grep "$1"
-find ./release/ -name "*.xml" | xargs sed -i "s/$1/$2/"
-find ./release/ -name "*.xml" | xargs grep "$2"
+find ./release*/ -name "*.xml" | xargs grep "$1"
+find ./release*/ -name "*.xml" | xargs sed -i "s/$1/$2/"
+find ./release*/ -name "*.xml" | xargs grep "$2"
 
-find ./release/ -name "*.gsp" | xargs grep "$1"
-find ./release/ -name "*.gsp" | xargs sed -i "s/$1/$2/"
-find ./release/ -name "*.gsp" | xargs grep "$2"
+find ./release*/ -name "*.gsp" | xargs grep "$1"
+find ./release*/ -name "*.gsp" | xargs sed -i "s/$1/$2/"
+find ./release*/ -name "*.gsp" | xargs grep "$2"
 

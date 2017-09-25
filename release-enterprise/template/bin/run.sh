@@ -78,5 +78,5 @@ fi
 
 
 # run
-echo $JAVA $JAVA_OPTS -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
-$JAVA $JAVA_OPTS -jar $DIPFORGE_HOME/sbin/CoadunationBase-$VERSION.jar
+echo $JAVA $JAVA_OPTS -jar $DIPFORGE_HOME/sbin/DipforgeEnterpriseBase-$VERSION.jar
+$JAVA $JAVA_OPTS -jar $DIPFORGE_HOME/sbin/DipforgeEnterpriseBase-$VERSION.jar
