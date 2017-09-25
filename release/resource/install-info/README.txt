@@ -1,5 +1,5 @@
-The Dipforge project
-====================
+Dipforge Cloud
+==============
 
 Dipforge is an Open Source Application server focused on Rapid Enterprise 
 Development. This means that it is a platform focused on enabling enterprises
