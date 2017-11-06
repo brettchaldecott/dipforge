@@ -3,7 +3,7 @@
 
   <groupId>com.dipforge.izpack</groupId>
   <artifactId>dipforge-datacenter-install</artifactId>
-  <version>4.1.a20</version>
+  <version>4.1.a21</version>
 
   <name>Dipforge Datacenter</name>
   
