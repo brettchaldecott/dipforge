@@ -519,7 +519,7 @@ dependencies {
     releaseLibs group: 'net.sf.ehcache', name: 'ehcache', version: '1.2.3', ext: 'jar'
     //releaseLibs group: 'org.hibernate', name: 'hibernate-cglib-repack', version: '2.1_3', ext: 'jar'
     releaseLibs group: 'howl', name: 'howl-logger', version: '0.1.11', ext: 'jar'
-    releaseLibs group: 'org.hsqldb', name: 'hsqldb', version: '2.3.2', ext: 'jar'
+    releaseLibs group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0', ext: 'jar'
     releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore-nio', version: '4.3.3', ext: 'jar'
     releaseLibs group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.3.3', ext: 'jar'
     releaseLibs group: 'org.objectweb.carol', name: 'carol', version: '2.2.10', ext: 'jar'

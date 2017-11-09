@@ -9,7 +9,7 @@
     </configurations>
     <dependencies>
         <dependency org="log4j" name="log4j" rev="1.2.14"/>
-        <dependency org="org.hsqldb" name="hsqldb" rev="2.3.2"/>
+        <dependency org="org.hsqldb" name="hsqldb" rev="2.4.0"/>
         <dependency org="axis" name="axis" rev="1.4"/>
         <dependency org="axis" name="axis-jaxrpc" rev="1.4"/>
     </dependencies>
