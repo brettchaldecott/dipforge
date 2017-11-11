@@ -82,7 +82,7 @@
         name="objectValue"
         type="binary"
         column="objectValue"
-        length="262140"
+        length="19262140"
     />
 
     <!-- Associations -->

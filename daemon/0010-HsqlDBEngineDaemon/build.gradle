@@ -22,7 +22,7 @@ dependencies {
     compile project(':libs:CoadunationLib')
     compile project(':libs:CoadunationAnnotations')
     releaseJars project(':client:HsqlDBEngineClient')
-    releaseJars group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0', ext: 'jar'
+    releaseJars group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5', ext: 'jar'
 }
 
 sourceSets {
