@@ -50,8 +50,9 @@ Author: brett chaldecott
     </head>
     <body>
         <div class="container">
-            <form class="form-signin" method="POST" action="j_security_check">
+            <form class="form-signin" method="POST" action="j_security_check" id="login_form">
                 <h2 class="form-signin-heading">Please sign in</h2>
+                <p class="text-error" id="error_block"></p>
                 <input type="text" class="input-block-level" placeholder="Username" name= "j_username">
                 <input type="password" class="input-block-level" placeholder="Password" name= "j_password">
                 <br/>
@@ -60,5 +61,6 @@ Author: brett chaldecott
         </div>
         <script src="/DipforgeWeb/public/jquery/jquery-1.7.2.min.js"></script>
         <script src="/DipforgeWeb/public/bootstrap/js/bootstrap.js"></script>
+        <script src="/DipforgeWeb/public/login/Login.js"></script>
     </body>
 </html>

@@ -52,6 +52,7 @@ Author: brett chaldecott
         <div class="container">
             <form class="form-signin" method="POST" action="j_security_check" id="login_form">
                 <h2 class="form-signin-heading">Please sign in</h2>
+                <p class="text-error" id="error_block"></p>
                 <input type="text" class="input-block-level" placeholder="Username" name= "j_username">
                 <input type="password" class="input-block-level" placeholder="Password" name= "j_password">
                 <br/>
