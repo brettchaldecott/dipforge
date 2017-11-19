@@ -30,7 +30,7 @@ task dependancyTask (dependsOn: [":libs:DipforgeCloudBase:build",
 	":cli:TimerCommandLineTool:build",
 	":utils:CoadunationUtil:build",":daemon:0005-DNSServer:build",
 	":daemon:0010-HsqlDBEngineDaemon:build",":daemon:0020-RDBUserManager:build",
-	":daemon:0040-MessageService:build",//":daemon:0045-EmailServer:build",
+	":daemon:0040-MessageService:build",":daemon:0045-EmailServer:build",
 	":daemon:0050-DesktopServer:build",":daemon:0050-EventServer:build",
 	":daemon:0050-Timer:build", ":daemon:0060-Tomcat:build",
 	":daemon:0101-DeploymentDaemon:build",":daemon:0102-RSSReader:build",
@@ -577,7 +577,7 @@ dependencies {
     releaseDaemon project(':daemon:0020-RDBUserManager')
     releaseDaemon project(':daemon:0040-ServiceBroker')
     releaseDaemon project(':daemon:0040-MessageService')
-//    releaseDaemon project(':daemon:0045-EmailServer')
+    releaseDaemon project(':daemon:0045-EmailServer')
     releaseDaemon project(':daemon:0050-DesktopServer')
     releaseDaemon project(':daemon:0050-EventServer')
     releaseDaemon project(':daemon:0050-Timer')
