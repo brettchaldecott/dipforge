@@ -25,7 +25,10 @@
 $( document ).ready(function() {
     console.log( "ready!" );
     
-    var path = window.location.pathname
+    var pathArgs = window.location.pathname.split("/")
+    console.log("Paths [%s][%o]", window.location.pathname, pathArgs)
+     
+    var path = "/" + pathArgs[1] + "/" + pathArgs[2] + "/"
     console.log("The path for us all is %s",path)
     var handleLoginSuccess = function(data,status,jqXHR) {
        console.log("The result of the call is %o %o %o %o",data,status,jqXHR,jqXHR.status)
@@ -38,7 +41,12 @@ $( document ).ready(function() {
                         console.log("The check data is %o",checkData)
                         let jsonData = checkData;
                         if (jqXHR.status == 200 && jsonData.status == "private visable") {
-                            window.location = path;
+                            //console.log("The location is now")
+                            //let newLocation = window.location.pathname + window.location.hash;
+                            //console.log("Set location %o",newLocation)
+                            //window.location = newLocation
+                            console.log("Force reload of current page")
+                            history.go(0)
                             return
                         }
                     } catch (error) {
@@ -61,16 +69,22 @@ $( document ).ready(function() {
         var formData = $("#login_form").serialize();
         $.ajax({
                type: "POST",
-               url: path + 'j_security_check',
+               url: path + '/j_security_check',
                data: formData, // serializes the form's elements.
                success: handleLoginSuccess,
                error: function(data) {
                    console.log("The data for stuff %o",data)
-                   $.ajax({
-                       type: "POST",
-                       url: path + 'j_security_check',
-                       data: formData, // serializes the form's elements.
-                       success: handleLoginSuccess
+                   $.ajax({ 
+                        url: path,
+                        type: "GET",
+                        success: function(checkData) {
+                               $.ajax({
+                                   type: "POST",
+                                   url: path + '/j_security_check',
+                                   data: formData, // serializes the form's elements.
+                                   success: handleLoginSuccess
+                               })
+                        }
                    })
                }
              });
