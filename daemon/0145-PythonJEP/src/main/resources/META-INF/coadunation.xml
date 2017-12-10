@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : Oct 2009
+    Author     : Brett Chaldecott
+    Description:
+        This method
+-->
+
+<coadunation version="1" name="0145-PythonJEP">
+    <description>Groovy Daemon</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.burntjam.dipforge.python.jep.PythonJepManagerMBean</interface>
+            <class>com.burntjam.dipforge.python.jep.PythonJepManager</class>
+            <objectName>com.burntjam.dipforge.python.jep:type=Management</objectName>
+            <bindName>python/Management</bindName>
+            <role>python_manager</role>
+            <username>python_manager</username>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.burntjam.dipforge.python.jep.PythonJepDaemon</interface>
+            <class>com.burntjam.dipforge.python.jep.PythonJepDaemonImpl</class>
+            <bindName>python/Daemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.daemon.timer.TimerEventHandler</interface>
+            <class>com.burntjam.dipforge.python.jep.PythonJepTimerImpl</class>
+            <bindName>python/Timer</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+        </bean>
+        <bean>
+            <interface>com.rift.coad.datamapper.DataMapper</interface>
+            <class>com.burntjam.dipforge.python.jep.PythonJepDataMapperImpl</class>
+            <bindName>python/DataMapper</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>
