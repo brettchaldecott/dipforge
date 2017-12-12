@@ -44,10 +44,10 @@
             com.rift.coad.auth.RDBRoleHandler
         </entry>
         <entry key="principals" type="string">
-            admin,special,guest,daemon,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager,isp_manager,base,organisation
+            admin,special,guest,daemon,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,python_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager,isp_manager,base,organisation
         </entry>
         <entry key="roles" type="string">
-            admin,special,guest,daemon,test,accessor,sudo,manager,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager,isp_manager,base,organisation
+            admin,special,guest,daemon,test,accessor,sudo,manager,dns,email,desktop,type_manager,audit_trail,change,data_mapper_broker,script_manager,groovy_manager,python_manager,request_broker,office_suite,package,package_manager,product,product_manager,category,category_manager,isp_manager,base,organisation
         </entry>
         <entry key="admin" type="string">
             admin
@@ -99,6 +99,9 @@
         </entry>
         <entry key="groovy_manager" type="string">
             script_manager,groovy_manager,daemon
+        </entry>
+        <entry key="python_manager" type="string">
+            script_manager,python_manager,daemon
         </entry>
         <entry key="request_broker" type="string">
             request_broker

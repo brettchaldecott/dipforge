@@ -49,7 +49,7 @@ public class XMLMethodMappingParserTest {
         XMLMethodMappingParser instance = 
                 new XMLMethodMappingParser(readTestFile());
         //List expResult = null;
-        List result = instance.getJNDIList();
+        List result = instance.getProjectList();
         assertEquals(2, result.size());
     }
 
@@ -62,13 +62,16 @@ public class XMLMethodMappingParserTest {
         String jndi = "";
         XMLMethodMappingParser instance = 
                 new XMLMethodMappingParser(readTestFile());
-        List<MethodMapping> result = instance.getMethodMapping("test/path");
-        assertEquals(4, result.size());
+        List<MethodMapping> result = instance.getMethodMapping("test");
+        System.out.println("The result is [" + result + "]");
+        System.out.println("The result size is [" + result.size() + "]");
+        assertEquals(2, result.size());
         assertEquals(result.get(0).getService(),"test");
         assertEquals(result.get(0).getReturnType(),"basic");
         assertEquals(result.get(1).getReturnType(),"xmltype");
-        result = instance.getMethodMapping("test2/path");
-        assertEquals(result.get(0).getService(),null);
+        result = instance.getMethodMapping("test2");
+        System.out.println("The service is : " + result.get(2).getService());
+        assertEquals(result.get(2).getService(),null);
     }
     
     

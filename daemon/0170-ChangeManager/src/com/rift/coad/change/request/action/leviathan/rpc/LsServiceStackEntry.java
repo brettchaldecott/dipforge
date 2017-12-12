@@ -40,6 +40,7 @@ import com.rift.dipforge.ls.parser.obj.CallStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * This object manages the service stack information.
@@ -47,6 +48,10 @@ import java.util.Map;
  * @author brett chaldecott
  */
 public class LsServiceStackEntry extends ProcessStackEntry {
+    
+    // class static variables
+    private static Logger log = Logger.getLogger(LsServiceStackEntry.class);
+ 
     
     // private member variables
     private CallStatement callStatement;
@@ -87,6 +92,8 @@ public class LsServiceStackEntry extends ProcessStackEntry {
                         ConnectionManager.getInstance().getConnection(
                         DataMapperBrokerDaemon.class,
                         "datamapper/BrokerDaemon");
+                log.info("Get the available methods [" + this.call.getService() + "][" +
+                        this.call.getProject() + "][" + this.call.getClassName() + "]");
                 List<MethodMapping> methods = daemon.listMethodsByService(this.call.getService(), 
                         this.call.getProject(), this.call.getClassName());
                 CallStatement.CallStatementEntry entry = 
@@ -94,6 +101,7 @@ public class LsServiceStackEntry extends ProcessStackEntry {
                     callStatement.getEntries().size() -1);
                 
                 for (MethodMapping method : methods) {
+                    log.info("Check the method mapping [" + method + "]");
                     if (!method.getMethodName().equals(entry.getName())) {
                         continue;
                     }

@@ -79,9 +79,8 @@
         <div class="row-fluid">
             <div class="span4">
                 <h2>About Us</h2>
-                <p>Dipforge is an Open Source Application server focused on Rapid Enterprise Development. This means that it is a platform focused on enabling enterprises to rapidly develop solutions that suite their requirements without having to focus on how they solve their problems
+                <p>Dipforge enables Data As A Platform, this means that data no longer needs to be quarantine to a specific product, application or division. It can be consumed, exposed and used across an entire organisation without fear of data corruption or data loss.Ontop of this is a RAD (Rapid Application Development) platform enabling the development of applications and services using this now unlocked data, and a middleware suite to aid integration.
                 <br>
-                <br>It focuses on method over configuration, this means that it supplies a common way of developing  solutions rather than gluing complex components together to form a solution.
                 <br><a class="btn btn-small btn-info" href="../desktop/">Sign In &raquo;</a>
                 </p>
             </div>

@@ -29,6 +29,7 @@ import com.dipforge.utils.HTMLCharacterEscaper
 import java.util.Date
 import com.dipforge.utils.HttpRequestUtil
 import com.rift.coad.groovy.GroovyDaemon
+import com.burntjam.dipforge.python.jep.PythonJepDaemon
 import groovy.json.*;
 import org.apache.log4j.Logger;
 import java.io.StringWriter;
@@ -49,8 +50,17 @@ def fileContent = ""
 try {
     def json = HttpRequestUtil.requestContentToJson(request)
     
-    def daemon = ConnectionManager.getInstance().getConnection(
+    def file = json.path.trim()
+    def daemon = null
+    if (file.endsWith(".py")) {
+        daemon = ConnectionManager.getInstance().getConnection(
+			PythonJepDaemon.class,"python/Daemon")
+    } else {
+        daemon = ConnectionManager.getInstance().getConnection(
 			GroovyDaemon.class,"groovy/Daemon")
+    }
+    
+    
     resultJson.result = daemon.execute(json.project,json.path)
 } catch (Throwable ex) {
     log.error("Failed to create the file [" + params.fileName + "] in the project [" + params.project + "]" + ex.getMessage());

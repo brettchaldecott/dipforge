@@ -21,6 +21,7 @@
         <principal>data_mapper_broker</principal>
         <principal>script_manager</principal>
         <principal>groovy_manager</principal>
+        <principal>python_manager</principal>
         <principal>request_broker</principal>
         <principal>office_suite</principal>
         <principal>package</principal>
@@ -88,6 +89,12 @@
         <principal>daemon</principal>
         <principal>script_manager</principal>
         <principal>groovy_manager</principal>
+    </user>
+    <user name="python_manager" password="@ADMIN_PASSWORD@">
+        <principal>desktop</principal>
+        <principal>daemon</principal>
+        <principal>script_manager</principal>
+        <principal>python_manager</principal>
     </user>
     <user name="request_broker" password="@ADMIN_PASSWORD@">
         <principal>desktop</principal>

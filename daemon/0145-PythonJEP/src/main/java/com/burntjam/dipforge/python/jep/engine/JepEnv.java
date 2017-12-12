@@ -8,6 +8,7 @@ package com.burntjam.dipforge.python.jep.engine;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -15,6 +16,9 @@ import java.io.InputStreamReader;
  */
 public class JepEnv {
     
+    // private member variables
+    private static Logger log = Logger.getLogger(JepEnv.class);
+
     // member variables
     private String jepPathJar;
     private String jar;
@@ -40,6 +44,7 @@ public class JepEnv {
                     jar = line;
                 }
             }
+            
         } catch (Exception ex) {
            throw new PythonWrapperException("Failed to retrieve the pip and jep information : " + ex.getMessage(),ex);
         }
@@ -58,6 +63,6 @@ public class JepEnv {
      * @return 
      */
     public File getJarPath() {
-        return new File(location + File.pathSeparator + jar);
+        return new File(location + File.separator + jar);
     }
 }

@@ -47,13 +47,14 @@ task dependancyTask (dependsOn: [":libs:DipforgeStandardBase:build",
 	":web:AuditTrailConsole:release",
 	":libs:GroovyServletBootStrap:build",":libs:GroovyLib:build",
 	":client:GroovyDaemonClient:build", ":daemon:0140-GroovyDaemon:build",
+	":client:PythonJEPClient:build", ":daemon:0145-PythonJEP:build",
 	":client:DataMapperBroker:build", ":daemon:0160-DataMapperBroker:build",
 	":client:ProjectClient:build",":daemon:0200-ProjectManager:build",
-        ":client:RDFMasterStoreClient:build", ":client:RDFStoreClient:build",
-        ":client:RSSReaderClient:build", ":client:ServiceBrokerClient:build",
-        ":client:TimerClient:build", ":client:TomcatClient:build",
-        ":client:TomcatClient:build", ":client:GroovyDaemonClient:build",
-        ":client:RequestBrokerClient:build", ":client:ChangeControlClient:build"]) << {
+    ":client:RDFMasterStoreClient:build", ":client:RDFStoreClient:build",
+    ":client:RSSReaderClient:build", ":client:ServiceBrokerClient:build",
+    ":client:TimerClient:build", ":client:TomcatClient:build",
+    ":client:TomcatClient:build", ":client:RequestBrokerClient:build",
+    ":client:ChangeControlClient:build"]) << {
 
 }
 
@@ -226,6 +227,10 @@ release.doLast {
         mkdir(dir:"dipforge/var/projects/documentation/views/GroovyDaemonClient")
         copy(todir: "dipforge/var/projects/documentation/views/GroovyDaemonClient"){
             fileset(dir: "../client/GroovyDaemonClient/build/docs/javadoc") {}
+        }
+        mkdir(dir:"dipforge/var/projects/documentation/views/PythonJEPClient")
+        copy(todir: "dipforge/var/projects/documentation/views/PythonJEPClient"){
+            fileset(dir: "../client/PythonJEPClient/build/docs/javadoc") {}
         }
         mkdir(dir:"dipforge/var/projects/documentation/views/RequestBrokerClient")
         copy(todir: "dipforge/var/projects/documentation/views/RequestBrokerClient"){
@@ -558,6 +563,8 @@ dependencies {
     releaseClients project(':client:ProjectClient')
     releaseClients project(':client:RDFStoreClient')
     releaseClients project(':client:RDFMasterStoreClient')
+    releaseClients project(':client:GroovyDaemonClient')
+    releaseClients project(':client:PythonJEPClient')
     
     // release rdf libs
     releaseRDFClients project(':rdf:SchemaUtils')
@@ -587,6 +594,7 @@ dependencies {
     releaseDaemon project(':daemon:0102-RSSReader')
     releaseDaemon project(':daemon:0100-AuditTrailServer')
     releaseDaemon project(':daemon:0140-GroovyDaemon')
+    releaseDaemon project(':daemon:0145-PythonJEP')
     releaseDaemon project(':daemon:0150-CoadunationTypeManager')
     releaseDaemon project(':daemon:0160-DataMapperBroker')
     releaseDaemon project(':daemon:0170-ChangeManager')
@@ -611,6 +619,7 @@ dependencies {
     releaseGroovyLib project(':client:ProjectClient')
     releaseGroovyLib project(':client:CoadunationTypeManager')
     releaseGroovyLib project(':client:GroovyDaemonClient')
+    releaseGroovyLib project(':client:PythonJEPClient')
     releaseGroovyLib project(':client:ChangeControlClient')
     releaseGroovyLib project(':client:RequestBrokerClient')
     releaseGroovyLib project(':client:RDBUserManagerClient')

@@ -42,8 +42,10 @@ public class PythonJepDaemonImpl implements PythonJepDaemon {
     public String execute(String project, String scriptPath)
         throws PythonJepException {
         try {
-            return PythonEngineManager.getInstance().getWrapper(project).execute(scriptPath).toString();
-        } catch (Exception ex) {
+            String result = PythonEngineManager.getInstance().getWrapper(project).execute(scriptPath).toString();
+            log.info("The result string : " + result);
+            return result;
+        } catch (Throwable ex) {
             log.error("Failed to execute the script : " + ex.getMessage(),ex);
             throw new PythonJepException
                     ("Failed to execute the script : " + ex.getMessage(),ex);

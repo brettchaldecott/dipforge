@@ -33,6 +33,7 @@ dependencies {
     compile project(':client:RDFStoreClient')
     compile project(':client:ServiceBrokerClient')
     compile project(':client:CoadunationTypeManager')
+    compile project(':client:ChangeControlClient')
     releaseJars project(':libs:GroovyLib')
     releaseJars project(':client:DataMapperClient')
     releaseJars project(':client:TimerClient')

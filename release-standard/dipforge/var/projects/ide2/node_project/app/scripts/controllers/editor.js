@@ -172,7 +172,10 @@ angular.module('ide2App')
                         mode = "javascript"
                     } else if (response.data.fileExtension === "gsp") {
                         mode = "jsp"
+                    } else if (response.data.fileExtension === "py") {
+                        mode = "python"
                     }
+                    console.log("The mode is extension is [%o] mode is [%o]",response.data.fileExtension,mode)
                     
                     var editorFile = {
                         id:id,
@@ -351,7 +354,11 @@ angular.module('ide2App')
             mode = "javascript"
         } else if (editorFile.fileData.fileExtension === "gsp") {
             mode = "jsp"
+        } else if (editorFile.fileData.fileExtension === "py") {
+            mode = "python"
         }
+        console.log("The mode is extension is [%o] mode is [%o]",editorFile.fileData.fileExtension,mode)
+        
         
         editor.getSession().setMode("ace/mode/" + mode)
         

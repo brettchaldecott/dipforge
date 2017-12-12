@@ -107,10 +107,10 @@ public class XMLMethodMappingParser {
                     inJNDI = true;
                     jndi = (String)attributes.getValue(NAME);
                     service = attributes.getValue(SERVICE);
-                    methods = new ArrayList<MethodMapping>();
                 } else if (inJNDI && qName.compareToIgnoreCase(PROJECT_KEY) == 0) {
                     inProject = true;
                     projectName = (String)attributes.getValue(NAME);
+                    methods = new ArrayList<MethodMapping>();
                 } else if (inProject && qName.compareToIgnoreCase(METHOD_KEY) == 0) {
                     method = new MethodMapping(this.jndi, this.service, this.projectName,
                             (String)attributes.getValue(CLASS),
@@ -148,16 +148,16 @@ public class XMLMethodMappingParser {
                     inMapping = false;
                 } else if (inMapping && inJNDI &&
                         qName.compareToIgnoreCase(JNDI_KEY) == 0) {
-                    if (mappings.containsKey(jndi)) {
-                        mappings.get(jndi).addAll(methods);
-                    } else {
-                        mappings.put(jndi, methods);
-                    }
                     inJNDI = false;
                     jndi = null;
-                    methods = null;
                 } else if (inJNDI && inProject &&
                         qName.compareToIgnoreCase(PROJECT_KEY) == 0) {
+                    if (mappings.containsKey(projectName)) {
+                        mappings.get(projectName).addAll(methods);
+                    } else {
+                        mappings.put(projectName, methods);
+                    }
+                    methods = null;
                     inProject = false;
                     projectName = null;
                 } else if (inProject && method != null && 
@@ -203,7 +203,7 @@ public class XMLMethodMappingParser {
      * 
      * @return The jndi reference. 
      */
-    public List<String> getJNDIList() {
+    public List<String> getProjectList() {
         List<String> result = new ArrayList<String>();
         result.addAll(mappings.keySet());
         return result;
@@ -215,7 +215,7 @@ public class XMLMethodMappingParser {
      * @param jndi The jndi identifier.
      * @return  The list of method mappings for the identifier.
      */
-    public List<MethodMapping> getMethodMapping(String jndi) {
-        return mappings.get(jndi);
+    public List<MethodMapping> getMethodMapping(String project) {
+        return mappings.get(project);
     }
 }

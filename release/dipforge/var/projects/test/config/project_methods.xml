@@ -20,5 +20,13 @@
             </method>
         </project>
     </jndi>
+    <jndi name="python/DataMapper" service="test">
+        <project name="test">
+            <method class="testmodule" name="hello_world" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="message" type="http://www.w3.org/2001/XMLSchema#string"/>
+                <parameter name="rdf" type="http://dipforge.sourceforge.net/test1#type1"/>
+            </method>
+        </project>
+    </jndi>
 </mapping>
 

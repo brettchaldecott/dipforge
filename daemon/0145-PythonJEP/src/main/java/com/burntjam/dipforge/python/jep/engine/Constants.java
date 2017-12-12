@@ -12,7 +12,8 @@ import java.io.File;
  * @author brett chaldecott
  */
 public class Constants {
-    public final static String PROJECTS_DIR = String.format("%svar%sprojects%s",File.pathSeparator,File.pathSeparator,File.pathSeparator);
+    public final static String PROJECTS_DIR = String.format("%svar%sprojects%s",File.separator,File.separator,File.separator);
+    public final static String DIPFORGE_PROJECT = "dipforge";
     public final static String INCLUDE_PATH = "packages";
     public final static String SERVICES_PATH = "services";
 }

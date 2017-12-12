@@ -60,8 +60,9 @@ public class ProjectMethodManagerImpl implements ProjectMethodManager {
             XMLMethodMappingParser parser = new XMLMethodMappingParser(
                     content);
             DataMapperBrokerUtil brokerUtil = new DataMapperBrokerUtil();
-            for (String jndi : parser.getJNDIList()) {
-                List<MethodMapping> methods = parser.getMethodMapping(jndi);
+            for (String project : parser.getProjectList()) {
+                List<MethodMapping> methods = parser.getMethodMapping(project);
+                log.info("Publish the method [" + methods + "]");
                 brokerUtil.register(methods);
             }
         } catch (Exception ex) {

@@ -30,6 +30,7 @@
 @store("store")
 @service("test" "test" "test.TestClass" "test")
 @jndi("groovy/DataMapper" "test" "test.TestClass" "test2")
+@jndi("python/DataMapper" "test" "testmodule" "testmodule")
 @action()
 flow bob {
    def out
@@ -38,16 +39,22 @@ flow bob {
    def test
    def test2
    def action
+   def testmodule
    {
        log.info("before : ##################################################")
        log.info("hello world example 1 : " + type1.getProperty1())
        log.info("hello world example 2 : " + type1.property2)
+       
        test.callTest1(type1.property2)
        def type2 = test.callTest2(type1.property1,type1)
        def type3 = test2.callTest2("type1.property1",type1)
        type1.setProperty1("man on moon")
        log.info("hello world example 3 : " + type1.getProperty1())
        log.info("hello world example 4 : " + type1.property2)
+       
+       def helloWorldResult = testmodule.hello_world("message stuff",type1)
+       log.info("The result is : " + helloWorldResult)
+       
        log.info("Before sleeping for 10 milli seconds")
        action.sleep(20 * 1000)
        log.info("After sleeping for 10 milli seconds")

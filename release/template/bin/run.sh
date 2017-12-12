@@ -76,6 +76,12 @@ else
    JAVA_OPTS="$JAVA_OPTS -Xmx2048M"
 fi
 
+ENV_FILES=env/*.sh
+for file in $ENV_FILES
+do
+    echo "Source file ${file}"
+    source ${file}
+done
 
 # run
 echo $JAVA $JAVA_OPTS -jar $DIPFORGE_HOME/sbin/DipforgeCloudBase-$VERSION.jar

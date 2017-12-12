@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -16,6 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class PythonEngineManager {
 
+    // private member variables
+    private static Logger log = Logger.getLogger(PythonEngineManager.class);
+
+    
     // singleton variables
     private static PythonEngineManager singleton = null;
     
@@ -47,7 +52,8 @@ public class PythonEngineManager {
     public synchronized PythonEngineWrapper getWrapper(String project) throws PythonWrapperException {
         try {
             ClassLoader projectLoader = projectLoaders.get(project);
-            if (project == null) {
+            if (projectLoader == null) {
+                log.info("The jar path is : " + jepEnv.getJarPath());
                 URL[] urls = { (URL)(jepEnv.getJarPath().toURL())};
                 projectLoader = new URLClassLoader(
                         urls,Thread.currentThread().getContextClassLoader());
