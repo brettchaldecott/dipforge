@@ -28,10 +28,10 @@ angular.module('ide2App')
             //$("#tab-" + vm.selectTabId).removeClass("active");
             //$("#" + vm.selectTabId).removeClass("active");
             // loop through the windows
-            for (var index in vm.editorFiles) {
-                var editorFile = vm.editorFiles[index];
+            for (let index in vm.editorFiles) {
+                let editorFile = vm.editorFiles[index];
                 if (editorFile.id === vm.selectTabId) {
-                    var nextPos = (parseInt(index) + 1);
+                    let nextPos = (parseInt(index) + 1);
                     console.log("The pos is : " + nextPos)
                     if (nextPos < vm.editorFiles.length) {
                         console.log("Setting to the next tab index")
@@ -60,10 +60,10 @@ angular.module('ide2App')
             //$("#tab-" + vm.selectTabId).removeClass("active");
             //$("#" + vm.selectTabId).removeClass("active");
             // loop through the windows
-            for (var index in vm.editorFiles) {
-                var editorFile = vm.editorFiles[index];
+            for (let index in vm.editorFiles) {
+                let editorFile = vm.editorFiles[index];
                 if (editorFile.id === vm.selectTabId) {
-                    var nextPos = (parseInt(index) - 1);
+                    let nextPos = (parseInt(index) - 1);
                     console.log("The pos is : " + nextPos)
                     if (nextPos == -1) {
                         console.log("The select tab id is getting reset")
@@ -97,9 +97,9 @@ angular.module('ide2App')
     
     vm.openTool = function(tool) {
         
-        var found = false;
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        let found = false;
+        for (let index in vm.editorFiles) {
+            let editorFile = vm.editorFiles[index];
             if (editorFile.id === tool) {
                 found = true;
                 break;
@@ -128,11 +128,11 @@ angular.module('ide2App')
     vm.openFile = function(project,treeNode) {
         
         // generate a new id and check for a duplicate
-        var id = (project + treeNode.fullPath).replace(/\//g, '');
+        let id = (project + treeNode.fullPath).replace(/\//g, '');
         id = id.replace(/\./g,'')
-        var found = false;
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        let found = false;
+        for (let index in vm.editorFiles) {
+            let editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 found = true;
                 break;
@@ -145,9 +145,9 @@ angular.module('ide2App')
             // check if we are dealing with am image
             if (vm.isImage(treeNode.fullPath)) {
                 // strip view of path
-                var fileData = treeNode.fullPath.replace(/\/views/,"")
+                let fileData = treeNode.fullPath.replace(/\/views/,"")
                 
-                var editorFile = {
+                let editorFile = {
                     id:id,
                     type:"image",
                     project:project,
@@ -167,7 +167,7 @@ angular.module('ide2App')
                 // add a new tab
                 FileService.getFile(project,treeNode.fullPath).then(function(response) {
                     
-                    var mode = response.data.fileExtension
+                    let mode = response.data.fileExtension
                     if (response.data.fileExtension === "js") {
                         mode = "javascript"
                     } else if (response.data.fileExtension === "gsp") {
@@ -177,7 +177,7 @@ angular.module('ide2App')
                     }
                     console.log("The mode is extension is [%o] mode is [%o]",response.data.fileExtension,mode)
                     
-                    var editorFile = {
+                    let editorFile = {
                         id:id,
                         type:"file",
                         project:project,
@@ -220,14 +220,14 @@ angular.module('ide2App')
     // this is a simple check based on the suffix of the file.
     vm.isImage = function(path) {
         
-        var suffix = path.substr(path.lastIndexOf('.') + 1) || path;
+        let suffix = path.substr(path.lastIndexOf('.') + 1) || path;
         console.log("The suffix of the file is %s",suffix);
         return vm.imageFiles.includes(suffix);
     }
     
     vm.closeFile = function(id) {
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        for (let index in vm.editorFiles) {
+            let editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 console.log("Close the id : " + id);
                 if (editorFile.dirty) {
@@ -245,11 +245,10 @@ angular.module('ide2App')
     }
     
     vm.closeTool = function(id) {
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        for (let index in vm.editorFiles) {
+            let editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 console.log("Close the id : " + id);
-                var newId = null;
                 vm.editorFiles.splice(index, 1);
                 
                 break;
@@ -259,8 +258,9 @@ angular.module('ide2App')
     }
     
     vm.saveFile = function(id) {
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        let cloneFiles = vm.editorFiles.splice()
+        for (let index in cloneFiles) {
+            let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
                 FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
                     console.log("The content has been saved : " + response.data.status)
@@ -277,11 +277,25 @@ angular.module('ide2App')
         }
     }
     
+    vm.saveEditorFile = function(editorFile) {
+        FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
+            console.log("The content has been saved : " + response.data.status)
+            if (response.data.status == "updated") {
+                editorFile.fileData.fileHash = response.data.fileHash;
+                
+            } else {
+                console.log("There was a conflish on the file original hash [" + editorFile.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
+            }
+        });
+        editorFile.dirty = false
+    }
+    
     
     vm.executeFile = function(id) {
         console.log("The execute method")
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        let cloneFiles = vm.editorFiles.splice()
+        for (let index in cloneFiles) {
+            let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
                 FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
                     if (response.data.status == "updated") {
@@ -300,8 +314,9 @@ angular.module('ide2App')
     }
     
     vm.refreshFile = function(id) {
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        let cloneFiles = vm.editorFiles.splice()
+        for (let index in cloneFiles) {
+            let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
                 // add a new tab
                 FileService.getFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
@@ -315,8 +330,9 @@ angular.module('ide2App')
     }
     
     vm.deleteFile = function(id) {
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        let cloneFiles = vm.editorFiles.splice()
+        for (let index in cloneFiles) {
+            let editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 FileService.deleteFile(editorFile.project,editorFile.treeNode.fullPath,"file").then(function(response){
                     vm.editorFiles.splice(index, 1);
@@ -346,10 +362,10 @@ angular.module('ide2App')
     $scope.aceLoaded = function(editor) {
         editor.$blockScrolling = 1
         console.log("The ace load method is called [" + (vm.editorFiles.length - 1) + "]")
-        var editorFile = vm.editorFiles[vm.editorFiles.length - 1]
+        let editorFile = vm.editorFiles[vm.editorFiles.length - 1]
         //editorFile.editor = editor
         console.log("The mode is : " + editorFile.fileData.fileExtension)
-        var mode = editorFile.fileData.fileExtension
+        let mode = editorFile.fileData.fileExtension
         if (editorFile.fileData.fileExtension === "js") {
             mode = "javascript"
         } else if (editorFile.fileData.fileExtension === "gsp") {
@@ -400,10 +416,11 @@ angular.module('ide2App')
     
     // loop through the editor files
     $interval(function() {
-        for (var index in vm.editorFiles) {
-            var editorFile = vm.editorFiles[index];
+        let cloneFiles = vm.editorFiles.slice(0);
+        for (let index in cloneFiles) {
+            let editorFile = cloneFiles[index];
             if (editorFile.type == "file" && editorFile.dirty === true) {
-                vm.saveFile(editorFile.id);
+                vm.saveEditorFile(editorFile);
                 //FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                 //editorFile.dirty = false
             }

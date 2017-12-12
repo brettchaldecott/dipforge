@@ -28,7 +28,7 @@
 @java("log")
 @rdf("http://dipforge.sourceforge.net/test1#type1" "type1")
 @store("store")
-@service("test" "test" "test.TestClass" "test")
+@service("testGroovy" "test" "test.TestClass" "test")
 @jndi("groovy/DataMapper" "test" "test.TestClass" "test2")
 @jndi("python/DataMapper" "test" "testmodule" "testmodule")
 @action()

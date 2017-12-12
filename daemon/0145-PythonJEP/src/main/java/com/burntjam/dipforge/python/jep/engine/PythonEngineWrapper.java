@@ -153,7 +153,7 @@ public class PythonEngineWrapper {
                 } else {
                     value = parameter;
                 }
-                arguments.append(parameterMapping.getName()).append(argumentSep);
+                arguments.append(argumentSep).append(parameterMapping.getName());
                 set.invoke(jepObject,parameterMapping.getName(),value);
                 argumentSep = ",";
             }

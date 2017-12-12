@@ -92,7 +92,7 @@ public class LsServiceStackEntry extends ProcessStackEntry {
                         ConnectionManager.getInstance().getConnection(
                         DataMapperBrokerDaemon.class,
                         "datamapper/BrokerDaemon");
-                log.info("Get the available methods [" + this.call.getService() + "][" +
+                log.debug("Get the available methods [" + this.call.getService() + "][" +
                         this.call.getProject() + "][" + this.call.getClassName() + "]");
                 List<MethodMapping> methods = daemon.listMethodsByService(this.call.getService(), 
                         this.call.getProject(), this.call.getClassName());
@@ -101,7 +101,7 @@ public class LsServiceStackEntry extends ProcessStackEntry {
                     callStatement.getEntries().size() -1);
                 
                 for (MethodMapping method : methods) {
-                    log.info("Check the method mapping [" + method + "]");
+                    log.debug("Check the method mapping [" + method + "]");
                     if (!method.getMethodName().equals(entry.getName())) {
                         continue;
                     }

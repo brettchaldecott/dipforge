@@ -34,5 +34,6 @@
         <property name="property4" datatype="http://www.w3.org/2001/XMLSchema#string"/>
         <link name="property5" datatype="http://dipforge.sourceforge.net/external#type1"/>
     </type>
+    
 </types>
 

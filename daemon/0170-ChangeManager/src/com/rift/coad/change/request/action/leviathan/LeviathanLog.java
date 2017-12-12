@@ -43,7 +43,8 @@ public class LeviathanLog implements Serializable {
      */
     public LeviathanLog(String project, String file) {
         this.project = project;
-        this.file = file.replaceAll("/", ".");
+        this.file = file.substring(0,file.lastIndexOf("."));
+        this.file = this.file.replaceAll("/", ".");
     }
     
     
@@ -93,6 +94,6 @@ public class LeviathanLog implements Serializable {
      * @return The reference to the log object
      */
     private Logger getLog() {
-        return Logger.getLogger(project + "." + file);
+        return Logger.getLogger(LeviathanLog.class.getName() + "." + project + "." + file);
     }
 }

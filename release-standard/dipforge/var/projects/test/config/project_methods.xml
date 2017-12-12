@@ -9,7 +9,7 @@
 -->
 
 <mapping>
-    <jndi name="groovy/DataMapper" service="test">
+    <jndi name="groovy/DataMapper" service="testGroovy">
         <project name="test">
             <method class="test.TestClass" name="callTest1" type="http://www.w3.org/2001/XMLSchema#string">
                 <parameter name="message" type="http://www.w3.org/2001/XMLSchema#string"/>
@@ -17,6 +17,14 @@
             <method class="test.TestClass" name="callTest2" type="http://dipforge.sourceforge.net/test1#type1">
                 <parameter name="message" type="http://www.w3.org/2001/XMLSchema#string"/>
                 <parameter name="data" type="http://dipforge.sourceforge.net/test1#type1"/>
+            </method>
+        </project>
+    </jndi>
+    <jndi name="python/DataMapper" service="testPython">
+        <project name="test">
+            <method class="testmodule" name="hello_world" type="http://www.w3.org/2001/XMLSchema#string">
+                <parameter name="message" type="http://www.w3.org/2001/XMLSchema#string"/>
+                <parameter name="rdf" type="http://dipforge.sourceforge.net/test1#type1"/>
             </method>
         </project>
     </jndi>
