@@ -695,7 +695,7 @@ def getJavaHomeVar() {
     return javaHome
 }
 
-task zipDipforge(type: Zip) {
+task zipDatacenterDipforge(type: Zip) {
     zip64 true
     appendix = 'template'
     from 'dipforge'
@@ -705,18 +705,18 @@ task zipDipforge(type: Zip) {
     exclude '**/deploy/*.ear'
 }
 
-task zipGeneratorTemplate(type: Zip) {
+task zipDatacenterGeneratorTemplate(type: Zip) {
     zip64 true
     appendix = 'template'
     from 'generator'
     baseName = 'generator-dipforge-datacenter'
 }
 
-task makeDipforgeRelease(type:Exec, dependsOn:[':release-datacenter:release']) {
+task makeDatacenterDipforgeRelease(type:Exec, dependsOn:[':release-datacenter:release']) {
   commandLine 'mvn', 'install'
 }
 
-task createReleaseOnGithub(dependsOn: [':release-datacenter:release',zipDipforge,zipGeneratorTemplate,makeDipforgeRelease,':composite:dipforgeenvironment:release']) << {
+task createReleaseOnGithub(dependsOn: [':release-datacenter:release',zipDatacenterDipforge,zipDatacenterGeneratorTemplate,makeDatacenterDipforgeRelease,':composite:dipforgeenvironment:release']) << {
     try {
         // validate parameters for release task
         println "git tag ${project.hasProperty('gitTag')}"
