@@ -9,4 +9,4 @@ def hello_world(message,rdf):
     
     print "The message %s %s" %(message,rdf)
     
-    return "result"
+    return rdf

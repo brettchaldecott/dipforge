@@ -52,8 +52,8 @@ flow bob {
        log.info("hello world example 3 : " + type1.getProperty1())
        log.info("hello world example 4 : " + type1.property2)
        
-       def helloWorldResult = testmodule.hello_world("message stuff",type1)
-       log.info("The result is : " + helloWorldResult)
+       type1 = testmodule.hello_world("message stuff",type1)
+       log.info("The python result is : " + type1.property2)
        
        log.info("Before sleeping for 10 milli seconds")
        action.sleep(20 * 1000)

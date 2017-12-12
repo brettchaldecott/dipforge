@@ -309,7 +309,7 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
      * @throws RemoteException
      */
     public String getStatus() throws ActionException, RemoteException {
-        log.info("#### Get the status value : " + this.action.getStatus());
+        log.debug("#### Get the status value : " + this.action.getStatus());
         return this.action.getStatus();
     }
 
@@ -459,7 +459,7 @@ public class ActionInstanceImpl implements ActionInstance, ResourceIndex, Resour
      */
     private void handleStatus() {
         try {
-            log.info("########### current status is : " + processor.getProcessor().getStatus());
+            log.debug("########### current status is : " + processor.getProcessor().getStatus());
             if (processor.getProcessor().getStatus() == 
                     LeviathanConstants.Status.COMPLETED) {
                 this.action.setStatus(com.rift.coad.change.ActionConstants.FINISHED);
