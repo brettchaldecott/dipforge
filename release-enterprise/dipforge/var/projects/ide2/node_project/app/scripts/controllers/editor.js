@@ -258,7 +258,7 @@ angular.module('ide2App')
     }
     
     vm.saveFile = function(id) {
-        let cloneFiles = vm.editorFiles.splice()
+        let cloneFiles = vm.editorFiles.concat()
         for (let index in cloneFiles) {
             let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
@@ -293,12 +293,14 @@ angular.module('ide2App')
     
     vm.executeFile = function(id) {
         console.log("The execute method")
-        let cloneFiles = vm.editorFiles.splice()
+        let cloneFiles = vm.editorFiles.concat()
+        console.log("The the files are [%o]",cloneFiles)
         for (let index in cloneFiles) {
             let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
                 FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
                     if (response.data.status == "updated") {
+                        console.log("Attempt to execute the file")
                         editorFile.fileData.fileHash = response.data.fileHash;
                         FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(saveResponse) {
                             //console.log("The current hash [" + editorFile.fileData.fileHash + "]")
@@ -314,7 +316,7 @@ angular.module('ide2App')
     }
     
     vm.refreshFile = function(id) {
-        let cloneFiles = vm.editorFiles.splice()
+        let cloneFiles = vm.editorFiles.concat()
         for (let index in cloneFiles) {
             let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
@@ -330,7 +332,7 @@ angular.module('ide2App')
     }
     
     vm.deleteFile = function(id) {
-        let cloneFiles = vm.editorFiles.splice()
+        let cloneFiles = vm.editorFiles.concat()
         for (let index in cloneFiles) {
             let editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
@@ -416,7 +418,7 @@ angular.module('ide2App')
     
     // loop through the editor files
     $interval(function() {
-        let cloneFiles = vm.editorFiles.slice(0);
+        let cloneFiles = vm.editorFiles.concat();
         for (let index in cloneFiles) {
             let editorFile = cloneFiles[index];
             if (editorFile.type == "file" && editorFile.dirty === true) {

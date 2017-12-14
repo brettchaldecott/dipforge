@@ -55,13 +55,17 @@ try {
     if (file.endsWith(".py")) {
         daemon = ConnectionManager.getInstance().getConnection(
 			PythonJepDaemon.class,"python/Daemon")
-    } else {
+		resultJson.result = daemon.execute(json.project,json.path)
+    } else if (file.endsWith(".groovy")) {
         daemon = ConnectionManager.getInstance().getConnection(
 			GroovyDaemon.class,"groovy/Daemon")
+		resultJson.result = daemon.execute(json.project,json.path)
+    } else {
+        resultJson.result = "No available execution environment"
     }
     
     
-    resultJson.result = daemon.execute(json.project,json.path)
+    
 } catch (Throwable ex) {
     log.error("Failed to create the file [" + params.fileName + "] in the project [" + params.project + "]" + ex.getMessage());
     resultJson.status = "failed"
