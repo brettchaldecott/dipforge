@@ -7,6 +7,6 @@
 
 def hello_world(message,rdf):
     
-    print "The message %s %s" %(message,rdf)
+    print "The message this is new %s %s" %(message,rdf)
     
     return rdf
