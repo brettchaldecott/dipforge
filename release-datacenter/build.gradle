@@ -355,6 +355,7 @@ task copyToGroovyLib(type: Copy) {
 
 
 clean {
+    ant.touch(file:"dipforge/tmp/.keepme")
     ant {
         delete {
             fileset(dir: "dipforge"){
