@@ -406,6 +406,12 @@ clean {
         delete {
             fileset(dir: "dipforge/log"){
                 include(name: "**/*.*")
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/tmp"){
+                exclude(name: "**/*.keepme")
             }
         }
         delete (includeEmptyDirs:true){
@@ -480,6 +486,7 @@ clean {
         }
         delete {
             fileset (dir: "generator") {
+                exclude(name: "**/*.keepme")
             }              
         }
         delete {

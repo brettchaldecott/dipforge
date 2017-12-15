@@ -183,6 +183,7 @@ angular.module('ide2App')
                         project:project,
                         treeNode:treeNode,
                         fileData:response.data,
+                        contents: response.data.contents,
                         mode: mode,
                         dirty: false,
                         editorChange:    function(editor) {
@@ -190,9 +191,11 @@ angular.module('ide2App')
                                 
                                 editorFile.dirty = false
                                 
-                                editor.getSession().on("change", function() {
-                                    
+                                editor.getSession().on("change", function(event) {
+                                    editorFile.contents = editor.getSession().getValue()
+                                    //console.log("The editor on change [%o][%o][%o]",event,editorFile.fileData,editor.getSession().getValue());
                                     editorFile.dirty = true
+                                    
                                 });
                                 
                                 // select the 
@@ -231,7 +234,7 @@ angular.module('ide2App')
             if (editorFile.id === id) {
                 console.log("Close the id : " + id);
                 if (editorFile.dirty) {
-                    FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
+                    FileService.saveFile({content:editorFile.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
                     editorFile.dirty = false
                 }
                 
@@ -262,7 +265,7 @@ angular.module('ide2App')
         for (let index in cloneFiles) {
             let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
-                FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
+                FileService.saveFile({content:editorFile.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
                     console.log("The content has been saved : " + response.data.status)
                     if (response.data.status == "updated") {
                         editorFile.fileData.fileHash = response.data.fileHash;
@@ -278,7 +281,7 @@ angular.module('ide2App')
     }
     
     vm.saveEditorFile = function(editorFile) {
-        FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
+        FileService.saveFile({content:editorFile.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
             console.log("The content has been saved : " + response.data.status)
             if (response.data.status == "updated") {
                 editorFile.fileData.fileHash = response.data.fileHash;
@@ -298,7 +301,7 @@ angular.module('ide2App')
         for (let index in cloneFiles) {
             let editorFile = cloneFiles[index];
             if (editorFile.id === id) {
-                FileService.saveFile({content:editorFile.fileData.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
+                FileService.saveFile({content:editorFile.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
                     if (response.data.status == "updated") {
                         console.log("Attempt to execute the file")
                         editorFile.fileData.fileHash = response.data.fileHash;
@@ -322,8 +325,9 @@ angular.module('ide2App')
             if (editorFile.id === id) {
                 // add a new tab
                 FileService.getFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
-                    editorFile.fileData.contents = response.data.contents
-                    editorFile.fileData.fileHash = response.data.fileHash
+                    editorFile.fileData.contents = response.data.contents;
+                    editorFile.contents = response.data.contents;
+                    editorFile.fileData.fileHash = response.data.fileHash;
                     editorFile.dirty = false;
                 });
                 break;
@@ -387,6 +391,7 @@ angular.module('ide2App')
         editor.getSession().on("change", function() {
             
             console.log("The editor session changes  %s",editorFile.mode)
+            console.log("Editor value [%o]",editor.getSession().getValue())
             editorFile.dirty = true
             editorFile.editor.getSession().setMode("ace/mode/" + editorFile.mode)
             console.log("Set the editor mode  %s",editorFile.mode)

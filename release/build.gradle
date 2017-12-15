@@ -381,6 +381,7 @@ clean {
         delete {
             fileset(dir: "dipforge/var/tomcat/conf"){
                 include(name: "**/*.properties")
+                exclude(name: "**/*.keepme")
             }
         }
         delete (includeEmptyDirs:true){
@@ -401,11 +402,18 @@ clean {
                 include(name: "**/users.xml")
                 include(name: "**/*.policy")
                 include(name: "**/*.properties")
+                exclude(name: "**/*.keepme")
             }
         }
         delete {
             fileset(dir: "dipforge/log"){
                 include(name: "**/*.*")
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/tmp"){
+                exclude(name: "**/*.keepme")
             }
         }
         delete (includeEmptyDirs:true){
@@ -480,6 +488,7 @@ clean {
         }
         delete {
             fileset (dir: "generator") {
+                exclude(name: "**/*.keepme")
             }              
         }
         delete {

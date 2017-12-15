@@ -406,6 +406,12 @@ clean {
         delete {
             fileset(dir: "dipforge/log"){
                 include(name: "**/*.*")
+                exclude(name: "**/*.keepme")
+            }
+        }
+        delete {
+            fileset(dir: "dipforge/tmp"){
+                exclude(name: "**/*.keepme")
             }
         }
         delete (includeEmptyDirs:true){
@@ -480,14 +486,15 @@ clean {
         }
         delete {
             fileset (dir: "generator") {
-            }              
+                exclude(name: "**/*.keepme")
+            }
         }
         delete {
             fileset (dir: "resource") {
                 exclude(name: "**/install-info/izpack-user-input.xml")
                 exclude(name: "**/install-info/Licence.txt")
                 exclude(name: "**/install-info/README.txt")
-            }              
+            }
         }
     }
 }
