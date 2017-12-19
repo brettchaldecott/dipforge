@@ -6,8 +6,8 @@
  
   <info>
     <appname>DipforgeDatacenter</appname>
-    <appversion>4.1.a23</appversion>
-    <appsubpath>dipforge-datacenter-4.1.a23</appsubpath>
+    <appversion>4.1.a24</appversion>
+    <appsubpath>dipforge-datacenter-4.1.a24</appsubpath>
     <javaversion>1.7</javaversion>
     <authors>
 	<author name="Burntjam" email="info@dipforge.net"/>
