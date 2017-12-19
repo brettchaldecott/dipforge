@@ -7,5 +7,7 @@ import sys
 
 print "Hello to the world"
 
+
+
 output = "fred"
 

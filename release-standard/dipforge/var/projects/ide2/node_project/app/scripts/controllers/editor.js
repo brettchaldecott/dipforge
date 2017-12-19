@@ -164,53 +164,19 @@ angular.module('ide2App')
             
             } else { 
                 
-                // add a new tab
-                FileService.getFile(project,treeNode.fullPath).then(function(response) {
-                    
-                    let mode = response.data.fileExtension
-                    if (response.data.fileExtension === "js") {
-                        mode = "javascript"
-                    } else if (response.data.fileExtension === "gsp") {
-                        mode = "jsp"
-                    } else if (response.data.fileExtension === "py") {
-                        mode = "python"
-                    }
-                    console.log("The mode is extension is [%o] mode is [%o]",response.data.fileExtension,mode)
-                    
-                    let editorFile = {
+                
+                let editorFile = {
                         id:id,
                         type:"file",
                         project:project,
                         treeNode:treeNode,
-                        fileData:response.data,
-                        contents: response.data.contents,
-                        mode: mode,
-                        dirty: false,
-                        editorChange:    function(editor) {
-                                editor.$blockScrolling = 1
-                                
-                                editorFile.dirty = false
-                                
-                                editor.getSession().on("change", function(event) {
-                                    editorFile.contents = editor.getSession().getValue()
-                                    //console.log("The editor on change [%o][%o][%o]",event,editorFile.fileData,editor.getSession().getValue());
-                                    editorFile.dirty = true
-                                    
-                                });
-                                
-                                // select the 
-                                if (vm.selectTabId != null) {
-                                    $("#" + vm.selectTabId).addClass("active");
-                                    $("#tab-" + vm.selectTabId).addClass("active");
-                                    console.log("The selected the tab %s",vm.selectTabId)
-                                }
-                            }
-                        }
-                    
-                    vm.editorFiles.push(editorFile)
-                    
-                    vm.selectTab(id)
-                });
+                        mode: null,
+                        dirty: false
+                }
+                
+                vm.editorFiles.push(editorFile)
+                
+                vm.selectTab(id)
                 
             }
         } else {
@@ -233,14 +199,8 @@ angular.module('ide2App')
             let editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
                 console.log("Close the id : " + id);
-                if (editorFile.dirty) {
-                    FileService.saveFile({content:editorFile.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
-                    editorFile.dirty = false
-                }
                 
                 vm.editorFiles.splice(index, 1);
-                
-                
                 
                 break;
             }
@@ -251,88 +211,13 @@ angular.module('ide2App')
         for (let index in vm.editorFiles) {
             let editorFile = vm.editorFiles[index];
             if (editorFile.id === id) {
-                console.log("Close the id : " + id);
+                console.log("Close the id [%o][%o]",id,index);
                 vm.editorFiles.splice(index, 1);
                 
                 break;
             }
         }
         
-    }
-    
-    vm.saveFile = function(id) {
-        let cloneFiles = vm.editorFiles.concat()
-        for (let index in cloneFiles) {
-            let editorFile = cloneFiles[index];
-            if (editorFile.id === id) {
-                FileService.saveFile({content:editorFile.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
-                    console.log("The content has been saved : " + response.data.status)
-                    if (response.data.status == "updated") {
-                        editorFile.fileData.fileHash = response.data.fileHash;
-                        
-                    } else {
-                        console.log("There was a conflish on the file original hash [" + editorFile.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
-                    }
-                });
-                editorFile.dirty = false
-                break;
-            }
-        }
-    }
-    
-    vm.saveEditorFile = function(editorFile) {
-        FileService.saveFile({content:editorFile.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
-            console.log("The content has been saved : " + response.data.status)
-            if (response.data.status == "updated") {
-                editorFile.fileData.fileHash = response.data.fileHash;
-                
-            } else {
-                console.log("There was a conflish on the file original hash [" + editorFile.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
-            }
-        });
-        editorFile.dirty = false
-    }
-    
-    
-    vm.executeFile = function(id) {
-        console.log("The execute method")
-        let cloneFiles = vm.editorFiles.concat()
-        console.log("The the files are [%o]",cloneFiles)
-        for (let index in cloneFiles) {
-            let editorFile = cloneFiles[index];
-            if (editorFile.id === id) {
-                FileService.saveFile({content:editorFile.contents,fileHash:editorFile.fileData.fileHash,project:editorFile.project,path:editorFile.treeNode.fullPath}).then(function(response) {
-                    if (response.data.status == "updated") {
-                        console.log("Attempt to execute the file")
-                        editorFile.fileData.fileHash = response.data.fileHash;
-                        FileService.executeFile(editorFile.project,editorFile.treeNode.fullPath).then(function(saveResponse) {
-                            //console.log("The current hash [" + editorFile.fileData.fileHash + "]")
-                            $rootScope.$broadcast("executeOutput",saveResponse.data);
-                        });
-                    } else {
-                        console.log("There was a conflish on the file original hash [" + editorFile.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
-                    }
-                });
-                break;
-            }
-        }
-    }
-    
-    vm.refreshFile = function(id) {
-        let cloneFiles = vm.editorFiles.concat()
-        for (let index in cloneFiles) {
-            let editorFile = cloneFiles[index];
-            if (editorFile.id === id) {
-                // add a new tab
-                FileService.getFile(editorFile.project,editorFile.treeNode.fullPath).then(function(response) {
-                    editorFile.fileData.contents = response.data.contents;
-                    editorFile.contents = response.data.contents;
-                    editorFile.fileData.fileHash = response.data.fileHash;
-                    editorFile.dirty = false;
-                });
-                break;
-            }
-        }
     }
     
     vm.deleteFile = function(id) {
@@ -363,48 +248,6 @@ angular.module('ide2App')
         }
     }
     
-    
-    // the ace load method
-    $scope.aceLoaded = function(editor) {
-        editor.$blockScrolling = 1
-        console.log("The ace load method is called [" + (vm.editorFiles.length - 1) + "]")
-        let editorFile = vm.editorFiles[vm.editorFiles.length - 1]
-        //editorFile.editor = editor
-        console.log("The mode is : " + editorFile.fileData.fileExtension)
-        let mode = editorFile.fileData.fileExtension
-        if (editorFile.fileData.fileExtension === "js") {
-            mode = "javascript"
-        } else if (editorFile.fileData.fileExtension === "gsp") {
-            mode = "jsp"
-        } else if (editorFile.fileData.fileExtension === "py") {
-            mode = "python"
-        }
-        console.log("The mode is extension is [%o] mode is [%o]",editorFile.fileData.fileExtension,mode)
-        
-        
-        editor.getSession().setMode("ace/mode/" + mode)
-        
-        editorFile.dirty = false
-        editorFile.mode = mode;
-        editorFile.editor = editor;
-        
-        editor.getSession().on("change", function() {
-            
-            console.log("The editor session changes  %s",editorFile.mode)
-            console.log("Editor value [%o]",editor.getSession().getValue())
-            editorFile.dirty = true
-            editorFile.editor.getSession().setMode("ace/mode/" + editorFile.mode)
-            console.log("Set the editor mode  %s",editorFile.mode)
-        });
-        
-        // select the 
-        if (vm.selectTabId != null) {
-            $("#" + vm.selectTabId).addClass("active");
-            $("#tab-" + vm.selectTabId).addClass("active");
-            console.log("The selected the tab %s",vm.selectTabId)
-        }
-    }
-    
     $rootScope.$on('openFile', function(event, data){
         vm.openFile(data.project,data.treeNode)
     });
@@ -421,18 +264,11 @@ angular.module('ide2App')
         }
     });
     
-    // loop through the editor files
-    $interval(function() {
-        let cloneFiles = vm.editorFiles.concat();
-        for (let index in cloneFiles) {
-            let editorFile = cloneFiles[index];
-            if (editorFile.type == "file" && editorFile.dirty === true) {
-                vm.saveEditorFile(editorFile);
-                //FileService.saveFile({content:editorFile.fileData.contents,project:editorFile.project,path:editorFile.treeNode.fullPath})
-                //editorFile.dirty = false
-            }
+    $rootScope.$on('toolClosed', function(event, data) {
+        if (vm.selectTabId != null) {
+            $("#" + vm.selectTabId).addClass("active");
+            $("#tab-" + vm.selectTabId).addClass("active");
+            console.log("[toolLoaded]The selected the tab %s",vm.selectTabId)
         }
-        
-    }, 1000 * 10);
-    
+    });
 });

@@ -402,7 +402,7 @@
                 <div class="collapse" id="_windows">
                     <div class="well">
                         <ul class="nav nav-sidebar" role="tablist">
-                            <li ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="presentation"
+                            <li ng-repeat="editorFile in editorCtrls.editorFiles" role="presentation"
                             id="tab-{{editorFile.id}}" ng-click="editorCtrls.selectTabId = editorFile.id">
                                 <a ng-if="editorFile.type == 'file'" href="#" ng-click="editorCtrls.selectTab(editorFile.id)" aria-controls="{{editorFile.id}}" role="tab" data-toggle="tab">
                                     {{editorFile.project + ":" + editorFile.treeNode.label}}
@@ -482,35 +482,42 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div ng-show="(editorCtrls.editorFiles.length > 0)">
                 <div class="tab-content">
-                    <div ng-repeat="editorFile in editorCtrls.editorFiles track by $index" role="tabpanel" class="tab-pane" id="{{editorFile.id}}">
+                    <div ng-repeat="editorFile in editorCtrls.editorFiles" role="tabpanel" class="tab-pane" id="{{editorFile.id}}">
                         
                         <div ng-if="editorFile.type == 'file'">
-                            <ul class="nav nav-pills" role="tablist">
-                              <li role="presentation"><a href="#" ng-click="editorCtrls.refreshFile(editorFile.id)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
-                              <li role="presentation"><a href="#" ng-click="editorCtrls.saveFile(editorFile.id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a></li>
-                              <li ng-show="editorFile.treeNode.fullPath.startsWith('/services')" role="presentation"><a href="#" ng-click="editorCtrls.executeFile(editorFile.id)"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></li>
-                              <li role="presentation">
-                                  <h4>{{editorFile.project}}:{{editorFile.treeNode.fullPath}}&nbsp;
-                                  </h4>
-                              </li>
-                              <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeFile(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
-                              <li role="presentation" class="pull-right"><a href="#" ng-click="editorCtrls.deleteFile(editorFile.id)"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
-                              
-                            </ul>
+                            <div ng-controller="FileEditorCtrl as fileEditorCtrl" ng-init="init(editorFile)">
                         
-                            <div ui-ace="{
-                                onLoad : editorFile.editorChange,
-                                mode: editorFile.mode,
-                                useWrapMode : false,
-                                showGutter: true,
-                                theme:'twilight',
-                                require: ['ace/ext/language_tools'],
-                                advanced: {
-                                      enableSnippets: true,
-                                      enableBasicAutocompletion: true,
-                                      enableLiveAutocompletion: true
-                                  }
-                                }" ng-model="editorFile.fileData.contents"></div>
+                                <ul class="nav nav-pills" role="tablist">
+                                  <li role="presentation"><a href="#" ng-click="fileEditorCtrl.refreshFile()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
+                                  <li role="presentation"><a href="#" ng-click="fileEditorCtrl.saveFile()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a></li>
+                                  <li ng-show="editorFile.treeNode.fullPath.startsWith('/services')" role="presentation"><a href="#" ng-click="fileEditorCtrl.executeFile()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></li>
+                                  <li role="presentation">
+                                      <h4>{{editorFile.project}}:{{editorFile.treeNode.fullPath}}&nbsp;<span class="badge">{{fileEditorCtrl.status}}</span>
+                                      </h4>
+                                  </li>
+                                  <li role="presentation"><a href="#" class="close" ng-click="editorCtrls.closeFile(editorFile.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+                                  <li role="presentation" class="pull-right"><a href="#" ng-click="editorCtrls.deleteFile(editorFile.id)"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a></li>
+                                  
+                                </ul>
+                                <div ng-if="fileEditorCtrl.fileLoaded">
+                                    <div ui-ace="{
+                                    onLoad : fileEditorCtrl.editorLoad,
+                                    mode: fileEditorCtrl.mode,
+                                    useWrapMode : false,
+                                    showGutter: true,
+                                    theme:'twilight',
+                                    require: ['ace/ext/language_tools'],
+                                    advanced: {
+                                          enableSnippets: true,
+                                          enableBasicAutocompletion: true,
+                                          enableLiveAutocompletion: true
+                                      }
+                                    }" ng-model="fileEditorCtrl.contents">stuff</div>
+                                </div>
+                                <div ng-if="!fileEditorCtrl.loaded">
+                                    Loading.....
+                                </div>
+                            </div>
                         </div>
                         <div ng-if="editorFile.type == 'image'">
                             <ul class="nav nav-pills" role="tablist">
@@ -629,6 +636,7 @@
         <script src="scripts/controllers/sparql.js"></script>
         <script src="scripts/controllers/imagectrl.js"></script>
         <script src="scripts/controllers/logctrl.js"></script>
+        <script src="scripts/controllers/fileeditorctrl.js"></script>
         <script src="scripts/services/logservice.js"></script>
         <!-- endbuild -->
 </body>
