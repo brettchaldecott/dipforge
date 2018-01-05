@@ -51,6 +51,8 @@ flow bob {
        type1.setProperty1("man on moon")
        log.info("hello world example 3 : " + type1.getProperty1())
        log.info("hello world example 4 : " + type1.property2)
+       log.info("hello world example integer : " + type1.propertyInt)
+       log.info("hello world example decimal : " + type1.propertyDecimal)
        
        type1 = testmodule.hello_world("message stuff",type1)
        log.info("The python result is : " + type1.property2)
