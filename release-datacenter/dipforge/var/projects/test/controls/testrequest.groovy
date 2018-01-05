@@ -48,6 +48,8 @@ try {
     test1.property1 = params.name
     test1.property2 = params.description
     test1.property3 = test2
+    test1.propertyInt = 10000
+    test1.propertyDecimal = 10000.001
     
     log.info("Init the request : " + test1)
     RequestHandler.getInstance("test", "test1", test1).makeRequest()
