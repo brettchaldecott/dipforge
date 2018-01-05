@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * The request type variable stack entry
@@ -117,12 +119,12 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
      */
     private void executeGet(CallStatement.CallStatementEntry entry, 
             Resource resource) throws EngineException {
+        String propertyName = "Unknown";
         try {
             OntologyClass ontologyClass = LsRDFTypeUtil.getOntologyClass(resource);
             List<OntologyProperty> properties = ontologyClass.listProperties();
             boolean found = false;
-            
-            String propertyName = entry.getName();
+            propertyName = entry.getName();
             for (OntologyProperty property : properties) {
                 if (property.getLocalname().equalsIgnoreCase(propertyName)) {
                     
@@ -151,7 +153,12 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
                         this.getParent().setResult(
-                                resource.getProperty(Integer.class, property.getURI().toString()));
+                                resource.getProperty(BigInteger.class, property.getURI().toString()));
+                    } else if (propertyType.equals(
+                            XSDDataDictionary.getTypeByName(
+                            XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                        this.getParent().setResult(
+                                resource.getProperty(BigDecimal.class, property.getURI().toString()));
                     } else if (propertyType.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_LONG).getURI().toString())) {
@@ -196,7 +203,7 @@ public class LsRDFTypeVariableStackEntry extends ProcessStackEntry {
             throw new EngineException("Failed to execute the getter because : " 
                     + ex.getMessage(),ex);
         }
-        throw new EngineException("Failed to retrieve the resource ");
+        throw new EngineException("Failed to retrieve the resource :" + propertyName);
     }
     
     

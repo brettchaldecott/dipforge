@@ -40,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 import net.sf.cglib.proxy.InvocationHandler;
 import org.apache.log4j.Logger;
 
@@ -181,8 +183,12 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
                 return new Date(this.resource.getValueAsCalendar().getTimeInMillis());
             } else if (type.equals(Calendar.class)) {
                 return this.resource.getValueAsCalendar();
+            } else if (type.equals(BigInteger.class)) {
+                return (BigInteger) this.resource.getValueAsBigInteger();
+            } else if (type.equals(BigDecimal.class)) {
+                return (BigDecimal) this.resource.getValueAsBigDecimal();
             } else if (type.equals(Integer.class)) {
-                return (Integer) (int) this.resource.getValueAsLong();
+                return (Integer) this.resource.getValueAsInteger();
             } else if (type.equals(int.class)) {
                 return (int) this.resource.getValueAsLong();
             } else if (type.equals(Long.class)) {
@@ -335,7 +341,11 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
         } else if (value instanceof Calendar) {
             property.setValue((Calendar) value);
         } else if (value instanceof Integer) {
-            property.setValue((long) (Integer) value);
+            property.setValue((Integer) value);
+        } else if (value instanceof BigInteger) {
+            property.setValue((BigInteger) value);
+        } else if (value instanceof BigDecimal) {
+            property.setValue((BigDecimal) value);
         } else if (value.getClass().equals(int.class)) {
             property.setValue(long.class.cast(value));
         } else if (value instanceof Long) {
@@ -393,7 +403,11 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
             } else if (type.equals(Calendar.class)) {
                 return property.getValueAsCalendar();
             } else if (type.equals(Integer.class)) {
-                return (Integer) (int) property.getValueAsLong();
+                return (Integer) property.getValueAsInteger();
+            } else if (type.equals(BigInteger.class)) {
+                return (BigInteger)property.getValueAsBigInteger();
+            } else if (type.equals(BigDecimal.class)) {
+                return (BigDecimal)property.getValueAsBigDecimal();
             } else if (type.equals(int.class)) {
                 return (int) property.getValueAsLong();
             } else if (type.equals(Long.class)) {
@@ -412,6 +426,10 @@ public class BasicJDOResourceInvocationHandler implements InvocationHandler {
                 return (boolean) property.getValueAsBoolean();
             } else if (type.equals(Boolean.class)) {
                 return (Boolean) property.getValueAsBoolean();
+            } else if (type.equals(BigInteger.class)) {
+                return (BigInteger) property.getValueAsBigInteger();
+            } else if (type.equals(BigDecimal.class)) {
+                return (BigDecimal) property.getValueAsBigDecimal();
             } else {
                 return BasicJDOProxyFactory.createJDOProxy(type,
                         persistanceSession, this.resource.getProperty(identifier).

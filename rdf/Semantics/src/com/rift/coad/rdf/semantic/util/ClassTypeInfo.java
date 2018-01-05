@@ -7,6 +7,7 @@ package com.rift.coad.rdf.semantic.util;
 
 // imports
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -35,6 +36,8 @@ public class ClassTypeInfo {
         } else if (c.equals(Calendar.class)) {
             return true;
         } else if (c.equals(BigDecimal.class)) {
+            return true;
+        } else if (c.equals(BigInteger.class)) {
             return true;
         } else if (Integer.class.equals(c)) {
             return true;

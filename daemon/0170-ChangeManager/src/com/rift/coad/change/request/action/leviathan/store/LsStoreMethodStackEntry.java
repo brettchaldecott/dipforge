@@ -50,6 +50,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import com.rift.coad.lib.configuration.Configuration;
 import com.rift.coad.lib.configuration.ConfigurationFactory;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 
 /**
@@ -269,9 +271,14 @@ public class LsStoreMethodStackEntry extends ProcessStackEntry {
                                     propertyValue.get(Double.class));
                     } else if (propertyType.equals(
                             XSDDataDictionary.getTypeByName(
+                            XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                        resultResource.addProperty(propertyURI,
+                                    propertyValue.get(BigDecimal.class));
+                    } else if (propertyType.equals(
+                            XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
                         resultResource.addProperty(propertyURI,
-                                    propertyValue.get(Integer.class));
+                                    propertyValue.get(BigInteger.class));
                     } else if (propertyType.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_LONG).getURI().toString())) {

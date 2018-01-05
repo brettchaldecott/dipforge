@@ -31,6 +31,8 @@ import com.rift.dipforge.ls.engine.EngineException;
 import com.rift.dipforge.ls.engine.internal.ProcessStackEntry;
 import com.rift.dipforge.ls.engine.internal.ProcessorMemoryManager;
 import com.rift.dipforge.ls.parser.obj.CallStatement;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,9 +148,14 @@ public class LsRDFTypeMethodStackEntry extends ProcessStackEntry {
                                 resource.getProperty(Double.class, property.getURI().toString()));
                     } else if (propertyType.equals(
                             XSDDataDictionary.getTypeByName(
+                            XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                        this.getParent().setResult(
+                                resource.getProperty(BigDecimal.class, property.getURI().toString()));
+                    } else if (propertyType.equals(
+                            XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
                         this.getParent().setResult(
-                                resource.getProperty(Integer.class, property.getURI().toString()));
+                                resource.getProperty(BigInteger.class, property.getURI().toString()));
                     } else if (propertyType.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_LONG).getURI().toString())) {

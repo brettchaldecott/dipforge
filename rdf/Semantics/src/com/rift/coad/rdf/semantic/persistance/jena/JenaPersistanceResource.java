@@ -35,6 +35,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
@@ -86,6 +88,17 @@ public class JenaPersistanceResource implements PersistanceResource {
      */
     public boolean getValueAsBoolean() throws PersistanceException {
         return resource.asLiteral().getBoolean();
+    }
+
+
+    /**
+     * This method returns the literal as integer value.
+     *
+     * @return The integer value.
+     * @throws PersistanceException
+     */
+    public int getValueAsInteger() throws PersistanceException {
+        return resource.asLiteral().getInt();
     }
 
 
@@ -159,7 +172,31 @@ public class JenaPersistanceResource implements PersistanceResource {
             return resource.asResource().toString();
         }
     }
-    
+
+    /**
+     * This method returns the big integer value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public BigInteger getValueAsBigInteger() throws PersistanceException {
+        Object value = resource.asLiteral().getValue();
+        if (value instanceof Integer) {
+            return BigInteger.valueOf(((Integer)value).intValue());
+        } else {
+            return (BigInteger)value;
+        }
+    }
+
+    /**
+     * This method returns the big decimal value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public BigDecimal getValueAsBigDecimal() throws PersistanceException {
+        return (BigDecimal)resource.asLiteral().getValue();
+    }
 
     /**
      * The name space for the resource.

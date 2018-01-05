@@ -36,6 +36,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import org.apache.log4j.Logger;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * This object represents a property.
@@ -200,6 +202,163 @@ public class JenaPersistanceProperty implements PersistanceProperty {
         }
     }
 
+
+    /**
+     * This method sets the big integer value.
+     *
+     * @param longValue The long value.
+     * @throws PersistanceException
+     */
+    public void setValue(BigInteger bigIntegerValue) throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                statement = resource.addLiteral(property, bigIntegerValue).
+                        getProperty(property);
+            } else {
+                statement.changeObject(bigIntegerValue.toString());
+            }
+        } catch (Exception ex) {
+            log.error("Failed to set the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException("Failed to set the value : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method returns the literal as big integer value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public BigInteger getValueAsBigInteger() throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                throw new PersistanceException("The property [" +
+                        property.getURI() + "]has not been set.");
+            } else {
+                Object value = statement.getLiteral().getValue();
+                if (value instanceof Integer) {
+                    return BigInteger.valueOf(((Integer)value).intValue());
+                } else {
+                    return (BigInteger)value;
+                }
+            }
+        } catch (PersistanceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to set the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException("Failed to set the value : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method sets the big decimal value.
+     *
+     * @param bigDecimalValue The big decimal value.
+     * @throws PersistanceException
+     */
+    public void setValue(BigDecimal bigDecimalValue) throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                statement = resource.addLiteral(property, bigDecimalValue).
+                        getProperty(property);
+            } else {
+                statement.changeObject(bigDecimalValue.toString());
+            }
+        } catch (Exception ex) {
+            log.error("Failed to set the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException("Failed to set the value : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+
+    /**
+     * This method returns the literal as big decimal value.
+     *
+     * @return The big decimal value.
+     * @throws PersistanceException
+     */
+    public BigDecimal getValueAsBigDecimal() throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                throw new PersistanceException("The property [" +
+                        property.getURI() + "]has not been set.");
+            } else {
+                Object value = statement.getLiteral().getValue();
+                if (value instanceof Integer) {
+                    return new BigDecimal((Integer)value);
+                } else if (value instanceof BigInteger) {
+                    return new BigDecimal((BigInteger)value);
+                } else {
+                    return (BigDecimal)value;
+                }
+            }
+        } catch (PersistanceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to set the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException("Failed to set the value : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method sets the literal int value.
+     *
+     * @param intValue The int value.
+     * @throws PersistanceException
+     */
+    public void setValue(int intValue) throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                statement = resource.addLiteral(property, intValue).
+                        getProperty(property);
+            } else {
+                statement.changeLiteralObject(intValue);
+            }
+        } catch (Exception ex) {
+            log.error("Failed to set the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException("Failed to set the value : " +
+                    ex.getMessage(),ex);
+        }
+    }
+
+
+    /**
+     * This method returns the literal as integer value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public int getValueAsInteger() throws PersistanceException {
+        try {
+            if (statement == null && resource != null) {
+                throw new PersistanceException("The property [" +
+                        property.getURI() + "]has not been set.");
+            } else {
+                return statement.getInt();
+            }
+        } catch (PersistanceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to get the value : " +
+                    ex.getMessage(),ex);
+            throw new PersistanceException(
+                    "Failed to get the value : " + ex.getMessage(),ex);
+        }
+    }
+    
 
     /**
      * This method sets the literal value.

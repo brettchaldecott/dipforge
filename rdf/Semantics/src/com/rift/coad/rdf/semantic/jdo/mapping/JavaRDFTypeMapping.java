@@ -12,6 +12,8 @@ import com.rift.coad.rdf.semantic.types.DataType;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 import java.util.Calendar;
 import java.util.Date;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * This object is responsible for returning mapping information between Java and
@@ -32,6 +34,10 @@ public class JavaRDFTypeMapping {
         try {
             if (javaType.equals(String.class)) {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_STRING);
+            } else if (javaType.equals(BigInteger.class)) {
+                return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_INTEGER);
+            } else if (javaType.equals(BigDecimal.class)) {
+                return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_DECIMAL);
             } else if (javaType.equals(Integer.class) || javaType.equals(int.class)) {
                 return XSDDataDictionary.getTypeByName(XSDDataDictionary.XSD_INT);
             } else if (javaType.equals(Long.class) || javaType.equals(long.class)) {

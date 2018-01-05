@@ -24,6 +24,8 @@ package com.dipforge.semantic
 
 import java.net.URI;
 import java.util.Date;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
@@ -140,13 +142,23 @@ class RDFTypeBuilder {
                     }
                 } else if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
-                        XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
-                    if (typeInstance."${propertyName}" instanceof Integer || 
-                        typeInstance."${propertyName}".getClass().equals(int.class)) {
+                        XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof BigDecimal || 
+                        typeInstance."${propertyName}".getClass().equals(BigDecimal.class)) {
                         resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
                     } else {
                         resource.addProperty(classProperty.getURI().toString(),
-                            Integer.parseInt(typeInstance."${propertyName}"))
+                            new BigDecimal(typeInstance."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
+                    if (typeInstance."${propertyName}" instanceof BigInteger || 
+                        typeInstance."${propertyName}".getClass().equals(BigInteger.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),typeInstance."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            new BigInteger(typeInstance."${propertyName}"))
                     }
                 } else if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
@@ -287,15 +299,15 @@ class RDFTypeBuilder {
                     XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
                 typeInstance."${propertyName}" = resource.getProperty(Double.class,
                     classProperty.getURI().toString())
-            } /*else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
-                typeInstance."${propertyName}" = resource.getProperty(Double.class,
+                typeInstance."${propertyName}" = resource.getProperty(BigDecimal.class,
                     classProperty.getURI().toString())
-            } */else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
-                typeInstance."${propertyName}" = resource.getProperty(Integer.class,
+                typeInstance."${propertyName}" = resource.getProperty(BigInteger.class,
                     classProperty.getURI().toString())
             } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
@@ -433,11 +445,11 @@ class RDFTypeBuilder {
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
                 typeInstance."${propertyName}" = 0.0
-            } /*else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
                 typeInstance."${propertyName}" = 0.0
-            } */else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
                 typeInstance."${propertyName}" = 0

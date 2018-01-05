@@ -26,6 +26,8 @@ package com.dipforge.semantic
 import groovy.json.*;
 import org.apache.log4j.Logger;
 import java.net.URI;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 import com.rift.coad.rdf.semantic.Resource;
 import com.rift.coad.rdf.semantic.Session;
 import com.rift.coad.rdf.semantic.RDFConstants;
@@ -148,15 +150,14 @@ class RDF_readonly {
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
                         row.add(record.get(Double.class,i))
-                    } /*else if (dataTypeURI.equals(
+                    } else if (dataTypeURI.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
-                        typeInstance."${propertyName}" = resource.getProperty(Double.class,
-                            classProperty.getURI().toString())
-                    } */else if (dataTypeURI.equals(
+                        row.add(record.get(BigDecimal.class,i))
+                    } else if (dataTypeURI.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
-                        row.add(record.get(Integer.class,i))
+                        row.add(record.get(BigInteger.class,i))
                     } else if (dataTypeURI.equals(
                             XSDDataDictionary.getTypeByName(
                             XSDDataDictionary.XSD_LONG).getURI().toString())) {

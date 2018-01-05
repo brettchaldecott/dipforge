@@ -33,6 +33,8 @@ import com.rift.coad.rdf.semantic.util.RDFURIHelper;
 import java.net.URI;
 import java.util.Calendar;
 import java.util.Date;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * This object represents the basic property information.
@@ -122,10 +124,14 @@ public class BasicProperty implements Property {
                 return (T)new Date(property.getValueAsCalendar().getTimeInMillis());
             } else if (type.equals(Calendar.class)) {
                 return (T)property.getValueAsCalendar();
+            } else if (type.equals(BigInteger.class)) {
+                return (T)property.getValueAsBigInteger();
+            } else if (type.equals(BigDecimal.class)) {
+                return (T)property.getValueAsBigDecimal();
             } else if (type.equals(Integer.class)) {
-                return (T)(Long)property.getValueAsLong();
+                return (T)(Integer)property.getValueAsInteger();
             } else if (type.equals(int.class)) {
-                return (T)(Integer)(int)property.getValueAsLong();
+                return (T)(Integer)property.getValueAsInteger();
             } else if (type.equals(Long.class)) {
                 return (T)(Long) property.getValueAsLong();
             } else if (type.equals(long.class)) {
@@ -143,6 +149,7 @@ public class BasicProperty implements Property {
             } else if (type.equals(Boolean.class)) {
                 return (T)(Boolean) property.getValueAsBoolean();
             } else {
+                
                 return BasicJDOProxyFactory.createJDOProxy(type,
                         persistanceSession, property.getValueAsResource(),
                         ontologySession);

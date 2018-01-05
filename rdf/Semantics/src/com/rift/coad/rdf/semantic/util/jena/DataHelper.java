@@ -74,6 +74,8 @@ public class DataHelper {
             return ((XSDDateTime) l.getValue()).asCalendar();
         } else if (c.equals(BigDecimal.class)) {
             return bigDecimal(l);
+        } else if (c.equals(BigInteger.class)) {
+            return bigInteger(l);
         } else if (Integer.TYPE.equals(c)) {
             return l.getInt();
         } else if (Long.TYPE.equals(c)) {
@@ -129,7 +131,18 @@ public class DataHelper {
      * @return The result object.
      */
     public static Object bigDecimal(Literal l) {
-        Object o = l.getDouble();
+        Object o = l.getValue();
+        return o;
+    }
+
+    /**
+     * This method is responsible for converting a liter to a big decimal.
+     *
+     * @param l The literal to perform the conversion on.
+     * @return The result object.
+     */
+    public static Object bigInteger(Literal l) {
+        Object o = l.getValue();
         return o;
     }
 
@@ -168,7 +181,7 @@ public class DataHelper {
         } else if (o instanceof Calendar) {
             return m.createTypedLiteral((Calendar) o);
         } else if (o instanceof BigDecimal) {
-            return m.createTypedLiteral(((BigDecimal) o).doubleValue(), XSDDatatype.XSDdouble);
+            return m.createTypedLiteral(((BigDecimal) o));
         } else if (o instanceof BigInteger) {
             return m.createTypedLiteral((BigInteger) o);
         } else if (o instanceof URI) {
@@ -191,6 +204,8 @@ public class DataHelper {
         } else if (c.equals(Calendar.class)) {
             return true;
         } else if (c.equals(BigDecimal.class)) {
+            return true;
+        } else if (c.equals(BigInteger.class)) {
             return true;
         } else if (Integer.TYPE.equals(c)) {
             return true;

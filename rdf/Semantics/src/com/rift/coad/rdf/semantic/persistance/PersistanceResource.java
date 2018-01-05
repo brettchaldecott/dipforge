@@ -25,6 +25,8 @@ package com.rift.coad.rdf.semantic.persistance;
 import java.net.URI;
 import java.util.Calendar;
 import java.util.List;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * The resource responsible for managing the persistance of information.
@@ -49,6 +51,15 @@ public interface PersistanceResource {
      * @throws PersistanceException
      */
     public boolean getValueAsBoolean() throws PersistanceException;
+
+
+    /**
+     * This method returns the literal as integer value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public int getValueAsInteger() throws PersistanceException;
 
 
     /**
@@ -103,8 +114,26 @@ public interface PersistanceResource {
      * @throws PersistanceException
      */
     public String getValueAsString() throws PersistanceException;
+
     
+    /**
+     * This method returns the big integer value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public BigInteger getValueAsBigInteger() throws PersistanceException;
     
+
+    /**
+     * This method returns the big decimal value for this property.
+     *
+     * @return The float value.
+     * @throws PersistanceException
+     */
+    public BigDecimal getValueAsBigDecimal() throws PersistanceException;
+    
+
     /**
      * The name space for the resource.
      *

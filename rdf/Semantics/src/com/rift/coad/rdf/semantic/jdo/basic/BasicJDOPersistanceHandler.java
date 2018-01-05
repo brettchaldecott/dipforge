@@ -45,6 +45,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * This object is responsible for
@@ -186,6 +188,10 @@ public class BasicJDOPersistanceHandler {
                 property.setValue(calendar);
             } else if (value instanceof Calendar) {
                 property.setValue((Calendar)value);
+            } else if (value instanceof BigInteger) {
+                property.setValue((BigInteger)value);
+            } else if (value instanceof BigDecimal) {
+                property.setValue((BigDecimal)value);
             } else if (value instanceof Integer) {
                 property.setValue((long)(Integer)value);
             } else if (value.getClass().equals(int.class)) {

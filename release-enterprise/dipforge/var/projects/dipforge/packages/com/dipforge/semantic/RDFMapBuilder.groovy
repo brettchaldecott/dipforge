@@ -31,7 +31,8 @@ import com.rift.coad.rdf.semantic.coadunation.XMLSemanticUtil;
 import com.rift.coad.rdf.semantic.types.XSDDataDictionary;
 import org.apache.log4j.Logger;
 import com.rift.coad.lib.common.RandomGuid;
-
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 class RDFMapBuilder {
     
@@ -137,12 +138,22 @@ class RDFMapBuilder {
                 } else if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
                         XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
-                    if (dataMap."${propertyName}" instanceof Integer || 
-                        dataMap."${propertyName}".getClass().equals(int.class)) {
+                    if (dataMap."${propertyName}" instanceof BigInteger || 
+                        dataMap."${propertyName}".getClass().equals(BigInteger.class)) {
                         resource.addProperty(classProperty.getURI().toString(),dataMap."${propertyName}")
                     } else {
                         resource.addProperty(classProperty.getURI().toString(),
-                            Integer.parseInt(dataMap."${propertyName}"))
+                            new BigInteger(dataMap."${propertyName}"))
+                    }
+                } else if (propertyType.equals(
+                        XSDDataDictionary.getTypeByName(
+                        XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                    if (dataMap."${propertyName}" instanceof BigDecimal || 
+                        dataMap."${propertyName}".getClass().equals(BigDecimal.class)) {
+                        resource.addProperty(classProperty.getURI().toString(),dataMap."${propertyName}")
+                    } else {
+                        resource.addProperty(classProperty.getURI().toString(),
+                            new BigDecimal(dataMap."${propertyName}"))
                     }
                 } else if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
@@ -266,15 +277,20 @@ class RDFMapBuilder {
                     XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
                 dataMap."${propertyName}" = resource.getProperty(Double.class,
                     classProperty.getURI().toString())
-            } /*else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
-                dataMap."${propertyName}" = resource.getProperty(Double.class,
+                dataMap."${propertyName}" = resource.getProperty(BigDecimal.class,
                     classProperty.getURI().toString())
-            } */else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
-                dataMap."${propertyName}" = resource.getProperty(Integer.class,
+                dataMap."${propertyName}" = resource.getProperty(BigInteger.class,
+                    classProperty.getURI().toString())
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
+                dataMap."${propertyName}" = resource.getProperty(BigDecimal.class,
                     classProperty.getURI().toString())
             } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
@@ -392,7 +408,7 @@ class RDFMapBuilder {
         boolean hasId = false;
         for (classProperty in classProperties) {
             def propertyName = classProperty.getLocalname()
-            log.debug("Property [" + classProperty.getURI() + "]")
+            log.info("Property [" + classProperty.getURI() + "]")
             if (propertyName.equalsIgnoreCase("id")) {
                 hasId = true;
             }
@@ -415,14 +431,18 @@ class RDFMapBuilder {
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DOUBLE).getURI().toString())) {
                 dataMap."${propertyName}" = 0.0
-            } /*else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
                 dataMap."${propertyName}" = 0.0
-            } */else if (propertyType.equals(
+            } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
                 dataMap."${propertyName}" = 0
+            } else if (propertyType.equals(
+                    XSDDataDictionary.getTypeByName(
+                    XSDDataDictionary.XSD_DECIMAL).getURI().toString())) {
+                dataMap."${propertyName}" = 0.0
             } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_LONG).getURI().toString())) {

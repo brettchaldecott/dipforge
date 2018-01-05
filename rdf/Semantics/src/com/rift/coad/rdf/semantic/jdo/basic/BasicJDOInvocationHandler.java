@@ -51,6 +51,8 @@ import net.sf.cglib.proxy.MethodProxy;
 import net.sf.cglib.core.Signature;
 import net.sf.cglib.core.ReflectUtils;
 import org.apache.log4j.Logger;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * 
@@ -342,6 +344,10 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
                 property.setValue(calendar);
             } else if (value instanceof Calendar) {
                 property.setValue((Calendar) value);
+            } else if (value instanceof BigInteger) {
+                property.setValue((BigInteger) value);
+            } else if (value instanceof BigDecimal) {
+                property.setValue((BigDecimal) value);
             } else if (value instanceof Integer) {
                 property.setValue((long) (Integer) value);
             } else if (value.getClass().equals(int.class)) {
@@ -503,7 +509,11 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
             } else if (Calendar.class.equals(classType)) {
                 return property.getValueAsCalendar();
             } else if (Long.class.equals(classType)) {
-                return new Long(property.getValueAsLong()).intValue();
+                return property.getValueAsLong();
+            } else if (classType.equals(BigInteger.class)) {
+                return property.getValueAsBigInteger();
+            } else if (classType.equals(BigDecimal.class)) {
+                return property.getValueAsBigDecimal();
             } else if (classType.equals(int.class)) {
                 return new Long(property.getValueAsLong()).intValue();
             } else if (Long.class.equals(classType)) {
@@ -551,6 +561,10 @@ public class BasicJDOInvocationHandler implements MethodInterceptor {
                 return null;
             } else if (Long.class.equals(classType)) {
                 return null;
+            } else if (classType.equals(BigInteger.class)) {
+                return BigInteger.ZERO;
+            } else if (classType.equals(BigDecimal.class)) {
+                return BigDecimal.ZERO;
             } else if (classType.equals(int.class)) {
                 int result = 0;
                 return result;

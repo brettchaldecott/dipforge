@@ -24,6 +24,8 @@ package com.rift.coad.rdf.semantic.persistance;
 import com.rift.coad.rdf.semantic.common.Property;
 import java.net.URI;
 import java.util.Calendar;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * This object represents a property.
@@ -81,6 +83,24 @@ public interface PersistanceProperty extends Property {
      * @param longValue The long value.
      * @throws PersistanceException
      */
+    public void setValue(int intValue) throws PersistanceException;
+
+
+    /**
+     * This method returns the literal as long value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public int getValueAsInteger() throws PersistanceException;
+
+
+    /**
+     * This method sets the literal value.
+     *
+     * @param longValue The long value.
+     * @throws PersistanceException
+     */
     public void setValue(long longValue) throws PersistanceException;
 
 
@@ -91,6 +111,42 @@ public interface PersistanceProperty extends Property {
      * @throws PersistanceException
      */
     public long getValueAsLong() throws PersistanceException;
+
+
+    /**
+     * This method sets the big integer value.
+     *
+     * @param longValue The long value.
+     * @throws PersistanceException
+     */
+    public void setValue(BigInteger bigIntegerValue) throws PersistanceException;
+
+
+    /**
+     * This method returns the literal as big integer value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public BigInteger getValueAsBigInteger() throws PersistanceException;
+
+
+    /**
+     * This method sets the big decimal value.
+     *
+     * @param bigDecimalValue The big decimal value.
+     * @throws PersistanceException
+     */
+    public void setValue(BigDecimal bigDecimalValue) throws PersistanceException;
+
+
+    /**
+     * This method returns the literal as big decimal value.
+     *
+     * @return The long value.
+     * @throws PersistanceException
+     */
+    public BigDecimal getValueAsBigDecimal() throws PersistanceException;
 
     
     /**
