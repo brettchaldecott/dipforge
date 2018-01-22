@@ -189,11 +189,17 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
             log.info("Add the property [" + uri + "]");
             OntologyClass ontologyClass = null;
             if (session.hasClass(uri)) {
-                ontologyClass = session.getClass(uri);
-                for (OntologyProperty property : ontologyClass.listProperties()) {
-                    session.removeProperty(property.getURI());
+		try {
+                    ontologyClass = session.getClass(uri);
+                    for (OntologyProperty property : ontologyClass.listProperties()) {
+                        session.removeProperty(property.getURI());
+                    }
+                    //session.removeClass(uri);
+                } catch (Exception ex) {
+                    // create the new ontology class assuming the uri is in another
+                    // ontology file
+                    ontologyClass = session.createClass(uri);
                 }
-                //session.removeClass(uri);
             } else {
                 ontologyClass = session.createClass(uri);
             }
@@ -218,8 +224,14 @@ public class TypeManagerDaemonImpl implements TypeManagerDaemon {
                     } else {
                         URI typeURI = new URI(type.getTypeUri());
                         if (session.hasClass(typeURI) || type.hasRange()) {
-                            property.setType(session.getClass(
-                                    typeURI));
+                            try {
+                                property.setType(session.getClass(
+                                        typeURI));
+                            } catch (Exception ex) {
+                                log.info("Assuming an external class and using create rather than get");
+                                property.setType(
+                                    session.createClass(typeURI));
+                            }
                         } else if (!type.hasRange()){
                             log.info("Add the type uri [" + uri + "]");
                             property.setType(

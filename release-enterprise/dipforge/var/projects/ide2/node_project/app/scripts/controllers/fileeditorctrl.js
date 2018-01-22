@@ -84,6 +84,9 @@ angular.module('ide2App')
     }
     
     vm.saveFile = function() {
+        
+        // mark the dirty flag as false the when this function is called else changes can be lost while file is saving
+        vm.dirty = false;
         FileService.saveFile({content:vm.editor.getSession().getValue(),fileHash:vm.fileData.fileHash,project:vm.editorFile.project,path:vm.editorFile.treeNode.fullPath}).then(function(response) {
             console.log("The content has been saved : " + response.data.status)
             if (response.data.status == "updated") {
@@ -93,11 +96,12 @@ angular.module('ide2App')
                 console.log("There was a conflish on the file original hash [" + vm.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
                 vm.status = "syncerror"
             }
-            vm.dirty = false;
         });
     }
     
     vm.executeFile = function() {
+        // mark the dirty flag as false before saving.
+        vm.dirty = false;
         FileService.saveFile({content:vm.editor.getSession().getValue(),fileHash:vm.fileData.fileHash,project:vm.editorFile.project,path:vm.editorFile.treeNode.fullPath}).then(function(response) {
             if (response.data.status == "updated") {
                 console.log("Attempt to execute the file")
@@ -112,7 +116,6 @@ angular.module('ide2App')
                 console.log("There was a conflish on the file original hash [" + vm.fileData.fileHash + "] new hash [" + response.data.fileHash + "]")
                 vm.status = "syncerror"
             }
-            vm.dirty = false;
         });
     }
     

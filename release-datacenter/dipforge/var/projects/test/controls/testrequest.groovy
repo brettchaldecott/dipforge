@@ -52,10 +52,11 @@ try {
     test1.propertyDecimal = 10000.001
     
     log.info("Init the request : " + test1)
-    RequestHandler.getInstance("test", "test1", test1).makeRequest()
+    def requestId = RequestHandler.getInstance("test", "test1", test1).makeRequest()
     
     
-    PageManager.forward("index.gsp", request, response)
+    
+    PageManager.forwardWithResult("index.gsp", request, response, ["requestId" : requestId])
 } catch (Exception ex) {
     log.error("Failed to make request : ${ex.getMessage()}",ex)
     throw ex

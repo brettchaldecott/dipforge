@@ -151,9 +151,14 @@ class RDFMapBuilder {
                     if (dataMap."${propertyName}" instanceof BigDecimal || 
                         dataMap."${propertyName}".getClass().equals(BigDecimal.class)) {
                         resource.addProperty(classProperty.getURI().toString(),dataMap."${propertyName}")
+                        //log.info("####### Set the big decimal value for [${classProperty.getURI().toString()}] value [${dataMap."${propertyName}"}] ")
                     } else {
-                        resource.addProperty(classProperty.getURI().toString(),
-                            new BigDecimal(dataMap."${propertyName}"))
+                        try {
+                            resource.addProperty(classProperty.getURI().toString(),
+                                new BigDecimal(dataMap."${propertyName}"))
+                        } catch (Exception ex) {
+                            throw new Exception("Failed handle the bigdecimal for [${propertyName}]",ex)
+                        }
                     }
                 } else if (propertyType.equals(
                         XSDDataDictionary.getTypeByName(
@@ -225,8 +230,8 @@ class RDFMapBuilder {
                             (Resource)dataMap."${propertyName}".__builder.processResource(session))
                     } else {
                         def value = dataMap."${propertyName}"
-                        log.debug("The property is ${propertyName} the value is [${value}]")
-                        if (dataMap."${propertyName}" != null) {
+                        //log.debug("The property is ${propertyName} the value is [${value}]")
+                        if (dataMap."${propertyName}" != null && dataMap."${propertyName}".__builder != null) {
                             resource.addProperty(classProperty.getURI().toString(),
                                 session.createResource(
                                     dataMap."${propertyName}".__builder.classDef.getURI(),
@@ -286,11 +291,6 @@ class RDFMapBuilder {
                     XSDDataDictionary.getTypeByName(
                     XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
                 dataMap."${propertyName}" = resource.getProperty(BigInteger.class,
-                    classProperty.getURI().toString())
-            } else if (propertyType.equals(
-                    XSDDataDictionary.getTypeByName(
-                    XSDDataDictionary.XSD_INTEGER).getURI().toString())) {
-                dataMap."${propertyName}" = resource.getProperty(BigDecimal.class,
                     classProperty.getURI().toString())
             } else if (propertyType.equals(
                     XSDDataDictionary.getTypeByName(

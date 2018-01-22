@@ -5,7 +5,7 @@
 <body>
 </head>
 <body>
-    hello bob<br>
+    hello bob request id is <%=params.requestId %><br>
     <br>
     <b>The test request form</b><BR>
     <form method="post" action="testrequest.groovy" align="center">

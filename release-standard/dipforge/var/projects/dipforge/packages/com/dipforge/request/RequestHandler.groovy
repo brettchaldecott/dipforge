@@ -163,6 +163,22 @@ class RequestHandler {
             return child;
         }
         
+        def loopThroughDepenciencies(def dependancyList, def dependancies) {
+            for (dependance in dependancies) {
+                if (dependance instanceof List) {
+                    loopThroughDepenciencies(dependancyList, dependance)
+                } else {
+                    if (dependance instanceof Map) {
+                        dependancyList.add(new RequestData(dependance.id, dependance.__builder.builder.classDef.getURI().toString(),
+                                dependance.__builder.toXML(), dependance.__builder.classDef.getLocalName()))
+                    } else {
+                        dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
+                                dependance.toXML(), dependance.builder.classDef.getLocalName()))
+                    }
+                }
+            }
+        }
+        
         /**
          * This method is called to generate the request data
          */
@@ -182,15 +198,7 @@ class RequestHandler {
                     new java.util.ArrayList<RequestEvent>())
             if (dependancies.size() > 0) {
                 java.util.List<RequestData> dependancyList = new java.util.ArrayList<RequestData>();
-                for (dependance in dependancies) {
-                    if (dependance instanceof Map) {
-                        dependancyList.add(new RequestData(dependance.id, dependance.__builder.builder.classDef.getURI().toString(),
-                                dependance.__builder.toXML(), dependance.__builder.classDef.getLocalName()))
-                    } else {
-                        dependancyList.add(new RequestData(dependance.getId(), dependance.builder.classDef.getURI().toString(),
-                                dependance.toXML(), dependance.builder.classDef.getLocalName()))
-                    }
-                }
+                loopThroughDepenciencies(dependancyList, dependancies)
                 request.setDependencies(dependancyList)
             }
             // this method loo
@@ -427,6 +435,9 @@ class RequestHandler {
         }
         //log.info("[makeRequest]The full request is ${request}");
         
-        connector.getBroker().createRequest(request) 
+        connector.getBroker().createRequest(request)
+        
+        // return the new request id
+        return request.getId()
     }
 }
