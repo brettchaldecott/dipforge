@@ -30,4 +30,38 @@ def log = Logger.getLogger("test.index.groovy");
 def result = RDF.executeQuery("SELECT ?s WHERE {" +
     "?s a <http://dipforge.sourceforge.net/test1#type1> . }")
 
+/*
+<property name="id" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="property1" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="property2" datatype="http://www.w3.org/2001/XMLSchema#string"/>
+        <property name="propertyInt" datatype="http://www.w3.org/2001/XMLSchema#integer"/>
+        <property name="propertyDecimal" datatype="http://www.w3.org/2001/XMLSchema#decimal"/>
+*/
+
+
+def result2 = RDF.executeQuery("""SELECT ?property1 ?property2 ?propertyInt ?propertyDecimal WHERE {
+    ?s <http://dipforge.sourceforge.net/test1#property1> ?property1 .
+    ?s <http://dipforge.sourceforge.net/test1#property2> ?property2 . 
+    ?s <http://dipforge.sourceforge.net/test1#propertyInt> ?propertyInt . 
+    ?s <http://dipforge.sourceforge.net/test1#propertyDecimal> ?propertyDecimal . 
+}""")
+
+result2.each { row2 ->
+    log.info("Property1 ${row2.property1} Property2 ${row2.property2} PropertyInt ${row2.propertyInt} PropertyDecimal ${row2.propertyDecimal} ")
+    
+}
+
+
+def result3 = RDF.executeMapQuery("""SELECT ?property1 ?property2 ?propertyInt ?propertyDecimal WHERE {
+    ?s <http://dipforge.sourceforge.net/test1#property1> ?property1 .
+    ?s <http://dipforge.sourceforge.net/test1#property2> ?property2 . 
+    ?s <http://dipforge.sourceforge.net/test1#propertyInt> ?propertyInt . 
+    ?s <http://dipforge.sourceforge.net/test1#propertyDecimal> ?propertyDecimal . 
+}""")
+
+result3.each { row3 ->
+    log.info("Property1 ${row3.property1} Property2 ${row3.property2} PropertyInt ${row3.propertyInt} PropertyDecimal ${row3.propertyDecimal} ")
+    
+}
+
 PageManager.includeWithResult("list.gsp", request, response, ["tests" : result])
