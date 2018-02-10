@@ -132,7 +132,21 @@ public class DataHelper {
      */
     public static Object bigDecimal(Literal l) {
         Object o = l.getValue();
-        return o;
+        if (o instanceof BigDecimal) {
+            return o;
+        } else if (o instanceof Integer) {
+            return new BigDecimal((Integer)o);
+        } else if (o instanceof Long) {
+            return new BigDecimal((Long)o);
+        } else if (o instanceof Double) {
+            return new BigDecimal((Double)o);
+        } else if (o instanceof Float) {
+            return new BigDecimal((Float)o);
+        } else if (o instanceof String) {
+            return new BigDecimal((String)o);
+        }
+        return new java.lang.RuntimeException("Invalid type conversion from [" 
+                + o.getClass().getName() + "] BigDecimal.");
     }
 
     /**
@@ -143,7 +157,17 @@ public class DataHelper {
      */
     public static Object bigInteger(Literal l) {
         Object o = l.getValue();
-        return o;
+        if (o instanceof BigInteger) {
+            return o;
+        } else if (o instanceof Integer) {
+            return BigInteger.valueOf((Integer)o);
+        } else if (o instanceof Long) {
+            return BigInteger.valueOf((Long)o);
+        } else if (o instanceof String) {
+            return new BigInteger((String)o);
+        }
+        return new java.lang.RuntimeException("Invalid type conversion from [" 
+                + o.getClass().getName() + "] BigDecimal.");
     }
 
     public static Literal asLiteral(RDFNode n) {
