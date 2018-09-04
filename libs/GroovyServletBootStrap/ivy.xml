@@ -9,7 +9,7 @@
     </configurations>
     <dependencies>
         <dependency org="log4j" name="log4j" rev="1.2.14"/>
-        <dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.12"/>
+        <dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.15"/>
         <dependency org="javax.servlet" name="servlet-api" rev="2.5"/>
     </dependencies>
 </ivy-module>
