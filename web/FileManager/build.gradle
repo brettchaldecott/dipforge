@@ -80,7 +80,7 @@ war {
         file.name.contains("jsfcl")|| 
         file.name.contains("jstl")}) 
     setClasspath(classPath)
-    classpath 'build/classes/main/'
+    classpath 'build/classes/java/main/'
     from 'web'
 }
 

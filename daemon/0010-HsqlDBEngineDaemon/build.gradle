@@ -38,11 +38,11 @@ sourceSets {
 
 
 task createDir << {
-    ant.mkdir(dir: 'build/classes/main')
+    ant.mkdir(dir: 'build/resources/main')
 }
 
 task copyToJars(type: Copy) {
-    into "build/classes/main"
+    into "build/resources/main"
     from configurations.releaseJars
     exclude '**/*CoadunationLib*'
     exclude '**/*CoadunationAnnotations*'

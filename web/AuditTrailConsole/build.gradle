@@ -54,7 +54,7 @@ task gwtCompile << {
   created = (new File(project.ext.gwtOutDir)).mkdirs()
   ant.java(classname:'com.google.gwt.dev.Compiler',
               failOnError: 'true',
-              fork: 'true') {
+              fork: 'false') {
     jvmarg(value: '-Xmx184M')
     arg(line: '-war ' + project.ext.gwtOutDir)
     arg(line: '-logLevel INFO')
@@ -79,7 +79,7 @@ war {
         file.name.contains("Semantics") || 
         file.name.contains("WebLibs")}) 
     setClasspath(classPath)
-    classpath 'build/classes/main/'
+    classpath 'build/classes/java/main/'
     from 'web'
     from project.ext.gwtOutDir
 }

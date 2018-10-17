@@ -2,7 +2,7 @@
 
 
 allprojects {
-    version = '4.1.a27'
+    version = '4.1.a28'
     repositories {
         mavenCentral()
         maven {

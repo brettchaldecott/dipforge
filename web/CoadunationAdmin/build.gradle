@@ -74,7 +74,7 @@ jar.enabled = true
 war {
     def classPath = getClasspath().filter({file -> file.name.contains("DipforgeAdmin") || file.name.contains("classes") || file.name.contains("gwt-servlet")}) 
     setClasspath(classPath)
-    classpath 'build/classes/main/'
+    classpath 'build/classes/java/main/'
     from 'web'
     from gwtOutDir + "/com.rift.coad.web.admin.Main"
 }

@@ -37,7 +37,7 @@ war {
     def classPath = getClasspath().filter({file -> file.name.contains("classes") ||
         file.name.contains("SchemaUtils")}) 
     setClasspath(classPath)
-    classpath 'build/classes/main/'
+    classpath 'build/classes/java/main/'
     from 'web'
 }
 

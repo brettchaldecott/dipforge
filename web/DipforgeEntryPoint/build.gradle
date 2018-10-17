@@ -38,7 +38,7 @@ war {
         file.name.contains("commons-codec") || file.name.contains("commons-beanutils") ||
         file.name.contains("commons-logging")}) 
     setClasspath(classPath)
-    classpath 'build/classes/main/'
+    classpath 'build/classes/java/main/'
     from 'web'
 }
 

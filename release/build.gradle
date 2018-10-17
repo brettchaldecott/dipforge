@@ -43,8 +43,7 @@ task dependancyTask (dependsOn: [":libs:DipforgeCloudBase:build",
 	":daemon:0057-MasterRDFStore:build",
 	":daemon:0170-ChangeManager:build", ":web:lib:CoadunationGWTLibrary:build",
 	":daemon:0180-RequestBroker:build",
-	":web:lib:WebLibs:build", ":web:lib:AuditTrailGWT:build",
-	":web:AuditTrailConsole:release",
+	":web:lib:WebLibs:build",
 	":libs:GroovyServletBootStrap:build",":libs:GroovyLib:build",
 	":client:GroovyDaemonClient:build", ":daemon:0140-GroovyDaemon:build",
 	":client:PythonJEPClient:build", ":daemon:0145-PythonJEP:build",
@@ -160,10 +159,10 @@ release.doLast {
         copy(todir: "dipforge/var/projects/documentation/views/AuditTrail"){
             fileset(dir: "../client/AuditTrail/build/docs/javadoc") {}
         }
-        mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationTypeManager")
-        copy(todir: "dipforge/var/projects/documentation/views/CoadunationTypeManager"){
-            fileset(dir: "../client/CoadunationTypeManager/build/docs/javadoc") {}
-        }
+        //mkdir(dir:"dipforge/var/projects/documentation/views/CoadunationTypeManager")
+        //copy(todir: "dipforge/var/projects/documentation/views/CoadunationTypeManager"){
+        //    fileset(dir: "../client/CoadunationTypeManager/build/docs/javadoc") {}
+       // }
         mkdir(dir:"dipforge/var/projects/documentation/views/DeploymentDaemonClient")
         copy(todir: "dipforge/var/projects/documentation/views/DeploymentDaemonClient"){
             fileset(dir: "../client/DeploymentDaemonClient/build/docs/javadoc") {}
@@ -615,7 +614,6 @@ dependencies {
     releaseWeb project(':web:CoadunationAdmin')
 //    releaseWeb project(':web:CoadunationDesktop')
     releaseWeb project(':web:FileManager')
-    releaseWeb project(':web:AuditTrailConsole')
 //    releaseWeb project(':web:CoadunationTypeManagerConsole')
     releaseWeb project(':web:DipforgeEntryPoint')
 
@@ -692,10 +690,10 @@ dependencies {
 }
 
 
-task build(dependsOn:[dependancyTask,copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyTemplates,copyResource,copyGenerator,copyWebManagerToTomcat,copyToGroovyLib]) {
+task releaseBuild(dependsOn:[dependancyTask,copyToSbin,copyToLib,copyToClient,copyToDaemon,copyWarToDaemon,copyEarToDaemon,copyToTools,copyToRDFClient,copyTemplates,copyResource,copyGenerator,copyWebManagerToTomcat,copyToGroovyLib]) {
 }
 
-release.dependsOn build
+release.dependsOn releaseBuild
 
 def getJavaHomeVar() {
     def javaHome = System.properties["java.home"]

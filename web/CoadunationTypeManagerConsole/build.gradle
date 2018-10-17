@@ -80,7 +80,7 @@ war {
         file.name.contains("DesktopServerClient") ||
         file.name.contains("EventServerClient")}) 
     setClasspath(classPath)
-    classpath 'build/classes/main/'
+    classpath 'build/classes/java/main/'
     from 'web'
     from project.ext.gwtOutDir
 }
