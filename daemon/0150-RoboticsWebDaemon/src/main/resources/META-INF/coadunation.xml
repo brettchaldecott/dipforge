@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : coadunation.xml
+    Created on : Oct 2009
+    Author     : Brett Chaldecott
+    Description:
+        This method
+-->
+
+<coadunation version="1" name="0140-GroovyDaemon">
+    <description>Groovy Daemon</description>
+    <jmxbeans>
+        <bean>
+            <interface>com.burntjam.dipforge.robotics.web.RoboticsManagerMBean</interface>
+            <class>com.burntjam.dipforge.robotics.web.RoboticsManager</class>
+            <objectName>com.burntjam.dipforge.robotics.web:type=Management</objectName>
+            <bindName>robotics/Management</bindName>
+            <role>robotics_manager</role>
+            <username>robotics_manager</username>
+            <transaction>true</transaction>
+        </bean>
+    </jmxbeans>
+    <beans>
+        <bean>
+            <interface>com.burntjam.dipforge.robotics.web.RoboticsDaemon</interface>
+            <class>com.burntjam.dipforge.robotics.web.RoboticsDaemonImpl</class>
+            <bindName>robotics/Daemon</bindName>
+            <role>daemon</role>
+            <username>daemon</username>
+            <cache_timeout>60000</cache_timeout>
+            <transaction>true</transaction>
+        </bean>
+    </beans>
+</coadunation>

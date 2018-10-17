@@ -1,0 +1,148 @@
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'antlr'
+
+//version = "1.0.1"
+distsDirName="dist"
+libsDirName="."
+archivesBaseName="0150-RoboticsWebDaemon"
+sourceCompatibility=1.8
+targetCompatibility=1.8
+
+
+configurations {
+    compile
+    releaseJars
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.7.1"
+
+    compile project(':libs:CoadunationAnnotations')
+    compile project(':libs:CoadunationLib')
+    compile project(':libs:CoadunationUtil')
+    compile project(':libs:GroovyLib')
+    compile project(':client:DataMapperBroker')
+    compile project(':client:DataMapperClient')
+    compile project(':client:TimerClient')
+    compile project(':client:GroovyDaemonClient')
+    compile project(':client:RoboticsWebClient')
+    compile project(':rdf:CommonTypes')
+    compile project(':rdf:CoadunationSemantics')
+    compile project(':rdf:Semantics')
+    compile project(':rdf:SchemaUtils')
+    compile project(':client:RDFStoreClient')
+    compile project(':client:ServiceBrokerClient')
+    compile project(':client:CoadunationTypeManager')
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.14.0'
+    compile group: 'org.json', name: 'json', version: '20180813'
+
+    
+    releaseJars project(':libs:GroovyLib')
+    releaseJars project(':client:DataMapperClient')
+    releaseJars project(':client:TimerClient')
+    releaseJars project(':client:ChangeControlClient')
+    releaseJars project(':rdf:CoadunationSemantics')
+    releaseJars project(':libs:CoadunationUtil')
+    releaseJars project(':rdf:Semantics')
+    releaseJars project(':rdf:SchemaUtils')
+    releaseJars project(':client:RDFStoreClient')
+    releaseJars project(':client:ServiceBrokerClient')
+    releaseJars project(':client:CoadunationTypeManager')
+    releaseJars group: 'xerces', name: 'xercesImpl', version: '2.7.1', ext: 'jar'
+    releaseJars group: 'org.apache.httpcomponents', name:'httpclient', version:'4.5.3', ext: 'jar'
+    releaseJars group: 'org.apache.httpcomponents', name:'httpclient-cache', version:'4.5.3'
+    releaseJars group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.14.0'
+    releaseJars group: 'org.json', name: 'json', version: '20180813'
+    
+    testCompile 'junit:junit:4.12'
+}
+
+sourceSets {
+}
+
+final PARSER_PACKAGE_NAME = 'com.burntjam.dipforge.robotics.web.antlr.base'
+generateGrammarSource {
+    outputs.cacheIf { true }
+    arguments += ["-visitor", "-no-listener"]
+
+    doLast {
+        def parserFilePattern = 'Web*'
+        def outputPath = generateGrammarSource.outputDirectory.canonicalPath
+        def parserPackagePath = "${outputPath}/${PARSER_PACKAGE_NAME.replace('.', '/')}"
+        file(parserPackagePath).mkdirs()
+        copy {
+            from outputPath
+            into parserPackagePath
+            include parserFilePattern
+        }
+        delete fileTree(outputPath) {
+            include parserFilePattern
+        }
+    }
+}
+
+
+task createDir << {
+    ant.mkdir(dir: 'build/resources/main')
+}
+
+task copyToJars(type: Copy) {
+    into "build/resources/main"
+    from configurations.releaseJars
+    exclude "**/*servlet-api*"
+    exclude "**/*groovy*"
+    exclude "**/*log4j*"
+    exclude "**/*jta*"
+    exclude "**/*jotm*"
+    exclude "**/*CoadunationLib*"
+    exclude "**/*carol*"
+    exclude "**/*axis*"
+    exclude '**/*CoadunationLib*'
+    exclude '**/*CoadunationAnnotations*'
+    exclude '**/*CoadunationCommon*'
+    exclude '**/*CoadunationClient*'
+    exclude '**/*CoadunationSecurity*'
+    exclude '**/*CoadunationBase*'
+    exclude '**/*jacorb*'
+    exclude '**/*axis*'
+    exclude '**/*carol*'
+    exclude '**/*jotm*'
+    exclude '**/*wsdl*'
+    exclude '**/*slf4j*'
+    exclude '**/*jta*'
+    exclude '**/*avalon*'
+    exclude '**/*log4j*'
+}
+
+jar {
+    manifest {
+        attributes   "Implementation-Version" : version
+    }
+}
+
+processResources.dependsOn {
+    [createDir,copyToJars]
+}
+
+task copyJars << {
+    ant.mkdir(dir: '../../sbin')
+    ant.copy(todir: '../../sbin/', file: "build/" + archivesBaseName + "-" + version + ".jar") 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://localhost/$projectDir/../../repository")
+        pom.version = version
+        pom.artifactId = archivesBaseName
+        pom.groupId = archivesBaseName
+    }
+
+}
+
+build.dependsOn {
+    [jar, uploadArchives, copyJars]
+}
+release.dependsOn build

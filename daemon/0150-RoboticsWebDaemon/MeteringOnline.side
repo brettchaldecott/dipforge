@@ -1,0 +1,206 @@
+{
+  "id": "af6719ca-dfb1-4dfa-b4ec-77a19a489cf5",
+  "version": "1.1",
+  "name": "MeteringOnline",
+  "url": "https://www.meteringonline.com",
+  "tests": [{
+    "id": "62103d7e-431b-46d8-9763-de80acb24206",
+    "name": "meteringonline",
+    "commands": [{
+      "id": "d20b73fa-25d8-47e1-9077-8260f7d82f31",
+      "comment": "",
+      "command": "open",
+      "target": "/mol/admin/index.php/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "17bd20cf-b826-428b-91f6-15be71a41544",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1389x789",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cc59ceb2-a30d-4ebd-9f6c-9e951dac39ac",
+      "comment": "",
+      "command": "click",
+      "target": "id=user_name",
+      "targets": [
+        ["id=user_name", "id"],
+        ["name=user_name", "name"],
+        ["css=#user_name", "css"],
+        ["css=#user_name", "css:finder"],
+        ["xpath=//input[@id='user_name']", "xpath:attributes"],
+        ["xpath=//form[@id='signup']/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e4187599-a138-489a-ae27-8e50532aabc1",
+      "comment": "",
+      "command": "type",
+      "target": "id=user_name",
+      "targets": [
+        ["id=user_name", "id"],
+        ["name=user_name", "name"],
+        ["css=#user_name", "css"],
+        ["css=#user_name", "css:finder"],
+        ["xpath=//input[@id='user_name']", "xpath:attributes"],
+        ["xpath=//form[@id='signup']/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "deepak@newsouthernenergy.com"
+    }, {
+      "id": "86ca848a-f740-424d-880a-3f717747e09a",
+      "comment": "",
+      "command": "type",
+      "target": "id=user_password",
+      "targets": [
+        ["id=user_password", "id"],
+        ["name=user_password", "name"],
+        ["css=#user_password", "css"],
+        ["css=#user_password", "css:finder"],
+        ["xpath=//input[@id='user_password']", "xpath:attributes"],
+        ["xpath=//form[@id='signup']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "metering"
+    }, {
+      "id": "429da685-0614-4a00-9b7d-dc4bcc0fb70f",
+      "comment": "",
+      "command": "click",
+      "target": "id=SendButton",
+      "targets": [
+        ["id=SendButton", "id"],
+        ["name=submit", "name"],
+        ["css=#SendButton", "css"],
+        ["css=#SendButton", "css:finder"],
+        ["xpath=//button[@id='SendButton']", "xpath:attributes"],
+        ["xpath=//form[@id='signup']/div[3]/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a8fe93b6-837c-49c4-bce1-a36de0cb4a94",
+      "comment": "",
+      "command": "click",
+      "target": "css=#ext-gen1286 .x-tree-elbow-img",
+      "targets": [
+        ["css=#ext-gen1286 .x-tree-elbow-img", "css:finder"],
+        ["xpath=(//img[contains(@src,'https://www.meteringonline.com/mol/admin/templates/base/web/images/s.gif')])[4]", "xpath:img"],
+        ["xpath=//td[@id='ext-gen1286']/div/img", "xpath:idRelative"],
+        ["xpath=//td/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6d1ebc90-7107-47e7-a913-8aa80a09bd78",
+      "comment": "",
+      "command": "click",
+      "target": "css=#ext-gen1300 .x-tree-elbow-plus",
+      "targets": [
+        ["css=#ext-gen1300 .x-tree-elbow-plus", "css:finder"],
+        ["xpath=(//img[contains(@src,'https://www.meteringonline.com/mol/admin/templates/base/web/images/s.gif')])[7]", "xpath:img"],
+        ["xpath=//td[@id='ext-gen1300']/div/img[2]", "xpath:idRelative"],
+        ["xpath=//tr[2]/td/div/img[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9ffa45c7-a7c4-4f85-b962-6db88316e6e5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.x-tree-elbow-img:nth-child(3)",
+      "targets": [
+        ["css=.x-tree-elbow-img:nth-child(3)", "css:finder"],
+        ["xpath=(//img[contains(@src,'https://www.meteringonline.com/mol/admin/templates/base/web/images/s.gif')])[11]", "xpath:img"],
+        ["xpath=//td[@id='ext-gen1314']/div/img[3]", "xpath:idRelative"],
+        ["xpath=//tr[3]/td/div/img[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dcfb3e7f-8ddd-4a16-bdc7-7b6d3c43a28e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.x-tree-elbow-plus:nth-child(4)",
+      "targets": [
+        ["css=.x-tree-elbow-plus:nth-child(4)", "css:finder"],
+        ["xpath=(//img[contains(@src,'https://www.meteringonline.com/mol/admin/templates/base/web/images/s.gif')])[16]", "xpath:img"],
+        ["xpath=//td[@id='ext-gen1326']/div/img[4]", "xpath:idRelative"],
+        ["xpath=//tr[4]/td/div/img[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "28176344-df91-4708-a319-1b7779114908",
+      "comment": "",
+      "command": "click",
+      "target": "css=.x-tree-elbow-end-plus:nth-child(4)",
+      "targets": [
+        ["css=.x-tree-elbow-end-plus:nth-child(4)", "css:finder"],
+        ["xpath=(//img[contains(@src,'https://www.meteringonline.com/mol/admin/templates/base/web/images/s.gif')])[45]", "xpath:img"],
+        ["xpath=//td[@id='ext-gen1327']/div/img[4]", "xpath:idRelative"],
+        ["xpath=//tr[9]/td/div/img[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5531b00d-2821-4f37-863c-1571b2e18787",
+      "comment": "",
+      "command": "click",
+      "target": "css=#ext-gen1352 .x-tree-node-text > span",
+      "targets": [
+        ["css=#ext-gen1352 .x-tree-node-text > span", "css:finder"],
+        ["xpath=//td[@id='ext-gen1352']/div/span/span", "xpath:idRelative"],
+        ["xpath=//tr[10]/td/div/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "713882a0-ef62-4318-8cfc-1519366aa4dc",
+      "comment": "",
+      "command": "click",
+      "target": "css=div.ux-desktop-shortcut-icon.icon-mol_eprofile1-shortcut",
+      "targets": [
+        ["css=div.ux-desktop-shortcut-icon.icon-mol_eprofile1-shortcut", "css"],
+        ["css=.icon-mol_eprofile1-shortcut", "css:finder"],
+        ["xpath=//div[@id='Profile Graph-shortcut']/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div[7]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "36b9a87f-159c-478b-a260-0a40fd801ab7",
+      "comment": "",
+      "command": "click",
+      "target": "id=button-1148-btnInnerEl",
+      "targets": [
+        ["id=button-1148-btnInnerEl", "id"],
+        ["css=#button-1148-btnInnerEl", "css"],
+        ["css=#button-1148-btnInnerEl", "css:finder"],
+        ["xpath=//span[@id='button-1148-btnInnerEl']", "xpath:attributes"],
+        ["xpath=//span[@id='button-1148-btnEl']/span", "xpath:idRelative"],
+        ["xpath=//div[17]/div[2]/div/div/div[2]/div/div/div/a/span/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "21cbd908-ab7f-4a97-a760-72a24253687d",
+      "comment": "",
+      "command": "click",
+      "target": "id=button-1187-btnIconEl",
+      "targets": [
+        ["id=button-1187-btnIconEl", "id"],
+        ["css=#button-1187-btnIconEl", "css"],
+        ["css=#button-1187-btnIconEl", "css:finder"],
+        ["xpath=//span[@id='button-1187-btnIconEl']", "xpath:attributes"],
+        ["xpath=//span[@id='button-1187-btnEl']/span[2]", "xpath:idRelative"],
+        ["xpath=//div[20]/div[2]/div/div[2]/div/div/a/span/span/span[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "9abbb8c6-c788-435c-b06d-bba06bfce70d",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["62103d7e-431b-46d8-9763-de80acb24206"]
+  }],
+  "urls": ["https://www.meteringonline.com/"],
+  "plugins": []
+}
